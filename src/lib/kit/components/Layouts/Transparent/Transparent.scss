@@ -1,0 +1,22 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}transparent {
+    display: flex;
+    margin-bottom: 15px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &_array-item {
+        max-width: 338px;
+    }
+
+    &_without-max-width {
+        max-width: unset;
+    }
+
+    &__remove-button {
+        margin-left: 5px;
+    }
+}

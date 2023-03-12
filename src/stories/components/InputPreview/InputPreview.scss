@@ -1,0 +1,66 @@
+.input-preview {
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    overflow-y: auto;
+
+    &_docs {
+        overflow-y: unset;
+
+        .input-preview__options {
+            display: none;
+        }
+    }
+
+    &__options {
+        position: sticky;
+        top: 0;
+        width: 650px;
+        min-width: 650px;
+        height: 100%;
+        padding-right: 10px;
+        margin-right: 10px;
+        overflow-y: auto;
+    }
+
+    &__toggler {
+        margin-bottom: 20px;
+    }
+
+    &__options-field {
+        padding-left: 10px;
+
+        &_hidden {
+            display: none;
+        }
+    }
+
+    &__monaco {
+        width: 640px;
+        height: calc(100% - 48px);
+
+        .df-monaco-input {
+            width: 100%;
+        }
+
+        .df-monaco-input,
+        .df-monaco-input__container {
+            height: 100%;
+            overflow: hidden;
+        }
+    }
+
+    &__input {
+        flex-grow: 1;
+        height: 100%;
+        margin-left: 10px;
+    }
+
+    &__input-field,
+    &__input-view {
+        &_hidden {
+            display: none;
+        }
+    }
+}

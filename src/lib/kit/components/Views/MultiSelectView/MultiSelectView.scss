@@ -1,0 +1,19 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}multiselect-view {
+    &__tooltip {
+        overflow-wrap: break-word;
+    }
+
+    &__tooltip-container {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        margin-bottom: 6px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

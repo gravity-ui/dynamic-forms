@@ -1,0 +1,63 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}row2 {
+    width: 100%;
+    display: flex;
+    margin-bottom: 15px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &__left {
+        width: 180px;
+        min-width: 180px;
+        display: flex;
+        flex-direction: column;
+        font-weight: bold;
+
+        &::after {
+            content: '';
+            width: 100%;
+            flex-shrink: 1;
+        }
+    }
+
+    &__title {
+        padding-right: 5px;
+        min-height: 28px;
+        display: flex;
+        align-items: center;
+        font-weight: 700;
+    }
+
+    &__right {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+
+        &-inner {
+            display: flex;
+        }
+
+        .df-select,
+        .df-multi-select,
+        .df-transparent_array-item {
+            max-width: unset;
+        }
+    }
+
+    &__description {
+        margin-top: 10px;
+        color: var(--yc-color-text-secondary);
+    }
+
+    &__remove-button {
+        margin-left: 5px;
+    }
+
+    &__required-mark {
+        margin-left: 2px;
+        color: var(--yc-color-text-danger);
+    }
+}

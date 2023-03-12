@@ -1,0 +1,107 @@
+@import '../../styles/variables.scss';
+
+.#{$ns}accordeon-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    max-width: 750px;
+    box-shadow: 0 1px 5px var(--yc-color-sfx-shadow);
+    border-radius: 5px;
+    color: var(--yc-color-text-primary);
+    background-color: var(--yc-color-base-float);
+
+    &:hover {
+        box-shadow: 0 3px 10px var(--yc-color-sfx-shadow);
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &_empty {
+        .#{$ns}accordeon-card__body,
+        .#{$ns}accordeon-card__header-toggle-btn {
+            display: none;
+        }
+
+        .#{$ns}accordeon-card__header_open {
+            border-bottom: none;
+        }
+    }
+
+    &__header {
+        display: flex;
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 16px;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        &_open {
+            border-bottom: 1px solid var(--yc-color-line-generic);
+        }
+
+        &_without-action {
+            &:hover {
+                cursor: default;
+            }
+        }
+
+        &-content,
+        &-toggle-btn {
+            display: inline-flex;
+            flex: 1 1 auto;
+        }
+
+        &-content {
+            flex-direction: column;
+            justify-content: center;
+            order: -1;
+        }
+
+        &-content-title {
+            font-weight: 700;
+
+            &_size_s {
+                font-size: 13px;
+            }
+
+            &_size_m {
+                font-size: 16px;
+            }
+        }
+
+        &-content-description {
+            margin-top: 12px;
+            color: var(--yc-color-text-complementary);
+        }
+
+        &-toggle-btn {
+            flex-grow: 0;
+            justify-content: flex-end;
+            order: 1;
+        }
+    }
+
+    &__interal-actions {
+        margin-right: 5px;
+    }
+
+    &__toggle-icon_open {
+        transform: rotate(180deg);
+    }
+
+    &__body {
+        display: none;
+        margin-top: -10px 0 8px;
+        padding: 16px;
+
+        &_open {
+            display: block;
+        }
+    }
+}

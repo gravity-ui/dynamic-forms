@@ -1,0 +1,17 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}monaco-input-dialog {
+    .yc-dialog-footer {
+        padding: 10px 32px 32px;
+    }
+
+    &__container {
+        border: 1px solid var(--yc-color-line-generic);
+    }
+
+    &__dialog-header {
+        .yc-dialog-header__caption {
+            min-height: 24px;
+        }
+    }
+}

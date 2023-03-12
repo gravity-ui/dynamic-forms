@@ -1,0 +1,29 @@
+@import '../../styles/variables.scss';
+
+.#{$ns}error-wrapper {
+    width: 100%;
+
+    &_error {
+        .yc-select-control:not(.#{$ns}error-wrapper-ignore),
+        .yc-select-control:focus:not(.#{$ns}error-wrapper-ignore),
+        .yc-select-control.yc-select-control_focused:not(.#{$ns}error-wrapper-ignore),
+        .yc-select-control.yc-select-control_focused:hover:not(.#{$ns}error-wrapper-ignore),
+        .yc-select:not(.#{$ns}error-wrapper-ignore),
+        .yc-select:focus:not(.#{$ns}error-wrapper-ignore),
+        .g-select:not(.#{$ns}error-wrapper-ignore),
+        .g-select:focus:not(.#{$ns}error-wrapper-ignore),
+        .g-select:not(.#{$ns}error-wrapper-ignore) .g-select-control::before,
+        .g-select:hover:not(.#{$ns}error-wrapper-ignore) .g-select-control_open::before,
+        .yc-text-input_view_normal:not(.#{$ns}error-wrapper-ignore) .yc-text-input__control,
+        .yc-checkbox__indicator:not(.#{$ns}error-wrapper-ignore)::before {
+            border-color: var(--yc-color-text-danger);
+        }
+    }
+
+    &__error-text {
+        color: var(--yc-color-text-danger);
+        margin-top: 2px;
+        font-size: var(--yc-text-body-font-size);
+        line-height: var(--yc-text-body-line-height);
+    }
+}
