@@ -1,0 +1,12 @@
+@import '../../../styles/variables';
+
+.#{$ns}number-with-scale {
+    &__wrapper {
+        display: flex;
+    }
+
+    &__select {
+        max-width: 102px;
+        margin-left: 5px;
+    }
+}

@@ -1,0 +1,49 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}view-row {
+    width: 100%;
+    display: flex;
+    margin-bottom: 20px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &__left {
+        width: 300px;
+        max-width: 300px;
+        min-width: 300px;
+        display: flex;
+        align-items: baseline;
+        overflow: hidden;
+    }
+
+    &__title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: var(--yc-color-text-secondary);
+    }
+
+    &__dots {
+        min-width: 40px;
+        flex-grow: 1;
+        margin: 0 2px;
+        border-bottom: 1px dotted var(--yc-color-text-secondary);
+    }
+
+    &__right {
+        max-width: 480px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        & > .#{$ns}view-transparent {
+            margin-bottom: 6px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+}

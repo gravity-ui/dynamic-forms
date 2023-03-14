@@ -1,0 +1,20 @@
+@import '../../../styles/variables';
+
+.#{$ns}number-with-scale-view {
+    display: flex;
+
+    &__tooltip {
+        overflow-wrap: break-word;
+    }
+
+    &__tooltip-container {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
+
+    &__size {
+        margin-left: 2px;
+    }
+}

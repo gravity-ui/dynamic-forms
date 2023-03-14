@@ -1,0 +1,97 @@
+@import '../../styles/variables.scss';
+
+.#{$ns}card {
+    margin-bottom: 20px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    .#{$ns}row {
+        width: 100%;
+        max-width: unset;
+
+        .#{$ns}select,
+        .#{$ns}multi-select,
+        .#{$ns}transparent_array-item {
+            max-width: unset;
+        }
+    }
+
+    .#{$ns}monaco-input,
+    .#{$ns}monaco-base-view {
+        width: 100%;
+    }
+
+    &_empty-body {
+        .#{$ns}card__header {
+            cursor: default;
+        }
+
+        .#{$ns}card__header-right {
+            display: none;
+        }
+
+        .#{$ns}card__body {
+            display: none;
+        }
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+
+        &_interactive {
+            cursor: pointer;
+        }
+    }
+
+    &__header-left {
+        display: flex;
+        align-items: center;
+    }
+
+    &__header-right {
+        display: flex;
+        align-items: center;
+
+        & > * {
+            margin-left: 5px;
+        }
+    }
+
+    &__title {
+        font-size: var(--yc-text-subheader-2-font-size);
+        font-weight: var(--yc-text-subheader-font-weight);
+        line-height: var(--yc-text-subheader-2-line-height);
+    }
+
+    &__note {
+        margin-left: 5px;
+
+        .yc-help-popover {
+            display: flex;
+
+            & > span {
+                display: flex;
+            }
+        }
+    }
+
+    &__toggler-icon {
+        &_open {
+            transform: rotate(180deg);
+        }
+    }
+
+    &__body {
+        display: none;
+        padding: 0 20px 20px;
+
+        &_open {
+            display: block;
+        }
+    }
+}

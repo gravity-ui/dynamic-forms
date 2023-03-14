@@ -1,0 +1,77 @@
+@import '../../styles/variables.scss';
+
+$animationDuration: 0.3s;
+
+.#{$ns}simple-vertical-accordeon {
+    margin-bottom: $normalOffset;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &_branch &__body {
+        padding-left: $normalOffset;
+        margin-left: 5px;
+        border-left: 1px solid var(--yc-color-line-generic-accent);
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+
+        &-inner {
+            margin-left: -13px;
+        }
+    }
+
+    &__title {
+        font-weight: 500;
+
+        &_size_s {
+            margin-bottom: 0;
+
+            font-size: var(--yc-text-body-font-size);
+        }
+
+        &_size_m {
+            margin-bottom: 1px;
+
+            font-size: var(--yc-text-body2-font-size);
+        }
+
+        &_size_l {
+            margin-bottom: 2px;
+
+            font-size: var(--yc-text-body3-font-size);
+        }
+    }
+
+    &__tooltip {
+        margin-right: 8px;
+
+        .yc-help-popover {
+            display: flex;
+
+            & > span {
+                display: flex;
+            }
+        }
+    }
+
+    &__chevron {
+        transform: rotate(-90deg);
+
+        &_open {
+            transform: none;
+        }
+    }
+
+    &__body {
+        margin-top: 4px;
+        padding-top: $smallOffset - 4px;
+
+        &_hidden {
+            display: none;
+        }
+    }
+}

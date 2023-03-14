@@ -1,0 +1,76 @@
+import _ from 'lodash';
+
+import {SpecTypes} from '../../constants';
+import {FormValue, ObjectValue} from '../../types';
+
+import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG, REMOVED_ITEM} from './constants';
+
+export const isCorrectConfig = (candidate: any) =>
+    Object.values(SpecTypes).every(
+        (type) =>
+            _.isObjectLike(candidate) &&
+            _.isObjectLike(candidate[type]) &&
+            _.isObjectLike(candidate[type].inputs) &&
+            _.isObjectLike(candidate[type].layouts) &&
+            _.isObjectLike(candidate[type].validators),
+    );
+
+export const transformArrIn = <Type extends FormValue, ReturnType extends FormValue = Type>(
+    value: Type,
+): ReturnType => {
+    if (_.isArray(value)) {
+        return value.reduce(
+            (arrObj: ObjectValue, item, idx) => {
+                arrObj[`<${idx}>`] = transformArrIn(item);
+
+                return arrObj;
+            },
+            {[OBJECT_ARRAY_FLAG]: true, [OBJECT_ARRAY_CNT]: value.length},
+        ) as ReturnType;
+    }
+
+    if (_.isObject(value)) {
+        const _value: ObjectValue = {...value};
+
+        _.forEach(_value, (item, key) => {
+            _value[key] = transformArrIn(item);
+        });
+
+        return _value as ReturnType;
+    }
+
+    return value as unknown as ReturnType;
+};
+
+export const transformArrOut = <Type extends FormValue, ReturnType extends FormValue = Type>(
+    value: Type,
+): ReturnType => {
+    if (_.isObject(value) && !_.isArray(value)) {
+        if ((value as ObjectValue)[OBJECT_ARRAY_FLAG]) {
+            const _value = Object.keys(value)
+                .filter(
+                    (key) =>
+                        key !== OBJECT_ARRAY_FLAG &&
+                        key !== OBJECT_ARRAY_CNT &&
+                        (value as ObjectValue)[key] !== REMOVED_ITEM,
+                )
+                .map((key) => key.split('<').join('').split('>').join(''))
+                .sort((a, b) => Number(a) - Number(b))
+                .map((key) => transformArrOut((value as ObjectValue)[`<${key}>`])) as ReturnType;
+
+            return _value;
+        }
+
+        const _value: ObjectValue = {...(value as ObjectValue)};
+
+        _.forEach(_value, (item, key) => {
+            _value[key] = transformArrOut(item);
+        });
+
+        return _value as ReturnType;
+    }
+
+    return value as unknown as ReturnType;
+};
+
+export const isArrayItem = (name: string) => name[name.length - 1] === '>';

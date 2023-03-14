@@ -1,0 +1,46 @@
+{
+  "label_error-required": "Empty field",
+  "label_error-invalid": "Incorrect value in field",
+  "label_error-int": "Value must be an integer",
+  "label_error-number": "Value must be a number",
+  "label_error-min-length": [
+    "Value can't be shorter than {{count}} character",
+    "Value can't be shorter than {{count}} characters",
+    "Value can't be shorter than {{count}} characters",
+    "",
+    "Value can't be shorter than {{count}} characters",
+    "Value can't be shorter than {{count}} characters"
+  ],
+  "label_error-min-length-array": [
+    "Value can't be shorter than {{count}} item",
+    "Value can't be shorter than {{count}} items",
+    "Value can't be shorter than {{count}} items",
+    "",
+    "Value can't be shorter than {{count}} items",
+    "Value can't be shorter than {{count}} items"
+  ],
+  "label_error-max-length": [
+    "Value can't be longer than {{count}} character",
+    "Value can't be longer than {{count}} characters",
+    "Value can't be longer than {{count}} characters",
+    "",
+    "Value can't be longer than {{count}} characters",
+    "Value can't be longer than {{count}} characters"
+  ],
+  "label_error-max-length-array": [
+    "Value can't be longer than {{count}} item",
+    "Value can't be longer than {{count}} items",
+    "Value can't be longer than {{count}} items",
+    "",
+    "Value can't be longer than {{count}} items",
+    "Value can't be longer than {{count}} items"
+  ],
+  "label_error-min-number": "Value must be an integer no less than {{count}}",
+  "label_error-max-number": "Value must not be greater than {{count}}",
+  "label_error-space-end": "Value must not end with a space",
+  "label_error-space-start": "Value must not start with a space",
+  "label_error-zero-start": "Value must not start with a zero",
+  "label_error-dot-end": "Value must not end with a dot",
+  "label_delete": "Delete",
+  "button_cancel": "Close"
+}

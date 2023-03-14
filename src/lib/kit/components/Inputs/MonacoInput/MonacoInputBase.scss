@@ -1,0 +1,14 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}monaco-input {
+    // TODO: Remove this styles
+    width: 550px;
+
+    &_card {
+        width: auto;
+    }
+
+    &__container {
+        border: 1px solid var(--yc-color-line-generic);
+    }
+}

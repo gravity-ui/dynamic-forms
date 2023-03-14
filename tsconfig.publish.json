@@ -1,0 +1,15 @@
+{
+  "extends": "@gravity-ui/tsconfig/tsconfig.json",
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["src/stories"],
+  "compilerOptions": {
+    "outDir": "build/esm",
+    "module": "esnext",
+    "jsx": "react",
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "declaration": true,
+    "allowJs": true,
+    "importHelpers": true
+  }
+}

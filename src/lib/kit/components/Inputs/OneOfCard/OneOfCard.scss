@@ -1,0 +1,9 @@
+@import '../../../styles/variables';
+
+.#{$ns}oneof-card {
+    margin-bottom: 20px;
+
+    .df-accordeon-card__header-toggle-btn {
+        margin-left: 5px;
+    }
+}

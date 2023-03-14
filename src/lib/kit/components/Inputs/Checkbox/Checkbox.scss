@@ -1,0 +1,7 @@
+@import '../../../styles/variables';
+
+.#{$ns}checkbox {
+    height: 28px;
+    display: flex;
+    align-items: center;
+}

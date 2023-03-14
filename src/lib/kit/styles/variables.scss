@@ -1,0 +1,28 @@
+$ns: 'df-';
+
+// Sizes
+$groupActionsHeight: 56px;
+$pageHeaderHeight: 64px;
+$pageBottomPadding: 40px;
+$ycMenuWidth: 295px;
+$sideMenuWidth: 256px;
+$scrollWidth: 20px;
+$bigOffset: 40px;
+$normalOffset: 20px;
+$smallOffset: $normalOffset * 0.5;
+$tinyOffset: 5px;
+$inlineOffset: 12px;
+$userSize: 42px;
+$userSizeSmall: 28px;
+$mainRightWidth: 295px;
+$priceBlockWidth: 224px;
+$tabsContentMarginTop: 15px;
+
+// Layers
+$primaryLayoutLayer: 100;
+$secondaryLayoutLayer: 50;
+$notificationLayer: 30000; // to be higher than modal overlay
+
+// Fonts
+$defaultFontFamily: var(--yc-text-body-font-family);
+$titleFontFamily: 'YS Display', helveticaneue, arial, helvetica, sans-serif; // stylelint-disable-line

@@ -1,0 +1,51 @@
+@import '../../../styles/variables.scss';
+
+$block: '.#{$ns}section';
+
+#{$block} {
+    margin-bottom: $normalOffset;
+
+    $block: &;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &__header {
+        margin-bottom: $normalOffset;
+
+        &_with-popover {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    &__title {
+        font-weight: 500;
+        margin: 0;
+
+        &_size_s {
+            font-size: 13px;
+        }
+
+        &_size_m {
+            font-size: 15px;
+        }
+    }
+
+    &__note {
+        margin-left: 5px;
+
+        .yc-help-popover {
+            display: flex;
+
+            & > span {
+                display: flex;
+            }
+        }
+    }
+
+    &__description {
+        margin-top: 4px;
+    }
+}

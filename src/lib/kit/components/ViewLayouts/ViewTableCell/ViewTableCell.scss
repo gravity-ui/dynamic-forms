@@ -1,0 +1,19 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}view-table-cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    & > .#{$ns}view-row:last-child {
+        margin-bottom: 0;
+    }
+
+    & > .#{$ns}view-transparent {
+        margin-bottom: 6px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

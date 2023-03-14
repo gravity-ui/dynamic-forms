@@ -1,0 +1,27 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}text-area-view {
+    display: flex;
+
+    &_active {
+        cursor: pointer;
+    }
+
+    &__text-view {
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &_open {
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+        }
+    }
+
+    &__chevron {
+        margin: 3px;
+
+        &_open {
+            transform: rotate(180deg);
+        }
+    }
+}

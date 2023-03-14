@@ -1,0 +1,51 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}view-row2 {
+    width: 100%;
+    display: flex;
+    border-bottom: 1px solid var(--yc-color-line-generic);
+    padding: 11px 0;
+
+    &:last-child {
+        border: none;
+    }
+
+    &_next-not-row {
+        margin-bottom: 20px;
+        border-bottom: none;
+    }
+
+    &__left {
+        width: 190px;
+        max-width: 190px;
+        min-width: 190px;
+        display: flex;
+        align-items: baseline;
+        overflow: hidden;
+        padding-right: 10px;
+    }
+
+    &__title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 700;
+        color: var(--yc-color-text-primary);
+    }
+
+    &__right {
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: var(--yc-color-text-secondary);
+
+        & > .#{$ns}view-transparent {
+            margin-bottom: 6px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
