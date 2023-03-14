@@ -32,7 +32,8 @@
     "build": "gulp",
     "build-storybook": "build-storybook",
     "dev": "start-storybook -p 6006",
-    "start": "start-storybook"
+    "start": "start-storybook",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {},
   "devDependencies": {
