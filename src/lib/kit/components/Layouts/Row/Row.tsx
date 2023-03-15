@@ -18,13 +18,18 @@ import './Row.scss';
 
 const b = block('row');
 
-export const Row = <T extends FieldValue, S extends Spec>({
+interface RowProps {
+    verboseDescription?: boolean;
+}
+
+const RowBase = <T extends FieldValue, S extends Spec>({
     name,
     spec,
     input,
     meta,
+    verboseDescription,
     children,
-}: LayoutProps<T, S>) => {
+}: LayoutProps<T, S> & RowProps) => {
     const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
 
     return (
@@ -35,7 +40,7 @@ export const Row = <T extends FieldValue, S extends Spec>({
                         {spec.viewSpec.layoutTitle}
                         {spec.required && <span className={b('required-mark')}>*</span>}
                     </div>
-                    {spec.viewSpec.layoutDescription ? (
+                    {!verboseDescription && spec.viewSpec.layoutDescription ? (
                         <div className={b('note')}>
                             <HelpPopover
                                 htmlContent={spec.viewSpec.layoutDescription}
@@ -46,19 +51,35 @@ export const Row = <T extends FieldValue, S extends Spec>({
                 </div>
             </div>
             <div className={b('right')}>
-                <ErrorWrapper
-                    name={name}
-                    meta={meta}
-                    withoutChildErrorStyles={isArraySpec(spec) || isObjectSpec(spec)}
-                >
-                    {children}
-                </ErrorWrapper>
-                {arrayItem ? (
-                    <Button view="flat" className={b('remove-button')} onClick={input.onDrop}>
-                        <Icon data={Xmark} size={16} />
-                    </Button>
+                <div className={b('right-inner')}>
+                    <ErrorWrapper
+                        name={name}
+                        meta={meta}
+                        withoutChildErrorStyles={isArraySpec(spec) || isObjectSpec(spec)}
+                    >
+                        {children}
+                    </ErrorWrapper>
+                    {arrayItem ? (
+                        <Button view="flat" className={b('remove-button')} onClick={input.onDrop}>
+                            <Icon data={Xmark} size={16} />
+                        </Button>
+                    ) : null}
+                </div>
+                {verboseDescription && spec.viewSpec.layoutDescription ? (
+                    <div
+                        className={b('description')}
+                        dangerouslySetInnerHTML={{__html: spec.viewSpec.layoutDescription}}
+                    />
                 ) : null}
             </div>
         </div>
     );
 };
+
+export const Row = <T extends FieldValue, S extends Spec>(props: LayoutProps<T, S>) => (
+    <RowBase {...props} />
+);
+
+export const RowVerbose = <T extends FieldValue, S extends Spec>(props: LayoutProps<T, S>) => (
+    <RowBase verboseDescription {...props} />
+);
