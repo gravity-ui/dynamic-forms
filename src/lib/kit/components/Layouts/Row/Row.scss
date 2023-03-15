@@ -54,8 +54,19 @@
 
     &__right {
         display: flex;
+        flex-direction: column;
         flex-grow: 1;
         margin-left: 15px;
+
+        &-inner {
+            display: flex;
+        }
+    }
+
+    &__description {
+        margin-top: 10px;
+        color: var(--yc-color-text-secondary);
+        word-break: break-word;
     }
 
     &__remove-button {
