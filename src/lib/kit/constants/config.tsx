@@ -77,6 +77,7 @@ export const dynamicConfig: DynamicFormConfig = {
         },
         layouts: {
             row: Row,
+            row_verbose: RowVerbose,
             accordeon: Accordeon,
             section: Section,
             section2: Section2,
@@ -127,6 +128,7 @@ export const dynamicConfig: DynamicFormConfig = {
         },
         layouts: {
             row: Row,
+            row_verbose: RowVerbose,
             accordeon: Accordeon,
             section: Section,
             section2: Section2,
