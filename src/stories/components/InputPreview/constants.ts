@@ -288,7 +288,7 @@ const order: ArraySpec = {
     viewSpec: {type: 'base', layout: 'accordeon', layoutTitle: 'Order'},
 };
 
-export const arrayOptions: ObjectSpec = {
+export const getArrayOptions = (): ObjectSpec => ({
     type: SpecTypes.Object,
     required: true,
     properties: {
@@ -338,9 +338,9 @@ export const arrayOptions: ObjectSpec = {
             'viewSpec',
         ],
     },
-};
+});
 
-export const booleanOptions: ObjectSpec = {
+export const getBooleanOptions = (): ObjectSpec => ({
     type: SpecTypes.Object,
     required: true,
     properties: {
@@ -363,9 +363,9 @@ export const booleanOptions: ObjectSpec = {
         layout: 'section',
         order: ['required', 'validator', 'viewSpec'],
     },
-};
+});
 
-export const numberOptions: ObjectSpec = {
+export const getNumberOptions = (): ObjectSpec => ({
     type: SpecTypes.Object,
     required: true,
     properties: {
@@ -400,9 +400,9 @@ export const numberOptions: ObjectSpec = {
         layout: 'section',
         order: ['required', 'maximum', 'minimum', 'format', 'validator', 'viewSpec'],
     },
-};
+});
 
-export const objectOptions: ObjectSpec = {
+export const getObjectOptions = (): ObjectSpec => ({
     type: SpecTypes.Object,
     required: true,
     properties: {
@@ -436,9 +436,9 @@ export const objectOptions: ObjectSpec = {
         layout: 'section',
         order: ['required', 'properties', 'description', 'validator', 'viewSpec'],
     },
-};
+});
 
-export const stringOptions: ObjectSpec = {
+export const getStringOptions = (): ObjectSpec => ({
     type: SpecTypes.Object,
     required: true,
     properties: {
@@ -498,4 +498,4 @@ export const stringOptions: ObjectSpec = {
             'viewSpec',
         ],
     },
-};
+});

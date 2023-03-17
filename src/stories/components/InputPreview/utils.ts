@@ -12,11 +12,11 @@ import {
 } from '../../../lib';
 
 import {
-    arrayOptions,
-    booleanOptions,
-    numberOptions,
-    objectOptions,
-    stringOptions,
+    getArrayOptions,
+    getBooleanOptions,
+    getNumberOptions,
+    getObjectOptions,
+    getStringOptions,
 } from './constants';
 
 export const transformCorrect = (spec: Spec) => {
@@ -137,51 +137,41 @@ export const getOptionsSpec = (spec: Spec, excludeOptions?: string[]) => {
     let result: ObjectSpec | null = null;
 
     if (isArraySpec(spec)) {
-        result = arrayOptions;
+        result = getArrayOptions();
     }
 
     if (isBooleanSpec(spec)) {
-        result = booleanOptions;
+        result = getBooleanOptions();
     }
 
     if (isNumberSpec(spec)) {
-        result = numberOptions;
+        result = getNumberOptions();
     }
 
     if (isObjectSpec(spec)) {
-        result = objectOptions;
+        result = getObjectOptions();
     }
 
     if (isStringSpec(spec)) {
-        result = stringOptions;
+        result = getStringOptions();
     }
 
     if (result) {
-        let viewSpec: ObjectSpec | undefined;
-
         if (result.properties?.viewSpec) {
-            viewSpec = result.properties?.viewSpec as ObjectSpec;
-            viewSpec.viewSpec = {
-                ...viewSpec.viewSpec,
-                order: viewSpec.viewSpec.order?.filter(
-                    (key) => !excludeOptions?.find((k) => k === `viewSpec.${key}`),
-                ),
-            };
+            const viewSpecOrder = (result.properties.viewSpec as ObjectSpec).viewSpec.order?.filter(
+                (key) => !excludeOptions?.find((k) => k === `viewSpec.${key}`),
+            );
+
+            (result.properties.viewSpec as ObjectSpec).viewSpec.order = viewSpecOrder?.length
+                ? viewSpecOrder
+                : undefined;
         }
 
-        result = {
-            ...result,
-            properties: {
-                ...(result.properties || {}),
-                ...(viewSpec ? {viewSpec} : {}),
-            },
-            viewSpec: {
-                ...result.viewSpec,
-                order: result.viewSpec.order?.filter(
-                    (key) => !excludeOptions?.find((k) => k === key),
-                ),
-            },
-        };
+        const order = result.viewSpec.order?.filter(
+            (key) => !excludeOptions?.find((k) => k === key),
+        );
+
+        result.viewSpec.order = order?.length ? order : undefined;
     }
 
     return result;
