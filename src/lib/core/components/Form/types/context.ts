@@ -10,7 +10,6 @@ export interface DynamicFormsContext {
     tools: {
         initialValue: FieldObjectValue;
         onChange: (name: string, value: FieldValue, errors?: Record<string, ValidateError>) => void;
-        onUnmount: (name: string) => void;
         submitFailed: boolean;
     };
 }
