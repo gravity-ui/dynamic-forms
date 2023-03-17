@@ -15,12 +15,14 @@ import {
     OBJECT_ARRAY_FLAG,
     ObjectValue,
     REMOVED_ITEM,
+    Spec,
     ValidateError,
     isArraySpec,
     isBooleanSpec,
     isObjectSpec,
     transformArrIn,
 } from '../../../../core';
+import {useSearchContext} from '../../../../core/components/Form/hooks';
 import {block} from '../../../utils';
 
 import './TableArrayInput.scss';
@@ -28,6 +30,28 @@ import './TableArrayInput.scss';
 const b = block('table-array');
 
 export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => {
+    const {isShowFieldByName} = useSearchContext();
+
+    const titleField = React.useMemo(
+        () => spec.viewSpec.table?.map(({label}) => label),
+        [spec.viewSpec.table],
+    );
+
+    const getPreparedSpec = React.useCallback(
+        (entitySpec: Spec, id: number) => {
+            const preparedEntitySpec = {
+                ...entitySpec,
+                viewSpec: {
+                    ...entitySpec.viewSpec,
+                    layoutTitle: titleField?.join(` ${id} `),
+                },
+            };
+
+            return preparedEntitySpec;
+        },
+        [titleField],
+    );
+
     const keys = React.useMemo(
         () =>
             Object.keys(arrayInput.value || {})
@@ -106,19 +130,21 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
         const columns = table.map(({property, label}) => ({
             id: property,
             name: label,
-            template: (key: FieldValue) => {
+            template: (key: FieldValue, idx: number) => {
                 const entitySpec = items?.properties?.[property];
 
                 if (!entitySpec) {
                     return null;
                 }
 
+                const preparedEntitySpec = getPreparedSpec(entitySpec, idx + 1);
+
                 return (
                     <div
                         className={b('cell', {
-                            bool: isBooleanSpec(entitySpec),
-                            arr: isArraySpec(entitySpec),
-                            obj: isObjectSpec(entitySpec),
+                            bool: isBooleanSpec(preparedEntitySpec),
+                            arr: isArraySpec(preparedEntitySpec),
+                            obj: isObjectSpec(preparedEntitySpec),
                         })}
                         key={`${name}.<${key}>.${property}`}
                     >
@@ -126,7 +152,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                             initialValue={
                                 (input.value?.[`<${key}>`] as FieldObjectValue)?.[property]
                             }
-                            spec={entitySpec}
+                            spec={preparedEntitySpec}
                             name={`${name}.<${key}>.${property}`}
                             parentOnChange={parentOnChange}
                         />
@@ -137,6 +163,15 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
 
         return [idxColumn, ...columns, removeColumn];
     }, [name, spec, onItemRemove, parentOnChange, input.value]);
+
+    const rowClassNames = React.useCallback(
+        (item: ObjectValue) => {
+            const searchResult = isShowFieldByName(`${name}.<${item}>`);
+
+            return [b('row', {hide: !searchResult})];
+        },
+        [isShowFieldByName, name],
+    );
 
     if (!columns) {
         return null;
@@ -151,6 +186,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                     columns={columns as any}
                     getRowId={(_, idx) => `${name}-${idx}`}
                     verticalAlign="top"
+                    getRowClassNames={rowClassNames}
                 />
             ) : null}
             {!arrayInput.value && spec.defaultValue ? (

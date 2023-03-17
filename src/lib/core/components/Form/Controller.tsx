@@ -4,6 +4,7 @@ import {isCorrectSpec} from '../../helpers';
 import {Spec} from '../../types';
 
 import {useComponents, useDynamicFormsCtx, useField, useRender, useValidate} from './hooks';
+import {useSearch} from './hooks/useSearch';
 import {FieldValue, ValidateError} from './types';
 
 export interface ControllerProps<Value extends FieldValue, SpecType extends Spec> {
@@ -30,9 +31,10 @@ export const Controller = <Value extends FieldValue, SpecType extends Spec>({
     const render = useRender({name, spec, inputEntity, Layout});
     const validate = useValidate(spec);
     const renderProps = useField({name, initialValue, spec, validate, tools, parentOnChange});
+    const searchWrapper = useSearch(spec, renderProps.input.value, name);
 
     if (_.isString(name) && isCorrectSpec(spec)) {
-        return render(renderProps);
+        return searchWrapper(render(renderProps));
     }
 
     return null;

@@ -1,0 +1,14 @@
+@import '../../../../../kit/styles/variables.scss';
+
+.#{$ns}search-wrapper {
+    margin-bottom: 15px;
+    display: block;
+
+    &_hide {
+        display: none;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}

@@ -3,6 +3,21 @@
 .#{$ns}table-array {
     &__table {
         margin-bottom: 10px;
+
+        .yc-table__cell {
+            border-bottom-color: transparent;
+        }
+    }
+
+    &__row {
+        .yc-table__cell {
+            border-bottom-color: transparent;
+            border-top: 1px solid var(--yc-color-line-generic);
+        }
+
+        &_hide {
+            display: none;
+        }
     }
 
     &__cell {
