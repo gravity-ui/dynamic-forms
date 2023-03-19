@@ -3,7 +3,6 @@ import React from 'react';
 import _ from 'lodash';
 import {Field as FinalFormField, useForm} from 'react-final-form';
 
-import {REMOVED_ITEM} from '../constants';
 import {transformArrIn, transformArrOut} from '../helpers';
 import {
     AsyncValidateError,
@@ -75,27 +74,8 @@ export const useStore = (name: string) => {
                 setStore((store) => ({
                     ...store,
                     values: _.set({...store.values}, name, value),
-                    errors: {...store.errors, ...(errors || {})},
+                    errors: errors || {},
                 })),
-            onUnmount: (name: string) =>
-                setStore((store) => {
-                    const value = _.get(store.values, name);
-                    const values =
-                        value && value !== REMOVED_ITEM
-                            ? {..._.set(store.values, name, undefined)}
-                            : store.values;
-
-                    return {
-                        ...store,
-                        values,
-                        errors: {
-                            ..._.omit(
-                                store.errors,
-                                Object.keys(store.errors).filter((key) => key.startsWith(name)),
-                            ),
-                        },
-                    };
-                }),
             submitFailed,
         }),
         [store.initialValue, setStore, submitFailed],

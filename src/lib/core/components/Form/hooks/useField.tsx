@@ -95,6 +95,25 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
                 const error = validate?.(_value);
                 const value = transformArrIn(_value);
 
+                let newChildErrors: Record<string, ValidateError> = {...state.childErrors};
+
+                if (childErrors) {
+                    const nearestChildName = _.keys(childErrors).sort(
+                        (a, b) => a.length - b.length,
+                    )[0];
+
+                    if (nearestChildName) {
+                        const existingСhildNames = _.keys(newChildErrors).filter((childName) =>
+                            childName.startsWith(nearestChildName),
+                        );
+
+                        newChildErrors = {
+                            ..._.omit(newChildErrors, existingСhildNames),
+                            ...childErrors,
+                        };
+                    }
+                }
+
                 return {
                     ...state,
                     dirty: !_.isEqual(value, initialValue),
@@ -106,10 +125,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
                     valid: !error,
                     value,
                     visited: true,
-                    childErrors: {
-                        ...state.childErrors,
-                        ...(childErrors || {}),
-                    },
+                    childErrors: newChildErrors,
                 };
             });
         };
@@ -233,7 +249,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
         firstRenderRef.current = false;
 
         return () => {
-            tools.onUnmount(name);
+            (parentOnChange ? parentOnChange : tools.onChange)(name, state.value, {[name]: false});
         };
     }, []);
 
