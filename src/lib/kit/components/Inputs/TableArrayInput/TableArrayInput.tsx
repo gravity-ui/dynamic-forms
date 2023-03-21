@@ -67,6 +67,11 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
         [input.onChange, input.name],
     );
 
+    const parentOnUnmount = React.useCallback(
+        (childName: string) => input.onChange((currentValue) => currentValue, {[childName]: false}),
+        [input.onChange],
+    );
+
     const columns = React.useMemo(() => {
         const {
             items,
@@ -129,6 +134,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                             spec={entitySpec}
                             name={`${name}.<${key}>.${property}`}
                             parentOnChange={parentOnChange}
+                            parentOnUnmount={parentOnUnmount}
                         />
                     </div>
                 );
@@ -136,7 +142,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
         }));
 
         return [idxColumn, ...columns, removeColumn];
-    }, [name, spec, onItemRemove, parentOnChange, input.value]);
+    }, [name, spec, onItemRemove, parentOnChange, parentOnUnmount, input.value]);
 
     if (!columns) {
         return null;

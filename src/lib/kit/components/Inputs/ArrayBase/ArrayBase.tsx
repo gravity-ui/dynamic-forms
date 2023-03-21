@@ -43,7 +43,7 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
 
         if (!spec.items?.required) {
             if (isArraySpec(spec.items)) {
-                item = {OBJECT_ARRAY_FLAG: true, OBJECT_ARRAY_CNT: 0};
+                item = {[OBJECT_ARRAY_FLAG]: true, [OBJECT_ARRAY_CNT]: 0};
             } else if (isObjectSpec(spec.items)) {
                 item = {};
             }
@@ -86,6 +86,11 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
         [input.onChange, input.name],
     );
 
+    const parentOnUnmount = React.useCallback(
+        (childName: string) => input.onChange((currentValue) => currentValue, {[childName]: false}),
+        [input.onChange],
+    );
+
     const items = React.useMemo(
         () =>
             keys.map((key, idx) => {
@@ -99,13 +104,14 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
                     <Controller
                         initialValue={input.value?.[`<${key}>`]}
                         parentOnChange={parentOnChange}
+                        parentOnUnmount={parentOnUnmount}
                         spec={itemSpec}
                         name={`${name}.<${key}>`}
                         key={`${name}.<${key}>`}
                     />
                 );
             }),
-        [keys.join(''), name, getItemSpec, parentOnChange, input.value],
+        [keys.join(''), name, getItemSpec, parentOnChange, parentOnUnmount, input.value],
     );
 
     if (!itemSpecCorrect) {

@@ -44,6 +44,7 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({name, spec, config, M
                     spec={spec}
                     name={name}
                     parentOnChange={null}
+                    parentOnUnmount={null}
                     initialValue={_.get(tools.initialValue, name)}
                 />
                 {watcher}

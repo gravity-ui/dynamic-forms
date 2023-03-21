@@ -76,6 +76,14 @@ export const useStore = (name: string) => {
                     values: _.set({...store.values}, name, value),
                     errors: errors || {},
                 })),
+            onUnmount: (name: string) =>
+                setStore((store) => ({
+                    ...store,
+                    errors: _.omit(
+                        store.errors,
+                        Object.keys(store.errors).filter((key) => key.startsWith(name)),
+                    ),
+                })),
             submitFailed,
         }),
         [store.initialValue, setStore, submitFailed],
