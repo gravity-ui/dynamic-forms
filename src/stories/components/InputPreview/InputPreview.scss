@@ -63,4 +63,13 @@
             display: none;
         }
     }
+
+    &__search {
+        border-bottom: 1px solid var(--yc-color-line-generic);
+        margin-bottom: 20px;
+
+        &-input {
+            margin-bottom: 5px;
+        }
+    }
 }

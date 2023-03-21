@@ -2,32 +2,25 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import {SearchStore} from './useSearchContext';
-
-const searchParentName = (name: string) => {
-    const index = name.lastIndexOf('.');
-    if (index !== -1) {
-        return name.substring(0, index);
-    }
-    return undefined;
-};
+import {SearchStore, searchParentName} from '../';
 
 export const useSearchStore = (name: string) => {
     const [store, setStore] = React.useState<SearchStore>({[name]: true});
 
-    const isShowFieldByName = React.useCallback(
+    const isHidden = React.useCallback(
         (name: string) => {
             const storeSearch = store[name];
-            if (storeSearch) {
-                return storeSearch;
+
+            if (!storeSearch && storeSearch !== undefined) {
+                return false;
             }
 
             let parentName = searchParentName(name);
 
             if (parentName) {
                 for (let i = 0; i < name.split('.').length - 1; i++) {
-                    if (store[parentName]) {
-                        return true;
+                    if (!store[parentName]) {
+                        return false;
                     }
 
                     parentName = searchParentName(parentName);
@@ -39,16 +32,16 @@ export const useSearchStore = (name: string) => {
             }
 
             for (const key of Object.keys(store)) {
-                if (key.includes(name)) {
-                    if (store[key]) {
-                        return true;
+                if (key.includes(name + '.')) {
+                    if (!store[key]) {
+                        return false;
                     }
                 }
             }
 
-            return false;
+            return true;
         },
-        [name, store],
+        [store],
     );
 
     return {
@@ -58,6 +51,6 @@ export const useSearchStore = (name: string) => {
         onDeleteField: (name: string) => {
             setStore((store) => _.omit(store, name));
         },
-        isShowFieldByName,
+        isHidden,
     };
 };

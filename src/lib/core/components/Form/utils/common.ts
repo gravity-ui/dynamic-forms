@@ -1,9 +1,8 @@
 import _ from 'lodash';
 
-import {SpecTypes} from '../../constants';
-import {FormValue, ObjectValue} from '../../types';
-
-import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG, REMOVED_ITEM} from './constants';
+import {SpecTypes} from '../../../constants';
+import {FormValue, ObjectValue} from '../../../types';
+import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG, REMOVED_ITEM} from '../constants';
 
 export const isCorrectConfig = (candidate: any) =>
     Object.values(SpecTypes).every(

@@ -2,9 +2,9 @@ import React from 'react';
 
 import _ from 'lodash';
 
+import {isCorrectConfig} from '..';
 import {isCorrectSpec} from '../../../helpers';
 import {FormValue, Spec} from '../../../types';
-import {isCorrectConfig} from '../helpers';
 import {FieldValue, TypeConfig} from '../types';
 
 import {useDynamicFormsCtx} from './';

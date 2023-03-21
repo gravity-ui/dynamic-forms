@@ -30,7 +30,7 @@ import './TableArrayInput.scss';
 const b = block('table-array');
 
 export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => {
-    const {isShowFieldByName} = useSearchContext();
+    const {isHidden} = useSearchContext();
 
     const titleField = React.useMemo(
         () => spec.viewSpec.table?.map(({label}) => label),
@@ -166,11 +166,11 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
 
     const rowClassNames = React.useCallback(
         (item: ObjectValue) => {
-            const searchResult = isShowFieldByName(`${name}.<${item}>`);
+            const searchResult = isHidden(`${name}.<${item}>`);
 
-            return [b('row', {hide: !searchResult})];
+            return [b('row', {hide: searchResult})];
         },
-        [isShowFieldByName, name],
+        [isHidden, name],
     );
 
     if (!columns) {

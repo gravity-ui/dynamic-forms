@@ -1,0 +1,7 @@
+@import '../../../styles/variables';
+
+.#{$ns}text-area {
+    .yc-text-input__control {
+        min-height: 142px;
+    }
+}

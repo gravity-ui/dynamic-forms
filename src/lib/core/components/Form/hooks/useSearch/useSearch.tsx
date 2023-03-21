@@ -7,13 +7,13 @@ import {useSearchContext} from '../useSearchContext';
 
 import './useSearch.scss';
 
-const b = block('search-wrapper');
+const b = block('use-search');
 
 export const useSearch = (spec: Spec, value: FieldValue, name: string) => {
-    const {searchFunction, onChangeStore, onDeleteField, isShowFieldByName} = useSearchContext();
+    const {searchFunction, onChangeStore, onDeleteField, isHidden} = useSearchContext();
 
     const searchResult = React.useMemo(
-        () => (searchFunction ? searchFunction(spec, value, name) : true),
+        () => (searchFunction ? !searchFunction(spec, value, name) : false),
         [name, searchFunction, spec, value],
     );
 
@@ -25,11 +25,11 @@ export const useSearch = (spec: Spec, value: FieldValue, name: string) => {
         return () => onDeleteField(name);
     }, []);
 
-    const isShow = React.useMemo(() => isShowFieldByName(name), [isShowFieldByName, name]);
+    const hide = React.useMemo(() => isHidden(name), [isHidden, name]);
 
     const searchWrapper = React.useCallback(
-        (children: JSX.Element | null) => <span className={b({hide: !isShow})}>{children}</span>,
-        [isShow],
+        (children: JSX.Element | null) => <span className={b({hide: hide})}>{children}</span>,
+        [hide],
     );
 
     return searchWrapper;

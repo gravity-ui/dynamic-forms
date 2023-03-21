@@ -10,3 +10,4 @@ export * from './object';
 export * from './string';
 export * from './validators';
 export * from './value';
+export * from './search';

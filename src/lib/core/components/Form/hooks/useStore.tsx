@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 import {Field as FinalFormField, useForm} from 'react-final-form';
 
-import {transformArrIn, transformArrOut} from '../helpers';
+import {transformArrIn, transformArrOut} from '..';
 import {
     AsyncValidateError,
     BaseValidateError,
