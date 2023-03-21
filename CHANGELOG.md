@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/gravity-ui/dynamic-forms/compare/v1.1.0...v1.1.1) (2023-03-21)
+
+
+### Bug Fixes
+
+* fix incorrect unmount ([#12](https://github.com/gravity-ui/dynamic-forms/issues/12)) ([592652b](https://github.com/gravity-ui/dynamic-forms/commit/592652b2814567b2188ec43779eb591b7dec6ade))
+
 ## [1.1.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.0.2...v1.1.0) (2023-03-19)
 
 
