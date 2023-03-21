@@ -123,15 +123,13 @@ export const InputPreview: React.FC<InputPreviewProps> = ({
                             ))}
                         </RadioButton>
                         <div className={b('options-field', {hidden: toggler !== 'form'})}>
-                            <div className={b('search')}>
-                                <TextInput
-                                    size="m"
-                                    onUpdate={setSearchOptions}
-                                    value={searchOptions}
-                                    placeholder="Search by field"
-                                    className={b('search-input')}
-                                />
-                            </div>
+                            <TextInput
+                                size="m"
+                                onUpdate={setSearchOptions}
+                                value={searchOptions}
+                                placeholder="Search by field"
+                                className={b('search')}
+                            />
                             <DynamicField
                                 name="options"
                                 spec={form.values.optionsSpec}
@@ -159,15 +157,13 @@ export const InputPreview: React.FC<InputPreviewProps> = ({
                             ))}
                         </RadioButton>
                         <div className={b('input-field', {hidden: togglerInput !== 'form'})}>
-                            <div className={b('search')}>
-                                <TextInput
-                                    size="m"
-                                    onUpdate={setSearchInput}
-                                    value={searchInput}
-                                    placeholder="Search by field"
-                                    className={b('search-input')}
-                                />
-                            </div>
+                            <TextInput
+                                size="m"
+                                onUpdate={setSearchInput}
+                                value={searchInput}
+                                placeholder="Search by field"
+                                className={b('search')}
+                            />
                             <DynamicField
                                 name="input"
                                 spec={transformIncorrect(form.values.options)}
