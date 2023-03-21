@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useCreateSearchContext} from '.';
+import {useCreateSearchContext} from './index';
 
 export const useSearchContext = () => {
     const SearchContext = useCreateSearchContext();

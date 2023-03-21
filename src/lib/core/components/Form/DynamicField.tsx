@@ -10,8 +10,7 @@ import {Spec} from '../../types';
 import {Controller} from './Controller';
 import {useCreateContext, useCreateSearchContext, useSearchStore, useStore} from './hooks';
 import {DynamicFormConfig, FieldValue} from './types';
-
-import {defaultSearch, isCorrectConfig} from '.';
+import {defaultSearch, isCorrectConfig} from './utils';
 
 export interface DynamicFieldProps {
     name: string;
