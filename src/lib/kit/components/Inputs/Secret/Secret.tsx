@@ -27,6 +27,11 @@ export const Secret: ObjectIndependentInput = ({spec, name, input}) => {
         [input.onChange, input.name],
     );
 
+    const parentOnUnmount = React.useCallback(
+        (childName: string) => input.onChange((currentValue) => currentValue, {[childName]: false}),
+        [input.onChange],
+    );
+
     if (!_.isObjectLike(spec.properties)) {
         return null;
     }
@@ -43,6 +48,7 @@ export const Secret: ObjectIndependentInput = ({spec, name, input}) => {
             spec={specProperties[SECRET_PROPERTY_NAME]}
             name={`${name}.${SECRET_PROPERTY_NAME}`}
             parentOnChange={parentOnChange}
+            parentOnUnmount={parentOnUnmount}
             key={`${name}.${SECRET_PROPERTY_NAME}`}
         />
     );

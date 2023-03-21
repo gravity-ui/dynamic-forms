@@ -27,6 +27,12 @@ export const OneOf: ObjectIndependentInput = (props) => {
         [props.input.onChange, props.input.name],
     );
 
+    const parentOnUnmount = React.useCallback(
+        (childName: string) =>
+            props.input.onChange((currentValue) => currentValue, {[childName]: false}),
+        [props.input.onChange],
+    );
+
     return (
         <div className={b()}>
             {specProperties[oneOfValue] ? (
@@ -36,6 +42,7 @@ export const OneOf: ObjectIndependentInput = (props) => {
                         spec={specProperties[oneOfValue]}
                         name={`${props.name}.${oneOfValue}`}
                         parentOnChange={parentOnChange}
+                        parentOnUnmount={parentOnUnmount}
                         key={`${props.name}.${oneOfValue}`}
                     />
                 </GroupIndent>

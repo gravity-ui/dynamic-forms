@@ -74,6 +74,11 @@ export const OneOfCard: ObjectIndependentInput = (props) => {
         [input.onChange, input.name],
     );
 
+    const parentOnUnmount = React.useCallback(
+        (childName: string) => input.onChange((currentValue) => currentValue, {[childName]: false}),
+        [input.onChange],
+    );
+
     useErrorChecker({name, meta, open, setOpen});
 
     return (
@@ -92,6 +97,7 @@ export const OneOfCard: ObjectIndependentInput = (props) => {
                     spec={specProperties[oneOfValue]}
                     name={`${name}.${oneOfValue}`}
                     parentOnChange={parentOnChange}
+                    parentOnUnmount={parentOnUnmount}
                     key={`${name}.${oneOfValue}`}
                 />
             ) : null}
