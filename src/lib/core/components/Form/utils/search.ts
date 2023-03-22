@@ -1,6 +1,6 @@
 import {Spec} from '../../../types';
 
-export const searchParentName = (name: string) => {
+export const getParentName = (name: string) => {
     const index = name.lastIndexOf('.');
     if (index !== -1) {
         return name.substring(0, index);
@@ -8,7 +8,5 @@ export const searchParentName = (name: string) => {
     return undefined;
 };
 
-export const defaultSearch = (search: string) => (spec: Spec) =>
-    spec?.viewSpec.layoutTitle
-        ? spec?.viewSpec.layoutTitle.toLowerCase().includes(search.toLowerCase())
-        : false;
+export const getDefaultSearchFunction = (search: string) => (spec: Spec) =>
+    Boolean((spec.viewSpec.layoutTitle || '').toLowerCase().includes(search.trim().toLowerCase()));

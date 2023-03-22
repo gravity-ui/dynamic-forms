@@ -5,10 +5,6 @@ $animationDuration: 0.3s;
 .#{$ns}simple-vertical-accordeon {
     margin-bottom: $normalOffset;
 
-    &:last-child {
-        margin-bottom: 0;
-    }
-
     &_branch &__body {
         padding-left: $normalOffset;
         margin-left: 5px;

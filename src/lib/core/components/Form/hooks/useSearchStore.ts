@@ -2,40 +2,32 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import {SearchStore, searchParentName} from '../';
+import {getParentName} from '../';
 
 export const useSearchStore = (name: string) => {
-    const [store, setStore] = React.useState<SearchStore>({[name]: true});
+    const [store, setStore] = React.useState({[name]: false});
 
-    const isHidden = React.useCallback(
+    const isHiddenField = React.useCallback(
         (name: string) => {
-            const storeSearch = store[name];
+            const selfFlag = store[name];
 
-            if (!storeSearch && storeSearch !== undefined) {
+            if (selfFlag === false) {
                 return false;
             }
 
-            let parentName = searchParentName(name);
+            let parentName = getParentName(name);
 
-            if (parentName) {
-                for (let i = 0; i < name.split('.').length - 1; i++) {
-                    if (!store[parentName]) {
-                        return false;
-                    }
-
-                    parentName = searchParentName(parentName);
-
-                    if (!parentName) {
-                        break;
-                    }
+            while (parentName) {
+                if (store[parentName] === false) {
+                    return false;
                 }
+
+                parentName = getParentName(parentName);
             }
 
             for (const key of Object.keys(store)) {
-                if (key.includes(name + '.')) {
-                    if (!store[key]) {
-                        return false;
-                    }
+                if (key.includes(name + '.') && !store[key]) {
+                    return false;
                 }
             }
 
@@ -46,11 +38,11 @@ export const useSearchStore = (name: string) => {
 
     return {
         store,
-        onChangeStore: (name: string, search: boolean) =>
+        setField: (name: string, search: boolean) =>
             setStore((store) => ({...store, [name]: search})),
-        onDeleteField: (name: string) => {
+        removeField: (name: string) => {
             setStore((store) => _.omit(store, name));
         },
-        isHidden,
+        isHiddenField,
     };
 };

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {FieldValue} from '../..';
 import {block} from '../../../../../kit/utils';
 import {Spec} from '../../../../types';
+import {FieldValue} from '../../types';
 import {useSearchContext} from '../useSearchContext';
 
 import './useSearch.scss';
@@ -10,27 +10,27 @@ import './useSearch.scss';
 const b = block('use-search');
 
 export const useSearch = (spec: Spec, value: FieldValue, name: string) => {
-    const {searchFunction, onChangeStore, onDeleteField, isHidden} = useSearchContext();
+    const {setField, removeField, isHiddenField, searchFunction} = useSearchContext();
 
     const searchResult = React.useMemo(
         () => (searchFunction ? !searchFunction(spec, value, name) : false),
         [name, searchFunction, spec, value],
     );
 
+    const hide = React.useMemo(() => isHiddenField(name), [isHiddenField, name]);
+
     React.useEffect(() => {
-        onChangeStore(name, searchResult);
+        setField(name, searchResult);
     }, [searchResult]);
 
     React.useEffect(() => {
-        return () => onDeleteField(name);
+        return () => removeField(name);
     }, []);
 
-    const hide = React.useMemo(() => isHidden(name), [isHidden, name]);
-
-    const searchWrapper = React.useCallback(
-        (children: JSX.Element | null) => <span className={b({hide: hide})}>{children}</span>,
+    const withSearch = React.useCallback(
+        (children: JSX.Element | null) => <span className={b({hidden: hide})}>{children}</span>,
         [hide],
     );
 
-    return searchWrapper;
+    return withSearch;
 };

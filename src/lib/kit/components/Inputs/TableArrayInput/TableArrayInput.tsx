@@ -13,9 +13,7 @@ import {
     FieldValue,
     OBJECT_ARRAY_CNT,
     OBJECT_ARRAY_FLAG,
-    ObjectValue,
     REMOVED_ITEM,
-    Spec,
     ValidateError,
     isArraySpec,
     isBooleanSpec,
@@ -30,27 +28,7 @@ import './TableArrayInput.scss';
 const b = block('table-array');
 
 export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => {
-    const {isHidden} = useSearchContext();
-
-    const titleField = React.useMemo(
-        () => spec.viewSpec.table?.map(({label}) => label),
-        [spec.viewSpec.table],
-    );
-
-    const getPreparedSpec = React.useCallback(
-        (entitySpec: Spec, id: number) => {
-            const preparedEntitySpec = {
-                ...entitySpec,
-                viewSpec: {
-                    ...entitySpec.viewSpec,
-                    layoutTitle: titleField?.join(` ${id} `),
-                },
-            };
-
-            return preparedEntitySpec;
-        },
-        [titleField],
-    );
+    const {isHiddenField} = useSearchContext();
 
     const keys = React.useMemo(
         () =>
@@ -62,7 +40,10 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                         arrayInput.value[k] !== REMOVED_ITEM,
                 )
                 .map((k) => k.split('<').join('').split('>').join(''))
-                .sort((a, b) => Number(a) - Number(b)),
+                .sort((a, b) => Number(a) - Number(b))
+                .map((key) => ({
+                    key,
+                })),
         [arrayInput.value],
     );
 
@@ -130,14 +111,28 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
         const columns = table.map(({property, label}) => ({
             id: property,
             name: label,
-            template: (key: FieldValue, idx: number) => {
+            template: (
+                {
+                    key,
+                }: {
+                    key: string;
+                },
+                idx: number,
+            ) => {
                 const entitySpec = items?.properties?.[property];
 
                 if (!entitySpec) {
                     return null;
                 }
 
-                const preparedEntitySpec = getPreparedSpec(entitySpec, idx + 1);
+                const preparedEntitySpec = {
+                    ...entitySpec,
+                    viewSpec: {
+                        ...entitySpec.viewSpec,
+                        layoutTitle:
+                            table.map(({label}) => label).join(` ${idx + 1} `) + ` ${idx + 1}`,
+                    },
+                };
 
                 return (
                     <div
@@ -164,13 +159,13 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
         return [idxColumn, ...columns, removeColumn];
     }, [name, spec, onItemRemove, parentOnChange, input.value]);
 
-    const rowClassNames = React.useCallback(
-        (item: ObjectValue) => {
-            const searchResult = isHidden(`${name}.<${item}>`);
+    const getRowClassNames = React.useCallback(
+        ({key}: {key: string}) => {
+            const searchResult = isHiddenField(`${name}.<${key}>`);
 
-            return [b('row', {hide: searchResult})];
+            return [b('row', {hidden: searchResult})];
         },
-        [isHidden, name],
+        [isHiddenField, name],
     );
 
     if (!columns) {
@@ -180,13 +175,13 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
     return (
         <div className={b()}>
             {keys.length ? (
-                <Table<ObjectValue>
+                <Table
                     className={b('table')}
-                    data={keys as unknown as ObjectValue[]}
-                    columns={columns as any}
+                    data={keys}
+                    columns={columns}
                     getRowId={(_, idx) => `${name}-${idx}`}
                     verticalAlign="top"
-                    getRowClassNames={rowClassNames}
+                    getRowClassNames={getRowClassNames}
                 />
             ) : null}
             {!arrayInput.value && spec.defaultValue ? (

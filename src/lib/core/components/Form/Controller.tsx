@@ -31,10 +31,10 @@ export const Controller = <Value extends FieldValue, SpecType extends Spec>({
     const render = useRender({name, spec, inputEntity, Layout});
     const validate = useValidate(spec);
     const renderProps = useField({name, initialValue, spec, validate, tools, parentOnChange});
-    const searchWrapper = useSearch(spec, renderProps.input.value, name);
+    const withSearch = useSearch(spec, renderProps.input.value, name);
 
     if (_.isString(name) && isCorrectSpec(spec)) {
-        return searchWrapper(render(renderProps));
+        return withSearch(render(renderProps));
     }
 
     return null;

@@ -100,9 +100,11 @@ export const InputPreview: React.FC<InputPreviewProps> = ({
 
     const searchFunction = React.useCallback(
         (spec: Spec) =>
-            spec?.viewSpec.layoutTitle
-                ? spec?.viewSpec.layoutTitle.toLowerCase().includes(searchOptions.toLowerCase())
-                : false,
+            Boolean(
+                (spec.viewSpec.layoutTitle || '')
+                    .toLowerCase()
+                    .includes(searchOptions.trim().toLowerCase()),
+            ),
         [searchOptions],
     );
 
@@ -129,6 +131,7 @@ export const InputPreview: React.FC<InputPreviewProps> = ({
                                 value={searchOptions}
                                 placeholder="Search by field"
                                 className={b('search')}
+                                hasClear
                             />
                             <DynamicField
                                 name="options"
@@ -163,6 +166,7 @@ export const InputPreview: React.FC<InputPreviewProps> = ({
                                 value={searchInput}
                                 placeholder="Search by field"
                                 className={b('search')}
+                                hasClear
                             />
                             <DynamicField
                                 name="input"

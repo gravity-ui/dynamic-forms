@@ -7,10 +7,6 @@ $block: '.#{$ns}section';
 
     $block: &;
 
-    &:last-child {
-        margin-bottom: 0;
-    }
-
     &__header {
         margin-bottom: $normalOffset;
 

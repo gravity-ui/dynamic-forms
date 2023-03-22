@@ -10,7 +10,7 @@ import {Spec} from '../../types';
 import {Controller} from './Controller';
 import {useCreateContext, useCreateSearchContext, useSearchStore, useStore} from './hooks';
 import {DynamicFormConfig, FieldValue} from './types';
-import {defaultSearch, isCorrectConfig} from './utils';
+import {getDefaultSearchFunction, isCorrectConfig} from './utils';
 
 export interface DynamicFieldProps {
     name: string;
@@ -24,12 +24,8 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({name, spec, config, M
     const DynamicFormsCtx = useCreateContext();
     const SearchContext = useCreateSearchContext();
     const {tools, watcher} = useStore(name);
-    const {store, onChangeStore, onDeleteField, isHidden} = useSearchStore(name);
 
-    const searchFunction = React.useMemo(
-        () => (_.isString(search) ? defaultSearch(search) : search),
-        [search],
-    );
+    const {setField, removeField, isHiddenField} = useSearchStore(name);
 
     const context = React.useMemo(
         () => ({
@@ -42,13 +38,12 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({name, spec, config, M
 
     const searchContext = React.useMemo(
         () => ({
-            store,
-            onChangeStore,
-            searchFunction,
-            onDeleteField,
-            isHidden,
+            setField,
+            removeField,
+            isHiddenField,
+            searchFunction: _.isString(search) ? getDefaultSearchFunction(search) : search,
         }),
-        [isHidden, onChangeStore, onDeleteField, searchFunction, store],
+        [isHiddenField, removeField, search, setField],
     );
 
     const correctParams = React.useMemo(

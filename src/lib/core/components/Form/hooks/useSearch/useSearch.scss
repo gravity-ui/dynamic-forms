@@ -1,14 +1,11 @@
 @import '../../../../../kit/styles/variables.scss';
 
 .#{$ns}use-search {
-    margin-bottom: 15px;
-    display: block;
-
-    &_hide {
+    &_hidden {
         display: none;
     }
 
-    &:last-child {
+    &:last-child > * {
         margin-bottom: 0;
     }
 }
