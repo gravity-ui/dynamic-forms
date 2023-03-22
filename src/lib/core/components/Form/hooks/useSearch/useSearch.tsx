@@ -13,11 +13,16 @@ export const useSearch = (spec: Spec, value: FieldValue, name: string) => {
     const {setField, removeField, isHiddenField, searchFunction} = useSearchContext();
 
     const searchResult = React.useMemo(
-        () => (searchFunction ? !searchFunction(spec, value, name) : false),
+        () => !searchFunction(spec, value, name),
         [name, searchFunction, spec, value],
     );
 
-    const hide = React.useMemo(() => isHiddenField(name), [isHiddenField, name]);
+    const hidden = React.useMemo(() => isHiddenField(name), [isHiddenField, name]);
+
+    const withSearch = React.useCallback(
+        (children: JSX.Element | null) => <span className={b({hidden: hidden})}>{children}</span>,
+        [hidden],
+    );
 
     React.useEffect(() => {
         setField(name, searchResult);
@@ -26,11 +31,6 @@ export const useSearch = (spec: Spec, value: FieldValue, name: string) => {
     React.useEffect(() => {
         return () => removeField(name);
     }, []);
-
-    const withSearch = React.useCallback(
-        (children: JSX.Element | null) => <span className={b({hidden: hide})}>{children}</span>,
-        [hide],
-    );
 
     return withSearch;
 };

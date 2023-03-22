@@ -9,4 +9,6 @@ export const getParentName = (name: string) => {
 };
 
 export const getDefaultSearchFunction = (search: string) => (spec: Spec) =>
-    Boolean((spec.viewSpec.layoutTitle || '').toLowerCase().includes(search.trim().toLowerCase()));
+    Boolean(spec.viewSpec.layoutTitle?.toLowerCase().includes(search.trim().toLowerCase()));
+
+export const getEmptySearchFunction = () => true;

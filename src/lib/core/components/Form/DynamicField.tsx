@@ -10,7 +10,7 @@ import {Spec} from '../../types';
 import {Controller} from './Controller';
 import {useCreateContext, useCreateSearchContext, useSearchStore, useStore} from './hooks';
 import {DynamicFormConfig, FieldValue} from './types';
-import {getDefaultSearchFunction, isCorrectConfig} from './utils';
+import {getDefaultSearchFunction, getEmptySearchFunction, isCorrectConfig} from './utils';
 
 export interface DynamicFieldProps {
     name: string;
@@ -41,7 +41,11 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({name, spec, config, M
             setField,
             removeField,
             isHiddenField,
-            searchFunction: _.isString(search) ? getDefaultSearchFunction(search) : search,
+            searchFunction: _.isString(search)
+                ? getDefaultSearchFunction(search)
+                : _.isFunction(search)
+                ? search
+                : getEmptySearchFunction,
         }),
         [isHiddenField, removeField, search, setField],
     );

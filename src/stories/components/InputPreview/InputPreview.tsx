@@ -101,8 +101,8 @@ export const InputPreview: React.FC<InputPreviewProps> = ({
     const searchFunction = React.useCallback(
         (spec: Spec) =>
             Boolean(
-                (spec.viewSpec.layoutTitle || '')
-                    .toLowerCase()
+                spec.viewSpec.layoutTitle
+                    ?.toLowerCase()
                     .includes(searchOptions.trim().toLowerCase()),
             ),
         [searchOptions],
