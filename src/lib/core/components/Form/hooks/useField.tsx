@@ -27,6 +27,7 @@ export interface FieldProps<Value extends FieldValue, SpecType extends Spec> {
               childErrors: Record<string, ValidateError>,
           ) => void)
         | null;
+    parentOnUnmount: ((childName: string) => void) | null;
 }
 
 export const useField = <Value extends FieldValue, SpecType extends Spec>({
@@ -36,6 +37,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
     validate: propsValidate,
     tools,
     parentOnChange,
+    parentOnUnmount,
 }: FieldProps<Value, SpecType>): FieldRenderProps<Value> => {
     const firstRenderRef = React.useRef(true);
 
@@ -249,7 +251,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
         firstRenderRef.current = false;
 
         return () => {
-            (parentOnChange ? parentOnChange : tools.onChange)(name, state.value, {[name]: false});
+            (parentOnUnmount ? parentOnUnmount : tools.onUnmount)(name);
         };
     }, []);
 

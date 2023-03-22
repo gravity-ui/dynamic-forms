@@ -18,6 +18,7 @@ export interface ControllerProps<Value extends FieldValue, SpecType extends Spec
               childErrors: Record<string, ValidateError>,
           ) => void)
         | null;
+    parentOnUnmount: ((childName: string) => void) | null;
 }
 
 export const Controller = <Value extends FieldValue, SpecType extends Spec>({
@@ -25,12 +26,21 @@ export const Controller = <Value extends FieldValue, SpecType extends Spec>({
     name,
     initialValue,
     parentOnChange,
+    parentOnUnmount,
 }: ControllerProps<Value, SpecType>) => {
     const {tools} = useDynamicFormsCtx();
     const {inputEntity, Layout} = useComponents(spec);
     const render = useRender({name, spec, inputEntity, Layout});
     const validate = useValidate(spec);
-    const renderProps = useField({name, initialValue, spec, validate, tools, parentOnChange});
+    const renderProps = useField({
+        name,
+        initialValue,
+        spec,
+        validate,
+        tools,
+        parentOnChange,
+        parentOnUnmount,
+    });
     const withSearch = useSearch(spec, renderProps.input.value, name);
 
     if (_.isString(name) && isCorrectSpec(spec)) {
