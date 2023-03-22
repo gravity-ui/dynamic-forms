@@ -91,7 +91,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
             id: 'idx',
             name: '',
             sticky: 'left',
-            template: (key: FieldValue, idx: number) => (
+            template: ({key}: {key: string}, idx: number) => (
                 <div className={b('idx')} key={`idx-${key}`}>
                     {idx + 1}
                 </div>
@@ -102,12 +102,8 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
             id: 'remove',
             name: '',
             sticky: 'right',
-            template: (key: FieldValue) => (
-                <Button
-                    view="flat"
-                    onClick={() => onItemRemove(key as string)}
-                    key={`remove-${key}`}
-                >
+            template: ({key}: {key: string}) => (
+                <Button view="flat" onClick={() => onItemRemove(key)} key={`remove-${key}`}>
                     <Icon data={Xmark} size={16} />
                 </Button>
             ),
