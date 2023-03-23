@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.1.1...v1.2.0) (2023-03-23)
+
+
+### Features
+
+* search ([#10](https://github.com/gravity-ui/dynamic-forms/issues/10)) ([4ed7d5c](https://github.com/gravity-ui/dynamic-forms/commit/4ed7d5c85dbb890f4c8148d4de43a626917cec0f))
+
 ## [1.1.1](https://github.com/gravity-ui/dynamic-forms/compare/v1.1.0...v1.1.1) (2023-03-21)
 
 
