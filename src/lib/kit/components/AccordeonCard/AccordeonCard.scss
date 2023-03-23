@@ -19,10 +19,6 @@
         margin-bottom: 0;
     }
 
-    &:hover {
-        box-shadow: 0 3px 10px var(--yc-color-sfx-shadow);
-    }
-
     &_empty {
         .#{$ns}accordeon-card__body,
         .#{$ns}accordeon-card__header-toggle-btn {
