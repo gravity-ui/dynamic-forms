@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {RadioButton} from '@gravity-ui/uikit';
+import {RadioButton, TextInput} from '@gravity-ui/uikit';
 import block from 'bem-cn-lite';
 import _ from 'lodash';
 import {Form} from 'react-final-form';
@@ -29,6 +29,8 @@ export const InputPreview: React.FC<InputPreviewProps> = ({
     excludeOptions,
     viewMode,
 }) => {
+    const [searchOptions, setSearchOptions] = React.useState('');
+    const [searchInput, setSearchInput] = React.useState('');
     const [toggler, setToggler] = React.useState<'form' | 'json'>('form');
     const [togglerInput, setTogglerInput] = React.useState<'form' | 'view' | 'json'>('form');
 
@@ -96,6 +98,16 @@ export const InputPreview: React.FC<InputPreviewProps> = ({
         [],
     );
 
+    const searchFunction = React.useCallback(
+        (spec: Spec) =>
+            Boolean(
+                spec.viewSpec.layoutTitle
+                    ?.toLowerCase()
+                    .includes(searchOptions.trim().toLowerCase()),
+            ),
+        [searchOptions],
+    );
+
     return (
         <Form initialValues={initialValues} onSubmit={_.noop}>
             {(form) => (
@@ -113,7 +125,19 @@ export const InputPreview: React.FC<InputPreviewProps> = ({
                             ))}
                         </RadioButton>
                         <div className={b('options-field', {hidden: toggler !== 'form'})}>
-                            <DynamicField name="options" spec={form.values.optionsSpec} />
+                            <TextInput
+                                size="m"
+                                onUpdate={setSearchOptions}
+                                value={searchOptions}
+                                placeholder="Search by field"
+                                className={b('search')}
+                                hasClear
+                            />
+                            <DynamicField
+                                name="options"
+                                spec={form.values.optionsSpec}
+                                search={searchFunction}
+                            />
                         </div>
                         {toggler === 'json' ? (
                             <div className={b('monaco')}>
@@ -136,9 +160,18 @@ export const InputPreview: React.FC<InputPreviewProps> = ({
                             ))}
                         </RadioButton>
                         <div className={b('input-field', {hidden: togglerInput !== 'form'})}>
+                            <TextInput
+                                size="m"
+                                onUpdate={setSearchInput}
+                                value={searchInput}
+                                placeholder="Search by field"
+                                className={b('search')}
+                                hasClear
+                            />
                             <DynamicField
                                 name="input"
                                 spec={transformIncorrect(form.values.options)}
+                                search={searchInput}
                             />
                         </div>
                         <div className={b('input-view', {hidden: togglerInput !== 'view'})}>

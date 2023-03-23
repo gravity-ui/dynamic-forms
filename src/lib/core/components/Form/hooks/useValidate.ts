@@ -4,8 +4,8 @@ import _ from 'lodash';
 
 import {isCorrectSpec} from '../../../helpers';
 import {FormValue, Spec} from '../../../types';
-import {isCorrectConfig} from '../helpers';
 import {FieldValue, TypeConfig} from '../types';
+import {isCorrectConfig} from '../utils';
 
 import {useDynamicFormsCtx} from './';
 

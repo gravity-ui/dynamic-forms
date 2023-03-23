@@ -5,8 +5,8 @@ import {isValidElementType} from 'react-is';
 
 import {isCorrectSpec} from '../../../helpers';
 import {FormValue, Spec} from '../../../types';
-import {isCorrectConfig} from '../helpers';
 import {FieldValue, IndependentInputEntity, InputEntity, LayoutType, TypeConfig} from '../types';
+import {isCorrectConfig} from '../utils';
 
 import {useDynamicFormsCtx} from './';
 

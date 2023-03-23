@@ -13,7 +13,6 @@ import {
     FieldValue,
     OBJECT_ARRAY_CNT,
     OBJECT_ARRAY_FLAG,
-    ObjectValue,
     REMOVED_ITEM,
     ValidateError,
     isArraySpec,
@@ -21,6 +20,7 @@ import {
     isObjectSpec,
     transformArrIn,
 } from '../../../../core';
+import {useSearchContext} from '../../../../core/components/Form/hooks';
 import {block} from '../../../utils';
 
 import './TableArrayInput.scss';
@@ -28,6 +28,8 @@ import './TableArrayInput.scss';
 const b = block('table-array');
 
 export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => {
+    const {isHiddenField} = useSearchContext();
+
     const keys = React.useMemo(
         () =>
             Object.keys(arrayInput.value || {})
@@ -38,7 +40,10 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                         arrayInput.value[k] !== REMOVED_ITEM,
                 )
                 .map((k) => k.split('<').join('').split('>').join(''))
-                .sort((a, b) => Number(a) - Number(b)),
+                .sort((a, b) => Number(a) - Number(b))
+                .map((key) => ({
+                    key,
+                })),
         [arrayInput.value],
     );
 
@@ -86,7 +91,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
             id: 'idx',
             name: '',
             sticky: 'left',
-            template: (key: FieldValue, idx: number) => (
+            template: ({key}: {key: string}, idx: number) => (
                 <div className={b('idx')} key={`idx-${key}`}>
                     {idx + 1}
                 </div>
@@ -97,12 +102,8 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
             id: 'remove',
             name: '',
             sticky: 'right',
-            template: (key: FieldValue) => (
-                <Button
-                    view="flat"
-                    onClick={() => onItemRemove(key as string)}
-                    key={`remove-${key}`}
-                >
+            template: ({key}: {key: string}) => (
+                <Button view="flat" onClick={() => onItemRemove(key)} key={`remove-${key}`}>
                     <Icon data={Xmark} size={16} />
                 </Button>
             ),
@@ -111,19 +112,35 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
         const columns = table.map(({property, label}) => ({
             id: property,
             name: label,
-            template: (key: FieldValue) => {
+            template: (
+                {
+                    key,
+                }: {
+                    key: string;
+                },
+                idx: number,
+            ) => {
                 const entitySpec = items?.properties?.[property];
 
                 if (!entitySpec) {
                     return null;
                 }
 
+                const preparedEntitySpec = {
+                    ...entitySpec,
+                    viewSpec: {
+                        ...entitySpec.viewSpec,
+                        layoutTitle:
+                            table.map(({label}) => label).join(` ${idx + 1} `) + ` ${idx + 1}`,
+                    },
+                };
+
                 return (
                     <div
                         className={b('cell', {
-                            bool: isBooleanSpec(entitySpec),
-                            arr: isArraySpec(entitySpec),
-                            obj: isObjectSpec(entitySpec),
+                            bool: isBooleanSpec(preparedEntitySpec),
+                            arr: isArraySpec(preparedEntitySpec),
+                            obj: isObjectSpec(preparedEntitySpec),
                         })}
                         key={`${name}.<${key}>.${property}`}
                     >
@@ -131,7 +148,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                             initialValue={
                                 (input.value?.[`<${key}>`] as FieldObjectValue)?.[property]
                             }
-                            spec={entitySpec}
+                            spec={preparedEntitySpec}
                             name={`${name}.<${key}>.${property}`}
                             parentOnChange={parentOnChange}
                             parentOnUnmount={parentOnUnmount}
@@ -144,6 +161,15 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
         return [idxColumn, ...columns, removeColumn];
     }, [name, spec, onItemRemove, parentOnChange, parentOnUnmount, input.value]);
 
+    const getRowClassNames = React.useCallback(
+        ({key}: {key: string}) => {
+            const searchResult = isHiddenField(`${name}.<${key}>`);
+
+            return [b('row', {hidden: searchResult})];
+        },
+        [isHiddenField, name],
+    );
+
     if (!columns) {
         return null;
     }
@@ -151,12 +177,13 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
     return (
         <div className={b()}>
             {keys.length ? (
-                <Table<ObjectValue>
+                <Table
                     className={b('table')}
-                    data={keys as unknown as ObjectValue[]}
-                    columns={columns as any}
+                    data={keys}
+                    columns={columns}
                     getRowId={(_, idx) => `${name}-${idx}`}
                     verticalAlign="top"
+                    getRowClassNames={getRowClassNames}
                 />
             ) : null}
             {!arrayInput.value && spec.defaultValue ? (
