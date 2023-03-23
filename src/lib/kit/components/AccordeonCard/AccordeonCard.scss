@@ -11,6 +11,10 @@
     color: var(--yc-color-text-primary);
     background-color: var(--yc-color-base-float);
 
+    &:hover {
+        box-shadow: 0 3px 10px var(--yc-color-sfx-shadow);
+    }
+
     &:last-child {
         margin-bottom: 0;
     }
