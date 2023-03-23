@@ -4,6 +4,10 @@
     display: flex;
     margin-bottom: 15px;
 
+    &:last-child {
+        margin-bottom: 0;
+    }
+
     &_array-item {
         max-width: 338px;
     }

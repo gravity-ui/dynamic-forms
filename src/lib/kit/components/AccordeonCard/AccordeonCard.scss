@@ -11,6 +11,10 @@
     color: var(--yc-color-text-primary);
     background-color: var(--yc-color-base-float);
 
+    &:last-child {
+        margin-bottom: 0;
+    }
+
     &:hover {
         box-shadow: 0 3px 10px var(--yc-color-sfx-shadow);
     }
@@ -80,10 +84,6 @@
             flex-grow: 0;
             justify-content: flex-end;
             order: 1;
-        }
-
-        > * {
-            margin-bottom: 0px;
         }
     }
 

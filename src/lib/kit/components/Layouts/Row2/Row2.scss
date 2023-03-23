@@ -5,6 +5,10 @@
     display: flex;
     margin-bottom: 15px;
 
+    &:last-child {
+        margin-bottom: 0;
+    }
+
     &__left {
         width: 180px;
         min-width: 180px;
