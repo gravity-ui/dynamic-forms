@@ -35,10 +35,15 @@ const spec: ObjectSpec = {
             type: SpecTypes.Object,
             properties: {
                 internal: {
+                    required: true,
                     type: SpecTypes.String,
                     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Person id'},
                 },
-                empty: {type: SpecTypes.String, viewSpec: {type: '', layoutTitle: 'Empty'}},
+                empty: {
+                    required: true,
+                    type: SpecTypes.Object,
+                    viewSpec: {type: '', layoutTitle: 'Empty'},
+                },
                 external: {
                     required: true,
                     type: SpecTypes.Object,

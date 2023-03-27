@@ -14,7 +14,7 @@ import {
 } from '../types';
 import {isArrayItem, transformArrIn, transformArrOut} from '../utils';
 
-export interface FieldProps<Value extends FieldValue, SpecType extends Spec> {
+export interface UseFieldProps<Value extends FieldValue, SpecType extends Spec> {
     name: string;
     spec: SpecType;
     initialValue: Value;
@@ -38,7 +38,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
     tools,
     parentOnChange,
     parentOnUnmount,
-}: FieldProps<Value, SpecType>): FieldRenderProps<Value> => {
+}: UseFieldProps<Value, SpecType>): FieldRenderProps<Value> => {
     const firstRenderRef = React.useRef(true);
 
     const validate = React.useCallback(
@@ -239,7 +239,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
     ]);
 
     React.useEffect(() => {
-        if (!firstRenderRef.current || !_.isEqual(initialValue, state.value)) {
+        if (!firstRenderRef.current || !_.isEqual(initialValue, state.value) || state.error) {
             (parentOnChange ? parentOnChange : tools.onChange)(name, state.value, {
                 ...state.childErrors,
                 [name]: state.error,

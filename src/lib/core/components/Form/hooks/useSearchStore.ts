@@ -4,8 +4,8 @@ import _ from 'lodash';
 
 import {getParentName} from '../';
 
-export const useSearchStore = (name: string) => {
-    const [store, setStore] = React.useState({[name]: false});
+export const useSearchStore = () => {
+    const [store, setStore] = React.useState<Record<string, boolean>>({});
 
     const isHiddenField = React.useCallback(
         (name: string) => {
