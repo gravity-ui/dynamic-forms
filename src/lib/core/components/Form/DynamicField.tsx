@@ -8,8 +8,15 @@ import {isCorrectSpec} from '../../helpers';
 import {Spec} from '../../types';
 
 import {Controller} from './Controller';
-import {useCreateContext, useCreateSearchContext, useSearchStore, useStore} from './hooks';
-import {DynamicFormConfig, FieldValue} from './types';
+import {
+    useCreateContext,
+    useCreateSearchContext,
+    useDynamicFieldMirror,
+    useIntegrationFF,
+    useSearchStore,
+    useStore,
+} from './hooks';
+import {DynamicFormConfig, FieldValue, WonderMirror} from './types';
 import {getDefaultSearchFunction, isCorrectConfig} from './utils';
 
 export interface DynamicFieldProps {
@@ -18,22 +25,31 @@ export interface DynamicFieldProps {
     config: DynamicFormConfig;
     Monaco?: React.ComponentType<MonacoEditorProps>;
     search?: string | ((spec: Spec, input: FieldValue, name: string) => boolean);
+    __mirror?: WonderMirror;
 }
 
-export const DynamicField: React.FC<DynamicFieldProps> = ({name, spec, config, Monaco, search}) => {
+export const DynamicField: React.FC<DynamicFieldProps> = ({
+    name,
+    spec,
+    config,
+    Monaco,
+    search,
+    __mirror,
+}) => {
     const DynamicFormsCtx = useCreateContext();
     const SearchContext = useCreateSearchContext();
-    const {tools, watcher} = useStore(name);
-
-    const {setField, removeField, isHiddenField} = useSearchStore(name);
+    const {tools, store} = useStore(name);
+    const watcher = useIntegrationFF(store);
+    const {store: searchStore, setField, removeField, isHiddenField} = useSearchStore();
 
     const context = React.useMemo(
         () => ({
             config,
             Monaco: isValidElementType(Monaco) ? Monaco : undefined,
             tools,
+            __mirror,
         }),
-        [tools, config, Monaco],
+        [tools, config, Monaco, __mirror],
     );
 
     const searchContext = React.useMemo(
@@ -49,6 +65,15 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({name, spec, config, M
     const correctParams = React.useMemo(
         () => _.isString(name) && isCorrectSpec(spec) && isCorrectConfig(config),
         [name, spec, config],
+    );
+
+    useDynamicFieldMirror(
+        {
+            useStore: {tools, store},
+            useIntegrationFF: watcher,
+            useSearchStore: {store: searchStore, setField, removeField, isHiddenField},
+        },
+        __mirror,
     );
 
     if (correctParams) {
