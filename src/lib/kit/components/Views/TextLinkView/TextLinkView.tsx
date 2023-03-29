@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 import {isValidElementType} from 'react-is';
 
-import {ObjectIndependentView, StringSpec} from '../../../../core';
+import {ObjectIndependentView, isStringSpec} from '../../../../core';
 import {useComponents, useDynamicFormsCtx} from '../../../../core/components/View/hooks';
 
 const TEXT_LINK_PROPERTY_NAME = 'text';
@@ -15,15 +15,17 @@ export const TextLinkView: ObjectIndependentView = ({value, spec, name}) => {
 
     const {Layout} = useComponents(specProperties[TEXT_LINK_PROPERTY_NAME]);
 
-    const valueText = value?.text ? value.text : false;
+    const valueText = value?.text ? value.text : undefined;
 
-    if (!specProperties[TEXT_LINK_PROPERTY_NAME] && !valueText && !_.isString(valueText)) {
+    if (
+        !specProperties[TEXT_LINK_PROPERTY_NAME] ||
+        !_.isString(valueText) ||
+        !isStringSpec(specProperties[TEXT_LINK_PROPERTY_NAME])
+    ) {
         return null;
     }
 
-    const text =
-        (specProperties[TEXT_LINK_PROPERTY_NAME] as StringSpec)?.description?.[String(valueText)] ||
-        String(valueText);
+    const text = specProperties[TEXT_LINK_PROPERTY_NAME]?.description?.[valueText] || valueText;
 
     let content = <React.Fragment>{text}</React.Fragment>;
 

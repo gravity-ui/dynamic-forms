@@ -23,17 +23,30 @@ const baseSpec: ObjectSpec = {
                 placeholder: 'placeholder text',
             },
         },
+        link: {
+            type: SpecTypes.String,
+            viewSpec: {
+                type: 'base',
+            },
+        },
     },
     viewSpec: {
         type: 'text_link',
     },
 };
 
+const value = {link: 'https://gravity-ui.com'};
+
 const excludeOptions = ['description', 'validator', 'viewSpec'];
 
 const template = (spec: ObjectSpec = baseSpec) => {
     const Template: ComponentStory<typeof TextLinkBase> = (__, {viewMode}) => (
-        <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
+        <InputPreview
+            spec={spec}
+            excludeOptions={excludeOptions}
+            value={value}
+            viewMode={viewMode}
+        />
     );
 
     return Template;

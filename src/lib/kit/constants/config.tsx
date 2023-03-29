@@ -45,6 +45,7 @@ import {
     TextAreaView,
     TextContent,
     TextLink,
+    TextLinkView,
     Transparent,
     ViewAccordeon,
     ViewAccordeonCard,
@@ -61,7 +62,6 @@ import {
     ViewTableCell,
     ViewTransparent,
 } from '../components';
-import {TextLinkView} from '../components/Views/TextLinkView';
 import {
     getArrayValidator,
     getBooleanValidator,

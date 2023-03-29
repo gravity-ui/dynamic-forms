@@ -2,7 +2,13 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import {Controller, FieldValue, ObjectIndependentInput, ValidateError} from '../../../../core';
+import {
+    Controller,
+    FieldValue,
+    ObjectIndependentInput,
+    ValidateError,
+    isStringSpec,
+} from '../../../../core';
 
 const TEXT_LINK_PROPERTY_NAME = 'text';
 
@@ -24,7 +30,10 @@ export const TextLink: ObjectIndependentInput = ({spec, input, name}) => {
 
     const specProperties = {...spec.properties};
 
-    if (!specProperties[TEXT_LINK_PROPERTY_NAME]) {
+    if (
+        !specProperties[TEXT_LINK_PROPERTY_NAME] ||
+        !isStringSpec(specProperties[TEXT_LINK_PROPERTY_NAME])
+    ) {
         return null;
     }
 
