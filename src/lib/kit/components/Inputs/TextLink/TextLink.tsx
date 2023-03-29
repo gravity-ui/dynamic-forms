@@ -11,11 +11,7 @@ export const TextLink: ObjectIndependentInput = ({spec, input, name}) => {
         (childName: string, childValue: FieldValue, childErrors?: Record<string, ValidateError>) =>
             input.onChange(
                 (currentValue) =>
-                    _.set(
-                        {...currentValue},
-                        childName.split(`${input.name}.`).join(''),
-                        childValue,
-                    ),
+                    _.set({...currentValue}, childName.split(`${name}.`).join(''), childValue),
                 childErrors,
             ),
         [input.onChange, input.name],

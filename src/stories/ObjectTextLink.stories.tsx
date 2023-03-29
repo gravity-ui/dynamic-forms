@@ -20,7 +20,7 @@ const baseSpec: ObjectSpec = {
                 type: 'base',
                 layout: 'row',
                 layoutTitle: 'Text Link',
-                placeholder: ' placeholder text',
+                placeholder: 'placeholder text',
             },
         },
     },
