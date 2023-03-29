@@ -44,6 +44,7 @@ import {
     TextArea,
     TextAreaView,
     TextContent,
+    TextLink,
     Transparent,
     ViewAccordeon,
     ViewAccordeonCard,
@@ -60,6 +61,7 @@ import {
     ViewTableCell,
     ViewTransparent,
 } from '../components';
+import {TextLinkView} from '../components/Views/TextLinkView';
 import {
     getArrayValidator,
     getBooleanValidator,
@@ -125,6 +127,7 @@ export const dynamicConfig: DynamicFormConfig = {
             card_oneof: {Component: CardOneOf, independent: true},
             secret: {Component: Secret, independent: true},
             base: {Component: ObjectBase, independent: true},
+            text_link: {Component: TextLink, independent: true},
         },
         layouts: {
             row: Row,
@@ -221,6 +224,7 @@ export const dynamicCardConfig: DynamicFormConfig = {
             oneof: {Component: OneOfCard, independent: true},
             secret: {Component: Secret, independent: true},
             base: {Component: ObjectBase, independent: true},
+            text_link: {Component: TextLink, independent: true},
         },
         layouts: {
             row: Row2,
@@ -306,6 +310,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
             card_oneof: {Component: CardOneOfView, independent: true},
             secret: undefined,
             base: {Component: ObjectBaseView, independent: true},
+            text_link: {Component: TextLinkView, independent: true},
         },
         layouts: {
             row: ViewRow,
@@ -384,6 +389,7 @@ export const dynamicViewCardConfig: DynamicViewConfig = {
             oneof: {Component: OneOfCardView, independent: true},
             secret: undefined,
             base: {Component: ObjectBaseView, independent: true},
+            text_link: {Component: TextLinkView, independent: true},
         },
         layouts: {
             row: ViewRow2,
