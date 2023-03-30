@@ -23,12 +23,6 @@ const baseSpec: ObjectSpec = {
                 placeholder: 'placeholder text',
             },
         },
-        link: {
-            type: SpecTypes.String,
-            viewSpec: {
-                type: 'base',
-            },
-        },
     },
     viewSpec: {
         type: 'text_link',
