@@ -1,23 +1,10 @@
 import React from 'react';
 
 import _ from 'lodash';
-import {Field as FinalFormField, useForm} from 'react-final-form';
+import {useForm} from 'react-final-form';
 
-import {
-    AsyncValidateError,
-    BaseValidateError,
-    FieldObjectValue,
-    FieldValue,
-    ValidateError,
-} from '../types';
-import {transformArrIn, transformArrOut} from '../utils';
-
-export interface DynamicFieldStore {
-    name: string;
-    initialValue: FieldObjectValue;
-    values: FieldObjectValue;
-    errors: Record<string, ValidateError>;
-}
+import {DynamicFieldStore, FieldObjectValue, FieldValue, ValidateError} from '../types';
+import {transformArrIn} from '../utils';
 
 export const useStore = (name: string) => {
     const form = useForm();
@@ -37,48 +24,19 @@ export const useStore = (name: string) => {
 
     const submitFailed = form.getState().submitFailed;
 
-    const watcher = React.useMemo(() => {
-        const props = {
-            name: store.name,
-            render: () => null,
-            subscription: {},
-            validate: () => {
-                const asyncErrors: AsyncValidateError[] = [];
-                let error: BaseValidateError;
-
-                _.values(store.errors).forEach((err) => {
-                    if (err) {
-                        if (_.isFunction((err as AsyncValidateError)?.then)) {
-                            asyncErrors.push(err as AsyncValidateError);
-                        } else {
-                            error = err as BaseValidateError;
-                        }
-                    }
-                });
-
-                if (asyncErrors.length) {
-                    return Promise.all(asyncErrors).then((r) => r[0]);
-                }
-
-                return error;
-            },
-        };
-
-        return <FinalFormField {...props} />;
-    }, [store.name, store.errors]);
-
     const tools = React.useMemo(
         () => ({
             initialValue: store.initialValue,
             onChange: (name: string, value: FieldValue, errors?: Record<string, ValidateError>) =>
                 setStore((store) => ({
                     ...store,
-                    values: _.set({...store.values}, name, value),
+                    values: _.set({...store.values}, name, _.clone(value)),
                     errors: errors || {},
                 })),
             onUnmount: (name: string) =>
                 setStore((store) => ({
                     ...store,
+                    values: _.omit(store.values, name),
                     errors: _.omit(
                         store.errors,
                         Object.keys(store.errors).filter((key) => key.startsWith(name)),
@@ -88,17 +46,6 @@ export const useStore = (name: string) => {
         }),
         [store.initialValue, setStore, submitFailed],
     );
-
-    const change = React.useCallback(
-        _.debounce((value) => {
-            form.change(store.name, _.get(transformArrOut(value), store.name));
-        }, 100),
-        [form.change, store.name],
-    );
-
-    React.useEffect(() => {
-        change(store.values);
-    }, [store.values]);
 
     React.useEffect(() => {
         if (!firstRenderRef.current) {
@@ -119,5 +66,5 @@ export const useStore = (name: string) => {
         firstRenderRef.current = false;
     }, []);
 
-    return {tools, watcher};
+    return {tools, store};
 };

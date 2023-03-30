@@ -1,9 +1,10 @@
 {
   "extends": "@gravity-ui/tsconfig/tsconfig.json",
-  "include": ["."],
+  "include": ["src"],
   "compilerOptions": {
     "baseUrl": ".",
     "jsx": "react",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   }
 }

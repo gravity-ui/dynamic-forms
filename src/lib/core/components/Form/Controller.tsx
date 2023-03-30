@@ -3,9 +3,16 @@ import _ from 'lodash';
 import {isCorrectSpec} from '../../helpers';
 import {Spec} from '../../types';
 
-import {useComponents, useDynamicFormsCtx, useField, useRender, useValidate} from './hooks';
-import {useSearch} from './hooks/useSearch';
-import {FieldValue, ValidateError} from './types';
+import {
+    useComponents,
+    useControllerMirror,
+    useDynamicFormsCtx,
+    useField,
+    useRender,
+    useSearch,
+    useValidate,
+} from './hooks';
+import {ControllerMirror, FieldValue, ValidateError} from './types';
 
 export interface ControllerProps<Value extends FieldValue, SpecType extends Spec> {
     spec: SpecType;
@@ -28,7 +35,7 @@ export const Controller = <Value extends FieldValue, SpecType extends Spec>({
     parentOnChange,
     parentOnUnmount,
 }: ControllerProps<Value, SpecType>) => {
-    const {tools} = useDynamicFormsCtx();
+    const {tools, __mirror} = useDynamicFormsCtx();
     const {inputEntity, Layout} = useComponents(spec);
     const render = useRender({name, spec, inputEntity, Layout});
     const validate = useValidate(spec);
@@ -42,6 +49,18 @@ export const Controller = <Value extends FieldValue, SpecType extends Spec>({
         parentOnUnmount,
     });
     const withSearch = useSearch(spec, renderProps.input.value, name);
+
+    useControllerMirror(
+        name,
+        {
+            useComponents: {inputEntity, Layout},
+            useRender: render,
+            useValidate: validate,
+            useField: renderProps,
+            useSearch: withSearch,
+        } as ControllerMirror,
+        __mirror,
+    );
 
     if (_.isString(name) && isCorrectSpec(spec)) {
         return withSearch(render(renderProps));

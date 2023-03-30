@@ -36,17 +36,18 @@ const RowBase = <T extends FieldValue, S extends Spec>({
         <div className={b({'extra-width': isArraySpec(spec) || arrayItem})}>
             <div className={b('left')}>
                 <div className={b('left-inner')}>
-                    <div className={b('title')}>
+                    <span className={b('title', {required: spec.required})}>
                         {spec.viewSpec.layoutTitle}
-                        {spec.required && <span className={b('required-mark')}>*</span>}
-                    </div>
+                    </span>
                     {!verboseDescription && spec.viewSpec.layoutDescription ? (
-                        <div className={b('note')}>
-                            <HelpPopover
-                                htmlContent={spec.viewSpec.layoutDescription}
-                                placement={['bottom', 'top']}
-                            />
-                        </div>
+                        <span className={b('note')}>
+                            <span className={b('note-inner')}>
+                                <HelpPopover
+                                    htmlContent={spec.viewSpec.layoutDescription}
+                                    placement={['bottom', 'top']}
+                                />
+                            </span>
+                        </span>
                     ) : null}
                 </div>
             </div>
