@@ -17,13 +17,6 @@ export const useSearchStore = () => {
 
             let parentName = getParentName(name);
 
-            if (
-                _.isUndefined(selfFlag) &&
-                ((parentName && _.isUndefined(store[parentName])) || !parentName)
-            ) {
-                return false;
-            }
-
             while (parentName) {
                 if (store[parentName] === false) {
                     return false;
@@ -36,6 +29,10 @@ export const useSearchStore = () => {
                 if (key.includes(name + '.') && !store[key]) {
                     return false;
                 }
+            }
+
+            if (_.isUndefined(selfFlag)) {
+                return false;
             }
 
             return true;
