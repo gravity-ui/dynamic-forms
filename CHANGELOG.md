@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.3.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.2.0...v1.3.0) (2023-03-31)
+
+
+### Features
+
+* update row note position ([#20](https://github.com/gravity-ui/dynamic-forms/issues/20)) ([4f15395](https://github.com/gravity-ui/dynamic-forms/commit/4f153959596d3325ddeb2c2e9b24382e36d2db75))
+
+
+### Bug Fixes
+
+* add fixes + tests ([#15](https://github.com/gravity-ui/dynamic-forms/issues/15)) ([80113dd](https://github.com/gravity-ui/dynamic-forms/commit/80113dd05737b18158865506ed3ac8479d69e8d0))
+* **search:** fixed bug related to form blinking ([#21](https://github.com/gravity-ui/dynamic-forms/issues/21)) ([20bab2f](https://github.com/gravity-ui/dynamic-forms/commit/20bab2f628d698714bcee35993583f2c7712e843))
+* **textArea:** fixed row for text area ([#22](https://github.com/gravity-ui/dynamic-forms/issues/22)) ([d5469e7](https://github.com/gravity-ui/dynamic-forms/commit/d5469e7dd0eee86b26e8daba94e93d2fa9465b96))
+
 ## [1.2.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.1.1...v1.2.0) (2023-03-23)
 
 
