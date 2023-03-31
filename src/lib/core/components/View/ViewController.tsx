@@ -15,8 +15,8 @@ export const ViewController = <SpecType extends Spec>({
     spec,
     name,
 }: ViewControllerProps<SpecType>) => {
-    const {value, Link} = useDynamicFormsCtx();
-    const {viewEntity, Layout} = useComponents(spec);
+    const {config, value, Link} = useDynamicFormsCtx();
+    const {viewEntity, Layout} = useComponents(spec, config);
     const render = useRender({name, value, spec, viewEntity, Layout, Link});
 
     return <>{render}</>;
