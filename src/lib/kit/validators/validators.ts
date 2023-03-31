@@ -73,6 +73,8 @@ export interface GetNumberValidatorParams {
     ignoreMaximumCheck?: boolean;
     ignoreMinimumCheck?: boolean;
     ignoreIntCheck?: boolean;
+    ignoreDotEnd?: boolean;
+    ignoreZeroStart?: boolean;
 }
 
 export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
@@ -84,6 +86,8 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
         ignoreMaximumCheck,
         ignoreMinimumCheck,
         ignoreIntCheck,
+        ignoreDotEnd,
+        ignoreZeroStart,
     } = params;
 
     return (spec: NumberSpec, value: string | number = '') => {
@@ -102,7 +106,7 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
                 return ErrorMessages.SPACE_END;
             }
 
-            if (stringValue[stringValue.length - 1] === '.') {
+            if (!ignoreDotEnd && stringValue[stringValue.length - 1] === '.') {
                 return ErrorMessages.DOT_END;
             }
 
@@ -111,10 +115,11 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
             }
 
             if (
-                (stringValue.length > 1 && stringValue[0] === '0' && stringValue[1] !== '.') ||
-                (stringValue.length > 2 &&
-                    stringValue.substring(0, 2) === '-0' &&
-                    stringValue[2] !== '.')
+                !ignoreZeroStart &&
+                ((stringValue.length > 1 && stringValue[0] === '0' && stringValue[1] !== '.') ||
+                    (stringValue.length > 2 &&
+                        stringValue.substring(0, 2) === '-0' &&
+                        stringValue[2] !== '.'))
             ) {
                 return ErrorMessages.ZERO_START;
             }

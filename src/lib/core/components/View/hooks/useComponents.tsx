@@ -6,13 +6,18 @@ import {isValidElementType} from 'react-is';
 import {isCorrectSpec} from '../../../helpers';
 import {FormValue, Spec} from '../../../types';
 import {isCorrectViewConfig} from '../helpers';
-import {IndependentViewEntity, ViewEntity, ViewLayoutType, ViewTypeConfig} from '../types';
+import {
+    DynamicViewConfig,
+    IndependentViewEntity,
+    ViewEntity,
+    ViewLayoutType,
+    ViewTypeConfig,
+} from '../types';
 
-import {useDynamicFormsCtx} from './';
-
-export const useComponents = <Value extends FormValue, SpecType extends Spec>(spec: SpecType) => {
-    const {config} = useDynamicFormsCtx();
-
+export const useComponents = <Value extends FormValue, SpecType extends Spec>(
+    spec: SpecType,
+    config: DynamicViewConfig,
+) => {
     const {views, layouts}: ViewTypeConfig<Value, SpecType> | Record<string, undefined> =
         React.useMemo(() => {
             if (isCorrectViewConfig(config) && isCorrectSpec(spec)) {
