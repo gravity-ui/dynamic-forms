@@ -9,3 +9,4 @@ export * from './OneOfCardView';
 export * from './OneOfView';
 export * from './TableArrayView';
 export * from './TextAreaView';
+export * from './TextLinkView';

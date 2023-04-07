@@ -163,11 +163,13 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
 
     const getRowClassNames = React.useCallback(
         ({key}: {key: string}) => {
-            const searchResult = isHiddenField(`${name}.<${key}>`);
+            const searchResult = spec.viewSpec.table?.every(({property}) =>
+                isHiddenField(`${name}.<${key}>.${property}`),
+            );
 
             return [b('row', {hidden: searchResult})];
         },
-        [isHiddenField, name],
+        [isHiddenField, name, spec.viewSpec.table],
     );
 
     if (!columns) {

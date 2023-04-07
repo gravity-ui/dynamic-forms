@@ -10,6 +10,8 @@ import {
     prepareSpec,
 } from '../../../lib';
 
+import {DynLink} from './DynLink';
+
 export interface DynamicViewProps {
     value: AnyObject;
     spec: Spec;
@@ -21,5 +23,6 @@ export const DynamicView: React.FC<DynamicViewProps> = ({value, spec}) => (
         spec={prepareSpec(spec)}
         config={dynamicViewConfig}
         Monaco={MonacoEditor}
+        Link={DynLink}
     />
 );

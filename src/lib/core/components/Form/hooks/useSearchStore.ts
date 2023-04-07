@@ -31,6 +31,10 @@ export const useSearchStore = () => {
                 }
             }
 
+            if (_.isUndefined(selfFlag)) {
+                return false;
+            }
+
             return true;
         },
         [store],

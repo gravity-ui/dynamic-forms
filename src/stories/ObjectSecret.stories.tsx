@@ -24,16 +24,7 @@ const baseSpec: ObjectSpec = {
     },
 };
 
-const excludeOptions = [
-    'description',
-    'viewSpec.disabled',
-    'viewSpec.type',
-    'viewSpec.layout',
-    'viewSpec.layoutTitle',
-    'viewSpec.layoutDescription',
-    'viewSpec.layoutOpen',
-    'viewSpec.order',
-];
+const excludeOptions = ['description', 'validator', 'viewSpec'];
 
 const template = (spec: ObjectSpec = baseSpec) => {
     const Template: ComponentStory<typeof SecretBase> = (__, {viewMode}) => (

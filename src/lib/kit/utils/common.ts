@@ -1,4 +1,3 @@
-import {ARRAY_ERROR, ValidationErrors} from 'final-form';
 import _ from 'lodash';
 
 import {
@@ -14,32 +13,6 @@ import {
 import {isFloat} from '../validators/helpers';
 
 import {divide} from './bigIntMath';
-
-export const getChildError = (name: string, errors?: ValidationErrors, head?: boolean): boolean => {
-    const error = _.get(errors, name);
-
-    if (!head && (error as unknown as {[ARRAY_ERROR]?: string} | undefined)?.[ARRAY_ERROR]) {
-        return true;
-    } else if (_.isArray(error)) {
-        return error.some((itemError, idx) => {
-            if (_.isArray(itemError) || _.isObjectLike(itemError)) {
-                return getChildError(`${name}[${idx}]`, errors);
-            }
-
-            return Boolean(itemError);
-        });
-    } else if (_.isObjectLike(error)) {
-        return Object.keys(error as object).some((key) => {
-            if (_.isArray(error[key]) || _.isObjectLike(error[key])) {
-                return getChildError(`${name}.${key}`, errors);
-            }
-
-            return Boolean(error[key]);
-        });
-    }
-
-    return false;
-};
 
 export const isNotEmptyValue = (value: FormValue | undefined, spec: Spec | undefined): boolean => {
     if (_.isNil(value)) {

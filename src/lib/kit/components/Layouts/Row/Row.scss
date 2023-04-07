@@ -17,13 +17,16 @@
 
     &__left {
         width: 180px;
+        min-height: 28px;
         display: flex;
+        margin-bottom: auto;
         flex-direction: column;
         flex-shrink: 0;
 
         &-inner {
-            min-height: 28px;
-            display: flex;
+            display: inline;
+            margin-top: auto;
+            margin-bottom: auto;
         }
 
         &::after {
@@ -34,20 +37,30 @@
     }
 
     &__title {
-        align-self: center;
+        word-break: break-word;
+        margin-right: 3px;
+
+        &_required {
+            &::after {
+                content: '*';
+                color: var(--yc-color-text-danger);
+            }
+        }
     }
 
     &__note {
-        height: 28px;
-        display: flex;
-        align-items: center;
-        margin-left: 5px;
+        padding-right: 16px;
 
-        .yc-help-popover {
-            display: flex;
+        &-inner {
+            position: absolute;
+            margin-top: 1px;
 
-            & > span {
+            .yc-help-popover {
                 display: flex;
+
+                & > span {
+                    display: flex;
+                }
             }
         }
     }
@@ -74,7 +87,6 @@
     }
 
     &__required-mark {
-        margin-left: 2px;
         color: var(--yc-color-text-danger);
     }
 }
