@@ -42,5 +42,7 @@
   "label_error-zero-start": "Значение не должно начинаться с нуля",
   "label_error-dot-end": "Значение не должно заканчиваться точкой",
   "label_delete": "Удалить",
-  "button_cancel": "Закрыть"
+  "button_cancel": "Закрыть",
+  "button-upload_file": "Загрузить файл",
+  "label-file-downloaded": "Файл загружен"
 }

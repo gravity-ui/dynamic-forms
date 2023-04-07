@@ -5,3 +5,9 @@ export enum SpecTypes {
     Object = 'object',
     String = 'string',
 }
+
+export type ReadAsMethod =
+    | 'readAsArrayBuffer'
+    | 'readAsBinaryString'
+    | 'readAsDataURL'
+    | 'readAsText';

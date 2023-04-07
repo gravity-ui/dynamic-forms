@@ -1,6 +1,6 @@
 import {LabelProps} from '@gravity-ui/uikit';
 
-import {SpecTypes} from '../constants';
+import {ReadAsMethod, SpecTypes} from '../constants';
 
 import {ArrayValue, ObjectValue} from './';
 
@@ -118,6 +118,10 @@ export interface StringSpec<LinkType = any> {
         hideValues?: string[];
         placeholder?: string;
         themeLabel?: LabelProps['theme'];
+        fileInput?: {
+            accept?: string;
+            readAsMethod?: ReadAsMethod;
+        };
     };
 }
 
