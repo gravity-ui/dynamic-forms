@@ -32,6 +32,7 @@ const excludeOptions = [
     'viewSpec.sizeParams',
     'viewSpec.placeholder',
     'viewSpec.themeLabel',
+    'viewSpec.fileInput',
 ];
 
 const template = (spec: StringSpec = baseSpec) => {

@@ -1,7 +1,7 @@
 @import '../../../styles/variables.scss';
 
 .#{$ns}file-input {
-    display: inline-block;
+    display: flex;
 
     &__input {
         opacity: 0;
@@ -13,7 +13,12 @@
     }
 
     &__file-name {
+        display: block;
         margin: auto 10px;
+        max-width: 160px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
         color: var(--yc-color-text-secondary);
     }
 }

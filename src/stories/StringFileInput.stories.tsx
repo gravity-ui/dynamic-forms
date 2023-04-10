@@ -30,6 +30,8 @@ const excludeOptions = [
     'viewSpec.sizeParams',
     'viewSpec.monacoParams',
     'viewSpec.themeLabel',
+    'viewSpec.placeholder',
+    'viewSpec.layoutOpen',
 ];
 
 const template = (spec: StringSpec = baseSpec) => {

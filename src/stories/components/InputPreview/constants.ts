@@ -288,6 +288,26 @@ const order: ArraySpec = {
     viewSpec: {type: 'base', layout: 'accordeon', layoutTitle: 'Order'},
 };
 
+const fileInput: ObjectSpec = {
+    type: SpecTypes.Object,
+    properties: {
+        accept: {
+            type: SpecTypes.String,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Accept'},
+        },
+        readAsMethod: {
+            type: SpecTypes.String,
+            enum: ['―', 'readAsArrayBuffer', 'readAsBinaryString', 'readAsDataURL', 'readAsText'],
+            viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Read As Method'},
+        },
+    },
+    viewSpec: {
+        type: 'base',
+        layout: 'accordeon',
+        layoutTitle: 'File Input',
+    },
+};
+
 export const getArrayOptions = (): ObjectSpec => ({
     type: SpecTypes.Object,
     required: true,
@@ -465,6 +485,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 monacoParams,
                 placeholder,
                 themeLabel,
+                fileInput,
             },
             [
                 'disabled',
@@ -477,6 +498,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 'monacoParams',
                 'placeholder',
                 'themeLabel',
+                'fileInput',
             ],
         ),
     },

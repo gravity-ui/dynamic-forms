@@ -62,7 +62,7 @@ export const FileInput: React.FC<StringInputProps> = ({input, spec}) => {
                 accept={spec.viewSpec.fileInput?.accept}
             />
             <span className={b('file-name')}>
-                {fileName || value ? fileName || i18n('label-file-downloaded') : null}
+                {fileName || value ? fileName || i18n('label-data_loaded') : null}
             </span>
             {fileName || value ? (
                 <Button view="flat" onClick={handleReset} disabled={spec.viewSpec.disabled}>
