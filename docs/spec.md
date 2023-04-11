@@ -128,6 +128,14 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | language | `string` |   yes    | Syntax highlighting language |
 | fontSize | `string` |          | Font size                    |
 
+#### FileInput
+
+| Property     | Type                                                                          | Required | Description                                                                            |
+| :----------- | :---------------------------------------------------------------------------- | :------: | :------------------------------------------------------------------------------------- |
+| accept       | `string`                                                                      |          | Acceptable file extensions, for example: `'.png'`, `'audio/\*'`, `'.jpg, .jpeg, .png'` |
+| readAsMethod | `'readAsArrayBuffer'` `'readAsBinaryString'` `'readAsDataURL'` `'readAsText'` |          | File reading method                                                                    |
+| ignoreText   | `boolean`                                                                     |          | For `true`, will show the `File uploaded` stub instead of the field value              |
+
 #### Link
 
 A component that serves as a wrapper for the value, if necessary, rendering the value as a link.
@@ -138,11 +146,3 @@ type Link = React.ComponentType<{
   link: Spec['viewSpec']['link'];
 }>;
 ```
-
-#### FileInput
-
-| Property     | Type                                                                       | Required | Description                                                                                                                                 |
-| :----------- | :------------------------------------------------------------------------- | :------: | :------------------------------------------------------------------------------------------------------------------------------------------ |
-| accept       | `string`                                                                   |          | Takes as its value a comma-separated list of one or more file types or unique file type specifiers describing which file types are allowed. |
-| readAsMethod | `'readAsArrayBuffer'  'readAsBinaryString'  'readAsDataURL'  'readAsText'` |          | File read method                                                                                                                            |
-| ignoreText   | `boolean`                                                                  |          | Ignore text                                                                                                                                 |
