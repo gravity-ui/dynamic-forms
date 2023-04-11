@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Xmark} from '@gravity-ui/icons';
-import {Button, Icon} from '@gravity-ui/uikit';
+import {Button, Icon, Label} from '@gravity-ui/uikit';
 
 import {StringInputProps} from '../../../../core';
 import i18n from '../../../../kit/i18n';
@@ -17,7 +17,8 @@ export const FileInput: React.FC<StringInputProps> = ({input, spec}) => {
     const {value, onChange} = input;
 
     const inputRef = React.useRef<HTMLInputElement>(null);
-    const [fileName, setFileName] = React.useState<string | null>('');
+
+    const [fileName, setFileName] = React.useState<string>('');
 
     const handleClick = React.useCallback(() => {
         inputRef.current?.click();
@@ -41,12 +42,26 @@ export const FileInput: React.FC<StringInputProps> = ({input, spec}) => {
                 setFileName(file[0].name);
                 const data = (await handleDownload(file[0])) as string;
                 onChange(data);
-            } else {
-                handleReset();
             }
         },
-        [handleDownload, handleReset, onChange],
+        [handleDownload, onChange],
     );
+
+    const fileNameContent = React.useMemo(() => {
+        if (value) {
+            if (fileName) {
+                return <React.Fragment>{fileName}</React.Fragment>;
+            }
+
+            return (
+                <Label size="m" theme="info">
+                    {i18n('label-data_loaded')}
+                </Label>
+            );
+        }
+
+        return null;
+    }, [fileName, value]);
 
     return (
         <div className={b()}>
@@ -63,10 +78,8 @@ export const FileInput: React.FC<StringInputProps> = ({input, spec}) => {
                 tabIndex={-1}
                 accept={spec.viewSpec.fileInput?.accept}
             />
-            <span className={b('file-name')}>
-                {fileName || value ? fileName || i18n('label-data_loaded') : null}
-            </span>
-            {fileName || value ? (
+            <span className={b('file-name')}>{fileNameContent}</span>
+            {value ? (
                 <Button view="flat" onClick={handleReset} disabled={spec.viewSpec.disabled}>
                     <Icon data={Xmark} size={16} />
                 </Button>
