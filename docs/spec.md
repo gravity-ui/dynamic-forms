@@ -111,6 +111,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.monacoParams      | `object`                                                           |          | [Parameters](#monacoparams) that must be passed to Monaco editor                                                                                                                        |
 | viewSpec.placeholder       | `string`                                                           |          | A short hint displayed in the field before the user enters the value                                                                                                                    |
 | viewSpec.themeLabel        | `'normal'` `'info'` `'danger'` `'warning'` `'success'` `'unknown'` |          | Label color                                                                                                                                                                             |
+| viewSpec.fileInput         | `object`                                                           |          | [Parameters](#FileInput) that must be passed to file input                                                                                                                              |
 
 #### SizeParams
 
@@ -126,6 +127,14 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | :------- | :------- | :------: | :--------------------------- |
 | language | `string` |   yes    | Syntax highlighting language |
 | fontSize | `string` |          | Font size                    |
+
+#### FileInput
+
+| Property     | Type                                                                          | Required | Description                                                                            |
+| :----------- | :---------------------------------------------------------------------------- | :------: | :------------------------------------------------------------------------------------- |
+| accept       | `string`                                                                      |          | Acceptable file extensions, for example: `'.png'`, `'audio/\*'`, `'.jpg, .jpeg, .png'` |
+| readAsMethod | `'readAsArrayBuffer'` `'readAsBinaryString'` `'readAsDataURL'` `'readAsText'` |          | File reading method                                                                    |
+| ignoreText   | `boolean`                                                                     |          | For `true`, will show the `File uploaded` stub instead of the field value              |
 
 #### Link
 

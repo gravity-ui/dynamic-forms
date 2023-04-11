@@ -1,6 +1,7 @@
 export * from './ArrayBaseView';
 export * from './BaseView';
 export * from './CardOneOfView';
+export * from './FileInputView';
 export * from './MonacoInputView';
 export * from './MultiSelectView';
 export * from './NumberWithScaleView';

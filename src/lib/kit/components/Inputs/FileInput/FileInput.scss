@@ -1,0 +1,24 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}file-input {
+    display: flex;
+
+    &__input {
+        opacity: 0;
+        position: absolute;
+        clip: rect(0 0 0 0);
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+    }
+
+    &__file-name {
+        display: block;
+        margin: auto 10px;
+        max-width: 160px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        color: var(--yc-color-text-secondary);
+    }
+}

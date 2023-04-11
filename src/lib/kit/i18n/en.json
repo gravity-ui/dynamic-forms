@@ -42,5 +42,7 @@
   "label_error-zero-start": "Value must not start with a zero",
   "label_error-dot-end": "Value must not end with a dot",
   "label_delete": "Delete",
-  "button_cancel": "Close"
+  "button_cancel": "Close",
+  "button-upload_file": "Upload file",
+  "label-data_loaded": "Data uploaded"
 }
