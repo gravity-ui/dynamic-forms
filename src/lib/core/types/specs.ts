@@ -121,6 +121,7 @@ export interface StringSpec<LinkType = any> {
         fileInput?: {
             accept?: string;
             readAsMethod?: ReadAsMethod;
+            ignoreText?: boolean;
         };
     };
 }

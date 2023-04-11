@@ -300,6 +300,14 @@ const fileInput: ObjectSpec = {
             enum: ['―', 'readAsArrayBuffer', 'readAsBinaryString', 'readAsDataURL', 'readAsText'],
             viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Read As Method'},
         },
+        ignoreText: {
+            type: SpecTypes.Boolean,
+            viewSpec: {
+                type: 'base',
+                layout: 'row',
+                layoutTitle: 'Ignore text',
+            },
+        },
     },
     viewSpec: {
         type: 'base',
