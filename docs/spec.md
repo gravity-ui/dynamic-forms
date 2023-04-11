@@ -111,6 +111,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.monacoParams      | `object`                                                           |          | [Parameters](#monacoparams) that must be passed to Monaco editor                                                                                                                        |
 | viewSpec.placeholder       | `string`                                                           |          | A short hint displayed in the field before the user enters the value                                                                                                                    |
 | viewSpec.themeLabel        | `'normal'` `'info'` `'danger'` `'warning'` `'success'` `'unknown'` |          | Label color                                                                                                                                                                             |
+| viewSpec.fileInput         | `object`                                                           |          | [Parameters](#FileInput) that must be passed to file input                                                                                                                              |
 
 #### SizeParams
 
@@ -137,3 +138,10 @@ type Link = React.ComponentType<{
   link: Spec['viewSpec']['link'];
 }>;
 ```
+
+#### FileInput
+
+| Property     | Type                                                                       | Required | Description                                                                                                                                 |
+| :----------- | :------------------------------------------------------------------------- | :------: | :------------------------------------------------------------------------------------------------------------------------------------------ |
+| accept       | `string`                                                                   |          | Takes as its value a comma-separated list of one or more file types or unique file type specifiers describing which file types are allowed. |
+| readAsMethod | `'readAsArrayBuffer'  'readAsBinaryString'  'readAsDataURL'  'readAsText'` |          | File read method                                                                                                                            |

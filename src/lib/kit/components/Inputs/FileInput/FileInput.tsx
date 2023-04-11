@@ -3,9 +3,11 @@ import React from 'react';
 import {Xmark} from '@gravity-ui/icons';
 import {Button, Icon} from '@gravity-ui/uikit';
 
-import {ReadAsMethod, StringInputProps} from '../../../../core';
+import {StringInputProps} from '../../../../core';
 import i18n from '../../../../kit/i18n';
 import {block} from '../../../utils';
+
+import {readFile} from './utils';
 
 import './FileInput.scss';
 
@@ -72,22 +74,3 @@ export const FileInput: React.FC<StringInputProps> = ({input, spec}) => {
         </div>
     );
 };
-
-export function readFile(
-    file: Blob,
-    readAsMethod: ReadAsMethod = 'readAsBinaryString',
-): Promise<string | ArrayBuffer | null> {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-
-        if (typeof reader[readAsMethod] !== 'function') {
-            reject(new Error(`Unknown parameter: ${readAsMethod}`));
-            return;
-        }
-
-        reader.addEventListener('load', () => resolve(reader.result));
-        reader.addEventListener('error', () => reject(reader.error));
-
-        reader[readAsMethod](file);
-    });
-}
