@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.3.0...v1.4.0) (2023-04-11)
+
+
+### Features
+
+* **FileInput:** added new input file input ([#24](https://github.com/gravity-ui/dynamic-forms/issues/24)) ([1553318](https://github.com/gravity-ui/dynamic-forms/commit/155331839e50ab4192b69ba32992e37b972378c4))
+
 ## [1.3.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.2.0...v1.3.0) (2023-03-31)
 
 
