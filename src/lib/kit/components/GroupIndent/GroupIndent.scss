@@ -1,21 +1,20 @@
 @import '../../styles/variables';
 
 .#{$ns}group-indent {
-    & > .#{$ns}simple-vertical-accordeon_view {
-        margin-top: -10px;
-    }
-
     & > .#{$ns}use-search {
+        padding-top: 11px;
         padding-left: $normalOffset;
         margin-top: -11px;
         margin-bottom: 20px;
         margin-left: 5px;
-        padding-top: 11px;
-        min-height: -10px;
         border-left: 1px solid var(--yc-color-line-generic-accent);
 
         &:empty {
             display: none;
         }
+    }
+
+    & > .#{$ns}simple-vertical-accordeon_view {
+        margin-top: -10px;
     }
 }
