@@ -4,16 +4,6 @@
     display: flex;
     flex-direction: column-reverse;
 
-    &:last-child {
-        & > .#{$ns}group-indent {
-            margin-bottom: 0;
-
-            &:empty + .#{$ns}oneof__toggler {
-                margin-bottom: 0;
-            }
-        }
-    }
-
     &__toggler {
         margin-bottom: 15px;
     }
