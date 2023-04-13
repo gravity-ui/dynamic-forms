@@ -36,7 +36,7 @@ export const OneOf: ObjectIndependentInput = (props) => {
     return (
         <div className={b()}>
             {specProperties[oneOfValue] ? (
-                <GroupIndent oneof={true}>
+                <GroupIndent>
                     <Controller
                         initialValue={props.input.value?.[oneOfValue]}
                         spec={specProperties[oneOfValue]}

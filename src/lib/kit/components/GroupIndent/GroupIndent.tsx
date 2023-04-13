@@ -8,9 +8,8 @@ const b = block('group-indent');
 
 export interface GroupIndentProps {
     children: React.ReactNode;
-    oneof?: boolean;
 }
 
-export const GroupIndent: React.FC<GroupIndentProps> = ({children, oneof}) => (
-    <div className={b({oneof})}>{children}</div>
+export const GroupIndent: React.FC<GroupIndentProps> = ({children}) => (
+    <div className={b()}>{children}</div>
 );
