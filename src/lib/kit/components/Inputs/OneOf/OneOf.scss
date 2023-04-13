@@ -17,4 +17,21 @@
     &__toggler {
         margin-bottom: 15px;
     }
+
+    .#{$ns}group-indent {
+        all: unset;
+
+        & > .#{$ns}use-search {
+            padding-top: 11px;
+            padding-left: $normalOffset;
+            margin-top: -11px;
+            margin-bottom: 20px;
+            margin-left: 5px;
+            border-left: 1px solid var(--yc-color-line-generic-accent);
+
+            &:empty {
+                display: none;
+            }
+        }
+    }
 }
