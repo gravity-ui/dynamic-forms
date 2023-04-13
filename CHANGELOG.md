@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/gravity-ui/dynamic-forms/compare/v1.4.0...v1.4.1) (2023-04-13)
+
+
+### Bug Fixes
+
+* **GroupIndent:** fixed styles ([#26](https://github.com/gravity-ui/dynamic-forms/issues/26)) ([ca3e845](https://github.com/gravity-ui/dynamic-forms/commit/ca3e845169c8f68036744fba13de79879421a806))
+
 ## [1.4.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.3.0...v1.4.0) (2023-04-11)
 
 
