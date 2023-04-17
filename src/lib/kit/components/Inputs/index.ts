@@ -4,6 +4,7 @@ export * from './Checkbox';
 export * from './FileInput';
 export * from './MultiSelect';
 export * from './ObjectBase';
+export * from './ObjectValue';
 export * from './OneOf';
 export * from './OneOfCard';
 export * from './Secret';

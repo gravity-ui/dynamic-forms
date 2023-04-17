@@ -2,48 +2,42 @@ import React from 'react';
 
 import {ComponentStory} from '@storybook/react';
 
-import {ObjectSpec, SpecTypes, TextLink as TextLinkBase} from '../lib';
+import {ObjectSpec, SpecTypes} from '../lib';
+import {ObjectValue as ObjectValueBase} from '../lib/kit';
 
 import {InputPreview} from './components';
 
 export default {
-    title: 'Object/TextLink',
-    component: TextLinkBase,
+    title: 'Object/ObjectValue',
+    component: ObjectValueBase,
 };
 
 const baseSpec: ObjectSpec = {
     type: SpecTypes.Object,
     properties: {
-        text: {
+        value: {
             type: SpecTypes.String,
             viewSpec: {
                 type: 'base',
                 layout: 'row',
-                layoutTitle: 'Text Link',
+                layoutTitle: 'Value',
                 placeholder: 'placeholder text',
             },
         },
     },
     viewSpec: {
-        type: 'text_link',
+        type: 'object_value',
     },
 };
-
-const value = {link: 'https://gravity-ui.com'};
 
 const excludeOptions = ['description', 'validator', 'viewSpec', 'required'];
 
 const template = (spec: ObjectSpec = baseSpec) => {
-    const Template: ComponentStory<typeof TextLinkBase> = (__, {viewMode}) => (
-        <InputPreview
-            spec={spec}
-            excludeOptions={excludeOptions}
-            value={value}
-            viewMode={viewMode}
-        />
+    const Template: ComponentStory<typeof ObjectValueBase> = (__, {viewMode}) => (
+        <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
     );
 
     return Template;
 };
 
-export const TextLink = template();
+export const ObjectValue = template();

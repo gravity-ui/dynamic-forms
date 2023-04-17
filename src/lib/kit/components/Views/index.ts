@@ -6,6 +6,7 @@ export * from './MonacoInputView';
 export * from './MultiSelectView';
 export * from './NumberWithScaleView';
 export * from './ObjectBaseView';
+export * from './ObjectValueView';
 export * from './OneOfCardView';
 export * from './OneOfView';
 export * from './TableArrayView';
