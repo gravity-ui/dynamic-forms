@@ -1,7 +1,5 @@
 import React from 'react';
 
-import _ from 'lodash';
-
 import {ObjectIndependentView, ViewController} from '../../../../core';
 
 const OBJECT_VALUE_PROPERTY_NAME = 'value';
