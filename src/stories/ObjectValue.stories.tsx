@@ -20,7 +20,6 @@ const baseSpec: ObjectSpec = {
                 type: 'base',
                 layout: 'row',
                 layoutTitle: 'Value',
-                placeholder: 'placeholder text',
             },
         },
     },
