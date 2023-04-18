@@ -2,14 +2,13 @@ import React from 'react';
 
 import {ComponentStory} from '@storybook/react';
 
-import {ObjectSpec, SpecTypes} from '../lib';
-import {ObjectValue as ObjectValueBase} from '../lib/kit';
+import {ObjectSpec, ObjectValueInput as ObjectValueInputBase, SpecTypes} from '../lib';
 
 import {InputPreview} from './components';
 
 export default {
     title: 'Object/ObjectValue',
-    component: ObjectValueBase,
+    component: ObjectValueInputBase,
 };
 
 const baseSpec: ObjectSpec = {
@@ -33,7 +32,7 @@ const baseSpec: ObjectSpec = {
 const excludeOptions = ['description', 'validator', 'viewSpec', 'required'];
 
 const template = (spec: ObjectSpec = baseSpec) => {
-    const Template: ComponentStory<typeof ObjectValueBase> = (__, {viewMode}) => (
+    const Template: ComponentStory<typeof ObjectValueInputBase> = (__, {viewMode}) => (
         <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
     );
 

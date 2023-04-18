@@ -6,7 +6,7 @@ import {Controller, FieldValue, ObjectIndependentInput, ValidateError} from '../
 
 const OBJECT_VALUE_PROPERTY_NAME = 'value';
 
-export const ObjectValue: ObjectIndependentInput = ({spec, input, name}) => {
+export const ObjectValueInput: ObjectIndependentInput = ({spec, input, name}) => {
     const parentOnChange = React.useCallback(
         (childName: string, childValue: FieldValue, childErrors?: Record<string, ValidateError>) =>
             input.onChange(
