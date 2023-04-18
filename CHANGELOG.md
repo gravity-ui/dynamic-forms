@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.4.1...v1.5.0) (2023-04-18)
+
+
+### Features
+
+* **ObjectValue:** added new input object value ([#28](https://github.com/gravity-ui/dynamic-forms/issues/28)) ([67214a1](https://github.com/gravity-ui/dynamic-forms/commit/67214a13f5ed67dd46071caf0d0ad0bee1a4d071))
+
 ## [1.4.1](https://github.com/gravity-ui/dynamic-forms/compare/v1.4.0...v1.4.1) (2023-04-13)
 
 
