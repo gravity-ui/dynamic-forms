@@ -24,6 +24,8 @@ import {
     NumberWithScaleView,
     ObjectBase,
     ObjectBaseView,
+    ObjectValueInput,
+    ObjectValueInputView,
     OneOf,
     OneOfCard,
     OneOfCardView,
@@ -130,6 +132,7 @@ export const dynamicConfig: DynamicFormConfig = {
             secret: {Component: Secret, independent: true},
             base: {Component: ObjectBase, independent: true},
             text_link: {Component: TextLink, independent: true},
+            object_value: {Component: ObjectValueInput, independent: true},
         },
         layouts: {
             row: Row,
@@ -228,6 +231,7 @@ export const dynamicCardConfig: DynamicFormConfig = {
             secret: {Component: Secret, independent: true},
             base: {Component: ObjectBase, independent: true},
             text_link: {Component: TextLink, independent: true},
+            object_value: {Component: ObjectValueInput, independent: true},
         },
         layouts: {
             row: Row2,
@@ -315,6 +319,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
             secret: undefined,
             base: {Component: ObjectBaseView, independent: true},
             text_link: {Component: TextLinkView, independent: true},
+            object_value: {Component: ObjectValueInputView, independent: true},
         },
         layouts: {
             row: ViewRow,
@@ -395,6 +400,7 @@ export const dynamicViewCardConfig: DynamicViewConfig = {
             secret: undefined,
             base: {Component: ObjectBaseView, independent: true},
             text_link: {Component: TextLinkView, independent: true},
+            object_value: {Component: ObjectValueInputView, independent: true},
         },
         layouts: {
             row: ViewRow2,
