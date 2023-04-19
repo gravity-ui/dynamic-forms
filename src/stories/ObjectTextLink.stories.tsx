@@ -18,20 +18,20 @@ const baseSpec: ObjectSpec = {
             type: SpecTypes.String,
             viewSpec: {
                 type: 'base',
-                layout: 'row',
-                layoutTitle: 'Text Link',
                 placeholder: 'placeholder text',
             },
         },
     },
     viewSpec: {
         type: 'text_link',
+        layout: 'row',
+        layoutTitle: 'Text Link',
     },
 };
 
 const value = {link: 'https://gravity-ui.com'};
 
-const excludeOptions = ['description', 'validator', 'viewSpec', 'required'];
+const excludeOptions = ['description', 'validator', 'viewSpec.type', 'viewSpec.order'];
 
 const template = (spec: ObjectSpec = baseSpec) => {
     const Template: ComponentStory<typeof TextLinkBase> = (__, {viewMode}) => (
