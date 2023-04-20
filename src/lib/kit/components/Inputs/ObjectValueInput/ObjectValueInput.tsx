@@ -19,13 +19,7 @@ export const ObjectValueInput: ObjectIndependentInput = (props) => {
         (childName: string, childValue: FieldValue, childErrors?: Record<string, ValidateError>) =>
             input.onChange(
                 (currentValue) =>
-                    _.set(
-                        {...currentValue},
-                        childName.split(`${name}.`).join(''),
-                        _.isNil(childValue) || _.isUndefined(childValue) || childValue === ''
-                            ? null
-                            : childValue,
-                    ),
+                    _.set({...currentValue}, childName.split(`${name}.`).join(''), childValue),
                 childErrors,
             ),
         [input.onChange, input.name],
