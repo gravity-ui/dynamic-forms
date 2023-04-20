@@ -16,11 +16,13 @@ const baseSpec: ObjectSpec = {
     properties: {
         raw: {
             type: SpecTypes.String,
-            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Secret'},
+            viewSpec: {type: 'base'},
         },
     },
     viewSpec: {
         type: 'secret',
+        layout: 'row',
+        layoutTitle: 'Secret',
     },
 };
 
