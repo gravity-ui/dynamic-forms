@@ -6,7 +6,6 @@ import {
     Controller,
     FieldValue,
     ObjectIndependentInput,
-    Spec,
     ValidateError,
     isStringSpec,
 } from '../../../../core';
@@ -31,19 +30,30 @@ export const TextLink: ObjectIndependentInput = (props) => {
         [input.onChange],
     );
 
-    const specProperties = {...spec.properties};
+    const valueSpec = React.useMemo(
+        () =>
+            spec.properties &&
+            spec.properties[TEXT_LINK_PROPERTY_NAME] &&
+            isStringSpec(spec.properties[TEXT_LINK_PROPERTY_NAME])
+                ? {
+                      ...spec.properties[TEXT_LINK_PROPERTY_NAME],
+                      viewSpec: {
+                          ...spec.properties[TEXT_LINK_PROPERTY_NAME].viewSpec,
+                          layout: undefined,
+                      },
+                  }
+                : undefined,
+        [spec.properties],
+    );
 
-    if (
-        !specProperties[TEXT_LINK_PROPERTY_NAME] ||
-        !isStringSpec(specProperties[TEXT_LINK_PROPERTY_NAME])
-    ) {
+    if (!valueSpec) {
         return null;
     }
 
     const content = (
         <Controller
             initialValue={input.value?.[TEXT_LINK_PROPERTY_NAME]}
-            spec={_.omit(specProperties[TEXT_LINK_PROPERTY_NAME], ['viewSpec.layout']) as Spec}
+            spec={valueSpec}
             name={`${name}.${TEXT_LINK_PROPERTY_NAME}`}
             key={`${name}.${TEXT_LINK_PROPERTY_NAME}`}
             parentOnChange={parentOnChange}

@@ -24,9 +24,10 @@ export const TextLinkView: ObjectIndependentView = ({value, spec, name, Layout, 
         [specProperties, value?.link],
     );
 
-    const content = preparedSpec ? (
-        <ViewController spec={preparedSpec} name={`${name}.${TEXT_LINK_PROPERTY_NAME}`} />
-    ) : null;
+    const content =
+        preparedSpec && value?.text ? (
+            <ViewController spec={preparedSpec} name={`${name}.${TEXT_LINK_PROPERTY_NAME}`} />
+        ) : null;
 
     if (Layout && content) {
         return (

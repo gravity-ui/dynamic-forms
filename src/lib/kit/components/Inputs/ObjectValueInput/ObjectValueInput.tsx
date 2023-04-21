@@ -2,13 +2,7 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import {
-    Controller,
-    FieldValue,
-    ObjectIndependentInput,
-    Spec,
-    ValidateError,
-} from '../../../../core';
+import {Controller, FieldValue, ObjectIndependentInput, ValidateError} from '../../../../core';
 
 const OBJECT_VALUE_PROPERTY_NAME = 'value';
 
@@ -30,20 +24,28 @@ export const ObjectValueInput: ObjectIndependentInput = (props) => {
         [input.onChange],
     );
 
-    const specValue = spec.properties ? spec.properties[OBJECT_VALUE_PROPERTY_NAME] : undefined;
+    const valueSpec = React.useMemo(
+        () =>
+            spec.properties && spec.properties[OBJECT_VALUE_PROPERTY_NAME]
+                ? {
+                      ...spec.properties[OBJECT_VALUE_PROPERTY_NAME],
+                      viewSpec: {
+                          ...spec.properties[OBJECT_VALUE_PROPERTY_NAME].viewSpec,
+                          layout: undefined,
+                      },
+                  }
+                : undefined,
+        [spec.properties],
+    );
 
-    if (!specValue) {
+    if (!valueSpec) {
         return null;
     }
 
     const content = (
         <Controller
-            initialValue={
-                _.isNil(input.value?.[OBJECT_VALUE_PROPERTY_NAME])
-                    ? undefined
-                    : input.value?.[OBJECT_VALUE_PROPERTY_NAME]
-            }
-            spec={_.omit(specValue, ['viewSpec.layout']) as Spec}
+            initialValue={input.value?.[OBJECT_VALUE_PROPERTY_NAME]}
+            spec={valueSpec}
             name={`${name}.${OBJECT_VALUE_PROPERTY_NAME}`}
             key={`${name}.${OBJECT_VALUE_PROPERTY_NAME}`}
             parentOnChange={parentOnChange}

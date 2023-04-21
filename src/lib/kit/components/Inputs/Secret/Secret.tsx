@@ -19,19 +19,37 @@ export const Secret: ObjectIndependentInput = (props) => {
 
     const specProperties = {...spec.properties} as Record<string, Spec>;
 
-    const _spec: ObjectSpec = {
-        ...spec,
-        viewSpec: {
-            ...spec.viewSpec,
-            layout: spec.viewSpec.layout || specProperties[SECRET_PROPERTY_NAME]?.viewSpec.layout,
-            layoutTitle:
-                spec.viewSpec.layoutTitle ||
-                specProperties[SECRET_PROPERTY_NAME]?.viewSpec.layoutTitle,
-            layoutDescription:
-                spec.viewSpec.layoutDescription ||
-                specProperties[SECRET_PROPERTY_NAME]?.viewSpec.layoutDescription,
-        },
-    };
+    const valueSpec = React.useMemo(
+        () =>
+            specProperties && specProperties[SECRET_PROPERTY_NAME]
+                ? {
+                      ...specProperties[SECRET_PROPERTY_NAME],
+                      viewSpec: {
+                          ...specProperties[SECRET_PROPERTY_NAME].viewSpec,
+                          layout: undefined,
+                      },
+                  }
+                : undefined,
+        [specProperties],
+    );
+
+    const _spec: ObjectSpec = React.useMemo(
+        () => ({
+            ...spec,
+            viewSpec: {
+                ...spec.viewSpec,
+                layout:
+                    spec.viewSpec.layout || specProperties[SECRET_PROPERTY_NAME]?.viewSpec.layout,
+                layoutTitle:
+                    spec.viewSpec.layoutTitle ||
+                    specProperties[SECRET_PROPERTY_NAME]?.viewSpec.layoutTitle,
+                layoutDescription:
+                    spec.viewSpec.layoutDescription ||
+                    specProperties[SECRET_PROPERTY_NAME]?.viewSpec.layoutDescription,
+            },
+        }),
+        [spec, specProperties],
+    );
 
     const {Layout: LayoutChild} = useComponents(_spec);
 
@@ -54,18 +72,14 @@ export const Secret: ObjectIndependentInput = (props) => {
         [input.onChange],
     );
 
-    if (!_.isObjectLike(spec.properties)) {
-        return null;
-    }
-
-    if (!specProperties[SECRET_PROPERTY_NAME]) {
+    if (!valueSpec) {
         return null;
     }
 
     const content = (
         <Controller
             initialValue={input.value?.[SECRET_PROPERTY_NAME]}
-            spec={_.omit(specProperties[SECRET_PROPERTY_NAME], ['viewSpec.layout']) as Spec}
+            spec={valueSpec}
             name={`${name}.${SECRET_PROPERTY_NAME}`}
             parentOnChange={parentOnChange}
             parentOnUnmount={parentOnUnmount}
