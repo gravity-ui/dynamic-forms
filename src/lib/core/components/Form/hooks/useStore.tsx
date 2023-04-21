@@ -3,6 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 import {useForm} from 'react-final-form';
 
+import {isReact18OrMore} from '../../../helpers';
 import {DynamicFieldStore, FieldObjectValue, FieldValue, ValidateError} from '../types';
 import {transformArrIn} from '../utils';
 
@@ -64,6 +65,12 @@ export const useStore = (name: string) => {
 
     React.useEffect(() => {
         firstRenderRef.current = false;
+
+        return () => {
+            if (isReact18OrMore()) {
+                firstRenderRef.current = true;
+            }
+        };
     }, []);
 
     return {tools, store};

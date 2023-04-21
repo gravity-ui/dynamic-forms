@@ -2,7 +2,7 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import {isArraySpec, isObjectSpec} from '../../../helpers';
+import {isArraySpec, isObjectSpec, isReact18OrMore} from '../../../helpers';
 import {Spec} from '../../../types';
 import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG, REMOVED_ITEM} from '../constants';
 import {
@@ -251,6 +251,10 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
         firstRenderRef.current = false;
 
         return () => {
+            if (isReact18OrMore()) {
+                firstRenderRef.current = true;
+            }
+
             (parentOnUnmount ? parentOnUnmount : tools.onUnmount)(name);
         };
     }, []);
