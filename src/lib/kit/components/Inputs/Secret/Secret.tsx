@@ -7,7 +7,6 @@ import {
     FieldValue,
     ObjectIndependentInput,
     ObjectSpec,
-    Spec,
     ValidateError,
 } from '../../../../core';
 import {useComponents} from '../../../../core/components/Form/hooks';
@@ -17,7 +16,7 @@ const SECRET_PROPERTY_NAME = 'raw';
 export const Secret: ObjectIndependentInput = (props) => {
     const {spec, name, input, Layout} = props;
 
-    const specProperties = {...spec.properties} as Record<string, Spec>;
+    const specProperties = {...spec.properties};
 
     const childSpec = React.useMemo(() => {
         if (specProperties[SECRET_PROPERTY_NAME]) {
