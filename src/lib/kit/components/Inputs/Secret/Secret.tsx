@@ -2,25 +2,16 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import {
-    Controller,
-    FieldValue,
-    ObjectIndependentInput,
-    ObjectSpec,
-    ValidateError,
-} from '../../../../core';
-import {useComponents} from '../../../../core/components/Form/hooks';
+import {Controller, FieldValue, ObjectIndependentInput, ValidateError} from '../../../../core';
 
 const SECRET_PROPERTY_NAME = 'raw';
 
 export const Secret: ObjectIndependentInput = (props) => {
     const {spec, name, input, Layout} = props;
 
-    const specProperties = {...spec.properties};
-
     const childSpec = React.useMemo(() => {
-        if (specProperties[SECRET_PROPERTY_NAME]) {
-            const childSpec = _.cloneDeep(specProperties[SECRET_PROPERTY_NAME]);
+        if (spec.properties?.[SECRET_PROPERTY_NAME]) {
+            const childSpec = _.cloneDeep(spec.properties?.[SECRET_PROPERTY_NAME]);
 
             childSpec.viewSpec.layout = '';
 
@@ -28,27 +19,7 @@ export const Secret: ObjectIndependentInput = (props) => {
         }
 
         return undefined;
-    }, [specProperties]);
-
-    const layoutSpec: ObjectSpec = React.useMemo(
-        () => ({
-            ...spec,
-            viewSpec: {
-                ...spec.viewSpec,
-                layout:
-                    spec.viewSpec.layout || specProperties[SECRET_PROPERTY_NAME]?.viewSpec.layout,
-                layoutTitle:
-                    spec.viewSpec.layoutTitle ||
-                    specProperties[SECRET_PROPERTY_NAME]?.viewSpec.layoutTitle,
-                layoutDescription:
-                    spec.viewSpec.layoutDescription ||
-                    specProperties[SECRET_PROPERTY_NAME]?.viewSpec.layoutDescription,
-            },
-        }),
-        [spec, specProperties],
-    );
-
-    const {Layout: LayoutChild} = useComponents(layoutSpec);
+    }, [spec.properties]);
 
     const parentOnChange = React.useCallback(
         (childName: string, childValue: FieldValue, childErrors?: Record<string, ValidateError>) =>
@@ -84,14 +55,8 @@ export const Secret: ObjectIndependentInput = (props) => {
         />
     );
 
-    const LayoutContent = Layout || (LayoutChild as typeof Layout);
-
-    if (LayoutContent) {
-        return (
-            <LayoutContent {...props} spec={layoutSpec} input={input}>
-                {content}
-            </LayoutContent>
-        );
+    if (Layout) {
+        return <Layout {...props}>{content}</Layout>;
     }
 
     return <React.Fragment>{content}</React.Fragment>;
