@@ -31,7 +31,14 @@ const baseSpec: ObjectSpec = {
 
 const value = {link: 'https://gravity-ui.com'};
 
-const excludeOptions = ['description', 'validator', 'viewSpec.type', 'viewSpec.order'];
+const excludeOptions = [
+    'description',
+    'validator',
+    'viewSpec.type',
+    'viewSpec.order',
+    'viewSpec.layoutOpen',
+    'viewSpec.disabled',
+];
 
 const template = (spec: ObjectSpec = baseSpec) => {
     const Template: ComponentStory<typeof TextLinkBase> = (__, {viewMode}) => (

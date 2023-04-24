@@ -19,21 +19,19 @@ export const Secret: ObjectIndependentInput = (props) => {
 
     const specProperties = {...spec.properties} as Record<string, Spec>;
 
-    const valueSpec = React.useMemo(
-        () =>
-            specProperties && specProperties[SECRET_PROPERTY_NAME]
-                ? {
-                      ...specProperties[SECRET_PROPERTY_NAME],
-                      viewSpec: {
-                          ...specProperties[SECRET_PROPERTY_NAME].viewSpec,
-                          layout: undefined,
-                      },
-                  }
-                : undefined,
-        [specProperties],
-    );
+    const childSpec = React.useMemo(() => {
+        if (specProperties[SECRET_PROPERTY_NAME]) {
+            const childSpec = _.cloneDeep(specProperties[SECRET_PROPERTY_NAME]);
 
-    const _spec: ObjectSpec = React.useMemo(
+            childSpec.viewSpec.layout = '';
+
+            return childSpec;
+        }
+
+        return undefined;
+    }, [specProperties]);
+
+    const layoutSpec: ObjectSpec = React.useMemo(
         () => ({
             ...spec,
             viewSpec: {
@@ -51,7 +49,7 @@ export const Secret: ObjectIndependentInput = (props) => {
         [spec, specProperties],
     );
 
-    const {Layout: LayoutChild} = useComponents(_spec);
+    const {Layout: LayoutChild} = useComponents(layoutSpec);
 
     const parentOnChange = React.useCallback(
         (childName: string, childValue: FieldValue, childErrors?: Record<string, ValidateError>) =>
@@ -72,14 +70,14 @@ export const Secret: ObjectIndependentInput = (props) => {
         [input.onChange],
     );
 
-    if (!valueSpec) {
+    if (!childSpec) {
         return null;
     }
 
     const content = (
         <Controller
             initialValue={input.value?.[SECRET_PROPERTY_NAME]}
-            spec={valueSpec}
+            spec={childSpec}
             name={`${name}.${SECRET_PROPERTY_NAME}`}
             parentOnChange={parentOnChange}
             parentOnUnmount={parentOnUnmount}
@@ -91,7 +89,7 @@ export const Secret: ObjectIndependentInput = (props) => {
 
     if (LayoutContent) {
         return (
-            <LayoutContent {...props} spec={_spec} input={input}>
+            <LayoutContent {...props} spec={layoutSpec} input={input}>
                 {content}
             </LayoutContent>
         );

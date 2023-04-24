@@ -2,31 +2,31 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import {ObjectIndependentView, ViewController} from '../../../../core';
+import {ObjectIndependentView, ViewController, isStringSpec} from '../../../../core';
 
 const TEXT_LINK_PROPERTY_NAME = 'text';
 
 export const TextLinkView: ObjectIndependentView = ({value, spec, name, Layout, ...restProps}) => {
-    const specProperties = spec.properties;
+    const childSpec = React.useMemo(() => {
+        if (
+            spec.properties?.[TEXT_LINK_PROPERTY_NAME] &&
+            isStringSpec(spec.properties[TEXT_LINK_PROPERTY_NAME])
+        ) {
+            const childSpec = _.cloneDeep(spec.properties[TEXT_LINK_PROPERTY_NAME]);
 
-    const preparedSpec = React.useMemo(
-        () =>
-            specProperties && specProperties[TEXT_LINK_PROPERTY_NAME]
-                ? {
-                      ...specProperties[TEXT_LINK_PROPERTY_NAME],
-                      viewSpec: {
-                          ...specProperties[TEXT_LINK_PROPERTY_NAME]?.viewSpec,
-                          link: value?.link,
-                          layout: undefined,
-                      },
-                  }
-                : undefined,
-        [specProperties, value?.link],
-    );
+            childSpec.viewSpec.layout = '';
+
+            childSpec.viewSpec.link = value?.link;
+
+            return childSpec;
+        }
+
+        return undefined;
+    }, [spec.properties, value?.link]);
 
     const content =
-        preparedSpec && value?.text ? (
-            <ViewController spec={preparedSpec} name={`${name}.${TEXT_LINK_PROPERTY_NAME}`} />
+        childSpec && value?.text ? (
+            <ViewController spec={childSpec} name={`${name}.${TEXT_LINK_PROPERTY_NAME}`} />
         ) : null;
 
     if (Layout && content) {

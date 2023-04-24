@@ -1,30 +1,30 @@
 import React from 'react';
 
+import _ from 'lodash';
+
 import {ObjectIndependentView, ViewController} from '../../../../core';
 
 const OBJECT_VALUE_PROPERTY_NAME = 'value';
 
 export const ObjectValueInputView: ObjectIndependentView = ({spec, name, Layout, ...restProps}) => {
-    const valueSpec = React.useMemo(
-        () =>
-            spec.properties && spec.properties[OBJECT_VALUE_PROPERTY_NAME]
-                ? {
-                      ...spec.properties[OBJECT_VALUE_PROPERTY_NAME],
-                      viewSpec: {
-                          ...spec.properties[OBJECT_VALUE_PROPERTY_NAME].viewSpec,
-                          layout: undefined,
-                      },
-                  }
-                : undefined,
-        [spec.properties],
-    );
+    const childSpec = React.useMemo(() => {
+        if (spec.properties?.[OBJECT_VALUE_PROPERTY_NAME]) {
+            const childSpec = _.cloneDeep(spec.properties[OBJECT_VALUE_PROPERTY_NAME]);
 
-    if (!valueSpec) {
+            childSpec.viewSpec.layout = '';
+
+            return childSpec;
+        }
+
+        return undefined;
+    }, [spec.properties]);
+
+    if (!childSpec) {
         return null;
     }
 
     const content = (
-        <ViewController spec={valueSpec} name={`${name}.${OBJECT_VALUE_PROPERTY_NAME}`} />
+        <ViewController spec={childSpec} name={`${name}.${OBJECT_VALUE_PROPERTY_NAME}`} />
     );
 
     if (Layout) {

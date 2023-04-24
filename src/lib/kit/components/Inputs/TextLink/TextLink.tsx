@@ -30,30 +30,29 @@ export const TextLink: ObjectIndependentInput = (props) => {
         [input.onChange],
     );
 
-    const valueSpec = React.useMemo(
-        () =>
-            spec.properties &&
-            spec.properties[TEXT_LINK_PROPERTY_NAME] &&
+    const childSpec = React.useMemo(() => {
+        if (
+            spec.properties?.[TEXT_LINK_PROPERTY_NAME] &&
             isStringSpec(spec.properties[TEXT_LINK_PROPERTY_NAME])
-                ? {
-                      ...spec.properties[TEXT_LINK_PROPERTY_NAME],
-                      viewSpec: {
-                          ...spec.properties[TEXT_LINK_PROPERTY_NAME].viewSpec,
-                          layout: undefined,
-                      },
-                  }
-                : undefined,
-        [spec.properties],
-    );
+        ) {
+            const childSpec = _.cloneDeep(spec.properties[TEXT_LINK_PROPERTY_NAME]);
 
-    if (!valueSpec) {
+            childSpec.viewSpec.layout = '';
+
+            return childSpec;
+        }
+
+        return undefined;
+    }, [spec.properties]);
+
+    if (!childSpec) {
         return null;
     }
 
     const content = (
         <Controller
             initialValue={input.value?.[TEXT_LINK_PROPERTY_NAME]}
-            spec={valueSpec}
+            spec={childSpec}
             name={`${name}.${TEXT_LINK_PROPERTY_NAME}`}
             key={`${name}.${TEXT_LINK_PROPERTY_NAME}`}
             parentOnChange={parentOnChange}
