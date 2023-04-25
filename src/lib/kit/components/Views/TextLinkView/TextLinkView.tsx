@@ -15,7 +15,6 @@ export const TextLinkView: ObjectIndependentView = ({value, spec, name, Layout, 
             const childSpec = _.cloneDeep(spec.properties[TEXT_LINK_PROPERTY_NAME]);
 
             childSpec.viewSpec.layout = '';
-
             childSpec.viewSpec.link = value?.link;
 
             return childSpec;
@@ -24,10 +23,11 @@ export const TextLinkView: ObjectIndependentView = ({value, spec, name, Layout, 
         return undefined;
     }, [spec.properties, value?.link]);
 
-    const content =
-        childSpec && value?.text ? (
-            <ViewController spec={childSpec} name={`${name}.${TEXT_LINK_PROPERTY_NAME}`} />
-        ) : null;
+    if (!childSpec || !value?.text) {
+        return null;
+    }
+
+    const content = <ViewController spec={childSpec} name={`${name}.${TEXT_LINK_PROPERTY_NAME}`} />;
 
     if (Layout && content) {
         return (
