@@ -1,21 +1,13 @@
-@import '../../../styles/variables';
+@import '../../../styles/variables.scss';
 
 .#{$ns}oneof {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
 
     &:last-child {
         & > .#{$ns}group-indent {
             margin-bottom: 0;
-
-            &:empty + .#{$ns}oneof__toggler {
-                margin-bottom: 0;
-            }
         }
-    }
-
-    &__toggler {
-        margin-bottom: 15px;
     }
 
     .#{$ns}group-indent {
@@ -24,13 +16,21 @@
         & > .#{$ns}use-search {
             padding-top: 11px;
             padding-left: $normalOffset;
-            margin-top: -11px;
+            margin-top: 4px;
             margin-bottom: 20px;
             margin-left: 5px;
             border-left: 1px solid var(--yc-color-line-generic-accent);
 
             &:empty {
                 display: none;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            & > .#{$ns}simple-vertical-accordeon_view {
+                margin-top: -10px;
             }
         }
     }
