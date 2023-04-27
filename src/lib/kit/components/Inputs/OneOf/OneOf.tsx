@@ -35,6 +35,7 @@ export const OneOf: ObjectIndependentInput = (props) => {
 
     return (
         <div className={b()}>
+            <div>{toggler}</div>
             {specProperties[oneOfValue] ? (
                 <GroupIndent>
                     <Controller
@@ -47,7 +48,6 @@ export const OneOf: ObjectIndependentInput = (props) => {
                     />
                 </GroupIndent>
             ) : null}
-            <div className={b('toggler')}>{toggler}</div>
         </div>
     );
 };
