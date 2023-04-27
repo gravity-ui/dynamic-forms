@@ -83,7 +83,6 @@ export interface ObjectSpec<LinkType = any> {
         layoutOpen?: boolean;
         order?: string[];
         link?: LinkType;
-        showOptional?: boolean;
     };
 }
 

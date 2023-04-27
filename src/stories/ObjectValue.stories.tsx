@@ -18,17 +18,24 @@ const baseSpec: ObjectSpec = {
             type: SpecTypes.String,
             viewSpec: {
                 type: 'base',
-                layout: 'row',
-                layoutTitle: 'Value',
             },
         },
     },
     viewSpec: {
         type: 'object_value',
+        layout: 'row',
+        layoutTitle: 'Object value',
     },
 };
 
-const excludeOptions = ['description', 'validator', 'viewSpec', 'required'];
+const excludeOptions = [
+    'description',
+    'validator',
+    'viewSpec.type',
+    'viewSpec.order',
+    'viewSpec.layoutOpen',
+    'viewSpec.disabled',
+];
 
 const template = (spec: ObjectSpec = baseSpec) => {
     const Template: ComponentStory<typeof ObjectValueInputBase> = (__, {viewMode}) => (

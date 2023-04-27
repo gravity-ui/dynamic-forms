@@ -6,16 +6,14 @@ import {Controller, FieldValue, ObjectIndependentInput, ValidateError} from '../
 
 const OBJECT_VALUE_PROPERTY_NAME = 'value';
 
-export const ObjectValueInput: ObjectIndependentInput = ({spec, input, name}) => {
+export const ObjectValueInput: ObjectIndependentInput = (props) => {
+    const {spec, input, name, Layout} = props;
+
     const parentOnChange = React.useCallback(
         (childName: string, childValue: FieldValue, childErrors?: Record<string, ValidateError>) =>
             input.onChange(
                 (currentValue) =>
-                    _.set(
-                        {...(currentValue || {})},
-                        childName.split(`${name}.`).join(''),
-                        childValue,
-                    ),
+                    _.set({...currentValue}, childName.split(`${name}.`).join(''), childValue),
                 childErrors,
             ),
         [input.onChange, input.name],
@@ -26,20 +24,36 @@ export const ObjectValueInput: ObjectIndependentInput = ({spec, input, name}) =>
         [input.onChange],
     );
 
-    const specProperties = {...spec.properties};
+    const childSpec = React.useMemo(() => {
+        if (spec.properties?.[OBJECT_VALUE_PROPERTY_NAME]) {
+            const childSpec = _.cloneDeep(spec.properties[OBJECT_VALUE_PROPERTY_NAME]);
 
-    if (!specProperties[OBJECT_VALUE_PROPERTY_NAME]) {
+            childSpec.viewSpec.layout = '';
+
+            return childSpec;
+        }
+
+        return undefined;
+    }, [spec.properties]);
+
+    if (!childSpec) {
         return null;
     }
 
-    return (
+    const content = (
         <Controller
             initialValue={input.value?.[OBJECT_VALUE_PROPERTY_NAME]}
-            spec={specProperties[OBJECT_VALUE_PROPERTY_NAME]}
+            spec={childSpec}
             name={`${name}.${OBJECT_VALUE_PROPERTY_NAME}`}
             key={`${name}.${OBJECT_VALUE_PROPERTY_NAME}`}
             parentOnChange={parentOnChange}
             parentOnUnmount={parentOnUnmount}
         />
     );
+
+    if (Layout) {
+        return <Layout {...props}>{content}</Layout>;
+    }
+
+    return <React.Fragment>{content}</React.Fragment>;
 };
