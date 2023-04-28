@@ -28,7 +28,7 @@ export const ObjectValueInput: ObjectIndependentInput = (props) => {
         if (spec.properties?.[OBJECT_VALUE_PROPERTY_NAME]) {
             const childSpec = _.cloneDeep(spec.properties[OBJECT_VALUE_PROPERTY_NAME]);
 
-            childSpec.viewSpec.layout = '';
+            childSpec.viewSpec.layout = 'transparent';
 
             return childSpec;
         }
