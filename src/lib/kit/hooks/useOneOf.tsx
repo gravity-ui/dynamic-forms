@@ -13,7 +13,7 @@ export interface UseOneOfParams {
 }
 
 export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
-    const {input, spec, Layout} = props;
+    const {name, input, spec, Layout} = props;
 
     const specProperties = React.useMemo(
         () => (_.isObjectLike(spec.properties) ? spec.properties! : {}),
@@ -76,6 +76,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
                     options={options}
                     disabled={spec.viewSpec.disabled}
                     filterable={options.length > 7}
+                    qa={name}
                 />
             );
         }
@@ -85,6 +86,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
                 value={oneOfValue}
                 onChange={(event) => onOneOfChange([event.target.value])}
                 disabled={spec.viewSpec.disabled}
+                qa={name}
             >
                 {options.map((option) => (
                     <RadioButton.Option key={option.value} value={option.value}>
@@ -93,7 +95,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
                 ))}
             </RadioButton>
         );
-    }, [options, oneOfValue, onOneOfChange]);
+    }, [options, oneOfValue, onOneOfChange, name]);
 
     const toggler = React.useMemo(() => {
         if (Layout) {

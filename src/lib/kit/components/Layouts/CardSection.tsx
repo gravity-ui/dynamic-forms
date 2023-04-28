@@ -17,11 +17,12 @@ export const CardSection = <T extends FieldValue, S extends Spec>({
             return null;
         }
 
-        return <RemoveButton onDrop={input.onDrop} />;
-    }, [spec.required, input.value, input.onDrop]);
+        return <RemoveButton onDrop={input.onDrop} name={name} />;
+    }, [spec.required, input.value, input.onDrop, name]);
 
     return (
         <Card
+            name={name}
             title={spec.viewSpec.layoutTitle}
             description={spec.viewSpec.layoutDescription}
             actions={removeButton}

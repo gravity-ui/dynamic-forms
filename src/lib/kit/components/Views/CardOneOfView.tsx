@@ -41,7 +41,14 @@ export const CardOneOfView: ObjectIndependentView = (props) => {
     }
 
     return (
-        <Card title={title} open={open} onToggle={onToggle} disableHeaderToggle checkEmptyBody>
+        <Card
+            name={name}
+            title={title}
+            open={open}
+            onToggle={onToggle}
+            disableHeaderToggle
+            checkEmptyBody
+        >
             {specProperties[valueKey] ? (
                 <ViewController
                     spec={specProperties[valueKey]}

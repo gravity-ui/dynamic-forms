@@ -46,6 +46,7 @@ export const OneOfCardView: ObjectIndependentView = (props) => {
     return (
         <AccordeonCard
             className="df-accordeon-card-layout"
+            name={name}
             header={wrappedValue}
             open={open}
             onToggle={onToggle}

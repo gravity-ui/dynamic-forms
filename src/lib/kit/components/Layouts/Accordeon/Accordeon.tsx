@@ -26,13 +26,14 @@ export const Accordeon = <T extends ArrayLayoutProps | ObjectLayoutProps>({
             return null;
         }
 
-        return <RemoveButton onDrop={onDrop} />;
-    }, [spec.required, input.value, onDrop]);
+        return <RemoveButton name={name} onDrop={onDrop} />;
+    }, [spec.required, input.value, onDrop, name]);
 
     useErrorChecker({name, meta, open, setOpen});
 
     return (
         <SimpleVerticalAccordeon
+            name={name}
             title={spec.viewSpec.layoutTitle || ''}
             note={spec.viewSpec.layoutDescription || ''}
             open={open}

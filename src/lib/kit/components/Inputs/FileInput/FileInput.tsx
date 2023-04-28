@@ -13,7 +13,7 @@ import './FileInput.scss';
 
 const b = block('file-input');
 
-export const FileInput: React.FC<StringInputProps> = ({input, spec}) => {
+export const FileInput: React.FC<StringInputProps> = ({name, input, spec}) => {
     const {value, onChange} = input;
 
     const inputRef = React.useRef<HTMLInputElement>(null);
@@ -65,7 +65,11 @@ export const FileInput: React.FC<StringInputProps> = ({input, spec}) => {
 
     return (
         <div className={b()}>
-            <Button disabled={spec.viewSpec.disabled} onClick={handleClick}>
+            <Button
+                disabled={spec.viewSpec.disabled}
+                onClick={handleClick}
+                qa={`${name}-file-upload`}
+            >
                 {i18n('button-upload_file')}
             </Button>
             <input
@@ -80,7 +84,12 @@ export const FileInput: React.FC<StringInputProps> = ({input, spec}) => {
             />
             <span className={b('file-name')}>{fileNameContent}</span>
             {value ? (
-                <Button view="flat" onClick={handleReset} disabled={spec.viewSpec.disabled}>
+                <Button
+                    view="flat"
+                    onClick={handleReset}
+                    disabled={spec.viewSpec.disabled}
+                    qa={`${name}-file-remove`}
+                >
                     <Icon data={Xmark} size={16} />
                 </Button>
             ) : null}

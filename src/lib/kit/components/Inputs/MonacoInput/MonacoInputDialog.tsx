@@ -15,6 +15,7 @@ import './MonacoInputDialog.scss';
 const b = block('monaco-input-dialog');
 
 interface MonacoInputDialogProps {
+    name: string;
     visible: boolean;
     value: string;
     language?: string;
@@ -28,6 +29,7 @@ interface MonacoInputDialogProps {
 }
 
 export const MonacoInputDialog: React.FC<MonacoInputDialogProps> = ({
+    name,
     value,
     title,
     visible,
@@ -56,7 +58,7 @@ export const MonacoInputDialog: React.FC<MonacoInputDialogProps> = ({
         <Dialog open={visible} onClose={handleClose} className={b()}>
             <Dialog.Header caption={title} className={b('dialog-header')} />
             <Dialog.Body>
-                <div className={b('container')}>
+                <div className={b('container')} data-qa={`${name}-dialog`}>
                     <MonacoHeader language={language} card={card} />
                     <MonacoEditor
                         language={language}

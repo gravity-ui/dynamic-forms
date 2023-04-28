@@ -27,13 +27,14 @@ export const CardAccordeon = <T extends FieldValue, S extends Spec>({
             return null;
         }
 
-        return <RemoveButton onDrop={onDrop} />;
-    }, [spec.required, input.value, onDrop]);
+        return <RemoveButton onDrop={onDrop} name={name} />;
+    }, [spec.required, input.value, onDrop, name]);
 
     useErrorChecker({name, meta, open, setOpen});
 
     return (
         <Card
+            name={name}
             title={spec.viewSpec.layoutTitle}
             description={spec.viewSpec.layoutDescription}
             actions={removeButton}
