@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.6.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.5.0...v1.6.0) (2023-04-28)
+
+
+### Features
+
+* adapt useStore and useField with 18 react ([#31](https://github.com/gravity-ui/dynamic-forms/issues/31)) ([d64ae4a](https://github.com/gravity-ui/dynamic-forms/commit/d64ae4a1b3f9f2e8b02288c1088679b5c848f738))
+
+
+### Bug Fixes
+
+* fixed display for accordeon layoutDescription ([#34](https://github.com/gravity-ui/dynamic-forms/issues/34)) ([fa58210](https://github.com/gravity-ui/dynamic-forms/commit/fa58210239df31911f3865262a4d33bd653e1b01))
+* fixed display for one of ([#33](https://github.com/gravity-ui/dynamic-forms/issues/33)) ([823c8fc](https://github.com/gravity-ui/dynamic-forms/commit/823c8fceddcb9a7e0cf021c1b122470cf58db4df))
+
 ## [1.5.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.4.1...v1.5.0) (2023-04-18)
 
 
