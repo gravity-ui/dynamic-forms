@@ -58,7 +58,7 @@ export const ObjectBase: ObjectIndependentInput = ({spec, name, Layout, ...restP
             return null;
         }
 
-        if (!restProps.input.value && !spec.viewSpec.showOptional) {
+        if (!restProps.input.value) {
             return addBtn;
         }
 
