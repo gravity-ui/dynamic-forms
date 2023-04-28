@@ -103,7 +103,12 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
             name: '',
             sticky: 'right',
             template: ({key}: {key: string}) => (
-                <Button view="flat" onClick={() => onItemRemove(key)} key={`remove-${key}`}>
+                <Button
+                    view="flat"
+                    onClick={() => onItemRemove(key)}
+                    key={`remove-${key}`}
+                    qa={`${name}-item-remove-${key}`}
+                >
                     <Icon data={Xmark} size={16} />
                 </Button>
             ),
@@ -196,12 +201,17 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                         )
                     }
                     disabled={spec.viewSpec.disabled}
+                    qa={`${name}-init-arr`}
                 >
                     <Icon data={Plus} size={14} />
                     {spec.viewSpec.layoutTitle || null}
                 </Button>
             ) : (
-                <Button onClick={onItemAdd} disabled={spec.viewSpec.disabled}>
+                <Button
+                    onClick={onItemAdd}
+                    disabled={spec.viewSpec.disabled}
+                    qa={`${name}-add-item`}
+                >
                     <Icon data={Plus} size={14} />
                     {spec.viewSpec.itemLabel || null}
                 </Button>

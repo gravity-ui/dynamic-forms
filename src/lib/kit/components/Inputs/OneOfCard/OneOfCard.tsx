@@ -55,11 +55,11 @@ export const OneOfCard: ObjectIndependentInput = (props) => {
 
     const headerActionsTemplate = React.useMemo(() => {
         if (arrayItem) {
-            return <RemoveButton onDrop={input.onDrop} />;
+            return <RemoveButton onDrop={input.onDrop} name={name} />;
         }
 
         return null;
-    }, [arrayItem, input.onDrop]);
+    }, [arrayItem, input.onDrop, name]);
 
     const parentOnChange = React.useCallback(
         (
@@ -84,6 +84,7 @@ export const OneOfCard: ObjectIndependentInput = (props) => {
     return (
         <AccordeonCard
             className={b()}
+            name={name}
             header={toggler}
             description={spec.viewSpec.layoutDescription || ''}
             open={open}

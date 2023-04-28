@@ -5,6 +5,7 @@ import {Card} from '../../components';
 import {isNotEmptyValue} from '../../utils';
 
 export const ViewCardSection = <T extends FormValue, S extends Spec>({
+    name,
     value,
     spec,
     children,
@@ -14,7 +15,7 @@ export const ViewCardSection = <T extends FormValue, S extends Spec>({
     }
 
     return (
-        <Card title={spec.viewSpec.layoutTitle} alwaysOpen checkEmptyBody>
+        <Card name={name} title={spec.viewSpec.layoutTitle} alwaysOpen checkEmptyBody>
             {children}
         </Card>
     );

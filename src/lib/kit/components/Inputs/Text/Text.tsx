@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import {FieldRenderProps, NumberInputProps, StringInputProps} from '../../../../core';
 
-export const Text = <T extends NumberInputProps | StringInputProps>({input, spec}: T) => {
+export const Text = <T extends NumberInputProps | StringInputProps>({name, input, spec}: T) => {
     const {value, onBlur, onChange, onFocus} = input;
 
     const handleChange = React.useCallback(
@@ -34,6 +34,7 @@ export const Text = <T extends NumberInputProps | StringInputProps>({input, spec
             disabled={spec.viewSpec.disabled}
             placeholder={spec.viewSpec.placeholder}
             autoComplete={type === 'password' ? 'new-password' : undefined}
+            qa={name}
         />
     );
 };

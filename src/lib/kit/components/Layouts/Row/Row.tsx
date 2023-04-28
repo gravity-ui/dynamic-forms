@@ -61,7 +61,12 @@ const RowBase = <T extends FieldValue, S extends Spec>({
                         {children}
                     </ErrorWrapper>
                     {arrayItem ? (
-                        <Button view="flat" className={b('remove-button')} onClick={input.onDrop}>
+                        <Button
+                            view="flat"
+                            className={b('remove-button')}
+                            onClick={input.onDrop}
+                            qa={`${name}-remove-item`}
+                        >
                             <Icon data={Xmark} size={16} />
                         </Button>
                     ) : null}

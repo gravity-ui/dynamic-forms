@@ -9,7 +9,7 @@ import './Select.scss';
 
 const b = block('select');
 
-export const Select: StringInput = ({input, spec}) => {
+export const Select: StringInput = ({name, input, spec}) => {
     const {value, onBlur, onChange, onFocus} = input;
 
     const filterable = React.useMemo(() => (spec.enum?.length || 0) > 9, [spec.enum?.length]);
@@ -49,6 +49,7 @@ export const Select: StringInput = ({input, spec}) => {
             disabled={spec.viewSpec.disabled}
             placeholder={spec.viewSpec.placeholder}
             filterable={filterable}
+            qa={name}
         />
     );
 };

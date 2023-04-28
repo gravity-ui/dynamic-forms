@@ -23,6 +23,7 @@ export interface MonacoInputBaseProps extends StringInputProps {
 }
 
 export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
+    name,
     input,
     spec,
     card,
@@ -46,14 +47,14 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
     const dialogButton = React.useMemo(() => {
         if (!withoutDialog) {
             return (
-                <Button onClick={() => setMonacoEditorDialog(true)}>
+                <Button onClick={() => setMonacoEditorDialog(true)} qa={`${name}-open-dialog`}>
                     <Icon data={ChevronsExpandUpRight} size={16} />
                 </Button>
             );
         }
 
         return;
-    }, [withoutDialog, setMonacoEditorDialog]);
+    }, [withoutDialog, setMonacoEditorDialog, name]);
 
     React.useEffect(() => onChange(monacoValue), [monacoValue]);
 
@@ -65,7 +66,7 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
 
     return (
         <div className={b({card})}>
-            <div className={b('container')}>
+            <div className={b('container')} data-qa={name}>
                 <MonacoHeader language={language} card={card} editButton={dialogButton} />
                 <MonacoEditor
                     language={language}
@@ -76,6 +77,7 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
                 />
             </div>
             <MonacoInputDialog
+                name={name}
                 title={layoutTitle}
                 fontSize={fontSize}
                 value={monacoValue}

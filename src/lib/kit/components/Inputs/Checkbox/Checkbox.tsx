@@ -9,7 +9,7 @@ import './Checkbox.scss';
 
 const b = block('checkbox');
 
-export const Checkbox: BooleanInput = ({input, spec}) => {
+export const Checkbox: BooleanInput = ({name, input, spec}) => {
     const {value, onBlur, onChange, onFocus} = input;
 
     const handleChange = React.useCallback(
@@ -25,6 +25,7 @@ export const Checkbox: BooleanInput = ({input, spec}) => {
                 onBlur={onBlur}
                 onFocus={onFocus}
                 disabled={spec.viewSpec.disabled}
+                qa={name}
             />
         </div>
     );

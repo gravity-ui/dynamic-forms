@@ -25,6 +25,7 @@ export const ObjectBase: ObjectIndependentInput = ({spec, name, Layout, ...restP
                     )
                 }
                 disabled={spec.viewSpec?.disabled}
+                qa={`${name}-init-obj`}
             >
                 <Icon data={Plus} size={14} />
                 {spec.viewSpec.layoutTitle || null}
