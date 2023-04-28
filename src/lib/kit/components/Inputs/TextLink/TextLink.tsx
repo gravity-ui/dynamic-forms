@@ -12,7 +12,9 @@ import {
 
 const TEXT_LINK_PROPERTY_NAME = 'text';
 
-export const TextLink: ObjectIndependentInput = ({spec, input, name}) => {
+export const TextLink: ObjectIndependentInput = (props) => {
+    const {spec, input, name, Layout} = props;
+
     const parentOnChange = React.useCallback(
         (childName: string, childValue: FieldValue, childErrors?: Record<string, ValidateError>) =>
             input.onChange(
@@ -28,23 +30,39 @@ export const TextLink: ObjectIndependentInput = ({spec, input, name}) => {
         [input.onChange],
     );
 
-    const specProperties = {...spec.properties};
+    const childSpec = React.useMemo(() => {
+        if (
+            spec.properties?.[TEXT_LINK_PROPERTY_NAME] &&
+            isStringSpec(spec.properties[TEXT_LINK_PROPERTY_NAME])
+        ) {
+            const childSpec = _.cloneDeep(spec.properties[TEXT_LINK_PROPERTY_NAME]);
 
-    if (
-        !specProperties[TEXT_LINK_PROPERTY_NAME] ||
-        !isStringSpec(specProperties[TEXT_LINK_PROPERTY_NAME])
-    ) {
+            childSpec.viewSpec.layout = '';
+
+            return childSpec;
+        }
+
+        return undefined;
+    }, [spec.properties]);
+
+    if (!childSpec) {
         return null;
     }
 
-    return (
+    const content = (
         <Controller
             initialValue={input.value?.[TEXT_LINK_PROPERTY_NAME]}
-            spec={specProperties[TEXT_LINK_PROPERTY_NAME]}
+            spec={childSpec}
             name={`${name}.${TEXT_LINK_PROPERTY_NAME}`}
             key={`${name}.${TEXT_LINK_PROPERTY_NAME}`}
             parentOnChange={parentOnChange}
             parentOnUnmount={parentOnUnmount}
         />
     );
+
+    if (Layout) {
+        return <Layout {...props}>{content}</Layout>;
+    }
+
+    return <React.Fragment>{content}</React.Fragment>;
 };

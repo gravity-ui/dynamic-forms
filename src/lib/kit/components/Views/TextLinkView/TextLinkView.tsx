@@ -2,28 +2,40 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import {ObjectIndependentView, ViewController} from '../../../../core';
+import {ObjectIndependentView, ViewController, isStringSpec} from '../../../../core';
 
 const TEXT_LINK_PROPERTY_NAME = 'text';
 
-export const TextLinkView: ObjectIndependentView = ({value, spec, name}) => {
-    const specProperties = spec.properties;
+export const TextLinkView: ObjectIndependentView = ({value, spec, name, Layout, ...restProps}) => {
+    const childSpec = React.useMemo(() => {
+        if (
+            spec.properties?.[TEXT_LINK_PROPERTY_NAME] &&
+            isStringSpec(spec.properties[TEXT_LINK_PROPERTY_NAME])
+        ) {
+            const childSpec = _.cloneDeep(spec.properties[TEXT_LINK_PROPERTY_NAME]);
 
-    const preparedSpec = React.useMemo(
-        () =>
-            specProperties && specProperties[TEXT_LINK_PROPERTY_NAME]
-                ? {
-                      ...specProperties[TEXT_LINK_PROPERTY_NAME],
-                      viewSpec: {
-                          ...specProperties[TEXT_LINK_PROPERTY_NAME]?.viewSpec,
-                          link: value?.link,
-                      },
-                  }
-                : undefined,
-        [specProperties, value?.link],
-    );
+            childSpec.viewSpec.layout = '';
+            childSpec.viewSpec.link = value?.link;
 
-    return preparedSpec ? (
-        <ViewController spec={preparedSpec} name={`${name}.${TEXT_LINK_PROPERTY_NAME}`} />
-    ) : null;
+            return childSpec;
+        }
+
+        return undefined;
+    }, [spec.properties, value?.link]);
+
+    if (!childSpec || !value?.text) {
+        return null;
+    }
+
+    const content = <ViewController spec={childSpec} name={`${name}.${TEXT_LINK_PROPERTY_NAME}`} />;
+
+    if (Layout) {
+        return (
+            <Layout spec={spec} name={name} value={value} {...restProps}>
+                {content}
+            </Layout>
+        );
+    }
+
+    return <React.Fragment>{content}</React.Fragment>;
 };
