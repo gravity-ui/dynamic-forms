@@ -129,12 +129,17 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
                         )
                     }
                     disabled={spec.viewSpec.disabled}
+                    qa={`${name}-init-arr`}
                 >
                     <Icon data={Plus} size={14} />
                     {spec.viewSpec.layoutTitle || null}
                 </Button>
             ) : (
-                <Button onClick={onItemAdd} disabled={spec.viewSpec.disabled}>
+                <Button
+                    onClick={onItemAdd}
+                    disabled={spec.viewSpec.disabled}
+                    qa={`${name}-add-item`}
+                >
                     <Icon data={Plus} size={14} />
                     {spec.viewSpec.itemLabel || null}
                 </Button>

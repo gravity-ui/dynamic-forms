@@ -7,6 +7,7 @@ import {isNotEmptyValue} from '../../../utils';
 import {SimpleVerticalAccordeon} from '../../SimpleVerticalAccordeon';
 
 export const ViewAccordeon = <T extends ArrayViewLayoutProps | ObjectViewLayoutProps>({
+    name,
     value,
     spec,
     children,
@@ -19,6 +20,7 @@ export const ViewAccordeon = <T extends ArrayViewLayoutProps | ObjectViewLayoutP
 
     return (
         <SimpleVerticalAccordeon
+            name={name}
             title={spec.viewSpec.layoutTitle || ''}
             open={open}
             onOpenChange={setOpen}

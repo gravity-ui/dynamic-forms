@@ -11,7 +11,7 @@ import './NumberWithScale.scss';
 
 const b = block('number-with-scale');
 
-const NumberWithScaleBase: React.FC<StringInputProps> = ({input, spec}) => {
+const NumberWithScaleBase: React.FC<StringInputProps> = ({name, input, spec}) => {
     const {value = '', onBlur, onFocus, onChange} = input;
     const {sizeParams, disabled, placeholder} = spec.viewSpec;
     const {defaultType, scale} = sizeParams!;
@@ -97,6 +97,7 @@ const NumberWithScaleBase: React.FC<StringInputProps> = ({input, spec}) => {
                 onUpdate={handleChange}
                 placeholder={placeholder}
                 disabled={disabled}
+                qa={name}
             />
             <Select
                 width="max"
@@ -105,6 +106,7 @@ const NumberWithScaleBase: React.FC<StringInputProps> = ({input, spec}) => {
                 options={scaleOptions}
                 onUpdate={handleScaleChange}
                 disabled={disabled || incorrectStringNumber}
+                qa={`${name}-scale`}
             />
         </div>
     );

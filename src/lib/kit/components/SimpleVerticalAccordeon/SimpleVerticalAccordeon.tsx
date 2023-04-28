@@ -11,6 +11,7 @@ const b = block('simple-vertical-accordeon');
 
 interface SimpleVerticalAccordeonProps {
     children: React.ReactNode;
+    name: string;
     title: string;
     titleSize?: 's' | 'm' | 'l';
     note?: string;
@@ -75,6 +76,7 @@ export class SimpleVerticalAccordeon extends React.Component<
             hideInsteadOfDestroy,
             withBranchView,
             viewLayout,
+            name,
         } = this.props;
         const {open, hidden, isFirstRender} = this.state;
 
@@ -102,6 +104,7 @@ export class SimpleVerticalAccordeon extends React.Component<
                             view="flat"
                             className={b('header-inner', buttonClassName)}
                             onClick={this.handleClick}
+                            qa={`${name}-accordeon-toggler`}
                         >
                             <b className={b('title', {size: titleSize})}>{this.getTitle()}</b>
                             <Icon data={ChevronDown} className={b('chevron', {open})} size={16} />

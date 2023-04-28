@@ -12,6 +12,7 @@ const b = block('accordeon-card');
 
 export interface AccordeonCardProps {
     children: React.ReactNode;
+    name: string;
     header: React.ReactNode;
     description?: string;
     className?: string;
@@ -24,6 +25,7 @@ export interface AccordeonCardProps {
 }
 export const AccordeonCard: React.FC<AccordeonCardProps> = ({
     className,
+    name,
     header,
     description,
     open: propsOpen,
@@ -98,7 +100,7 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
                         {headerActionsTemplate ? (
                             <div className={b('interal-actions')}>{headerActionsTemplate}</div>
                         ) : null}
-                        <Button view="flat" onClick={handleToggle}>
+                        <Button view="flat" onClick={handleToggle} qa={`${name}-accordeon-toggler`}>
                             <Icon
                                 className={b('toggle-icon', {open})}
                                 data={ChevronDown}

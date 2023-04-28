@@ -31,14 +31,19 @@ export const Transparent = <T extends FieldValue, S extends Spec>({
     const removeButton = React.useMemo(() => {
         if (arrayItem) {
             return (
-                <Button view="flat" className={b('remove-button')} onClick={input.onDrop}>
+                <Button
+                    view="flat"
+                    className={b('remove-button')}
+                    onClick={input.onDrop}
+                    qa={`${name}-remove-item`}
+                >
                     <Icon data={Xmark} size={16} />
                 </Button>
             );
         }
 
         return null;
-    }, [input.onDrop, arrayItem]);
+    }, [input.onDrop, arrayItem, name]);
 
     return (
         <div

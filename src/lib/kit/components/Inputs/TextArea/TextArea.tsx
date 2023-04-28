@@ -4,7 +4,7 @@ import {TextInput as TextInputBase} from '@gravity-ui/uikit';
 
 import {StringInput} from '../../../../core';
 
-export const TextArea: StringInput = ({input, spec}) => {
+export const TextArea: StringInput = ({name, input, spec}) => {
     const {value, onBlur, onChange, onFocus} = input;
 
     return (
@@ -19,6 +19,7 @@ export const TextArea: StringInput = ({input, spec}) => {
             disabled={spec.viewSpec.disabled}
             multiline
             placeholder={spec.viewSpec.placeholder}
+            qa={name}
         />
     );
 };

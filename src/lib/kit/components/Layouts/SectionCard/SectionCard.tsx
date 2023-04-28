@@ -46,6 +46,7 @@ const SectionCardBase = <D extends FieldValue, T extends FormValue, S extends Sp
     return (
         <AccordeonCard
             className={b()}
+            name={name}
             header={spec.viewSpec.layoutTitle}
             description={ignoreDescription ? undefined : spec.viewSpec.layoutDescription}
             titleSize={titleSize}

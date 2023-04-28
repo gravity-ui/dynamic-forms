@@ -9,7 +9,7 @@ import './MultiSelect.scss';
 
 const b = block('multi-select');
 
-export const MultiSelect: ArrayInput = ({input, spec}) => {
+export const MultiSelect: ArrayInput = ({name, input, spec}) => {
     const {value, onBlur, onChange, onFocus} = input;
 
     const filterable = React.useMemo(() => (spec.enum?.length || 0) > 9, [spec.enum?.length]);
@@ -55,6 +55,7 @@ export const MultiSelect: ArrayInput = ({input, spec}) => {
             placeholder={spec.viewSpec.placeholder}
             filterable={filterable}
             multiple
+            qa={name}
         />
     );
 };
