@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/gravity-ui/dynamic-forms/compare/v1.6.0...v1.6.1) (2023-05-02)
+
+
+### Bug Fixes
+
+* object inputs layout child ([#37](https://github.com/gravity-ui/dynamic-forms/issues/37)) ([821398e](https://github.com/gravity-ui/dynamic-forms/commit/821398eee3b19b590f6177896fc038ecd9bdd0df))
+
 ## [1.6.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.5.0...v1.6.0) (2023-04-28)
 
 
