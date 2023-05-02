@@ -13,7 +13,7 @@ export const Secret: ObjectIndependentInput = (props) => {
         if (spec.properties?.[SECRET_PROPERTY_NAME]) {
             const childSpec = _.cloneDeep(spec.properties?.[SECRET_PROPERTY_NAME]);
 
-            childSpec.viewSpec.layout = '';
+            childSpec.viewSpec.layout = 'transparent';
 
             return childSpec;
         }

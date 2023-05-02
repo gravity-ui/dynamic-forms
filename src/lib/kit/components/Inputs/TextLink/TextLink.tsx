@@ -37,7 +37,7 @@ export const TextLink: ObjectIndependentInput = (props) => {
         ) {
             const childSpec = _.cloneDeep(spec.properties[TEXT_LINK_PROPERTY_NAME]);
 
-            childSpec.viewSpec.layout = '';
+            childSpec.viewSpec.layout = 'transparent';
 
             return childSpec;
         }
