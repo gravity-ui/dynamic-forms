@@ -18,6 +18,7 @@ export interface UseFieldProps<Value extends FieldValue, SpecType extends Spec> 
     name: string;
     spec: SpecType;
     initialValue: Value;
+    value: Value;
     validate?: (value?: Value) => ValidateError;
     tools: DynamicFormsContext['tools'];
     parentOnChange:
@@ -34,6 +35,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
     name,
     spec,
     initialValue,
+    value: externalValue,
     validate: propsValidate,
     tools,
     parentOnChange,
@@ -53,7 +55,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
     );
 
     const [state, setState] = React.useState(() => {
-        let value = _.cloneDeep(initialValue);
+        let value = _.cloneDeep(externalValue);
 
         if (_.isNil(value)) {
             if (spec.defaultValue) {
@@ -71,18 +73,19 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
         }
 
         const error = validate?.(value);
+        const isDiffentValues = !_.isEqual(value, initialValue);
 
         return {
             active: false,
-            dirty: false,
+            dirty: isDiffentValues,
             error,
             invalid: Boolean(error),
-            modified: false,
-            pristine: false,
-            touched: false,
+            modified: isDiffentValues,
+            pristine: isDiffentValues,
+            touched: isDiffentValues,
             valid: !error,
             value,
-            visited: false,
+            visited: isDiffentValues,
             childErrors: {},
         };
     });
@@ -239,7 +242,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
     ]);
 
     React.useEffect(() => {
-        if (!firstRenderRef.current || !_.isEqual(initialValue, state.value) || state.error) {
+        if (!firstRenderRef.current || !_.isEqual(externalValue, state.value) || state.error) {
             (parentOnChange ? parentOnChange : tools.onChange)(name, state.value, {
                 ...state.childErrors,
                 [name]: state.error,

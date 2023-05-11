@@ -46,7 +46,7 @@ export const Secret: ObjectIndependentInput = (props) => {
 
     const content = (
         <Controller
-            initialValue={input.value?.[SECRET_PROPERTY_NAME]}
+            value={input.value?.[SECRET_PROPERTY_NAME]}
             spec={childSpec}
             name={`${name}.${SECRET_PROPERTY_NAME}`}
             parentOnChange={parentOnChange}

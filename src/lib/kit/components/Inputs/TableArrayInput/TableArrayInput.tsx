@@ -150,9 +150,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                         key={`${name}.<${key}>.${property}`}
                     >
                         <Controller
-                            initialValue={
-                                (input.value?.[`<${key}>`] as FieldObjectValue)?.[property]
-                            }
+                            value={(input.value?.[`<${key}>`] as FieldObjectValue)?.[property]}
                             spec={preparedEntitySpec}
                             name={`${name}.<${key}>.${property}`}
                             parentOnChange={parentOnChange}

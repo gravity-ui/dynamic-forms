@@ -2,13 +2,14 @@ import React from 'react';
 
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
-import {DynamicFormConfig, FieldObjectValue, FieldValue, ValidateError, WonderMirror} from './';
+import {DynamicFormConfig, FieldValue, ValidateError, WonderMirror} from './';
 
 export interface DynamicFormsContext {
     config: DynamicFormConfig;
     Monaco?: React.ComponentType<MonacoEditorProps>;
     tools: {
-        initialValue: FieldObjectValue;
+        initialValue: FieldValue;
+        values: FieldValue;
         onChange: (name: string, value: FieldValue, errors?: Record<string, ValidateError>) => void;
         onUnmount: (name: string) => void;
         submitFailed: boolean;

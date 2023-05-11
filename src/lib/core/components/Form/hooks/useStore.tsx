@@ -11,14 +11,18 @@ export const useStore = (name: string) => {
     const form = useForm();
     const firstRenderRef = React.useRef(true);
     const [store, setStore] = React.useState<DynamicFieldStore>(() => {
-        const initialValue: FieldObjectValue = transformArrIn({
+        const values: FieldObjectValue = transformArrIn({
             [name]: _.get(form.getState().values, name),
+        });
+
+        const initialValue = transformArrIn({
+            [name]: _.get(form.getState().initialValues, name),
         });
 
         return {
             name,
-            initialValue,
-            values: _.cloneDeep(initialValue),
+            initialValue: _.cloneDeep(initialValue),
+            values: _.cloneDeep(values),
             errors: {},
         };
     });
@@ -28,13 +32,14 @@ export const useStore = (name: string) => {
     const tools = React.useMemo(
         () => ({
             initialValue: store.initialValue,
+            values: store.values,
             onChange: (name: string, value: FieldValue, errors?: Record<string, ValidateError>) =>
                 setStore((store) => ({
                     ...store,
                     values: _.set({...store.values}, name, _.clone(value)),
                     errors: errors || {},
                 })),
-            onUnmount: (name: string) =>
+            onUnmount: (name: string) => {
                 setStore((store) => ({
                     ...store,
                     values: _.omit(store.values, name),
@@ -42,7 +47,8 @@ export const useStore = (name: string) => {
                         store.errors,
                         Object.keys(store.errors).filter((key) => key.startsWith(name)),
                     ),
-                })),
+                }));
+            },
             submitFailed,
         }),
         [store.initialValue, setStore, submitFailed],
@@ -50,14 +56,18 @@ export const useStore = (name: string) => {
 
     React.useEffect(() => {
         if (!firstRenderRef.current) {
-            const initialValue: FieldObjectValue = transformArrIn({
+            const values: FieldObjectValue = transformArrIn({
                 [name]: _.get(form.getState().values, name),
+            });
+
+            const initialValue = transformArrIn({
+                [name]: _.get(form.getState().initialValues, name),
             });
 
             setStore({
                 name: name,
-                initialValue,
-                values: _.cloneDeep(initialValue),
+                initialValue: _.cloneDeep(initialValue),
+                values: _.cloneDeep(values),
                 errors: {},
             });
         }

@@ -17,7 +17,7 @@ import {ControllerMirror, FieldValue, ValidateError} from './types';
 export interface ControllerProps<Value extends FieldValue, SpecType extends Spec> {
     spec: SpecType;
     name: string;
-    initialValue: Value;
+    value: Value;
     parentOnChange:
         | ((
               childName: string,
@@ -31,7 +31,7 @@ export interface ControllerProps<Value extends FieldValue, SpecType extends Spec
 export const Controller = <Value extends FieldValue, SpecType extends Spec>({
     spec,
     name,
-    initialValue,
+    value,
     parentOnChange,
     parentOnUnmount,
 }: ControllerProps<Value, SpecType>) => {
@@ -41,7 +41,8 @@ export const Controller = <Value extends FieldValue, SpecType extends Spec>({
     const validate = useValidate(spec);
     const renderProps = useField({
         name,
-        initialValue,
+        initialValue: _.get(tools.initialValue, name),
+        value,
         spec,
         validate,
         tools,

@@ -39,7 +39,7 @@ export const OneOf: ObjectIndependentInput = (props) => {
             {specProperties[oneOfValue] ? (
                 <GroupIndent>
                     <Controller
-                        initialValue={props.input.value?.[oneOfValue]}
+                        value={props.input.value?.[oneOfValue]}
                         spec={specProperties[oneOfValue]}
                         name={`${props.name}.${oneOfValue}`}
                         parentOnChange={parentOnChange}
