@@ -9,7 +9,6 @@ export interface DynamicFormsContext {
     Monaco?: React.ComponentType<MonacoEditorProps>;
     tools: {
         initialValue: FieldValue;
-        values: FieldValue;
         onChange: (name: string, value: FieldValue, errors?: Record<string, ValidateError>) => void;
         onUnmount: (name: string) => void;
         submitFailed: boolean;

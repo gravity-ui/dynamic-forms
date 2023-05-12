@@ -73,19 +73,20 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
         }
 
         const error = validate?.(value);
-        const isDiffentValues = !_.isEqual(value, initialValue);
+        const dirty = !_.isEqual(value, initialValue);
+        const pristine = value === initialValue;
 
         return {
             active: false,
-            dirty: isDiffentValues,
+            dirty,
             error,
             invalid: Boolean(error),
-            modified: isDiffentValues,
-            pristine: isDiffentValues,
-            touched: isDiffentValues,
+            modified: dirty || !pristine,
+            pristine,
+            touched: dirty || !pristine,
             valid: !error,
             value,
-            visited: isDiffentValues,
+            visited: dirty || !pristine,
             childErrors: {},
         };
     });

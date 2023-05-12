@@ -85,7 +85,7 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
                         name={name}
                         parentOnChange={null}
                         parentOnUnmount={null}
-                        value={_.get(tools.values, name)}
+                        value={_.get(store.values, name)}
                     />
                     {watcher}
                 </SearchContext.Provider>
