@@ -15,6 +15,7 @@
         .g-select:not(.#{$ns}error-wrapper-ignore) .g-select-control::before,
         .g-select:hover:not(.#{$ns}error-wrapper-ignore) .g-select-control_open::before,
         .yc-text-input_view_normal:not(.#{$ns}error-wrapper-ignore) .yc-text-input__control,
+        .yc-text-input_view_normal:not(.#{$ns}error-wrapper-ignore) .yc-text-input__content,
         .yc-checkbox__indicator:not(.#{$ns}error-wrapper-ignore)::before {
             border-color: var(--yc-color-text-danger);
         }
