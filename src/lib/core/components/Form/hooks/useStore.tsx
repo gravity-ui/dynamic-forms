@@ -10,14 +10,18 @@ export const useStore = (name: string) => {
     const form = useForm();
     const firstRenderRef = React.useRef(true);
     const [store, setStore] = React.useState<DynamicFieldStore>(() => {
-        const initialValue: FieldObjectValue = transformArrIn({
+        const values: FieldObjectValue = transformArrIn({
             [name]: _.get(form.getState().values, name),
+        });
+
+        const initialValue = transformArrIn({
+            [name]: _.get(form.getState().initialValues, name),
         });
 
         return {
             name,
-            initialValue,
-            values: _.cloneDeep(initialValue),
+            initialValue: _.cloneDeep(initialValue),
+            values: _.cloneDeep(values),
             errors: {},
         };
     });
@@ -49,14 +53,18 @@ export const useStore = (name: string) => {
 
     React.useEffect(() => {
         if (!firstRenderRef.current) {
-            const initialValue: FieldObjectValue = transformArrIn({
+            const values: FieldObjectValue = transformArrIn({
                 [name]: _.get(form.getState().values, name),
+            });
+
+            const initialValue = transformArrIn({
+                [name]: _.get(form.getState().initialValues, name),
             });
 
             setStore({
                 name: name,
-                initialValue,
-                values: _.cloneDeep(initialValue),
+                initialValue: _.cloneDeep(initialValue),
+                values: _.cloneDeep(values),
                 errors: {},
             });
         }

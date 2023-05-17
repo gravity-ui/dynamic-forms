@@ -69,7 +69,7 @@ export const ObjectBase: ObjectIndependentInput = ({spec, name, Layout, ...restP
                 {(spec.viewSpec.order || Object.keys(specProperties)).map((property: string) =>
                     specProperties[property] ? (
                         <Controller
-                            initialValue={restProps.input.value?.[property]}
+                            value={restProps.input.value?.[property]}
                             spec={specProperties[property]}
                             name={`${name ? name + '.' : ''}${property}`}
                             parentOnChange={parentOnChange}

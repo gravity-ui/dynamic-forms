@@ -42,7 +42,7 @@ export const ObjectValueInput: ObjectIndependentInput = (props) => {
 
     const content = (
         <Controller
-            initialValue={input.value?.[OBJECT_VALUE_PROPERTY_NAME]}
+            value={input.value?.[OBJECT_VALUE_PROPERTY_NAME]}
             spec={childSpec}
             name={`${name}.${OBJECT_VALUE_PROPERTY_NAME}`}
             key={`${name}.${OBJECT_VALUE_PROPERTY_NAME}`}

@@ -51,7 +51,7 @@ export const TextLink: ObjectIndependentInput = (props) => {
 
     const content = (
         <Controller
-            initialValue={input.value?.[TEXT_LINK_PROPERTY_NAME]}
+            value={input.value?.[TEXT_LINK_PROPERTY_NAME]}
             spec={childSpec}
             name={`${name}.${TEXT_LINK_PROPERTY_NAME}`}
             key={`${name}.${TEXT_LINK_PROPERTY_NAME}`}
