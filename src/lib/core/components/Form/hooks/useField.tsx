@@ -2,7 +2,7 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import {isArraySpec, isObjectSpec, isReact18OrMore} from '../../../helpers';
+import {isArraySpec, isNumberSpec, isObjectSpec} from '../../../helpers';
 import {Spec} from '../../../types';
 import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG, REMOVED_ITEM} from '../constants';
 import {
@@ -99,7 +99,11 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
             setState((state) => {
                 const _value = _.isFunction(valOrSetter) ? valOrSetter(state.value) : valOrSetter;
                 const error = validate?.(_value);
-                const value = transformArrIn(_value);
+                let value = transformArrIn(_value);
+
+                if (isNumberSpec(spec) && value && !error) {
+                    value = Number(value) as Value;
+                }
 
                 let newChildErrors: Record<string, ValidateError> = {...state.childErrors};
 
@@ -145,7 +149,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
         };
 
         return {onChange, onDrop};
-    }, [initialValue, setState, name, validate]);
+    }, [initialValue, setState, name, validate, spec]);
 
     const onBlur = React.useCallback(() => {
         setState((state) => ({
@@ -255,10 +259,6 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
         firstRenderRef.current = false;
 
         return () => {
-            if (isReact18OrMore()) {
-                firstRenderRef.current = true;
-            }
-
             (parentOnUnmount ? parentOnUnmount : tools.onUnmount)(name);
         };
     }, []);

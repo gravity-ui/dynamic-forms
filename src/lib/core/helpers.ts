@@ -1,5 +1,3 @@
-import React from 'react';
-
 import _ from 'lodash';
 
 import {SpecTypes} from './constants';
@@ -29,5 +27,3 @@ export const isObjectSpec = (candidate: any): candidate is ObjectSpec =>
 
 export const isStringSpec = (candidate: any): candidate is StringSpec =>
     candidate?.type === SpecTypes.String;
-
-export const isReact18OrMore = () => Number(React.version.split('.')[0]) >= 18;
