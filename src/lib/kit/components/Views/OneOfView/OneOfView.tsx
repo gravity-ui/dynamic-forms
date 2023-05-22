@@ -2,10 +2,19 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import {GroupIndent} from '../';
-import {ObjectIndependentView, ViewController} from '../../../core';
+import {GroupIndent} from '../../';
+import {ObjectIndependentView, ObjectIndependentViewProps, ViewController} from '../../../../core';
+import {block} from '../../../utils';
 
-export const OneOfView: ObjectIndependentView = (props) => {
+import './OneOfView.scss';
+
+const b = block('oneof-view');
+
+export interface OneOfViewProps extends ObjectIndependentViewProps {
+    withoutIndent?: boolean;
+}
+
+const OneOfViewComponent: React.FC<OneOfViewProps> = (props) => {
     const {value = {}, spec, Layout, name} = props;
 
     const specProperties = React.useMemo(
@@ -40,7 +49,7 @@ export const OneOfView: ObjectIndependentView = (props) => {
     }
 
     return (
-        <React.Fragment>
+        <div className={b({flat: props.withoutIndent})}>
             {wrappedValue}
             {specProperties[valueKey] ? (
                 <GroupIndent>
@@ -51,6 +60,12 @@ export const OneOfView: ObjectIndependentView = (props) => {
                     />
                 </GroupIndent>
             ) : null}
-        </React.Fragment>
+        </div>
     );
 };
+
+export const OneOfView = OneOfViewComponent;
+
+export const OneOfFlatView: ObjectIndependentView = (props) => (
+    <OneOfViewComponent {...props} withoutIndent />
+);

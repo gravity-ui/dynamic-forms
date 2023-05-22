@@ -268,6 +268,22 @@ const monacoParams: ObjectSpec = {
     },
 };
 
+const oneOfParams: ObjectSpec = {
+    type: SpecTypes.Object,
+    properties: {
+        toggler: {
+            type: SpecTypes.String,
+            enum: ['―', 'radio', 'select'],
+            viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Switch type'},
+        },
+    },
+    viewSpec: {
+        type: 'base',
+        layout: 'accordeon',
+        layoutTitle: 'OneOf parameters',
+    },
+};
+
 const placeholder: StringSpec = {
     type: SpecTypes.String,
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Placeholder'},
@@ -447,6 +463,7 @@ export const getObjectOptions = (): ObjectSpec => ({
                 layoutDescription,
                 layoutOpen,
                 order,
+                oneOfParams,
             },
             [
                 'disabled',
@@ -456,6 +473,7 @@ export const getObjectOptions = (): ObjectSpec => ({
                 'layoutDescription',
                 'layoutOpen',
                 'order',
+                'oneOfParams',
             ],
         ),
     },

@@ -3,7 +3,13 @@ import React from 'react';
 import _ from 'lodash';
 
 import {GroupIndent} from '../../';
-import {Controller, FieldValue, ObjectIndependentInput, ValidateError} from '../../../../core';
+import {
+    Controller,
+    FieldValue,
+    ObjectIndependentInput,
+    ObjectIndependentInputProps,
+    ValidateError,
+} from '../../../../core';
 import {useOneOf} from '../../../hooks';
 import {block} from '../../../utils';
 
@@ -11,7 +17,11 @@ import './OneOf.scss';
 
 const b = block('oneof');
 
-export const OneOf: ObjectIndependentInput = (props) => {
+export interface OneOfProps extends ObjectIndependentInputProps {
+    withoutIndent?: boolean;
+}
+
+const OneOfComponent: React.FC<OneOfProps> = (props) => {
     const {oneOfValue, specProperties, toggler} = useOneOf({props});
 
     const parentOnChange = React.useCallback(
@@ -34,7 +44,12 @@ export const OneOf: ObjectIndependentInput = (props) => {
     );
 
     return (
-        <div className={b()}>
+        <div
+            className={b({
+                base: !props.withoutIndent,
+                flat: props.withoutIndent,
+            })}
+        >
             <div>{toggler}</div>
             {specProperties[oneOfValue] ? (
                 <GroupIndent>
@@ -51,3 +66,9 @@ export const OneOf: ObjectIndependentInput = (props) => {
         </div>
     );
 };
+
+export const OneOf = OneOfComponent;
+
+export const OneOfFlat: ObjectIndependentInput = (props) => (
+    <OneOfComponent {...props} withoutIndent />
+);

@@ -1,0 +1,15 @@
+@import '../../../styles/variables';
+
+.#{$ns}oneof-view {
+    .#{$ns}group-indent {
+        margin-bottom: 20px;
+    }
+
+    &_flat {
+        & > .#{$ns}group-indent {
+            margin: 0 0 20px;
+            border-left: none;
+            padding: 0;
+        }
+    }
+}
