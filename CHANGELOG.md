@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.7.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.6.2...v1.7.0) (2023-05-22)
+
+
+### Features
+
+* add flat oneof input, add oneof params to object spec ([#44](https://github.com/gravity-ui/dynamic-forms/issues/44)) ([25e9a35](https://github.com/gravity-ui/dynamic-forms/commit/25e9a3588b359cc251e5fdc19a1b51c5a614abb8))
+
+
+### Bug Fixes
+
+* initial value ([#39](https://github.com/gravity-ui/dynamic-forms/issues/39)) ([ce52d65](https://github.com/gravity-ui/dynamic-forms/commit/ce52d6531b8dbabd3462dfd430b947b99e00b433))
+
+
+### Performance Improvements
+
+* remove strict mode wrapper and react version check ([#43](https://github.com/gravity-ui/dynamic-forms/issues/43)) ([ec823bf](https://github.com/gravity-ui/dynamic-forms/commit/ec823bf56d4bec192649b8cd2c3da16def094bfb))
+
 ## [1.6.2](https://github.com/gravity-ui/dynamic-forms/compare/v1.6.1...v1.6.2) (2023-05-16)
 
 
