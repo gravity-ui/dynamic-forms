@@ -84,6 +84,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.layoutOpen        | `boolean`                |          | Expand [Layout](./config.md#layouts) at the first rendering                                                                                                                             |
 | viewSpec.order             | `string[]`               |          | Array of `properties` keys in the right order                                                                                                                                           |
 | viewSpec.link              | `any`                    |          | A field containing information for forming a [link](#link) for a value                                                                                                                  |
+| viewSpec.oneOfParams       | `object`                 |          | [Parameters](#oneofparams) that must be passed to oneof input                                                                                                                           |
 
 ### StringSpec
 
@@ -127,6 +128,12 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | :------- | :------- | :------: | :--------------------------- |
 | language | `string` |   yes    | Syntax highlighting language |
 | fontSize | `string` |          | Font size                    |
+
+#### OneOfParams
+
+| Property | Type                 | Required | Description |
+| :------- | :------------------- | :------: | :---------- |
+| toggler  | `'select'` `'radio'` |          | Switch type |
 
 #### FileInput
 

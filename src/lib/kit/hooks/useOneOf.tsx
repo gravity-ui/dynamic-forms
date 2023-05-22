@@ -65,8 +65,10 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
 
     const togglerInput = React.useMemo(() => {
         if (
-            options.length > 3 ||
-            _.some(options, ({title}) => title.length > MAX_TAB_TITLE_LENGTH)
+            spec.viewSpec.oneOfParams?.toggler !== 'radio' &&
+            (spec.viewSpec.oneOfParams?.toggler === 'select' ||
+                options.length > 3 ||
+                _.some(options, ({title}) => title.length > MAX_TAB_TITLE_LENGTH))
         ) {
             return (
                 <Select
@@ -95,7 +97,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
                 ))}
             </RadioButton>
         );
-    }, [options, oneOfValue, onOneOfChange, name]);
+    }, [options, oneOfValue, onOneOfChange, name, spec.viewSpec.oneOfParams?.toggler]);
 
     const toggler = React.useMemo(() => {
         if (Layout) {

@@ -33,6 +33,7 @@ const excludeOptions = [
     'viewSpec.order',
     'viewSpec.layoutOpen',
     'viewSpec.disabled',
+    'viewSpec.oneOfParams',
 ];
 
 const template = (spec: ObjectSpec = baseSpec) => {

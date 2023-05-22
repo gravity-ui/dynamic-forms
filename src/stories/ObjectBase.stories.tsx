@@ -37,7 +37,7 @@ const baseSpec: ObjectSpec = {
 
 const value = {name: 'Foo', age: 13, license: false};
 
-const excludeOptions = ['description', 'viewSpec.type'];
+const excludeOptions = ['description', 'viewSpec.type', 'viewSpec.oneOfParams'];
 
 const template = (spec: ObjectSpec = baseSpec) => {
     const Template: ComponentStory<typeof ObjectBase> = (__, {viewMode}) => (

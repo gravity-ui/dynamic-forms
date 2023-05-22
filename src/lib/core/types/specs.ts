@@ -83,6 +83,9 @@ export interface ObjectSpec<LinkType = any> {
         layoutOpen?: boolean;
         order?: string[];
         link?: LinkType;
+        oneOfParams?: {
+            toggler?: 'select' | 'radio';
+        };
     };
 }
 

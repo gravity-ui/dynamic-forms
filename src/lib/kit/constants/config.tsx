@@ -29,6 +29,8 @@ import {
     OneOf,
     OneOfCard,
     OneOfCardView,
+    OneOfFlat,
+    OneOfFlatView,
     OneOfView,
     Row,
     Row2,
@@ -128,6 +130,7 @@ export const dynamicConfig: DynamicFormConfig = {
     object: {
         inputs: {
             oneof: {Component: OneOf, independent: true},
+            oneof_flat: {Component: OneOfFlat, independent: true},
             card_oneof: {Component: CardOneOf, independent: true},
             secret: {Component: Secret, independent: true},
             base: {Component: ObjectBase, independent: true},
@@ -315,6 +318,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
     object: {
         views: {
             oneof: {Component: OneOfView, independent: true},
+            oneof_flat: {Component: OneOfFlatView, independent: true},
             card_oneof: {Component: CardOneOfView, independent: true},
             secret: undefined,
             base: {Component: ObjectBaseView, independent: true},

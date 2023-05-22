@@ -51,6 +51,7 @@
     &__header-left {
         display: flex;
         align-items: center;
+        flex-grow: 1;
     }
 
     &__header-right {
@@ -58,7 +59,7 @@
         align-items: center;
 
         & > * {
-            margin-left: 5px;
+            margin-left: 10px;
         }
     }
 
