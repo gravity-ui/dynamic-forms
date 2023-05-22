@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.2](https://github.com/gravity-ui/dynamic-forms/compare/v1.6.1...v1.6.2) (2023-05-16)
+
+
+### Bug Fixes
+
+* add css rule for errors ([#41](https://github.com/gravity-ui/dynamic-forms/issues/41)) ([a6661bc](https://github.com/gravity-ui/dynamic-forms/commit/a6661bcd3a86a29ec3b457bccbf6d8f46aaf0408))
+* add number value transform ([#40](https://github.com/gravity-ui/dynamic-forms/issues/40)) ([d422d90](https://github.com/gravity-ui/dynamic-forms/commit/d422d901e675c6f7014a07f9bfae972fcd555b76))
+
 ## [1.6.1](https://github.com/gravity-ui/dynamic-forms/compare/v1.6.0...v1.6.1) (2023-05-02)
 
 

@@ -102,7 +102,7 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
 
                 return (
                     <Controller
-                        initialValue={input.value?.[`<${key}>`]}
+                        value={input.value?.[`<${key}>`]}
                         parentOnChange={parentOnChange}
                         parentOnUnmount={parentOnUnmount}
                         spec={itemSpec}

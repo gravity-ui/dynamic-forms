@@ -2,7 +2,7 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import {isArraySpec, isObjectSpec, isReact18OrMore} from '../../../helpers';
+import {isArraySpec, isNumberSpec, isObjectSpec} from '../../../helpers';
 import {Spec} from '../../../types';
 import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG, REMOVED_ITEM} from '../constants';
 import {
@@ -18,6 +18,7 @@ export interface UseFieldProps<Value extends FieldValue, SpecType extends Spec> 
     name: string;
     spec: SpecType;
     initialValue: Value;
+    value: Value;
     validate?: (value?: Value) => ValidateError;
     tools: DynamicFormsContext['tools'];
     parentOnChange:
@@ -34,6 +35,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
     name,
     spec,
     initialValue,
+    value: externalValue,
     validate: propsValidate,
     tools,
     parentOnChange,
@@ -53,7 +55,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
     );
 
     const [state, setState] = React.useState(() => {
-        let value = _.cloneDeep(initialValue);
+        let value = _.cloneDeep(externalValue);
 
         if (_.isNil(value)) {
             if (spec.defaultValue) {
@@ -71,18 +73,20 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
         }
 
         const error = validate?.(value);
+        const dirty = !_.isEqual(value, initialValue);
+        const pristine = value === initialValue;
 
         return {
             active: false,
-            dirty: false,
+            dirty,
             error,
             invalid: Boolean(error),
-            modified: false,
-            pristine: false,
-            touched: false,
+            modified: dirty || !pristine,
+            pristine,
+            touched: dirty || !pristine,
             valid: !error,
             value,
-            visited: false,
+            visited: dirty || !pristine,
             childErrors: {},
         };
     });
@@ -95,7 +99,11 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
             setState((state) => {
                 const _value = _.isFunction(valOrSetter) ? valOrSetter(state.value) : valOrSetter;
                 const error = validate?.(_value);
-                const value = transformArrIn(_value);
+                let value = transformArrIn(_value);
+
+                if (isNumberSpec(spec) && value && !error) {
+                    value = Number(value) as Value;
+                }
 
                 let newChildErrors: Record<string, ValidateError> = {...state.childErrors};
 
@@ -141,7 +149,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
         };
 
         return {onChange, onDrop};
-    }, [initialValue, setState, name, validate]);
+    }, [initialValue, setState, name, validate, spec]);
 
     const onBlur = React.useCallback(() => {
         setState((state) => ({
@@ -239,7 +247,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
     ]);
 
     React.useEffect(() => {
-        if (!firstRenderRef.current || !_.isEqual(initialValue, state.value) || state.error) {
+        if (!firstRenderRef.current || !_.isEqual(externalValue, state.value) || state.error) {
             (parentOnChange ? parentOnChange : tools.onChange)(name, state.value, {
                 ...state.childErrors,
                 [name]: state.error,
@@ -251,10 +259,6 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
         firstRenderRef.current = false;
 
         return () => {
-            if (isReact18OrMore()) {
-                firstRenderRef.current = true;
-            }
-
             (parentOnUnmount ? parentOnUnmount : tools.onUnmount)(name);
         };
     }, []);

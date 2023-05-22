@@ -94,7 +94,7 @@ export const OneOfCard: ObjectIndependentInput = (props) => {
         >
             {specProperties[oneOfValue] ? (
                 <Controller
-                    initialValue={props.input.value?.[oneOfValue]}
+                    value={props.input.value?.[oneOfValue]}
                     spec={specProperties[oneOfValue]}
                     name={`${name}.${oneOfValue}`}
                     parentOnChange={parentOnChange}

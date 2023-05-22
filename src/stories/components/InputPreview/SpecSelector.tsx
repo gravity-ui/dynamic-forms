@@ -89,7 +89,7 @@ export const SpecSelector: ObjectIndependentInput = (props) => {
                     <Select width="max" value={[type]} options={options} onUpdate={handleUpdate} />
                 </Row>
                 <Controller
-                    initialValue={props.input.value?.[type]}
+                    value={props.input.value?.[type]}
                     spec={optionsSpec}
                     name={`${props.name}.${type}`}
                     parentOnChange={parentOnChange}
