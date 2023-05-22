@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/gravity-ui/dynamic-forms/compare/v1.7.0...v1.7.1) (2023-05-22)
+
+
+### Bug Fixes
+
+* **OneOf:** fixed styles in inputs and view ([#46](https://github.com/gravity-ui/dynamic-forms/issues/46)) ([e7a824d](https://github.com/gravity-ui/dynamic-forms/commit/e7a824d4fec537ebef10f96049279bfc7a759f3b))
+
 ## [1.7.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.6.2...v1.7.0) (2023-05-22)
 
 
