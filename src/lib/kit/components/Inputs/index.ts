@@ -9,6 +9,7 @@ export * from './OneOf';
 export * from './OneOfCard';
 export * from './Secret';
 export * from './Select';
+export * from './Switch';
 export * from './TableArrayInput';
 export * from './Text';
 export * from './TextArea';
