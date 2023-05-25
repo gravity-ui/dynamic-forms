@@ -43,6 +43,7 @@ import {
     SectionWithSubtitle,
     SectionWithSubtitle2,
     Select,
+    Switch,
     TableArrayInput,
     TableArrayView,
     TableCell,
@@ -103,6 +104,7 @@ export const dynamicConfig: DynamicFormConfig = {
     boolean: {
         inputs: {
             base: {Component: Checkbox},
+            switch: {Component: Switch},
         },
         layouts: {
             row: Row,
@@ -206,6 +208,7 @@ export const dynamicCardConfig: DynamicFormConfig = {
     boolean: {
         inputs: {
             base: {Component: Checkbox},
+            switch: {Component: Switch},
         },
         layouts: {
             row: Row2,
@@ -299,6 +302,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
     boolean: {
         views: {
             base: {Component: BaseView},
+            switch: {Component: BaseView},
         },
         layouts: {
             row: ViewRow,
@@ -382,6 +386,7 @@ export const dynamicViewCardConfig: DynamicViewConfig = {
     boolean: {
         views: {
             base: {Component: BaseView},
+            switch: {Component: BaseView},
         },
         layouts: {
             row: ViewRow2,
