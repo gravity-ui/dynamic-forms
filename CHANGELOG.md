@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.7.1...v1.8.0) (2023-05-25)
+
+
+### Features
+
+* **Switch:** added new input switch ([#48](https://github.com/gravity-ui/dynamic-forms/issues/48)) ([47e2f51](https://github.com/gravity-ui/dynamic-forms/commit/47e2f51dcda0579b00f6fadc3008d2e78a2f47e7))
+
 ## [1.7.1](https://github.com/gravity-ui/dynamic-forms/compare/v1.7.0...v1.7.1) (2023-05-22)
 
 
