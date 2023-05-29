@@ -101,7 +101,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
                 const error = validate?.(_value);
                 let value = transformArrIn(_value);
 
-                if (isNumberSpec(spec) && value && !error) {
+                if (isNumberSpec(spec) && value && value !== REMOVED_ITEM && !error) {
                     value = Number(value) as Value;
                 }
 
@@ -200,6 +200,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
                 [`<${idx}>`]: REMOVED_ITEM,
             } as Value;
             const error = validate?.(value);
+            console.log(idx);
 
             setState((state) => ({
                 ...state,
