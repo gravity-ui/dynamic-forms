@@ -1,5 +1,7 @@
 import React from 'react';
 
+import _ from 'lodash';
+
 import {ArrayView, Spec, ViewController, isCorrectSpec} from '../../../core';
 
 export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
@@ -27,7 +29,7 @@ export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
 
     const items = React.useMemo(
         () =>
-            value.map((__, idx) => {
+            _.map(value, (__, idx) => {
                 const itemSpec = getItemSpec(idx);
 
                 if (!itemSpec) {
