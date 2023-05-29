@@ -200,7 +200,6 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
                 [`<${idx}>`]: REMOVED_ITEM,
             } as Value;
             const error = validate?.(value);
-            console.log(idx);
 
             setState((state) => ({
                 ...state,
