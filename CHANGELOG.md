@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.1](https://github.com/gravity-ui/dynamic-forms/compare/v1.8.0...v1.8.1) (2023-05-30)
+
+
+### Bug Fixes
+
+* fixed deleting numbers from arrays ([#50](https://github.com/gravity-ui/dynamic-forms/issues/50)) ([76fba69](https://github.com/gravity-ui/dynamic-forms/commit/76fba69c47e016fb806d5d2d06fa367f4672c524))
+
 ## [1.8.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.7.1...v1.8.0) (2023-05-25)
 
 
