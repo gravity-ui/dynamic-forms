@@ -8,6 +8,7 @@ export * from './NumberWithScaleView';
 export * from './ObjectBaseView';
 export * from './ObjectValueInputView';
 export * from './OneOfCardView';
+export * from './OneOfTypeView';
 export * from './OneOfView';
 export * from './TableArrayView';
 export * from './TextAreaView';

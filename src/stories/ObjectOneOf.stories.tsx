@@ -60,7 +60,7 @@ const baseSpec: ObjectSpec = {
     },
 };
 
-const excludeOptions = ['viewSpec.type'];
+const excludeOptions = ['viewSpec.type', 'viewSpec.layoutOpen'];
 
 const template = (spec: ObjectSpec = baseSpec) => {
     const Template: ComponentStory<typeof OneOfBase> = (__, {viewMode}) => (

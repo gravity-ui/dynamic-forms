@@ -2,7 +2,7 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import {isArraySpec, isNumberSpec, isObjectSpec} from '../../../helpers';
+import {isArraySpec, isBooleanSpec, isNumberSpec, isObjectSpec} from '../../../helpers';
 import {Spec} from '../../../types';
 import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG, REMOVED_ITEM} from '../constants';
 import {
@@ -61,14 +61,18 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
             if (spec.defaultValue) {
                 value = transformArrIn(spec.defaultValue) as Value;
             }
-            // if the spec with type array or object, and this spec has "required === true",
+            // if the spec with type array or object or boolean, and this spec has "required === true",
             // we immediately exclude empty value
             else if (spec.required) {
                 if (isArraySpec(spec)) {
                     value = {[OBJECT_ARRAY_FLAG]: true, [OBJECT_ARRAY_CNT]: 0} as unknown as Value;
                 } else if (isObjectSpec(spec)) {
                     value = {} as unknown as Value;
+                } else if (isBooleanSpec(spec)) {
+                    value = true as unknown as Value;
                 }
+            } else if (isBooleanSpec(spec)) {
+                value = false as unknown as Value;
             }
         }
 
