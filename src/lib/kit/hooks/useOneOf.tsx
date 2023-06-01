@@ -3,7 +3,7 @@ import React from 'react';
 import {RadioButton, Select} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
-import {ObjectIndependentInputProps} from '../../core';
+import {ObjectIndependentInputProps, SpecTypes} from '../../core';
 
 const MAX_TAB_TITLE_LENGTH = 20;
 
@@ -11,6 +11,19 @@ export interface UseOneOfParams {
     props: ObjectIndependentInputProps;
     onTogglerChange?: (value: string) => void;
 }
+
+const getSpecTypeDefaultValue = (type: SpecTypes) => {
+    switch (type) {
+        case SpecTypes.Array:
+            return [];
+        case SpecTypes.Boolean:
+        case SpecTypes.Number:
+        case SpecTypes.String:
+            return undefined;
+        default:
+            return {};
+    }
+};
 
 export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
     const {name, input, spec, Layout} = props;
@@ -37,7 +50,9 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
     const onOneOfChange = React.useCallback(
         ([newValue]: string[]) => {
             if (newValue !== oneOfValue) {
-                input.onChange({});
+                const specType = specProperties[newValue]?.type || SpecTypes.Object;
+                //@ts-ignore
+                input.onChange(getSpecTypeDefaultValue(specType));
                 setOneOfValue(newValue);
                 onTogglerChange?.(newValue);
             }

@@ -83,7 +83,7 @@ const excludeOptions = ['viewSpec.type', 'viewSpec.layoutOpen'];
 
 const template = (spec: ObjectSpec = baseSpec) => {
     const Template: ComponentStory<typeof OneOfTypeBase> = (__, {viewMode}) => (
-        <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
+        <InputPreview value={123} spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
     );
 
     return Template;

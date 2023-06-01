@@ -9,6 +9,7 @@ import {
     FieldValue,
     ObjectIndependentInput,
     ObjectIndependentInputProps,
+    ObjectSpec,
     ValidateError,
     transformArrOut,
 } from '../../../../core';
@@ -52,14 +53,16 @@ export interface OneOfTypeProps extends ObjectIndependentInputProps {
     withoutIndent?: boolean;
 }
 
+const getOneOfSpecDefaultType = (spec: ObjectSpec) =>
+    spec.viewSpec?.order?.[0] || Object.keys(spec.properties || {})[0];
+
 const OneOfTypeComponent: React.FC<OneOfTypeProps> = (props) => {
     const validatorSchema = React.useMemo(() => preprareSchema(props.spec), [props.spec]);
-
     const valueType = useMemo(
         () =>
             Object.keys(validatorSchema?.properties)?.find((key) =>
                 ajv.validate(validatorSchema.properties[key], transformArrOut(props.input.value)),
-            ),
+            ) || getOneOfSpecDefaultType(props.spec),
         [[props.input.value]],
     );
 
@@ -70,7 +73,7 @@ const OneOfTypeComponent: React.FC<OneOfTypeProps> = (props) => {
             ...props,
             input: {
                 ...props.input,
-                // value: valueType ? {[valueType]: props.input.value[VALUE_KEY]} : props.input.value,
+                value: valueType ? {[valueType]: props.input.value} : props.input.value,
             },
         },
     });
@@ -109,7 +112,7 @@ const OneOfTypeComponent: React.FC<OneOfTypeProps> = (props) => {
                     <Controller
                         // value={props.input.value?.[VALUE_KEY]}
                         // name={`${props.name}.${VALUE_KEY}`}
-                        value={undefined}
+                        value={props.input.value}
                         name={props.name}
                         spec={specProperties[oneOfValue]}
                         parentOnChange={parentOnChange}
