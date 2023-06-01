@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 
+import Ajv from 'ajv';
 import _ from 'lodash';
 
 import {GroupIndent} from '../../';
@@ -9,6 +10,7 @@ import {
     ObjectIndependentInput,
     ObjectIndependentInputProps,
     ValidateError,
+    transformArrOut,
 } from '../../../../core';
 import {useOneOf} from '../../../hooks';
 import {block} from '../../../utils';
@@ -16,56 +18,74 @@ import {block} from '../../../utils';
 import './OneOfType.scss';
 
 const b = block('oneof-type');
-const VALUE_KEY = 'value';
+// const VALUE_KEY = 'value';
+const ajv = new Ajv({
+    strict: false,
+    strictSchema: false,
+    strictTypes: false,
+    strictRequired: false,
+});
+
+const preprareSchema = (schema: any) => {
+    const copy = _.cloneDeep(schema);
+
+    const parseSchema = (inner: any) => {
+        delete inner.required;
+        delete inner.viewSpec;
+
+        if (inner.properties) {
+            Object.entries(inner.properties).forEach(([_key, value]) => {
+                parseSchema(value);
+            });
+        }
+
+        if (inner.items) {
+            parseSchema(inner.items);
+        }
+    };
+    parseSchema(copy);
+
+    return copy;
+};
 
 export interface OneOfTypeProps extends ObjectIndependentInputProps {
     withoutIndent?: boolean;
 }
 
 const OneOfTypeComponent: React.FC<OneOfTypeProps> = (props) => {
-    const valueType = React.useMemo(() => {
-        if (_.isArray(props.input.value?.[VALUE_KEY])) {
-            return 'array';
-        }
+    const validatorSchema = React.useMemo(() => preprareSchema(props.spec), [props.spec]);
 
-        if (_.isBoolean(props.input.value?.[VALUE_KEY])) {
-            return 'boolean';
-        }
+    const valueType = useMemo(
+        () =>
+            Object.keys(validatorSchema?.properties)?.find((key) =>
+                ajv.validate(validatorSchema.properties[key], transformArrOut(props.input.value)),
+            ),
+        [[props.input.value]],
+    );
 
-        if (_.isNumber(props.input.value?.[VALUE_KEY])) {
-            return 'number';
-        }
-
-        if (_.isObject(props.input.value?.[VALUE_KEY])) {
-            return 'object';
-        }
-
-        if (_.isString(props.input.value?.[VALUE_KEY])) {
-            return 'string';
-        }
-
-        return;
-    }, [props.input.value]);
+    console.log('valueType', valueType);
 
     const {oneOfValue, specProperties, toggler} = useOneOf({
         props: {
             ...props,
             input: {
                 ...props.input,
-                value: valueType ? {[valueType]: props.input.value[VALUE_KEY]} : props.input.value,
+                // value: valueType ? {[valueType]: props.input.value[VALUE_KEY]} : props.input.value,
             },
         },
     });
 
     const parentOnChange = React.useCallback(
         (
-            childName: string,
+            _childName: string,
             childValue: FieldValue,
             childErrors?: Record<string, ValidateError>,
         ) => {
-            const value = _.set({}, childName.split(`${props.input.name}.`).join(''), childValue);
+            // const value = _.set({}, childName.split(`${props.input.name}.`).join(''), childValue);
 
-            props.input.onChange(value, childErrors);
+            // props.input.onChange(value, childErrors);
+            //@ts-ignore
+            props.input.onChange(childValue, childErrors);
         },
         [props.input.onChange, props.input.name],
     );
@@ -87,9 +107,11 @@ const OneOfTypeComponent: React.FC<OneOfTypeProps> = (props) => {
             {specProperties[oneOfValue] ? (
                 <GroupIndent>
                     <Controller
-                        value={props.input.value?.[VALUE_KEY]}
+                        // value={props.input.value?.[VALUE_KEY]}
+                        // name={`${props.name}.${VALUE_KEY}`}
+                        value={undefined}
+                        name={props.name}
                         spec={specProperties[oneOfValue]}
-                        name={`${props.name}.${VALUE_KEY}`}
                         parentOnChange={parentOnChange}
                         parentOnUnmount={parentOnUnmount}
                         key={`${props.name}.${oneOfValue}`}
