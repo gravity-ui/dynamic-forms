@@ -42,7 +42,9 @@ export const useIntegrationFF = (store: DynamicFieldStore, withoutDebounce?: boo
 
     const change = React.useMemo(() => {
         const cb = (value: FieldValue) => {
-            form.change(store.name, _.get(transformArrOut(value), store.name));
+            if (store.name) {
+                form.change(store.name, _.get(transformArrOut(value), store.name));
+            }
         };
 
         if (withoutDebounce) {
@@ -55,6 +57,14 @@ export const useIntegrationFF = (store: DynamicFieldStore, withoutDebounce?: boo
     React.useEffect(() => {
         change(store.values);
     }, [store.values]);
+
+    React.useEffect(() => {
+        return () => {
+            if (store.name) {
+                form.change(store.name, undefined);
+            }
+        };
+    }, []);
 
     return watcher;
 };
