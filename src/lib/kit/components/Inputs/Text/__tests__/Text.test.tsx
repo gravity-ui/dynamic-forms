@@ -134,6 +134,14 @@ describe('Text input', () => {
 
             expect(input).toHaveValue('default value');
         });
+
+        test('autocomplete input', () => {
+            render(<DynamicForm spec={SPEC_STRING} />);
+
+            const input = screen.getByPlaceholderText(PLACEHOLDER);
+
+            expect(input.getAttribute('autocomplete')).toBe(null);
+        });
     });
 
     describe('Number spec', () => {
@@ -226,6 +234,14 @@ describe('Text input', () => {
             const input = screen.getByPlaceholderText(PLACEHOLDER);
 
             expect(input).toHaveValue('123');
+        });
+
+        test('autocomplete input', () => {
+            render(<DynamicForm spec={SPEC_NUMBER} />);
+
+            const input = screen.getByPlaceholderText(PLACEHOLDER);
+
+            expect(input.getAttribute('autocomplete')).toBe(null);
         });
     });
 
