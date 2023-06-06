@@ -12,7 +12,6 @@ import {
     FieldValue,
     OBJECT_ARRAY_CNT,
     OBJECT_ARRAY_FLAG,
-    REMOVED_ITEM,
     Spec,
     ValidateError,
     isArraySpec,
@@ -25,12 +24,7 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
     const keys = React.useMemo(
         () =>
             Object.keys(arrayInput.value || {})
-                .filter(
-                    (k) =>
-                        k !== OBJECT_ARRAY_FLAG &&
-                        k !== OBJECT_ARRAY_CNT &&
-                        arrayInput.value[k] !== REMOVED_ITEM,
-                )
+                .filter((k) => k !== OBJECT_ARRAY_FLAG && k !== OBJECT_ARRAY_CNT)
                 .map((k) => k.split('<').join('').split('>').join(''))
                 .sort((a, b) => Number(a) - Number(b)),
         [arrayInput.value],
@@ -86,11 +80,6 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
         [input.onChange, input.name],
     );
 
-    const parentOnUnmount = React.useCallback(
-        (childName: string) => input.onChange((currentValue) => currentValue, {[childName]: false}),
-        [input.onChange],
-    );
-
     const items = React.useMemo(
         () =>
             keys.map((key, idx) => {
@@ -104,14 +93,14 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
                     <Controller
                         value={input.value?.[`<${key}>`]}
                         parentOnChange={parentOnChange}
-                        parentOnUnmount={parentOnUnmount}
+                        parentOnUnmount={input.parentOnUnmount}
                         spec={itemSpec}
                         name={`${name}.<${key}>`}
                         key={`${name}.<${key}>`}
                     />
                 );
             }),
-        [keys.join(''), name, getItemSpec, parentOnChange, parentOnUnmount, input.value],
+        [keys.join(''), name, getItemSpec, parentOnChange, input.parentOnUnmount, input.value],
     );
 
     if (!itemSpecCorrect) {

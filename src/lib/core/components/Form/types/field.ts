@@ -13,6 +13,7 @@ export interface FieldRenderProps<Value extends FieldValue> {
         ) => void;
         onFocus: (event?: React.FocusEvent<HTMLElement>) => void;
         onDrop: () => void;
+        parentOnUnmount: (childName: string) => void;
     };
     arrayInput: {
         name: string;
