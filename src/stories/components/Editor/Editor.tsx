@@ -115,7 +115,10 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
                 <Form initialValues={{input: value}} onSubmit={_.noop}>
                     {(form) => (
                         <React.Fragment>
-                            <div className={b('input-field', {hidden: toggler !== 'form'})}>
+                            <div
+                                className={b('input-field', {hidden: toggler !== 'form'})}
+                                style={{maxWidth: '400px'}}
+                            >
                                 <DynamicField name="input" spec={spec} />
                             </div>
                             <div className={b('input-view', {hidden: toggler !== 'view'})}>

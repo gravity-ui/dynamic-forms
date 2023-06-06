@@ -14,6 +14,10 @@
 
     &_without-max-width {
         max-width: unset;
+
+        > .df-error-wrapper {
+            width: unset;
+        }
     }
 
     &__remove-button {
