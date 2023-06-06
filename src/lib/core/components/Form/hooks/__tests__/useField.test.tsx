@@ -508,4 +508,90 @@ describe('Form/hooks/useField', () => {
         expect(mirror.field.useStore?.store.values[name]).toBe(undefined);
         expect(mirror.field.useStore?.store.errors[name]).toBe(undefined);
     });
+
+    test('onItemAdd and onDrop from array item number spec', () => {
+        const mirror: WonderMirror = {field: {}, controller: {}};
+        const _spec: ArraySpec = {
+            type: SpecTypes.Array,
+            items: {
+                type: SpecTypes.Number,
+                viewSpec: {
+                    type: 'base',
+                },
+            },
+            viewSpec: {
+                type: 'base',
+            },
+        };
+
+        render(
+            <Form initialValues={{}} onSubmit={_.noop}>
+                {() => (
+                    <DynamicField
+                        name={name}
+                        spec={_spec}
+                        config={dynamicConfig}
+                        __mirror={mirror}
+                    />
+                )}
+            </Form>,
+        );
+
+        act(() => {
+            mirror.controller[name]?.useField?.arrayInput.onItemAdd(123);
+        });
+
+        const nextValue = {
+            '<0>': 123,
+            [OBJECT_ARRAY_FLAG]: true,
+            [OBJECT_ARRAY_CNT]: 1,
+        };
+
+        expect(mirror.controller[name]?.useField?.input.value).not.toBe(nextValue);
+        expect(mirror.controller[name]?.useField?.input.value).not.toBe(
+            mirror.field.useStore?.store.values[name],
+        );
+        expect(mirror.controller[name]?.useField?.input.value).toMatchObject(nextValue);
+
+        expect(mirror.controller[name]?.useField?.arrayInput.value).not.toBe(nextValue);
+        expect(mirror.controller[name]?.useField?.arrayInput.value).not.toBe(
+            mirror.field.useStore?.store.values[name],
+        );
+        expect(mirror.controller[name]?.useField?.arrayInput.value).toMatchObject(nextValue);
+
+        expect(mirror.field.useStore?.store.values[name]).not.toBe(nextValue);
+        expect(mirror.field.useStore?.store.values[name]).toMatchObject(nextValue);
+        expect(mirror.field.useStore?.store.errors[name]).toBe(false);
+
+        expect(mirror.controller[name]?.useField?.meta.dirty).toBe(true);
+        expect(mirror.controller[name]?.useField?.meta.error).toBe(false);
+        expect(mirror.controller[name]?.useField?.meta.invalid).toBe(false);
+        expect(mirror.controller[name]?.useField?.meta.modified).toBe(true);
+        expect(mirror.controller[name]?.useField?.meta.touched).toBe(true);
+        expect(mirror.controller[name]?.useField?.meta.valid).toBe(true);
+        expect(mirror.controller[name]?.useField?.meta.visited).toBe(true);
+
+        act(() => {
+            mirror.controller[`${name}.<0>`]?.useField?.input.onDrop();
+        });
+
+        const nextValue1 = {
+            '<0>': REMOVED_ITEM,
+            '____arr-obj': true,
+            '____arr-obj-cnt': 1,
+        };
+
+        expect(mirror.controller[name]?.useField?.arrayInput.value).toMatchObject(nextValue1);
+        expect(mirror.field.useStore?.store.values[name]).toMatchObject(nextValue1);
+
+        expect(mirror.field.useStore?.store.errors).toMatchObject({[name]: false});
+
+        expect(mirror.controller[name]?.useField?.meta.dirty).toBe(true);
+        expect(mirror.controller[name]?.useField?.meta.error).toBe(false);
+        expect(mirror.controller[name]?.useField?.meta.invalid).toBe(false);
+        expect(mirror.controller[name]?.useField?.meta.modified).toBe(true);
+        expect(mirror.controller[name]?.useField?.meta.touched).toBe(true);
+        expect(mirror.controller[name]?.useField?.meta.valid).toBe(true);
+        expect(mirror.controller[name]?.useField?.meta.visited).toBe(true);
+    });
 });
