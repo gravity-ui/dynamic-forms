@@ -517,15 +517,10 @@ describe('Form/hooks/useField', () => {
                 type: SpecTypes.Number,
                 viewSpec: {
                     type: 'base',
-                    layout: 'row',
-                    layoutTitle: 'element',
                 },
             },
             viewSpec: {
                 type: 'base',
-                layout: 'accordeon',
-                layoutTitle: 'Elements',
-                itemLabel: 'Add element',
             },
         };
 
@@ -546,26 +541,26 @@ describe('Form/hooks/useField', () => {
             mirror.controller[name]?.useField?.arrayInput.onItemAdd(123);
         });
 
-        const childValue = {
+        const nextValue = {
             '<0>': 123,
             [OBJECT_ARRAY_FLAG]: true,
             [OBJECT_ARRAY_CNT]: 1,
         };
 
-        expect(mirror.controller[name]?.useField?.input.value).not.toBe(childValue);
+        expect(mirror.controller[name]?.useField?.input.value).not.toBe(nextValue);
         expect(mirror.controller[name]?.useField?.input.value).not.toBe(
             mirror.field.useStore?.store.values[name],
         );
-        expect(mirror.controller[name]?.useField?.input.value).toMatchObject(childValue);
+        expect(mirror.controller[name]?.useField?.input.value).toMatchObject(nextValue);
 
-        expect(mirror.controller[name]?.useField?.arrayInput.value).not.toBe(childValue);
+        expect(mirror.controller[name]?.useField?.arrayInput.value).not.toBe(nextValue);
         expect(mirror.controller[name]?.useField?.arrayInput.value).not.toBe(
             mirror.field.useStore?.store.values[name],
         );
-        expect(mirror.controller[name]?.useField?.arrayInput.value).toMatchObject(childValue);
+        expect(mirror.controller[name]?.useField?.arrayInput.value).toMatchObject(nextValue);
 
-        expect(mirror.field.useStore?.store.values[name]).not.toBe(childValue);
-        expect(mirror.field.useStore?.store.values[name]).toMatchObject(childValue);
+        expect(mirror.field.useStore?.store.values[name]).not.toBe(nextValue);
+        expect(mirror.field.useStore?.store.values[name]).toMatchObject(nextValue);
         expect(mirror.field.useStore?.store.errors[name]).toBe(false);
 
         expect(mirror.controller[name]?.useField?.meta.dirty).toBe(true);
@@ -580,14 +575,14 @@ describe('Form/hooks/useField', () => {
             mirror.controller[`${name}.<0>`]?.useField?.input.onDrop();
         });
 
-        const dropChildValue = {
+        const nextValue1 = {
             '<0>': REMOVED_ITEM,
             '____arr-obj': true,
             '____arr-obj-cnt': 1,
         };
 
-        expect(mirror.controller[name]?.useField?.arrayInput.value).toMatchObject(dropChildValue);
-        expect(mirror.field.useStore?.store.values[name]).toMatchObject(dropChildValue);
+        expect(mirror.controller[name]?.useField?.arrayInput.value).toMatchObject(nextValue1);
+        expect(mirror.field.useStore?.store.values[name]).toMatchObject(nextValue1);
 
         expect(mirror.field.useStore?.store.errors).toMatchObject({[name]: false});
 
