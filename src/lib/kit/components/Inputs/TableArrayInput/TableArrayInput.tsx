@@ -13,7 +13,6 @@ import {
     FieldValue,
     OBJECT_ARRAY_CNT,
     OBJECT_ARRAY_FLAG,
-    REMOVED_ITEM,
     ValidateError,
     isArraySpec,
     isBooleanSpec,
@@ -33,12 +32,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
     const keys = React.useMemo(
         () =>
             Object.keys(arrayInput.value || {})
-                .filter(
-                    (k) =>
-                        k !== OBJECT_ARRAY_FLAG &&
-                        k !== OBJECT_ARRAY_CNT &&
-                        arrayInput.value[k] !== REMOVED_ITEM,
-                )
+                .filter((k) => k !== OBJECT_ARRAY_FLAG && k !== OBJECT_ARRAY_CNT)
                 .map((k) => k.split('<').join('').split('>').join(''))
                 .sort((a, b) => Number(a) - Number(b))
                 .map((key) => ({
@@ -70,11 +64,6 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                 childErrors,
             ),
         [input.onChange, input.name],
-    );
-
-    const parentOnUnmount = React.useCallback(
-        (childName: string) => input.onChange((currentValue) => currentValue, {[childName]: false}),
-        [input.onChange],
     );
 
     const columns = React.useMemo(() => {
@@ -154,7 +143,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                             spec={preparedEntitySpec}
                             name={`${name}.<${key}>.${property}`}
                             parentOnChange={parentOnChange}
-                            parentOnUnmount={parentOnUnmount}
+                            parentOnUnmount={_.noop}
                         />
                     </div>
                 );
@@ -162,7 +151,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
         }));
 
         return [idxColumn, ...columns, removeColumn];
-    }, [name, spec, onItemRemove, parentOnChange, parentOnUnmount, input.value]);
+    }, [name, spec, onItemRemove, parentOnChange, input.parentOnUnmount, input.value]);
 
     const getRowClassNames = React.useCallback(
         ({key}: {key: string}) => {

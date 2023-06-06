@@ -25,11 +25,6 @@ export const TextLink: ObjectIndependentInput = (props) => {
         [input.onChange, input.name],
     );
 
-    const parentOnUnmount = React.useCallback(
-        (childName: string) => input.onChange((currentValue) => currentValue, {[childName]: false}),
-        [input.onChange],
-    );
-
     const childSpec = React.useMemo(() => {
         if (
             spec.properties?.[TEXT_LINK_PROPERTY_NAME] &&
@@ -56,7 +51,7 @@ export const TextLink: ObjectIndependentInput = (props) => {
             name={`${name}.${TEXT_LINK_PROPERTY_NAME}`}
             key={`${name}.${TEXT_LINK_PROPERTY_NAME}`}
             parentOnChange={parentOnChange}
-            parentOnUnmount={parentOnUnmount}
+            parentOnUnmount={input.parentOnUnmount}
         />
     );
 

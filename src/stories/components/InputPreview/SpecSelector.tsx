@@ -62,12 +62,6 @@ export const SpecSelector: ObjectIndependentInput = (props) => {
         [props.input.onChange, props.input.name],
     );
 
-    const parentOnUnmount = React.useCallback(
-        (childName: string) =>
-            props.input.onChange((currentValue) => currentValue, {[childName]: false}),
-        [props.input.onChange],
-    );
-
     const typeSpec = React.useMemo(
         () => ({
             type: SpecTypes.String,
@@ -93,7 +87,7 @@ export const SpecSelector: ObjectIndependentInput = (props) => {
                     spec={optionsSpec}
                     name={`${props.name}.${type}`}
                     parentOnChange={parentOnChange}
-                    parentOnUnmount={parentOnUnmount}
+                    parentOnUnmount={props.input.parentOnUnmount}
                     key={`${props.name}.${type}`}
                 />
             </React.Fragment>
