@@ -37,12 +37,6 @@ const OneOfComponent: React.FC<OneOfProps> = (props) => {
         [props.input.onChange, props.input.name],
     );
 
-    const parentOnUnmount = React.useCallback(
-        (childName: string) =>
-            props.input.onChange((currentValue) => currentValue, {[childName]: false}),
-        [props.input.onChange],
-    );
-
     return (
         <div
             className={b({
@@ -58,7 +52,7 @@ const OneOfComponent: React.FC<OneOfProps> = (props) => {
                         spec={specProperties[oneOfValue]}
                         name={`${props.name}.${oneOfValue}`}
                         parentOnChange={parentOnChange}
-                        parentOnUnmount={parentOnUnmount}
+                        parentOnUnmount={props.input.parentOnUnmount}
                         key={`${props.name}.${oneOfValue}`}
                     />
                 </GroupIndent>

@@ -8,7 +8,7 @@ import {ErrorMessages, dynamicConfig} from '../../../../../kit';
 import {SpecTypes} from '../../../../constants';
 import {ArraySpec, ObjectSpec, StringSpec} from '../../../../types';
 import {DynamicField} from '../../DynamicField';
-import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG, REMOVED_ITEM} from '../../constants';
+import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG} from '../../constants';
 import {WonderMirror} from '../../types';
 
 const spec: ObjectSpec = {type: SpecTypes.Object, viewSpec: {type: ''}};
@@ -356,15 +356,25 @@ describe('Form/hooks/useField', () => {
 
     test('onDrop (array item)', () => {
         const mirror: WonderMirror = {field: {}, controller: {}};
-        const _name = `${name}>`;
-        const _value = {[_name]: value[name]};
+        const _spec: ArraySpec = {
+            type: SpecTypes.Array,
+            items: {type: SpecTypes.String, viewSpec: {type: ''}},
+            viewSpec: {type: 'base'},
+        };
+        const _value = {
+            [name]: {
+                '<0>': 'item',
+                [OBJECT_ARRAY_FLAG]: true,
+                [OBJECT_ARRAY_CNT]: 1,
+            },
+        };
 
         render(
             <Form initialValues={_value} onSubmit={_.noop}>
                 {() => (
                     <DynamicField
-                        name={_name}
-                        spec={spec}
+                        name={name}
+                        spec={_spec}
                         config={dynamicConfig}
                         __mirror={mirror}
                     />
@@ -373,21 +383,19 @@ describe('Form/hooks/useField', () => {
         );
 
         act(() => {
-            mirror.controller[_name]?.useField?.input.onDrop();
+            mirror.controller[`${name}.<0>`]?.useField?.input.onDrop();
         });
 
-        expect(mirror.controller[_name]?.useField?.input.value).toBe(REMOVED_ITEM);
-        expect(mirror.controller[_name]?.useField?.arrayInput.value).toBe(REMOVED_ITEM);
-        expect(mirror.field.useStore?.store.values[_name]).toBe(REMOVED_ITEM);
-        expect(mirror.field.useStore?.store.errors[_name]).toBe(undefined);
+        const nextValue = {
+            [OBJECT_ARRAY_FLAG]: true,
+            [OBJECT_ARRAY_CNT]: 1,
+        };
 
-        expect(mirror.controller[_name]?.useField?.meta.dirty).toBe(true);
-        expect(mirror.controller[_name]?.useField?.meta.error).toBe(undefined);
-        expect(mirror.controller[_name]?.useField?.meta.invalid).toBe(false);
-        expect(mirror.controller[_name]?.useField?.meta.modified).toBe(true);
-        expect(mirror.controller[_name]?.useField?.meta.touched).toBe(true);
-        expect(mirror.controller[_name]?.useField?.meta.valid).toBe(true);
-        expect(mirror.controller[_name]?.useField?.meta.visited).toBe(true);
+        expect(mirror.controller[name]?.useField?.input.value).toMatchObject(nextValue);
+        expect(mirror.controller[name]?.useField?.arrayInput.value).toMatchObject(nextValue);
+        expect(mirror.field.useStore?.store.values[name]).toMatchObject(nextValue);
+
+        expect(mirror.controller[`${name}.<0>`]).toBe(undefined);
     });
 
     test('onItemAdd/onItemRemove', () => {
@@ -576,7 +584,6 @@ describe('Form/hooks/useField', () => {
         });
 
         const nextValue1 = {
-            '<0>': REMOVED_ITEM,
             '____arr-obj': true,
             '____arr-obj-cnt': 1,
         };
