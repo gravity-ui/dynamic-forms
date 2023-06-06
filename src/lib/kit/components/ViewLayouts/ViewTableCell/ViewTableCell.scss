@@ -1,19 +1,26 @@
 @import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
 
 .#{$ns}view-table-cell {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
 
-    & > .#{$ns}view-row:last-child {
-        margin-bottom: 0;
-    }
+    &__inner {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 
-    & > .#{$ns}view-transparent {
-        margin-bottom: 6px;
-
-        &:last-child {
+        & > .#{$ns}view-row:last-child {
             margin-bottom: 0;
         }
+
+        & > .#{$ns}view-transparent {
+            margin-bottom: 6px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
     }
+
+    @include with-copy-button();
 }

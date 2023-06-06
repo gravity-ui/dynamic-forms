@@ -1,9 +1,13 @@
 @import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
 
 .#{$ns}view-transparent {
+    display: flex;
     margin-bottom: 20px;
 
     &:last-child {
         margin-bottom: 0;
     }
+
+    @include with-copy-button();
 }
