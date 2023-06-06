@@ -4,10 +4,10 @@ import _ from 'lodash';
 import debounce from 'lodash/debounce';
 import {Field as FinalFormField, useForm} from 'react-final-form';
 
-import {AsyncValidateError, BaseValidateError, DynamicFieldStore} from '../types';
+import {AsyncValidateError, BaseValidateError, DynamicFieldStore, FieldValue} from '../types';
 import {transformArrOut} from '../utils';
 
-export const useIntegrationFF = (store: DynamicFieldStore) => {
+export const useIntegrationFF = (store: DynamicFieldStore, withoutDebounce?: boolean) => {
     const form = useForm();
 
     const watcher = React.useMemo(() => {
@@ -40,12 +40,17 @@ export const useIntegrationFF = (store: DynamicFieldStore) => {
         return <FinalFormField {...props} />;
     }, [store.name, store.errors]);
 
-    const change = React.useCallback(
-        debounce((value) => {
+    const change = React.useMemo(() => {
+        const cb = (value: FieldValue) => {
             form.change(store.name, _.get(transformArrOut(value), store.name));
-        }, 100),
-        [form.change, store.name],
-    );
+        };
+
+        if (withoutDebounce) {
+            return cb;
+        }
+
+        return debounce(cb, 100);
+    }, [form.change, store.name, withoutDebounce]);
 
     React.useEffect(() => {
         change(store.values);
