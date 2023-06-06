@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import {SpecTypes} from '../../../constants';
 import {FormValue, ObjectValue} from '../../../types';
-import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG, REMOVED_ITEM} from '../constants';
+import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG} from '../constants';
 
 export const isCorrectConfig = (candidate: any) =>
     Object.values(SpecTypes).every(
@@ -47,12 +47,7 @@ export const transformArrOut = <Type extends FormValue, ReturnType extends FormV
     if (_.isObject(value) && !_.isArray(value)) {
         if ((value as ObjectValue)[OBJECT_ARRAY_FLAG]) {
             const _value = Object.keys(value)
-                .filter(
-                    (key) =>
-                        key !== OBJECT_ARRAY_FLAG &&
-                        key !== OBJECT_ARRAY_CNT &&
-                        (value as ObjectValue)[key] !== REMOVED_ITEM,
-                )
+                .filter((key) => key !== OBJECT_ARRAY_FLAG && key !== OBJECT_ARRAY_CNT)
                 .map((key) => key.split('<').join('').split('>').join(''))
                 .sort((a, b) => Number(a) - Number(b))
                 .map((key) => transformArrOut((value as ObjectValue)[`<${key}>`])) as ReturnType;

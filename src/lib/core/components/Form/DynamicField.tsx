@@ -25,6 +25,7 @@ export interface DynamicFieldProps {
     config: DynamicFormConfig;
     Monaco?: React.ComponentType<MonacoEditorProps>;
     search?: string | ((spec: Spec, input: FieldValue, name: string) => boolean);
+    withoutInsertFFDebounce?: boolean;
     __mirror?: WonderMirror;
 }
 
@@ -34,12 +35,13 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
     config,
     Monaco,
     search,
+    withoutInsertFFDebounce,
     __mirror,
 }) => {
     const DynamicFormsCtx = useCreateContext();
     const SearchContext = useCreateSearchContext();
     const {tools, store} = useStore(name);
-    const watcher = useIntegrationFF(store);
+    const watcher = useIntegrationFF(store, withoutInsertFFDebounce);
     const {store: searchStore, setField, removeField, isHiddenField} = useSearchStore();
 
     const context = React.useMemo(

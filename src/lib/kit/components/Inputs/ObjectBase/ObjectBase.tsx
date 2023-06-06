@@ -48,11 +48,6 @@ export const ObjectBase: ObjectIndependentInput = ({spec, name, Layout, ...restP
         [restProps.input.onChange, restProps.input.name],
     );
 
-    const parentOnUnmount = React.useCallback(
-        (childName: string) =>
-            restProps.input.onChange((currentValue) => currentValue, {[childName]: false}),
-        [restProps.input.onChange],
-    );
     const content = React.useMemo(() => {
         if (!_.isObjectLike(spec.properties) || !Object.keys(spec.properties || {}).length) {
             return null;
@@ -73,7 +68,7 @@ export const ObjectBase: ObjectIndependentInput = ({spec, name, Layout, ...restP
                             spec={specProperties[property]}
                             name={`${name ? name + '.' : ''}${property}`}
                             parentOnChange={parentOnChange}
-                            parentOnUnmount={parentOnUnmount}
+                            parentOnUnmount={restProps.input.parentOnUnmount}
                             key={`${name ? name + '.' : ''}${property}`}
                         />
                     ) : null,
@@ -87,7 +82,7 @@ export const ObjectBase: ObjectIndependentInput = ({spec, name, Layout, ...restP
         restProps.input.value,
         addBtn,
         parentOnChange,
-        parentOnUnmount,
+        restProps.input.parentOnUnmount,
     ]);
 
     if (!Layout || !content) {
