@@ -288,6 +288,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
         },
         layouts: {
             row: ViewRow,
+            row_verbose: ViewRow,
             accordeon: ViewAccordeon,
             section: ViewSection,
             section2: ViewSection2,
@@ -306,6 +307,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
         },
         layouts: {
             row: ViewRow,
+            row_verbose: ViewRow,
             table_item: ViewTableCell,
         },
     },
@@ -315,6 +317,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
         },
         layouts: {
             row: ViewRow,
+            row_verbose: ViewRow,
             table_item: ViewTableCell,
             transparent: ViewTransparent,
         },
@@ -331,6 +334,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
         },
         layouts: {
             row: ViewRow,
+            row_verbose: ViewRow,
             accordeon: ViewAccordeon,
             section: ViewSection,
             section2: ViewSection2,
@@ -354,6 +358,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
         },
         layouts: {
             row: ViewRow,
+            row_verbose: ViewRow,
             table_item: ViewTableCell,
             transparent: ViewTransparent,
             section: ViewSection,

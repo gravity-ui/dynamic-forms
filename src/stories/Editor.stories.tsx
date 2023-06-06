@@ -17,15 +17,15 @@ const spec: ObjectSpec = {
     properties: {
         id: {
             type: SpecTypes.Number,
-            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'id'},
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'id', copy: true},
         },
         name: {
             type: SpecTypes.String,
-            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Name'},
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Name', copy: true},
         },
         description: {
             type: SpecTypes.String,
-            viewSpec: {type: 'textarea', layout: 'row', layoutTitle: 'Description'},
+            viewSpec: {type: 'textarea', layout: 'row', layoutTitle: 'Description', copy: true},
         },
         settings: {
             type: SpecTypes.Boolean,
@@ -87,6 +87,7 @@ const spec: ObjectSpec = {
                     type: 'base',
                     layout: 'row',
                     layoutTitle: 'Label',
+                    copy: true,
                 },
             },
             viewSpec: {

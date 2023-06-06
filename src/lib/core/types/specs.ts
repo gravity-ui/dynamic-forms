@@ -64,6 +64,7 @@ export interface NumberSpec<LinkType = any> {
         layoutOpen?: boolean;
         link?: LinkType;
         placeholder?: string;
+        copy?: boolean;
     };
 }
 
@@ -125,6 +126,7 @@ export interface StringSpec<LinkType = any> {
             readAsMethod?: ReadAsMethod;
             ignoreText?: boolean;
         };
+        copy?: boolean;
     };
 }
 
