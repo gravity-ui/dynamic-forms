@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.1](https://github.com/gravity-ui/dynamic-forms/compare/v1.9.0...v1.9.1) (2023-06-07)
+
+
+### Bug Fixes
+
+* fixed styles for transperant and toggler oneof ([#60](https://github.com/gravity-ui/dynamic-forms/issues/60)) ([64ca12a](https://github.com/gravity-ui/dynamic-forms/commit/64ca12ad87ffd50fdda24901cd8f2e70e8c03868))
+
 ## [1.9.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.8.1...v1.9.0) (2023-06-07)
 
 
