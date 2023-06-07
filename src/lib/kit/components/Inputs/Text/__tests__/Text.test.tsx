@@ -96,6 +96,7 @@ describe('Text input', () => {
             await user.click(clearButton);
         }
 
+        expect(input).toHaveValue('');
         expect(clearButton).not.toBeInTheDocument();
     });
 
