@@ -19,11 +19,6 @@ export const ObjectValueInput: ObjectIndependentInput = (props) => {
         [input.onChange, input.name],
     );
 
-    const parentOnUnmount = React.useCallback(
-        (childName: string) => input.onChange((currentValue) => currentValue, {[childName]: false}),
-        [input.onChange],
-    );
-
     const childSpec = React.useMemo(() => {
         if (spec.properties?.[OBJECT_VALUE_PROPERTY_NAME]) {
             const childSpec = _.cloneDeep(spec.properties[OBJECT_VALUE_PROPERTY_NAME]);
@@ -47,7 +42,7 @@ export const ObjectValueInput: ObjectIndependentInput = (props) => {
             name={`${name}.${OBJECT_VALUE_PROPERTY_NAME}`}
             key={`${name}.${OBJECT_VALUE_PROPERTY_NAME}`}
             parentOnChange={parentOnChange}
-            parentOnUnmount={parentOnUnmount}
+            parentOnUnmount={input.parentOnUnmount}
         />
     );
 

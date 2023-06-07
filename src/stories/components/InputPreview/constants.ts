@@ -332,6 +332,11 @@ const fileInput: ObjectSpec = {
     },
 };
 
+const copy: BooleanSpec = {
+    type: SpecTypes.Boolean,
+    viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Copy'},
+};
+
 export const getArrayOptions = (): ObjectSpec => ({
     type: SpecTypes.Object,
     required: true,
@@ -427,6 +432,7 @@ export const getNumberOptions = (): ObjectSpec => ({
                 layoutDescription,
                 layoutOpen,
                 placeholder,
+                copy,
             },
             [
                 'disabled',
@@ -436,6 +442,7 @@ export const getNumberOptions = (): ObjectSpec => ({
                 'layoutDescription',
                 'layoutOpen',
                 'placeholder',
+                'copy',
             ],
         ),
     },
@@ -512,6 +519,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 placeholder,
                 themeLabel,
                 fileInput,
+                copy,
             },
             [
                 'disabled',
@@ -525,6 +533,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 'placeholder',
                 'themeLabel',
                 'fileInput',
+                'copy',
             ],
         ),
     },

@@ -29,6 +29,7 @@ export interface EditorProps {
 
 export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMode}) => {
     const [spec, setSpec] = React.useState(externalSpec);
+    const [ready, setReady] = React.useState(true);
     const [toggler, setToggler] = React.useState<'form' | 'view' | 'json'>('form');
 
     const togglerItems = React.useMemo(
@@ -45,6 +46,14 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
         [setToggler],
     );
 
+    const handleSetSpec = React.useCallback(
+        (value: Spec) => {
+            setReady(false);
+            setSpec(value);
+        },
+        [setSpec, setReady],
+    );
+
     const specEditorProps = React.useMemo(
         () =>
             ({
@@ -52,7 +61,9 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
                     value: JSON.stringify(spec, null, 2),
                     onChange: (value) => {
                         try {
-                            setSpec(JSON.parse(value as string));
+                            const spec = JSON.parse(value as string);
+
+                            handleSetSpec(spec);
                         } catch (_) {}
                     },
                 },
@@ -93,6 +104,12 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
         [],
     );
 
+    React.useEffect(() => {
+        if (!ready) {
+            setReady(true);
+        }
+    }, [ready]);
+
     return (
         <div className={b({docs: viewMode === 'docs'})}>
             <div className={b('options')}>
@@ -115,9 +132,15 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
                 <Form initialValues={{input: value}} onSubmit={_.noop}>
                     {(form) => (
                         <React.Fragment>
-                            <div className={b('input-field', {hidden: toggler !== 'form'})}>
-                                <DynamicField name="input" spec={spec} />
-                            </div>
+                            {ready ? (
+                                <div className={b('input-field', {hidden: toggler !== 'form'})}>
+                                    <DynamicField
+                                        name="input"
+                                        spec={spec}
+                                        parseJsonDefaultValue={false}
+                                    />
+                                </div>
+                            ) : null}
                             <div className={b('input-view', {hidden: toggler !== 'view'})}>
                                 <DynamicView {...getViewProps(form.values.input, spec)} />
                             </div>

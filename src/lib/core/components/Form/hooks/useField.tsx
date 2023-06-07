@@ -4,10 +4,11 @@ import _ from 'lodash';
 
 import {isArraySpec, isNumberSpec, isObjectSpec} from '../../../helpers';
 import {Spec} from '../../../types';
-import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG, REMOVED_ITEM} from '../constants';
+import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG} from '../constants';
 import {
     DynamicFormsContext,
     FieldArrayValue,
+    FieldObjectValue,
     FieldRenderProps,
     FieldValue,
     ValidateError,
@@ -39,18 +40,12 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
     validate: propsValidate,
     tools,
     parentOnChange,
-    parentOnUnmount,
+    parentOnUnmount: externalParentOnUnmount,
 }: UseFieldProps<Value, SpecType>): FieldRenderProps<Value> => {
     const firstRenderRef = React.useRef(true);
 
     const validate = React.useCallback(
-        (value: Value) => {
-            if (value === REMOVED_ITEM) {
-                return;
-            }
-
-            return propsValidate?.(transformArrOut(value));
-        },
+        (value: Value) => propsValidate?.(transformArrOut(value)),
         [propsValidate],
     );
 
@@ -101,7 +96,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
                 const error = validate?.(_value);
                 let value = transformArrIn(_value);
 
-                if (isNumberSpec(spec) && value && value !== REMOVED_ITEM && !error) {
+                if (isNumberSpec(spec) && value && !error) {
                     value = Number(value) as Value;
                 }
 
@@ -142,14 +137,14 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
 
         const onDrop = () => {
             if (isArrayItem(name)) {
-                onChange(REMOVED_ITEM as Value);
+                (externalParentOnUnmount ? externalParentOnUnmount : tools.onUnmount)(name);
             } else {
                 onChange(undefined as Value);
             }
         };
 
         return {onChange, onDrop};
-    }, [initialValue, setState, name, validate, spec]);
+    }, [initialValue, setState, name, validate, spec, externalParentOnUnmount, tools.onUnmount]);
 
     const onBlur = React.useCallback(() => {
         setState((state) => ({
@@ -166,6 +161,26 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
             visited: true,
         }));
     }, [setState]);
+
+    const parentOnUnmount = React.useCallback(
+        (childName: string) => {
+            if (isArraySpec(spec) || isObjectSpec(spec)) {
+                onChange(
+                    (currentValue) =>
+                        currentValue
+                            ? (_.omit(
+                                  currentValue as FieldArrayValue | FieldObjectValue,
+                                  childName.split(`${name}.`)[1],
+                              ) as Value)
+                            : currentValue,
+                    {
+                        [childName]: false,
+                    },
+                );
+            }
+        },
+        [onChange, name, spec],
+    );
 
     const renderProps: FieldRenderProps<Value> = React.useMemo(() => {
         const onItemAdd = (_value: FieldValue) => {
@@ -195,24 +210,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
         };
 
         const onItemRemove = (idx: string | number) => {
-            const value = {
-                ...(state.value as FieldArrayValue),
-                [`<${idx}>`]: REMOVED_ITEM,
-            } as Value;
-            const error = validate?.(value);
-
-            setState((state) => ({
-                ...state,
-                dirty: !_.isEqual(value, initialValue),
-                error,
-                invalid: Boolean(error),
-                modified: true,
-                pristine: value === initialValue,
-                touched: true,
-                valid: !error,
-                value,
-                visited: true,
-            }));
+            parentOnUnmount(`${name}.<${idx}>`);
         };
 
         return {
@@ -223,6 +221,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
                 onBlur,
                 onFocus,
                 onDrop,
+                parentOnUnmount,
             },
             arrayInput: {
                 name,
@@ -244,6 +243,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
         onBlur,
         onFocus,
         onDrop,
+        parentOnUnmount,
     ]);
 
     React.useEffect(() => {
@@ -259,7 +259,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
         firstRenderRef.current = false;
 
         return () => {
-            (parentOnUnmount ? parentOnUnmount : tools.onUnmount)(name);
+            (externalParentOnUnmount ? externalParentOnUnmount : tools.onUnmount)(name);
         };
     }, []);
 

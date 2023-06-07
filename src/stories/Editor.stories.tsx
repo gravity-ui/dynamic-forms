@@ -12,20 +12,35 @@ export default {
 };
 
 const spec: ObjectSpec = {
+    defaultValue: {
+        id: 12345,
+        name: 'Foo',
+        description:
+            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quod error voluptatibus odio minima assumenda voluptatum harum quidem maxime iste exercitationem, quam numquam, necessitatibus saepe praesentium, commodi beatae. Vitae, odit. Assumenda nobis similique voluptatibus? Sint itaque qui laudantium iste? In doloribus nam vitae quasi suscipit dolores maiores culpa amet quo. Distinctio mollitia ad expedita tempore sit? Nemo odit quae impedit?',
+        labels: ['foo', 'bar', 'rab', 'oof'],
+        settings: true,
+        autor: {
+            external: {
+                name: 'Bar',
+                age: 12345,
+                license: true,
+            },
+        },
+    },
     required: true,
     type: SpecTypes.Object,
     properties: {
         id: {
             type: SpecTypes.Number,
-            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'id'},
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'id', copy: true},
         },
         name: {
             type: SpecTypes.String,
-            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Name'},
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Name', copy: true},
         },
         description: {
             type: SpecTypes.String,
-            viewSpec: {type: 'textarea', layout: 'row', layoutTitle: 'Description'},
+            viewSpec: {type: 'textarea', layout: 'row', layoutTitle: 'Description', copy: true},
         },
         settings: {
             type: SpecTypes.Boolean,
@@ -87,6 +102,7 @@ const spec: ObjectSpec = {
                     type: 'base',
                     layout: 'row',
                     layoutTitle: 'Label',
+                    copy: true,
                 },
             },
             viewSpec: {
@@ -105,25 +121,9 @@ const spec: ObjectSpec = {
     },
 };
 
-const value = {
-    id: 12345,
-    name: 'Foo',
-    description:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quod error voluptatibus odio minima assumenda voluptatum harum quidem maxime iste exercitationem, quam numquam, necessitatibus saepe praesentium, commodi beatae. Vitae, odit. Assumenda nobis similique voluptatibus? Sint itaque qui laudantium iste? In doloribus nam vitae quasi suscipit dolores maiores culpa amet quo. Distinctio mollitia ad expedita tempore sit? Nemo odit quae impedit?',
-    labels: ['foo', 'bar', 'rab', 'oof'],
-    settings: true,
-    autor: {
-        external: {
-            name: 'Bar',
-            age: 12345,
-            license: true,
-        },
-    },
-};
-
 const template = () => {
     const Template: ComponentStory<typeof ArrayBase> = (__, {viewMode}) => (
-        <EditorBase spec={spec} value={value} viewMode={viewMode} />
+        <EditorBase spec={spec} viewMode={viewMode} />
     );
 
     return Template;

@@ -10,13 +10,14 @@ And it is intended to be used with `final-form`.
 
 This component serves as the primary entry point for drawing dynamic forms.
 
-| Property | Type                                     | Required | Description                                                                                                                                               |
-| :------- | :--------------------------------------- | :------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name     | `string`                                 |   yes    | Field name                                                                                                                                                |
-| spec     | `Spec`                                   |   yes    | A [spec](./spec.md#specs) describing the entity                                                                                                           |
-| config   | `DynamicFormConfig`                      |   yes    | A [config](./config.md) containing [Inputs](./config.md#inputs), [Layouts](./config.md#layouts), and [validators](./config.md#validators) for each entity |
-| Monaco   | `React.ComponentType<MonacoEditorProps>` |          | [MonacoEditor](https://github.com/react-monaco-editor/react-monaco-editor) component for Monaco [Input](./config.md#inputs)                               |
-| search   | `string \| function`                     |          | A string or function for performing a form search                                                                                                         |
+| Property                | Type                                     | Required | Description                                                                                                                                               |
+| :---------------------- | :--------------------------------------- | :------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name                    | `string`                                 |   yes    | Field name                                                                                                                                                |
+| spec                    | `Spec`                                   |   yes    | A [spec](./spec.md#specs) describing the entity                                                                                                           |
+| config                  | `DynamicFormConfig`                      |   yes    | A [config](./config.md) containing [Inputs](./config.md#inputs), [Layouts](./config.md#layouts), and [validators](./config.md#validators) for each entity |
+| Monaco                  | `React.ComponentType<MonacoEditorProps>` |          | [MonacoEditor](https://github.com/react-monaco-editor/react-monaco-editor) component for Monaco [Input](./config.md#inputs)                               |
+| search                  | `string \| function`                     |          | A string or function for performing a form search                                                                                                         |
+| withoutInsertFFDebounce | `boolean`                                |          | Flag that disables the delay before inserting data into the final-form store                                                                              |
 
 ### Controller
 

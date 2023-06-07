@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {FormValue, Spec, ViewLayoutProps} from '../../../../core';
+import {CopyButton} from '../../../../kit';
 import {block, isNotEmptyValue} from '../../../utils';
 
 import './ViewRow.scss';
@@ -25,6 +26,7 @@ export const ViewRow = <T extends FormValue, S extends Spec>({
                 <div className={b('dots')} />
             </div>
             <div className={b('right')}>{children}</div>
+            <CopyButton spec={spec} value={value} />
         </div>
     );
 };

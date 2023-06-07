@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.9.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.8.1...v1.9.0) (2023-06-07)
+
+
+### Features
+
+* add ability to disable final-form insertion delay ([#56](https://github.com/gravity-ui/dynamic-forms/issues/56)) ([4df2b00](https://github.com/gravity-ui/dynamic-forms/commit/4df2b00c5b07bdacbbd399acdb5cf01af5521dbc))
+* add copy button for view layouts ([#59](https://github.com/gravity-ui/dynamic-forms/issues/59)) ([c31fcbf](https://github.com/gravity-ui/dynamic-forms/commit/c31fcbfe0da0ba369cd16595b2cb9190ac4498f0))
+* add store and entity unmount callbacks ([#55](https://github.com/gravity-ui/dynamic-forms/issues/55)) ([8f7c4c6](https://github.com/gravity-ui/dynamic-forms/commit/8f7c4c6a624941e10c624dc3098e4e601639d25e))
+
 ## [1.8.1](https://github.com/gravity-ui/dynamic-forms/compare/v1.8.0...v1.8.1) (2023-05-30)
 
 
