@@ -52,4 +52,11 @@
             }
         }
     }
+
+    &__toggler {
+        & > .df-row {
+            width: unset;
+            max-width: unset;
+        }
+    }
 }

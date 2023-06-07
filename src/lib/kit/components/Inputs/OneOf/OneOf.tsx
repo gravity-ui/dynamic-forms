@@ -50,7 +50,7 @@ const OneOfComponent: React.FC<OneOfProps> = (props) => {
                 flat: props.withoutIndent,
             })}
         >
-            <div>{toggler}</div>
+            <div className={b('toggler')}>{toggler}</div>
             {specProperties[oneOfValue] ? (
                 <GroupIndent>
                     <Controller

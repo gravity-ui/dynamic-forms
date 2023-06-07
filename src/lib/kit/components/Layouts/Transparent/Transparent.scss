@@ -15,7 +15,7 @@
     &_without-max-width {
         max-width: unset;
 
-        > .df-error-wrapper {
+        & > .df-error-wrapper {
             width: unset;
         }
     }
