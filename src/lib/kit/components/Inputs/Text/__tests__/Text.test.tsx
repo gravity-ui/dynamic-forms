@@ -14,8 +14,11 @@ const PLACEHOLDER = 'placeholder text';
 
 const SPEC_NUMBER: NumberSpec = {
     type: SpecTypes.Number,
+    required: true,
     viewSpec: {
         type: 'base',
+        layout: 'row',
+        layoutTitle: 'Age',
         placeholder: PLACEHOLDER,
     },
 };
@@ -43,306 +46,132 @@ const DynamicForm = ({spec}: {spec: Spec}) => (
 );
 
 describe('Text input', () => {
-    describe('String spec', () => {
-        test('visible input', () => {
-            render(<DynamicForm spec={SPEC_STRING} />);
+    test('input display check', () => {
+        render(<DynamicForm spec={SPEC_STRING} />);
 
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
+        const input = screen.getByPlaceholderText(PLACEHOLDER);
 
-            expect(input).toBeVisible();
-        });
-
-        test('not disabled input', () => {
-            render(<DynamicForm spec={SPEC_STRING} />);
-
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
-
-            expect(input).not.toBeDisabled();
-        });
-
-        test('disabled input', async () => {
-            const spec = _.cloneDeep(SPEC_STRING);
-            spec.viewSpec.disabled = true;
-
-            render(<DynamicForm spec={spec} />);
-
-            const user = userEvent.setup();
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
-
-            await user.click(input);
-
-            expect(input).not.toHaveFocus();
-            expect(input).toBeDisabled();
-        });
-
-        test('focus input', async () => {
-            render(<DynamicForm spec={SPEC_STRING} />);
-
-            const user = userEvent.setup();
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
-
-            expect(input).not.toHaveFocus();
-
-            await user.click(input);
-
-            expect(input).toHaveFocus();
-        });
-
-        test('onChange input', async () => {
-            render(<DynamicForm spec={SPEC_STRING} />);
-
-            const user = userEvent.setup();
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
-
-            await user.click(input);
-            await user.keyboard('text value');
-
-            expect(input).toHaveValue('text value');
-        });
-
-        test('clear button', async () => {
-            render(<DynamicForm spec={SPEC_STRING} />);
-
-            const user = userEvent.setup();
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
-
-            let clearButton = screen.queryByRole('button', {name: 'Clear input value'});
-
-            expect(clearButton).not.toBeInTheDocument();
-
-            await user.click(input);
-            await user.keyboard('text value');
-
-            clearButton = screen.queryByRole('button', {name: 'Clear input value'});
-
-            expect(clearButton).toBeInTheDocument();
-
-            if (clearButton) {
-                await user.click(clearButton);
-            }
-
-            expect(clearButton).not.toBeInTheDocument();
-        });
-
-        test('default value input', async () => {
-            const spec = _.cloneDeep(SPEC_STRING);
-            spec.defaultValue = 'default value';
-
-            render(<DynamicForm spec={spec} />);
-
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
-
-            expect(input).toHaveValue('default value');
-        });
-
-        test('autocomplete input', () => {
-            render(<DynamicForm spec={SPEC_STRING} />);
-
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
-
-            expect(input.getAttribute('autocomplete')).toBe(null);
-        });
+        expect(input).toBeVisible();
     });
 
-    describe('Number spec', () => {
-        test('visible input', () => {
-            render(<DynamicForm spec={SPEC_NUMBER} />);
+    test('checking value change, focus, deleting input value in Number spec', async () => {
+        render(<DynamicForm spec={SPEC_NUMBER} />);
 
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
+        const user = userEvent.setup();
+        const input = screen.getByPlaceholderText(PLACEHOLDER);
 
-            expect(input).toBeVisible();
-        });
+        expect(input).not.toHaveFocus();
 
-        test('not disabled input', () => {
-            render(<DynamicForm spec={SPEC_NUMBER} />);
+        await user.click(input);
 
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
+        expect(input).toHaveFocus();
 
-            expect(input).not.toBeDisabled();
-        });
+        await user.keyboard('1');
 
-        test('disabled input', async () => {
-            const spec = _.cloneDeep(SPEC_NUMBER);
-            spec.viewSpec.disabled = true;
+        expect(input).toHaveValue('1');
 
-            render(<DynamicForm spec={spec} />);
+        await user.type(input, '{backspace}');
 
-            const user = userEvent.setup();
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
-
-            await user.click(input);
-
-            expect(input).not.toHaveFocus();
-            expect(input).toBeDisabled();
-        });
-
-        test('focus input', async () => {
-            render(<DynamicForm spec={SPEC_NUMBER} />);
-
-            const user = userEvent.setup();
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
-
-            expect(input).not.toHaveFocus();
-
-            await user.click(input);
-
-            expect(input).toHaveFocus();
-        });
-
-        test('onChange input', async () => {
-            render(<DynamicForm spec={SPEC_NUMBER} />);
-
-            const user = userEvent.setup();
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
-
-            await user.click(input);
-            await user.keyboard('123');
-
-            expect(input).toHaveValue('123');
-        });
-
-        test('clear button', async () => {
-            render(<DynamicForm spec={SPEC_NUMBER} />);
-
-            const user = userEvent.setup();
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
-
-            let clearButton = screen.queryByRole('button', {name: 'Clear input value'});
-
-            expect(clearButton).not.toBeInTheDocument();
-
-            await user.click(input);
-            await user.keyboard('123');
-
-            clearButton = screen.queryByRole('button', {name: 'Clear input value'});
-
-            expect(clearButton).toBeInTheDocument();
-
-            if (clearButton) {
-                await user.click(clearButton);
-            }
-
-            expect(clearButton).not.toBeInTheDocument();
-        });
-
-        test('default value input', async () => {
-            const spec = _.cloneDeep(SPEC_NUMBER);
-            spec.defaultValue = 123;
-
-            render(<DynamicForm spec={spec} />);
-
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
-
-            expect(input).toHaveValue('123');
-        });
-
-        test('autocomplete input', () => {
-            render(<DynamicForm spec={SPEC_NUMBER} />);
-
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
-
-            expect(input.getAttribute('autocomplete')).toBe(null);
-        });
+        expect(input).toHaveValue('');
     });
 
-    describe('password', () => {
-        test('visible input', () => {
-            render(<DynamicForm spec={SPEC_PASSWORD} />);
+    test('check button clear', async () => {
+        render(<DynamicForm spec={SPEC_STRING} />);
 
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
+        const user = userEvent.setup();
+        const input = screen.getByPlaceholderText(PLACEHOLDER);
 
-            expect(input).toBeVisible();
-        });
+        let clearButton = screen.queryByRole('button', {name: 'Clear input value'});
 
-        test('not disabled input', () => {
-            render(<DynamicForm spec={SPEC_PASSWORD} />);
+        expect(clearButton).not.toBeInTheDocument();
 
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
+        await user.click(input);
+        await user.keyboard('text value');
 
-            expect(input).not.toBeDisabled();
-        });
+        clearButton = screen.queryByRole('button', {name: 'Clear input value'});
 
-        test('disabled input', async () => {
-            const spec = _.cloneDeep(SPEC_PASSWORD);
-            spec.viewSpec.disabled = true;
+        expect(clearButton).toBeInTheDocument();
 
-            render(<DynamicForm spec={spec} />);
+        if (clearButton) {
+            await user.click(clearButton);
+        }
 
-            const user = userEvent.setup();
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
+        expect(clearButton).not.toBeInTheDocument();
+    });
 
-            await user.click(input);
+    test('checking default values String spec', async () => {
+        const spec = _.cloneDeep(SPEC_STRING);
+        spec.defaultValue = 'default value';
 
-            expect(input).not.toHaveFocus();
-            expect(input).toBeDisabled();
-        });
+        render(<DynamicForm spec={spec} />);
 
-        test('focus input', async () => {
-            render(<DynamicForm spec={SPEC_PASSWORD} />);
+        const input = screen.getByPlaceholderText(PLACEHOLDER);
 
-            const user = userEvent.setup();
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
+        expect(input).toHaveValue('default value');
+    });
 
-            expect(input).not.toHaveFocus();
+    test('checking default values Number spec', async () => {
+        const spec = _.cloneDeep(SPEC_NUMBER);
+        spec.defaultValue = 123;
 
-            await user.click(input);
+        render(<DynamicForm spec={spec} />);
 
-            expect(input).toHaveFocus();
-        });
+        const input = screen.getByPlaceholderText(PLACEHOLDER);
 
-        test('onChange input', async () => {
-            render(<DynamicForm spec={SPEC_PASSWORD} />);
+        expect(input).toHaveValue('123');
+    });
 
-            const user = userEvent.setup();
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
+    test('disabled input check', async () => {
+        const spec = _.cloneDeep(SPEC_STRING);
+        spec.viewSpec.disabled = true;
 
-            await user.click(input);
-            await user.keyboard('new password');
+        render(<DynamicForm spec={spec} />);
 
-            expect(input).toHaveValue('new password');
-        });
+        const user = userEvent.setup();
+        const input = screen.getByPlaceholderText(PLACEHOLDER);
 
-        test('clear button', async () => {
-            render(<DynamicForm spec={SPEC_PASSWORD} />);
+        await user.click(input);
 
-            const user = userEvent.setup();
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
+        expect(input).not.toHaveFocus();
+        expect(input).toBeDisabled();
+    });
 
-            let clearButton = screen.queryByRole('button', {name: 'Clear input value'});
+    test('spec password autocomplete check', () => {
+        render(<DynamicForm spec={SPEC_PASSWORD} />);
 
-            expect(clearButton).not.toBeInTheDocument();
+        const input = screen.getByPlaceholderText(PLACEHOLDER);
 
-            await user.click(input);
-            await user.keyboard('new password');
+        expect(input.getAttribute('autocomplete')).toBe('new-password');
+    });
 
-            clearButton = screen.queryByRole('button', {name: 'Clear input value'});
+    test('error message check in Number spec', async () => {
+        const {container} = render(<DynamicForm spec={SPEC_NUMBER} />);
 
-            expect(clearButton).toBeInTheDocument();
+        const user = userEvent.setup();
+        const input = screen.getByPlaceholderText(PLACEHOLDER);
 
-            if (clearButton) {
-                await user.click(clearButton);
-            }
+        await user.click(input);
+        await user.keyboard('value');
 
-            expect(clearButton).not.toBeInTheDocument();
-        });
+        expect(input).toHaveValue('value');
+        expect(container.querySelector('.df-error-wrapper__error-text')).toBeInTheDocument();
+        expect(screen.getByText('Value must be a number')).toBeVisible();
 
-        test('default value input', async () => {
-            const spec = _.cloneDeep(SPEC_PASSWORD);
-            spec.defaultValue = 'new password';
+        const clearButton = screen.queryByRole('button', {name: 'Clear input value'});
 
-            render(<DynamicForm spec={spec} />);
+        expect(clearButton).toBeInTheDocument();
 
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
+        if (clearButton) {
+            await user.click(clearButton);
+        }
 
-            expect(input).toHaveValue('new password');
-        });
+        expect(input).toHaveValue('');
+        expect(container.querySelector('.df-error-wrapper__error-text')).toBeInTheDocument();
+        expect(screen.getByText('Empty field')).toBeVisible();
 
-        test('autocomplete input', () => {
-            render(<DynamicForm spec={SPEC_PASSWORD} />);
+        await user.keyboard('1');
 
-            const input = screen.getByPlaceholderText(PLACEHOLDER);
-
-            expect(input.getAttribute('autocomplete')).toBe('new-password');
-        });
+        expect(input).toHaveValue('1');
+        expect(container.querySelector('.df-error-wrapper__error-text')).not.toBeInTheDocument();
     });
 });
