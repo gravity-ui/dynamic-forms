@@ -3,7 +3,12 @@ import React from 'react';
 import {RadioButton, Select} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
-import {ObjectIndependentInputProps} from '../../core';
+import {ObjectIndependentInputProps} from '../../../core';
+import {block} from '../../utils';
+
+import './useOneOf.scss';
+
+const b = block('use-oneof');
 
 const MAX_TAB_TITLE_LENGTH = 20;
 
@@ -63,13 +68,17 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
         [spec.description, spec.viewSpec.order, specProperties],
     );
 
-    const togglerInput = React.useMemo(() => {
-        if (
+    const isSelectToggler = React.useMemo(
+        () =>
             spec.viewSpec.oneOfParams?.toggler !== 'radio' &&
             (spec.viewSpec.oneOfParams?.toggler === 'select' ||
                 options.length > 3 ||
-                _.some(options, ({title}) => title.length > MAX_TAB_TITLE_LENGTH))
-        ) {
+                _.some(options, ({title}) => title.length > MAX_TAB_TITLE_LENGTH)),
+        [options, spec.viewSpec.oneOfParams?.toggler],
+    );
+
+    const togglerInput = React.useMemo(() => {
+        if (isSelectToggler) {
             return (
                 <Select
                     width="max"
@@ -101,11 +110,19 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
 
     const toggler = React.useMemo(() => {
         if (Layout) {
-            return <Layout {...props}>{togglerInput}</Layout>;
+            return (
+                <div
+                    className={b({
+                        radio: !isSelectToggler,
+                    })}
+                >
+                    <Layout {...props}>{togglerInput}</Layout>
+                </div>
+            );
         }
 
-        return togglerInput;
-    }, [Layout, togglerInput, props]);
+        return <div>{togglerInput}</div>;
+    }, [Layout, togglerInput, spec.viewSpec.oneOfParams?.toggler, options, props]);
 
     return {oneOfValue, specProperties, toggler, togglerInput};
 };
