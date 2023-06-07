@@ -65,6 +65,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.layoutOpen        | `boolean`         |          | Expand [Layout](./config.md#layouts) at the first rendering                                                                                                                             |
 | viewSpec.link              | `any`             |          | A field containing information for forming a [link](#link) for a value                                                                                                                  |
 | viewSpec.placeholder       | `string`          |          | A short hint displayed in the field before the user enters the value                                                                                                                    |
+| viewSpec.copy              | `boolean`         |          | For `true`, will add a copy value button                                                                                                                                                |
 
 ### ObjectSpec
 
@@ -113,6 +114,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.placeholder       | `string`                                                           |          | A short hint displayed in the field before the user enters the value                                                                                                                    |
 | viewSpec.themeLabel        | `'normal'` `'info'` `'danger'` `'warning'` `'success'` `'unknown'` |          | Label color                                                                                                                                                                             |
 | viewSpec.fileInput         | `object`                                                           |          | [Parameters](#FileInput) that must be passed to file input                                                                                                                              |
+| viewSpec.copy              | `boolean`                                                          |          | For `true`, will add a copy value button                                                                                                                                                |
 
 #### SizeParams
 
