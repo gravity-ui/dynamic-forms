@@ -1,10 +1,12 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}use-oneof {
-    &_radio {
-        & > .df-row {
-            width: unset;
-            max-width: unset;
+    &__toggler {
+        &_radio {
+            & > .df-row {
+                width: unset;
+                max-width: unset;
+            }
         }
     }
 }

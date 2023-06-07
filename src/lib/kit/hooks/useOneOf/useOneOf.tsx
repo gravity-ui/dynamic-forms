@@ -68,7 +68,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
         [spec.description, spec.viewSpec.order, specProperties],
     );
 
-    const isSelectToggler = React.useMemo(
+    const selectToggler = React.useMemo(
         () =>
             spec.viewSpec.oneOfParams?.toggler !== 'radio' &&
             (spec.viewSpec.oneOfParams?.toggler === 'select' ||
@@ -78,7 +78,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
     );
 
     const togglerInput = React.useMemo(() => {
-        if (isSelectToggler) {
+        if (selectToggler) {
             return (
                 <Select
                     width="max"
@@ -106,14 +106,14 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
                 ))}
             </RadioButton>
         );
-    }, [options, oneOfValue, onOneOfChange, name, spec.viewSpec.oneOfParams?.toggler]);
+    }, [selectToggler, oneOfValue, spec.viewSpec.disabled, name, options, onOneOfChange]);
 
     const toggler = React.useMemo(() => {
         if (Layout) {
             return (
                 <div
-                    className={b({
-                        radio: !isSelectToggler,
+                    className={b('toggler', {
+                        radio: !selectToggler,
                     })}
                 >
                     <Layout {...props}>{togglerInput}</Layout>
@@ -122,7 +122,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
         }
 
         return <div>{togglerInput}</div>;
-    }, [Layout, togglerInput, spec.viewSpec.oneOfParams?.toggler, options, props]);
+    }, [Layout, togglerInput, selectToggler, props]);
 
     return {oneOfValue, specProperties, toggler, togglerInput};
 };
