@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.2](https://github.com/gravity-ui/dynamic-forms/compare/v1.9.1...v1.9.2) (2023-06-13)
+
+
+### Bug Fixes
+
+* fix oneof and view layouts styles ([#62](https://github.com/gravity-ui/dynamic-forms/issues/62)) ([06794e2](https://github.com/gravity-ui/dynamic-forms/commit/06794e2a1891d9f630cb7a7820890f49f0bfcba1))
+
 ## [1.9.1](https://github.com/gravity-ui/dynamic-forms/compare/v1.9.0...v1.9.1) (2023-06-07)
 
 
