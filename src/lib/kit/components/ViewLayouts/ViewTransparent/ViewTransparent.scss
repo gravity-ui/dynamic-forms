@@ -10,4 +10,8 @@
     }
 
     @include with-copy-button();
+
+    &__inner {
+        max-width: 100%;
+    }
 }

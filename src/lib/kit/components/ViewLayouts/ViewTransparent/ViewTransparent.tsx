@@ -15,7 +15,7 @@ export const ViewTransparent = <T extends FormValue, S extends Spec>({
 }: ViewLayoutProps<T, S>) =>
     isNotEmptyValue(value, spec) ? (
         <div className={b()}>
-            <div>{children}</div>
+            <div className={b('inner')}>{children}</div>
             <CopyButton spec={spec} value={value} />
         </div>
     ) : null;
