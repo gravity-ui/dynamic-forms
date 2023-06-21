@@ -69,19 +69,18 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
 
         const error = validate?.(value);
         const dirty = !_.isEqual(value, initialValue);
-        const pristine = value === initialValue;
 
         return {
             active: false,
             dirty,
             error,
             invalid: Boolean(error),
-            modified: dirty || !pristine,
-            pristine,
-            touched: dirty || !pristine,
+            modified: dirty,
+            pristine: true,
+            touched: false,
             valid: !error,
             value,
-            visited: dirty || !pristine,
+            visited: false,
             childErrors: {},
         };
     });
@@ -139,7 +138,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
             if (isArrayItem(name)) {
                 (externalParentOnUnmount ? externalParentOnUnmount : tools.onUnmount)(name);
             } else {
-                onChange(undefined as Value);
+                onChange(undefined as Value, {[name]: false});
             }
         };
 
