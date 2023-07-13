@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ComponentStory} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import {BooleanSpec, SpecTypes, Switch as SwitchBase} from '../lib';
 
@@ -19,7 +19,7 @@ const baseSpec: BooleanSpec = {
 const excludeOptions = ['viewSpec.type'];
 
 const template = (spec: BooleanSpec = baseSpec) => {
-    const Template: ComponentStory<typeof SwitchBase> = (__, {viewMode}) => (
+    const Template: StoryFn<typeof SwitchBase> = (__, {viewMode}) => (
         <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
     );
 

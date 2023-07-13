@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ComponentStory} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import {ArrayBase, ArraySpec, SpecTypes} from '../lib';
 
@@ -41,7 +41,7 @@ const excludeOptions = [
 ];
 
 const template = () => {
-    const Template: ComponentStory<typeof ArrayBase> = (__, {viewMode}) => (
+    const Template: StoryFn<typeof ArrayBase> = (__, {viewMode}) => (
         <InputPreview
             spec={spec}
             value={value}

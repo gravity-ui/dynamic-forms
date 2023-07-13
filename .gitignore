@@ -1,6 +1,8 @@
 # IDE settings
 .idea
 .vscode
+.DS_Store
+*.log
 
 # Dependencies
 node_modules

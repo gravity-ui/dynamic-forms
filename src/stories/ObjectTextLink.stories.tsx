@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ComponentStory} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import {ObjectSpec, SpecTypes, TextLink as TextLinkBase} from '../lib';
 
@@ -42,7 +42,7 @@ const excludeOptions = [
 ];
 
 const template = (spec: ObjectSpec = baseSpec) => {
-    const Template: ComponentStory<typeof TextLinkBase> = (__, {viewMode}) => (
+    const Template: StoryFn<typeof TextLinkBase> = (__, {viewMode}) => (
         <InputPreview
             spec={spec}
             excludeOptions={excludeOptions}

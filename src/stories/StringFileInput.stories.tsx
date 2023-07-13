@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ComponentStory} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import {FileInput as FileInputBase, SpecTypes, StringSpec} from '../lib';
 
@@ -35,7 +35,7 @@ const excludeOptions = [
 ];
 
 const template = (spec: StringSpec = baseSpec) => {
-    const Template: ComponentStory<typeof FileInputBase> = (__, {viewMode}) => (
+    const Template: StoryFn<typeof FileInputBase> = (__, {viewMode}) => (
         <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
     );
 

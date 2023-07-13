@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ComponentStory} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import {ObjectSpec, Secret as SecretBase, SpecTypes} from '../lib';
 
@@ -37,7 +37,7 @@ const excludeOptions = [
 ];
 
 const template = (spec: ObjectSpec = baseSpec) => {
-    const Template: ComponentStory<typeof SecretBase> = (__, {viewMode}) => (
+    const Template: StoryFn<typeof SecretBase> = (__, {viewMode}) => (
         <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
     );
 

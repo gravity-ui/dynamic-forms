@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ComponentStory} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import {BooleanSpec, Checkbox, SpecTypes} from '../lib';
 
@@ -19,7 +19,7 @@ const baseSpec: BooleanSpec = {
 const excludeOptions = ['viewSpec.type'];
 
 const template = (spec: BooleanSpec = baseSpec) => {
-    const Template: ComponentStory<typeof Checkbox> = (__, {viewMode}) => (
+    const Template: StoryFn<typeof Checkbox> = (__, {viewMode}) => (
         <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
     );
 
