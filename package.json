@@ -31,9 +31,9 @@
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "build": "gulp",
-    "build-storybook": "storybook build",
-    "dev": "storybook dev -p 6006",
-    "start": "storybook dev",
+    "build-storybook": "sb build",
+    "dev": "sb dev -p 6006",
+    "start": "sb dev",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
