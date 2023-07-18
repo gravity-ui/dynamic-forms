@@ -8,6 +8,6 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - uses: gravity-ui/preview-build-action@v1
-      env:
-        TS_NODE_PROJECT: .storybook/tsconfig.json
+      - uses: gravity-ui/preview-build-action@v1
+        with:
+          node-version: 18

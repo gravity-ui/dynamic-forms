@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ComponentStory} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import {NumberWithScale as NumberWithScaleBase, SpecTypes, StringSpec} from '../lib';
 
@@ -47,7 +47,7 @@ const excludeOptions = [
 ];
 
 const template = (spec: StringSpec = baseSpec) => {
-    const Template: ComponentStory<typeof NumberWithScaleBase> = (__, {viewMode}) => (
+    const Template: StoryFn<typeof NumberWithScaleBase> = (__, {viewMode}) => (
         <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
     );
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ComponentStory} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import {SpecTypes, StringSpec, TextArea as TextAreaBase} from '../lib';
 
@@ -35,7 +35,7 @@ const excludeOptions = [
 ];
 
 const template = (spec: StringSpec = baseSpec) => {
-    const Template: ComponentStory<typeof TextAreaBase> = (__, {viewMode}) => (
+    const Template: StoryFn<typeof TextAreaBase> = (__, {viewMode}) => (
         <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
     );
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ComponentStory} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import {ArraySpec, SpecTypes, TableArrayInput} from '../lib';
 
@@ -62,7 +62,7 @@ const value = [
 ];
 
 const template = () => {
-    const Template: ComponentStory<typeof TableArrayInput> = (__, {viewMode}) => (
+    const Template: StoryFn<typeof TableArrayInput> = (__, {viewMode}) => (
         <InputPreview
             spec={spec}
             value={value}

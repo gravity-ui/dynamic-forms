@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ComponentStory} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import {ArrayBase, ObjectSpec, SpecTypes} from '../lib';
 
@@ -122,7 +122,7 @@ const spec: ObjectSpec = {
 };
 
 const template = () => {
-    const Template: ComponentStory<typeof ArrayBase> = (__, {viewMode}) => (
+    const Template: StoryFn<typeof ArrayBase> = (__, {viewMode}) => (
         <EditorBase spec={spec} viewMode={viewMode} />
     );
 

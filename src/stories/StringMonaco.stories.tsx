@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ComponentStory} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import {MonacoInput, SpecTypes, StringSpec} from '../lib';
 
@@ -37,7 +37,7 @@ const excludeOptions = [
 ];
 
 const template = (spec: StringSpec = baseSpec) => {
-    const Template: ComponentStory<typeof MonacoInput> = (__, {viewMode}) => (
+    const Template: StoryFn<typeof MonacoInput> = (__, {viewMode}) => (
         <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
     );
 

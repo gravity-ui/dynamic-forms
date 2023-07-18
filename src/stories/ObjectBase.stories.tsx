@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ComponentStory} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import {ObjectBase, ObjectSpec, SpecTypes} from '../lib';
 
@@ -40,7 +40,7 @@ const value = {name: 'Foo', age: 13, license: false};
 const excludeOptions = ['description', 'viewSpec.type', 'viewSpec.oneOfParams'];
 
 const template = (spec: ObjectSpec = baseSpec) => {
-    const Template: ComponentStory<typeof ObjectBase> = (__, {viewMode}) => (
+    const Template: StoryFn<typeof ObjectBase> = (__, {viewMode}) => (
         <InputPreview
             spec={spec}
             value={value}

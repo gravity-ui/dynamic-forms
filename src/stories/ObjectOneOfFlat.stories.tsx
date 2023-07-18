@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ComponentStory} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import {ObjectSpec, OneOfFlat as OneOfFlatBase, SpecTypes} from '../lib';
 
@@ -63,7 +63,7 @@ const baseSpec: ObjectSpec = {
 const excludeOptions = ['viewSpec.type'];
 
 const template = (spec: ObjectSpec = baseSpec) => {
-    const Template: ComponentStory<typeof OneOfFlatBase> = (__, {viewMode}) => (
+    const Template: StoryFn<typeof OneOfFlatBase> = (__, {viewMode}) => (
         <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
     );
 

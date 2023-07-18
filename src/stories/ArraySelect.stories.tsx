@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ComponentStory} from '@storybook/react';
+import {StoryFn} from '@storybook/react';
 
 import {ArraySpec, MultiSelect, SpecTypes} from '../lib';
 
@@ -31,7 +31,7 @@ const spec: ArraySpec = {
 const excludeOptions = ['items', 'viewSpec.type', 'viewSpec.itemLabel', 'viewSpec.table'];
 
 const template = () => {
-    const Template: ComponentStory<typeof MultiSelect> = (__, {viewMode}) => (
+    const Template: StoryFn<typeof MultiSelect> = (__, {viewMode}) => (
         <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
     );
 
