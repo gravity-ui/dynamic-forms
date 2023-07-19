@@ -1,7 +1,8 @@
 import React from 'react';
 
+import {HelpPopover} from '@gravity-ui/components';
 import {Xmark} from '@gravity-ui/icons';
-import {Button, HelpPopover, Icon} from '@gravity-ui/uikit';
+import {Button, Icon} from '@gravity-ui/uikit';
 
 import {
     FieldValue,

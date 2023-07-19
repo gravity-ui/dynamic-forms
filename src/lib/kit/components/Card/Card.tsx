@@ -1,7 +1,8 @@
 import React from 'react';
 
+import {HelpPopover} from '@gravity-ui/components';
 import {ChevronDown} from '@gravity-ui/icons';
-import {Button, Card as CardBase, HelpPopover, Icon} from '@gravity-ui/uikit';
+import {Button, Card as CardBase, Icon} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
 import {block} from '../../utils';
