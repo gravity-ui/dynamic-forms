@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.10.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.9.2...v1.10.0) (2023-07-19)
+
+
+### Features
+
+* udpate uikit ([#69](https://github.com/gravity-ui/dynamic-forms/issues/69)) ([ffbee3b](https://github.com/gravity-ui/dynamic-forms/commit/ffbee3bc529ca0ea1a5e6aa8958366ba10219034))
+
+
+### Bug Fixes
+
+* add child errors cleaning on call onDrop ([#64](https://github.com/gravity-ui/dynamic-forms/issues/64)) ([adbe4d8](https://github.com/gravity-ui/dynamic-forms/commit/adbe4d814d051d636a541bf3f5380f045c2576d4))
+
 ## [1.9.2](https://github.com/gravity-ui/dynamic-forms/compare/v1.9.1...v1.9.2) (2023-06-13)
 
 
