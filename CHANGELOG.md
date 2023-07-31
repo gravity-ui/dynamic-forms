@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.10.0...v2.0.0) (2023-07-31)
+
+
+### chore
+
+* release 2.0.0 ([5ac84e2](https://github.com/gravity-ui/dynamic-forms/commit/5ac84e2ef09b08298e3169fb5b5a42899aaf584a))
+
+
+### Bug Fixes
+
+* release 2.0.0 trigger ([482a8c7](https://github.com/gravity-ui/dynamic-forms/commit/482a8c7e0753053e21626ae35067102a08ea5992))
+
 ## [1.10.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.9.2...v1.10.0) (2023-07-19)
 
 
