@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.10.0...v1.11.0) (2023-08-01)
+
+
+### Features
+
+* revert udpate uikit ([f11ba3f](https://github.com/gravity-ui/dynamic-forms/commit/f11ba3ff71b7306c8b99bbaf387319eb048b09c1))
+
 ## [1.10.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.9.2...v1.10.0) (2023-07-19)
 
 
