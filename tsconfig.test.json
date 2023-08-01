@@ -1,8 +1,0 @@
-{
-  "extends": "@gravity-ui/tsconfig",
-  "compilerOptions": {
-    "resolveJsonModule": true,
-    "module": "commonjs",
-    "jsx": "react"
-  }
-}

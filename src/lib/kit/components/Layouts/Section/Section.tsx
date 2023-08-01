@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {HelpPopover} from '@gravity-ui/components';
+import {HelpPopover} from '@gravity-ui/uikit';
 
 import {GroupIndent} from '../../';
 import {ErrorWrapper} from '../../../';
