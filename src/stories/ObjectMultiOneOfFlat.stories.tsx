@@ -2,28 +2,18 @@ import React from 'react';
 
 import {StoryFn} from '@storybook/react';
 
-import {ObjectSpec, OneOfFlat as OneOfFlatBase, SpecTypes} from '../lib';
+import {MultiOneOfFlat as MultiOneOfFlatBase, ObjectSpec, SpecTypes} from '../lib';
 
 import {InputPreview} from './components';
 
 export default {
-    title: 'Object/OneOfFlat',
-    component: OneOfFlatBase,
+    title: 'Object/MultiOneOfFlat',
+    component: MultiOneOfFlatBase,
 };
 
-const baseSpec: ObjectSpec = {
+const spec: ObjectSpec = {
     type: SpecTypes.Object,
     properties: {
-        internal: {
-            required: true,
-            type: SpecTypes.String,
-            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Person id'},
-        },
-        empty: {
-            required: true,
-            type: SpecTypes.Object,
-            viewSpec: {type: 'base', layoutTitle: 'Empty'},
-        },
         external: {
             required: true,
             type: SpecTypes.Object,
@@ -46,28 +36,45 @@ const baseSpec: ObjectSpec = {
                 layoutTitle: 'Person data',
             },
         },
+        internal: {
+            required: true,
+            type: SpecTypes.String,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Person id'},
+        },
     },
     description: {
         external: 'External candidate',
         internal: 'Internal candidate',
-        empty: 'None',
     },
     viewSpec: {
-        type: 'oneof_flat',
+        type: 'multi_oneof_flat',
         layout: 'row',
-        layoutTitle: 'Candidate',
-        order: ['external', 'internal', 'empty'],
+        layoutTitle: 'Multi OneOf',
+        placeholder: 'placeholder text',
     },
 };
 
-const excludeOptions = ['viewSpec.type', 'viewSpec.placeholder'];
+const excludeOptions = ['items', 'viewSpec.type', 'viewSpec.itemLabel', 'viewSpec.table'];
 
-const template = (spec: ObjectSpec = baseSpec) => {
-    const Template: StoryFn<typeof OneOfFlatBase> = (__, {viewMode}) => (
-        <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
+const value = {
+    external: {
+        name: 'Bar',
+        age: 12345,
+        license: true,
+    },
+};
+
+const template = () => {
+    const Template: StoryFn<typeof MultiOneOfFlatBase> = (__, {viewMode}) => (
+        <InputPreview
+            spec={spec}
+            excludeOptions={excludeOptions}
+            viewMode={viewMode}
+            value={value}
+        />
     );
 
     return Template;
 };
 
-export const OneOfFlat = template();
+export const MultiOneOfFlat = template();

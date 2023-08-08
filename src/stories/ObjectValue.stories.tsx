@@ -36,6 +36,7 @@ const excludeOptions = [
     'viewSpec.layoutOpen',
     'viewSpec.disabled',
     'viewSpec.oneOfParams',
+    'viewSpec.placeholder',
 ];
 
 const template = (spec: ObjectSpec = baseSpec) => {

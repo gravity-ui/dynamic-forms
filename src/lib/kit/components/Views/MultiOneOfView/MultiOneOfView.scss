@@ -1,0 +1,29 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}multi-oneof-view {
+    &__tooltip {
+        overflow-wrap: break-word;
+    }
+
+    &__tooltip-container {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        margin-bottom: 6px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &__content {
+        &_flat {
+            & > .#{$ns}group-indent {
+                margin: 0 0 20px;
+                border-left: none;
+                padding: 0;
+            }
+        }
+    }
+}

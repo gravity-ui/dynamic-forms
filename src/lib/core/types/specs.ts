@@ -87,6 +87,7 @@ export interface ObjectSpec<LinkType = any> {
         oneOfParams?: {
             toggler?: 'select' | 'radio';
         };
+        placeholder?: string;
     };
 }
 
