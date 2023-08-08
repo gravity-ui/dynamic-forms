@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.1](https://github.com/gravity-ui/dynamic-forms/compare/v1.11.0...v1.11.1) (2023-08-08)
+
+
+### Bug Fixes
+
+* fixed array type for default values ([#72](https://github.com/gravity-ui/dynamic-forms/issues/72)) ([#73](https://github.com/gravity-ui/dynamic-forms/issues/73)) ([8532d35](https://github.com/gravity-ui/dynamic-forms/commit/8532d3524e26d8130f93a42f77cad5f8cdfc5cb0))
+
 ## [1.11.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.10.0...v1.11.0) (2023-08-01)
 
 
