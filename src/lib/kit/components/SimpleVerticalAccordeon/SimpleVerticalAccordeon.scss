@@ -18,6 +18,7 @@ $animationDuration: 0.3s;
     &__header {
         display: flex;
         align-items: center;
+        max-width: 543px;
 
         &-inner {
             margin-left: -13px;

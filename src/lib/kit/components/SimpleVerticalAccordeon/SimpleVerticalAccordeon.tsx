@@ -103,6 +103,7 @@ export class SimpleVerticalAccordeon extends React.Component<
                     <div className={b('header')}>
                         <Button
                             view="flat"
+                            width="auto"
                             className={b('header-inner', buttonClassName)}
                             onClick={this.handleClick}
                             qa={`${name}-accordeon-toggler`}
