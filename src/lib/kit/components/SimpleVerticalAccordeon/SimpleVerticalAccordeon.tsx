@@ -2,7 +2,7 @@ import React from 'react';
 
 import {HelpPopover} from '@gravity-ui/components';
 import {ChevronDown} from '@gravity-ui/icons';
-import {Button, Icon} from '@gravity-ui/uikit';
+import {Button, Icon, Popover} from '@gravity-ui/uikit';
 
 import {block} from '../../utils';
 
@@ -34,6 +34,8 @@ interface SimpleVerticalAccordeonState {
     isFirstRender: boolean;
 }
 
+const MAX_TITLE_TEXT_WIDTH = 495; /** 543px max-width - 48px of padding */
+
 export class SimpleVerticalAccordeon extends React.Component<
     SimpleVerticalAccordeonProps,
     SimpleVerticalAccordeonState
@@ -45,6 +47,7 @@ export class SimpleVerticalAccordeon extends React.Component<
     };
 
     componentRef = React.createRef<HTMLDivElement>();
+    titleRef = React.createRef<HTMLElement>();
 
     constructor(props: SimpleVerticalAccordeonProps) {
         super(props);
@@ -97,20 +100,34 @@ export class SimpleVerticalAccordeon extends React.Component<
             return null;
         }
 
+        const title = this.getTitle();
+        const titlePopoverDisabled =
+            (this.titleRef.current?.offsetWidth || 0) < MAX_TITLE_TEXT_WIDTH;
+
         return (
             Boolean(React.Children.count(children)) && (
                 <div className={b({branch: withBranchView, view: viewLayout}, className)}>
                     <div className={b('header')}>
-                        <Button
-                            view="flat"
-                            width="auto"
-                            className={b('header-inner', buttonClassName)}
-                            onClick={this.handleClick}
-                            qa={`${name}-accordeon-toggler`}
-                        >
-                            <b className={b('title', {size: titleSize})}>{this.getTitle()}</b>
-                            <Icon data={ChevronDown} className={b('chevron', {open})} size={16} />
-                        </Button>
+                        <Popover content={title} disabled={titlePopoverDisabled}>
+                            <Button
+                                view="flat"
+                                className={b('header-inner', buttonClassName)}
+                                onClick={this.handleClick}
+                                qa={`${name}-accordeon-toggler`}
+                                width="auto"
+                            >
+                                {' '}
+                                <b ref={this.titleRef} className={b('title', {size: titleSize})}>
+                                    {title}
+                                </b>
+                                <Icon
+                                    data={ChevronDown}
+                                    className={b('chevron', {open})}
+                                    size={16}
+                                />
+                            </Button>
+                        </Popover>
+
                         {this.getTooltip()}
                         {headerActionsTemplate ? headerActionsTemplate : null}
                     </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Popover} from '@gravity-ui/uikit';
+import {Popover, type PopoverProps} from '@gravity-ui/uikit';
 
 import {StringViewProps} from '../../../../core';
 import {block, isCorrectSizeParams} from '../../../utils';
@@ -10,6 +10,8 @@ import './NumberWithScaleView.scss';
 
 const b = block('number-with-scale-view');
 
+const POPOVER_PLACEMENT: PopoverProps['placement'] = ['bottom', 'top'];
+
 const NumberWithScaleViewBase: React.FC<StringViewProps> = ({spec, value}) => {
     const {initialValue, initialType} = useInitial(value || '', spec, [value]);
     const {scale} = spec.viewSpec.sizeParams!;
@@ -17,7 +19,7 @@ const NumberWithScaleViewBase: React.FC<StringViewProps> = ({spec, value}) => {
     return (
         <div className={b()}>
             <Popover
-                placement={['bottom', 'top']}
+                placement={POPOVER_PLACEMENT}
                 content={initialValue}
                 className={b('tooltip-container')}
                 contentClassName={b('tooltip')}
