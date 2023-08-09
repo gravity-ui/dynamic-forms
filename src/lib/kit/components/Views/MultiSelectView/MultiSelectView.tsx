@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Popover} from '@gravity-ui/uikit';
+import {Popover, type PopoverProps} from '@gravity-ui/uikit';
 
 import {ArrayView} from '../../../../core';
 import {block} from '../../../utils';
@@ -8,6 +8,8 @@ import {block} from '../../../utils';
 import './MultiSelectView.scss';
 
 const b = block('multiselect-view');
+
+const POPOVER_PLACEMENT: PopoverProps['placement'] = ['bottom', 'top'];
 
 export const MultiSelectView: ArrayView = ({spec, value = []}) => {
     const _value = value as string[];
@@ -21,7 +23,7 @@ export const MultiSelectView: ArrayView = ({spec, value = []}) => {
         <React.Fragment>
             {items.map((item) => (
                 <Popover
-                    placement={['bottom', 'top']}
+                    placement={POPOVER_PLACEMENT}
                     key={item}
                     content={item}
                     className={b('tooltip-container')}
