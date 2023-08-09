@@ -52,7 +52,6 @@
         display: flex;
         align-items: center;
         flex-grow: 1;
-        max-width: 543px;
     }
 
     &__header-right {
@@ -71,6 +70,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        max-width: 533px;
     }
 
     &__note {

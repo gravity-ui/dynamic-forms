@@ -2,7 +2,7 @@ import React from 'react';
 
 import {HelpPopover} from '@gravity-ui/components';
 import {ChevronDown} from '@gravity-ui/icons';
-import {Button, Card as CardBase, Icon} from '@gravity-ui/uikit';
+import {Button, Card as CardBase, Icon, Popover, type PopoverProps} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
 import {block} from '../../utils';
@@ -24,6 +24,9 @@ export interface CardProps {
     checkEmptyBody?: boolean;
 }
 
+const POPOVER_PLACEMENT: PopoverProps['placement'] = ['bottom', 'top'];
+const MAX_TITLE_WIDTH = 543;
+
 export const Card: React.FC<CardProps> = ({
     name,
     title: propsTitle,
@@ -37,6 +40,7 @@ export const Card: React.FC<CardProps> = ({
     children,
 }) => {
     const containerRef = React.useRef<HTMLDivElement>(null);
+    const titleRef = React.useRef<HTMLDivElement>(null);
     const bodyRef = React.useRef<HTMLDivElement>(null);
     const [open, setOpen] = React.useState(alwaysOpen || propsOpen || false);
 
@@ -66,14 +70,18 @@ export const Card: React.FC<CardProps> = ({
         [],
     );
 
+    const titlePopoverDisabled = (titleRef.current?.offsetWidth || 0) < MAX_TITLE_WIDTH;
+
     const title = React.useMemo(() => {
         if (_.isString(propsTitle)) {
             return (
                 <React.Fragment>
-                    <div className={b('title')}>{propsTitle}</div>
+                    <Popover content={propsTitle} disabled={titlePopoverDisabled}>
+                        <div className={b('title')}>{propsTitle}</div>
+                    </Popover>
                     {description ? (
                         <div className={b('note')}>
-                            <HelpPopover htmlContent={description} placement={['bottom', 'top']} />
+                            <HelpPopover htmlContent={description} placement={POPOVER_PLACEMENT} />
                         </div>
                     ) : null}
                 </React.Fragment>
@@ -81,7 +89,7 @@ export const Card: React.FC<CardProps> = ({
         }
 
         return propsTitle;
-    }, [propsTitle, description]);
+    }, [propsTitle, titlePopoverDisabled, description]);
 
     React.useEffect(() => {
         if (!alwaysOpen && propsOpen !== undefined && propsOpen !== open) {
@@ -112,7 +120,9 @@ export const Card: React.FC<CardProps> = ({
                 className={b('header', {interactive: Boolean(handleHeaderToggle)})}
                 onClick={handleHeaderToggle}
             >
-                <div className={b('header-left')}>{title}</div>
+                <div ref={titleRef} className={b('header-left')}>
+                    {title}
+                </div>
                 <div className={b('header-right')} onClick={preventEvent}>
                     {actions ? <div className={b('actions')}>{actions}</div> : null}
                     {alwaysOpen ? null : (

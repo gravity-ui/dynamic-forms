@@ -2,7 +2,7 @@ import React from 'react';
 
 import {HelpPopover} from '@gravity-ui/components';
 import {ChevronDown} from '@gravity-ui/icons';
-import {Button, Icon, Popover} from '@gravity-ui/uikit';
+import {Button, Icon, Popover, type PopoverProps} from '@gravity-ui/uikit';
 
 import {block} from '../../utils';
 
@@ -35,6 +35,7 @@ interface SimpleVerticalAccordeonState {
 }
 
 const MAX_TITLE_TEXT_WIDTH = 495; /** 543px max-width - 48px of padding */
+const POPOVER_PLACEMENT: PopoverProps['placement'] = ['bottom', 'top'];
 
 export class SimpleVerticalAccordeon extends React.Component<
     SimpleVerticalAccordeonProps,
@@ -108,7 +109,11 @@ export class SimpleVerticalAccordeon extends React.Component<
             Boolean(React.Children.count(children)) && (
                 <div className={b({branch: withBranchView, view: viewLayout}, className)}>
                     <div className={b('header')}>
-                        <Popover content={title} disabled={titlePopoverDisabled}>
+                        <Popover
+                            content={title}
+                            disabled={titlePopoverDisabled}
+                            placement={POPOVER_PLACEMENT}
+                        >
                             <Button
                                 view="flat"
                                 className={b('header-inner', buttonClassName)}

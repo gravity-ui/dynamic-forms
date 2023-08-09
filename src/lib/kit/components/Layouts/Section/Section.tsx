@@ -1,16 +1,17 @@
 import React from 'react';
 
 import {HelpPopover} from '@gravity-ui/components';
+import {Popover, type PopoverProps} from '@gravity-ui/uikit';
 
 import {GroupIndent} from '../../';
 import {ErrorWrapper} from '../../../';
 import {
-    FieldRenderProps,
-    FieldValue,
-    FormValue,
-    LayoutProps,
-    Spec,
-    ViewLayoutProps,
+    type FieldRenderProps,
+    type FieldValue,
+    type FormValue,
+    type LayoutProps,
+    type Spec,
+    type ViewLayoutProps,
     isArraySpec,
     isObjectSpec,
 } from '../../../../core';
@@ -27,6 +28,9 @@ interface SectionProps {
     descriptionAsSubtitle?: boolean;
 }
 
+const POPOVER_PLACEMENT: PopoverProps['placement'] = ['bottom', 'top'];
+const MAX_TITLE_WIDTH = 543;
+
 const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>({
     name,
     spec,
@@ -39,6 +43,7 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
 }: (LayoutProps<D, S> | ViewLayoutProps<T, S>) & SectionProps) => {
     const meta = (restProps as FieldRenderProps<D>).meta as FieldRenderProps<D>['meta'] | undefined;
     const arrOrObjFlag = isArraySpec(spec) || isObjectSpec(spec);
+    const titleRef = React.useRef<HTMLHeadingElement>(null);
     let content = children;
 
     if (meta) {
@@ -76,15 +81,26 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
         }
     }
 
+    const layoutTitle = spec.viewSpec.layoutTitle;
+    const layoutTitlePopoverDisabled = (titleRef.current?.offsetWidth || 0) < MAX_TITLE_WIDTH;
+
     return (
         <section className={b()}>
-            {spec.viewSpec.layoutTitle ? (
+            {layoutTitle ? (
                 <div
                     className={b('header', {
                         'with-popover': !descriptionAsSubtitle,
                     })}
                 >
-                    <h2 className={b('title', {size: titleSize})}>{spec.viewSpec.layoutTitle}</h2>
+                    <Popover
+                        content={layoutTitle}
+                        placement={POPOVER_PLACEMENT}
+                        disabled={layoutTitlePopoverDisabled}
+                    >
+                        <h2 className={b('title', {size: titleSize})} ref={titleRef}>
+                            {layoutTitle}
+                        </h2>
+                    </Popover>
                     {description}
                 </div>
             ) : null}
