@@ -57,7 +57,7 @@ export const MultiOneOfView: React.FC<MultiOneOfViewProps> = (props) => {
         [name, specProperties, values],
     );
 
-    const header = React.useMemo(
+    const selectView = React.useMemo(
         () => (
             <React.Fragment>
                 {items.map((item) => (
@@ -77,23 +77,24 @@ export const MultiOneOfView: React.FC<MultiOneOfViewProps> = (props) => {
         [items],
     );
 
+    const header = React.useMemo(() => {
+        if (Layout) {
+            return <Layout {...props}>{selectView}</Layout>;
+        }
+
+        return <React.Fragment>{selectView}</React.Fragment>;
+    }, [Layout, props, selectView]);
+
     if (!value) {
         return null;
-    }
-
-    if (Layout) {
-        return (
-            <React.Fragment>
-                <Layout {...props}>{header}</Layout>
-                {content}
-            </React.Fragment>
-        );
     }
 
     return (
         <React.Fragment>
             {header}
-            <div className={b('content', {flat: withoutIndent})}>
+            <div
+                className={b('content', {flat: withoutIndent, 'multiple-values': items.length > 1})}
+            >
                 <GroupIndent>{content}</GroupIndent>
             </div>
         </React.Fragment>
