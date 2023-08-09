@@ -25,7 +25,7 @@ export interface CardProps {
 }
 
 const POPOVER_PLACEMENT: PopoverProps['placement'] = ['bottom', 'top'];
-const MAX_TITLE_WIDTH = 543;
+const MAX_TITLE_WIDTH = 533;
 
 export const Card: React.FC<CardProps> = ({
     name,

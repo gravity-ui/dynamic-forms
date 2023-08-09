@@ -29,7 +29,7 @@ interface SectionProps {
 }
 
 const POPOVER_PLACEMENT: PopoverProps['placement'] = ['bottom', 'top'];
-const MAX_TITLE_WIDTH = 543;
+const MAX_TITLE_WIDTH = 533;
 
 const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>({
     name,
