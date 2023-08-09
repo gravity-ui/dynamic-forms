@@ -13,7 +13,6 @@ $block: '.#{$ns}section';
 
     &__header {
         margin-bottom: $normalOffset;
-        max-width: 543px;
 
         &_with-popover {
             display: flex;
@@ -22,6 +21,7 @@ $block: '.#{$ns}section';
     }
 
     &__title {
+        max-width: 533px;
         font-weight: 500;
         margin: 0;
         white-space: nowrap;
