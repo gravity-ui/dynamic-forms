@@ -1,17 +1,17 @@
 import React from 'react';
 
 import {HelpPopover} from '@gravity-ui/components';
-import {Popover, type PopoverProps} from '@gravity-ui/uikit';
+import {Popover} from '@gravity-ui/uikit';
 
 import {GroupIndent} from '../../';
-import {ErrorWrapper} from '../../../';
+import {COMMON_POPOVER_PLACEMENT, COMMON_TITLE_MAX_WIDTH, ErrorWrapper} from '../../../';
 import {
-    type FieldRenderProps,
-    type FieldValue,
-    type FormValue,
-    type LayoutProps,
-    type Spec,
-    type ViewLayoutProps,
+    FieldRenderProps,
+    FieldValue,
+    FormValue,
+    LayoutProps,
+    Spec,
+    ViewLayoutProps,
     isArraySpec,
     isObjectSpec,
 } from '../../../../core';
@@ -27,9 +27,6 @@ interface SectionProps {
     ignoreDescription?: boolean;
     descriptionAsSubtitle?: boolean;
 }
-
-const POPOVER_PLACEMENT: PopoverProps['placement'] = ['bottom', 'top'];
-const MAX_TITLE_WIDTH = 533;
 
 const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>({
     name,
@@ -82,7 +79,8 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
     }
 
     const layoutTitle = spec.viewSpec.layoutTitle;
-    const layoutTitlePopoverDisabled = (titleRef.current?.offsetWidth || 0) < MAX_TITLE_WIDTH;
+    const layoutTitlePopoverDisabled =
+        (titleRef.current?.offsetWidth || 0) <= COMMON_TITLE_MAX_WIDTH;
 
     return (
         <section className={b()}>
@@ -94,7 +92,7 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
                 >
                     <Popover
                         content={layoutTitle}
-                        placement={POPOVER_PLACEMENT}
+                        placement={COMMON_POPOVER_PLACEMENT}
                         disabled={layoutTitlePopoverDisabled}
                     >
                         <h2 className={b('title', {size: titleSize})} ref={titleRef}>

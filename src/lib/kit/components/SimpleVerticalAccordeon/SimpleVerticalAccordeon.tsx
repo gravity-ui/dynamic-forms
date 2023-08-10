@@ -2,8 +2,9 @@ import React from 'react';
 
 import {HelpPopover} from '@gravity-ui/components';
 import {ChevronDown} from '@gravity-ui/icons';
-import {Button, Icon, Popover, type PopoverProps} from '@gravity-ui/uikit';
+import {Button, Icon, Popover} from '@gravity-ui/uikit';
 
+import {COMMON_POPOVER_PLACEMENT} from '../../constants';
 import {block} from '../../utils';
 
 import './SimpleVerticalAccordeon.scss';
@@ -34,8 +35,7 @@ interface SimpleVerticalAccordeonState {
     isFirstRender: boolean;
 }
 
-const MAX_TITLE_TEXT_WIDTH = 495; /** 543px max-width - 48px of padding */
-const POPOVER_PLACEMENT: PopoverProps['placement'] = ['bottom', 'top'];
+const TITLE_TEXT_MAX_WIDTH = 485; /** 533px (COMMON_TITLE_MAX_WIDTH) - 48px of padding */
 
 export class SimpleVerticalAccordeon extends React.Component<
     SimpleVerticalAccordeonProps,
@@ -103,7 +103,7 @@ export class SimpleVerticalAccordeon extends React.Component<
 
         const title = this.getTitle();
         const titlePopoverDisabled =
-            (this.titleRef.current?.offsetWidth || 0) < MAX_TITLE_TEXT_WIDTH;
+            (this.titleRef.current?.offsetWidth || 0) <= TITLE_TEXT_MAX_WIDTH;
 
         return (
             Boolean(React.Children.count(children)) && (
@@ -112,7 +112,7 @@ export class SimpleVerticalAccordeon extends React.Component<
                         <Popover
                             content={title}
                             disabled={titlePopoverDisabled}
-                            placement={POPOVER_PLACEMENT}
+                            placement={COMMON_POPOVER_PLACEMENT}
                         >
                             <Button
                                 view="flat"
@@ -121,7 +121,6 @@ export class SimpleVerticalAccordeon extends React.Component<
                                 qa={`${name}-accordeon-toggler`}
                                 width="auto"
                             >
-                                {' '}
                                 <b ref={this.titleRef} className={b('title', {size: titleSize})}>
                                     {title}
                                 </b>
