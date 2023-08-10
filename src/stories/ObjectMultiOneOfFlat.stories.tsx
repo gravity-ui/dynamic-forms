@@ -14,7 +14,7 @@ export default {
 const spec: ObjectSpec = {
     type: SpecTypes.Object,
     properties: {
-        external: {
+        person: {
             required: true,
             type: SpecTypes.Object,
             properties: {
@@ -26,25 +26,26 @@ const spec: ObjectSpec = {
                     type: SpecTypes.Number,
                     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Age'},
                 },
-                license: {
-                    type: SpecTypes.Boolean,
-                    viewSpec: {type: 'base', layout: 'row', layoutTitle: 'License'},
-                },
             },
             viewSpec: {
                 type: 'base',
-                layoutTitle: 'Person data',
             },
         },
-        internal: {
+        id: {
             required: true,
             type: SpecTypes.String,
             viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Person id'},
         },
+        license: {
+            required: true,
+            type: SpecTypes.Boolean,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'license'},
+        },
     },
     description: {
-        external: 'External candidate',
-        internal: 'Internal candidate',
+        person: 'Person Data',
+        id: 'Person id',
+        license: 'License',
     },
     viewSpec: {
         type: 'multi_oneof_flat',
@@ -57,10 +58,9 @@ const spec: ObjectSpec = {
 const excludeOptions = ['items', 'viewSpec.type', 'viewSpec.itemLabel', 'viewSpec.table'];
 
 const value = {
-    external: {
+    person: {
         name: 'Bar',
-        age: 12345,
-        license: true,
+        age: 20,
     },
 };
 
