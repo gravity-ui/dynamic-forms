@@ -1,0 +1,25 @@
+@import '../../../styles/variables';
+
+.#{$ns}multi-oneof {
+    &__select {
+        max-width: 305px;
+    }
+
+    &__content {
+        &_flat {
+            & > .#{$ns}group-indent {
+                margin: 0;
+                border-left: none;
+                padding: 0;
+
+                & > .#{$ns}use-search {
+                    margin-top: 15px;
+
+                    &:empty {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}

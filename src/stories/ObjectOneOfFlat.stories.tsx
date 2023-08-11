@@ -60,7 +60,7 @@ const baseSpec: ObjectSpec = {
     },
 };
 
-const excludeOptions = ['viewSpec.type'];
+const excludeOptions = ['viewSpec.type', 'viewSpec.placeholder'];
 
 const template = (spec: ObjectSpec = baseSpec) => {
     const Template: StoryFn<typeof OneOfFlatBase> = (__, {viewMode}) => (

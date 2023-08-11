@@ -18,6 +18,10 @@ import {
     MonacoInputCard,
     MonacoView,
     MonacoViewCard,
+    MultiOneOf,
+    MultiOneOfFlat,
+    MultiOneOfFlatView,
+    MultiOneOfView,
     MultiSelect,
     MultiSelectView,
     NumberWithScale,
@@ -138,6 +142,8 @@ export const dynamicConfig: DynamicFormConfig = {
             base: {Component: ObjectBase, independent: true},
             text_link: {Component: TextLink, independent: true},
             object_value: {Component: ObjectValueInput, independent: true},
+            multi_oneof: {Component: MultiOneOf, independent: true},
+            multi_oneof_flat: {Component: MultiOneOfFlat, independent: true},
         },
         layouts: {
             row: Row,
@@ -238,6 +244,8 @@ export const dynamicCardConfig: DynamicFormConfig = {
             base: {Component: ObjectBase, independent: true},
             text_link: {Component: TextLink, independent: true},
             object_value: {Component: ObjectValueInput, independent: true},
+            multi_oneof: {Component: MultiOneOf, independent: true},
+            multi_oneof_flat: {Component: MultiOneOfFlat, independent: true},
         },
         layouts: {
             row: Row2,
@@ -331,6 +339,8 @@ export const dynamicViewConfig: DynamicViewConfig = {
             base: {Component: ObjectBaseView, independent: true},
             text_link: {Component: TextLinkView, independent: true},
             object_value: {Component: ObjectValueInputView, independent: true},
+            multi_oneof: {Component: MultiOneOfView, independent: true},
+            multi_oneof_flat: {Component: MultiOneOfFlatView, independent: true},
         },
         layouts: {
             row: ViewRow,
@@ -415,6 +425,8 @@ export const dynamicViewCardConfig: DynamicViewConfig = {
             base: {Component: ObjectBaseView, independent: true},
             text_link: {Component: TextLinkView, independent: true},
             object_value: {Component: ObjectValueInputView, independent: true},
+            multi_oneof: {Component: MultiOneOfView, independent: true},
+            multi_oneof_flat: {Component: MultiOneOfFlatView, independent: true},
         },
         layouts: {
             row: ViewRow2,
