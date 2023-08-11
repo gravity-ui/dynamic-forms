@@ -4,7 +4,7 @@ import {HelpPopover} from '@gravity-ui/components';
 import {ChevronDown} from '@gravity-ui/icons';
 import {Button, Icon, Popover} from '@gravity-ui/uikit';
 
-import {COMMON_POPOVER_PLACEMENT} from '../../constants';
+import {COMMON_POPOVER_PLACEMENT} from '../../constants/common';
 import {block} from '../../utils';
 
 import './SimpleVerticalAccordeon.scss';

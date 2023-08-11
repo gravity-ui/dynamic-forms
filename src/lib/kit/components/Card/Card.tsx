@@ -5,7 +5,7 @@ import {ChevronDown} from '@gravity-ui/icons';
 import {Button, Card as CardBase, Icon, Popover} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
-import {COMMON_POPOVER_PLACEMENT, COMMON_TITLE_MAX_WIDTH} from '../../constants';
+import {COMMON_POPOVER_PLACEMENT, COMMON_TITLE_MAX_WIDTH} from '../../constants/common';
 import {block} from '../../utils';
 
 import './Card.scss';
