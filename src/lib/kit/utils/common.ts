@@ -5,6 +5,7 @@ import {
     NumberSpec,
     ObjectValue,
     Spec,
+    SpecTypes,
     StringSpec,
     isArraySpec,
     isObjectSpec,
@@ -76,7 +77,10 @@ export const prepareSpec = <Type extends Spec>(
                 }
             }
 
-            if (typeof _defaultValue === result.type) {
+            if (
+                typeof _defaultValue === result.type ||
+                (_.isArray(_defaultValue) && result.type === SpecTypes.Array)
+            ) {
                 result.defaultValue = _defaultValue;
             } else {
                 result.defaultValue = undefined;
