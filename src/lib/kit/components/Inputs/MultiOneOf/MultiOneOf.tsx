@@ -44,11 +44,13 @@ export const MultiOneOf: React.FC<MultiOneOfProps> = (props) => {
             childValue: FieldValue,
             childErrors?: Record<string, ValidateError>,
         ) => {
-            const _value = _.set(value || {}, childName.split(`${name}.`).join(''), childValue);
-
-            onChange(_value, childErrors);
+            onChange(
+                (currentValue) =>
+                    _.set({...currentValue}, childName.split(`${name}.`).join(''), childValue),
+                childErrors,
+            );
         },
-        [name, onChange, value],
+        [name, onChange],
     );
 
     const specProperties = React.useMemo(
@@ -76,8 +78,8 @@ export const MultiOneOf: React.FC<MultiOneOfProps> = (props) => {
 
     const filterable = React.useMemo(() => (options.length || 0) > 9, [options.length]);
 
-    const selectInput = React.useMemo(
-        () => (
+    const selectInput = React.useMemo(() => {
+        const select = (
             <Select
                 width="max"
                 value={valueSelect}
@@ -91,46 +93,24 @@ export const MultiOneOf: React.FC<MultiOneOfProps> = (props) => {
                 className={b('select')}
                 qa={name}
             />
-        ),
-        [
-            filterable,
-            handleOpenChange,
-            name,
-            options,
-            spec.viewSpec.disabled,
-            spec.viewSpec.placeholder,
-            valueSelect,
-        ],
-    );
+        );
 
-    const header = React.useMemo(() => {
         if (Layout) {
-            return <Layout {...props}>{selectInput}</Layout>;
+            return <Layout {...props}>{select}</Layout>;
         }
 
-        return <React.Fragment>{selectInput}</React.Fragment>;
-    }, [Layout, props, selectInput]);
-
-    const content = React.useCallback(
-        (value: string[]) => (
-            <React.Fragment>
-                {value.map((property) => (
-                    <React.Fragment key={property}>
-                        {specProperties && specProperties[property] ? (
-                            <Controller
-                                name={`${name}.${property}`}
-                                spec={specProperties[property]}
-                                parentOnUnmount={parentOnUnmount}
-                                parentOnChange={parentOnChange}
-                                value={input.value?.[property]}
-                            />
-                        ) : null}
-                    </React.Fragment>
-                ))}
-            </React.Fragment>
-        ),
-        [specProperties, name, parentOnUnmount, parentOnChange, input.value],
-    );
+        return <React.Fragment>{select}</React.Fragment>;
+    }, [
+        Layout,
+        filterable,
+        handleOpenChange,
+        name,
+        options,
+        props,
+        spec.viewSpec.disabled,
+        spec.viewSpec.placeholder,
+        valueSelect,
+    ]);
 
     if (!options) {
         return null;
@@ -138,13 +118,27 @@ export const MultiOneOf: React.FC<MultiOneOfProps> = (props) => {
 
     return (
         <React.Fragment>
-            {header}
+            {selectInput}
             <div
                 className={b('content', {
                     flat: withoutIndent,
                 })}
             >
-                <GroupIndent>{content(valueSelect)}</GroupIndent>
+                <GroupIndent>
+                    {valueSelect.map((property) => (
+                        <React.Fragment key={property}>
+                            {specProperties && specProperties[property] ? (
+                                <Controller
+                                    name={`${name}.${property}`}
+                                    spec={specProperties[property]}
+                                    parentOnUnmount={parentOnUnmount}
+                                    parentOnChange={parentOnChange}
+                                    value={input.value?.[property]}
+                                />
+                            ) : null}
+                        </React.Fragment>
+                    ))}
+                </GroupIndent>
             </div>
         </React.Fragment>
     );

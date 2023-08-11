@@ -39,63 +39,59 @@ export const MultiOneOfView: React.FC<MultiOneOfViewProps> = (props) => {
         [spec.description, specProperties, values],
     );
 
-    const content = React.useMemo(
-        () => (
+    const selectView = React.useMemo(() => {
+        const selectView = (
             <React.Fragment>
-                {values.map((value) => (
-                    <React.Fragment key={value}>
-                        {specProperties && specProperties[value] ? (
-                            <ViewController
-                                name={`${name}.${value}`}
-                                spec={specProperties[value]}
-                            />
-                        ) : null}
-                    </React.Fragment>
-                ))}
+                {items.map((item) => {
+                    return (
+                        <Popover
+                            placement={['bottom', 'top']}
+                            key={item}
+                            content={item}
+                            className={b('tooltip-container')}
+                            contentClassName={b('tooltip')}
+                            disabled={item.length < 51}
+                        >
+                            {item}
+                        </Popover>
+                    );
+                })}
             </React.Fragment>
-        ),
-        [name, specProperties, values],
-    );
+        );
 
-    const selectView = React.useMemo(
-        () => (
-            <React.Fragment>
-                {items.map((item) => (
-                    <Popover
-                        placement={['bottom', 'top']}
-                        key={item}
-                        content={item}
-                        className={b('tooltip-container')}
-                        contentClassName={b('tooltip')}
-                        disabled={item.length < 51}
-                    >
-                        {item}
-                    </Popover>
-                ))}
-            </React.Fragment>
-        ),
-        [items],
-    );
-
-    const header = React.useMemo(() => {
         if (Layout) {
-            return <Layout {...props}>{selectView}</Layout>;
+            return (
+                <Layout {...props} value={values as any}>
+                    {selectView}
+                </Layout>
+            );
         }
 
         return <React.Fragment>{selectView}</React.Fragment>;
-    }, [Layout, props, selectView]);
+    }, [Layout, items, props, values]);
 
-    if (!value) {
+    if (values.length === 0) {
         return null;
     }
 
     return (
         <React.Fragment>
-            {header}
+            {selectView}
             <div
                 className={b('content', {flat: withoutIndent, 'multiple-values': items.length > 1})}
             >
-                <GroupIndent>{content}</GroupIndent>
+                <GroupIndent>
+                    {values.map((value) => (
+                        <React.Fragment key={value}>
+                            {specProperties && specProperties[value] ? (
+                                <ViewController
+                                    name={`${name}.${value}`}
+                                    spec={specProperties[value]}
+                                />
+                            ) : null}
+                        </React.Fragment>
+                    ))}
+                </GroupIndent>
             </div>
         </React.Fragment>
     );
