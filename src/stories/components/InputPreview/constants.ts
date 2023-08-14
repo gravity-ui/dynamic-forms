@@ -471,6 +471,7 @@ export const getObjectOptions = (): ObjectSpec => ({
                 layoutOpen,
                 order,
                 oneOfParams,
+                placeholder,
             },
             [
                 'disabled',
@@ -481,6 +482,7 @@ export const getObjectOptions = (): ObjectSpec => ({
                 'layoutOpen',
                 'order',
                 'oneOfParams',
+                'placeholder',
             ],
         ),
     },

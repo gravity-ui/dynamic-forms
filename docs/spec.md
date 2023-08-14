@@ -86,6 +86,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.order             | `string[]`               |          | Array of `properties` keys in the right order                                                                                                                                           |
 | viewSpec.link              | `any`                    |          | A field containing information for forming a [link](#link) for a value                                                                                                                  |
 | viewSpec.oneOfParams       | `object`                 |          | [Parameters](#oneofparams) that must be passed to oneof input                                                                                                                           |
+| viewSpec.placeholder       | `string`                 |          | A short hint displayed in the field before the user enters the value                                                                                                                    |
 
 ### StringSpec
 

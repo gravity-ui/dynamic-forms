@@ -64,7 +64,7 @@ export const InputPreview: React.FC<InputPreviewProps> = ({
     const renderMonaco = React.useCallback((value: FormValue) => {
         const monacoProps = {
             input: {
-                value: JSON.stringify(value, null, 2),
+                value: JSON.stringify(value, (_, value) => (value === undefined ? null : value), 2),
                 onChange: _.noop,
             },
             spec: {viewSpec: {monacoParams: {language: 'json', fontSize: 11}, disabled: true}},
