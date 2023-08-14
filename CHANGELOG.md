@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.2](https://github.com/gravity-ui/dynamic-forms/compare/v1.11.1...v1.11.2) (2023-08-14)
+
+
+### Bug Fixes
+
+* **FileInput:** change hiding approach of input ([#78](https://github.com/gravity-ui/dynamic-forms/issues/78)) ([#79](https://github.com/gravity-ui/dynamic-forms/issues/79)) ([6150a2e](https://github.com/gravity-ui/dynamic-forms/commit/6150a2eebd042b75a8eac15c470c5d71c35b462f))
+
 ## [1.11.1](https://github.com/gravity-ui/dynamic-forms/compare/v1.11.0...v1.11.1) (2023-08-08)
 
 
