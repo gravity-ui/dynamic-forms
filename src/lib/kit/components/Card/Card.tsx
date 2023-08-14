@@ -2,9 +2,10 @@ import React from 'react';
 
 import {HelpPopover} from '@gravity-ui/components';
 import {ChevronDown} from '@gravity-ui/icons';
-import {Button, Card as CardBase, Icon} from '@gravity-ui/uikit';
+import {Button, Card as CardBase, Icon, Popover} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
+import {COMMON_POPOVER_PLACEMENT, COMMON_TITLE_MAX_WIDTH} from '../../constants/common';
 import {block} from '../../utils';
 
 import './Card.scss';
@@ -37,6 +38,7 @@ export const Card: React.FC<CardProps> = ({
     children,
 }) => {
     const containerRef = React.useRef<HTMLDivElement>(null);
+    const titleRef = React.useRef<HTMLDivElement>(null);
     const bodyRef = React.useRef<HTMLDivElement>(null);
     const [open, setOpen] = React.useState(alwaysOpen || propsOpen || false);
 
@@ -66,14 +68,27 @@ export const Card: React.FC<CardProps> = ({
         [],
     );
 
+    const titlePopoverDisabled = (titleRef.current?.offsetWidth || 0) <= COMMON_TITLE_MAX_WIDTH;
+
     const title = React.useMemo(() => {
         if (_.isString(propsTitle)) {
             return (
                 <React.Fragment>
-                    <div className={b('title')}>{propsTitle}</div>
+                    <Popover
+                        content={propsTitle}
+                        disabled={titlePopoverDisabled}
+                        placement={COMMON_POPOVER_PLACEMENT}
+                    >
+                        <div ref={titleRef} className={b('title')}>
+                            {propsTitle}
+                        </div>
+                    </Popover>
                     {description ? (
                         <div className={b('note')}>
-                            <HelpPopover htmlContent={description} placement={['bottom', 'top']} />
+                            <HelpPopover
+                                htmlContent={description}
+                                placement={COMMON_POPOVER_PLACEMENT}
+                            />
                         </div>
                     ) : null}
                 </React.Fragment>
@@ -81,7 +96,7 @@ export const Card: React.FC<CardProps> = ({
         }
 
         return propsTitle;
-    }, [propsTitle, description]);
+    }, [propsTitle, titlePopoverDisabled, description]);
 
     React.useEffect(() => {
         if (!alwaysOpen && propsOpen !== undefined && propsOpen !== open) {

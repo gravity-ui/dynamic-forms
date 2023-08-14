@@ -1,9 +1,10 @@
 import React from 'react';
 
 import {HelpPopover} from '@gravity-ui/components';
+import {Popover} from '@gravity-ui/uikit';
 
 import {GroupIndent} from '../../';
-import {ErrorWrapper} from '../../../';
+import {COMMON_POPOVER_PLACEMENT, COMMON_TITLE_MAX_WIDTH, ErrorWrapper} from '../../../';
 import {
     FieldRenderProps,
     FieldValue,
@@ -39,6 +40,7 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
 }: (LayoutProps<D, S> | ViewLayoutProps<T, S>) & SectionProps) => {
     const meta = (restProps as FieldRenderProps<D>).meta as FieldRenderProps<D>['meta'] | undefined;
     const arrOrObjFlag = isArraySpec(spec) || isObjectSpec(spec);
+    const titleRef = React.useRef<HTMLHeadingElement>(null);
     let content = children;
 
     if (meta) {
@@ -76,15 +78,27 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
         }
     }
 
+    const layoutTitle = spec.viewSpec.layoutTitle;
+    const layoutTitlePopoverDisabled =
+        (titleRef.current?.offsetWidth || 0) <= COMMON_TITLE_MAX_WIDTH;
+
     return (
         <section className={b()}>
-            {spec.viewSpec.layoutTitle ? (
+            {layoutTitle ? (
                 <div
                     className={b('header', {
                         'with-popover': !descriptionAsSubtitle,
                     })}
                 >
-                    <h2 className={b('title', {size: titleSize})}>{spec.viewSpec.layoutTitle}</h2>
+                    <Popover
+                        content={layoutTitle}
+                        placement={COMMON_POPOVER_PLACEMENT}
+                        disabled={layoutTitlePopoverDisabled}
+                    >
+                        <h2 className={b('title', {size: titleSize})} ref={titleRef}>
+                            {layoutTitle}
+                        </h2>
+                    </Popover>
                     {description}
                 </div>
             ) : null}

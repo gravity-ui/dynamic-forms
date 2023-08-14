@@ -67,6 +67,10 @@
         font-size: var(--yc-text-subheader-2-font-size);
         font-weight: var(--yc-text-subheader-font-weight);
         line-height: var(--yc-text-subheader-2-line-height);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 533px;
     }
 
     &__note {

@@ -21,8 +21,12 @@ $block: '.#{$ns}section';
     }
 
     &__title {
+        max-width: 533px;
         font-weight: 500;
         margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
         &_size_s {
             font-size: 13px;
