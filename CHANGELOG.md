@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.1.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.0.0...v2.1.0) (2023-08-14)
+
+
+### Features
+
+* **MultiOneOf:** added new input multi one of ([#77](https://github.com/gravity-ui/dynamic-forms/issues/77)) ([e1bbbec](https://github.com/gravity-ui/dynamic-forms/commit/e1bbbec2123615c0412026e77c93a69d7c0ca5cb))
+
+
+### Bug Fixes
+
+* **FileInput:** change hiding approach of input ([#78](https://github.com/gravity-ui/dynamic-forms/issues/78)) ([9690d15](https://github.com/gravity-ui/dynamic-forms/commit/9690d158ca69018588ab81429e6f96e3f9d2f7b3))
+* fixed array type for default values ([#72](https://github.com/gravity-ui/dynamic-forms/issues/72)) ([c298dc2](https://github.com/gravity-ui/dynamic-forms/commit/c298dc23845059c311aed8d49f68c8ed281695c9))
+* long headers values ([#76](https://github.com/gravity-ui/dynamic-forms/issues/76)) ([37f3c6e](https://github.com/gravity-ui/dynamic-forms/commit/37f3c6e869da20e7d1a519c343e4ee0717eb7e90))
+
 ## [2.0.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.10.0...v2.0.0) (2023-07-31)
 
 
