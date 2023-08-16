@@ -51,6 +51,8 @@ import {
     TableArrayInput,
     TableArrayView,
     TableCell,
+    TableCompact,
+    TableCompactView,
     Text,
     TextArea,
     TextAreaView,
@@ -87,6 +89,7 @@ export const dynamicConfig: DynamicFormConfig = {
             select: {Component: MultiSelect},
             table: {Component: TableArrayInput},
             base: {Component: ArrayBase},
+            table_compact: {Component: TableCompact},
         },
         layouts: {
             row: Row,
@@ -196,6 +199,7 @@ export const dynamicCardConfig: DynamicFormConfig = {
             select: {Component: MultiSelect},
             table: {Component: TableArrayInput},
             base: {Component: ArrayBase},
+            table_compact: {Component: TableCompact},
         },
         layouts: {
             row: Row2,
@@ -293,6 +297,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
             select: {Component: MultiSelectView},
             table: {Component: TableArrayView},
             base: {Component: ArrayBaseView},
+            table_compact: {Component: TableCompactView},
         },
         layouts: {
             row: ViewRow,
@@ -386,6 +391,7 @@ export const dynamicViewCardConfig: DynamicViewConfig = {
             select: {Component: MultiSelectView},
             table: {Component: TableArrayView},
             base: {Component: ArrayBaseView},
+            table_compact: {Component: TableCompactView},
         },
         layouts: {
             row: ViewRow2,

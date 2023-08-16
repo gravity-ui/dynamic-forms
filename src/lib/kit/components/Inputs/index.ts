@@ -14,6 +14,7 @@ export * from './Secret';
 export * from './Select';
 export * from './Switch';
 export * from './TableArrayInput';
+export * from './TableCompact';
 export * from './Text';
 export * from './TextArea';
 export * from './TextContent';

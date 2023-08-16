@@ -44,5 +44,6 @@
   "label_delete": "Delete",
   "button_cancel": "Close",
   "button-upload_file": "Upload file",
-  "label-data_loaded": "Data uploaded"
+  "label-data_loaded": "Data uploaded",
+  "label_and": "and"
 }

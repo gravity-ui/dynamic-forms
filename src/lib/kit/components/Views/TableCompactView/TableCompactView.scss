@@ -1,0 +1,39 @@
+@import '../../../styles/variables';
+
+.#{$ns}table-compact-view {
+    &__table {
+        .yc-table__head {
+            display: none;
+        }
+    }
+
+    &__row {
+        .yc-table__cell {
+            border-bottom: 0px transparent;
+            padding: 0px 10px 12px 0px;
+        }
+    }
+
+    &__cell {
+        max-width: 150px;
+        min-width: 50px;
+
+        &_arr,
+        &_obj {
+            max-width: unset;
+
+            & > .simple-vertical-accordeon {
+                margin-bottom: 0;
+            }
+        }
+
+        &_bool {
+            max-width: 50px;
+            min-width: 50px;
+        }
+    }
+
+    &__and {
+        padding-right: 10px;
+    }
+}

@@ -11,5 +11,6 @@ export * from './ObjectValueInputView';
 export * from './OneOfCardView';
 export * from './OneOfView';
 export * from './TableArrayView';
+export * from './TableCompactView';
 export * from './TextAreaView';
 export * from './TextLinkView';

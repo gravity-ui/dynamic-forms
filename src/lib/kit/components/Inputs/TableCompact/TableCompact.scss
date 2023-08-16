@@ -1,0 +1,54 @@
+@import '../../../styles/variables';
+
+.#{$ns}table-compact {
+    &__table {
+        .yc-table__head {
+            display: none;
+        }
+    }
+
+    &__row {
+        .yc-table__cell {
+            border-bottom: 0px transparent;
+            padding: 0px 3px 8px 0px;
+        }
+
+        &_hidden {
+            display: none;
+        }
+    }
+
+    &__cell {
+        .yc-text-input,
+        .yc-select-control,
+        .yc-select,
+        .g-select {
+            max-width: 150px;
+            min-width: 150px;
+        }
+
+        &_arr,
+        &_obj {
+            .yc-text-input,
+            .yc-select-control:not(.#{$ns}multi-select),
+            .yc-select:not(.#{$ns}multi-select),
+            .g-select:not(.#{$ns}multi-select) {
+                max-width: unset;
+            }
+
+            & > .simple-vertical-accordeon {
+                margin-bottom: 0;
+            }
+        }
+
+        &_bool {
+            max-width: 50px;
+            min-width: 50px;
+        }
+    }
+
+    &__and {
+        padding-top: 6px;
+        padding-right: 3px;
+    }
+}
