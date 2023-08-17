@@ -87,10 +87,13 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
             arrayInput.onItemAdd(item);
         };
 
+        const viewButton =
+            spec.viewSpec.addButtonPosition === 'right' ? 'flat-secondary' : 'normal';
+
         if (!arrayInput.value && spec.defaultValue) {
             return (
                 <Button
-                    view="flat-secondary"
+                    view={viewButton}
                     onClick={() =>
                         input.onChange(
                             transformArrIn<ArrayValue, FieldArrayValue>(spec.defaultValue!),
@@ -100,20 +103,24 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
                     qa={`${name}-init-arr`}
                 >
                     <Icon data={Plus} size={14} />
-                    {spec.viewSpec.layoutTitle || null}
+                    {spec.viewSpec.addButtonPosition === 'right'
+                        ? null
+                        : spec.viewSpec.layoutTitle || null}
                 </Button>
             );
         }
 
         return (
             <Button
-                view="flat-secondary"
+                view={viewButton}
                 onClick={onItemAdd}
                 disabled={spec.viewSpec.disabled}
                 qa={`${name}-add-item`}
             >
                 <Icon data={Plus} size={14} />
-                {spec.viewSpec.itemLabel || null}
+                {spec.viewSpec.addButtonPosition === 'right'
+                    ? null
+                    : spec.viewSpec.itemLabel || null}
             </Button>
         );
     }, [
@@ -122,6 +129,7 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
         name,
         spec.defaultValue,
         spec.items,
+        spec.viewSpec.addButtonPosition,
         spec.viewSpec.disabled,
         spec.viewSpec.itemLabel,
         spec.viewSpec.layoutTitle,

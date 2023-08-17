@@ -179,7 +179,7 @@ const itemPrefix: StringSpec = {
 const addButtonPosition: StringSpec = {
     type: SpecTypes.String,
     enum: ['―', 'down', 'right'],
-    viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Format'},
+    viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Add Button Position'},
 };
 
 const table: ArraySpec = {
@@ -201,7 +201,7 @@ const table: ArraySpec = {
     viewSpec: {
         type: 'table',
         layout: 'accordeon',
-        layoutTitle: 'Enum description',
+        layoutTitle: 'Table',
         table: [
             {label: 'Property', property: 'property'},
             {label: 'Label', property: 'label'},
