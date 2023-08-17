@@ -171,6 +171,17 @@ const itemLabel: StringSpec = {
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Item label'},
 };
 
+const itemPrefix: StringSpec = {
+    type: SpecTypes.String,
+    viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Item Prefix'},
+};
+
+const addButtonPosition: StringSpec = {
+    type: SpecTypes.String,
+    enum: ['―', 'down', 'right'],
+    viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Format'},
+};
+
 const table: ArraySpec = {
     type: SpecTypes.Array,
     items: {
@@ -357,8 +368,10 @@ export const getArrayOptions = (): ObjectSpec => ({
                 layoutDescription,
                 layoutOpen,
                 itemLabel,
+                itemPrefix,
                 table,
                 placeholder,
+                addButtonPosition,
             },
             [
                 'disabled',
@@ -368,8 +381,10 @@ export const getArrayOptions = (): ObjectSpec => ({
                 'layoutDescription',
                 'layoutOpen',
                 'itemLabel',
+                'itemPrefix',
                 'table',
                 'placeholder',
+                'addButtonPosition',
             ],
         ),
     },

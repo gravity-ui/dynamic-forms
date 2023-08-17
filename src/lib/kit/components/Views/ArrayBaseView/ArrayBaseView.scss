@@ -1,0 +1,28 @@
+@import '../../../styles/variables';
+
+.#{$ns}array-base-view {
+    &__item-wrapper {
+        display: flex;
+    }
+
+    &__item-prefix {
+        width: 42px;
+        margin-right: 3px;
+        height: 20px;
+        overflow: hidden;
+    }
+
+    &__item-prefix-tooltip {
+        overflow-wrap: break-word;
+    }
+
+    &__item-prefix-text {
+        display: block;
+
+        &_long-value {
+            white-space: nowrap;
+            overflow: hidden;
+            width: 42px;
+        }
+    }
+}

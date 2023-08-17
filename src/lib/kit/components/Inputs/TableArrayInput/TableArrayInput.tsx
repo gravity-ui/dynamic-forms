@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Plus, Xmark} from '@gravity-ui/icons';
+import {Plus, TrashBin} from '@gravity-ui/icons';
 import {Button, Icon, Table} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
@@ -93,12 +93,12 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
             sticky: 'right',
             template: ({key}: {key: string}) => (
                 <Button
-                    view="flat"
+                    view="flat-secondary"
                     onClick={() => onItemRemove(key)}
                     key={`remove-${key}`}
                     qa={`${name}-item-remove-${key}`}
                 >
-                    <Icon data={Xmark} size={16} />
+                    <Icon data={TrashBin} size={16} />
                 </Button>
             ),
         };

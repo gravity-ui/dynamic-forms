@@ -26,9 +26,11 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.layoutDescription | `string`                               |          | Additional description/hint for [Layout](./config.md#layouts)                                                                                                                           |
 | viewSpec.layoutOpen        | `boolean`                              |          | Expand [Layout](./config.md#layouts) at the first rendering                                                                                                                             |
 | viewSpec.itemLabel         | `string`                               |          | Text for the button that adds an array element                                                                                                                                          |
+| viewSpec.itemPrefix        | `string`                               |          | Additional text for an element in the array                                                                                                                                             |
 | viewSpec.table             | `{label: string; property: string;}[]` |          | An array whose elements are used to establish column names and their order, if `type === "table"`                                                                                       |
 | viewSpec.link              | `any`                                  |          | A field containing information for forming a [link](#link) for a value                                                                                                                  |
 | viewSpec.placeholder       | `string`                               |          | A short hint displayed in the field before the user enters the value                                                                                                                    |
+| viewSpec.addButtonPosition | `"down"/"right"`                       |          | The location of the button adding a new element to the array. Default value "down".                                                                                                     |
 
 ### BooleanSpec
 
