@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {RadioButton} from '@gravity-ui/uikit';
-import block from 'bem-cn-lite';
 import _ from 'lodash';
 import {Form} from 'react-final-form';
 import MonacoEditor from 'react-monaco-editor';
@@ -16,10 +15,11 @@ import {
     Spec,
     SpecTypes,
 } from '../../../lib';
+import {cn} from '../../../lib/kit/utils/cn';
 
 import './Editor.scss';
 
-const b = block('editor');
+const b = cn('editor');
 
 export interface EditorProps {
     spec: Spec;
