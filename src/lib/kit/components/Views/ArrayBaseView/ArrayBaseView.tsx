@@ -12,6 +12,11 @@ import './ArrayBaseView.scss';
 const b = block('array-base-view');
 
 export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
+    const [itemPrefixParams, setItemPrefixParams] = React.useState({
+        disabledPopover: true,
+        width: 0,
+    });
+
     const itemSpecCorrect = React.useMemo(() => isCorrectSpec(spec.items), [spec.items]);
 
     const getItemSpec = React.useCallback(
@@ -43,10 +48,8 @@ export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
                     return null;
                 }
 
-                const itemPrefixWidth = document.getElementById(`1-item-prefix`)?.offsetWidth || 0;
-                const itemPrefixDisabledPopover = itemPrefixWidth < 50;
                 const itemPrefix = idx === 0 ? null : spec.viewSpec.itemPrefix;
-                const style = idx === 0 ? {width: itemPrefixWidth} : undefined;
+                const style = idx === 0 ? {width: itemPrefixParams.width} : undefined;
 
                 if (spec.viewSpec.itemPrefix) {
                     return (
@@ -56,12 +59,12 @@ export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
                                 content={itemPrefix}
                                 className={b('item-prefix')}
                                 contentClassName={b('item-prefix-tooltip')}
-                                disabled={idx === 0 ? true : itemPrefixDisabledPopover}
+                                disabled={idx === 0 ? true : itemPrefixParams.disabledPopover}
                             >
                                 <span
                                     id={`${idx}-item-prefix`}
                                     className={b('item-prefix-text', {
-                                        'long-value': !itemPrefixDisabledPopover,
+                                        'long-value': !itemPrefixParams.disabledPopover,
                                     })}
                                     style={style}
                                 >
@@ -83,6 +86,15 @@ export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
             }),
         [value.length, name, getItemSpec, spec.viewSpec.itemPrefix],
     );
+
+    React.useEffect(() => {
+        if (spec.viewSpec.itemPrefix) {
+            const width = document.getElementById(`1-item-prefix`)?.offsetWidth || 0;
+            const disabledPopover = width < 50;
+
+            setItemPrefixParams({width, disabledPopover});
+        }
+    }, [spec.viewSpec.itemPrefix, value]);
 
     if (!itemSpecCorrect) {
         return null;

@@ -27,6 +27,11 @@ import './ArrayBase.scss';
 const b = block('array-base');
 
 export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
+    const [itemPrefixParams, setItemPrefixParams] = React.useState({
+        disabledPopover: true,
+        width: 0,
+    });
+
     const keys = React.useMemo(
         () =>
             Object.keys(arrayInput.value || {})
@@ -158,10 +163,8 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
                     );
                 }
 
-                const itemPrefixWidth = document.getElementById(`1-item-prefix`)?.offsetWidth || 0;
-                const itemPrefixDisabledPopover = itemPrefixWidth < 50;
                 const itemPrefix = idx === 0 ? null : spec.viewSpec.itemPrefix;
-                const style = idx === 0 ? {width: itemPrefixWidth} : undefined;
+                const style = idx === 0 ? {width: itemPrefixParams.width} : undefined;
 
                 return (
                     <div key={`${name}.<${key}>`} className={b('item-wrapper')}>
@@ -171,12 +174,12 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
                                 content={itemPrefix}
                                 className={b('item-prefix')}
                                 contentClassName={b('item-prefix-tooltip')}
-                                disabled={idx === 0 ? true : itemPrefixDisabledPopover}
+                                disabled={idx === 0 ? true : itemPrefixParams.disabledPopover}
                             >
                                 <span
                                     id={`${idx}-item-prefix`}
                                     className={b('item-prefix-text', {
-                                        'long-value': !itemPrefixDisabledPopover,
+                                        'long-value': !itemPrefixParams.disabledPopover,
                                     })}
                                     style={style}
                                 >
@@ -207,8 +210,18 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
             spec.viewSpec.addButtonPosition,
             spec.viewSpec.itemPrefix,
             AddButton,
+            itemPrefixParams,
         ],
     );
+
+    React.useEffect(() => {
+        if (spec.viewSpec.itemPrefix) {
+            const width = document.getElementById(`1-item-prefix`)?.offsetWidth || 0;
+            const disabledPopover = width < 50;
+
+            setItemPrefixParams({width, disabledPopover});
+        }
+    }, [spec.viewSpec.itemPrefix, keys]);
 
     if (!itemSpecCorrect) {
         return null;
