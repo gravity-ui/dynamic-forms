@@ -142,7 +142,7 @@ const disabled: BooleanSpec = {
 const getViewType = (map: Record<string, unknown>): StringSpec => ({
     type: SpecTypes.String,
     enum: ['―', ...Object.keys(map)],
-    viewSpec: {type: 'select', layout: 'row', layoutTitle: 'View type'},
+    viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Type'},
 });
 
 const getLayoutSpec = (map: Record<string, unknown>): StringSpec => ({

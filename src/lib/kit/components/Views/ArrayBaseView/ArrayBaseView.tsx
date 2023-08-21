@@ -43,10 +43,10 @@ export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
                     return null;
                 }
 
-                const itemPrefixWidth =
-                    document.getElementById(`${idx}-item-prefix`)?.offsetWidth || 0;
+                const itemPrefixWidth = document.getElementById(`1-item-prefix`)?.offsetWidth || 0;
+                const itemPrefixDisabledPopover = itemPrefixWidth < 50;
                 const itemPrefix = idx === 0 ? null : spec.viewSpec.itemPrefix;
-                const itemPrefixShowPopover = itemPrefixWidth < 42;
+                const style = idx === 0 ? {width: itemPrefixWidth} : undefined;
 
                 if (spec.viewSpec.itemPrefix) {
                     return (
@@ -56,13 +56,14 @@ export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
                                 content={itemPrefix}
                                 className={b('item-prefix')}
                                 contentClassName={b('item-prefix-tooltip')}
-                                disabled={itemPrefixShowPopover}
+                                disabled={idx === 0 ? true : itemPrefixDisabledPopover}
                             >
                                 <span
                                     id={`${idx}-item-prefix`}
                                     className={b('item-prefix-text', {
-                                        'long-value': !itemPrefixShowPopover,
+                                        'long-value': !itemPrefixDisabledPopover,
                                     })}
+                                    style={style}
                                 >
                                     {itemPrefix}
                                 </span>

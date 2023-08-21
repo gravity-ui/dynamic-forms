@@ -158,10 +158,10 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
                     );
                 }
 
-                const itemPrefixWidth =
-                    document.getElementById(`${key}-item-prefix`)?.offsetWidth || 0;
+                const itemPrefixWidth = document.getElementById(`1-item-prefix`)?.offsetWidth || 0;
+                const itemPrefixDisabledPopover = itemPrefixWidth < 50;
                 const itemPrefix = idx === 0 ? null : spec.viewSpec.itemPrefix;
-                const itemPrefixShowPopover = itemPrefixWidth < 42;
+                const style = idx === 0 ? {width: itemPrefixWidth} : undefined;
 
                 return (
                     <div key={`${name}.<${key}>`} className={b('item-wrapper')}>
@@ -171,13 +171,14 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
                                 content={itemPrefix}
                                 className={b('item-prefix')}
                                 contentClassName={b('item-prefix-tooltip')}
-                                disabled={itemPrefixShowPopover}
+                                disabled={idx === 0 ? true : itemPrefixDisabledPopover}
                             >
                                 <span
-                                    id={`${key}-item-prefix`}
+                                    id={`${idx}-item-prefix`}
                                     className={b('item-prefix-text', {
-                                        'long-value': !itemPrefixShowPopover,
+                                        'long-value': !itemPrefixDisabledPopover,
                                     })}
+                                    style={style}
                                 >
                                     {itemPrefix}
                                 </span>

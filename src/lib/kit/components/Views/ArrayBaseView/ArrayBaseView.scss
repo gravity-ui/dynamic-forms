@@ -6,7 +6,7 @@
     }
 
     &__item-prefix {
-        width: 42px;
+        max-width: 50px;
         margin-right: 3px;
         height: 20px;
         overflow: hidden;
@@ -18,11 +18,12 @@
 
     &__item-prefix-text {
         display: block;
+        color: var(--g-color-text-secondary);
 
         &_long-value {
             white-space: nowrap;
             overflow: hidden;
-            width: 42px;
+            max-width: 50px;
         }
     }
 }
