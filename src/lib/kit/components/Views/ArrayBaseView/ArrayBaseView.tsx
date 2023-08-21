@@ -100,5 +100,5 @@ export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
         return null;
     }
 
-    return <>{items}</>;
+    return <React.Fragment>{items}</React.Fragment>;
 };
