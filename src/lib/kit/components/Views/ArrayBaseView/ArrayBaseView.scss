@@ -1,15 +1,14 @@
 @import '../../../styles/variables';
 
 .#{$ns}array-base-view {
-    &__item-wrapper {
-        display: flex;
+    &__view-controller {
+        & > * {
+            margin-bottom: 0px;
+        }
     }
 
     &__item-prefix {
-        max-width: 50px;
-        margin-right: 3px;
-        height: 20px;
-        overflow: hidden;
+        margin: 8px 0px;
     }
 
     &__item-prefix-tooltip {
@@ -17,13 +16,12 @@
     }
 
     &__item-prefix-text {
-        display: block;
-        color: var(--g-color-text-secondary);
+        max-width: 280px;
 
         &_long-value {
             white-space: nowrap;
             overflow: hidden;
-            max-width: 50px;
+            text-overflow: ellipsis;
         }
     }
 }

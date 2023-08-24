@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Plus} from '@gravity-ui/icons';
-import {Button, Icon, Popover} from '@gravity-ui/uikit';
+import {Button, Icon, Label, Popover} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
 import {
@@ -27,10 +27,7 @@ import './ArrayBase.scss';
 const b = block('array-base');
 
 export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
-    const [itemPrefixParams, setItemPrefixParams] = React.useState({
-        disabledPopover: true,
-        width: 0,
-    });
+    const [disabledPopover, setDisabledPopover] = React.useState(false);
 
     const keys = React.useMemo(
         () =>
@@ -92,13 +89,9 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
             arrayInput.onItemAdd(item);
         };
 
-        const viewButton =
-            spec.viewSpec.addButtonPosition === 'right' ? 'flat-secondary' : 'normal';
-
         if (!arrayInput.value && spec.defaultValue) {
             return (
                 <Button
-                    view={viewButton}
                     onClick={() =>
                         input.onChange(
                             transformArrIn<ArrayValue, FieldArrayValue>(spec.defaultValue!),
@@ -108,24 +101,15 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
                     qa={`${name}-init-arr`}
                 >
                     <Icon data={Plus} size={14} />
-                    {spec.viewSpec.addButtonPosition === 'right'
-                        ? null
-                        : spec.viewSpec.layoutTitle || null}
+                    {spec.viewSpec.layoutTitle}
                 </Button>
             );
         }
 
         return (
-            <Button
-                view={viewButton}
-                onClick={onItemAdd}
-                disabled={spec.viewSpec.disabled}
-                qa={`${name}-add-item`}
-            >
+            <Button onClick={onItemAdd} disabled={spec.viewSpec.disabled} qa={`${name}-add-item`}>
                 <Icon data={Plus} size={14} />
-                {spec.viewSpec.addButtonPosition === 'right'
-                    ? null
-                    : spec.viewSpec.itemLabel || null}
+                {spec.viewSpec.itemLabel}
             </Button>
         );
     }, [
@@ -134,7 +118,6 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
         name,
         spec.defaultValue,
         spec.items,
-        spec.viewSpec.addButtonPosition,
         spec.viewSpec.disabled,
         spec.viewSpec.itemLabel,
         spec.viewSpec.layoutTitle,
@@ -144,7 +127,7 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
         () =>
             keys.map((key, idx) => {
                 const itemSpec = getItemSpec(idx);
-                const lastIndex = keys.length - 1;
+                const lastIndex = keys.length - 1 === idx;
 
                 if (!itemSpec) {
                     return null;
@@ -164,40 +147,48 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
                 }
 
                 const itemPrefix = idx === 0 ? null : spec.viewSpec.itemPrefix;
-                const style = idx === 0 ? {width: itemPrefixParams.width} : undefined;
 
                 return (
-                    <div key={`${name}.<${key}>`} className={b('item-wrapper')}>
-                        {spec.viewSpec.itemPrefix ? (
+                    <React.Fragment key={`${name}.<${key}>`}>
+                        {itemPrefix ? (
                             <Popover
                                 placement={COMMON_POPOVER_PLACEMENT}
                                 content={itemPrefix}
                                 className={b('item-prefix')}
                                 contentClassName={b('item-prefix-tooltip')}
-                                disabled={idx === 0 ? true : itemPrefixParams.disabledPopover}
+                                disabled={disabledPopover}
                             >
-                                <span
-                                    id={`${idx}-item-prefix`}
-                                    className={b('item-prefix-text', {
-                                        'long-value': !itemPrefixParams.disabledPopover,
-                                    })}
-                                    style={style}
-                                >
-                                    {itemPrefix}
-                                </span>
+                                <Label size="m">
+                                    <div
+                                        className={b('item-prefix-text', {
+                                            'long-value': !disabledPopover,
+                                        })}
+                                        id={`${idx}-item-prefix`}
+                                    >
+                                        {itemPrefix}
+                                    </div>
+                                </Label>
                             </Popover>
                         ) : null}
-                        <Controller
-                            value={input.value?.[`<${key}>`]}
-                            parentOnChange={parentOnChange}
-                            parentOnUnmount={input.parentOnUnmount}
-                            spec={itemSpec}
-                            name={`${name}.<${key}>`}
-                        />
-                        {lastIndex === idx && spec.viewSpec.addButtonPosition === 'right' ? (
-                            <AddButton />
-                        ) : null}
-                    </div>
+                        <div
+                            className={b('controller-wrapper', {
+                                prefix: Boolean(spec.viewSpec.itemPrefix),
+                                'button-down':
+                                    spec.viewSpec.addButtonPosition === 'down' && lastIndex,
+                            })}
+                        >
+                            <Controller
+                                value={input.value?.[`<${key}>`]}
+                                parentOnChange={parentOnChange}
+                                parentOnUnmount={input.parentOnUnmount}
+                                spec={itemSpec}
+                                name={`${name}.<${key}>`}
+                            />
+                            {lastIndex && spec.viewSpec.addButtonPosition === 'right' ? (
+                                <AddButton />
+                            ) : null}
+                        </div>
+                    </React.Fragment>
                 );
             }),
         [
@@ -210,16 +201,15 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
             spec.viewSpec.addButtonPosition,
             spec.viewSpec.itemPrefix,
             AddButton,
-            itemPrefixParams,
+            disabledPopover,
         ],
     );
 
     React.useEffect(() => {
         if (spec.viewSpec.itemPrefix) {
-            const width = document.getElementById(`1-item-prefix`)?.offsetWidth || 0;
-            const disabledPopover = width < 50;
+            const width = document.getElementById('1-item-prefix')?.offsetWidth || 0;
 
-            setItemPrefixParams({width, disabledPopover});
+            setDisabledPopover(width < 280);
         }
     }, [spec.viewSpec.itemPrefix, keys]);
 

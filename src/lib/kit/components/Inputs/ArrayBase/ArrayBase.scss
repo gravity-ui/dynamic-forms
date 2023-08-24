@@ -1,7 +1,7 @@
 @import '../../../styles/variables';
 
 .#{$ns}array-base {
-    &__item-wrapper {
+    &__controller-wrapper {
         display: flex;
         margin-bottom: 15px;
 
@@ -20,14 +20,18 @@
         .df-use-search {
             margin-bottom: 0px;
         }
+
+        &_prefix {
+            margin-bottom: 0px;
+        }
+
+        &_button-down {
+            margin-bottom: 15px;
+        }
     }
 
     &__item-prefix {
-        max-width: 50px;
-        margin-right: 3px;
-        padding-top: 5px;
-        height: 20px;
-        overflow: hidden;
+        margin: 8px 0px;
     }
 
     &__item-prefix-tooltip {
@@ -35,13 +39,12 @@
     }
 
     &__item-prefix-text {
-        display: block;
-        color: var(--g-color-text-secondary);
+        max-width: 280px;
 
         &_long-value {
             white-space: nowrap;
             overflow: hidden;
-            max-width: 50px;
+            text-overflow: ellipsis;
         }
     }
 }
