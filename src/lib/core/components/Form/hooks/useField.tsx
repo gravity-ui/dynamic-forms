@@ -95,7 +95,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
                 const error = validate?.(_value);
                 let value = transformArrIn(_value);
 
-                if (isNumberSpec(spec) && value && !error) {
+                if (isNumberSpec(spec) && !error) {
                     value = (value ? Number(value) : undefined) as Value;
                 }
 
