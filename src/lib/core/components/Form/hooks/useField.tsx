@@ -96,7 +96,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
                 let value = transformArrIn(_value);
 
                 if (isNumberSpec(spec) && value && !error) {
-                    value = Number(value) as Value;
+                    value = (value ? Number(value) : undefined) as Value;
                 }
 
                 let newChildErrors: Record<string, ValidateError> = {...state.childErrors};
