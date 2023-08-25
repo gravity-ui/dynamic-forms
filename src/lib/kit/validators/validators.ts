@@ -72,6 +72,7 @@ export interface GetNumberValidatorParams {
     ignoreNumberCheck?: boolean;
     ignoreMaximumCheck?: boolean;
     ignoreMinimumCheck?: boolean;
+    ignoreMinimumCheckWhenEmpty?: boolean;
     ignoreIntCheck?: boolean;
     ignoreDotEnd?: boolean;
     ignoreZeroStart?: boolean;
@@ -85,6 +86,7 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
         ignoreNumberCheck,
         ignoreMaximumCheck,
         ignoreMinimumCheck,
+        ignoreMinimumCheckWhenEmpty,
         ignoreIntCheck,
         ignoreDotEnd,
         ignoreZeroStart,
@@ -137,7 +139,8 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
         if (
             !ignoreMinimumCheck &&
             _.isNumber(spec.minimum) &&
-            ((stringValue.length && spec.minimum > Number(stringValue)) || !stringValue.length)
+            ((stringValue.length && spec.minimum > Number(stringValue)) ||
+                (!ignoreMinimumCheckWhenEmpty && !stringValue.length))
         ) {
             return ErrorMessages.minNumber(spec.minimum);
         }
