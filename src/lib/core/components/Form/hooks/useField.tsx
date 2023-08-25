@@ -95,8 +95,8 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
                 const error = validate?.(_value);
                 let value = transformArrIn(_value);
 
-                if (isNumberSpec(spec) && value && !error) {
-                    value = Number(value) as Value;
+                if (isNumberSpec(spec) && !error) {
+                    value = (value ? Number(value) : null) as Value;
                 }
 
                 let newChildErrors: Record<string, ValidateError> = {...state.childErrors};
@@ -127,7 +127,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
                     pristine: value === initialValue,
                     touched: true,
                     valid: !error,
-                    value,
+                    value: value,
                     visited: true,
                     childErrors: newChildErrors,
                 };
