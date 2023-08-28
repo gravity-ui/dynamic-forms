@@ -1,10 +1,9 @@
 import React from 'react';
 
-import {Label, Popover} from '@gravity-ui/uikit';
+import {Label} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
 import {ArrayView, Spec, ViewController, isCorrectSpec} from '../../../../core';
-import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 import {block} from '../../../utils';
 
 import './ArrayBaseView.scss';
@@ -12,8 +11,6 @@ import './ArrayBaseView.scss';
 const b = block('array-base-view');
 
 export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
-    const [disabledPopover, setDisabledPopover] = React.useState(false);
-
     const itemSpecCorrect = React.useMemo(() => isCorrectSpec(spec.items), [spec.items]);
 
     const getItemSpec = React.useCallback(
@@ -45,34 +42,17 @@ export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
                     return null;
                 }
 
-                const itemPrefix = idx === 0 ? null : spec.viewSpec.itemPrefix;
+                const showItemPrefix = idx !== 0 && spec.viewSpec.itemPrefix;
 
                 if (spec.viewSpec.itemPrefix) {
                     return (
                         <React.Fragment key={`${name}[${idx}]`}>
-                            {itemPrefix ? (
-                                <Popover
-                                    placement={COMMON_POPOVER_PLACEMENT}
-                                    content={itemPrefix}
-                                    className={b('item-prefix')}
-                                    contentClassName={b('item-prefix-tooltip')}
-                                    disabled={disabledPopover}
-                                >
-                                    <Label size="m">
-                                        <div
-                                            id={`${idx}-item-prefix`}
-                                            className={b('item-prefix-text', {
-                                                'long-value': !disabledPopover,
-                                            })}
-                                        >
-                                            {itemPrefix}
-                                        </div>
-                                    </Label>
-                                </Popover>
+                            {showItemPrefix ? (
+                                <Label size="m" className={b('item-prefix')}>
+                                    {spec.viewSpec.itemPrefix}
+                                </Label>
                             ) : null}
-                            <span className={b('view-controller')}>
-                                <ViewController spec={itemSpec} name={`${name}[${idx}]`} />
-                            </span>
+                            <ViewController spec={itemSpec} name={`${name}[${idx}]`} />
                         </React.Fragment>
                     );
                 }
@@ -85,16 +65,8 @@ export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
                     />
                 );
             }),
-        [value.length, name, getItemSpec, spec.viewSpec.itemPrefix, disabledPopover],
+        [value, getItemSpec, spec.viewSpec.itemPrefix, name],
     );
-
-    React.useEffect(() => {
-        if (spec.viewSpec.itemPrefix) {
-            const width = document.getElementById(`1-item-prefix`)?.offsetWidth || 0;
-
-            setDisabledPopover(width < 280);
-        }
-    }, [spec.viewSpec.itemPrefix, value]);
 
     if (!itemSpecCorrect) {
         return null;

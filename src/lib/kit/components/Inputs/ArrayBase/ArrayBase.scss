@@ -1,50 +1,25 @@
 @import '../../../styles/variables';
 
 .#{$ns}array-base {
-    &__controller-wrapper {
+    &_add-button-right {
         display: flex;
-        margin-bottom: 15px;
+        align-items: flex-end;
+    }
 
-        &:last-child {
-            margin-bottom: 0px;
-        }
-
-        .yc-text-input,
-        .yc-select-control,
-        .yc-select,
-        .g-select {
-            max-width: 305px;
-            min-width: 305px;
-        }
-
-        .df-use-search {
-            margin-bottom: 0px;
-        }
-
-        &_prefix {
-            margin-bottom: 0px;
-        }
-
-        &_button-down {
+    &__items-wrapper {
+        &_add-button-down {
             margin-bottom: 15px;
         }
     }
 
     &__item-prefix {
-        margin: 8px 0px;
+        margin-top: -7px;
+        margin-bottom: 8px;
     }
 
-    &__item-prefix-tooltip {
-        overflow-wrap: break-word;
-    }
-
-    &__item-prefix-text {
-        max-width: 280px;
-
-        &_long-value {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+    &__add-button {
+        &_right {
+            margin-left: 4px;
         }
     }
 }

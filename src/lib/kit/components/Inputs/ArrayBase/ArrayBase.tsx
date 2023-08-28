@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Plus} from '@gravity-ui/icons';
-import {Button, Icon, Label, Popover} from '@gravity-ui/uikit';
+import {Button, Icon, Label} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
 import {
@@ -19,7 +19,6 @@ import {
     isObjectSpec,
     transformArrIn,
 } from '../../../../core';
-import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 import {block} from '../../../utils';
 
 import './ArrayBase.scss';
@@ -27,8 +26,6 @@ import './ArrayBase.scss';
 const b = block('array-base');
 
 export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
-    const [disabledPopover, setDisabledPopover] = React.useState(false);
-
     const keys = React.useMemo(
         () =>
             Object.keys(arrayInput.value || {})
@@ -75,7 +72,7 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
     );
 
     const AddButton: React.FC = React.useCallback(() => {
-        const onItemAdd = () => {
+        let onClick = () => {
             let item;
 
             if (!spec.items?.required) {
@@ -89,27 +86,27 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
             arrayInput.onItemAdd(item);
         };
 
+        let qa = `${name}-add-item`;
+        let title = spec.viewSpec.itemLabel;
+
         if (!arrayInput.value && spec.defaultValue) {
-            return (
-                <Button
-                    onClick={() =>
-                        input.onChange(
-                            transformArrIn<ArrayValue, FieldArrayValue>(spec.defaultValue!),
-                        )
-                    }
-                    disabled={spec.viewSpec.disabled}
-                    qa={`${name}-init-arr`}
-                >
-                    <Icon data={Plus} size={14} />
-                    {spec.viewSpec.layoutTitle}
-                </Button>
-            );
+            onClick = () => {
+                input.onChange(transformArrIn<ArrayValue, FieldArrayValue>(spec.defaultValue!));
+            };
+
+            qa = `${name}-init-arr`;
+            title = spec.viewSpec.layoutTitle;
         }
 
         return (
-            <Button onClick={onItemAdd} disabled={spec.viewSpec.disabled} qa={`${name}-add-item`}>
+            <Button
+                onClick={onClick}
+                disabled={spec.viewSpec.disabled}
+                qa={qa}
+                className={b('add-button', {right: spec.viewSpec.addButtonPosition === 'right'})}
+            >
                 <Icon data={Plus} size={14} />
-                {spec.viewSpec.itemLabel}
+                {title}
             </Button>
         );
     }, [
@@ -127,13 +124,12 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
         () =>
             keys.map((key, idx) => {
                 const itemSpec = getItemSpec(idx);
-                const lastIndex = keys.length - 1 === idx;
 
                 if (!itemSpec) {
                     return null;
                 }
 
-                if (!spec.viewSpec.itemPrefix && spec.viewSpec.addButtonPosition !== 'right') {
+                if (!spec.viewSpec.itemPrefix) {
                     return (
                         <Controller
                             value={input.value?.[`<${key}>`]}
@@ -146,48 +142,22 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
                     );
                 }
 
-                const itemPrefix = idx === 0 ? null : spec.viewSpec.itemPrefix;
+                const showItemPrefix = idx !== 0 && spec.viewSpec.itemPrefix;
 
                 return (
                     <React.Fragment key={`${name}.<${key}>`}>
-                        {itemPrefix ? (
-                            <Popover
-                                placement={COMMON_POPOVER_PLACEMENT}
-                                content={itemPrefix}
-                                className={b('item-prefix')}
-                                contentClassName={b('item-prefix-tooltip')}
-                                disabled={disabledPopover}
-                            >
-                                <Label size="m">
-                                    <div
-                                        className={b('item-prefix-text', {
-                                            'long-value': !disabledPopover,
-                                        })}
-                                        id={`${idx}-item-prefix`}
-                                    >
-                                        {itemPrefix}
-                                    </div>
-                                </Label>
-                            </Popover>
+                        {showItemPrefix ? (
+                            <Label size="m" className={b('item-prefix')}>
+                                {spec.viewSpec.itemPrefix}
+                            </Label>
                         ) : null}
-                        <div
-                            className={b('controller-wrapper', {
-                                prefix: Boolean(spec.viewSpec.itemPrefix),
-                                'button-down':
-                                    spec.viewSpec.addButtonPosition === 'down' && lastIndex,
-                            })}
-                        >
-                            <Controller
-                                value={input.value?.[`<${key}>`]}
-                                parentOnChange={parentOnChange}
-                                parentOnUnmount={input.parentOnUnmount}
-                                spec={itemSpec}
-                                name={`${name}.<${key}>`}
-                            />
-                            {lastIndex && spec.viewSpec.addButtonPosition === 'right' ? (
-                                <AddButton />
-                            ) : null}
-                        </div>
+                        <Controller
+                            value={input.value?.[`<${key}>`]}
+                            parentOnChange={parentOnChange}
+                            parentOnUnmount={input.parentOnUnmount}
+                            spec={itemSpec}
+                            name={`${name}.<${key}>`}
+                        />
                     </React.Fragment>
                 );
             }),
@@ -198,29 +168,25 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
             parentOnChange,
             input.parentOnUnmount,
             input.value,
-            spec.viewSpec.addButtonPosition,
             spec.viewSpec.itemPrefix,
-            AddButton,
-            disabledPopover,
         ],
     );
-
-    React.useEffect(() => {
-        if (spec.viewSpec.itemPrefix) {
-            const width = document.getElementById('1-item-prefix')?.offsetWidth || 0;
-
-            setDisabledPopover(width < 280);
-        }
-    }, [spec.viewSpec.itemPrefix, keys]);
 
     if (!itemSpecCorrect) {
         return null;
     }
 
     return (
-        <React.Fragment>
-            {items}
-            {spec.viewSpec.addButtonPosition !== 'right' || !keys.length ? <AddButton /> : null}
-        </React.Fragment>
+        <div className={b({'add-button-right': spec.viewSpec.addButtonPosition === 'right'})}>
+            <div
+                className={b('items-wrapper', {
+                    'add-button-down':
+                        spec.viewSpec.addButtonPosition !== 'right' && keys.length > 0,
+                })}
+            >
+                {items}
+            </div>
+            <AddButton />
+        </div>
     );
 };

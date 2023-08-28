@@ -1,27 +1,8 @@
 @import '../../../styles/variables';
 
 .#{$ns}array-base-view {
-    &__view-controller {
-        & > * {
-            margin-bottom: 0px;
-        }
-    }
-
     &__item-prefix {
-        margin: 8px 0px;
-    }
-
-    &__item-prefix-tooltip {
-        overflow-wrap: break-word;
-    }
-
-    &__item-prefix-text {
-        max-width: 280px;
-
-        &_long-value {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+        margin-top: -10px;
+        margin-bottom: 15px;
     }
 }
