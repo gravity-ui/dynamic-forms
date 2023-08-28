@@ -106,7 +106,7 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
                 className={b('add-button', {right: spec.viewSpec.addButtonPosition === 'right'})}
             >
                 <Icon data={Plus} size={14} />
-                {title}
+                {title || null}
             </Button>
         );
     }, [
