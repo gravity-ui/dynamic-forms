@@ -83,6 +83,7 @@ describe('kit/validators/validators', () => {
         spec.minimum = 100.5;
 
         expect(getNumberValidator({ignoreMinimumCheck: true})(spec, '1.01')).toBe(false);
+        expect(validator(spec, '')).toBe(false);
         expect(validator(spec, '1.01')).toBe(ErrorMessages.minNumber(spec.minimum));
         expect(validator(spec, 1.01)).toBe(ErrorMessages.minNumber(spec.minimum));
         expect(validator(spec, 101)).toBe(false);
