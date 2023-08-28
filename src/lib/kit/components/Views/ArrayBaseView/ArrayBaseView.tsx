@@ -65,7 +65,7 @@ export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
                     />
                 );
             }),
-        [value, getItemSpec, spec.viewSpec.itemPrefix, name],
+        [value.length, name, getItemSpec, spec.viewSpec.itemPrefix],
     );
 
     if (!itemSpecCorrect) {
