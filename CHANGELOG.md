@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.1.1...v2.2.0) (2023-08-29)
+
+
+### Features
+
+* ignore minimum check when a number field is empty ([#95](https://github.com/gravity-ui/dynamic-forms/issues/95)) ([1126189](https://github.com/gravity-ui/dynamic-forms/commit/1126189a7735c632dee17885bfc9df24c8821748))
+* **NewSettingForArray:** added new settings to the array ([#83](https://github.com/gravity-ui/dynamic-forms/issues/83)) ([de1c422](https://github.com/gravity-ui/dynamic-forms/commit/de1c422cd8973dc6ac52b4f6cde85132aba898cf))
+
 ## [2.1.1](https://github.com/gravity-ui/dynamic-forms/compare/v2.1.0...v2.1.1) (2023-08-25)
 
 
