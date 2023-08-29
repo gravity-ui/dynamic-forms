@@ -10,8 +10,8 @@ import './TextContent.scss';
 
 const b = block('text-content');
 
-function loadComponent(name: string) {
-    const Component = React.lazy(() => {
+const loadIcon = (name: string) => {
+    const Icon = React.lazy(() => {
         return new Promise((resolve) => {
             const icon = import(`@gravity-ui/icons`).then((module) => {
                 if (module[name]) {
@@ -29,8 +29,8 @@ function loadComponent(name: string) {
         });
     });
 
-    return Component;
-}
+    return Icon;
+};
 
 export const TextContent: React.FC<StringIndependentInputProps> = ({
     spec,
@@ -45,7 +45,7 @@ export const TextContent: React.FC<StringIndependentInputProps> = ({
     }
 
     const iconLib = textContentParams.icon ? (
-        <Lazyloader component={loadComponent(textContentParams.icon)} />
+        <Lazyloader component={loadIcon(textContentParams.icon)} />
     ) : null;
 
     let content = <span dangerouslySetInnerHTML={{__html: textContentParams.text}} />;
