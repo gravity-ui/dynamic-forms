@@ -1,0 +1,25 @@
+@import '../../../styles/variables';
+
+.#{$ns}array-base {
+    &_add-button-right {
+        display: flex;
+        align-items: flex-end;
+    }
+
+    &__items-wrapper {
+        &_add-button-down {
+            margin-bottom: 15px;
+        }
+    }
+
+    &__item-prefix {
+        margin-top: -7px;
+        margin-bottom: 8px;
+    }
+
+    &__add-button {
+        &_right {
+            margin-left: 4px;
+        }
+    }
+}

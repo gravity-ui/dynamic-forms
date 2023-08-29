@@ -28,7 +28,14 @@ const spec: ArraySpec = {
     },
 };
 
-const excludeOptions = ['items', 'viewSpec.type', 'viewSpec.itemLabel', 'viewSpec.table'];
+const excludeOptions = [
+    'items',
+    'viewSpec.type',
+    'viewSpec.itemLabel',
+    'viewSpec.table',
+    'viewSpec.itemPrefix',
+    'viewSpec.addButtonPosition',
+];
 
 const template = () => {
     const Template: StoryFn<typeof MultiSelect> = (__, {viewMode}) => (

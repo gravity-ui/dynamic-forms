@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Xmark} from '@gravity-ui/icons';
+import {TrashBin} from '@gravity-ui/icons';
 import {Button, Icon} from '@gravity-ui/uikit';
 
 import {
@@ -44,12 +44,12 @@ export const Row2 = <T extends FieldValue, S extends Spec>({
                     </ErrorWrapper>
                     {isArrayItem(name) ? (
                         <Button
-                            view="flat"
+                            view="flat-secondary"
                             className={b('remove-button')}
                             onClick={input.onDrop}
                             qa={`${name}-remove-item`}
                         >
-                            <Icon data={Xmark} size={16} />
+                            <Icon data={TrashBin} size={16} />
                         </Button>
                     ) : null}
                 </div>

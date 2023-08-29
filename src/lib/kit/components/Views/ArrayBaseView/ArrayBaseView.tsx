@@ -1,8 +1,14 @@
 import React from 'react';
 
+import {Label} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
-import {ArrayView, Spec, ViewController, isCorrectSpec} from '../../../core';
+import {ArrayView, Spec, ViewController, isCorrectSpec} from '../../../../core';
+import {block} from '../../../utils';
+
+import './ArrayBaseView.scss';
+
+const b = block('array-base-view');
 
 export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
     const itemSpecCorrect = React.useMemo(() => isCorrectSpec(spec.items), [spec.items]);
@@ -36,20 +42,25 @@ export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
                     return null;
                 }
 
+                const showItemPrefix = idx !== 0 && spec.viewSpec.itemPrefix;
+
                 return (
-                    <ViewController
-                        spec={itemSpec}
-                        name={`${name}[${idx}]`}
-                        key={`${name}[${idx}]`}
-                    />
+                    <React.Fragment key={`${name}[${idx}]`}>
+                        {showItemPrefix ? (
+                            <Label size="m" className={b('item-prefix')}>
+                                {spec.viewSpec.itemPrefix}
+                            </Label>
+                        ) : null}
+                        <ViewController spec={itemSpec} name={`${name}[${idx}]`} />
+                    </React.Fragment>
                 );
             }),
-        [value.length, name, getItemSpec],
+        [value.length, name, getItemSpec, spec.viewSpec.itemPrefix],
     );
 
     if (!itemSpecCorrect) {
         return null;
     }
 
-    return <>{items}</>;
+    return <React.Fragment>{items}</React.Fragment>;
 };
