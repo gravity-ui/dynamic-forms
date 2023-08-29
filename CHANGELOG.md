@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/gravity-ui/dynamic-forms/compare/v2.1.0...v2.1.1) (2023-08-25)
+
+
+### Bug Fixes
+
+* convert empty string value to undefined for Number Field ([#90](https://github.com/gravity-ui/dynamic-forms/issues/90)) ([0724cac](https://github.com/gravity-ui/dynamic-forms/commit/0724caca315d81c8fdb047351b3bb56356f241ea))
+
 ## [2.1.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.0.0...v2.1.0) (2023-08-14)
 
 

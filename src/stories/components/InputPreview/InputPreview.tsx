@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {RadioButton, TextInput} from '@gravity-ui/uikit';
-import block from 'bem-cn-lite';
 import _ from 'lodash';
 import {Form} from 'react-final-form';
 import MonacoEditor from 'react-monaco-editor';
@@ -9,12 +8,13 @@ import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
 import {DynamicField, DynamicView} from '../';
 import {FormValue, MonacoInput, MonacoInputBaseProps, Spec, SpecTypes} from '../../../lib';
+import {cn} from '../../../lib/kit/utils/cn';
 
 import {getOptionsSpec, transformCorrect, transformIncorrect} from './utils';
 
 import './InputPreview.scss';
 
-const b = block('input-preview');
+const b = cn('input-preview');
 
 export interface InputPreviewProps {
     spec: Spec;
