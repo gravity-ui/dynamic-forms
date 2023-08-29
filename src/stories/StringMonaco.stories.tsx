@@ -31,7 +31,7 @@ const excludeOptions = [
     'viewSpec.type',
     'viewSpec.sizeParams',
     'viewSpec.placeholder',
-    'viewSpec.themeLabel',
+    'viewSpec.textContentParams',
     'viewSpec.fileInput',
     'viewSpec.copy',
 ];

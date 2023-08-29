@@ -15,7 +15,11 @@ const baseSpec: StringSpec = {
     type: SpecTypes.String,
     viewSpec: {
         type: 'text_content',
-        layoutDescription: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit',
+        textContentParams: {
+            text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit',
+            icon: 'TriangleExclamation',
+            iconColor: 'warning',
+        },
     },
 };
 
@@ -40,9 +44,16 @@ const excludeOptions = [
     'viewSpec.copy',
 ];
 
+const value = 'value';
+
 const template = (spec: StringSpec = baseSpec) => {
     const Template: StoryFn<typeof TextContent> = (__, {viewMode}) => (
-        <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
+        <InputPreview
+            spec={spec}
+            excludeOptions={excludeOptions}
+            viewMode={viewMode}
+            value={value}
+        />
     );
 
     return Template;
@@ -52,5 +63,12 @@ export const Text = template();
 
 export const Label = template({
     ...baseSpec,
-    viewSpec: {...baseSpec.viewSpec, themeLabel: 'info'},
+    viewSpec: {
+        ...baseSpec.viewSpec,
+        textContentParams: {
+            text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit',
+            themeLabel: 'info',
+            icon: 'CircleInfo',
+        },
+    },
 });

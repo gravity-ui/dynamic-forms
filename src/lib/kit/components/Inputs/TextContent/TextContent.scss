@@ -10,4 +10,18 @@
         text-align: initial;
         white-space: initial;
     }
+
+    &__icon {
+        display: flex;
+        align-items: center;
+        margin-right: 4px;
+    }
+
+    &__wrapper {
+        display: flex;
+    }
+
+    &__separator {
+        margin: 0 4px;
+    }
 }

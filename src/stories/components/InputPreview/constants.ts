@@ -1,3 +1,5 @@
+import {TEXT_COLORS} from '@gravity-ui/uikit';
+
 import {
     ArraySpec,
     BooleanSpec,
@@ -209,6 +211,40 @@ const table: ArraySpec = {
     },
 };
 
+const hideInput: BooleanSpec = {
+    type: SpecTypes.Boolean,
+    viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Hide input'},
+};
+
+const textContentParams: ObjectSpec = {
+    type: SpecTypes.Object,
+    properties: {
+        text: {
+            type: SpecTypes.String,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Text'},
+        },
+        themeLabel: {
+            type: SpecTypes.String,
+            enum: ['―', 'normal', 'info', 'danger', 'warning', 'success', 'unknown', 'clear'],
+            viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Theme label'},
+        },
+        icon: {
+            type: SpecTypes.String,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Icon'},
+        },
+        iconColor: {
+            type: SpecTypes.String,
+            enum: ['―', ...TEXT_COLORS],
+            viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Icon color'},
+        },
+    },
+    viewSpec: {
+        type: 'base',
+        layout: 'accordeon',
+        layoutTitle: 'Text content params',
+    },
+};
+
 const sizeParams: ObjectSpec = {
     type: SpecTypes.Object,
     properties: {
@@ -300,12 +336,6 @@ const placeholder: StringSpec = {
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Placeholder'},
 };
 
-const themeLabel: StringSpec = {
-    type: SpecTypes.String,
-    enum: ['―', 'normal', 'info', 'danger', 'warning', 'success', 'unknown'],
-    viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Theme label'},
-};
-
 const order: ArraySpec = {
     type: SpecTypes.Array,
     items: {
@@ -372,6 +402,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 table,
                 placeholder,
                 addButtonPosition,
+                hideInput,
             },
             [
                 'disabled',
@@ -385,6 +416,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 'table',
                 'placeholder',
                 'addButtonPosition',
+                'hideInput',
             ],
         ),
     },
@@ -418,8 +450,17 @@ export const getBooleanOptions = (): ObjectSpec => ({
                 layoutTitle,
                 layoutDescription,
                 layoutOpen,
+                hideInput,
             },
-            ['disabled', 'type', 'layout', 'layoutTitle', 'layoutDescription', 'layoutOpen'],
+            [
+                'disabled',
+                'type',
+                'layout',
+                'layoutTitle',
+                'layoutDescription',
+                'layoutOpen',
+                'hideInput',
+            ],
         ),
     },
     viewSpec: {
@@ -448,6 +489,7 @@ export const getNumberOptions = (): ObjectSpec => ({
                 layoutOpen,
                 placeholder,
                 copy,
+                hideInput,
             },
             [
                 'disabled',
@@ -458,6 +500,7 @@ export const getNumberOptions = (): ObjectSpec => ({
                 'layoutOpen',
                 'placeholder',
                 'copy',
+                'hideInput',
             ],
         ),
     },
@@ -487,6 +530,7 @@ export const getObjectOptions = (): ObjectSpec => ({
                 order,
                 oneOfParams,
                 placeholder,
+                hideInput,
             },
             [
                 'disabled',
@@ -498,6 +542,7 @@ export const getObjectOptions = (): ObjectSpec => ({
                 'order',
                 'oneOfParams',
                 'placeholder',
+                'hideInput',
             ],
         ),
     },
@@ -533,10 +578,11 @@ export const getStringOptions = (): ObjectSpec => ({
                 layoutOpen,
                 sizeParams,
                 monacoParams,
+                textContentParams,
                 placeholder,
-                themeLabel,
                 fileInput,
                 copy,
+                hideInput,
             },
             [
                 'disabled',
@@ -547,10 +593,11 @@ export const getStringOptions = (): ObjectSpec => ({
                 'layoutOpen',
                 'sizeParams',
                 'monacoParams',
+                'textContentParams',
                 'placeholder',
-                'themeLabel',
                 'fileInput',
                 'copy',
+                'hideInput',
             ],
         ),
     },

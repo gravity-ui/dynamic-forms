@@ -1,40 +1,89 @@
 import React from 'react';
 
-import {Label} from '@gravity-ui/uikit';
+import {Label, Text} from '@gravity-ui/uikit';
+import _ from 'lodash';
 
-import {StringIndependentInputProps} from '../../../../core';
+import {Lazyloader, StringIndependentInputProps} from '../../../../core';
 import {block} from '../../../utils';
 
 import './TextContent.scss';
 
 const b = block('text-content');
 
+function loadComponent(name: string) {
+    const Component = React.lazy(() => {
+        return new Promise((resolve) => {
+            const icon = import(`@gravity-ui/icons`).then((module) => {
+                if (module[name]) {
+                    return {default: module[name]} as {
+                        default: never;
+                    };
+                }
+
+                return {
+                    default: () => null,
+                } as {default: never};
+            });
+
+            resolve(icon);
+        });
+    });
+
+    return Component;
+}
+
 export const TextContent: React.FC<StringIndependentInputProps> = ({
     spec,
     Layout,
+    input,
     ...restProps
 }) => {
-    const {themeLabel, layoutDescription} = spec.viewSpec;
+    const {textContentParams} = spec.viewSpec;
 
-    if (!layoutDescription) {
+    if (!textContentParams?.text) {
         return null;
     }
 
-    let content = <span dangerouslySetInnerHTML={{__html: layoutDescription}} />;
+    const iconLib = textContentParams.icon ? (
+        <Lazyloader component={loadComponent(textContentParams.icon)} />
+    ) : null;
 
-    if (themeLabel) {
+    let content = <span dangerouslySetInnerHTML={{__html: textContentParams.text}} />;
+
+    if (textContentParams.themeLabel) {
         content = (
-            <Label size="m" theme={themeLabel} className={b()}>
+            <Label
+                size="m"
+                theme={textContentParams.themeLabel}
+                className={b()}
+                value={input.value}
+                icon={iconLib}
+            >
                 {content}
             </Label>
+        );
+    } else {
+        content = (
+            <div className={b('wrapper')}>
+                {iconLib ? (
+                    <Text color={spec.viewSpec.textContentParams?.iconColor} className={b('icon')}>
+                        {iconLib}
+                    </Text>
+                ) : null}
+                {content}
+                {input.value ? (
+                    <React.Fragment>
+                        <span className={b('separator')}>:</span>
+                        <Text color="secondary">{input.value}</Text>
+                    </React.Fragment>
+                ) : null}
+            </div>
         );
     }
 
     if (Layout) {
-        const _spec = {...spec, viewSpec: {...spec.viewSpec, layoutDescription: undefined}};
-
         return (
-            <Layout spec={_spec} {...restProps}>
+            <Layout spec={spec} input={input} {...restProps}>
                 {content}
             </Layout>
         );
