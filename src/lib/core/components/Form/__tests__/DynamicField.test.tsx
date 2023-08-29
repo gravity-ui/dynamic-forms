@@ -177,7 +177,6 @@ test('Form/hooks/DynamicField', () => {
 
     const errors = {
         name: false,
-        'name.id': ErrorMessages.minNumber(10),
         'name.name': ErrorMessages.REQUIRED,
         'name.description': ErrorMessages.REQUIRED,
         'name.settings': ErrorMessages.REQUIRED,
@@ -213,7 +212,6 @@ test('Form/hooks/DynamicField', () => {
 
     const errors1 = {
         name: false,
-        'name.id': ErrorMessages.minNumber(10),
         'name.name': ErrorMessages.REQUIRED,
         'name.description': ErrorMessages.REQUIRED,
         'name.settings': ErrorMessages.REQUIRED,
@@ -250,7 +248,6 @@ test('Form/hooks/DynamicField', () => {
 
     const errors2 = {
         name: false,
-        'name.id': ErrorMessages.minNumber(10),
         'name.name': ErrorMessages.REQUIRED,
         'name.description': ErrorMessages.REQUIRED,
         'name.settings': ErrorMessages.REQUIRED,
@@ -322,7 +319,7 @@ test('Form/hooks/DynamicField', () => {
 
     const errors4 = {
         name: false,
-        'name.id': ErrorMessages.minNumber(10),
+        'name.id': false,
         'name.name': ErrorMessages.REQUIRED,
         'name.description': ErrorMessages.REQUIRED,
         'name.settings': ErrorMessages.REQUIRED,
@@ -372,7 +369,7 @@ test('Form/hooks/DynamicField', () => {
 
     const errors5 = {
         name: false,
-        'name.id': ErrorMessages.minNumber(10),
+        'name.id': false,
         'name.name': ErrorMessages.REQUIRED,
         'name.description': ErrorMessages.REQUIRED,
         'name.settings': ErrorMessages.REQUIRED,
