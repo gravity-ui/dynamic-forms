@@ -129,19 +129,6 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
                     return null;
                 }
 
-                if (!spec.viewSpec.itemPrefix) {
-                    return (
-                        <Controller
-                            value={input.value?.[`<${key}>`]}
-                            parentOnChange={parentOnChange}
-                            parentOnUnmount={input.parentOnUnmount}
-                            spec={itemSpec}
-                            key={`${name}.<${key}>`}
-                            name={`${name}.<${key}>`}
-                        />
-                    );
-                }
-
                 const showItemPrefix = idx !== 0 && spec.viewSpec.itemPrefix;
 
                 return (
