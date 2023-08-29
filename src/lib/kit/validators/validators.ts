@@ -137,7 +137,8 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
         if (
             !ignoreMinimumCheck &&
             _.isNumber(spec.minimum) &&
-            ((stringValue.length && spec.minimum > Number(stringValue)) || !stringValue.length)
+            stringValue.length &&
+            spec.minimum > Number(stringValue)
         ) {
             return ErrorMessages.minNumber(spec.minimum);
         }
