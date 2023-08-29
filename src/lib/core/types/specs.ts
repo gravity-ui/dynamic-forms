@@ -22,12 +22,14 @@ export interface ArraySpec<LinkType = any> {
         layoutDescription?: string;
         layoutOpen?: boolean;
         itemLabel?: string;
+        itemPrefix?: string;
         table?: {
             label: string;
             property: string;
         }[];
         link?: LinkType;
         placeholder?: string;
+        addButtonPosition?: 'down' | 'right';
     };
 }
 

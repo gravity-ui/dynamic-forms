@@ -1,0 +1,8 @@
+@import '../../../styles/variables';
+
+.#{$ns}array-base-view {
+    &__item-prefix {
+        margin-top: -10px;
+        margin-bottom: 15px;
+    }
+}

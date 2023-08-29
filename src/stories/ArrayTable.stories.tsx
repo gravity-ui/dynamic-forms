@@ -54,7 +54,14 @@ const spec: ArraySpec = {
     },
 };
 
-const excludeOptions = ['enum', 'description', 'viewSpec.type', 'viewSpec.placeholder'];
+const excludeOptions = [
+    'enum',
+    'description',
+    'viewSpec.type',
+    'viewSpec.placeholder',
+    'viewSpec.itemPrefix',
+    'viewSpec.addButtonPosition',
+];
 
 const value = [
     {name: 'Foo', age: 13, license: false},

@@ -142,7 +142,7 @@ const disabled: BooleanSpec = {
 const getViewType = (map: Record<string, unknown>): StringSpec => ({
     type: SpecTypes.String,
     enum: ['―', ...Object.keys(map)],
-    viewSpec: {type: 'select', layout: 'row', layoutTitle: 'View type'},
+    viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Type'},
 });
 
 const getLayoutSpec = (map: Record<string, unknown>): StringSpec => ({
@@ -171,6 +171,17 @@ const itemLabel: StringSpec = {
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Item label'},
 };
 
+const itemPrefix: StringSpec = {
+    type: SpecTypes.String,
+    viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Item Prefix'},
+};
+
+const addButtonPosition: StringSpec = {
+    type: SpecTypes.String,
+    enum: ['―', 'down', 'right'],
+    viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Add Button Position'},
+};
+
 const table: ArraySpec = {
     type: SpecTypes.Array,
     items: {
@@ -190,7 +201,7 @@ const table: ArraySpec = {
     viewSpec: {
         type: 'table',
         layout: 'accordeon',
-        layoutTitle: 'Enum description',
+        layoutTitle: 'Table',
         table: [
             {label: 'Property', property: 'property'},
             {label: 'Label', property: 'label'},
@@ -357,8 +368,10 @@ export const getArrayOptions = (): ObjectSpec => ({
                 layoutDescription,
                 layoutOpen,
                 itemLabel,
+                itemPrefix,
                 table,
                 placeholder,
+                addButtonPosition,
             },
             [
                 'disabled',
@@ -368,8 +381,10 @@ export const getArrayOptions = (): ObjectSpec => ({
                 'layoutDescription',
                 'layoutOpen',
                 'itemLabel',
+                'itemPrefix',
                 'table',
                 'placeholder',
+                'addButtonPosition',
             ],
         ),
     },
