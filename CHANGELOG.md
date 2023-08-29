@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.0](https://github.com/gravity-ui/dynamic-forms/compare/v1.11.3...v1.12.0) (2023-08-29)
+
+
+### Features
+
+* ignore minimum check when a number field is empty ([#94](https://github.com/gravity-ui/dynamic-forms/issues/94)) ([c87f837](https://github.com/gravity-ui/dynamic-forms/commit/c87f837fb2e66425aff5ecb93bda49adb76b121e))
+
 ## [1.11.3](https://github.com/gravity-ui/dynamic-forms/compare/v1.11.2...v1.11.3) (2023-08-25)
 
 
