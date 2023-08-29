@@ -44,25 +44,15 @@ export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
 
                 const showItemPrefix = idx !== 0 && spec.viewSpec.itemPrefix;
 
-                if (spec.viewSpec.itemPrefix) {
-                    return (
-                        <React.Fragment key={`${name}[${idx}]`}>
-                            {showItemPrefix ? (
-                                <Label size="m" className={b('item-prefix')}>
-                                    {spec.viewSpec.itemPrefix}
-                                </Label>
-                            ) : null}
-                            <ViewController spec={itemSpec} name={`${name}[${idx}]`} />
-                        </React.Fragment>
-                    );
-                }
-
                 return (
-                    <ViewController
-                        spec={itemSpec}
-                        name={`${name}[${idx}]`}
-                        key={`${name}[${idx}]`}
-                    />
+                    <React.Fragment key={`${name}[${idx}]`}>
+                        {showItemPrefix ? (
+                            <Label size="m" className={b('item-prefix')}>
+                                {spec.viewSpec.itemPrefix}
+                            </Label>
+                        ) : null}
+                        <ViewController spec={itemSpec} name={`${name}[${idx}]`} />
+                    </React.Fragment>
                 );
             }),
         [value.length, name, getItemSpec, spec.viewSpec.itemPrefix],
