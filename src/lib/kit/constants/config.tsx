@@ -14,6 +14,7 @@ import {
     FileInputView,
     Group,
     Group2,
+    Inline,
     MonacoInput,
     MonacoInputCard,
     MonacoView,
@@ -144,6 +145,7 @@ export const dynamicConfig: DynamicFormConfig = {
             object_value: {Component: ObjectValueInput, independent: true},
             multi_oneof: {Component: MultiOneOf, independent: true},
             multi_oneof_flat: {Component: MultiOneOfFlat, independent: true},
+            inline: {Component: Inline, independent: true},
         },
         layouts: {
             row: Row,

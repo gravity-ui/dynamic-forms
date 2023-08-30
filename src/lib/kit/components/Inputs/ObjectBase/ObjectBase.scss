@@ -1,0 +1,19 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}objectbase {
+    &__content {
+        &_inline {
+            display: flex;
+
+            > .#{$ns}use-search {
+                flex: auto;
+                margin-bottom: 0;
+                margin-right: 8px;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+}
