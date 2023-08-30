@@ -3,7 +3,7 @@ import React from 'react';
 import {HelpPopover} from '@gravity-ui/components';
 import {Card, Text} from '@gravity-ui/uikit';
 
-import {block} from '../../../utils';
+import {block} from '../../utils';
 
 import './TogglerCard.scss';
 
@@ -13,7 +13,7 @@ interface TogglerCardProps {
     description?: string;
     title: string;
     text: string;
-    onOneOfChange: ([newValue]: string[]) => void;
+    onChangeValue: ([newValue]: string[]) => void;
     disabled?: boolean;
     value: string;
     oneOfValue: string;
@@ -23,14 +23,14 @@ export const TogglerCard: React.FC<TogglerCardProps> = ({
     description,
     title,
     text,
-    onOneOfChange,
+    onChangeValue,
     disabled,
     value,
     oneOfValue,
 }) => {
     const onClick = React.useCallback(() => {
-        onOneOfChange([value]);
-    }, [onOneOfChange, value]);
+        onChangeValue([value]);
+    }, [onChangeValue, value]);
 
     return (
         <Card

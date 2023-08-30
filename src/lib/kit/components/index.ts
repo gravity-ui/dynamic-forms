@@ -7,5 +7,6 @@ export * from './Inputs';
 export * from './Layouts';
 export * from './LongValue';
 export * from './SimpleVerticalAccordeon';
+export * from './TogglerCard';
 export * from './Views';
 export * from './ViewLayouts';

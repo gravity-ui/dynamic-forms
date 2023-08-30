@@ -4,9 +4,8 @@ import {RadioButton, Select} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
 import {ObjectIndependentInputProps} from '../../../core';
+import {TogglerCard} from '../../components';
 import {block} from '../../utils';
-
-import {TogglerCard} from './TogglerCard';
 
 import './useOneOf.scss';
 
@@ -97,7 +96,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
                             disabled={spec.viewSpec.disabled}
                             text={spec.description?.[value] || ''}
                             description={specProperties[value]?.viewSpec.layoutDescription}
-                            onOneOfChange={onOneOfChange}
+                            onChangeValue={onOneOfChange}
                             value={value}
                             key={value}
                             oneOfValue={oneOfValue}
