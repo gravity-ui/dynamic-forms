@@ -87,7 +87,7 @@ export interface ObjectSpec<LinkType = any> {
         order?: string[];
         link?: LinkType;
         oneOfParams?: {
-            toggler?: 'select' | 'radio';
+            toggler?: 'select' | 'radio' | 'card';
         };
         placeholder?: string;
     };

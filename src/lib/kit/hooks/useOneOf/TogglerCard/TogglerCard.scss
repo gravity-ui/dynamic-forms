@@ -1,0 +1,22 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}toggler-card {
+    width: 254px;
+    padding: 10px;
+    height: 88px;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+
+    &__text {
+        margin-top: 12px;
+        display: block;
+        margin-right: 15px;
+        height: 36px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

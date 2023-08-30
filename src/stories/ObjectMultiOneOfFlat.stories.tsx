@@ -55,7 +55,13 @@ const spec: ObjectSpec = {
     },
 };
 
-const excludeOptions = ['items', 'viewSpec.type', 'viewSpec.itemLabel', 'viewSpec.table'];
+const excludeOptions = [
+    'items',
+    'viewSpec.type',
+    'viewSpec.itemLabel',
+    'viewSpec.table',
+    'viewSpec.oneOfParams',
+];
 
 const value = {
     person: {

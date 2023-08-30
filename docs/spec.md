@@ -136,9 +136,9 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 
 #### OneOfParams
 
-| Property | Type                 | Required | Description |
-| :------- | :------------------- | :------: | :---------- |
-| toggler  | `'select'` `'radio'` |          | Switch type |
+| Property | Type                          | Required | Description |
+| :------- | :---------------------------- | :------: | :---------- |
+| toggler  | `'select'` `'radio'` `'card'` |          | Switch type |
 
 #### FileInput
 

@@ -8,5 +8,22 @@
                 max-width: unset;
             }
         }
+
+        &_card {
+            & + .#{$ns}group-indent {
+                & > .#{$ns}use-search:not(.#{$ns}group-indent) {
+                    padding-top: 0px;
+                    margin-top: 15px;
+                }
+            }
+        }
+    }
+
+    &__card {
+        display: flex;
+
+        & > :first-child {
+            margin-right: 8px;
+        }
     }
 }
