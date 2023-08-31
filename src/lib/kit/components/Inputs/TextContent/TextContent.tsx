@@ -3,8 +3,9 @@ import React from 'react';
 import {Label, Text} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
-import {LazyLoader, StringIndependentInputProps} from '../../../../core';
+import {StringIndependentInputProps} from '../../../../core';
 import {block} from '../../../utils';
+import {LazyLoader} from '../../LazyLoader';
 
 import {loadIcon} from './utils';
 
