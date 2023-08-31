@@ -2,15 +2,15 @@ import React from 'react';
 
 import _ from 'lodash';
 
-export type LazyloaderProps = {
+export type LazyLoaderProps = {
     component: React.LazyExoticComponent<React.ComponentType<any>>;
     initialFallback?: JSX.Element;
 };
 
-export const Lazyloader = ({
+export const LazyLoader = ({
     component,
     initialFallback = <React.Fragment></React.Fragment>,
-}: LazyloaderProps): JSX.Element => {
+}: LazyLoaderProps): JSX.Element => {
     const fallback = React.useRef(() => initialFallback);
     const Component = component;
 

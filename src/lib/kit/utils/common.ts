@@ -95,6 +95,13 @@ export const prepareSpec = <Type extends Spec>(
             result.viewSpec.layout = result.viewSpec.layout.toLowerCase();
         }
 
+        if (_.isString(result.viewSpec?.themeLabel)) {
+            result.viewSpec.textContentParams = {
+                ...result.viewSpec.textContentParams,
+                themeLabel: result.viewSpec.themeLabel.toLowerCase(),
+            };
+        }
+
         if (_.isString(result.viewSpec?.oneOfParams?.toggler)) {
             result.viewSpec.oneOfParams.toggler = result.viewSpec.oneOfParams.toggler.toLowerCase();
         }
