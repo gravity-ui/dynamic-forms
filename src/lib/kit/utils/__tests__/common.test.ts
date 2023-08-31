@@ -90,6 +90,10 @@ describe('kit/utils/common', () => {
             viewSpec: {layout: 'row'},
         });
 
+        expect(prepareSpec({viewSpec: {addButtonPosition: 'DOWN'}} as any)).toMatchObject({
+            viewSpec: {addButtonPosition: 'down'},
+        });
+
         expect(prepareSpec({viewSpec: {themeLabel: 'WARNING'}} as any)).toMatchObject({
             viewSpec: {themeLabel: 'warning'},
         });
