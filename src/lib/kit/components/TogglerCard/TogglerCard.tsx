@@ -13,31 +13,25 @@ interface TogglerCardProps {
     description?: string;
     title: string;
     text: string;
-    onChangeValue: ([newValue]: string[]) => void;
+    onClick: () => void;
     disabled?: boolean;
-    value: string;
-    oneOfValue: string;
+    selected: boolean;
 }
 
 export const TogglerCard: React.FC<TogglerCardProps> = ({
     description,
     title,
     text,
-    onChangeValue,
+    onClick,
     disabled,
-    value,
-    oneOfValue,
+    selected,
 }) => {
-    const onClick = React.useCallback(() => {
-        onChangeValue([value]);
-    }, [onChangeValue, value]);
-
     return (
         <Card
             onClick={onClick}
             type="selection"
-            disabled={disabled ? oneOfValue !== value : disabled}
-            selected={oneOfValue === value}
+            disabled={disabled ? !selected : disabled}
+            selected={selected}
             size="m"
             className={b()}
         >

@@ -90,18 +90,23 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
         if (togglerType === 'card') {
             return (
                 <div className={b('card')}>
-                    {options.map(({value}) => (
-                        <TogglerCard
-                            title={specProperties[value]?.viewSpec.layoutTitle || ''}
-                            disabled={spec.viewSpec.disabled}
-                            text={spec.description?.[value] || ''}
-                            description={specProperties[value]?.viewSpec.layoutDescription}
-                            onChangeValue={onOneOfChange}
-                            value={value}
-                            key={value}
-                            oneOfValue={oneOfValue}
-                        />
-                    ))}
+                    {options.map(({value}) => {
+                        const onClick = () => {
+                            onOneOfChange([value]);
+                        };
+
+                        return (
+                            <TogglerCard
+                                title={specProperties[value]?.viewSpec.layoutTitle || ''}
+                                disabled={spec.viewSpec.disabled}
+                                text={spec.description?.[value] || ''}
+                                description={specProperties[value]?.viewSpec.layoutDescription}
+                                onClick={onClick}
+                                selected={oneOfValue === value}
+                                key={value}
+                            />
+                        );
+                    })}
                 </div>
             );
         }
