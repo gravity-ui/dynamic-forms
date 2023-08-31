@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.3.0...v2.4.0) (2023-08-31)
+
+
+### Features
+
+* **OneOfTogglerCard:** added new display toggler card ([#99](https://github.com/gravity-ui/dynamic-forms/issues/99)) ([caa76bc](https://github.com/gravity-ui/dynamic-forms/commit/caa76bc63572af4ce39f613a52435b4a891a37e4))
+
 ## [2.3.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.2.0...v2.3.0) (2023-08-30)
 
 
