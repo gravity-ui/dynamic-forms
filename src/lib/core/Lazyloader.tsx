@@ -13,7 +13,6 @@ export const LazyLoader = ({
 }: LazyLoaderProps): JSX.Element => {
     const fallback = React.useRef(() => initialFallback);
     const Component = component;
-
     const updateFallback = async (): Promise<void> => {
         const result = await component._result;
 
