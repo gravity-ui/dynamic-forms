@@ -8,5 +8,6 @@ export * from './Layouts';
 export * from './LazyLoader';
 export * from './LongValue';
 export * from './SimpleVerticalAccordeon';
+export * from './TogglerCard';
 export * from './Views';
 export * from './ViewLayouts';

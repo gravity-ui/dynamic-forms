@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.4.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.3.0...v2.4.0) (2023-08-31)
+
+
+### Features
+
+* **OneOfTogglerCard:** added new display toggler card ([#99](https://github.com/gravity-ui/dynamic-forms/issues/99)) ([caa76bc](https://github.com/gravity-ui/dynamic-forms/commit/caa76bc63572af4ce39f613a52435b4a891a37e4))
+
+## [2.3.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.2.0...v2.3.0) (2023-08-30)
+
+
+### Features
+
+* **Common:** added lower case conversion for addButtonPosition ([#100](https://github.com/gravity-ui/dynamic-forms/issues/100)) ([3c1eb71](https://github.com/gravity-ui/dynamic-forms/commit/3c1eb7130b4717c00fe8e9e43dfc8d8a8928080c))
+
+
+### Bug Fixes
+
+* rename deprecated --yc-text-body-font-size css var ([#102](https://github.com/gravity-ui/dynamic-forms/issues/102)) ([f31c5f1](https://github.com/gravity-ui/dynamic-forms/commit/f31c5f17c0cd8746bbc8a522850d42331d382843))
+
 ## [2.2.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.1.1...v2.2.0) (2023-08-29)
 
 
