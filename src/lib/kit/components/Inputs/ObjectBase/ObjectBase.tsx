@@ -12,15 +12,13 @@ import {
     ObjectIndependentInputProps,
     ObjectValue,
     ValidateError,
-    isNumberSpec,
-    isStringSpec,
     transformArrIn,
 } from '../../../../core';
-import {block} from '../../../utils';
+import {block, filterPropertiesForObjectInline} from '../../../utils';
 
 import './ObjectBase.scss';
 
-const b = block('objectbase');
+const b = block('object-base');
 
 export interface ObjectBaseProps extends ObjectIndependentInputProps {
     inline?: boolean;
@@ -79,11 +77,7 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
         }
 
         const specProperties = inline
-            ? Object.fromEntries(
-                  Object.entries(spec.properties).filter(
-                      ([, propSpec]) => isStringSpec(propSpec) || isNumberSpec(propSpec),
-                  ),
-              )
+            ? filterPropertiesForObjectInline(spec.properties)
             : spec.properties;
 
         return (
@@ -124,6 +118,6 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
     );
 };
 
-export const Inline: ObjectIndependentInput = (props) => {
+export const ObjectInline: ObjectIndependentInput = (props) => {
     return <ObjectBase {...props} inline />;
 };

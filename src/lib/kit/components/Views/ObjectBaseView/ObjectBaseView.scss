@@ -1,14 +1,14 @@
 @import '../../../styles/variables.scss';
 
-.#{$ns}object-base {
+.#{$ns}object-base-view {
     &__content {
         &_inline {
             display: flex;
 
-            & > .#{$ns}use-search {
+            & > div {
                 flex: auto;
-                margin-bottom: 0;
                 margin-right: 8px;
+                margin-bottom: 0;
 
                 &:last-child {
                     margin-right: 0;

@@ -2,13 +2,13 @@ import React from 'react';
 
 import {StoryFn} from '@storybook/react';
 
-import {Inline as InlineBase, ObjectSpec, SpecTypes} from '../lib';
+import {ObjectInline as ObjectInlineBase, ObjectSpec, SpecTypes} from '../lib';
 
 import {InputPreview} from './components';
 
 export default {
     title: 'Object/Inline',
-    component: InlineBase,
+    component: ObjectInlineBase,
 };
 
 const baseSpec: ObjectSpec = {
@@ -17,11 +17,21 @@ const baseSpec: ObjectSpec = {
         gender: {
             type: SpecTypes.String,
             enum: ['male', 'female', 'other'],
-            viewSpec: {type: 'select', placeholder: 'Choose gender'},
+            viewSpec: {
+                type: 'select',
+                placeholder: 'Choose gender',
+                layout: 'transparent',
+                layoutTitle: 'Gender',
+            },
         },
         name: {
-            type: SpecTypes.Number,
-            viewSpec: {type: 'base', placeholder: 'Type your name'},
+            type: SpecTypes.String,
+            viewSpec: {
+                type: 'base',
+                placeholder: 'Type your name',
+                layout: 'transparent',
+                layoutTitle: 'Name',
+            },
         },
     },
     viewSpec: {
@@ -33,10 +43,15 @@ const baseSpec: ObjectSpec = {
 
 const value = {gender: 'other', name: 'Foo'};
 
-const excludeOptions = ['description', 'viewSpec.type', 'viewSpec.oneOfParams'];
+const excludeOptions = [
+    'description',
+    'viewSpec.type',
+    'viewSpec.oneOfParams',
+    'viewSpec.placeholder',
+];
 
 const template = (spec: ObjectSpec = baseSpec) => {
-    const Template: StoryFn<typeof InlineBase> = (__, {viewMode}) => (
+    const Template: StoryFn<typeof ObjectInlineBase> = (__, {viewMode}) => (
         <InputPreview
             spec={spec}
             value={value}
