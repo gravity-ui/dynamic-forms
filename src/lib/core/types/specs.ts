@@ -1,4 +1,5 @@
 import {LabelProps} from '@gravity-ui/uikit';
+import {ColorTextBaseProps} from '@gravity-ui/uikit/build/esm/components/Text/colorText/colorText';
 
 import {ReadAsMethod, SpecTypes} from '../constants';
 
@@ -30,6 +31,7 @@ export interface ArraySpec<LinkType = any> {
         link?: LinkType;
         placeholder?: string;
         addButtonPosition?: 'down' | 'right';
+        hideInput?: boolean;
     };
 }
 
@@ -46,6 +48,7 @@ export interface BooleanSpec<LinkType = any> {
         layoutDescription?: string;
         layoutOpen?: boolean;
         link?: LinkType;
+        hideInput?: boolean;
     };
 }
 
@@ -67,6 +70,7 @@ export interface NumberSpec<LinkType = any> {
         link?: LinkType;
         placeholder?: string;
         copy?: boolean;
+        hideInput?: boolean;
     };
 }
 
@@ -90,6 +94,7 @@ export interface ObjectSpec<LinkType = any> {
             toggler?: 'select' | 'radio' | 'card';
         };
         placeholder?: string;
+        hideInput?: boolean;
     };
 }
 
@@ -123,7 +128,13 @@ export interface StringSpec<LinkType = any> {
         };
         hideValues?: string[];
         placeholder?: string;
-        themeLabel?: LabelProps['theme'];
+        hideInput?: boolean;
+        textContentParams?: {
+            themeLabel?: LabelProps['theme'];
+            text: string;
+            icon?: string;
+            iconColor?: ColorTextBaseProps['color'];
+        };
         fileInput?: {
             accept?: string;
             readAsMethod?: ReadAsMethod;

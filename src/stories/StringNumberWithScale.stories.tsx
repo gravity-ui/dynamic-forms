@@ -42,7 +42,7 @@ const excludeOptions = [
     'description',
     'viewSpec.type',
     'viewSpec.monacoParams',
-    'viewSpec.themeLabel',
+    'viewSpec.textContentParams',
     'viewSpec.fileInput',
 ];
 

@@ -63,7 +63,7 @@ export const Controller = <Value extends FieldValue, SpecType extends Spec>({
         __mirror,
     );
 
-    if (_.isString(name) && isCorrectSpec(spec)) {
+    if (_.isString(name) && isCorrectSpec(spec) && !spec.viewSpec.hideInput) {
         return withSearch(render(renderProps));
     }
 

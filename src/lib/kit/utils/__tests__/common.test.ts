@@ -95,7 +95,17 @@ describe('kit/utils/common', () => {
         });
 
         expect(prepareSpec({viewSpec: {themeLabel: 'WARNING'}} as any)).toMatchObject({
-            viewSpec: {themeLabel: 'warning'},
+            viewSpec: {textContentParams: {themeLabel: 'warning'}},
+        });
+
+        expect(prepareSpec({viewSpec: {oneOfParams: {toggler: 'SELECT'}}} as any)).toMatchObject({
+            viewSpec: {oneOfParams: {toggler: 'select'}},
+        });
+
+        expect(
+            prepareSpec({viewSpec: {textContentParams: {themeLabel: 'WARNING'}}} as any),
+        ).toMatchObject({
+            viewSpec: {textContentParams: {themeLabel: 'warning'}},
         });
 
         expect(prepareSpec({validator: 'CUSTOM'} as any)).toMatchObject({validator: 'custom'});

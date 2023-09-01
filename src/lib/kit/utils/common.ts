@@ -100,7 +100,19 @@ export const prepareSpec = <Type extends Spec>(
         }
 
         if (_.isString(result.viewSpec?.themeLabel)) {
-            result.viewSpec.themeLabel = result.viewSpec.themeLabel.toLowerCase();
+            result.viewSpec.textContentParams = {
+                ...result.viewSpec.textContentParams,
+                themeLabel: result.viewSpec.themeLabel.toLowerCase(),
+            };
+        }
+
+        if (_.isString(result.viewSpec?.oneOfParams?.toggler)) {
+            result.viewSpec.oneOfParams.toggler = result.viewSpec.oneOfParams.toggler.toLowerCase();
+        }
+
+        if (_.isString(result.viewSpec?.textContentParams?.themeLabel)) {
+            result.viewSpec.textContentParams.themeLabel =
+                result.viewSpec.textContentParams.themeLabel.toLowerCase();
         }
 
         if (_.isString(result.validator)) {

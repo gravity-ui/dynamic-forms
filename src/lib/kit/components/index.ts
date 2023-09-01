@@ -5,6 +5,7 @@ export * from './ErrorWrapper';
 export * from './GroupIndent';
 export * from './Inputs';
 export * from './Layouts';
+export * from './LazyLoader';
 export * from './LongValue';
 export * from './SimpleVerticalAccordeon';
 export * from './TogglerCard';
