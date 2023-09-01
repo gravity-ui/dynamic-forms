@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.4.0...v2.5.0) (2023-09-01)
+
+
+### Features
+
+* **textContent:** refactor textContent ([#98](https://github.com/gravity-ui/dynamic-forms/issues/98)) ([f15ab7d](https://github.com/gravity-ui/dynamic-forms/commit/f15ab7d167e38096aeb5d120c6de60e89541e618))
+
 ## [2.4.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.3.0...v2.4.0) (2023-08-31)
 
 
