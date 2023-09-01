@@ -19,19 +19,24 @@ export const TextContent: React.FC<StringIndependentInputProps> = ({
     input,
     ...restProps
 }) => {
-    const {textContentParams} = spec.viewSpec;
+    const {textContentParams, layoutDescription} = spec.viewSpec;
 
-    if (!textContentParams?.text) {
+    const text = React.useMemo(
+        () => (textContentParams?.text ? textContentParams?.text : layoutDescription),
+        [layoutDescription, textContentParams?.text],
+    );
+
+    if (!text) {
         return null;
     }
 
-    const iconLib = textContentParams.icon ? (
-        <LazyLoader component={loadIcon(textContentParams.icon)} />
+    const iconLib = textContentParams?.icon ? (
+        <LazyLoader component={loadIcon(textContentParams?.icon)} />
     ) : null;
 
-    let content = <span dangerouslySetInnerHTML={{__html: textContentParams.text}} />;
+    let content = <span dangerouslySetInnerHTML={{__html: text}} />;
 
-    if (textContentParams.themeLabel) {
+    if (textContentParams?.themeLabel) {
         content = (
             <Label
                 size="m"
@@ -63,8 +68,14 @@ export const TextContent: React.FC<StringIndependentInputProps> = ({
     }
 
     if (Layout) {
+        const _spec = _.cloneDeep(spec);
+
+        if (!textContentParams?.text) {
+            _spec.viewSpec.layoutDescription = undefined;
+        }
+
         return (
-            <Layout spec={spec} input={input} {...restProps}>
+            <Layout spec={_spec} input={input} {...restProps}>
                 {content}
             </Layout>
         );
