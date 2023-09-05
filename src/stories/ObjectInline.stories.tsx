@@ -14,14 +14,14 @@ export default {
 const baseSpec: ObjectSpec = {
     type: SpecTypes.Object,
     properties: {
-        gender: {
+        type: {
             type: SpecTypes.String,
-            enum: ['male', 'female', 'other'],
+            enum: ['first', 'second', 'third'],
             viewSpec: {
                 type: 'select',
-                placeholder: 'Choose gender',
+                placeholder: 'Choose type',
                 layout: 'transparent',
-                layoutTitle: 'Gender',
+                layoutTitle: 'Type',
             },
         },
         name: {
@@ -41,7 +41,7 @@ const baseSpec: ObjectSpec = {
     },
 };
 
-const value = {gender: 'other', name: 'Foo'};
+const value = {type: 'first', name: 'Foo'};
 
 const excludeOptions = [
     'description',
