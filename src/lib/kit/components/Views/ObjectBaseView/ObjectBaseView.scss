@@ -1,0 +1,19 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}object-base-view {
+    &__content {
+        &_inline {
+            display: flex;
+
+            & > div {
+                flex: auto;
+                margin-right: 8px;
+                margin-bottom: 0;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+}

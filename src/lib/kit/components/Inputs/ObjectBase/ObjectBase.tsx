@@ -9,13 +9,28 @@ import {
     FieldObjectValue,
     FieldValue,
     ObjectIndependentInput,
+    ObjectIndependentInputProps,
     ObjectValue,
-    Spec,
     ValidateError,
     transformArrIn,
 } from '../../../../core';
+import {block, filterPropertiesForObjectInline} from '../../../utils';
 
-export const ObjectBase: ObjectIndependentInput = ({spec, name, Layout, ...restProps}) => {
+import './ObjectBase.scss';
+
+const b = block('object-base');
+
+export interface ObjectBaseProps extends ObjectIndependentInputProps {
+    inline?: boolean;
+}
+
+export const ObjectBase: React.FC<ObjectBaseProps> = ({
+    inline,
+    spec,
+    name,
+    Layout,
+    ...restProps
+}) => {
     const addBtn = React.useMemo(
         () => (
             <Button
@@ -49,18 +64,24 @@ export const ObjectBase: ObjectIndependentInput = ({spec, name, Layout, ...restP
     );
 
     const content = React.useMemo(() => {
-        if (!_.isObjectLike(spec.properties) || !Object.keys(spec.properties || {}).length) {
+        if (
+            !spec.properties ||
+            !_.isObjectLike(spec.properties) ||
+            !Object.keys(spec.properties || {}).length
+        ) {
             return null;
         }
 
-        if (!restProps.input.value) {
+        if (!inline && !restProps.input.value) {
             return addBtn;
         }
 
-        const specProperties = {...spec.properties} as Record<string, Spec>;
+        const specProperties = inline
+            ? filterPropertiesForObjectInline(spec.properties)
+            : spec.properties;
 
         return (
-            <React.Fragment>
+            <div className={b('content', {inline})}>
                 {(spec.viewSpec.order || Object.keys(specProperties)).map((property: string) =>
                     specProperties[property] ? (
                         <Controller
@@ -73,16 +94,17 @@ export const ObjectBase: ObjectIndependentInput = ({spec, name, Layout, ...restP
                         />
                     ) : null,
                 )}
-            </React.Fragment>
+            </div>
         );
     }, [
         spec.properties,
         spec.viewSpec.order,
-        name,
         restProps.input.value,
-        addBtn,
-        parentOnChange,
         restProps.input.parentOnUnmount,
+        inline,
+        addBtn,
+        name,
+        parentOnChange,
     ]);
 
     if (!Layout || !content) {
@@ -94,4 +116,8 @@ export const ObjectBase: ObjectIndependentInput = ({spec, name, Layout, ...restP
             {content}
         </Layout>
     );
+};
+
+export const ObjectInline: ObjectIndependentInput = (props) => {
+    return <ObjectBase {...props} inline />;
 };

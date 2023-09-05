@@ -28,6 +28,8 @@ import {
     NumberWithScaleView,
     ObjectBase,
     ObjectBaseView,
+    ObjectInline,
+    ObjectInlineView,
     ObjectValueInput,
     ObjectValueInputView,
     OneOf,
@@ -144,6 +146,7 @@ export const dynamicConfig: DynamicFormConfig = {
             object_value: {Component: ObjectValueInput, independent: true},
             multi_oneof: {Component: MultiOneOf, independent: true},
             multi_oneof_flat: {Component: MultiOneOfFlat, independent: true},
+            inline: {Component: ObjectInline, independent: true},
         },
         layouts: {
             row: Row,
@@ -246,6 +249,7 @@ export const dynamicCardConfig: DynamicFormConfig = {
             object_value: {Component: ObjectValueInput, independent: true},
             multi_oneof: {Component: MultiOneOf, independent: true},
             multi_oneof_flat: {Component: MultiOneOfFlat, independent: true},
+            inline: {Component: ObjectInline, independent: true},
         },
         layouts: {
             row: Row2,
@@ -341,6 +345,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
             object_value: {Component: ObjectValueInputView, independent: true},
             multi_oneof: {Component: MultiOneOfView, independent: true},
             multi_oneof_flat: {Component: MultiOneOfFlatView, independent: true},
+            inline: {Component: ObjectInlineView, independent: true},
         },
         layouts: {
             row: ViewRow,
@@ -427,6 +432,7 @@ export const dynamicViewCardConfig: DynamicViewConfig = {
             object_value: {Component: ObjectValueInputView, independent: true},
             multi_oneof: {Component: MultiOneOfView, independent: true},
             multi_oneof_flat: {Component: MultiOneOfFlatView, independent: true},
+            inline: {Component: ObjectInlineView, independent: true},
         },
         layouts: {
             row: ViewRow2,
