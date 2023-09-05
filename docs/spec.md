@@ -168,7 +168,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | Property          | Type                     | Required | Description                                                 |
 | :---------------- | :----------------------- | :------: | :---------------------------------------------------------- |
 | filterPlaceholder | `string`                 |          | Placeholder for filter                                      |
-| filterable        | `boolean`                |   yes    | Ability to force filtering, default if more than 9 elements |
+| filterable        | `boolean`                |          | Ability to force filtering, default if more than 9 elements |
 | meta              | `Record<string, string>` |          | Additional text for enum values                             |
 
 #### Link
