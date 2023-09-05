@@ -123,6 +123,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.copy              | `boolean`                |          | For `true`, will add a copy value button                                                                                                                                                |
 | viewSpec.hideInput         | `boolean`                |          | Hide input                                                                                                                                                                              |
 | viewSpec.textContentParams | `object`                 |          | [Parameters](#textcontentparams) that must be passed to text content                                                                                                                    |
+| viewSpec.selectParams      | `object`                 |          | [Parameters](#selectparams) additional options for the selector                                                                                                                         |
 
 #### SizeParams
 
@@ -161,6 +162,14 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | text       | `string`                                                                                                                                                                                                                                                                                          |   yes    | Text for input                                                      |
 | icon       | `string`                                                                                                                                                                                                                                                                                          |          | Icon name from the [library](https://gravity-ui.com/icons)          |
 | iconColor  | `'primary'` `'complementary'` `'secondary'` `'hint'` `'info'` `'info-heavy'` `'positive'` `'positive-heavy'` `'warning'` `'warning-heavy'` `'danger'` `'danger-heavy'` `'utility'` `'utility-heavy'` `'misc'` `'misc-heavy'` `'brand'` `'dark-primary'` `'dark-complementary'` `'dark-secondary'` |          | The color of the icon, if it does not have the themeLabel parameter |
+
+#### SelectParams
+
+| Property          | Type                     | Required | Description                                                 |
+| :---------------- | :----------------------- | :------: | :---------------------------------------------------------- |
+| filterPlaceholder | `string`                 |          | Placeholder for filter                                      |
+| filterable        | `boolean`                |   yes    | Ability to force filtering, default if more than 9 elements |
+| meta              | `Record<string, string>` |          | Additional text for enum values                             |
 
 #### Link
 

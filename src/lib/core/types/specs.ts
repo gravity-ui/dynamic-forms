@@ -141,6 +141,11 @@ export interface StringSpec<LinkType = any> {
             ignoreText?: boolean;
         };
         copy?: boolean;
+        selectParams?: {
+            filterPlaceholder?: string;
+            filterable?: boolean;
+            meta?: Record<string, string>;
+        };
     };
 }
 

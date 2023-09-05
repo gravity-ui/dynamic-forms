@@ -33,6 +33,7 @@ const excludeOptions = [
     'viewSpec.textContentParams',
     'viewSpec.fileInput',
     'viewSpec.copy',
+    'viewSpec.selectParams',
 ];
 
 const template = (spec: StringSpec = baseSpec) => {

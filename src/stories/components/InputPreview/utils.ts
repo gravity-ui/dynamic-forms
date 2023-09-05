@@ -58,6 +58,15 @@ export const transformCorrect = (spec: Spec) => {
         })) as unknown as Record<string, {factor: string; title: string}>;
     }
 
+    if (isStringSpec(_spec) && _spec.viewSpec.selectParams?.meta) {
+        const correctMeta = _spec.viewSpec.selectParams.meta;
+
+        _spec.viewSpec.selectParams.meta = Object.keys(correctMeta).map((key) => ({
+            property: key,
+            text: correctMeta[key],
+        })) as unknown as Record<string, string>;
+    }
+
     return _spec;
 };
 
@@ -123,6 +132,22 @@ export const transformIncorrect = (spec: Spec) => {
         _spec.viewSpec.sizeParams.scale = incorrectScale.reduce(
             (acc: Record<string, {factor: string; title: string}>, {type, factor, title}) => {
                 acc[type] = {factor, title};
+
+                return acc;
+            },
+            {},
+        );
+    }
+
+    if (isStringSpec(_spec) && _spec.viewSpec.selectParams?.meta) {
+        const incorrectMeta = _spec.viewSpec.selectParams.meta as unknown as {
+            property: string;
+            text: string;
+        }[];
+
+        _spec.viewSpec.selectParams.meta = incorrectMeta.reduce(
+            (acc: Record<string, string>, {property, text}) => {
+                acc[property] = text;
 
                 return acc;
             },
