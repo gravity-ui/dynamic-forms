@@ -14,9 +14,7 @@ import {
     OBJECT_ARRAY_FLAG,
     Spec,
     ValidateError,
-    isArraySpec,
     isCorrectSpec,
-    isObjectSpec,
     transformArrIn,
 } from '../../../../core';
 import {block} from '../../../utils';
@@ -72,19 +70,7 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
     );
 
     const AddButton: React.FC = React.useCallback(() => {
-        let onClick = () => {
-            let item;
-
-            if (!spec.items?.required) {
-                if (isArraySpec(spec.items)) {
-                    item = {[OBJECT_ARRAY_FLAG]: true, [OBJECT_ARRAY_CNT]: 0};
-                } else if (isObjectSpec(spec.items)) {
-                    item = {};
-                }
-            }
-
-            arrayInput.onItemAdd(item);
-        };
+        let onClick = () => arrayInput.onItemAdd(undefined);
 
         let qa = `${name}-add-item`;
         let title = spec.viewSpec.itemLabel;
@@ -114,10 +100,10 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
         input,
         name,
         spec.defaultValue,
-        spec.items,
         spec.viewSpec.disabled,
         spec.viewSpec.itemLabel,
         spec.viewSpec.layoutTitle,
+        spec.viewSpec.addButtonPosition,
     ]);
 
     const items = React.useMemo(
