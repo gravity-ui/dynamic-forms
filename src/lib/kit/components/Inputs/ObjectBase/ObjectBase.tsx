@@ -72,7 +72,7 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
             return null;
         }
 
-        if (!restProps.input.value) {
+        if (!inline && !restProps.input.value) {
             return addBtn;
         }
 
