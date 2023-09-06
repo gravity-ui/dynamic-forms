@@ -12,10 +12,7 @@ const b = block('select');
 export const Select: StringInput = ({name, input, spec}) => {
     const {value, onBlur, onChange, onFocus} = input;
 
-    const filterable = React.useMemo(
-        () => spec.viewSpec.selectParams?.filterable || (spec.enum?.length || 0) > 9,
-        [spec.enum?.length, spec.viewSpec.selectParams?.filterable],
-    );
+    const filterable = React.useMemo(() => (spec.enum?.length || 0) > 9, [spec.enum?.length]);
 
     const options = React.useMemo(
         () =>
@@ -73,9 +70,6 @@ export const Select: StringInput = ({name, input, spec}) => {
             filterable={filterable}
             qa={name}
             filterPlaceholder={spec.viewSpec.selectParams?.filterPlaceholder}
-            renderSelectedOption={(option) => (
-                <span key={option.value}>{option.text || option.value}</span>
-            )}
             getOptionHeight={getOptionHeight}
             renderOption={(option) => (
                 <React.Fragment key={option.value}>{option.content}</React.Fragment>

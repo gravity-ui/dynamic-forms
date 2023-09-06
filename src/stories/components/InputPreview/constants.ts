@@ -130,10 +130,6 @@ const selectParams: ObjectSpec = {
             type: SpecTypes.String,
             viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Filter Placeholder'},
         },
-        filterable: {
-            type: SpecTypes.Boolean,
-            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Filterable'},
-        },
         meta: {
             type: SpecTypes.Array,
             items: {

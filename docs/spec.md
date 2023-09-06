@@ -165,11 +165,10 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 
 #### SelectParams
 
-| Property          | Type                     | Required | Description                                                 |
-| :---------------- | :----------------------- | :------: | :---------------------------------------------------------- |
-| filterPlaceholder | `string`                 |          | Placeholder for filter                                      |
-| filterable        | `boolean`                |          | Ability to force filtering, default if more than 9 elements |
-| meta              | `Record<string, string>` |          | Additional text for enum values                             |
+| Property          | Type                     | Required | Description                     |
+| :---------------- | :----------------------- | :------: | :------------------------------ |
+| filterPlaceholder | `string`                 |          | Placeholder for filter          |
+| meta              | `Record<string, string>` |          | Additional text for enum values |
 
 #### Link
 
