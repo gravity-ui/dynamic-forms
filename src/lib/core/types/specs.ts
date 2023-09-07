@@ -32,6 +32,10 @@ export interface ArraySpec<LinkType = any> {
         placeholder?: string;
         addButtonPosition?: 'down' | 'right';
         hideInput?: boolean;
+        selectParams?: {
+            filterPlaceholder?: string;
+            meta?: Record<string, string>;
+        };
     };
 }
 
@@ -141,6 +145,10 @@ export interface StringSpec<LinkType = any> {
             ignoreText?: boolean;
         };
         copy?: boolean;
+        selectParams?: {
+            filterPlaceholder?: string;
+            meta?: Record<string, string>;
+        };
     };
 }
 

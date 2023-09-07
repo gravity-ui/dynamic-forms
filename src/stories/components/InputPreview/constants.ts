@@ -115,11 +115,52 @@ const description: ArraySpec = {
     viewSpec: {
         type: 'table',
         layout: 'accordeon',
-        layoutTitle: 'Enum description',
+        layoutTitle: 'Description',
         table: [
             {label: 'Property', property: 'property'},
             {label: 'Label', property: 'label'},
         ],
+    },
+};
+
+const selectParams: ObjectSpec = {
+    type: SpecTypes.Object,
+    properties: {
+        filterPlaceholder: {
+            type: SpecTypes.String,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Filter Placeholder'},
+        },
+        meta: {
+            type: SpecTypes.Array,
+            items: {
+                type: SpecTypes.Object,
+                properties: {
+                    property: {
+                        type: SpecTypes.String,
+                        viewSpec: {type: 'base', layout: 'table_item'},
+                    },
+                    text: {
+                        type: SpecTypes.String,
+                        viewSpec: {type: 'base', layout: 'table_item'},
+                    },
+                },
+                viewSpec: {type: ''},
+            },
+            viewSpec: {
+                type: 'table',
+                layout: 'accordeon',
+                layoutTitle: 'Meta',
+                table: [
+                    {label: 'Property', property: 'property'},
+                    {label: 'Text', property: 'text'},
+                ],
+            },
+        },
+    },
+    viewSpec: {
+        type: 'base',
+        layout: 'accordeon',
+        layoutTitle: 'Select Params',
     },
 };
 
@@ -403,6 +444,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 placeholder,
                 addButtonPosition,
                 hideInput,
+                selectParams,
             },
             [
                 'disabled',
@@ -417,6 +459,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 'placeholder',
                 'addButtonPosition',
                 'hideInput',
+                'selectParams',
             ],
         ),
     },
@@ -583,6 +626,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 fileInput,
                 copy,
                 hideInput,
+                selectParams,
             },
             [
                 'disabled',
@@ -598,6 +642,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 'fileInput',
                 'copy',
                 'hideInput',
+                'selectParams',
             ],
         ),
     },

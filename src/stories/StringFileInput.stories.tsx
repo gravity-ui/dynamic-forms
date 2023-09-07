@@ -32,6 +32,7 @@ const excludeOptions = [
     'viewSpec.textContentParams',
     'viewSpec.placeholder',
     'viewSpec.layoutOpen',
+    'viewSpec.selectParams',
 ];
 
 const template = (spec: StringSpec = baseSpec) => {

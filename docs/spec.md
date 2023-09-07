@@ -32,6 +32,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.placeholder       | `string`                               |          | A short hint displayed in the field before the user enters the value                                                                                                                    |
 | viewSpec.addButtonPosition | `"down"/"right"`                       |          | The location of the button adding a new element to the array. Default value "down".                                                                                                     |
 | viewSpec.hideInput         | `boolean`                              |          | Hide input                                                                                                                                                                              |
+| viewSpec.selectParams      | `object`                               |          | [Parameters](#selectparams) additional options for the selector                                                                                                                         |
 
 ### BooleanSpec
 
@@ -123,6 +124,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.copy              | `boolean`                |          | For `true`, will add a copy value button                                                                                                                                                |
 | viewSpec.hideInput         | `boolean`                |          | Hide input                                                                                                                                                                              |
 | viewSpec.textContentParams | `object`                 |          | [Parameters](#textcontentparams) that must be passed to text content                                                                                                                    |
+| viewSpec.selectParams      | `object`                 |          | [Parameters](#selectparams) additional options for the selector                                                                                                                         |
 
 #### SizeParams
 
@@ -161,6 +163,13 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | text       | `string`                                                                                                                                                                                                                                                                                          |   yes    | Text for input                                                      |
 | icon       | `string`                                                                                                                                                                                                                                                                                          |          | Icon name from the [library](https://gravity-ui.com/icons)          |
 | iconColor  | `'primary'` `'complementary'` `'secondary'` `'hint'` `'info'` `'info-heavy'` `'positive'` `'positive-heavy'` `'warning'` `'warning-heavy'` `'danger'` `'danger-heavy'` `'utility'` `'utility-heavy'` `'misc'` `'misc-heavy'` `'brand'` `'dark-primary'` `'dark-complementary'` `'dark-secondary'` |          | The color of the icon, if it does not have the themeLabel parameter |
+
+#### SelectParams
+
+| Property          | Type                     | Required | Description                     |
+| :---------------- | :----------------------- | :------: | :------------------------------ |
+| filterPlaceholder | `string`                 |          | Placeholder for filter          |
+| meta              | `Record<string, string>` |          | Additional text for enum values |
 
 #### Link
 

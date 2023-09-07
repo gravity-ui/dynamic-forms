@@ -42,6 +42,7 @@ const excludeOptions = [
     'viewSpec.placeholder',
     'viewSpec.fileInput',
     'viewSpec.copy',
+    'viewSpec.selectParams',
 ];
 
 const value = 'value';
