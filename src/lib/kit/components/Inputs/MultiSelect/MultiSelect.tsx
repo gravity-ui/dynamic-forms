@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Select} from '@gravity-ui/uikit';
+import {Select, Text} from '@gravity-ui/uikit';
 
 import {ArrayInput, FieldArrayValue, transformArrIn, transformArrOut} from '../../../../core';
 import {block} from '../../../utils';
@@ -19,11 +19,33 @@ export const MultiSelect: ArrayInput = ({name, input, spec}) => {
             spec.enum?.map((id) => ({
                 id,
                 value: id,
-                content: spec.description?.[id] || id,
+                text: spec.description?.[id] || id,
+                content: spec.viewSpec.selectParams?.meta?.[id] ? (
+                    <div key={id}>
+                        <Text>{spec.description?.[id] || id}</Text>
+                        <Text color="secondary" className={b('meta-text')}>
+                            {spec.viewSpec.selectParams.meta[id]}
+                        </Text>
+                    </div>
+                ) : (
+                    spec.description?.[id] || id
+                ),
                 key: id,
             })),
-        [spec.enum, spec.description],
+        [spec.enum, spec.description, spec.viewSpec.selectParams?.meta],
     );
+
+    const renderOption = React.useCallback((option: {value: string; content?: React.ReactNode}) => {
+        return <React.Fragment key={option.value}>{option.content || option.value}</React.Fragment>;
+    }, []);
+
+    const getOptionHeight = React.useCallback(() => {
+        if (spec.viewSpec.selectParams?.meta) {
+            return 44;
+        }
+
+        return 28;
+    }, [spec.viewSpec.selectParams?.meta]);
 
     const handleToggle = React.useCallback(
         (open: boolean) => {
@@ -54,6 +76,9 @@ export const MultiSelect: ArrayInput = ({name, input, spec}) => {
             disabled={spec.viewSpec.disabled}
             placeholder={spec.viewSpec.placeholder}
             filterable={filterable}
+            filterPlaceholder={spec.viewSpec.selectParams?.filterPlaceholder}
+            renderOption={renderOption}
+            getOptionHeight={getOptionHeight}
             multiple
             qa={name}
         />

@@ -71,6 +71,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.placeholder       | `string`          |          | A short hint displayed in the field before the user enters the value                                                                                                                    |
 | viewSpec.copy              | `boolean`         |          | For `true`, will add a copy value button                                                                                                                                                |
 | viewSpec.hideInput         | `boolean`         |          | Hide input                                                                                                                                                                              |
+| viewSpec.selectParams      | `object`          |          | [Parameters](#selectparams) additional options for the selector                                                                                                                         |
 
 ### ObjectSpec
 

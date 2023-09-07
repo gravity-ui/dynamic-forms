@@ -61,6 +61,7 @@ const excludeOptions = [
     'viewSpec.placeholder',
     'viewSpec.itemPrefix',
     'viewSpec.addButtonPosition',
+    'viewSpec.selectParams',
 ];
 
 const value = [

@@ -20,21 +20,24 @@ export const Select: StringInput = ({name, input, spec}) => {
                 id,
                 value: id,
                 text: spec.description?.[id] || id,
-                content:
-                    spec.viewSpec.selectParams?.meta && spec.viewSpec.selectParams.meta?.[id] ? (
-                        <div key={id}>
-                            <Text>{spec.description?.[id] || id}</Text>
-                            <Text color="secondary" className={b('meta-text')}>
-                                {spec.viewSpec.selectParams.meta[id]}
-                            </Text>
-                        </div>
-                    ) : (
-                        <React.Fragment key={id}>{spec.description?.[id] || id}</React.Fragment>
-                    ),
+                content: spec.viewSpec.selectParams?.meta?.[id] ? (
+                    <div key={id}>
+                        <Text>{spec.description?.[id] || id}</Text>
+                        <Text color="secondary" className={b('meta-text')}>
+                            {spec.viewSpec.selectParams.meta[id]}
+                        </Text>
+                    </div>
+                ) : (
+                    spec.description?.[id] || id
+                ),
                 key: id,
             })),
         [spec.enum, spec.description, spec.viewSpec.selectParams?.meta],
     );
+
+    const renderOption = React.useCallback((option: {value: string; content?: React.ReactNode}) => {
+        return <React.Fragment key={option.value}>{option.content || option.value}</React.Fragment>;
+    }, []);
 
     const getOptionHeight = React.useCallback(() => {
         if (spec.viewSpec.selectParams?.meta) {
@@ -68,12 +71,10 @@ export const Select: StringInput = ({name, input, spec}) => {
             disabled={spec.viewSpec.disabled}
             placeholder={spec.viewSpec.placeholder}
             filterable={filterable}
-            qa={name}
             filterPlaceholder={spec.viewSpec.selectParams?.filterPlaceholder}
             getOptionHeight={getOptionHeight}
-            renderOption={(option) => (
-                <React.Fragment key={option.value}>{option.content}</React.Fragment>
-            )}
+            renderOption={renderOption}
+            qa={name}
         />
     );
 };

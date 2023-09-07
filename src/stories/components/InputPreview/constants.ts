@@ -444,6 +444,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 placeholder,
                 addButtonPosition,
                 hideInput,
+                selectParams,
             },
             [
                 'disabled',
@@ -458,6 +459,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 'placeholder',
                 'addButtonPosition',
                 'hideInput',
+                'selectParams',
             ],
         ),
     },
