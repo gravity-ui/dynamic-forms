@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.6.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.5.0...v2.6.0) (2023-09-07)
+
+
+### Features
+
+* **ObjectBase:** add inline variant ([#104](https://github.com/gravity-ui/dynamic-forms/issues/104)) ([31480c3](https://github.com/gravity-ui/dynamic-forms/commit/31480c3a0b5079dcf4e1e5940d840e69579cc608))
+* **Select:** added additional params for select ([#109](https://github.com/gravity-ui/dynamic-forms/issues/109)) ([13702de](https://github.com/gravity-ui/dynamic-forms/commit/13702de605d69205c122240d43b0dfb0ae9983cf))
+
+
+### Bug Fixes
+
+* **ArrayBase:** remove value preparing logic, on item add call ([#107](https://github.com/gravity-ui/dynamic-forms/issues/107)) ([65283d6](https://github.com/gravity-ui/dynamic-forms/commit/65283d68f55a489945b5014daa2d6c2ac3cf23eb))
+
 ## [2.5.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.4.0...v2.5.0) (2023-09-01)
 
 
