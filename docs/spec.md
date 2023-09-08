@@ -31,7 +31,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.link              | `any`                                  |          | A field containing information for forming a [link](#link) for a value                                                                                                                  |
 | viewSpec.placeholder       | `string`                               |          | A short hint displayed in the field before the user enters the value                                                                                                                    |
 | viewSpec.addButtonPosition | `"down"/"right"`                       |          | The location of the button adding a new element to the array. Default value "down".                                                                                                     |
-| viewSpec.hideInput         | `boolean`                              |          | Hide input                                                                                                                                                                              |
+| viewSpec.hidden            | `boolean`                              |          | Hide field and view                                                                                                                                                                     |
 | viewSpec.selectParams      | `object`                               |          | [Parameters](#selectparams) additional options for the selector                                                                                                                         |
 
 ### BooleanSpec
@@ -49,7 +49,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.layoutDescription | `string`    |          | Additional description/hint for [Layout](./config.md#layouts)                                                                                                                           |
 | viewSpec.layoutOpen        | `boolean`   |          | Expand [Layout](./config.md#layouts) at the first rendering                                                                                                                             |
 | viewSpec.link              | `any`       |          | A field containing information for forming a [link](#link) for a value                                                                                                                  |
-| viewSpec.hideInput         | `boolean`   |          | Hide input                                                                                                                                                                              |
+| viewSpec.hidden            | `boolean`   |          | Hide field and view                                                                                                                                                                     |
 
 ### NumberSpec
 
@@ -71,7 +71,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.link              | `any`             |          | A field containing information for forming a [link](#link) for a value                                                                                                                  |
 | viewSpec.placeholder       | `string`          |          | A short hint displayed in the field before the user enters the value                                                                                                                    |
 | viewSpec.copy              | `boolean`         |          | For `true`, will add a copy value button                                                                                                                                                |
-| viewSpec.hideInput         | `boolean`         |          | Hide input                                                                                                                                                                              |
+| viewSpec.hidden            | `boolean`         |          | Hide field and view                                                                                                                                                                     |
 
 ### ObjectSpec
 
@@ -93,7 +93,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.link              | `any`                    |          | A field containing information for forming a [link](#link) for a value                                                                                                                  |
 | viewSpec.oneOfParams       | `object`                 |          | [Parameters](#oneofparams) that must be passed to oneof input                                                                                                                           |
 | viewSpec.placeholder       | `string`                 |          | A short hint displayed in the field before the user enters the value                                                                                                                    |
-| viewSpec.hideInput         | `boolean`                |          | Hide input                                                                                                                                                                              |
+| viewSpec.hidden            | `boolean`                |          | Hide field and view                                                                                                                                                                     |
 
 ### StringSpec
 
@@ -122,7 +122,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.placeholder       | `string`                 |          | A short hint displayed in the field before the user enters the value                                                                                                                    |
 | viewSpec.fileInput         | `object`                 |          | [Parameters](#FileInput) that must be passed to file input                                                                                                                              |
 | viewSpec.copy              | `boolean`                |          | For `true`, will add a copy value button                                                                                                                                                |
-| viewSpec.hideInput         | `boolean`                |          | Hide input                                                                                                                                                                              |
+| viewSpec.hidden            | `boolean`                |          | Hide field and view                                                                                                                                                                     |
 | viewSpec.textContentParams | `object`                 |          | [Parameters](#textcontentparams) that must be passed to text content                                                                                                                    |
 | viewSpec.selectParams      | `object`                 |          | [Parameters](#selectparams) additional options for the selector                                                                                                                         |
 

@@ -252,9 +252,9 @@ const table: ArraySpec = {
     },
 };
 
-const hideInput: BooleanSpec = {
+const hidden: BooleanSpec = {
     type: SpecTypes.Boolean,
-    viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Hide input'},
+    viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Hidden'},
 };
 
 const textContentParams: ObjectSpec = {
@@ -443,7 +443,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 table,
                 placeholder,
                 addButtonPosition,
-                hideInput,
+                hidden,
                 selectParams,
             },
             [
@@ -458,7 +458,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 'table',
                 'placeholder',
                 'addButtonPosition',
-                'hideInput',
+                'hidden',
                 'selectParams',
             ],
         ),
@@ -493,7 +493,7 @@ export const getBooleanOptions = (): ObjectSpec => ({
                 layoutTitle,
                 layoutDescription,
                 layoutOpen,
-                hideInput,
+                hidden,
             },
             [
                 'disabled',
@@ -502,7 +502,7 @@ export const getBooleanOptions = (): ObjectSpec => ({
                 'layoutTitle',
                 'layoutDescription',
                 'layoutOpen',
-                'hideInput',
+                'hidden',
             ],
         ),
     },
@@ -532,7 +532,7 @@ export const getNumberOptions = (): ObjectSpec => ({
                 layoutOpen,
                 placeholder,
                 copy,
-                hideInput,
+                hidden,
             },
             [
                 'disabled',
@@ -543,7 +543,7 @@ export const getNumberOptions = (): ObjectSpec => ({
                 'layoutOpen',
                 'placeholder',
                 'copy',
-                'hideInput',
+                'hidden',
             ],
         ),
     },
@@ -573,7 +573,7 @@ export const getObjectOptions = (): ObjectSpec => ({
                 order,
                 oneOfParams,
                 placeholder,
-                hideInput,
+                hidden,
             },
             [
                 'disabled',
@@ -585,7 +585,7 @@ export const getObjectOptions = (): ObjectSpec => ({
                 'order',
                 'oneOfParams',
                 'placeholder',
-                'hideInput',
+                'hidden',
             ],
         ),
     },
@@ -625,7 +625,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 placeholder,
                 fileInput,
                 copy,
-                hideInput,
+                hidden,
                 selectParams,
             },
             [
@@ -641,7 +641,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 'placeholder',
                 'fileInput',
                 'copy',
-                'hideInput',
+                'hidden',
                 'selectParams',
             ],
         ),

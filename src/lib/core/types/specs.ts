@@ -31,7 +31,7 @@ export interface ArraySpec<LinkType = any> {
         link?: LinkType;
         placeholder?: string;
         addButtonPosition?: 'down' | 'right';
-        hideInput?: boolean;
+        hidden?: boolean;
         selectParams?: {
             filterPlaceholder?: string;
             meta?: Record<string, string>;
@@ -52,7 +52,7 @@ export interface BooleanSpec<LinkType = any> {
         layoutDescription?: string;
         layoutOpen?: boolean;
         link?: LinkType;
-        hideInput?: boolean;
+        hidden?: boolean;
     };
 }
 
@@ -74,7 +74,7 @@ export interface NumberSpec<LinkType = any> {
         link?: LinkType;
         placeholder?: string;
         copy?: boolean;
-        hideInput?: boolean;
+        hidden?: boolean;
     };
 }
 
@@ -98,7 +98,7 @@ export interface ObjectSpec<LinkType = any> {
             toggler?: 'select' | 'radio' | 'card';
         };
         placeholder?: string;
-        hideInput?: boolean;
+        hidden?: boolean;
     };
 }
 
@@ -132,7 +132,7 @@ export interface StringSpec<LinkType = any> {
         };
         hideValues?: string[];
         placeholder?: string;
-        hideInput?: boolean;
+        hidden?: boolean;
         textContentParams?: {
             themeLabel?: LabelProps['theme'];
             text: string;

@@ -19,5 +19,9 @@ export const ViewController = <SpecType extends Spec>({
     const {viewEntity, Layout} = useComponents(spec, config);
     const render = useRender({name, value, spec, viewEntity, Layout, Link});
 
-    return <>{render}</>;
+    if (!spec.viewSpec.hidden) {
+        return <React.Fragment>{render}</React.Fragment>;
+    }
+
+    return null;
 };
