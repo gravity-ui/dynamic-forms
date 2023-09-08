@@ -3,6 +3,7 @@
 .#{$ns}transparent {
     display: flex;
     margin-bottom: 15px;
+    align-items: flex-end;
 
     &:last-child {
         margin-bottom: 0;
