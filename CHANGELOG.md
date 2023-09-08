@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.7.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.6.0...v2.7.0) (2023-09-08)
+
+
+### Features
+
+* **hidden:** added a new hidden option ([#110](https://github.com/gravity-ui/dynamic-forms/issues/110)) ([219ca92](https://github.com/gravity-ui/dynamic-forms/commit/219ca923fae50bf688776994e103622190d39679))
+
+
+### Bug Fixes
+
+* **transparentStyle:** fixed display of delete buttons for array ([#112](https://github.com/gravity-ui/dynamic-forms/issues/112)) ([5a5a641](https://github.com/gravity-ui/dynamic-forms/commit/5a5a6419efaa05dc3eac76cb0ef7806d428e02e3))
+
 ## [2.6.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.5.0...v2.6.0) (2023-09-07)
 
 
