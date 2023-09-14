@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.1](https://github.com/gravity-ui/dynamic-forms/compare/v2.7.0...v2.7.1) (2023-09-14)
+
+
+### Bug Fixes
+
+* **stylesTransperantAndArrayBaseView:** fixed styles ([#113](https://github.com/gravity-ui/dynamic-forms/issues/113)) ([a8b76ed](https://github.com/gravity-ui/dynamic-forms/commit/a8b76ed9a84fa150ea280685305203ab3fad38e7))
+
 ## [2.7.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.6.0...v2.7.0) (2023-09-08)
 
 
