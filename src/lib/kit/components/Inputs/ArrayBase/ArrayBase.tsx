@@ -14,7 +14,10 @@ import {
     OBJECT_ARRAY_FLAG,
     Spec,
     ValidateError,
+    isBooleanSpec,
     isCorrectSpec,
+    isNumberSpec,
+    isStringSpec,
     transformArrIn,
 } from '../../../../core';
 import {block} from '../../../utils';
@@ -34,6 +37,10 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
     );
 
     const itemSpecCorrect = React.useMemo(() => isCorrectSpec(spec.items), [spec.items]);
+
+    const itemsPrimitive = React.useMemo(() => {
+        return isBooleanSpec(spec.items) || isNumberSpec(spec.items) || isStringSpec(spec.items);
+    }, [spec.items]);
 
     const getItemSpec = React.useCallback(
         (idx: number): typeof spec.items | null => {
@@ -155,6 +162,7 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
                 className={b('items-wrapper', {
                     'add-button-down':
                         spec.viewSpec.addButtonPosition !== 'right' && keys.length > 0,
+                    'items-primitive': itemsPrimitive,
                 })}
             >
                 {items}

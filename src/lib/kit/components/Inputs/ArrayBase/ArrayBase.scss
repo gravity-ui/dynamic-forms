@@ -10,6 +10,14 @@
         &_add-button-down {
             margin-bottom: 15px;
         }
+
+        &_items-primitive {
+            min-width: 100%;
+
+            &:empty {
+                min-width: unset;
+            }
+        }
     }
 
     &__item-prefix {
