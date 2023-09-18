@@ -1,6 +1,6 @@
 {
   "name": "@gravity-ui/dynamic-forms",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "description": "",
   "license": "MIT",
   "main": "build/cjs/index.js",

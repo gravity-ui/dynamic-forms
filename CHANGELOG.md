@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.2](https://github.com/gravity-ui/dynamic-forms/compare/v2.7.1...v2.7.2) (2023-09-18)
+
+
+### Bug Fixes
+
+* **helpPopoverRow:** fixed row help popover ([#115](https://github.com/gravity-ui/dynamic-forms/issues/115)) ([4d4aa9a](https://github.com/gravity-ui/dynamic-forms/commit/4d4aa9a69aca17591650a9029cf866f57c26af5f))
+
 ## [2.7.1](https://github.com/gravity-ui/dynamic-forms/compare/v2.7.0...v2.7.1) (2023-09-14)
 
 
