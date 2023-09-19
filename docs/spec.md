@@ -125,7 +125,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.hidden              | `boolean`                |          | Hide field and view                                                                                                                                                                     |
 | viewSpec.textContentParams   | `object`                 |          | [Parameters](#textcontentparams) that must be passed to text content                                                                                                                    |
 | viewSpec.selectParams        | `object`                 |          | [Parameters](#selectparams) additional options for the selector                                                                                                                         |
-| viewSpec.generateRandomValue | `boolean`                |          | Displays a button for generating a random value using regexp                                                                                                                            |
+| viewSpec.generateRandomValue | `boolean`                |          | Shows a button that makes it possible to generate a random value using a pattern or, if it is not specified, then uuid4                                                                 |
 
 #### SizeParams
 
