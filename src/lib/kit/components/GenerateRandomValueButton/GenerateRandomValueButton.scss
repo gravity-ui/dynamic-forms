@@ -1,0 +1,10 @@
+@import '../../styles/variables';
+
+.#{$ns}generate-random-value-button {
+    display: flex;
+    align-items: flex-start;
+
+    &__button {
+        margin-left: 8px;
+    }
+}

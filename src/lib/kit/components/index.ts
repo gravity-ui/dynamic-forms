@@ -2,6 +2,7 @@ export * from './AccordeonCard';
 export * from './Card';
 export * from './CopyButton';
 export * from './ErrorWrapper';
+export * from './GenerateRandomValueButton';
 export * from './GroupIndent';
 export * from './Inputs';
 export * from './Layouts';
