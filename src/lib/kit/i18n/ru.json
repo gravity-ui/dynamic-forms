@@ -44,5 +44,6 @@
   "label_delete": "Удалить",
   "button_cancel": "Закрыть",
   "button-upload_file": "Загрузить файл",
-  "label-data_loaded": "Данные загружены"
+  "label-data_loaded": "Данные загружены",
+  "button-generate": "Сгенерировать"
 }
