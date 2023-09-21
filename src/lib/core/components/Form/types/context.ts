@@ -7,6 +7,13 @@ import {DynamicFormConfig, FieldValue, ValidateError, WonderMirror} from './';
 export interface DynamicFormsContext {
     config: DynamicFormConfig;
     Monaco?: React.ComponentType<MonacoEditorProps>;
+    useGenerateRandomValue?: ({
+        regexp,
+        onChange,
+    }: {
+        regexp?: string;
+        onChange: (value: string) => void;
+    }) => void;
     tools: {
         initialValue: FieldValue;
         onChange: (name: string, value: FieldValue, errors?: Record<string, ValidateError>) => void;

@@ -1,7 +1,9 @@
 import React from 'react';
 
 import _ from 'lodash';
+import RandExp from 'randexp';
 import MonacoEditor from 'react-monaco-editor';
+import {v4 as uuidv4} from 'uuid';
 
 import {
     DynamicField as BaseDynamicField,
@@ -33,6 +35,18 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
         return cfg;
     }, []);
 
+    const generateRandomValue = React.useCallback(
+        ({regexp, onChange}: {regexp?: string; onChange: (value: string) => void}) => {
+            if (regexp) {
+                const randExp = new RandExp(regexp);
+                onChange(randExp.gen());
+            } else {
+                onChange(uuidv4());
+            }
+        },
+        [],
+    );
+
     return (
         <BaseDynamicField
             name={name}
@@ -40,6 +54,7 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
             config={config}
             Monaco={MonacoEditor}
             search={search}
+            generateRandomValue={generateRandomValue}
         />
     );
 };

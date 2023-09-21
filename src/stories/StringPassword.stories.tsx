@@ -20,7 +20,7 @@ const baseSpec: StringSpec = {
         layout: 'row',
         layoutTitle: 'Password',
         placeholder: 'placeholder text',
-        generateRandomValue: true,
+        showGenerateRandomValueButton: true,
     },
 };
 

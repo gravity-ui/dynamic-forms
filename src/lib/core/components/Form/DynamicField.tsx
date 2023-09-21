@@ -25,6 +25,13 @@ export interface DynamicFieldProps {
     config: DynamicFormConfig;
     Monaco?: React.ComponentType<MonacoEditorProps>;
     search?: string | ((spec: Spec, input: FieldValue, name: string) => boolean);
+    generateRandomValue?: ({
+        regexp,
+        onChange,
+    }: {
+        regexp?: string;
+        onChange: (value: string) => void;
+    }) => void;
     withoutInsertFFDebounce?: boolean;
     __mirror?: WonderMirror;
 }
@@ -34,6 +41,7 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
     spec,
     config,
     Monaco,
+    generateRandomValue,
     search,
     withoutInsertFFDebounce,
     __mirror,
@@ -48,10 +56,11 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
         () => ({
             config,
             Monaco: isValidElementType(Monaco) ? Monaco : undefined,
+            generateRandomValue,
             tools,
             __mirror,
         }),
-        [tools, config, Monaco, __mirror],
+        [tools, config, Monaco, __mirror, generateRandomValue],
     );
 
     const searchContext = React.useMemo(

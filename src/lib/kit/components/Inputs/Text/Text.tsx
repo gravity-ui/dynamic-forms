@@ -52,9 +52,9 @@ export const Text = <T extends NumberInputProps | StringInputProps>({name, input
     );
 
     const content = React.useMemo(() => {
-        if (isStringSpec(spec) && spec.viewSpec.generateRandomValue) {
+        if (isStringSpec(spec) && spec.viewSpec.showGenerateRandomValueButton) {
             return (
-                <GenerateRandomValueButton regex={spec.pattern} onChange={handleChange}>
+                <GenerateRandomValueButton regexp={spec.pattern} onChange={handleChange}>
                     {textInput}
                 </GenerateRandomValueButton>
             );

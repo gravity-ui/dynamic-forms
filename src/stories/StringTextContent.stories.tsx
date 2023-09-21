@@ -43,7 +43,7 @@ const excludeOptions = [
     'viewSpec.fileInput',
     'viewSpec.copy',
     'viewSpec.selectParams',
-    'viewSpec.generateRandomValue',
+    'viewSpec.showGenerateRandomValueButton',
 ];
 
 const value = 'value';

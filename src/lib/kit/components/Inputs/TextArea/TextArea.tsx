@@ -26,9 +26,9 @@ export const TextArea: StringInput = ({name, input, spec}) => {
         [name, onBlur, onChange, onFocus, spec.viewSpec.disabled, spec.viewSpec.placeholder, value],
     );
 
-    if (spec.viewSpec.generateRandomValue) {
+    if (spec.viewSpec.showGenerateRandomValueButton) {
         return (
-            <GenerateRandomValueButton regex={spec.pattern} onChange={onChange}>
+            <GenerateRandomValueButton regexp={spec.pattern} onChange={onChange}>
                 {textArea}
             </GenerateRandomValueButton>
         );
