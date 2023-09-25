@@ -5,7 +5,7 @@ import {isValidElementType} from 'react-is';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
 import {isCorrectSpec} from '../../helpers';
-import {Spec} from '../../types';
+import {Spec, StringSpec} from '../../types';
 
 import {Controller} from './Controller';
 import {
@@ -25,13 +25,7 @@ export interface DynamicFieldProps {
     config: DynamicFormConfig;
     Monaco?: React.ComponentType<MonacoEditorProps>;
     search?: string | ((spec: Spec, input: FieldValue, name: string) => boolean);
-    generateRandomValue?: ({
-        regexp,
-        onChange,
-    }: {
-        regexp?: string;
-        onChange: (value: string) => void;
-    }) => void;
+    generateRandomValue?: (spec: StringSpec) => string;
     withoutInsertFFDebounce?: boolean;
     __mirror?: WonderMirror;
 }

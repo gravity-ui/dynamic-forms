@@ -33,7 +33,7 @@ const excludeOptions = [
     'viewSpec.placeholder',
     'viewSpec.layoutOpen',
     'viewSpec.selectParams',
-    'viewSpec.showGenerateRandomValueButton',
+    'viewSpec.generateRandomValueButton',
 ];
 
 const template = (spec: StringSpec = baseSpec) => {

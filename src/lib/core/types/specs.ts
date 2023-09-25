@@ -149,7 +149,7 @@ export interface StringSpec<LinkType = any> {
             filterPlaceholder?: string;
             meta?: Record<string, string>;
         };
-        showGenerateRandomValueButton?: boolean;
+        generateRandomValueButton?: boolean;
     };
 }
 

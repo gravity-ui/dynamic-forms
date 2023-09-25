@@ -9,6 +9,7 @@ import {
     DynamicField as BaseDynamicField,
     FieldValue,
     Spec,
+    StringSpec,
     dynamicConfig,
     prepareSpec,
 } from '../../../lib';
@@ -35,17 +36,14 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
         return cfg;
     }, []);
 
-    const generateRandomValue = React.useCallback(
-        ({regexp, onChange}: {regexp?: string; onChange: (value: string) => void}) => {
-            if (regexp) {
-                const randExp = new RandExp(regexp);
-                onChange(randExp.gen());
-            } else {
-                onChange(uuidv4());
-            }
-        },
-        [],
-    );
+    const generateRandomValue = React.useCallback((spec: StringSpec) => {
+        if (spec.pattern) {
+            const randomValue = new RandExp(spec.pattern);
+            return randomValue.gen();
+        } else {
+            return uuidv4();
+        }
+    }, []);
 
     return (
         <BaseDynamicField

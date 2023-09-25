@@ -4,7 +4,12 @@ import {TextInput} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
 import {FieldRenderProps, NumberInputProps, StringInputProps, isStringSpec} from '../../../../core';
+import {block} from '../../../utils';
 import {GenerateRandomValueButton} from '../../GenerateRandomValueButton';
+
+import './Text.scss';
+
+const b = block('text');
 
 export const Text = <T extends NumberInputProps | StringInputProps>({name, input, spec}: T) => {
     const {value, onBlur, onChange, onFocus} = input;
@@ -52,11 +57,12 @@ export const Text = <T extends NumberInputProps | StringInputProps>({name, input
     );
 
     const content = React.useMemo(() => {
-        if (isStringSpec(spec) && spec.viewSpec.showGenerateRandomValueButton) {
+        if (isStringSpec(spec)) {
             return (
-                <GenerateRandomValueButton regexp={spec.pattern} onChange={handleChange}>
+                <div className={b()}>
                     {textInput}
-                </GenerateRandomValueButton>
+                    <GenerateRandomValueButton spec={spec} onChange={handleChange} />
+                </div>
             );
         }
 

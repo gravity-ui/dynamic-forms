@@ -3,13 +3,18 @@ import React from 'react';
 import {TextArea as TextAreaBase} from '@gravity-ui/uikit';
 
 import {StringInput} from '../../../../core';
+import {block} from '../../../utils';
 import {GenerateRandomValueButton} from '../../GenerateRandomValueButton';
+
+import './TextArea.scss';
+
+const b = block('text-area');
 
 export const TextArea: StringInput = ({name, input, spec}) => {
     const {value, onBlur, onChange, onFocus} = input;
 
-    const textArea = React.useMemo(
-        () => (
+    return (
+        <div className={b()}>
             <TextAreaBase
                 value={value}
                 onBlur={onBlur}
@@ -22,17 +27,7 @@ export const TextArea: StringInput = ({name, input, spec}) => {
                 placeholder={spec.viewSpec.placeholder}
                 qa={name}
             />
-        ),
-        [name, onBlur, onChange, onFocus, spec.viewSpec.disabled, spec.viewSpec.placeholder, value],
+            <GenerateRandomValueButton spec={spec} onChange={onChange} />
+        </div>
     );
-
-    if (spec.viewSpec.showGenerateRandomValueButton) {
-        return (
-            <GenerateRandomValueButton regexp={spec.pattern} onChange={onChange}>
-                {textArea}
-            </GenerateRandomValueButton>
-        );
-    }
-
-    return <React.Fragment>{textArea}</React.Fragment>;
 };

@@ -1,8 +1,10 @@
 import React from 'react';
 
 import {Button} from '@gravity-ui/uikit';
+import _ from 'lodash';
 
 import {useGenerateRandomValue} from '../../../core/components/Form/hooks';
+import {StringSpec} from '../../../core/types';
 import i18n from '../../i18n';
 import {block} from '../../utils';
 
@@ -11,29 +13,23 @@ import './GenerateRandomValueButton.scss';
 const b = block('generate-random-value-button');
 
 interface GenerateRandomValueButtonProps {
-    regexp?: string;
+    spec: StringSpec;
     onChange: (value: string) => void;
-    children: React.ReactNode;
 }
 
 export const GenerateRandomValueButton: React.FC<GenerateRandomValueButtonProps> = ({
-    regexp,
+    spec,
     onChange,
-    children,
 }) => {
     const generateRandomValue = useGenerateRandomValue();
 
-    return (
-        <div className={b()}>
-            {children}
-            {generateRandomValue ? (
-                <Button
-                    onClick={() => generateRandomValue({regexp, onChange})}
-                    className={b('button')}
-                >
-                    {i18n('button-generate')}
-                </Button>
-            ) : null}
-        </div>
-    );
+    if (_.isFunction(generateRandomValue) && spec.viewSpec.generateRandomValueButton) {
+        return (
+            <Button onClick={() => onChange(generateRandomValue(spec))} className={b()}>
+                {i18n('button-generate')}
+            </Button>
+        );
+    }
+
+    return null;
 };

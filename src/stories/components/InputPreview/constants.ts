@@ -386,7 +386,7 @@ const order: ArraySpec = {
     viewSpec: {type: 'base', layout: 'accordeon', layoutTitle: 'Order'},
 };
 
-const showGenerateRandomValueButton: BooleanSpec = {
+const generateRandomValueButton: BooleanSpec = {
     type: SpecTypes.Boolean,
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Generate Random Value Button'},
 };
@@ -632,7 +632,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 copy,
                 hidden,
                 selectParams,
-                showGenerateRandomValueButton,
+                generateRandomValueButton,
             },
             [
                 'disabled',
@@ -649,7 +649,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 'copy',
                 'hidden',
                 'selectParams',
-                'showGenerateRandomValueButton',
+                'generateRandomValueButton',
             ],
         ),
     },
