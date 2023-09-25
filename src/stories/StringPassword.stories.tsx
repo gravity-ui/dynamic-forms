@@ -13,7 +13,7 @@ export default {
 
 const baseSpec: StringSpec = {
     type: SpecTypes.String,
-    pattern: '/[a-z]{6}/',
+    pattern: '^[-_a-zA-Z0-9/.]+$',
     patternError: 'Pattern error',
     viewSpec: {
         type: 'password',

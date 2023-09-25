@@ -2,4 +2,8 @@
 
 .#{$ns}text {
     display: flex;
+
+    &__additional-right-content {
+        display: flex;
+    }
 }
