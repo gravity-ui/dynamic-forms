@@ -24,13 +24,23 @@
         overflow-y: auto;
     }
 
+    &__parse-json {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+    }
+
+    &__switch {
+        margin-left: 20px;
+    }
+
     &__toggler {
         margin-bottom: 20px;
     }
 
     &__monaco {
         width: 640px;
-        height: 100%;
+        height: calc(100% - 40px);
 
         .df-monaco-input {
             width: 100%;
