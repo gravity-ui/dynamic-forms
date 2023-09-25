@@ -35,6 +35,7 @@ const excludeOptions = [
     'viewSpec.fileInput',
     'viewSpec.copy',
     'viewSpec.selectParams',
+    'viewSpec.generateRandomValueButton',
 ];
 
 const template = (spec: StringSpec = baseSpec) => {

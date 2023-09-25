@@ -4,6 +4,7 @@ export * from './useCreateContext';
 export * from './useDynamicFieldMirror';
 export * from './useDynamicFormsCtx';
 export * from './useField';
+export * from './useGenerateRandomValue';
 export * from './useIntegrationFF';
 export * from './useRender';
 export * from './useStore';

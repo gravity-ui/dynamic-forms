@@ -13,11 +13,14 @@ export default {
 
 const baseSpec: StringSpec = {
     type: SpecTypes.String,
+    pattern: '/[a-z]{6}/',
+    patternError: 'Pattern error',
     viewSpec: {
         type: 'password',
         layout: 'row',
         layoutTitle: 'Password',
         placeholder: 'placeholder text',
+        generateRandomValueButton: true,
     },
 };
 
