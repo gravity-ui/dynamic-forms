@@ -15,6 +15,7 @@ const b = block('text');
 export const Text = <T extends NumberInputProps | StringInputProps>({name, input, spec}: T) => {
     const {value, onBlur, onChange, onFocus} = input;
     const [hideValue, setHideValue] = React.useState(spec.viewSpec.type === 'password');
+    const generateButtonRef = React.useRef<HTMLElement | null>(null);
 
     const handleChange = React.useCallback(
         (value: string) => {
@@ -42,7 +43,7 @@ export const Text = <T extends NumberInputProps | StringInputProps>({name, input
                     {input.value ? (
                         <CopyToClipboard text={String(value)} timeout={500}>
                             {(state) => (
-                                <Button view="flat-secondary">
+                                <Button view="flat-secondary" className={b('button')} size="s">
                                     <Icon
                                         size={14}
                                         data={
@@ -55,7 +56,12 @@ export const Text = <T extends NumberInputProps | StringInputProps>({name, input
                             )}
                         </CopyToClipboard>
                     ) : null}
-                    <Button view="flat-secondary" onClick={onClick}>
+                    <Button
+                        view="flat-secondary"
+                        onClick={onClick}
+                        className={b('button')}
+                        size="s"
+                    >
                         <Icon data={hideValue ? Eye : EyeSlash} size={14} />
                     </Button>
                 </div>
@@ -95,18 +101,19 @@ export const Text = <T extends NumberInputProps | StringInputProps>({name, input
         ],
     );
 
-    const content = React.useMemo(() => {
-        if (isStringSpec(spec)) {
-            return (
-                <div className={b()}>
-                    {textInput}
+    if (isStringSpec(spec)) {
+        return (
+            <div
+                className={b()}
+                style={{width: `calc(100% + ${generateButtonRef.current?.offsetWidth}px)`}}
+            >
+                {textInput}
+                <span ref={generateButtonRef}>
                     <GenerateRandomValueButton spec={spec} onChange={handleChange} />
-                </div>
-            );
-        }
+                </span>
+            </div>
+        );
+    }
 
-        return <React.Fragment>{textInput}</React.Fragment>;
-    }, [handleChange, spec, textInput]);
-
-    return <React.Fragment>{content}</React.Fragment>;
+    return <React.Fragment>{textInput}</React.Fragment>;
 };

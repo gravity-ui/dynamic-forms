@@ -12,9 +12,13 @@ const b = block('text-area');
 
 export const TextArea: StringInput = ({name, input, spec}) => {
     const {value, onBlur, onChange, onFocus} = input;
+    const generateButtonRef = React.useRef<HTMLElement | null>(null);
 
     return (
-        <div className={b()}>
+        <div
+            className={b()}
+            style={{width: `calc(100% + ${generateButtonRef.current?.offsetWidth}px)`}}
+        >
             <TextAreaBase
                 value={value}
                 onBlur={onBlur}
@@ -27,7 +31,9 @@ export const TextArea: StringInput = ({name, input, spec}) => {
                 placeholder={spec.viewSpec.placeholder}
                 qa={name}
             />
-            <GenerateRandomValueButton spec={spec} onChange={onChange} />
+            <span ref={generateButtonRef}>
+                <GenerateRandomValueButton spec={spec} onChange={onChange} />
+            </span>
         </div>
     );
 };
