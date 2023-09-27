@@ -1,8 +1,9 @@
 import _ from 'lodash';
 
 import {SpecTypes} from '../../../constants';
-import {FormValue, ObjectValue} from '../../../types';
-import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG} from '../constants';
+import {isStringSpec} from '../../../helpers';
+import {FormValue, ObjectValue, Spec} from '../../../types';
+import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG, SPEC_TYPE_FOR_GENERATE_BUTTON} from '../constants';
 
 export const isCorrectConfig = (candidate: any) =>
     Object.values(SpecTypes).every(
@@ -68,3 +69,8 @@ export const transformArrOut = <Type extends FormValue, ReturnType extends FormV
 };
 
 export const isArrayItem = (name: string) => name[name.length - 1] === '>';
+
+export const withGenerateButton = (spec: Spec) =>
+    isStringSpec(spec) &&
+    SPEC_TYPE_FOR_GENERATE_BUTTON.includes(spec.viewSpec.type) &&
+    spec.viewSpec.generateRandomValueButton;

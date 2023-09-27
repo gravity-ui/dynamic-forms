@@ -4,9 +4,8 @@ import {Copy, CopyCheck, Eye, EyeSlash} from '@gravity-ui/icons';
 import {Button, CopyToClipboard, CopyToClipboardStatus, Icon, TextInput} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
-import {FieldRenderProps, NumberInputProps, StringInputProps, isStringSpec} from '../../../../core';
+import {FieldRenderProps, NumberInputProps, StringInputProps} from '../../../../core';
 import {block} from '../../../utils';
-import {GenerateRandomValueButton} from '../../GenerateRandomValueButton';
 
 import './Text.scss';
 
@@ -15,7 +14,6 @@ const b = block('text');
 export const Text = <T extends NumberInputProps | StringInputProps>({name, input, spec}: T) => {
     const {value, onBlur, onChange, onFocus} = input;
     const [hideValue, setHideValue] = React.useState(spec.viewSpec.type === 'password');
-    const generateButtonRef = React.useRef<HTMLElement | null>(null);
 
     const handleChange = React.useCallback(
         (value: string) => {
@@ -39,7 +37,7 @@ export const Text = <T extends NumberInputProps | StringInputProps>({name, input
             };
 
             return (
-                <div className={b('additional-right-content')}>
+                <div className={b()}>
                     {input.value ? (
                         <CopyToClipboard text={String(value)} timeout={500}>
                             {(state) => (
@@ -71,49 +69,19 @@ export const Text = <T extends NumberInputProps | StringInputProps>({name, input
         return undefined;
     }, [hideValue, input.value, type, value]);
 
-    const textInput = React.useMemo(
-        () => (
-            <TextInput
-                type={hideValue ? 'password' : 'text'}
-                value={_.isNil(value) ? '' : `${value}`}
-                hasClear={true}
-                onBlur={onBlur}
-                onFocus={onFocus}
-                onUpdate={handleChange}
-                disabled={spec.viewSpec.disabled}
-                placeholder={spec.viewSpec.placeholder}
-                autoComplete={type === 'password' ? 'new-password' : undefined}
-                qa={name}
-                rightContent={additionalRightContent}
-            />
-        ),
-        [
-            handleChange,
-            name,
-            onBlur,
-            onFocus,
-            spec.viewSpec.disabled,
-            spec.viewSpec.placeholder,
-            type,
-            value,
-            additionalRightContent,
-            hideValue,
-        ],
+    return (
+        <TextInput
+            type={hideValue ? 'password' : 'text'}
+            value={_.isNil(value) ? '' : `${value}`}
+            hasClear={true}
+            onBlur={onBlur}
+            onFocus={onFocus}
+            onUpdate={handleChange}
+            disabled={spec.viewSpec.disabled}
+            placeholder={spec.viewSpec.placeholder}
+            autoComplete={type === 'password' ? 'new-password' : undefined}
+            qa={name}
+            rightContent={additionalRightContent}
+        />
     );
-
-    if (isStringSpec(spec)) {
-        return (
-            <div
-                className={b()}
-                style={{width: `calc(100% + ${generateButtonRef.current?.offsetWidth}px)`}}
-            >
-                {textInput}
-                <span ref={generateButtonRef}>
-                    <GenerateRandomValueButton spec={spec} onChange={handleChange} />
-                </span>
-            </div>
-        );
-    }
-
-    return <React.Fragment>{textInput}</React.Fragment>;
 };

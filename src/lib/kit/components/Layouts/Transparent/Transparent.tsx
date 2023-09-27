@@ -7,11 +7,13 @@ import {
     FieldValue,
     LayoutProps,
     Spec,
+    StringSpec,
     isArrayItem,
     isArraySpec,
     isObjectSpec,
+    withGenerateButton,
 } from '../../../../core';
-import {ErrorWrapper} from '../../../components';
+import {ErrorWrapper, GenerateRandomValueButton} from '../../../components';
 import {block} from '../../../utils';
 
 import './Transparent.scss';
@@ -26,6 +28,7 @@ export const Transparent = <T extends FieldValue, S extends Spec>({
     children,
 }: LayoutProps<T, S>) => {
     const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
+    const generateButton = React.useMemo(() => withGenerateButton(spec), [spec]);
     const arrOrObjFlag = React.useMemo(() => isArraySpec(spec) || isObjectSpec(spec), [spec]);
 
     const removeButton = React.useMemo(() => {
@@ -55,6 +58,12 @@ export const Transparent = <T extends FieldValue, S extends Spec>({
             <ErrorWrapper name={name} meta={meta} withoutChildErrorStyles={arrOrObjFlag}>
                 {children}
             </ErrorWrapper>
+            {generateButton ? (
+                <GenerateRandomValueButton
+                    spec={spec as StringSpec}
+                    onChange={input.onChange as (value: string) => void}
+                />
+            ) : null}
             {removeButton}
         </div>
     );
