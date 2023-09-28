@@ -12,6 +12,7 @@ export interface ErrorWrapperProps {
     name: string;
     meta: FieldRenderProps<FieldValue>['meta'];
     withoutChildErrorStyles?: boolean;
+    className?: string;
 }
 
 export const ErrorWrapper: React.FC<ErrorWrapperProps> = ({
@@ -19,6 +20,7 @@ export const ErrorWrapper: React.FC<ErrorWrapperProps> = ({
     meta,
     withoutChildErrorStyles,
     children,
+    className,
 }) => {
     const error = React.useMemo(() => {
         if ((meta.touched || meta.submitFailed) && meta.error) {
@@ -34,7 +36,10 @@ export const ErrorWrapper: React.FC<ErrorWrapperProps> = ({
     );
 
     return (
-        <span className={b({error: !withoutChildErrorStyles && Boolean(error)})} {...props}>
+        <span
+            className={b({error: !withoutChildErrorStyles && Boolean(error)}, className)}
+            {...props}
+        >
             {children}
             {error && typeof error === 'string' ? (
                 <div className={b('error-text')}>{error}</div>

@@ -36,35 +36,9 @@ const RowBase = <T extends FieldValue, S extends Spec>({
 }: LayoutProps<T, S> & RowProps) => {
     const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
     const generateButton = React.useMemo(() => withGenerateButton(spec), [spec]);
-    const [generateButtonWith, setGenerateButtonWith] = React.useState(0);
-
-    const onRefChange = React.useCallback((node: HTMLSpanElement) => {
-        if (_.isNull(node)) {
-            setGenerateButtonWith(0);
-        } else {
-            setGenerateButtonWith(node.offsetWidth);
-        }
-    }, []);
-
-    const withRow = React.useMemo(() => {
-        if (generateButtonWith) {
-            if (arrayItem) {
-                return 533 + generateButtonWith;
-            }
-
-            return 500 + generateButtonWith;
-        }
-
-        return undefined;
-    }, [arrayItem, generateButtonWith]);
 
     return (
-        <div
-            className={b({
-                'extra-width': isArraySpec(spec) || arrayItem,
-            })}
-            style={{width: withRow, maxWidth: withRow}}
-        >
+        <div className={b()}>
             <div className={b('left')}>
                 <div className={b('left-inner')}>
                     <span className={b('title', {required: spec.required})}>
@@ -88,16 +62,15 @@ const RowBase = <T extends FieldValue, S extends Spec>({
                         name={name}
                         meta={meta}
                         withoutChildErrorStyles={isArraySpec(spec) || isObjectSpec(spec)}
+                        className={b('error-wrapper')}
                     >
                         {children}
                     </ErrorWrapper>
                     {generateButton ? (
-                        <span ref={onRefChange}>
-                            <GenerateRandomValueButton
-                                spec={spec as StringSpec}
-                                onChange={input.onChange as (value: string) => void}
-                            />
-                        </span>
+                        <GenerateRandomValueButton
+                            spec={spec as StringSpec}
+                            onChange={input.onChange as (value: string) => void}
+                        />
                     ) : null}
                     {arrayItem ? (
                         <Button
