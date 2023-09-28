@@ -7,11 +7,13 @@ import {
     FieldValue,
     LayoutProps,
     Spec,
+    StringSpec,
     isArrayItem,
     isArraySpec,
     isObjectSpec,
+    withGenerateButton,
 } from '../../../../core';
-import {ErrorWrapper} from '../../../components';
+import {ErrorWrapper, GenerateRandomValueButton} from '../../../components';
 import {block} from '../../../utils';
 
 import './Row2.scss';
@@ -25,6 +27,8 @@ export const Row2 = <T extends FieldValue, S extends Spec>({
     meta,
     children,
 }: LayoutProps<T, S>) => {
+    const generateButton = React.useMemo(() => withGenerateButton(spec), [spec]);
+
     return (
         <div className={b()}>
             <div className={b('left')}>
@@ -42,6 +46,12 @@ export const Row2 = <T extends FieldValue, S extends Spec>({
                     >
                         {children}
                     </ErrorWrapper>
+                    {generateButton ? (
+                        <GenerateRandomValueButton
+                            spec={spec as StringSpec}
+                            onChange={input.onChange as (value: string) => void}
+                        />
+                    ) : null}
                     {isArrayItem(name) ? (
                         <Button
                             view="flat-secondary"

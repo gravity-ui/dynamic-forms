@@ -10,11 +10,6 @@
         margin-bottom: 0;
     }
 
-    &_extra-width {
-        width: 533px;
-        max-width: 533px;
-    }
-
     &__left {
         width: 180px;
         min-height: 28px;
@@ -89,5 +84,9 @@
 
     &__required-mark {
         color: var(--yc-color-text-danger);
+    }
+
+    &__error-wrapper {
+        min-width: 100%;
     }
 }

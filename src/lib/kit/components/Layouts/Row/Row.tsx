@@ -3,16 +3,19 @@ import React from 'react';
 import {HelpPopover} from '@gravity-ui/components';
 import {TrashBin} from '@gravity-ui/icons';
 import {Button, Icon} from '@gravity-ui/uikit';
+import _ from 'lodash';
 
 import {
     FieldValue,
     LayoutProps,
     Spec,
+    StringSpec,
     isArrayItem,
     isArraySpec,
     isObjectSpec,
+    withGenerateButton,
 } from '../../../../core';
-import {ErrorWrapper} from '../../../components';
+import {ErrorWrapper, GenerateRandomValueButton} from '../../../components';
 import {block} from '../../../utils';
 
 import './Row.scss';
@@ -32,9 +35,10 @@ const RowBase = <T extends FieldValue, S extends Spec>({
     children,
 }: LayoutProps<T, S> & RowProps) => {
     const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
+    const generateButton = React.useMemo(() => withGenerateButton(spec), [spec]);
 
     return (
-        <div className={b({'extra-width': isArraySpec(spec) || arrayItem})}>
+        <div className={b()}>
             <div className={b('left')}>
                 <div className={b('left-inner')}>
                     <span className={b('title', {required: spec.required})}>
@@ -58,9 +62,16 @@ const RowBase = <T extends FieldValue, S extends Spec>({
                         name={name}
                         meta={meta}
                         withoutChildErrorStyles={isArraySpec(spec) || isObjectSpec(spec)}
+                        className={b('error-wrapper')}
                     >
                         {children}
                     </ErrorWrapper>
+                    {generateButton ? (
+                        <GenerateRandomValueButton
+                            spec={spec as StringSpec}
+                            onChange={input.onChange as (value: string) => void}
+                        />
+                    ) : null}
                     {arrayItem ? (
                         <Button
                             view="flat-secondary"
