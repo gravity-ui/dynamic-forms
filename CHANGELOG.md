@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.8.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.7.2...v2.8.0) (2023-09-28)
+
+
+### Features
+
+* **generateRandomValue:** added the ability to generate a random value ([#117](https://github.com/gravity-ui/dynamic-forms/issues/117)) ([f710ecb](https://github.com/gravity-ui/dynamic-forms/commit/f710ecb5fef1eca9dd85bee92c91c1e354b8f092))
+* **newPassword:** new view input password ([#119](https://github.com/gravity-ui/dynamic-forms/issues/119)) ([11bc640](https://github.com/gravity-ui/dynamic-forms/commit/11bc6407c3f207df6e6b4a7a68ca8a04dee4315e))
+* **parseJson:** added the ability to include json parse in the editor ([#120](https://github.com/gravity-ui/dynamic-forms/issues/120)) ([777d17e](https://github.com/gravity-ui/dynamic-forms/commit/777d17ebb3576ea6b1f437089d67ea93fc76d8d7))
+
 ## [2.7.2](https://github.com/gravity-ui/dynamic-forms/compare/v2.7.1...v2.7.2) (2023-09-18)
 
 
