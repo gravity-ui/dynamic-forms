@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {RadioButton} from '@gravity-ui/uikit';
+import {RadioButton, Switch, Text} from '@gravity-ui/uikit';
 import _ from 'lodash';
 import {Form} from 'react-final-form';
 import MonacoEditor from 'react-monaco-editor';
@@ -31,6 +31,7 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
     const [spec, setSpec] = React.useState(externalSpec);
     const [ready, setReady] = React.useState(true);
     const [toggler, setToggler] = React.useState<'form' | 'view' | 'json'>('form');
+    const [parseJson, setParseJson] = React.useState(false);
 
     const togglerItems = React.useMemo(
         () => [
@@ -113,6 +114,10 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
     return (
         <div className={b({docs: viewMode === 'docs'})}>
             <div className={b('options')}>
+                <div className={b('parse-json')}>
+                    <Text variant="body-2">Parse default values like json</Text>
+                    <Switch onChange={() => setParseJson((v) => !v)} className={b('switch')} />
+                </div>
                 <div className={b('monaco')}>
                     <MonacoInput {...specEditorProps} />
                 </div>
@@ -137,7 +142,7 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
                                     <DynamicField
                                         name="input"
                                         spec={spec}
-                                        parseJsonDefaultValue={false}
+                                        parseJsonDefaultValue={parseJson}
                                     />
                                 </div>
                             ) : null}
