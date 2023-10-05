@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.1](https://github.com/gravity-ui/dynamic-forms/compare/v2.8.0...v2.8.1) (2023-10-05)
+
+
+### Bug Fixes
+
+* **ErrorWrapper:** add error styles for text area ([#122](https://github.com/gravity-ui/dynamic-forms/issues/122)) ([0be6633](https://github.com/gravity-ui/dynamic-forms/commit/0be66337352947603f3c054a838138f2ef77e606))
+
 ## [2.8.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.7.2...v2.8.0) (2023-09-28)
 
 
