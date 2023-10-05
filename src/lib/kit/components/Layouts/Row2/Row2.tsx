@@ -42,7 +42,11 @@ export const Row2 = <T extends FieldValue, S extends Spec>({
                     <ErrorWrapper
                         name={name}
                         meta={meta}
-                        withoutChildErrorStyles={isArraySpec(spec) || isObjectSpec(spec)}
+                        withoutChildErrorStyles={
+                            // TODO: remove condition spec.viewSpec.type !== 'select'
+                            (isArraySpec(spec) && spec.viewSpec.type !== 'select') ||
+                            isObjectSpec(spec)
+                        }
                     >
                         {children}
                     </ErrorWrapper>
