@@ -55,7 +55,14 @@ export const Transparent = <T extends FieldValue, S extends Spec>({
                 'without-max-width': arrOrObjFlag,
             })}
         >
-            <ErrorWrapper name={name} meta={meta} withoutChildErrorStyles={arrOrObjFlag}>
+            <ErrorWrapper
+                name={name}
+                meta={meta}
+                withoutChildErrorStyles={
+                    // TODO: remove condition spec.viewSpec.type !== 'select'
+                    (isArraySpec(spec) && spec.viewSpec.type !== 'select') || isObjectSpec(spec)
+                }
+            >
                 {children}
             </ErrorWrapper>
             {generateButton ? (
