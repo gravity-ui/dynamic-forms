@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.2](https://github.com/gravity-ui/dynamic-forms/compare/v2.8.1...v2.8.2) (2023-10-06)
+
+
+### Bug Fixes
+
+* **ErrorWrapper:** update error wrapper styles for select and multiselect ([#125](https://github.com/gravity-ui/dynamic-forms/issues/125)) ([8455756](https://github.com/gravity-ui/dynamic-forms/commit/8455756d915e674788f7d5e32f423d3b66e9de64))
+
 ## [2.8.1](https://github.com/gravity-ui/dynamic-forms/compare/v2.8.0...v2.8.1) (2023-10-05)
 
 
