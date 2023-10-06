@@ -5,6 +5,7 @@ import {
     BooleanSpec,
     NumberSpec,
     ObjectSpec,
+    ObjectValue,
     Spec,
     SpecTypes,
     StringSpec,
@@ -52,6 +53,7 @@ const properties: ArraySpec = {
     type: SpecTypes.Array,
     required: true,
     items: {
+        defaultValue: '{}' as unknown as ObjectValue,
         type: SpecTypes.Object,
         properties: {
             key: {
