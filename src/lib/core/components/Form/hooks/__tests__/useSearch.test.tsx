@@ -64,9 +64,7 @@ describe('Form/hooks/useSearch', () => {
             'name.surname': true,
             'name.username': false,
         });
-        expect(mirror.controller['name.surname']?.useSearch?.(null).props.className).toBe(
-            'df-use-search',
-        );
+        expect(mirror.controller['name.surname']?.useSearch?.(null)).toBe(null);
 
         rerender(
             <Form initialValues={value} onSubmit={_.noop}>
@@ -88,8 +86,6 @@ describe('Form/hooks/useSearch', () => {
             'name.surname': true,
             'name.username': false,
         });
-        expect(mirror.controller['name.surname']?.useSearch?.(null).props.className).toBe(
-            'df-use-search df-use-search_hidden',
-        );
+        expect(mirror.controller['name.surname']?.useSearch?.(null)).toBe(null);
     });
 });

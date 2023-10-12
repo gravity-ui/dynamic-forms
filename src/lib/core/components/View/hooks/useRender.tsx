@@ -26,45 +26,47 @@ export const useRender = <Value extends FormValue, SpecType extends Spec>({
 }: UseRenderParams<Value, SpecType>) => {
     const render = React.useMemo(() => {
         if (viewEntity && isCorrectSpec(spec) && _.isString(name)) {
-            const currentValue = name ? _.get(value, name) : value;
-            const linkValue =
-                isValidElementType(Link) && spec?.viewSpec?.link ? (
-                    <Link value={currentValue} link={spec.viewSpec.link} />
-                ) : undefined;
+            if (!spec.viewSpec.hidden) {
+                const currentValue = name ? _.get(value, name) : value;
+                const linkValue =
+                    isValidElementType(Link) && spec?.viewSpec?.link ? (
+                        <Link value={currentValue} link={spec.viewSpec.link} />
+                    ) : undefined;
 
-            if (viewEntity.independent) {
+                if (viewEntity.independent) {
+                    const InputComponent = viewEntity.Component;
+
+                    return (
+                        <InputComponent
+                            spec={spec}
+                            name={name}
+                            Layout={Layout}
+                            value={currentValue}
+                            linkValue={linkValue}
+                        />
+                    );
+                }
+
                 const InputComponent = viewEntity.Component;
-
-                return (
+                const input = (
                     <InputComponent
                         spec={spec}
                         name={name}
-                        Layout={Layout}
                         value={currentValue}
                         linkValue={linkValue}
                     />
                 );
+
+                if (Layout) {
+                    return (
+                        <Layout spec={spec} name={name} value={currentValue}>
+                            {input}
+                        </Layout>
+                    );
+                }
+
+                return input;
             }
-
-            const InputComponent = viewEntity.Component;
-            const input = (
-                <InputComponent
-                    spec={spec}
-                    name={name}
-                    value={currentValue}
-                    linkValue={linkValue}
-                />
-            );
-
-            if (Layout) {
-                return (
-                    <Layout spec={spec} name={name} value={currentValue}>
-                        {input}
-                    </Layout>
-                );
-            }
-
-            return input;
         }
 
         return null;
