@@ -17,7 +17,6 @@ import './MonacoInputBase.scss';
 const b = block('monaco-input');
 
 export interface MonacoInputBaseProps extends StringInputProps {
-    card?: boolean;
     MonacoComponent?: React.ComponentType<MonacoEditorProps>;
     withoutDialog?: boolean;
 }
@@ -26,7 +25,6 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
     name,
     input,
     spec,
-    card,
     MonacoComponent,
     withoutDialog,
 }) => {
@@ -65,9 +63,9 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
     }
 
     return (
-        <div className={b({card})}>
+        <div className={b()}>
             <div className={b('container')} data-qa={name}>
-                <MonacoHeader language={language} card={card} editButton={dialogButton} />
+                <MonacoHeader language={language} editButton={dialogButton} />
                 <MonacoEditor
                     language={language}
                     value={monacoValue}
@@ -83,7 +81,6 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
                 value={monacoValue}
                 visible={monacoEditorDialog}
                 language={language}
-                card={card}
                 changeMonacoValue={setMonacoValue}
                 onChange={onChange}
                 onClose={handleMonacoEditorDialogClose}
@@ -95,8 +92,4 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
 
 export const MonacoInput: React.FC<MonacoInputBaseProps> = (props) => (
     <MonacoInputBase {...props} />
-);
-
-export const MonacoInputCard: React.FC<MonacoInputBaseProps> = (props) => (
-    <MonacoInputBase {...props} card={true} />
 );

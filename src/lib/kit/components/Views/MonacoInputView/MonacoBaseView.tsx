@@ -15,11 +15,7 @@ import './MonacoBaseView.scss';
 
 const b = block('monaco-base-view');
 
-interface MonacoBaseViewProps extends StringViewProps {
-    card?: boolean;
-}
-
-const MonacoBaseView: React.FC<MonacoBaseViewProps> = ({value, spec, card}) => {
+const MonacoBaseView: React.FC<StringViewProps> = ({value, spec}) => {
     const {monacoParams, layoutTitle} = spec.viewSpec;
     const MonacoEditor = useMonaco();
 
@@ -36,10 +32,9 @@ const MonacoBaseView: React.FC<MonacoBaseViewProps> = ({value, spec, card}) => {
     }
 
     return (
-        <div className={b({card})}>
+        <div className={b()}>
             <MonacoHeader
                 language={language}
-                card={card}
                 editButton={
                     <Button onClick={() => setMonacoEditorDialog(true)}>
                         <Icon data={ChevronsExpandUpRight} size={16}></Icon>
@@ -50,7 +45,6 @@ const MonacoBaseView: React.FC<MonacoBaseViewProps> = ({value, spec, card}) => {
             <MonacoViewDialog
                 title={layoutTitle}
                 fontSize={fontSize}
-                card={card}
                 value={value}
                 visible={monacoEditorDialog}
                 language={language}
@@ -61,6 +55,3 @@ const MonacoBaseView: React.FC<MonacoBaseViewProps> = ({value, spec, card}) => {
 };
 
 export const MonacoView: React.FC<StringViewProps> = (props) => <MonacoBaseView {...props} />;
-export const MonacoViewCard: React.FC<StringViewProps> = (props) => (
-    <MonacoBaseView {...props} card={true} />
-);

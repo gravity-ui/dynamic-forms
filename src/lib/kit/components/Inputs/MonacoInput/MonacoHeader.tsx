@@ -12,11 +12,10 @@ const b = block('monaco-header');
 interface MonacoHeaderProps {
     language?: string;
     editButton?: React.ReactNode;
-    card?: boolean | undefined;
 }
 
-export const MonacoHeader: React.FC<MonacoHeaderProps> = ({language, editButton, card}) => (
-    <div className={b({card})}>
+export const MonacoHeader: React.FC<MonacoHeaderProps> = ({language, editButton}) => (
+    <div className={b()}>
         <div>
             <Icon data={File} size={18} />
             <span className={b('language')}>{language}</span>
