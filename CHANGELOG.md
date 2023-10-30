@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.0.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.8.2...v3.0.0) (2023-10-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove card config ([#129](https://github.com/gravity-ui/dynamic-forms/issues/129))
+
+### Features
+
+* remove card config ([#129](https://github.com/gravity-ui/dynamic-forms/issues/129)) ([def7d9d](https://github.com/gravity-ui/dynamic-forms/commit/def7d9d0eacd6937b9dd894e5a0f6058ad788da7))
+
+
+### Bug Fixes
+
+* add spec correctness check for view controller ([#127](https://github.com/gravity-ui/dynamic-forms/issues/127)) ([a1f3601](https://github.com/gravity-ui/dynamic-forms/commit/a1f3601dc5c1e19d524c276dd56b637f34a6deb1))
+
 ## [2.8.2](https://github.com/gravity-ui/dynamic-forms/compare/v2.8.1...v2.8.2) (2023-10-06)
 
 
