@@ -20,7 +20,8 @@ export const useSearch = (spec: Spec, value: FieldValue, name: string) => {
     const hidden = React.useMemo(() => isHiddenField(name), [isHiddenField, name]);
 
     const withSearch = React.useCallback(
-        (children: JSX.Element | null) => <div className={b({hidden: hidden})}>{children}</div>,
+        (children: JSX.Element | null) =>
+            children ? <div className={b({hidden: hidden})}>{children}</div> : null,
         [hidden],
     );
 

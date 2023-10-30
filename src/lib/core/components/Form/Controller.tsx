@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import {isCorrectSpec} from '../../helpers';
 import {Spec} from '../../types';
 
 import {
@@ -63,9 +62,5 @@ export const Controller = <Value extends FieldValue, SpecType extends Spec>({
         __mirror,
     );
 
-    if (_.isString(name) && isCorrectSpec(spec) && !spec.viewSpec.hidden) {
-        return withSearch(render(renderProps));
-    }
-
-    return null;
+    return withSearch(render(renderProps));
 };

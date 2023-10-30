@@ -28,24 +28,28 @@ export const useRender = <Value extends FieldValue, SpecType extends Spec>({
     const render = React.useCallback(
         (props: FieldRenderProps<Value>) => {
             if (inputEntity && isCorrectSpec(spec) && _.isString(name)) {
-                if (inputEntity.independent) {
+                if (!spec.viewSpec.hidden) {
+                    if (inputEntity.independent) {
+                        const InputComponent = inputEntity.Component;
+
+                        return (
+                            <InputComponent spec={spec} name={name} Layout={Layout} {...props} />
+                        );
+                    }
+
                     const InputComponent = inputEntity.Component;
+                    const input = <InputComponent spec={spec} name={name} {...props} />;
 
-                    return <InputComponent spec={spec} name={name} Layout={Layout} {...props} />;
+                    if (Layout) {
+                        return (
+                            <Layout spec={spec} name={name} {...props}>
+                                {input}
+                            </Layout>
+                        );
+                    }
+
+                    return input;
                 }
-
-                const InputComponent = inputEntity.Component;
-                const input = <InputComponent spec={spec} name={name} {...props} />;
-
-                if (Layout) {
-                    return (
-                        <Layout spec={spec} name={name} {...props}>
-                            {input}
-                        </Layout>
-                    );
-                }
-
-                return input;
             }
 
             return null;
