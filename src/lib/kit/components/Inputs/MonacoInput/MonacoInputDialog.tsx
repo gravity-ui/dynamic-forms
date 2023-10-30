@@ -21,7 +21,6 @@ interface MonacoInputDialogProps {
     language?: string;
     title: string | undefined;
     fontSize: number | undefined;
-    card: boolean | undefined;
     onChange: (value: string) => void;
     onClose: () => void;
     changeMonacoValue: (value: string) => void;
@@ -34,7 +33,6 @@ export const MonacoInputDialog: React.FC<MonacoInputDialogProps> = ({
     title,
     visible,
     language,
-    card,
     onChange,
     onClose,
     changeMonacoValue,
@@ -59,7 +57,7 @@ export const MonacoInputDialog: React.FC<MonacoInputDialogProps> = ({
             <Dialog.Header caption={title} className={b('dialog-header')} />
             <Dialog.Body>
                 <div className={b('container')} data-qa={`${name}-dialog`}>
-                    <MonacoHeader language={language} card={card} />
+                    <MonacoHeader language={language} />
                     <MonacoEditor
                         language={language}
                         height="600"

@@ -18,7 +18,6 @@ interface MonacoViewDialogProps {
     language?: string;
     title: string | undefined;
     fontSize: number | undefined;
-    card: boolean | undefined;
     onClose: () => void;
 }
 
@@ -29,7 +28,6 @@ export const MonacoViewDialog: React.FC<MonacoViewDialogProps> = ({
     language,
     onClose,
     fontSize,
-    card,
 }) => {
     const MonacoEditor = useMonaco();
 
@@ -48,7 +46,7 @@ export const MonacoViewDialog: React.FC<MonacoViewDialogProps> = ({
             <Dialog.Header caption={title} className={b('dialog-header')} />
             <Dialog.Body>
                 <div className={b('container')}>
-                    <MonacoHeader language={language} card={card} />
+                    <MonacoHeader language={language} />
                     <MonacoEditor
                         language={language}
                         height="600"

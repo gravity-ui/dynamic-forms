@@ -1,7 +1,6 @@
 import {DynamicFormConfig, DynamicViewConfig, StringSpec, ValidatorType} from '../../core';
 import {
     Accordeon,
-    AccordeonCardLayout,
     ArrayBase,
     ArrayBaseView,
     BaseView,
@@ -15,9 +14,7 @@ import {
     Group,
     Group2,
     MonacoInput,
-    MonacoInputCard,
     MonacoView,
-    MonacoViewCard,
     MultiOneOf,
     MultiOneOfFlat,
     MultiOneOfFlatView,
@@ -33,21 +30,14 @@ import {
     ObjectValueInput,
     ObjectValueInputView,
     OneOf,
-    OneOfCard,
-    OneOfCardView,
     OneOfFlat,
     OneOfFlatView,
     OneOfView,
     Row,
-    Row2,
     RowVerbose,
     Secret,
     Section,
     Section2,
-    SectionCard,
-    SectionCard2,
-    SectionWithSubtitle,
-    SectionWithSubtitle2,
     Select,
     Switch,
     TableArrayInput,
@@ -61,17 +51,13 @@ import {
     TextLinkView,
     Transparent,
     ViewAccordeon,
-    ViewAccordeonCard,
     ViewCardAccordeon,
     ViewCardSection,
     ViewGroup,
     ViewGroup2,
     ViewRow,
-    ViewRow2,
     ViewSection,
     ViewSection2,
-    ViewSectionCard,
-    ViewSectionCard2,
     ViewTableCell,
     ViewTransparent,
 } from '../components';
@@ -193,104 +179,6 @@ export const dynamicConfig: DynamicFormConfig = {
     },
 };
 
-export const dynamicCardConfig: DynamicFormConfig = {
-    array: {
-        inputs: {
-            select: {Component: MultiSelect},
-            table: {Component: TableArrayInput},
-            base: {Component: ArrayBase},
-        },
-        layouts: {
-            row: Row2,
-            accordeon: AccordeonCardLayout,
-            section: SectionWithSubtitle,
-            section2: SectionWithSubtitle2,
-            group: SectionCard,
-            group2: SectionCard2,
-            table_item: TableCell,
-            transparent: Transparent,
-        },
-        validators: {
-            base: getArrayValidator(),
-        },
-    },
-    boolean: {
-        inputs: {
-            base: {Component: Checkbox},
-            switch: {Component: Switch},
-        },
-        layouts: {
-            row: Row2,
-            table_item: TableCell,
-        },
-        validators: {
-            base: getBooleanValidator(),
-        },
-    },
-    number: {
-        inputs: {
-            base: {Component: Text},
-        },
-        layouts: {
-            row: Row2,
-            table_item: TableCell,
-            transparent: Transparent,
-        },
-        validators: {
-            base: getNumberValidator(),
-        },
-    },
-    object: {
-        inputs: {
-            oneof: {Component: OneOfCard, independent: true},
-            secret: {Component: Secret, independent: true},
-            base: {Component: ObjectBase, independent: true},
-            text_link: {Component: TextLink, independent: true},
-            object_value: {Component: ObjectValueInput, independent: true},
-            multi_oneof: {Component: MultiOneOf, independent: true},
-            multi_oneof_flat: {Component: MultiOneOfFlat, independent: true},
-            inline: {Component: ObjectInline, independent: true},
-        },
-        layouts: {
-            row: Row2,
-            accordeon: AccordeonCardLayout,
-            section: SectionWithSubtitle,
-            section2: SectionWithSubtitle2,
-            group: SectionCard,
-            group2: SectionCard2,
-            transparent: Transparent,
-        },
-        validators: {
-            base: getObjectValidator(),
-        },
-    },
-    string: {
-        inputs: {
-            password: {Component: Text},
-            textarea: {Component: TextArea},
-            select: {Component: Select},
-            base: {Component: Text},
-            file_input: {Component: FileInput},
-            number_with_scale: {Component: NumberWithScale},
-            monaco_input: {Component: MonacoInputCard},
-            text_content: {Component: TextContent, independent: true},
-        },
-        layouts: {
-            row: Row2,
-            table_item: TableCell,
-            transparent: Transparent,
-            section: SectionWithSubtitle,
-            section2: SectionWithSubtitle2,
-            group: SectionCard,
-            group2: SectionCard2,
-        },
-        validators: {
-            base: getStringValidator(),
-            number: getNumberValidator() as unknown as ValidatorType<string, StringSpec>,
-        },
-    },
-};
-
 export const dynamicViewConfig: DynamicViewConfig = {
     array: {
         views: {
@@ -381,88 +269,6 @@ export const dynamicViewConfig: DynamicViewConfig = {
             group: ViewGroup,
             group2: ViewGroup2,
             card_section: ViewCardSection,
-        },
-    },
-};
-
-export const dynamicViewCardConfig: DynamicViewConfig = {
-    array: {
-        views: {
-            select: {Component: MultiSelectView},
-            table: {Component: TableArrayView},
-            base: {Component: ArrayBaseView},
-        },
-        layouts: {
-            row: ViewRow2,
-            accordeon: ViewAccordeonCard,
-            section: ViewSection,
-            section2: ViewSection2,
-            group: ViewSectionCard,
-            group2: ViewSectionCard2,
-            table_item: ViewTableCell,
-            transparent: ViewTransparent,
-        },
-    },
-    boolean: {
-        views: {
-            base: {Component: BaseView},
-            switch: {Component: BaseView},
-        },
-        layouts: {
-            row: ViewRow2,
-            table_item: ViewTableCell,
-        },
-    },
-    number: {
-        views: {
-            base: {Component: BaseView},
-        },
-        layouts: {
-            row: ViewRow2,
-            table_item: ViewTableCell,
-            transparent: ViewTransparent,
-        },
-    },
-    object: {
-        views: {
-            oneof: {Component: OneOfCardView, independent: true},
-            secret: undefined,
-            base: {Component: ObjectBaseView, independent: true},
-            text_link: {Component: TextLinkView, independent: true},
-            object_value: {Component: ObjectValueInputView, independent: true},
-            multi_oneof: {Component: MultiOneOfView, independent: true},
-            multi_oneof_flat: {Component: MultiOneOfFlatView, independent: true},
-            inline: {Component: ObjectInlineView, independent: true},
-        },
-        layouts: {
-            row: ViewRow2,
-            accordeon: ViewAccordeonCard,
-            section: ViewSection,
-            section2: ViewSection2,
-            group: ViewSectionCard,
-            group2: ViewSectionCard2,
-            transparent: ViewTransparent,
-        },
-    },
-    string: {
-        views: {
-            password: undefined,
-            textarea: {Component: TextAreaView},
-            select: {Component: BaseView},
-            base: {Component: BaseView},
-            file_input: {Component: FileInputView},
-            number_with_scale: {Component: NumberWithScaleView},
-            monaco_input: {Component: MonacoViewCard},
-            text_content: undefined,
-        },
-        layouts: {
-            row: ViewRow2,
-            table_item: ViewTableCell,
-            transparent: ViewTransparent,
-            section: ViewSection,
-            section2: ViewSection2,
-            group: ViewSectionCard,
-            group2: ViewSectionCard2,
         },
     },
 };

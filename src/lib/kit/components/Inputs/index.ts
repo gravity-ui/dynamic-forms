@@ -9,7 +9,6 @@ export * from './NumberWithScale';
 export * from './ObjectBase';
 export * from './ObjectValueInput';
 export * from './OneOf';
-export * from './OneOfCard';
 export * from './Secret';
 export * from './Select';
 export * from './Switch';
