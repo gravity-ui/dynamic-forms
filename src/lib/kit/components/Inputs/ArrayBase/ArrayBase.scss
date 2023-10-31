@@ -4,6 +4,10 @@
     &_add-button-right {
         display: flex;
         align-items: flex-end;
+
+        .#{$ns}transparent {
+            align-items: flex-end;
+        }
     }
 
     &__items-wrapper {
