@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/gravity-ui/dynamic-forms/compare/v3.0.0...v3.0.1) (2023-11-02)
+
+
+### Bug Fixes
+
+* **TransparentArray:** fix styles transparent ([#130](https://github.com/gravity-ui/dynamic-forms/issues/130)) ([ae9bc2e](https://github.com/gravity-ui/dynamic-forms/commit/ae9bc2e879545a617a14afb5f859dcb45f9d11a3))
+
 ## [3.0.0](https://github.com/gravity-ui/dynamic-forms/compare/v2.8.2...v3.0.0) (2023-10-30)
 
 
