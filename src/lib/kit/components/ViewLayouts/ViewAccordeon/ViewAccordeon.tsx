@@ -12,7 +12,9 @@ export const ViewAccordeon = <T extends ArrayViewLayoutProps | ObjectViewLayoutP
     spec,
     children,
 }: T): JSX.Element | null => {
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = React.useState(
+        _.isBoolean(spec.viewSpec.layoutOpen) ? spec.viewSpec.layoutOpen : true,
+    );
 
     if (!isNotEmptyValue(value, spec)) {
         return null;
