@@ -5,7 +5,7 @@ import {isValidElementType} from 'react-is';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
 import {isCorrectSpec} from '../../helpers';
-import {AnyObject, FormValue, Spec} from '../../types';
+import {FormValue, Spec} from '../../types';
 
 import {ViewController} from './ViewController';
 import {isCorrectViewConfig} from './helpers';
@@ -13,7 +13,7 @@ import {useCreateContext} from './hooks';
 import {DynamicViewConfig} from './types';
 
 export interface DynamicViewProps {
-    value: AnyObject;
+    value: FormValue;
     spec: Spec;
     config: DynamicViewConfig;
     Link?: React.ComponentType<{
@@ -31,7 +31,7 @@ export const DynamicView = ({value, spec, config, Link, Monaco}: DynamicViewProp
         [config, value, Link, Monaco],
     );
 
-    if (_.isObjectLike(value) && isCorrectSpec(spec) && isCorrectViewConfig(config)) {
+    if (isCorrectSpec(spec) && isCorrectViewConfig(config)) {
         return (
             <DynamicFormsCtx.Provider value={context}>
                 <ViewController spec={spec} name="" />

@@ -3,8 +3,8 @@ import React from 'react';
 import MonacoEditor from 'react-monaco-editor';
 
 import {
-    AnyObject,
     DynamicView as BaseDynamicView,
+    FormValue,
     Spec,
     dynamicViewConfig,
     prepareSpec,
@@ -13,7 +13,7 @@ import {
 import {DynLink} from './DynLink';
 
 export interface DynamicViewProps {
-    value: AnyObject;
+    value: FormValue;
     spec: Spec;
 }
 
