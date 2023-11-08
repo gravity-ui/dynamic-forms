@@ -7,7 +7,7 @@ import MonacoEditor from 'react-monaco-editor';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
 import {DynamicField, DynamicView} from '../';
-import {FormValue, MonacoInput, MonacoInputBaseProps, Spec, SpecTypes} from '../../../lib';
+import {FormValue, MonacoInput, MonacoInputBaseProps, Spec} from '../../../lib';
 import {cn} from '../../../lib/kit/utils/cn';
 
 import {getOptionsSpec, transformCorrect, transformIncorrect} from './utils';
@@ -84,18 +84,6 @@ export const InputPreview: React.FC<InputPreviewProps> = ({
             input: value,
         }),
         [externalSpec, excludeOptions],
-    );
-
-    const getViewProps = React.useCallback(
-        (values: FormValue, spec: Spec) => ({
-            value: {'__any-name': values},
-            spec: {
-                type: SpecTypes.Object,
-                properties: {'__any-name': spec},
-                viewSpec: {type: 'base'},
-            },
-        }),
-        [],
     );
 
     const searchFunction = React.useCallback(
@@ -176,10 +164,8 @@ export const InputPreview: React.FC<InputPreviewProps> = ({
                         </div>
                         <div className={b('input-view', {hidden: togglerInput !== 'view'})}>
                             <DynamicView
-                                {...getViewProps(
-                                    form.values.input,
-                                    transformIncorrect(form.values.options),
-                                )}
+                                value={form.values.input}
+                                spec={transformIncorrect(form.values.options)}
                             />
                         </div>
                         {togglerInput === 'json' ? (
