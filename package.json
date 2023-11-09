@@ -38,9 +38,9 @@
   },
   "dependencies": {
     "@bem-react/classname": "^1.6.0",
-    "@gravity-ui/components": "^2.4.0",
+    "@gravity-ui/components": "^2.8.0",
     "@gravity-ui/i18n": "^1.1.0",
-    "@gravity-ui/icons": "^2.5.0",
+    "@gravity-ui/icons": "^2.8.1",
     "lodash": "^4.17.20"
   },
   "devDependencies": {
@@ -48,11 +48,11 @@
     "@babel/preset-typescript": "^7.18.6",
     "@commitlint/cli": "^17.0.0",
     "@commitlint/config-conventional": "^17.0.0",
-    "@gravity-ui/eslint-config": "^2.1.1",
-    "@gravity-ui/prettier-config": "^1.0.1",
+    "@gravity-ui/eslint-config": "^2.2.0",
+    "@gravity-ui/prettier-config": "^1.1.0",
     "@gravity-ui/stylelint-config": "^2.0.0",
     "@gravity-ui/tsconfig": "^1.0.0",
-    "@gravity-ui/uikit": "^5.8.0",
+    "@gravity-ui/uikit": "^5.19.1",
     "@storybook/addon-essentials": "^7.0.27",
     "@storybook/preset-scss": "^1.0.3",
     "@storybook/react": "^7.0.27",
