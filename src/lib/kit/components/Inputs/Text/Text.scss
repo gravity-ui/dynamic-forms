@@ -1,9 +1,0 @@
-@import '../../../styles/variables';
-
-.#{$ns}text {
-    display: flex;
-
-    &__button {
-        --yc-button-background-color-hover: transparent;
-    }
-}
