@@ -34,7 +34,7 @@ export const Controller = <Value extends FieldValue, SpecType extends Spec>({
     parentOnChange,
     parentOnUnmount,
 }: ControllerProps<Value, SpecType>) => {
-    const {tools, __mirror} = useDynamicFormsCtx();
+    const {tools, externalErrors, __mirror} = useDynamicFormsCtx();
     const {inputEntity, Layout} = useComponents(spec);
     const render = useRender({name, spec, inputEntity, Layout});
     const validate = useValidate(spec);
@@ -47,6 +47,7 @@ export const Controller = <Value extends FieldValue, SpecType extends Spec>({
         tools,
         parentOnChange,
         parentOnUnmount,
+        externalErrors,
     });
     const withSearch = useSearch(spec, renderProps.input.value, name);
 

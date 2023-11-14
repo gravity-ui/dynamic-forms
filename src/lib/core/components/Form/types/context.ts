@@ -4,7 +4,7 @@ import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
 import {StringSpec} from '../../../types';
 
-import {DynamicFormConfig, FieldValue, ValidateError, WonderMirror} from './';
+import {BaseValidateError, DynamicFormConfig, FieldValue, ValidateError, WonderMirror} from './';
 
 export interface DynamicFormsContext {
     config: DynamicFormConfig;
@@ -16,5 +16,6 @@ export interface DynamicFormsContext {
         onUnmount: (name: string) => void;
         submitFailed: boolean;
     };
+    externalErrors?: Record<string, BaseValidateError>;
     __mirror?: WonderMirror;
 }

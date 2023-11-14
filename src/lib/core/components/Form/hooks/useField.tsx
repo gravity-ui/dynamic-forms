@@ -6,6 +6,7 @@ import {isArraySpec, isNumberSpec, isObjectSpec} from '../../../helpers';
 import {Spec} from '../../../types';
 import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG} from '../constants';
 import {
+    BaseValidateError,
     DynamicFormsContext,
     FieldArrayValue,
     FieldObjectValue,
@@ -30,6 +31,7 @@ export interface UseFieldProps<Value extends FieldValue, SpecType extends Spec> 
           ) => void)
         | null;
     parentOnUnmount: ((childName: string) => void) | null;
+    externalErrors?: Record<string, BaseValidateError>;
 }
 
 export const useField = <Value extends FieldValue, SpecType extends Spec>({
@@ -41,6 +43,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
     tools,
     parentOnChange,
     parentOnUnmount: externalParentOnUnmount,
+    externalErrors,
 }: UseFieldProps<Value, SpecType>): FieldRenderProps<Value> => {
     const firstRenderRef = React.useRef(true);
 
@@ -67,7 +70,19 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
             }
         }
 
-        const error = validate?.(value);
+        let externalError = _.get(externalErrors, name);
+
+        if (
+            !(
+                _.isString(externalError) ||
+                _.isBoolean(externalError) ||
+                _.isUndefined(externalError)
+            )
+        ) {
+            externalError = undefined;
+        }
+
+        const error = validate?.(value) || externalError;
         const dirty = !_.isEqual(value, initialValue);
 
         return {
@@ -253,6 +268,25 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
             });
         }
     }, [state.value]);
+
+    React.useEffect(() => {
+        const externalError = _.get(externalErrors, name);
+
+        if (
+            !firstRenderRef.current &&
+            (_.isString(externalError) ||
+                _.isBoolean(externalError) ||
+                _.isUndefined(externalError)) &&
+            state.error !== externalError &&
+            !(state.error && !externalError)
+        ) {
+            setState({...state, error: externalError});
+            (parentOnChange ? parentOnChange : tools.onChange)(name, state.value, {
+                ...state.childErrors,
+                [name]: externalError,
+            });
+        }
+    }, [externalErrors]);
 
     React.useEffect(() => {
         firstRenderRef.current = false;
