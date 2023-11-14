@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.1.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.0.1...v3.1.0) (2023-11-14)
+
+
+### Features
+
+* add external errors ([#137](https://github.com/gravity-ui/dynamic-forms/issues/137)) ([4c93b37](https://github.com/gravity-ui/dynamic-forms/commit/4c93b37c18db08f0854a8a0660cf192767c7aa37))
+* add layoutOpen flag for view layouts ([#134](https://github.com/gravity-ui/dynamic-forms/issues/134)) ([51aa5f0](https://github.com/gravity-ui/dynamic-forms/commit/51aa5f0775e9adf3b68c9cd06738d69eca720f0d))
+* update packages ([#135](https://github.com/gravity-ui/dynamic-forms/issues/135)) ([57586c2](https://github.com/gravity-ui/dynamic-forms/commit/57586c266f87199db8104baad9d9600ab90a7d56))
+* update password input ([#136](https://github.com/gravity-ui/dynamic-forms/issues/136)) ([faf3e8c](https://github.com/gravity-ui/dynamic-forms/commit/faf3e8c6188ea49f89addff088a2ec789e9c8980))
+* update view controller value props ([#132](https://github.com/gravity-ui/dynamic-forms/issues/132)) ([84248e5](https://github.com/gravity-ui/dynamic-forms/commit/84248e5c0c415c4640add01e6b6bd681fe6e6533))
+
+
+### Bug Fixes
+
+* replace useForm with useFormState ([#138](https://github.com/gravity-ui/dynamic-forms/issues/138)) ([1e19619](https://github.com/gravity-ui/dynamic-forms/commit/1e19619b8931b43fb9df3d59f207fb5153bf4f98))
+
 ## [3.0.1](https://github.com/gravity-ui/dynamic-forms/compare/v3.0.0...v3.0.1) (2023-11-02)
 
 
