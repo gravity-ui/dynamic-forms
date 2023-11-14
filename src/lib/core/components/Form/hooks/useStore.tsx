@@ -1,21 +1,21 @@
 import React from 'react';
 
 import _ from 'lodash';
-import {useForm} from 'react-final-form';
+import {useFormState} from 'react-final-form';
 
 import {DynamicFieldStore, FieldObjectValue, FieldValue, ValidateError} from '../types';
 import {transformArrIn} from '../utils';
 
 export const useStore = (name: string) => {
-    const form = useForm();
+    const formState = useFormState();
     const firstRenderRef = React.useRef(true);
     const [store, setStore] = React.useState<DynamicFieldStore>(() => {
         const values: FieldObjectValue = transformArrIn({
-            [name]: _.get(form.getState().values, name),
+            [name]: _.get(formState.values, name),
         });
 
         const initialValue = transformArrIn({
-            [name]: _.get(form.getState().initialValues, name),
+            [name]: _.get(formState.initialValues, name),
         });
 
         return {
@@ -26,7 +26,7 @@ export const useStore = (name: string) => {
         };
     });
 
-    const submitFailed = form.getState().submitFailed;
+    const submitFailed = formState.submitFailed;
 
     const tools = React.useMemo(
         () => ({
@@ -54,11 +54,11 @@ export const useStore = (name: string) => {
     React.useEffect(() => {
         if (!firstRenderRef.current) {
             const values: FieldObjectValue = transformArrIn({
-                [name]: _.get(form.getState().values, name),
+                [name]: _.get(formState.values, name),
             });
 
             const initialValue = transformArrIn({
-                [name]: _.get(form.getState().initialValues, name),
+                [name]: _.get(formState.initialValues, name),
             });
 
             setStore({
