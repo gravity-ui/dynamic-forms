@@ -82,7 +82,7 @@ describe('Form/hooks/useField', () => {
 
         expect(mirror.field.useStore?.store.values[name]).not.toBe(value[name]);
         expect(mirror.field.useStore?.store.values[name]).toMatchObject(value[name]);
-        expect(mirror.field.useStore?.store.errors[name]).toBe(false);
+        expect(mirror.field.useStore?.store.errors[name]).toBe(undefined);
     });
 
     test('initialization with required object spec', () => {
@@ -117,7 +117,7 @@ describe('Form/hooks/useField', () => {
         expect(mirror.controller[name]?.useField?.arrayInput.value).toMatchObject(objectDefault);
 
         expect(mirror.field.useStore?.store.values[name]).toMatchObject(objectDefault);
-        expect(mirror.field.useStore?.store.errors[name]).toBe(false);
+        expect(mirror.field.useStore?.store.errors[name]).toBe(undefined);
     });
 
     test('initialization with required array spec', () => {
@@ -152,7 +152,7 @@ describe('Form/hooks/useField', () => {
         expect(mirror.controller[name]?.useField?.arrayInput.value).toMatchObject(arrayDefault);
 
         expect(mirror.field.useStore?.store.values[name]).toMatchObject(arrayDefault);
-        expect(mirror.field.useStore?.store.errors[name]).toBe(false);
+        expect(mirror.field.useStore?.store.errors[name]).toBe(undefined);
     });
 
     test('initialization with error', () => {
@@ -498,7 +498,7 @@ describe('Form/hooks/useField', () => {
         );
 
         expect(mirror.field.useStore?.store.values[name]).toMatchObject({});
-        expect(mirror.field.useStore?.store.errors[name]).toBe(false);
+        expect(mirror.field.useStore?.store.errors[name]).toBe(undefined);
 
         rerender(
             <Form initialValues={{}} onSubmit={_.noop}>

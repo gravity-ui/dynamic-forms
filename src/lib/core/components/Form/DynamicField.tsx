@@ -16,7 +16,7 @@ import {
     useSearchStore,
     useStore,
 } from './hooks';
-import {DynamicFormConfig, FieldValue, WonderMirror} from './types';
+import {BaseValidateError, DynamicFormConfig, FieldValue, WonderMirror} from './types';
 import {getDefaultSearchFunction, isCorrectConfig} from './utils';
 
 export interface DynamicFieldProps {
@@ -27,6 +27,7 @@ export interface DynamicFieldProps {
     search?: string | ((spec: Spec, input: FieldValue, name: string) => boolean);
     generateRandomValue?: (spec: StringSpec) => string;
     withoutInsertFFDebounce?: boolean;
+    errors?: Record<string, BaseValidateError>;
     __mirror?: WonderMirror;
 }
 
@@ -38,6 +39,7 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
     generateRandomValue,
     search,
     withoutInsertFFDebounce,
+    errors: externalErrors,
     __mirror,
 }) => {
     const DynamicFormsCtx = useCreateContext();
@@ -52,9 +54,10 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
             Monaco: isValidElementType(Monaco) ? Monaco : undefined,
             generateRandomValue,
             tools,
+            externalErrors,
             __mirror,
         }),
-        [tools, config, Monaco, __mirror, generateRandomValue],
+        [tools, config, Monaco, __mirror, generateRandomValue, externalErrors],
     );
 
     const searchContext = React.useMemo(
