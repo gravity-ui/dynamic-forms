@@ -6,6 +6,7 @@ export * from './field';
 export * from './input';
 export * from './layout';
 export * from './mirror';
+export * from './mutators';
 export * from './number';
 export * from './object';
 export * from './store';

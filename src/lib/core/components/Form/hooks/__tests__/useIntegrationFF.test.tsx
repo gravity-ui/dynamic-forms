@@ -108,7 +108,7 @@ describe('Form/hooks/useIntegrationFF', () => {
             mirror.controller[name]?.useField?.input.onChange({});
         });
 
-        expect(mirror.field.useStore?.store.errors[name]).toBe(false);
+        expect(mirror.field.useStore?.store.errors[name]).toBe(undefined);
         expect(mirror.field.useIntegrationFF?.props.validate()).toBe(undefined);
         expect(form?.getState().errors?.[name]).toBe(undefined);
     });

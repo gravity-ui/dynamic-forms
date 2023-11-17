@@ -4,7 +4,14 @@ import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
 import {StringSpec} from '../../../types';
 
-import {BaseValidateError, DynamicFormConfig, FieldValue, ValidateError, WonderMirror} from './';
+import {
+    DynamicFieldStore,
+    DynamicFormConfig,
+    DynamicFormMutators,
+    FieldValue,
+    ValidateError,
+    WonderMirror,
+} from './';
 
 export interface DynamicFormsContext {
     config: DynamicFormConfig;
@@ -15,7 +22,9 @@ export interface DynamicFormsContext {
         onChange: (name: string, value: FieldValue, errors?: Record<string, ValidateError>) => void;
         onUnmount: (name: string) => void;
         submitFailed: boolean;
+        mutateDFState: (mutators: DynamicFormMutators) => void;
     };
-    externalErrors?: Record<string, BaseValidateError>;
+    store: DynamicFieldStore;
+    mutators: DynamicFormMutators;
     __mirror?: WonderMirror;
 }

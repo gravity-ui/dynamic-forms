@@ -4,9 +4,9 @@ import _ from 'lodash';
 
 import {isArraySpec, isNumberSpec, isObjectSpec} from '../../../helpers';
 import {Spec} from '../../../types';
-import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG} from '../constants';
+import {EMPTY_MUTATOR, OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG} from '../constants';
 import {
-    BaseValidateError,
+    DynamicFormMutators,
     DynamicFormsContext,
     FieldArrayValue,
     FieldObjectValue,
@@ -14,7 +14,13 @@ import {
     FieldValue,
     ValidateError,
 } from '../types';
-import {isArrayItem, transformArrIn, transformArrOut} from '../utils';
+import {
+    isArrayItem,
+    isErrorMutatorCorrect,
+    isValueMutatorCorrect,
+    transformArrIn,
+    transformArrOut,
+} from '../utils';
 
 export interface UseFieldProps<Value extends FieldValue, SpecType extends Spec> {
     name: string;
@@ -31,7 +37,7 @@ export interface UseFieldProps<Value extends FieldValue, SpecType extends Spec> 
           ) => void)
         | null;
     parentOnUnmount: ((childName: string) => void) | null;
-    externalErrors?: Record<string, BaseValidateError>;
+    mutators: DynamicFormMutators;
 }
 
 export const useField = <Value extends FieldValue, SpecType extends Spec>({
@@ -43,7 +49,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
     tools,
     parentOnChange,
     parentOnUnmount: externalParentOnUnmount,
-    externalErrors,
+    mutators,
 }: UseFieldProps<Value, SpecType>): FieldRenderProps<Value> => {
     const firstRenderRef = React.useRef(true);
 
@@ -53,7 +59,14 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
     );
 
     const [state, setState] = React.useState(() => {
+        const valueMutator = _.get(mutators.values, name, EMPTY_MUTATOR) as
+            | Value
+            | typeof EMPTY_MUTATOR;
         let value = _.cloneDeep(externalValue);
+
+        if (isValueMutatorCorrect(valueMutator, spec) && valueMutator !== EMPTY_MUTATOR) {
+            value = valueMutator;
+        }
 
         if (_.isNil(value)) {
             if (spec.defaultValue) {
@@ -70,19 +83,13 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
             }
         }
 
-        let externalError = _.get(externalErrors, name);
+        let errorMutator = _.get(mutators.errors, name);
 
-        if (
-            !(
-                _.isString(externalError) ||
-                _.isBoolean(externalError) ||
-                _.isUndefined(externalError)
-            )
-        ) {
-            externalError = undefined;
+        if (!isErrorMutatorCorrect(errorMutator)) {
+            errorMutator = undefined;
         }
 
-        const error = validate?.(value) || externalError;
+        const error = validate?.(value) || errorMutator;
         const dirty = !_.isEqual(value, initialValue);
 
         return {
@@ -100,14 +107,15 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
         };
     });
 
-    const {onChange, onDrop} = React.useMemo(() => {
-        const onChange = (
+    const {onChange, onLocalChange, onDrop} = React.useMemo(() => {
+        const onLocalChange = (
             valOrSetter: Value | ((currentValue: Value) => Value),
             childErrors?: Record<string, ValidateError>,
+            errorMutator?: ValidateError,
         ) => {
             setState((state) => {
                 const _value = _.isFunction(valOrSetter) ? valOrSetter(state.value) : valOrSetter;
-                const error = validate?.(_value);
+                const error = validate?.(_value) || errorMutator;
                 let value = transformArrIn(_value);
 
                 if (isNumberSpec(spec) && !error) {
@@ -149,6 +157,11 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
             });
         };
 
+        const onChange = (
+            valOrSetter: Value | ((currentValue: Value) => Value),
+            childErrors?: Record<string, ValidateError>,
+        ) => onLocalChange(valOrSetter, childErrors);
+
         const onDrop = () => {
             if (isArrayItem(name)) {
                 (externalParentOnUnmount ? externalParentOnUnmount : tools.onUnmount)(name);
@@ -157,7 +170,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
             }
         };
 
-        return {onChange, onDrop};
+        return {onChange, onLocalChange, onDrop};
     }, [initialValue, setState, name, validate, spec, externalParentOnUnmount, tools.onUnmount]);
 
     const onBlur = React.useCallback(() => {
@@ -270,23 +283,31 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
     }, [state.value]);
 
     React.useEffect(() => {
-        const externalError = _.get(externalErrors, name);
+        if (!firstRenderRef.current) {
+            const valueMutator = _.get(mutators.values, name, EMPTY_MUTATOR) as
+                | Value
+                | typeof EMPTY_MUTATOR;
+            let errorMutator = _.get(mutators.errors, name);
 
-        if (
-            !firstRenderRef.current &&
-            (_.isString(externalError) ||
-                _.isBoolean(externalError) ||
-                _.isUndefined(externalError)) &&
-            state.error !== externalError &&
-            !(state.error && !externalError)
-        ) {
-            setState({...state, error: externalError});
-            (parentOnChange ? parentOnChange : tools.onChange)(name, state.value, {
-                ...state.childErrors,
-                [name]: externalError,
-            });
+            if (!isErrorMutatorCorrect(errorMutator)) {
+                errorMutator = undefined;
+            }
+
+            if (
+                isValueMutatorCorrect(valueMutator, spec) &&
+                valueMutator !== state.value &&
+                valueMutator !== EMPTY_MUTATOR
+            ) {
+                onLocalChange(valueMutator, undefined, errorMutator);
+            } else if (state.error !== errorMutator && !(state.error && !errorMutator)) {
+                setState({...state, error: errorMutator});
+                (parentOnChange ? parentOnChange : tools.onChange)(name, state.value, {
+                    ...state.childErrors,
+                    [name]: errorMutator,
+                });
+            }
         }
-    }, [externalErrors]);
+    }, [mutators]);
 
     React.useEffect(() => {
         firstRenderRef.current = false;
