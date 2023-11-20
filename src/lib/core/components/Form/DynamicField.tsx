@@ -13,10 +13,11 @@ import {
     useCreateSearchContext,
     useDynamicFieldMirror,
     useIntegrationFF,
+    useMutators,
     useSearchStore,
     useStore,
 } from './hooks';
-import {BaseValidateError, DynamicFormConfig, FieldValue, WonderMirror} from './types';
+import {DynamicFormConfig, DynamicFormMutators, FieldValue, WonderMirror} from './types';
 import {getDefaultSearchFunction, isCorrectConfig} from './utils';
 
 export interface DynamicFieldProps {
@@ -27,7 +28,7 @@ export interface DynamicFieldProps {
     search?: string | ((spec: Spec, input: FieldValue, name: string) => boolean);
     generateRandomValue?: (spec: StringSpec) => string;
     withoutInsertFFDebounce?: boolean;
-    errors?: Record<string, BaseValidateError>;
+    mutators?: DynamicFormMutators;
     __mirror?: WonderMirror;
 }
 
@@ -39,13 +40,14 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
     generateRandomValue,
     search,
     withoutInsertFFDebounce,
-    errors: externalErrors,
+    mutators: externalMutators,
     __mirror,
 }) => {
     const DynamicFormsCtx = useCreateContext();
     const SearchContext = useCreateSearchContext();
     const {tools, store} = useStore(name);
     const watcher = useIntegrationFF(store, withoutInsertFFDebounce);
+    const {mutators, mutateDFState} = useMutators(externalMutators);
     const {store: searchStore, setField, removeField, isHiddenField} = useSearchStore();
 
     const context = React.useMemo(
@@ -53,11 +55,12 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
             config,
             Monaco: isValidElementType(Monaco) ? Monaco : undefined,
             generateRandomValue,
-            tools,
-            externalErrors,
+            tools: {...tools, mutateDFState},
+            store,
+            mutators,
             __mirror,
         }),
-        [tools, config, Monaco, __mirror, generateRandomValue, externalErrors],
+        [tools, config, Monaco, __mirror, generateRandomValue, mutators, mutateDFState, store],
     );
 
     const searchContext = React.useMemo(

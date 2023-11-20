@@ -176,12 +176,12 @@ test('Form/hooks/DynamicField', () => {
     };
 
     const errors = {
-        name: false,
+        name: undefined,
         'name.name': ErrorMessages.REQUIRED,
         'name.description': ErrorMessages.REQUIRED,
         'name.settings': ErrorMessages.REQUIRED,
-        'name.autor': false,
-        'name.autor.external': false,
+        'name.autor': undefined,
+        'name.autor.external': undefined,
         'name.autor.external.name': ErrorMessages.REQUIRED,
         'name.autor.external.age': ErrorMessages.REQUIRED,
         'name.autor.external.license': ErrorMessages.REQUIRED,
@@ -211,17 +211,17 @@ test('Form/hooks/DynamicField', () => {
     };
 
     const errors1 = {
-        name: false,
+        name: undefined,
         'name.name': ErrorMessages.REQUIRED,
         'name.description': ErrorMessages.REQUIRED,
         'name.settings': ErrorMessages.REQUIRED,
-        'name.autor': false,
-        'name.autor.external': false,
+        'name.autor': undefined,
+        'name.autor.external': undefined,
         'name.autor.external.name': ErrorMessages.REQUIRED,
         'name.autor.external.age': ErrorMessages.REQUIRED,
         'name.autor.external.license': ErrorMessages.REQUIRED,
         'name.labels': ErrorMessages.minLengthArr(1),
-        'name.additional': false,
+        'name.additional': undefined,
         'name.additional.surname': ErrorMessages.REQUIRED,
         'name.additional.username': ErrorMessages.REQUIRED,
     };
@@ -247,13 +247,13 @@ test('Form/hooks/DynamicField', () => {
     };
 
     const errors2 = {
-        name: false,
+        name: undefined,
         'name.name': ErrorMessages.REQUIRED,
         'name.description': ErrorMessages.REQUIRED,
         'name.settings': ErrorMessages.REQUIRED,
         'name.autor': ErrorMessages.REQUIRED,
         'name.labels': ErrorMessages.minLengthArr(1),
-        'name.additional': false,
+        'name.additional': undefined,
         'name.additional.surname': ErrorMessages.REQUIRED,
         'name.additional.username': ErrorMessages.REQUIRED,
     };
@@ -318,13 +318,13 @@ test('Form/hooks/DynamicField', () => {
     };
 
     const errors4 = {
-        name: false,
+        name: undefined,
         'name.id': false,
         'name.name': ErrorMessages.REQUIRED,
         'name.description': ErrorMessages.REQUIRED,
         'name.settings': ErrorMessages.REQUIRED,
-        'name.autor': false,
-        'name.autor.external': false,
+        'name.autor': undefined,
+        'name.autor.external': undefined,
         'name.autor.external.name': ErrorMessages.REQUIRED,
         'name.autor.external.age': ErrorMessages.REQUIRED,
         'name.autor.external.license': ErrorMessages.REQUIRED,
@@ -368,13 +368,13 @@ test('Form/hooks/DynamicField', () => {
     };
 
     const errors5 = {
-        name: false,
+        name: undefined,
         'name.id': false,
         'name.name': ErrorMessages.REQUIRED,
         'name.description': ErrorMessages.REQUIRED,
         'name.settings': ErrorMessages.REQUIRED,
-        'name.autor': false,
-        'name.autor.external': false,
+        'name.autor': undefined,
+        'name.autor.external': undefined,
         'name.autor.external.name': ErrorMessages.REQUIRED,
         'name.autor.external.age': ErrorMessages.REQUIRED,
         'name.autor.external.license': ErrorMessages.REQUIRED,

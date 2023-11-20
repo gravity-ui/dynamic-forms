@@ -252,12 +252,12 @@ describe('Form/hooks/useField', () => {
         expect(mirror.field.useStore?.store.values[name]).not.toBe(nextValue);
         expect(mirror.field.useStore?.store.values[name]).toMatchObject(nextValue);
         expect(mirror.field.useStore?.store.errors).toMatchObject({
-            [name]: false,
+            [name]: undefined,
             [`${name}.key`]: 'too long',
         });
 
         expect(mirror.controller[name]?.useField?.meta.dirty).toBe(true);
-        expect(mirror.controller[name]?.useField?.meta.error).toBe(false);
+        expect(mirror.controller[name]?.useField?.meta.error).toBe(undefined);
         expect(mirror.controller[name]?.useField?.meta.invalid).toBe(false);
         expect(mirror.controller[name]?.useField?.meta.modified).toBe(true);
         expect(mirror.controller[name]?.useField?.meta.touched).toBe(true);
@@ -285,12 +285,12 @@ describe('Form/hooks/useField', () => {
         expect(mirror.field.useStore?.store.values[name]).not.toBe(value[name]);
         expect(mirror.field.useStore?.store.values[name]).toMatchObject(value[name]);
         expect(mirror.field.useStore?.store.errors).toMatchObject({
-            [name]: false,
+            [name]: undefined,
             [`${name}.key`]: false,
         });
 
         expect(mirror.controller[name]?.useField?.meta.dirty).toBe(false);
-        expect(mirror.controller[name]?.useField?.meta.error).toBe(false);
+        expect(mirror.controller[name]?.useField?.meta.error).toBe(undefined);
         expect(mirror.controller[name]?.useField?.meta.invalid).toBe(false);
         expect(mirror.controller[name]?.useField?.meta.modified).toBe(true);
         expect(mirror.controller[name]?.useField?.meta.touched).toBe(true);
@@ -343,10 +343,10 @@ describe('Form/hooks/useField', () => {
         expect(mirror.controller[name]?.useField?.input.value).toBe(undefined);
         expect(mirror.controller[name]?.useField?.arrayInput.value).toBe(undefined);
         expect(mirror.field.useStore?.store.values[name]).toBe(undefined);
-        expect(mirror.field.useStore?.store.errors).toMatchObject({[name]: false});
+        expect(mirror.field.useStore?.store.errors).toMatchObject({[name]: undefined});
 
         expect(mirror.controller[name]?.useField?.meta.dirty).toBe(true);
-        expect(mirror.controller[name]?.useField?.meta.error).toBe(false);
+        expect(mirror.controller[name]?.useField?.meta.error).toBe(undefined);
         expect(mirror.controller[name]?.useField?.meta.invalid).toBe(false);
         expect(mirror.controller[name]?.useField?.meta.modified).toBe(true);
         expect(mirror.controller[name]?.useField?.meta.touched).toBe(true);
@@ -591,10 +591,10 @@ describe('Form/hooks/useField', () => {
         expect(mirror.controller[name]?.useField?.arrayInput.value).toMatchObject(nextValue1);
         expect(mirror.field.useStore?.store.values[name]).toMatchObject(nextValue1);
 
-        expect(mirror.field.useStore?.store.errors).toMatchObject({[name]: false});
+        expect(mirror.field.useStore?.store.errors).toMatchObject({[name]: undefined});
 
         expect(mirror.controller[name]?.useField?.meta.dirty).toBe(true);
-        expect(mirror.controller[name]?.useField?.meta.error).toBe(false);
+        expect(mirror.controller[name]?.useField?.meta.error).toBe(undefined);
         expect(mirror.controller[name]?.useField?.meta.invalid).toBe(false);
         expect(mirror.controller[name]?.useField?.meta.modified).toBe(true);
         expect(mirror.controller[name]?.useField?.meta.touched).toBe(true);
