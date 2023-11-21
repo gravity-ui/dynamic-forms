@@ -16,4 +16,5 @@ export * from './useMonaco';
 export * from './useSearchStore';
 export * from './useSearchContext';
 export * from './useSearch';
+export * from './useSpec';
 export * from './useCreateSearchContext';

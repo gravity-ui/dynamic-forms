@@ -2,7 +2,7 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import {isArraySpec, isNumberSpec, isObjectSpec} from '../../../helpers';
+import {isArraySpec, isCorrectSpec, isNumberSpec, isObjectSpec} from '../../../helpers';
 import {Spec} from '../../../types';
 import {EMPTY_MUTATOR, OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG} from '../constants';
 import {
@@ -13,18 +13,23 @@ import {
     FieldRenderProps,
     FieldValue,
     ValidateError,
+    ValidatorsMap,
 } from '../types';
 import {
     isArrayItem,
+    isCorrectConfig,
     isErrorMutatorCorrect,
     isValueMutatorCorrect,
     transformArrIn,
     transformArrOut,
 } from '../utils';
 
+import {useDynamicFormsCtx} from './useDynamicFormsCtx';
+
 export interface UseFieldProps<Value extends FieldValue, SpecType extends Spec> {
     name: string;
     spec: SpecType;
+    originalSpec: SpecType;
     initialValue: Value;
     value: Value;
     validate?: (value?: Value) => ValidateError;
@@ -39,10 +44,58 @@ export interface UseFieldProps<Value extends FieldValue, SpecType extends Spec> 
     parentOnUnmount: ((childName: string) => void) | null;
     mutators: DynamicFormMutators;
 }
+// TODO: remove
+const useExtraValidator = <Value extends FieldValue, SpecType extends Spec>({
+    name,
+    spec,
+}: {
+    name: string;
+    spec: SpecType;
+}) => {
+    const {mutators, config} = useDynamicFormsCtx();
+
+    const nextSpec = (() => {
+        const specMutator = _.get(mutators.spec, name, EMPTY_MUTATOR);
+
+        if (specMutator !== EMPTY_MUTATOR) {
+            return _.merge(_.cloneDeep(spec), specMutator);
+        }
+
+        return spec;
+    })();
+    const validator = (() => {
+        if (isCorrectConfig(config) && isCorrectSpec(nextSpec)) {
+            const {validators} = config[nextSpec.type] as unknown as {
+                validators: ValidatorsMap<Value, SpecType>;
+            };
+
+            if (validators) {
+                if (
+                    (!_.isString(nextSpec.validator) || !nextSpec.validator.length) &&
+                    _.isFunction(validators.base)
+                ) {
+                    return (value?: Value) => validators.base(nextSpec, value);
+                }
+
+                if (
+                    _.isString(nextSpec.validator) &&
+                    _.isFunction(validators[nextSpec.validator])
+                ) {
+                    return (value?: Value) => validators[nextSpec.validator!]!(nextSpec, value);
+                }
+            }
+        }
+
+        return;
+    })();
+
+    return validator;
+};
 
 export const useField = <Value extends FieldValue, SpecType extends Spec>({
     name,
     spec,
+    originalSpec,
     initialValue,
     value: externalValue,
     validate: propsValidate,
@@ -52,6 +105,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
     mutators,
 }: UseFieldProps<Value, SpecType>): FieldRenderProps<Value> => {
     const firstRenderRef = React.useRef(true);
+    const extraValidator = useExtraValidator<Value, SpecType>({name, spec: originalSpec});
 
     const validate = React.useCallback(
         (value: Value) => propsValidate?.(transformArrOut(value)),
@@ -112,10 +166,12 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
             valOrSetter: Value | ((currentValue: Value) => Value),
             childErrors?: Record<string, ValidateError>,
             errorMutator?: ValidateError,
+            extraValidator?: ReturnType<typeof useExtraValidator<Value, SpecType>>,
         ) => {
             setState((state) => {
                 const _value = _.isFunction(valOrSetter) ? valOrSetter(state.value) : valOrSetter;
-                const error = validate?.(_value) || errorMutator;
+                const error =
+                    (extraValidator ? extraValidator(_value) : validate?.(_value)) || errorMutator;
                 let value = transformArrIn(_value);
 
                 if (isNumberSpec(spec) && !error) {
@@ -298,7 +354,7 @@ export const useField = <Value extends FieldValue, SpecType extends Spec>({
                 valueMutator !== state.value &&
                 valueMutator !== EMPTY_MUTATOR
             ) {
-                onLocalChange(valueMutator, undefined, errorMutator);
+                onLocalChange(valueMutator, undefined, errorMutator, extraValidator);
             } else if (state.error !== errorMutator && !(state.error && !errorMutator)) {
                 setState({...state, error: errorMutator});
                 (parentOnChange ? parentOnChange : tools.onChange)(name, state.value, {
