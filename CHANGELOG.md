@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.1.0...v3.2.0) (2023-11-20)
+
+
+### Features
+
+* add dynamic field store mutators, add store value hook ([#139](https://github.com/gravity-ui/dynamic-forms/issues/139)) ([e43c7e3](https://github.com/gravity-ui/dynamic-forms/commit/e43c7e35d94ee0293eda10657df92c5ef70621f9))
+
 ## [3.1.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.0.1...v3.1.0) (2023-11-14)
 
 
