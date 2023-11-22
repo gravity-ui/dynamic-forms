@@ -1,10 +1,7 @@
-import React from 'react';
-
 import _ from 'lodash';
 
 import {Spec} from '../../types';
 
-import {EMPTY_MUTATOR} from './constants';
 import {
     useComponents,
     useControllerMirror,
@@ -12,6 +9,7 @@ import {
     useField,
     useRender,
     useSearch,
+    useSpec,
     useValidate,
 } from './hooks';
 import {ControllerMirror, FieldValue, ValidateError} from './types';
@@ -38,17 +36,7 @@ export const Controller = <Value extends FieldValue, SpecType extends Spec>({
     parentOnUnmount,
 }: ControllerProps<Value, SpecType>) => {
     const {tools, mutators, __mirror} = useDynamicFormsCtx();
-
-    const spec = React.useMemo(() => {
-        const specMutator = _.get(mutators.spec, name, EMPTY_MUTATOR);
-
-        if (specMutator !== EMPTY_MUTATOR) {
-            return _.merge(_spec, specMutator);
-        }
-
-        return _spec;
-    }, [_spec, mutators.spec, name]);
-
+    const spec = useSpec({name, spec: _spec, mutators});
     const {inputEntity, Layout} = useComponents(spec);
     const render = useRender({name, spec, inputEntity, Layout});
     const validate = useValidate(spec);
@@ -57,6 +45,7 @@ export const Controller = <Value extends FieldValue, SpecType extends Spec>({
         initialValue: _.get(tools.initialValue, name),
         value,
         spec,
+        originalSpec: _spec,
         validate,
         tools,
         parentOnChange,
