@@ -39,25 +39,25 @@ test.describe('Text Input', () => {
             await expect(component).toHaveScreenshot();
         });
 
-        test('layoutRowVerbose', async ({mount}) => {
+        test('layout row verbose', async ({mount}) => {
             const component = await mount(<DynamicForm spec={NUMBER_SPEC.layoutRowVerbose} />);
 
             await expect(component).toHaveScreenshot();
         });
 
-        test('layoutTableItem', async ({mount}) => {
+        test('layout table item', async ({mount}) => {
             const component = await mount(<DynamicForm spec={NUMBER_SPEC.layoutTableItem} />);
 
             await expect(component).toHaveScreenshot();
         });
 
-        test('layoutTransperant', async ({mount}) => {
+        test('layout transperant', async ({mount}) => {
             const component = await mount(<DynamicForm spec={NUMBER_SPEC.layoutTransperant} />);
 
             await expect(component).toHaveScreenshot();
         });
 
-        test('defaultValue', async ({mount}) => {
+        test('default value', async ({mount}) => {
             const component = await mount(<DynamicForm spec={NUMBER_SPEC.defaultValue} />);
 
             await expect(component).toHaveScreenshot();
@@ -71,7 +71,7 @@ test.describe('Text Input', () => {
             await expect(component).toHaveScreenshot();
         });
 
-        test('generateRandomValueButton', async ({mount}) => {
+        test('generate random value button', async ({mount}) => {
             const component = await mount(
                 <div style={{minWidth: '700px'}}>
                     <DynamicForm spec={PASSWORD_SPEC.generateRandomValueButton} />
@@ -81,7 +81,7 @@ test.describe('Text Input', () => {
             await expect(component).toHaveScreenshot();
         });
 
-        test('defaultValue', async ({mount}) => {
+        test('default value', async ({mount}) => {
             const component = await mount(<DynamicForm spec={PASSWORD_SPEC.defaultValue} />);
 
             await expect(component).toHaveScreenshot();
@@ -95,7 +95,7 @@ test.describe('Text Input', () => {
             await expect(component).toHaveScreenshot();
         });
 
-        test('errorMinLength', async ({mount}) => {
+        test('error minLength', async ({mount}) => {
             const component = await mount(<DynamicForm spec={STRING_SPEC.errorMinLength} />);
 
             await component.getByRole('textbox').fill('user value');
@@ -104,7 +104,7 @@ test.describe('Text Input', () => {
             await expect(component).toHaveScreenshot();
         });
 
-        test('errorMaxLength', async ({mount}) => {
+        test('error max length', async ({mount}) => {
             const component = await mount(<DynamicForm spec={STRING_SPEC.errorMaxLength} />);
 
             await component.getByRole('textbox').fill('user value');
@@ -112,7 +112,7 @@ test.describe('Text Input', () => {
             await expect(component).toHaveScreenshot();
         });
 
-        test('errorPatternError', async ({mount}) => {
+        test('error pattern error', async ({mount}) => {
             const component = await mount(<DynamicForm spec={STRING_SPEC.errorPatternError} />);
 
             await component.getByRole('textbox').fill('user value');

@@ -32,31 +32,31 @@ test.describe('Text Area', () => {
         await expect(component).toHaveScreenshot();
     });
 
-    test('layoutRowVerbose', async ({mount}) => {
+    test('layout row verbose', async ({mount}) => {
         const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.layoutRowVerbose} />);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('layoutTableItem', async ({mount}) => {
+    test('layout table item', async ({mount}) => {
         const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.layoutTableItem} />);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('layoutTransperant', async ({mount}) => {
+    test('layout transperant', async ({mount}) => {
         const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.layoutTransperant} />);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('defaultValue', async ({mount}) => {
+    test('defaultv value', async ({mount}) => {
         const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.defaultValue} />);
 
         await expect(component).toHaveScreenshot();
     });
 
-    test('errorMinLength', async ({mount}) => {
+    test('error min length', async ({mount}) => {
         const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.errorMinLength} />);
 
         await component.getByRole('textbox').fill('user value');
@@ -65,7 +65,7 @@ test.describe('Text Area', () => {
         await expect(component).toHaveScreenshot();
     });
 
-    test('errorMaxLength', async ({mount}) => {
+    test('error max length', async ({mount}) => {
         const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.errorMaxLength} />);
 
         await component.getByRole('textbox').fill('user value');
@@ -73,7 +73,7 @@ test.describe('Text Area', () => {
         await expect(component).toHaveScreenshot();
     });
 
-    test('errorPatternError', async ({mount}) => {
+    test('error pattern error', async ({mount}) => {
         const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.errorPatternError} />);
 
         await component.getByRole('textbox').fill('user value');

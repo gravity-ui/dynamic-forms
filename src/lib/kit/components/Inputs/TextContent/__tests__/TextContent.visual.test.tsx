@@ -15,13 +15,13 @@ test.describe('Text Content', () => {
             await expect(component).toHaveScreenshot();
         });
 
-        test('layoutRow', async ({mount}) => {
+        test('layout row', async ({mount}) => {
             const component = await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.textLayoutRow} />);
 
             await expect(component).toHaveScreenshot();
         });
 
-        test('layoutRowVerbose', async ({mount}) => {
+        test('layout row verbose', async ({mount}) => {
             const component = await mount(
                 <DynamicForm spec={TEXT_CONTENT_SPEC.textLayoutRowVerbose} />,
             );
@@ -29,7 +29,7 @@ test.describe('Text Content', () => {
             await expect(component).toHaveScreenshot();
         });
 
-        test('layoutTransparent', async ({mount}) => {
+        test('layout transparent', async ({mount}) => {
             const component = await mount(
                 <DynamicForm spec={TEXT_CONTENT_SPEC.textLayoutTransparent} />,
             );
@@ -45,13 +45,13 @@ test.describe('Text Content', () => {
             await expect(component).toHaveScreenshot();
         });
 
-        test('layoutRow', async ({mount}) => {
+        test('layout row', async ({mount}) => {
             const component = await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.labelLayoutRow} />);
 
             await expect(component).toHaveScreenshot();
         });
 
-        test('layoutRowVerbose', async ({mount}) => {
+        test('layout row verbose', async ({mount}) => {
             const component = await mount(
                 <DynamicForm spec={TEXT_CONTENT_SPEC.labelLayoutRowVerbose} />,
             );
@@ -59,7 +59,7 @@ test.describe('Text Content', () => {
             await expect(component).toHaveScreenshot();
         });
 
-        test('layoutTransparent', async ({mount}) => {
+        test('layout transparent', async ({mount}) => {
             const component = await mount(
                 <DynamicForm spec={TEXT_CONTENT_SPEC.labelLayoutTransparent} />,
             );
@@ -73,7 +73,7 @@ test.describe('Text Content', () => {
             await expect(component).toHaveScreenshot();
         });
 
-        test('defaultValue', async ({mount}) => {
+        test('default value', async ({mount}) => {
             const component = await mount(
                 <DynamicForm spec={TEXT_CONTENT_SPEC.labelDefaultValue} />,
             );
