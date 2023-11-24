@@ -1,19 +1,9 @@
-import {
-    useComponents,
-    useField,
-    useIntegrationFF,
-    useRender,
-    useSearch,
-    useSearchStore,
-    useStore,
-    useValidate,
-} from '../hooks';
+import {useIntegrationFF, useSearch, useSearchStore, useStore} from '../hooks';
+
+import {FieldRenderProps} from './field';
 
 export interface ControllerMirror {
-    useComponents?: ReturnType<typeof useComponents>;
-    useRender?: ReturnType<typeof useRender>;
-    useValidate?: ReturnType<typeof useValidate>;
-    useField?: ReturnType<typeof useField>;
+    useField?: FieldRenderProps<any>;
     useSearch?: ReturnType<typeof useSearch>;
 }
 

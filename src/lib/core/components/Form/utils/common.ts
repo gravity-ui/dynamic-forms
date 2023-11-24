@@ -4,7 +4,6 @@ import {SpecTypes} from '../../../constants';
 import {isStringSpec} from '../../../helpers';
 import {FormValue, ObjectValue, Spec} from '../../../types';
 import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG, SPEC_TYPE_FOR_GENERATE_BUTTON} from '../constants';
-import {ValidateError} from '../types';
 
 export const isCorrectConfig = (candidate: any) =>
     Object.values(SpecTypes).every(
@@ -75,9 +74,3 @@ export const withGenerateButton = (spec: Spec) =>
     isStringSpec(spec) &&
     SPEC_TYPE_FOR_GENERATE_BUTTON.includes(spec.viewSpec.type) &&
     spec.viewSpec.generateRandomValueButton;
-
-export const isErrorMutatorCorrect = (errorMutator: ValidateError) =>
-    _.isString(errorMutator) || _.isBoolean(errorMutator) || _.isUndefined(errorMutator);
-
-export const isValueMutatorCorrect = (valueMutator: FormValue, spec: Spec) =>
-    typeof valueMutator === spec.type || (_.isArray(valueMutator) && spec.type === SpecTypes.Array);
