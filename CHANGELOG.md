@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.3.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.2.0...v3.3.0) (2023-11-24)
+
+
+### Features
+
+* add new controller ([#143](https://github.com/gravity-ui/dynamic-forms/issues/143)) ([944952d](https://github.com/gravity-ui/dynamic-forms/commit/944952d978329922396ab0f712fb76e7eacca99a))
+
+
+### Bug Fixes
+
+* fix state updates by mutators ([#141](https://github.com/gravity-ui/dynamic-forms/issues/141)) ([43b9dec](https://github.com/gravity-ui/dynamic-forms/commit/43b9dec5908936a66d3c0a91e25a06ec757deea6))
+
 ## [3.2.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.1.0...v3.2.0) (2023-11-20)
 
 
