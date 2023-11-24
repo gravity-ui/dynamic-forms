@@ -59,12 +59,6 @@ const config: PlaywrightTestConfig = {
                     '~playwright': resolve(__dirname),
                 },
             },
-            /*  root: join(__dirname, 'src'), */
-            /* resolve: {
-                alias: {
-                    '~': pathFromRoot('playwright'),
-                },
-            }, */
         },
     },
     /* Configure projects for major browsers */
