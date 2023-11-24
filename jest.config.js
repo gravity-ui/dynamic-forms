@@ -14,4 +14,5 @@ module.exports = {
         '\\.(css|less|scss|sass)$': 'jest-transform-css',
     },
     testMatch: ['**/*.test.[jt]s?(x)'],
+    modulePathIgnorePatterns: ['visual'],
 };
