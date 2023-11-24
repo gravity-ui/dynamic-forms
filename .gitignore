@@ -11,3 +11,8 @@ node_modules
 dist
 build
 storybook-static
+
+#Playwright
+/playwright/playwright/.cache
+/playwright-report
+/test-results

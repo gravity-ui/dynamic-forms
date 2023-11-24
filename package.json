@@ -34,7 +34,12 @@
     "build-storybook": "sb build",
     "dev": "sb dev -p 6006",
     "start": "sb dev",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "playwright:install": "playwright install --with-deps",
+    "playwright": "playwright test --config=playwright/playwright.config.ts",
+    "playwright:update": "npm run playwright -- -u",
+    "playwright:docker": "docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.39.0-jammy /bin/bash -c 'npm ci && npx  playwright install && npm run playwright'",
+    "playwright:docker:update": " docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.39.0-jammy /bin/bash -c 'npm ci && npx  playwright install && npm run playwright:update'"
   },
   "dependencies": {
     "@bem-react/classname": "^1.6.0",
@@ -53,6 +58,8 @@
     "@gravity-ui/stylelint-config": "^2.0.0",
     "@gravity-ui/tsconfig": "^1.0.0",
     "@gravity-ui/uikit": "^5.19.1",
+    "@playwright/experimental-ct-react": "^1.40.0",
+    "@playwright/test": "^1.40.0",
     "@storybook/addon-essentials": "^7.0.27",
     "@storybook/preset-scss": "^1.0.3",
     "@storybook/react": "^7.0.27",
@@ -66,6 +73,7 @@
     "@types/react-dom": "^18.0.11",
     "@types/react-is": "^17.0.3",
     "@types/uuid": "^9.0.4",
+    "@vitejs/plugin-react": "^4.2.0",
     "css-loader": "^5.2.6",
     "eslint": "^8.27.0",
     "final-form": "^4.20.2",
