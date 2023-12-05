@@ -24,7 +24,10 @@ export const ObjectValueInputView: ObjectIndependentView = ({spec, name, Layout,
     }
 
     const content = (
-        <ViewController spec={childSpec} name={`${name}.${OBJECT_VALUE_PROPERTY_NAME}`} />
+        <ViewController
+            spec={childSpec}
+            name={`${name ? name + '.' : ''}${OBJECT_VALUE_PROPERTY_NAME}`}
+        />
     );
 
     if (Layout) {
