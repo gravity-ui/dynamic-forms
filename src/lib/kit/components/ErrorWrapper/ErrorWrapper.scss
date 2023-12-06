@@ -20,14 +20,14 @@
         .yc-text-input_view_normal:not(.#{$ns}error-wrapper-ignore) .yc-text-input__control,
         .yc-text-input_view_normal:not(.#{$ns}error-wrapper-ignore) .yc-text-input__content,
         .yc-checkbox__indicator:not(.#{$ns}error-wrapper-ignore)::before {
-            border-color: var(--yc-color-text-danger);
+            border-color: var(--g-color-text-danger);
         }
     }
 
     &__error-text {
-        color: var(--yc-color-text-danger);
+        color: var(--g-color-text-danger);
         margin-top: 2px;
-        font-size: var(--yc-text-body-1-font-size);
-        line-height: var(--yc-text-body-1-line-height);
+        font-size: var(--g-text-body-1-font-size);
+        line-height: var(--g-text-body-1-line-height);
     }
 }
