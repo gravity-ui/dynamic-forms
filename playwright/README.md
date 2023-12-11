@@ -25,16 +25,16 @@
    });
    ```
 
-Group of tests.
+   Group of tests.
 
-```ts
-test.describe('Name group tests', () => {
-  test('1', ...);
-  test('2', ...);
-  ...
-  test('10', ...)
-});
-```
+   ```ts
+   test.describe('Name group tests', () => {
+     test('1', ...);
+     test('2', ...);
+     ...
+     test('10', ...)
+   });
+   ```
 
 4. Run tests
 
@@ -53,15 +53,15 @@ test.describe('Name group tests', () => {
 
 5. Update screenshots if needed
 
-```shell
-npm run playwright:update
-```
+   ```shell
+   npm run playwright:update
+   ```
 
-Or
+   Or
 
-```shell
-npm run playwright:docker:update
-```
+   ```shell
+   npm run playwright:docker:update
+   ```
 
 6. In the folder `__snapshots__`, which is on the same level as the `__tests__` folder, the folder `<Component name>.visual.test.tsx-snapshots`, will contain screenshots
 
