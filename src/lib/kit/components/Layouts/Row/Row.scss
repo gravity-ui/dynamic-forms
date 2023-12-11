@@ -38,7 +38,7 @@
         &_required {
             &::after {
                 content: '*';
-                color: var(--yc-color-text-danger);
+                color: var(--g-color-text-danger);
             }
         }
     }
@@ -74,7 +74,7 @@
 
     &__description {
         margin-top: 10px;
-        color: var(--yc-color-text-secondary);
+        color: var(--g-color-text-secondary);
         word-break: break-word;
     }
 
@@ -83,7 +83,7 @@
     }
 
     &__required-mark {
-        color: var(--yc-color-text-danger);
+        color: var(--g-color-text-danger);
     }
 
     &__error-wrapper {

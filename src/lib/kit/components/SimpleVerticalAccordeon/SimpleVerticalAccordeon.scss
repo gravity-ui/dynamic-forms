@@ -12,7 +12,7 @@ $animationDuration: 0.3s;
     &_branch &__body {
         padding-left: $normalOffset;
         margin-left: 5px;
-        border-left: 1px solid var(--yc-color-line-generic-accent);
+        border-left: 1px solid var(--g-color-line-generic-accent);
     }
 
     &__header {
@@ -31,19 +31,19 @@ $animationDuration: 0.3s;
         &_size_s {
             margin-bottom: 0;
 
-            font-size: var(--yc-text-body-1-font-size);
+            font-size: var(--g-text-body-1-font-size);
         }
 
         &_size_m {
             margin-bottom: 1px;
 
-            font-size: var(--yc-text-body2-font-size);
+            font-size: var(--g-text-body2-font-size);
         }
 
         &_size_l {
             margin-bottom: 2px;
 
-            font-size: var(--yc-text-body3-font-size);
+            font-size: var(--g-text-body3-font-size);
         }
     }
 

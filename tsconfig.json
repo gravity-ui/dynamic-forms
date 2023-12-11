@@ -5,6 +5,9 @@
     "baseUrl": ".",
     "jsx": "react",
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "~playwright/*": ["playwright/*"]
+    }
   }
 }

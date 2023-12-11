@@ -23,14 +23,14 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        color: var(--yc-color-text-secondary);
+        color: var(--g-color-text-secondary);
     }
 
     &__dots {
         min-width: 40px;
         flex-grow: 1;
         margin: 0 2px;
-        border-bottom: 1px dotted var(--yc-color-text-secondary);
+        border-bottom: 1px dotted var(--g-color-text-secondary);
     }
 
     &__right {
