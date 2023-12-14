@@ -56,9 +56,7 @@ export const getArrayValidator = (params: GetArrayValidatorParams = {}) => {
     };
 };
 
-export interface GetBooleanValidatorParams extends CommonValidatorParams {
-    ignoreRequiredCheck?: boolean;
-}
+export interface GetBooleanValidatorParams extends CommonValidatorParams {}
 
 export const getBooleanValidator = (params: GetBooleanValidatorParams = {}) => {
     const {ignoreRequiredCheck, customErrorMessages} = params;
