@@ -12,21 +12,28 @@ import {
 import {ErrorMessages} from '../validators';
 
 import {isFloat, isInt} from './helpers';
+import {ErrorMessagesType} from './types';
 
-export interface GetArrayValidatorParams {
+interface CommonValidatorParams {
     ignoreRequiredCheck?: boolean;
+    customErrorMessages?: Partial<ErrorMessagesType>;
+}
+
+export interface GetArrayValidatorParams extends CommonValidatorParams {
     ignoreMaxLengthCheck?: boolean;
     ignoreMinLengthCheck?: boolean;
 }
 
 export const getArrayValidator = (params: GetArrayValidatorParams = {}) => {
-    const {ignoreRequiredCheck, ignoreMaxLengthCheck, ignoreMinLengthCheck} = params;
+    const {ignoreRequiredCheck, ignoreMaxLengthCheck, ignoreMinLengthCheck, customErrorMessages} =
+        params;
+    const errorMessages = {...ErrorMessages, ...customErrorMessages};
 
     return (spec: ArraySpec, value?: ArrayValue) => {
         const valueLength = value?.length || 0;
 
         if (!ignoreRequiredCheck && spec.required && !_.isArray(value)) {
-            return ErrorMessages.REQUIRED;
+            return errorMessages.REQUIRED;
         }
 
         if (
@@ -34,7 +41,7 @@ export const getArrayValidator = (params: GetArrayValidatorParams = {}) => {
             typeof spec.maxLength === 'bigint' &&
             valueLength > spec.maxLength
         ) {
-            return ErrorMessages.maxLengthArr(spec.maxLength);
+            return errorMessages.maxLengthArr(spec.maxLength);
         }
 
         if (
@@ -42,31 +49,31 @@ export const getArrayValidator = (params: GetArrayValidatorParams = {}) => {
             typeof spec.minLength === 'bigint' &&
             valueLength < spec.minLength
         ) {
-            return ErrorMessages.minLengthArr(spec.minLength);
+            return errorMessages.minLengthArr(spec.minLength);
         }
 
         return false;
     };
 };
 
-export interface GetBooleanValidatorParams {
+export interface GetBooleanValidatorParams extends CommonValidatorParams {
     ignoreRequiredCheck?: boolean;
 }
 
 export const getBooleanValidator = (params: GetBooleanValidatorParams = {}) => {
-    const {ignoreRequiredCheck} = params;
+    const {ignoreRequiredCheck, customErrorMessages} = params;
+    const errorMessages = {...ErrorMessages, ...customErrorMessages};
 
     return (spec: BooleanSpec, value?: boolean) => {
         if (!ignoreRequiredCheck && spec.required && !value) {
-            return ErrorMessages.REQUIRED;
+            return errorMessages.REQUIRED;
         }
 
         return false;
     };
 };
 
-export interface GetNumberValidatorParams {
-    ignoreRequiredCheck?: boolean;
+export interface GetNumberValidatorParams extends CommonValidatorParams {
     ignoreSpaceStartCheck?: boolean;
     ignoreSpaceEndCheck?: boolean;
     ignoreNumberCheck?: boolean;
@@ -88,30 +95,33 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
         ignoreIntCheck,
         ignoreDotEnd,
         ignoreZeroStart,
+        customErrorMessages,
     } = params;
+    const errorMessages = {...ErrorMessages, ...customErrorMessages};
 
+    // eslint-disable-next-line complexity
     return (spec: NumberSpec, value: string | number = '') => {
         const stringValue = String(value);
 
         if (!ignoreRequiredCheck && spec.required && !stringValue.length) {
-            return ErrorMessages.REQUIRED;
+            return errorMessages.REQUIRED;
         }
 
         if (stringValue.length) {
             if (!ignoreSpaceStartCheck && !stringValue[0].trim()) {
-                return ErrorMessages.SPACE_START;
+                return errorMessages.SPACE_START;
             }
 
             if (!ignoreSpaceEndCheck && !stringValue[stringValue.length - 1].trim()) {
-                return ErrorMessages.SPACE_END;
+                return errorMessages.SPACE_END;
             }
 
             if (!ignoreDotEnd && stringValue[stringValue.length - 1] === '.') {
-                return ErrorMessages.DOT_END;
+                return errorMessages.DOT_END;
             }
 
             if (!ignoreNumberCheck && !isFloat(stringValue)) {
-                return ErrorMessages.NUMBER;
+                return errorMessages.NUMBER;
             }
 
             if (
@@ -121,7 +131,7 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
                         stringValue.substring(0, 2) === '-0' &&
                         stringValue[2] !== '.'))
             ) {
-                return ErrorMessages.ZERO_START;
+                return errorMessages.ZERO_START;
             }
         }
 
@@ -131,7 +141,7 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
             stringValue.length &&
             Number(stringValue) > spec.maximum
         ) {
-            return ErrorMessages.maxNumber(spec.maximum);
+            return errorMessages.maxNumber(spec.maximum);
         }
 
         if (
@@ -140,12 +150,12 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
             stringValue.length &&
             spec.minimum > Number(stringValue)
         ) {
-            return ErrorMessages.minNumber(spec.minimum);
+            return errorMessages.minNumber(spec.minimum);
         }
 
         if (_.isString(spec.format) && stringValue.length) {
             if (!ignoreIntCheck && spec.format === 'int64' && !isInt(stringValue)) {
-                return ErrorMessages.INT;
+                return errorMessages.INT;
             }
         }
 
@@ -153,24 +163,22 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
     };
 };
 
-export interface GetObjectValidatorParams {
-    ignoreRequiredCheck?: boolean;
-}
+export interface GetObjectValidatorParams extends CommonValidatorParams {}
 
 export const getObjectValidator = (params: GetObjectValidatorParams = {}) => {
-    const {ignoreRequiredCheck} = params;
+    const {ignoreRequiredCheck, customErrorMessages} = params;
+    const errorMessages = {...ErrorMessages, ...customErrorMessages};
 
     return (spec: ObjectSpec, value?: ObjectValue) => {
         if (!ignoreRequiredCheck && spec.required && !value) {
-            return ErrorMessages.REQUIRED;
+            return errorMessages.REQUIRED;
         }
 
         return false;
     };
 };
 
-export interface GetStringValidatorParams {
-    ignoreRequiredCheck?: boolean;
+export interface GetStringValidatorParams extends CommonValidatorParams {
     ignoreSpaceStartCheck?: boolean;
     ignoreSpaceEndCheck?: boolean;
     ignoreMaxLengthCheck?: boolean;
@@ -186,22 +194,25 @@ export const getStringValidator = (params: GetStringValidatorParams = {}) => {
         ignoreMaxLengthCheck,
         ignoreMinLengthCheck,
         ignoreRegExpCheck,
+        customErrorMessages,
     } = params;
+    const errorMessages = {...ErrorMessages, ...customErrorMessages};
 
+    // eslint-disable-next-line complexity
     return (spec: StringSpec, value = '') => {
         const valueLength = value?.length;
 
         if (!ignoreRequiredCheck && spec.required && !valueLength) {
-            return ErrorMessages.REQUIRED;
+            return errorMessages.REQUIRED;
         }
 
         if (valueLength) {
             if (!ignoreSpaceStartCheck && !value[0].trim()) {
-                return ErrorMessages.SPACE_START;
+                return errorMessages.SPACE_START;
             }
 
             if (!ignoreSpaceEndCheck && !value[value.length - 1].trim()) {
-                return ErrorMessages.SPACE_END;
+                return errorMessages.SPACE_END;
             }
         }
 
@@ -210,7 +221,7 @@ export const getStringValidator = (params: GetStringValidatorParams = {}) => {
             typeof spec.maxLength === 'bigint' &&
             valueLength > spec.maxLength
         ) {
-            return ErrorMessages.maxLength(spec.maxLength);
+            return errorMessages.maxLength(spec.maxLength);
         }
 
         if (
@@ -218,7 +229,7 @@ export const getStringValidator = (params: GetStringValidatorParams = {}) => {
             typeof spec.minLength === 'bigint' &&
             valueLength < spec.minLength
         ) {
-            return ErrorMessages.minLength(spec.minLength);
+            return errorMessages.minLength(spec.minLength);
         }
 
         if (_.isString(spec.pattern) && spec.pattern.length) {
@@ -227,7 +238,7 @@ export const getStringValidator = (params: GetStringValidatorParams = {}) => {
             if (!ignoreRegExpCheck && !regex.test(value)) {
                 return _.isString(spec.patternError) && spec.patternError.length
                     ? spec.patternError
-                    : ErrorMessages.INVALID;
+                    : errorMessages.INVALID;
             }
         }
 
