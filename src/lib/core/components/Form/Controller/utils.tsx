@@ -489,7 +489,7 @@ export const updateStore = <
         | typeof EMPTY_MUTATOR;
     const storeErrorMutator = _.get(store.mutators.errors, store.name, EMPTY_MUTATOR);
 
-    const specMutator = _.get(mutators.errors, name, EMPTY_MUTATOR);
+    const specMutator = _.get(mutators.spec, name, EMPTY_MUTATOR);
     const valueMutator = _.get(mutators.values, name, EMPTY_MUTATOR) as
         | DirtyValue
         | typeof EMPTY_MUTATOR;
