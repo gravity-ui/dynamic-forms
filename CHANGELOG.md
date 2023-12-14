@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.4.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.3.0...v3.4.0) (2023-12-14)
+
+
+### Features
+
+* **validators:** add custom error messages property ([#150](https://github.com/gravity-ui/dynamic-forms/issues/150)) ([0130131](https://github.com/gravity-ui/dynamic-forms/commit/01301313642b69b24351c2a0bc26378586de02c3))
+
+
+### Bug Fixes
+
+* fix spec mutator key ([#151](https://github.com/gravity-ui/dynamic-forms/issues/151)) ([77c1a47](https://github.com/gravity-ui/dynamic-forms/commit/77c1a475d65a06588a12fca5486c3cf77d67c4ab))
+* **ObjectValueView:** fixed view value object value ([#148](https://github.com/gravity-ui/dynamic-forms/issues/148)) ([395bf84](https://github.com/gravity-ui/dynamic-forms/commit/395bf84b312d4403ae4e7c0dd42536b6aff70517))
+
 ## [3.3.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.2.0...v3.3.0) (2023-11-24)
 
 
