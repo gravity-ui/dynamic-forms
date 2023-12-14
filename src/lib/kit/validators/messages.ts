@@ -1,7 +1,9 @@
 import i18n from '../i18n';
 import {subscribeConfigure} from '../i18n/configure';
 
-const getErrorMessages = () => ({
+import type {ErrorMessagesType} from './types';
+
+const getErrorMessages = (): ErrorMessagesType => ({
     REQUIRED: i18n('label_error-required'),
     INVALID: i18n('label_error-invalid'),
     INT: i18n('label_error-int'),
@@ -30,7 +32,7 @@ const getErrorMessages = () => ({
     ZERO_START: i18n('label_error-zero-start'),
 });
 
-export let ErrorMessages = getErrorMessages();
+export let ErrorMessages: ErrorMessagesType = getErrorMessages();
 
 subscribeConfigure(() => {
     ErrorMessages = getErrorMessages();
