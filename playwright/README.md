@@ -9,32 +9,51 @@
    ```ts
    import React from 'react';
 
-   import {expect} from '@playwright/experimental-ct-react';
-
-   import {TEST_SPEC} from '../helpers';
+   import {TEST_SPEC} from './helpers';
 
    import {test} from '~playwright/core';
    import {DynamicForm} from '~playwright/core/DynamicForm';
 
-   test('Name test', async ({mount}) => {
+   test('Name test', async ({mount, expectScreenshot}) => {
+     //mounting a component
+     await mount(<DynamicForm spec={TEST_SPEC} />);
+
+     //screenshot
+     await expectScreenshot();
+   });
+   ```
+
+   or if you need to do any actions on the component
+
+   ```ts
+   import React from 'react';
+
+   import {TEST_SPEC} from './helpers';
+
+   import {test} from '~playwright/core';
+   import {DynamicForm} from '~playwright/core/DynamicForm';
+
+   test('Name test', async ({mount, expectScreenshot}) => {
      //mounting a component
      const component = await mount(<DynamicForm spec={TEST_SPEC} />);
 
+     await component.getByRole('button').click();
+
      //screenshot
-     await expect(component).toHaveScreenshot();
+     await expectScreenshot();
    });
    ```
 
-   Group of tests.
+Group of tests.
 
-   ```ts
-   test.describe('Name group tests', () => {
-     test('1', ...);
-     test('2', ...);
-     ...
-     test('10', ...)
-   });
-   ```
+```ts
+test.describe('Name group tests', () => {
+  test('1', ...);
+  test('2', ...);
+  ...
+  test('10', ...)
+});
+```
 
 4. Run tests
 
