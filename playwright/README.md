@@ -44,31 +44,33 @@
    });
    ```
 
-Group of tests.
+   Group of tests.
 
-```ts
-test.describe('Name group tests', () => {
-  test('1', ...);
-  test('2', ...);
-  ...
-  test('10', ...)
-});
-```
+   ```ts
+   test.describe('Name group tests', () => {
+   test('1', ...);
+   test('2', ...);
+   ...
+   test('10', ...)
+   });
+   ```
+
+````
 
 4. Run tests
 
    ```shell
    npm run playwright:install
    npm run playwright
-   ```
+````
 
-   If you are using system other than Linux, then you need to run tests via docker command:
+If you are using system other than Linux, then you need to run tests via docker command:
 
-   ```shell
-   npm run playwright:docker
-   ```
+```shell
+npm run playwright:docker
+```
 
-   > `npm run playwright:install` command must be run only once on initial setup
+> `npm run playwright:install` command must be run only once on initial setup
 
 5. Update screenshots if needed
 
