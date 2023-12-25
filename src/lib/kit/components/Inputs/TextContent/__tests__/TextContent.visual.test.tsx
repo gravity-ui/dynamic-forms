@@ -1,7 +1,5 @@
 import React from 'react';
 
-import {expect} from '@playwright/experimental-ct-react';
-
 import {TEXT_CONTENT_SPEC} from './helpers';
 
 import {test} from '~playwright/core';
@@ -9,76 +7,66 @@ import {DynamicForm} from '~playwright/core/DynamicForm';
 
 test.describe('Text Content', () => {
     test.describe('Text', () => {
-        test('default', async ({mount}) => {
-            const component = await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.defaultText} />);
+        test('default', async ({mount, expectScreenshot}) => {
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.defaultText} />);
 
-            await expect(component).toHaveScreenshot();
+            await expectScreenshot();
         });
 
-        test('layout row', async ({mount}) => {
-            const component = await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.textLayoutRow} />);
+        test('layout row', async ({mount, expectScreenshot}) => {
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.textLayoutRow} />);
 
-            await expect(component).toHaveScreenshot();
+            await expectScreenshot();
         });
 
-        test('layout row verbose', async ({mount}) => {
-            const component = await mount(
-                <DynamicForm spec={TEXT_CONTENT_SPEC.textLayoutRowVerbose} />,
-            );
+        test('layout row verbose', async ({mount, expectScreenshot}) => {
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.textLayoutRowVerbose} />);
 
-            await expect(component).toHaveScreenshot();
+            await expectScreenshot();
         });
 
-        test('layout transparent', async ({mount}) => {
-            const component = await mount(
-                <DynamicForm spec={TEXT_CONTENT_SPEC.textLayoutTransparent} />,
-            );
+        test('layout transparent', async ({mount, expectScreenshot}) => {
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.textLayoutTransparent} />);
 
-            await expect(component).toHaveScreenshot();
+            await expectScreenshot();
         });
     });
 
     test.describe('Label', () => {
-        test('default', async ({mount}) => {
-            const component = await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.defaultLabel} />);
+        test('default', async ({mount, expectScreenshot}) => {
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.defaultLabel} />);
 
-            await expect(component).toHaveScreenshot();
+            await expectScreenshot();
         });
 
-        test('layout row', async ({mount}) => {
-            const component = await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.labelLayoutRow} />);
+        test('layout row', async ({mount, expectScreenshot}) => {
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.labelLayoutRow} />);
 
-            await expect(component).toHaveScreenshot();
+            await expectScreenshot();
         });
 
-        test('layout row verbose', async ({mount}) => {
-            const component = await mount(
-                <DynamicForm spec={TEXT_CONTENT_SPEC.labelLayoutRowVerbose} />,
-            );
+        test('layout row verbose', async ({mount, expectScreenshot}) => {
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.labelLayoutRowVerbose} />);
 
-            await expect(component).toHaveScreenshot();
+            await expectScreenshot();
         });
 
-        test('layout transparent', async ({mount}) => {
-            const component = await mount(
-                <DynamicForm spec={TEXT_CONTENT_SPEC.labelLayoutTransparent} />,
-            );
+        test('layout transparent', async ({mount, expectScreenshot}) => {
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.labelLayoutTransparent} />);
 
-            await expect(component).toHaveScreenshot();
+            await expectScreenshot();
         });
 
-        test('no icon', async ({mount}) => {
-            const component = await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.labelNoIcon} />);
+        test('no icon', async ({mount, expectScreenshot}) => {
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.labelNoIcon} />);
 
-            await expect(component).toHaveScreenshot();
+            await expectScreenshot();
         });
 
-        test('default value', async ({mount}) => {
-            const component = await mount(
-                <DynamicForm spec={TEXT_CONTENT_SPEC.labelDefaultValue} />,
-            );
+        test('default value', async ({mount, expectScreenshot}) => {
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.labelDefaultValue} />);
 
-            await expect(component).toHaveScreenshot();
+            await expectScreenshot();
         });
     });
 });

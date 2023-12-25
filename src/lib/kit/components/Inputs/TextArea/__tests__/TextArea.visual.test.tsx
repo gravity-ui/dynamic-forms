@@ -1,83 +1,81 @@
 import React from 'react';
 
-import {expect} from '@playwright/experimental-ct-react';
-
 import {TEXT_AREA_SPEC} from './helpers';
 
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
 
 test.describe('Text Area', () => {
-    test('default', async ({mount}) => {
-        const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.default} />);
+    test('default', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicForm spec={TEXT_AREA_SPEC.default} />);
 
-        await expect(component).toHaveScreenshot();
+        await expectScreenshot();
     });
 
-    test('disabled', async ({mount}) => {
-        const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.disabled} />);
+    test('disabled', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicForm spec={TEXT_AREA_SPEC.disabled} />);
 
-        await expect(component).toHaveScreenshot();
+        await expectScreenshot();
     });
 
-    test('description', async ({mount}) => {
-        const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.description} />);
+    test('description', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicForm spec={TEXT_AREA_SPEC.description} />);
 
-        await expect(component).toHaveScreenshot();
+        await expectScreenshot();
     });
 
-    test('hidden', async ({mount}) => {
-        const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.hidden} />);
+    test('hidden', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicForm spec={TEXT_AREA_SPEC.hidden} />);
 
-        await expect(component).toHaveScreenshot();
+        await expectScreenshot();
     });
 
-    test('layout row verbose', async ({mount}) => {
-        const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.layoutRowVerbose} />);
+    test('layout row verbose', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicForm spec={TEXT_AREA_SPEC.layoutRowVerbose} />);
 
-        await expect(component).toHaveScreenshot();
+        await expectScreenshot();
     });
 
-    test('layout table item', async ({mount}) => {
-        const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.layoutTableItem} />);
+    test('layout table item', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicForm spec={TEXT_AREA_SPEC.layoutTableItem} />);
 
-        await expect(component).toHaveScreenshot();
+        await expectScreenshot();
     });
 
-    test('layout transperant', async ({mount}) => {
-        const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.layoutTransperant} />);
+    test('layout transperant', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicForm spec={TEXT_AREA_SPEC.layoutTransperant} />);
 
-        await expect(component).toHaveScreenshot();
+        await expectScreenshot();
     });
 
-    test('defaultv value', async ({mount}) => {
-        const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.defaultValue} />);
+    test('defaultv value', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicForm spec={TEXT_AREA_SPEC.defaultValue} />);
 
-        await expect(component).toHaveScreenshot();
+        await expectScreenshot();
     });
 
-    test('error min length', async ({mount}) => {
+    test('error min length', async ({mount, expectScreenshot}) => {
         const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.errorMinLength} />);
 
         await component.getByRole('textbox').fill('user value');
         await component.getByRole('button').click();
 
-        await expect(component).toHaveScreenshot();
+        await expectScreenshot();
     });
 
-    test('error max length', async ({mount}) => {
+    test('error max length', async ({mount, expectScreenshot}) => {
         const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.errorMaxLength} />);
 
         await component.getByRole('textbox').fill('user value');
 
-        await expect(component).toHaveScreenshot();
+        await expectScreenshot();
     });
 
-    test('error pattern error', async ({mount}) => {
+    test('error pattern error', async ({mount, expectScreenshot}) => {
         const component = await mount(<DynamicForm spec={TEXT_AREA_SPEC.errorPatternError} />);
 
         await component.getByRole('textbox').fill('user value');
 
-        await expect(component).toHaveScreenshot();
+        await expectScreenshot();
     });
 });

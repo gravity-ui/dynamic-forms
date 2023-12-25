@@ -9,19 +9,38 @@
    ```ts
    import React from 'react';
 
-   import {expect} from '@playwright/experimental-ct-react';
-
-   import {TEST_SPEC} from '../helpers';
+   import {TEST_SPEC} from './helpers';
 
    import {test} from '~playwright/core';
    import {DynamicForm} from '~playwright/core/DynamicForm';
 
-   test('Name test', async ({mount}) => {
+   test('Name test', async ({mount, expectScreenshot}) => {
+     //mounting a component
+     await mount(<DynamicForm spec={TEST_SPEC} />);
+
+     //screenshot
+     await expectScreenshot();
+   });
+   ```
+
+   or if you need to do any actions on the component
+
+   ```ts
+   import React from 'react';
+
+   import {TEST_SPEC} from './helpers';
+
+   import {test} from '~playwright/core';
+   import {DynamicForm} from '~playwright/core/DynamicForm';
+
+   test('Name test', async ({mount, expectScreenshot}) => {
      //mounting a component
      const component = await mount(<DynamicForm spec={TEST_SPEC} />);
 
+     await component.getByRole('button').click();
+
      //screenshot
-     await expect(component).toHaveScreenshot();
+     await expectScreenshot();
    });
    ```
 
@@ -29,27 +48,29 @@
 
    ```ts
    test.describe('Name group tests', () => {
-     test('1', ...);
-     test('2', ...);
-     ...
-     test('10', ...)
+   test('1', ...);
+   test('2', ...);
+   ...
+   test('10', ...)
    });
    ```
+
+````
 
 4. Run tests
 
    ```shell
    npm run playwright:install
    npm run playwright
-   ```
+````
 
-   If you are using system other than Linux, then you need to run tests via docker command:
+If you are using system other than Linux, then you need to run tests via docker command:
 
-   ```shell
-   npm run playwright:docker
-   ```
+```shell
+npm run playwright:docker
+```
 
-   > `npm run playwright:install` command must be run only once on initial setup
+> `npm run playwright:install` command must be run only once on initial setup
 
 5. Update screenshots if needed
 
