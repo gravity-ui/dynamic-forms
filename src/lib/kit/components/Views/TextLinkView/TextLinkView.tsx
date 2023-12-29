@@ -27,7 +27,12 @@ export const TextLinkView: ObjectIndependentView = ({value, spec, name, Layout, 
         return null;
     }
 
-    const content = <ViewController spec={childSpec} name={`${name}.${TEXT_LINK_PROPERTY_NAME}`} />;
+    const content = (
+        <ViewController
+            spec={childSpec}
+            name={`${name ? name + '.' : ''}${TEXT_LINK_PROPERTY_NAME}`}
+        />
+    );
 
     if (Layout) {
         return (

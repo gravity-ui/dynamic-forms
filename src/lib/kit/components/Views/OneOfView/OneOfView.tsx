@@ -55,8 +55,8 @@ const OneOfViewComponent: React.FC<OneOfViewProps> = (props) => {
                 <GroupIndent>
                     <ViewController
                         spec={specProperties[valueKey]}
-                        name={`${name}.${valueKey}`}
-                        key={`${name}.${valueKey}`}
+                        name={`${name ? name + '.' : ''}${valueKey}`}
+                        key={`${name ? name + '.' : ''}${valueKey}`}
                     />
                 </GroupIndent>
             ) : null}
