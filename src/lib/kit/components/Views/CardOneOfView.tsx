@@ -52,8 +52,8 @@ export const CardOneOfView: ObjectIndependentView = (props) => {
             {specProperties[valueKey] ? (
                 <ViewController
                     spec={specProperties[valueKey]}
-                    name={`${name}.${valueKey}`}
-                    key={`${name}.${valueKey}`}
+                    name={`${name ? name + '.' : ''}${valueKey}`}
+                    key={`${name ? name + '.' : ''}${valueKey}`}
                 />
             ) : null}
         </Card>
