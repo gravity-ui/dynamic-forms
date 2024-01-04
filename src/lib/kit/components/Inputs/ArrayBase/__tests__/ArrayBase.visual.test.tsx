@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {ARRAY_BASE, DynamicForm} from './helpers';
+import {ARRAY_BASE, DynamicForm, VALUE} from './helpers';
 
 import {test} from '~playwright/core';
+import {DynamicView} from '~playwright/core/DynamicView';
 
 test.describe('Array Base', () => {
     test('default', async ({mount, expectScreenshot}) => {
@@ -53,6 +54,14 @@ test.describe('Array Base', () => {
 
     test('add button position', async ({mount, expectScreenshot}) => {
         await mount(<DynamicForm spec={ARRAY_BASE.addButtonPosition} />);
+
+        await expectScreenshot();
+    });
+});
+
+test.describe('Array Base view', () => {
+    test('default', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicView spec={ARRAY_BASE.default} value={VALUE.array} />);
 
         await expectScreenshot();
     });
