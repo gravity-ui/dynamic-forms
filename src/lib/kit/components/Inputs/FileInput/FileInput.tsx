@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Xmark} from '@gravity-ui/icons';
-import {Button, Icon, Label} from '@gravity-ui/uikit';
+import {Button, Icon, Label, Text} from '@gravity-ui/uikit';
 
 import {StringInputProps} from '../../../../core';
 import i18n from '../../../../kit/i18n';
@@ -82,7 +82,9 @@ export const FileInput: React.FC<StringInputProps> = ({name, input, spec}) => {
                 tabIndex={-1}
                 accept={spec.viewSpec.fileInput?.accept}
             />
-            <span className={b('file-name')}>{fileNameContent}</span>
+            <Text className={b('file-name')} ellipsis={true} color="secondary">
+                {fileNameContent}
+            </Text>
             {value ? (
                 <Button
                     view="flat"

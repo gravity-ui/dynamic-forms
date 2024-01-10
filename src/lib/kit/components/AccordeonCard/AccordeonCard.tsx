@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {ChevronDown} from '@gravity-ui/icons';
-import {Button, Icon} from '@gravity-ui/uikit';
+import {Button, Icon, Text} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
 import {block} from '../../utils';
@@ -79,15 +79,17 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
                 onClick={!ignoreHeaderToggle && !alwaysOpen ? handleToggle : undefined}
             >
                 <div className={b('header-content')}>
-                    <span
-                        className={
+                    <Text
+                        variant={
                             _.isString(header)
-                                ? b('header-content-title', {size: titleSize})
-                                : undefined
+                                ? titleSize === 'm'
+                                    ? 'subheader-2'
+                                    : 'subheader-1'
+                                : 'body-1'
                         }
                     >
                         {header}
-                    </span>
+                    </Text>
                     {description ? (
                         <span
                             className={b('header-content-description')}

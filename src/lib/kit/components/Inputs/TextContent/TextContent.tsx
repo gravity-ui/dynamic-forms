@@ -59,7 +59,7 @@ export const TextContent: React.FC<StringIndependentInputProps> = ({
                 {content}
                 {input.value ? (
                     <React.Fragment>
-                        <span className={b('separator')}>:</span>
+                        <Text className={b('separator')}>:</Text>
                         <Text color="secondary">{input.value}</Text>
                     </React.Fragment>
                 ) : null}

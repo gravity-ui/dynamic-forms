@@ -2,7 +2,7 @@ import React from 'react';
 
 import {HelpPopover} from '@gravity-ui/components';
 import {ChevronDown} from '@gravity-ui/icons';
-import {Button, Icon, Popover} from '@gravity-ui/uikit';
+import {Button, Icon, Popover, Text} from '@gravity-ui/uikit';
 
 import {COMMON_POPOVER_PLACEMENT} from '../../constants/common';
 import {block} from '../../utils';
@@ -183,9 +183,9 @@ export class SimpleVerticalAccordeon extends React.Component<
         const {note} = this.props;
 
         return note ? (
-            <span className={b('tooltip')}>
+            <Text className={b('tooltip')}>
                 <HelpPopover htmlContent={note} placement={['bottom', 'top']} />
-            </span>
+            </Text>
         ) : null;
     }
 }

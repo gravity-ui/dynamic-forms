@@ -2,7 +2,7 @@ import React from 'react';
 
 import {HelpPopover} from '@gravity-ui/components';
 import {TrashBin} from '@gravity-ui/icons';
-import {Button, Icon} from '@gravity-ui/uikit';
+import {Button, Icon, Text} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
 import {
@@ -41,18 +41,18 @@ const RowBase = <T extends FieldValue, S extends Spec>({
         <div className={b()}>
             <div className={b('left')}>
                 <div className={b('left-inner')}>
-                    <span className={b('title', {required: spec.required})}>
+                    <Text className={b('title', {required: true})}>
                         {spec.viewSpec.layoutTitle}
-                    </span>
+                    </Text>
                     {!verboseDescription && spec.viewSpec.layoutDescription ? (
-                        <span className={b('note')}>
-                            <span className={b('note-inner')}>
+                        <div className={b('note')}>
+                            <Text className={b('note-inner')}>
                                 <HelpPopover
                                     htmlContent={spec.viewSpec.layoutDescription}
                                     placement={['bottom', 'top']}
                                 />
-                            </span>
-                        </span>
+                            </Text>
+                        </div>
                     ) : null}
                 </div>
             </div>

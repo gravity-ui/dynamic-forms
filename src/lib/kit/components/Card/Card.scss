@@ -64,12 +64,6 @@
     }
 
     &__title {
-        font-size: var(--g-text-subheader-2-font-size);
-        font-weight: var(--g-text-subheader-font-weight);
-        line-height: var(--g-text-subheader-2-line-height);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
         max-width: 533px;
     }
 

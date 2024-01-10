@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {Text} from '@gravity-ui/uikit';
+
 import {FormValue, Spec, ViewLayoutProps} from '../../../../core';
 import {CopyButton} from '../../../../kit';
 import {block, isNotEmptyValue} from '../../../utils';
@@ -20,8 +22,10 @@ export const ViewRow = <T extends FormValue, S extends Spec>({
     return (
         <div className={b()}>
             <div className={b('left')}>
-                <div className={b('title')} title={spec.viewSpec.layoutTitle}>
-                    {spec.viewSpec.layoutTitle}
+                <div title={spec.viewSpec.layoutTitle}>
+                    <Text whiteSpace="nowrap" color="secondary" ellipsis={true}>
+                        {spec.viewSpec.layoutTitle}
+                    </Text>
                 </div>
                 <div className={b('dots')} />
             </div>
