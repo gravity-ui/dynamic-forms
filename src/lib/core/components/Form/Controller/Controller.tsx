@@ -34,14 +34,14 @@ export const Controller = <
     parentOnChange,
     parentOnUnmount,
 }: ControllerProps<DirtyValue, SpecType>) => {
-    const {config, tools, mutators, __mirror} = useDynamicFormsCtx();
+    const {config, tools, mutatorsStore, __mirror} = useDynamicFormsCtx();
 
     const firstRenderRef = React.useRef(true);
     const [store, setStore] = React.useState<ControllerStore<DirtyValue, Value, SpecType>>(
         initializeStore({
             name,
             spec: _spec,
-            mutators,
+            mutatorsStore,
             config,
             valueFromParent,
             tools,
@@ -148,7 +148,7 @@ export const Controller = <
                 name,
                 parentOnChange,
                 parentOnUnmount,
-                mutators,
+                mutatorsStore,
                 config,
                 tools,
                 methodOnChange: fieldMethods.onChange,
@@ -160,7 +160,7 @@ export const Controller = <
         name,
         parentOnChange,
         parentOnUnmount,
-        mutators,
+        mutatorsStore,
         config,
         tools.onChange,
         tools.onUnmount,

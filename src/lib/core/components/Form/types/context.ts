@@ -8,6 +8,7 @@ import {
     DynamicFieldStore,
     DynamicFormConfig,
     DynamicFormMutators,
+    DynamicFormMutatorsStore,
     FieldValue,
     ValidateError,
     WonderMirror,
@@ -25,6 +26,6 @@ export interface DynamicFormsContext {
         mutateDFState: (mutators: DynamicFormMutators) => void;
     };
     store: DynamicFieldStore;
-    mutators: DynamicFormMutators;
+    mutatorsStore: DynamicFormMutatorsStore;
     __mirror?: WonderMirror;
 }

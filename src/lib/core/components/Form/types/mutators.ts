@@ -22,3 +22,9 @@ export interface DynamicFormMutators {
     values?: Record<string, FormValue>;
     spec?: Record<string, SpecMutator>;
 }
+
+export interface DynamicFormMutatorsStore {
+    errors?: Record<string, {value: BaseValidateError}>;
+    values?: Record<string, {value: FormValue}>;
+    spec?: Record<string, {value: SpecMutator}>;
+}

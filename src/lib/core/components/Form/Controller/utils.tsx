@@ -8,6 +8,7 @@ import {isArraySpec, isCorrectSpec, isNumberSpec, isObjectSpec} from '../../../h
 import {FormValue, Spec} from '../../../types';
 import {EMPTY_MUTATOR, OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG} from '../constants';
 import {
+    BaseValidateError,
     FieldArrayValue,
     FieldObjectValue,
     FieldRenderProps,
@@ -30,13 +31,20 @@ import {
     UpdateStoreParams,
 } from './types';
 
-const isErrorMutatorCorrect = (errorMutator: ValidateError) =>
-    errorMutator !== EMPTY_MUTATOR && (_.isString(errorMutator) || _.isBoolean(errorMutator));
+const isErrorMutatorCorrect = (errorMutator: {value: ValidateError} | typeof EMPTY_MUTATOR) =>
+    errorMutator !== EMPTY_MUTATOR &&
+    (_.isString(errorMutator.value) ||
+        _.isBoolean(errorMutator.value) ||
+        _.isUndefined(errorMutator.value));
 
-const isValueMutatorCorrect = (valueMutator: FormValue, spec: Spec) =>
+const isValueMutatorCorrect = (
+    valueMutator: {value: FormValue} | typeof EMPTY_MUTATOR,
+    spec: Spec,
+) =>
     valueMutator !== EMPTY_MUTATOR &&
-    (typeof valueMutator === spec.type ||
-        (_.isArray(valueMutator) && spec.type === SpecTypes.Array));
+    (typeof valueMutator.value === spec.type ||
+        (_.isArray(valueMutator.value) && spec.type === SpecTypes.Array) ||
+        valueMutator.value === undefined);
 
 export const updateParentStore = <
     DirtyValue extends FieldValue,
@@ -68,12 +76,12 @@ export const callUnmout = <
 export const getSpec = <SpecType extends Spec>({
     name,
     spec,
-    mutators,
+    mutatorsStore,
 }: GetSpecParams<SpecType>): SpecType => {
-    const mutator = _.get(mutators.spec, name, EMPTY_MUTATOR);
+    const mutator = _.get(mutatorsStore.spec, name, EMPTY_MUTATOR);
 
     if (mutator !== EMPTY_MUTATOR) {
-        const mutatedSpec = _.merge(_.cloneDeep(spec), mutator);
+        const mutatedSpec = _.merge(_.cloneDeep(spec), mutator.value);
 
         if (isCorrectSpec(mutatedSpec)) {
             return mutatedSpec;
@@ -196,15 +204,15 @@ export const getFieldInitials = <
     valueFromParent,
     initialValue,
     validate,
-    mutators,
+    mutatorsStore,
 }: GetFieldInitialsParams<DirtyValue, Value, SpecType>) => {
-    const valueMutator = transformArrIn(_.get(mutators.values, name, EMPTY_MUTATOR)) as
-        | DirtyValue
+    const valueMutator = transformArrIn(_.get(mutatorsStore.values, name, EMPTY_MUTATOR)) as
+        | {value: DirtyValue}
         | typeof EMPTY_MUTATOR;
     let value = _.cloneDeep(valueFromParent);
 
     if (isValueMutatorCorrect(valueMutator, spec)) {
-        value = valueMutator as DirtyValue;
+        value = (valueMutator as {value: DirtyValue}).value;
     }
 
     if (_.isNil(value)) {
@@ -222,13 +230,18 @@ export const getFieldInitials = <
         }
     }
 
-    let errorMutator: ValidateError = _.get(mutators.errors, name, EMPTY_MUTATOR);
+    let errorMutator: {value: BaseValidateError} | typeof EMPTY_MUTATOR = _.get(
+        mutatorsStore.errors,
+        name,
+        EMPTY_MUTATOR,
+    );
 
     if (!isErrorMutatorCorrect(errorMutator)) {
-        errorMutator = undefined;
+        errorMutator = {value: undefined};
     }
 
-    const error = validate?.(transformArrOut(value)) || errorMutator;
+    const error =
+        validate?.(transformArrOut(value)) || (errorMutator as {value: BaseValidateError})?.value;
     const dirty = !_.isEqual(value, initialValue);
 
     return {
@@ -425,14 +438,14 @@ export const initializeStore = <
 >({
     name,
     spec: _spec,
-    mutators,
+    mutatorsStore,
     config,
     valueFromParent,
     tools,
     parentOnChange,
     parentOnUnmount,
 }: InitializeStoreParams<DirtyValue, SpecType>): ControllerStore<DirtyValue, Value, SpecType> => {
-    const spec = getSpec({name, spec: _spec, mutators});
+    const spec = getSpec({name, spec: _spec, mutatorsStore});
     const components = getComponents<DirtyValue, Value, SpecType>({spec, config});
     const render = getRender({name, spec, ...components});
     const validate = getValidate({spec, config});
@@ -441,7 +454,7 @@ export const initializeStore = <
         spec,
         valueFromParent,
         validate,
-        mutators,
+        mutatorsStore,
         initialValue: _.get(tools.initialValue, name),
     });
 
@@ -451,7 +464,7 @@ export const initializeStore = <
         initialSpec: _spec,
         config,
         tools,
-        mutators,
+        mutatorsStore,
         render,
         validate,
         parentOnChange,
@@ -477,26 +490,26 @@ export const updateStore = <
     name,
     parentOnChange,
     parentOnUnmount,
-    mutators,
+    mutatorsStore,
     valueFromParent,
     config,
     tools,
     methodOnChange,
 }: UpdateStoreParams<DirtyValue, Value, SpecType>) => {
-    const storeSpecMutator = _.get(store.mutators.spec, store.name, EMPTY_MUTATOR);
-    const storeValueMutator = _.get(store.mutators.values, store.name, EMPTY_MUTATOR) as
-        | DirtyValue
+    const storeSpecMutator = _.get(store.mutatorsStore.spec, store.name, EMPTY_MUTATOR);
+    const storeValueMutator = _.get(store.mutatorsStore.values, store.name, EMPTY_MUTATOR) as
+        | {value: DirtyValue}
         | typeof EMPTY_MUTATOR;
-    const storeErrorMutator = _.get(store.mutators.errors, store.name, EMPTY_MUTATOR);
+    const storeErrorMutator = _.get(store.mutatorsStore.errors, store.name, EMPTY_MUTATOR);
 
-    const specMutator = _.get(mutators.spec, name, EMPTY_MUTATOR);
-    const valueMutator = _.get(mutators.values, name, EMPTY_MUTATOR) as
-        | DirtyValue
+    const specMutator = _.get(mutatorsStore.spec, name, EMPTY_MUTATOR);
+    const valueMutator = _.get(mutatorsStore.values, name, EMPTY_MUTATOR) as
+        | {value: DirtyValue}
         | typeof EMPTY_MUTATOR;
-    const errorMutator = _.get(mutators.errors, name, EMPTY_MUTATOR);
+    const errorMutator = _.get(mutatorsStore.errors, name, EMPTY_MUTATOR);
 
     const valueMutatorUpdated =
-        isValueMutatorCorrect(valueMutator, getSpec({name, spec: _spec, mutators})) &&
+        isValueMutatorCorrect(valueMutator, getSpec({name, spec: _spec, mutatorsStore})) &&
         valueMutator !== storeValueMutator;
     const errorMutatorUpdated =
         isErrorMutatorCorrect(errorMutator) && errorMutator !== storeErrorMutator;
@@ -519,7 +532,7 @@ export const updateStore = <
             initializeStore({
                 name,
                 spec: _spec,
-                mutators,
+                mutatorsStore,
                 config,
                 valueFromParent,
                 tools,
@@ -532,7 +545,7 @@ export const updateStore = <
             ...initializeStore({
                 name,
                 spec: _spec,
-                mutators,
+                mutatorsStore,
                 config,
                 valueFromParent,
                 tools,
@@ -545,8 +558,10 @@ export const updateStore = <
         if (updateState) {
             nextStore = methodOnChange(nextStore, {
                 valOrSetter: (value) =>
-                    valueMutatorUpdated ? (valueMutator as DirtyValue) : value,
-                ...(errorMutatorUpdated ? {errorMutator} : {}),
+                    valueMutatorUpdated ? (valueMutator as {value: DirtyValue}).value : value,
+                ...(errorMutatorUpdated
+                    ? {errorMutator: (errorMutator as {value: BaseValidateError}).value}
+                    : {}),
             });
         }
 
@@ -562,19 +577,26 @@ export const updateStore = <
         if (updateState) {
             nextStore = methodOnChange(nextStore, {
                 valOrSetter: (value) =>
-                    valueMutatorUpdated ? (valueMutator as DirtyValue) : value,
-                ...(errorMutatorUpdated ? {errorMutator} : {}),
+                    valueMutatorUpdated ? (valueMutator as {value: DirtyValue}).value : value,
+                ...(errorMutatorUpdated
+                    ? {errorMutator: (errorMutator as {value: BaseValidateError}).value}
+                    : {}),
             });
         }
 
         setStore(nextStore);
     } else if (updateState) {
         setStore(
-            methodOnChange(store, {
-                valOrSetter: (value) =>
-                    valueMutatorUpdated ? (valueMutator as DirtyValue) : value,
-                ...(errorMutatorUpdated ? {errorMutator} : {}),
-            }),
+            methodOnChange(
+                {...store, mutatorsStore},
+                {
+                    valOrSetter: (value) =>
+                        valueMutatorUpdated ? (valueMutator as {value: DirtyValue}).value : value,
+                    ...(errorMutatorUpdated
+                        ? {errorMutator: (errorMutator as {value: BaseValidateError}).value}
+                        : {}),
+                },
+            ),
         );
     }
 };
