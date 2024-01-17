@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ArraySpec, Spec, SpecTypes} from '../../../../../core';
+import {ArraySpec, FormValue, Spec, SpecTypes} from '../../../../../core';
 
 import {DynamicForm as BaseDynamicForm} from '~playwright/core/DynamicForm';
 
@@ -161,6 +161,10 @@ export const ARRAY_BASE: Record<string, ArraySpec> = {
             addButtonPosition: 'right',
         },
     },
+};
+
+export const VALUE: Record<string, FormValue> = {
+    array: ['value', 'value'],
 };
 
 export const DynamicForm = ({spec}: {spec: Spec}) => {

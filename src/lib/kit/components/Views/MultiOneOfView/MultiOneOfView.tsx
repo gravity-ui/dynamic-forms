@@ -85,7 +85,7 @@ export const MultiOneOfView: React.FC<MultiOneOfViewProps> = (props) => {
                         <React.Fragment key={value}>
                             {specProperties && specProperties[value] ? (
                                 <ViewController
-                                    name={`${name}.${value}`}
+                                    name={`${name ? name + '.' : ''}${value}`}
                                     spec={specProperties[value]}
                                 />
                             ) : null}
