@@ -2,15 +2,24 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import {DynamicFormMutators, SpecMutator} from '../types';
+import {FormValue} from '../../../types';
+import {
+    BaseValidateError,
+    DynamicFormMutators,
+    DynamicFormMutatorsStore,
+    SpecMutator,
+} from '../types';
 
 export const useMutators = (externalMutators?: DynamicFormMutators) => {
-    const firstRenderRef = React.useRef(true);
-    const [store, setStore] = React.useState<DynamicFormMutators>(externalMutators || {});
-
-    const mutateDFState = React.useCallback(
-        (mutators: DynamicFormMutators) => {
-            const mergeSpec = (a: Record<string, SpecMutator>, b: Record<string, SpecMutator>) => {
+    const merge = React.useCallback(
+        (
+            mutators: DynamicFormMutators,
+            store: DynamicFormMutatorsStore,
+        ): DynamicFormMutatorsStore => {
+            const mergeSpec = (
+                a: DynamicFormMutatorsStore['spec'] = {},
+                b: Record<string, SpecMutator>,
+            ) => {
                 const result = _.cloneDeep(a);
 
                 const getKeys = (parent: any): string[][] => {
@@ -30,18 +39,47 @@ export const useMutators = (externalMutators?: DynamicFormMutators) => {
                 };
 
                 getKeys(b).forEach((key) => {
-                    _.set(result, key, _.get(b, key));
+                    _.set(result, [key[0], 'value', ...key.slice(1)], _.get(b, key));
                 });
 
                 return result;
             };
 
-            setStore((store) => ({
+            const mergeValuesOrErrors = <T extends FormValue | BaseValidateError>(
+                a: Record<string, {value: T}> = {},
+                b: Record<string, T>,
+            ) => {
+                const result = _.cloneDeep(a);
+
+                Object.keys(b).forEach((key) => {
+                    _.set(result, [key, 'value'], b[key]);
+                });
+
+                return result;
+            };
+
+            return {
                 ...store,
-                ...(mutators.errors ? {errors: _.merge(store.errors, mutators.errors)} : {}),
-                ...(mutators.values ? {values: _.merge(store.values, mutators.values)} : {}),
-                ...(mutators.spec ? {spec: mergeSpec(store.spec || {}, mutators.spec)} : {}),
-            }));
+                ...(mutators.errors
+                    ? {errors: mergeValuesOrErrors(store.errors, mutators.errors)}
+                    : {}),
+                ...(mutators.values
+                    ? {values: mergeValuesOrErrors(store.values, mutators.values)}
+                    : {}),
+                ...(mutators.spec ? {spec: mergeSpec(store.spec, mutators.spec)} : {}),
+            };
+        },
+        [],
+    );
+
+    const firstRenderRef = React.useRef(true);
+    const [store, setStore] = React.useState<DynamicFormMutatorsStore>(
+        merge(externalMutators || {}, {}),
+    );
+
+    const mutateDFState = React.useCallback(
+        (mutators: DynamicFormMutators) => {
+            setStore((store) => merge(mutators, store));
         },
         [setStore],
     );
@@ -54,5 +92,5 @@ export const useMutators = (externalMutators?: DynamicFormMutators) => {
         }
     }, [externalMutators]);
 
-    return {mutators: store, mutateDFState};
+    return {mutatorsStore: store, mutateDFState};
 };

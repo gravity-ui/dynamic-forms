@@ -9,7 +9,7 @@ export const TextArea: StringInput = ({name, input, spec}) => {
 
     return (
         <TextAreaBase
-            value={value}
+            value={value || ''}
             onBlur={onBlur}
             onFocus={onFocus}
             onUpdate={onChange}

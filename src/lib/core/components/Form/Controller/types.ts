@@ -1,7 +1,7 @@
 import {FormValue, Spec} from '../../../types';
 import {
     DynamicFormConfig,
-    DynamicFormMutators,
+    DynamicFormMutatorsStore,
     DynamicFormsContext,
     FieldRenderProps,
     FieldValue,
@@ -14,7 +14,7 @@ import {
 export interface GetSpecParams<SpecType extends Spec> {
     name: string;
     spec: SpecType;
-    mutators: DynamicFormMutators;
+    mutatorsStore: DynamicFormMutatorsStore;
 }
 
 export interface GetComponentsParams<SpecType extends Spec> {
@@ -49,7 +49,7 @@ export interface GetFieldInitialsParams<
     valueFromParent: DirtyValue;
     initialValue: DirtyValue;
     validate: (value?: Value) => ValidateError;
-    mutators: DynamicFormMutators;
+    mutatorsStore: DynamicFormMutatorsStore;
 }
 
 export type FieldMethod<
@@ -88,7 +88,7 @@ export interface GetFieldMethodsReturn<
 export interface InitializeStoreParams<DirtyValue extends FieldValue, SpecType extends Spec> {
     name: string;
     spec: SpecType;
-    mutators: DynamicFormMutators;
+    mutatorsStore: DynamicFormMutatorsStore;
     config: DynamicFormConfig;
     valueFromParent: DirtyValue;
     tools: DynamicFormsContext['tools'];
@@ -112,7 +112,7 @@ export interface ControllerStore<
     initialSpec: SpecType;
     config: DynamicFormConfig;
     tools: DynamicFormsContext['tools'];
-    mutators: DynamicFormMutators;
+    mutatorsStore: DynamicFormMutatorsStore;
     render: (props: FieldRenderProps<DirtyValue>) => JSX.Element | null;
     validate: (value?: Value) => ValidateError;
     parentOnChange:
@@ -157,7 +157,7 @@ export interface UpdateStoreParams<
           ) => void)
         | null;
     parentOnUnmount: ((childName: string) => void) | null;
-    mutators: DynamicFormMutators;
+    mutatorsStore: DynamicFormMutatorsStore;
     valueFromParent: DirtyValue;
     config: DynamicFormConfig;
     tools: DynamicFormsContext['tools'];
