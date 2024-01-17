@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.4.1](https://github.com/gravity-ui/dynamic-forms/compare/v3.4.0...v3.4.1) (2024-01-17)
+
+
+### Bug Fixes
+
+* fix mutators logic ([#157](https://github.com/gravity-ui/dynamic-forms/issues/157)) ([701d18f](https://github.com/gravity-ui/dynamic-forms/commit/701d18f4e843c6fb134e92bc0981766093097ced))
+* one of view ([#154](https://github.com/gravity-ui/dynamic-forms/issues/154)) ([cd31d6f](https://github.com/gravity-ui/dynamic-forms/commit/cd31d6f43065eb57bd8f3f26f64a0102122a8206))
+
 ## [3.4.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.3.0...v3.4.0) (2023-12-14)
 
 
