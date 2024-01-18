@@ -41,7 +41,7 @@ const RowBase = <T extends FieldValue, S extends Spec>({
         <div className={b()}>
             <div className={b('left')}>
                 <div className={b('left-inner')}>
-                    <Text className={b('title', {required: true})}>
+                    <Text className={b('title', {required: spec.required})}>
                         {spec.viewSpec.layoutTitle}
                     </Text>
                     {!verboseDescription && spec.viewSpec.layoutDescription ? (

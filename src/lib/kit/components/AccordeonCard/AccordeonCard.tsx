@@ -69,6 +69,10 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
         }
     });
 
+    const currentVariant = React.useMemo(() => {
+        return titleSize === 'm' ? 'subheader-2' : 'subheader-1';
+    }, [titleSize]);
+
     return (
         <div ref={accordeonRef} className={b({empty: Boolean(emptyBody)}, className)}>
             <div
@@ -79,17 +83,7 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
                 onClick={!ignoreHeaderToggle && !alwaysOpen ? handleToggle : undefined}
             >
                 <div className={b('header-content')}>
-                    <Text
-                        variant={
-                            _.isString(header)
-                                ? titleSize === 'm'
-                                    ? 'subheader-2'
-                                    : 'subheader-1'
-                                : 'body-1'
-                        }
-                    >
-                        {header}
-                    </Text>
+                    <Text variant={_.isString(header) ? currentVariant : 'body-1'}>{header}</Text>
                     {description ? (
                         <span
                             className={b('header-content-description')}

@@ -16,7 +16,7 @@ interface MonacoHeaderProps {
 
 export const MonacoHeader: React.FC<MonacoHeaderProps> = ({language, editButton}) => (
     <div className={b()}>
-        <div className={b('title')}>
+        <div>
             <Icon data={File} size={18} />
             <Text variant="body-3">{language}</Text>
         </div>
