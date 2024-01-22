@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {Text} from '@gravity-ui/uikit';
+
 import {block} from '../../utils';
 
 import './LongValue.scss';
@@ -44,12 +46,15 @@ export const LongValue: React.FC<LongValueProps> = ({value, className}) => {
     });
 
     return (
-        <div
-            ref={ref}
-            className={b({open, long}, className)}
-            onClick={long ? handleClick : undefined}
-        >
-            {value}
+        <div ref={ref} onClick={long ? handleClick : undefined}>
+            <Text
+                className={b({long}, className)}
+                ellipsis={true}
+                wordBreak={open ? 'break-all' : undefined}
+                whiteSpace={open ? 'break-spaces' : undefined}
+            >
+                {value}
+            </Text>
         </div>
     );
 };
