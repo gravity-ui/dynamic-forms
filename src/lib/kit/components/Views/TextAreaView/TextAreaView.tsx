@@ -21,7 +21,11 @@ export const TextAreaView: StringView = ({value = ''}) => {
 
     return (
         <div className={b({active: isValueLong})} onClick={isValueLong ? handleClick : undefined}>
-            <Text ellipsis={true} whiteSpace={isOpen ? 'break-spaces' : undefined}>
+            <Text
+                className={b('text-view', {open: isOpen})}
+                ellipsis={true}
+                whiteSpace={isOpen ? 'break-spaces' : undefined}
+            >
                 {value}
             </Text>
             {isValueLong ? (

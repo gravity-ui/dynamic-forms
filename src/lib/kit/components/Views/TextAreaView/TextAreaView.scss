@@ -7,16 +7,6 @@
         cursor: pointer;
     }
 
-    &__text-view {
-        overflow: hidden;
-        text-overflow: ellipsis;
-
-        &_open {
-            white-space: pre-wrap;
-            overflow-wrap: break-word;
-        }
-    }
-
     &__chevron {
         margin: 3px;
 

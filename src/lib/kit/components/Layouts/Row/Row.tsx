@@ -45,14 +45,14 @@ const RowBase = <T extends FieldValue, S extends Spec>({
                         {spec.viewSpec.layoutTitle}
                     </Text>
                     {!verboseDescription && spec.viewSpec.layoutDescription ? (
-                        <div className={b('note')}>
+                        <span className={b('note')}>
                             <Text className={b('note-inner')}>
                                 <HelpPopover
                                     htmlContent={spec.viewSpec.layoutDescription}
                                     placement={['bottom', 'top']}
                                 />
                             </Text>
-                        </div>
+                        </span>
                     ) : null}
                 </div>
             </div>
