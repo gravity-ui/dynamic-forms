@@ -72,7 +72,6 @@ export class SimpleVerticalAccordeon extends React.Component<
 
     render() {
         const {
-            titleSize,
             children,
             headerActionsTemplate,
             className,
@@ -105,6 +104,8 @@ export class SimpleVerticalAccordeon extends React.Component<
         const titlePopoverDisabled =
             (this.titleRef.current?.offsetWidth || 0) <= TITLE_TEXT_MAX_WIDTH;
 
+        const currentTitleVariant = this.getCurrentTitleVariant();
+
         return (
             Boolean(React.Children.count(children)) && (
                 <div className={b({branch: withBranchView, view: viewLayout}, className)}>
@@ -121,9 +122,7 @@ export class SimpleVerticalAccordeon extends React.Component<
                                 qa={`${name}-accordeon-toggler`}
                                 width="auto"
                             >
-                                <b ref={this.titleRef} className={b('title', {size: titleSize})}>
-                                    {title}
-                                </b>
+                                <Text variant={currentTitleVariant}>{title}</Text>
                                 <Icon
                                     data={ChevronDown}
                                     className={b('chevron', {open})}
@@ -177,6 +176,20 @@ export class SimpleVerticalAccordeon extends React.Component<
             return title;
         }
         return this.state.open ? openTitle : title;
+    }
+
+    private getCurrentTitleVariant() {
+        const {titleSize} = this.props;
+
+        if (titleSize === 's') {
+            return 'subheader-1';
+        }
+        if (titleSize === 'm') {
+            return 'subheader-2';
+        }
+        if (titleSize === 'l') {
+            return 'subheader-3';
+        }
     }
 
     private getTooltip() {

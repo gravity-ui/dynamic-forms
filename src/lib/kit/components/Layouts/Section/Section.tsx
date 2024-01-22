@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {HelpPopover} from '@gravity-ui/components';
-import {Popover} from '@gravity-ui/uikit';
+import {Popover, Text} from '@gravity-ui/uikit';
 
 import {GroupIndent} from '../../';
 import {COMMON_POPOVER_PLACEMENT, COMMON_TITLE_MAX_WIDTH, ErrorWrapper} from '../../../';
@@ -68,12 +68,12 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
             );
         } else {
             description = (
-                <div className={b('note')}>
+                <Text className={b('note')}>
                     <HelpPopover
                         htmlContent={spec.viewSpec.layoutDescription}
                         placement={['bottom', 'top']}
                     />
-                </div>
+                </Text>
             );
         }
     }
