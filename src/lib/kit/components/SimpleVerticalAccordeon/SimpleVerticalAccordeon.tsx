@@ -181,15 +181,13 @@ export class SimpleVerticalAccordeon extends React.Component<
     private getCurrentTitleVariant() {
         const {titleSize} = this.props;
 
-        if (titleSize === 's') {
-            return 'subheader-1';
-        }
         if (titleSize === 'm') {
-            return 'subheader-2';
+            return 'body-2';
         }
         if (titleSize === 'l') {
-            return 'subheader-3';
+            return 'body-3';
         }
+        return 'body-1';
     }
 
     private getTooltip() {
