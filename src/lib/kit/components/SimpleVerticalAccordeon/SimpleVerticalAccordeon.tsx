@@ -184,9 +184,11 @@ export class SimpleVerticalAccordeon extends React.Component<
         if (titleSize === 'm') {
             return 'body-2';
         }
+
         if (titleSize === 'l') {
             return 'body-3';
         }
+
         return 'body-1';
     }
 

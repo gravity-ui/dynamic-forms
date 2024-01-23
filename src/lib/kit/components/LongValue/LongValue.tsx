@@ -45,14 +45,21 @@ export const LongValue: React.FC<LongValueProps> = ({value, className}) => {
         }
     });
 
+    const currentTextProperies = React.useMemo(() => {
+        let wordBreak: 'break-all' | undefined;
+        let whiteSpace: 'break-spaces' | undefined;
+
+        if (open) {
+            wordBreak = 'break-all';
+            whiteSpace = 'break-spaces';
+        }
+
+        return {wordBreak, whiteSpace};
+    }, [open]);
+
     return (
         <div ref={ref} onClick={long ? handleClick : undefined}>
-            <Text
-                className={b({long}, className)}
-                ellipsis={true}
-                wordBreak={open ? 'break-all' : undefined}
-                whiteSpace={open ? 'break-spaces' : undefined}
-            >
+            <Text className={b({long}, className)} ellipsis={true} {...currentTextProperies}>
                 {value}
             </Text>
         </div>

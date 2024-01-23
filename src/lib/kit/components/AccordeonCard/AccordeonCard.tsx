@@ -73,9 +73,11 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
         if (!_.isString(header)) {
             return 'body-1';
         }
+
         if (titleSize === 'm') {
             return 'subheader-2';
         }
+
         return 'subheader-1';
     }, [titleSize]);
 

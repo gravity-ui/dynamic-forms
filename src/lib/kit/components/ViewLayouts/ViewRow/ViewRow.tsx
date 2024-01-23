@@ -22,11 +22,9 @@ export const ViewRow = <T extends FormValue, S extends Spec>({
     return (
         <div className={b()}>
             <div className={b('left')}>
-                <div title={spec.viewSpec.layoutTitle}>
-                    <Text whiteSpace="nowrap" color="secondary" ellipsis={true}>
-                        {spec.viewSpec.layoutTitle}
-                    </Text>
-                </div>
+                <Text whiteSpace="nowrap" color="secondary" ellipsis={true}>
+                    {spec.viewSpec.layoutTitle}
+                </Text>
                 <div className={b('dots')} />
             </div>
             <div className={b('right')}>{children}</div>

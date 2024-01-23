@@ -1,7 +1,6 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}long-value {
-    display: inline-block;
     max-width: 100%;
     &_long {
         cursor: pointer;
