@@ -2,14 +2,6 @@
 
 .#{$ns}long-value {
     max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    &_open {
-        white-space: pre-wrap;
-        word-wrap: break-word;
-    }
-
     &_long {
         cursor: pointer;
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {ChevronDown} from '@gravity-ui/icons';
-import {Button, Icon} from '@gravity-ui/uikit';
+import {Button, Icon, Text} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
 import {block} from '../../utils';
@@ -69,6 +69,18 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
         }
     });
 
+    const currentHeaderVariant = React.useMemo(() => {
+        if (!_.isString(header)) {
+            return 'body-1';
+        }
+
+        if (titleSize === 'm') {
+            return 'subheader-2';
+        }
+
+        return 'subheader-1';
+    }, [titleSize]);
+
     return (
         <div ref={accordeonRef} className={b({empty: Boolean(emptyBody)}, className)}>
             <div
@@ -79,15 +91,7 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
                 onClick={!ignoreHeaderToggle && !alwaysOpen ? handleToggle : undefined}
             >
                 <div className={b('header-content')}>
-                    <span
-                        className={
-                            _.isString(header)
-                                ? b('header-content-title', {size: titleSize})
-                                : undefined
-                        }
-                    >
-                        {header}
-                    </span>
+                    <Text variant={currentHeaderVariant}>{header}</Text>
                     {description ? (
                         <span
                             className={b('header-content-description')}

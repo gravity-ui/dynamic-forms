@@ -19,13 +19,6 @@
         overflow: hidden;
     }
 
-    &__title {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        color: var(--g-color-text-secondary);
-    }
-
     &__dots {
         min-width: 40px;
         flex-grow: 1;

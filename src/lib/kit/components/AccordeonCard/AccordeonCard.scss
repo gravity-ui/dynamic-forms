@@ -63,18 +63,6 @@
             order: -1;
         }
 
-        &-content-title {
-            font-weight: 700;
-
-            &_size_s {
-                font-size: 13px;
-            }
-
-            &_size_m {
-                font-size: 16px;
-            }
-        }
-
         &-content-description {
             margin-top: 12px;
             color: var(--g-color-text-complementary);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Popover} from '@gravity-ui/uikit';
+import {Popover, Text} from '@gravity-ui/uikit';
 
 import {StringViewProps} from '../../../../core';
 import {block, isCorrectSizeParams} from '../../../utils';
@@ -25,7 +25,7 @@ const NumberWithScaleViewBase: React.FC<StringViewProps> = ({spec, value}) => {
             >
                 {initialValue}
             </Popover>
-            <span className={b('size')}> {scale[initialType].title}</span>
+            <Text className={b('size')}>{scale[initialType].title}</Text>
         </div>
     );
 };

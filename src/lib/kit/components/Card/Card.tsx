@@ -2,7 +2,7 @@ import React from 'react';
 
 import {HelpPopover} from '@gravity-ui/components';
 import {ChevronDown} from '@gravity-ui/icons';
-import {Button, Card as CardBase, Icon, Popover} from '@gravity-ui/uikit';
+import {Button, Card as CardBase, Icon, Popover, Text} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
 import {COMMON_POPOVER_PLACEMENT, COMMON_TITLE_MAX_WIDTH} from '../../constants/common';
@@ -79,9 +79,14 @@ export const Card: React.FC<CardProps> = ({
                         disabled={titlePopoverDisabled}
                         placement={COMMON_POPOVER_PLACEMENT}
                     >
-                        <div ref={titleRef} className={b('title')}>
+                        <Text
+                            className={b('title')}
+                            ellipsis={true}
+                            ref={titleRef}
+                            variant="subheader-2"
+                        >
                             {propsTitle}
-                        </div>
+                        </Text>
                     </Popover>
                     {description ? (
                         <div className={b('note')}>

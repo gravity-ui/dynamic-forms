@@ -2,7 +2,7 @@ import React from 'react';
 
 import {HelpPopover} from '@gravity-ui/components';
 import {ChevronDown} from '@gravity-ui/icons';
-import {Button, Icon, Popover} from '@gravity-ui/uikit';
+import {Button, Icon, Popover, Text} from '@gravity-ui/uikit';
 
 import {COMMON_POPOVER_PLACEMENT} from '../../constants/common';
 import {block} from '../../utils';
@@ -72,7 +72,6 @@ export class SimpleVerticalAccordeon extends React.Component<
 
     render() {
         const {
-            titleSize,
             children,
             headerActionsTemplate,
             className,
@@ -105,6 +104,8 @@ export class SimpleVerticalAccordeon extends React.Component<
         const titlePopoverDisabled =
             (this.titleRef.current?.offsetWidth || 0) <= TITLE_TEXT_MAX_WIDTH;
 
+        const currentTitleVariant = this.getCurrentTitleVariant();
+
         return (
             Boolean(React.Children.count(children)) && (
                 <div className={b({branch: withBranchView, view: viewLayout}, className)}>
@@ -121,9 +122,7 @@ export class SimpleVerticalAccordeon extends React.Component<
                                 qa={`${name}-accordeon-toggler`}
                                 width="auto"
                             >
-                                <b ref={this.titleRef} className={b('title', {size: titleSize})}>
-                                    {title}
-                                </b>
+                                <Text variant={currentTitleVariant}>{title}</Text>
                                 <Icon
                                     data={ChevronDown}
                                     className={b('chevron', {open})}
@@ -179,13 +178,27 @@ export class SimpleVerticalAccordeon extends React.Component<
         return this.state.open ? openTitle : title;
     }
 
+    private getCurrentTitleVariant() {
+        const {titleSize} = this.props;
+
+        if (titleSize === 'm') {
+            return 'body-2';
+        }
+
+        if (titleSize === 'l') {
+            return 'body-3';
+        }
+
+        return 'body-1';
+    }
+
     private getTooltip() {
         const {note} = this.props;
 
         return note ? (
-            <span className={b('tooltip')}>
+            <Text className={b('tooltip')}>
                 <HelpPopover htmlContent={note} placement={['bottom', 'top']} />
-            </span>
+            </Text>
         ) : null;
     }
 }

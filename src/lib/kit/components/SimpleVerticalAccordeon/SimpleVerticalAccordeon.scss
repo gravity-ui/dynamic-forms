@@ -25,28 +25,6 @@ $animationDuration: 0.3s;
         }
     }
 
-    &__title {
-        font-weight: 500;
-
-        &_size_s {
-            margin-bottom: 0;
-
-            font-size: var(--g-text-body-1-font-size);
-        }
-
-        &_size_m {
-            margin-bottom: 1px;
-
-            font-size: var(--g-text-body2-font-size);
-        }
-
-        &_size_l {
-            margin-bottom: 2px;
-
-            font-size: var(--g-text-body3-font-size);
-        }
-    }
-
     &__tooltip {
         margin: 0px 5px;
 

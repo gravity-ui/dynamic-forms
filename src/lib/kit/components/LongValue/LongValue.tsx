@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {Text} from '@gravity-ui/uikit';
+
 import {block} from '../../utils';
 
 import './LongValue.scss';
@@ -18,6 +20,18 @@ export const LongValue: React.FC<LongValueProps> = ({value, className}) => {
     const [long, setLong] = React.useState(false);
 
     const handleClick = React.useCallback(() => setOpen((f) => !f), [setOpen]);
+
+    const currentTextProperies = React.useMemo(() => {
+        let wordBreak: 'break-all' | undefined;
+        let whiteSpace: 'break-spaces' | undefined;
+
+        if (open) {
+            wordBreak = 'break-all';
+            whiteSpace = 'break-spaces';
+        }
+
+        return {wordBreak, whiteSpace};
+    }, [open]);
 
     React.useEffect(() => {
         if (ref.current) {
@@ -44,12 +58,10 @@ export const LongValue: React.FC<LongValueProps> = ({value, className}) => {
     });
 
     return (
-        <div
-            ref={ref}
-            className={b({open, long}, className)}
-            onClick={long ? handleClick : undefined}
-        >
-            {value}
+        <div ref={ref} onClick={long ? handleClick : undefined}>
+            <Text className={b({long}, className)} ellipsis={true} {...currentTextProperies}>
+                {value}
+            </Text>
         </div>
     );
 };

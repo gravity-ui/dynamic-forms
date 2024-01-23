@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {File} from '@gravity-ui/icons';
-import {Icon} from '@gravity-ui/uikit';
+import {Icon, Text} from '@gravity-ui/uikit';
 
 import {block} from '../../../utils';
 
@@ -18,7 +18,7 @@ export const MonacoHeader: React.FC<MonacoHeaderProps> = ({language, editButton}
     <div className={b()}>
         <div>
             <Icon data={File} size={18} />
-            <span className={b('language')}>{language}</span>
+            <Text variant="body-3">{language}</Text>
         </div>
         {editButton ?? null}
     </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {ChevronDown} from '@gravity-ui/icons';
-import {Icon} from '@gravity-ui/uikit';
+import {Icon, Text} from '@gravity-ui/uikit';
 
 import {StringView} from '../../../../core';
 import {block} from '../../../utils';
@@ -21,7 +21,9 @@ export const TextAreaView: StringView = ({value = ''}) => {
 
     return (
         <div className={b({active: isValueLong})} onClick={isValueLong ? handleClick : undefined}>
-            <div className={b('text-view', {open: isOpen})}>{value}</div>
+            <Text ellipsis={true} whiteSpace={isOpen ? 'break-spaces' : undefined}>
+                {value}
+            </Text>
             {isValueLong ? (
                 <div>
                     <Icon data={ChevronDown} className={b('chevron', {open: isOpen})} size={16} />
