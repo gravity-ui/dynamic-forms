@@ -21,6 +21,18 @@ export const LongValue: React.FC<LongValueProps> = ({value, className}) => {
 
     const handleClick = React.useCallback(() => setOpen((f) => !f), [setOpen]);
 
+    const currentTextProperies = React.useMemo(() => {
+        let wordBreak: 'break-all' | undefined;
+        let whiteSpace: 'break-spaces' | undefined;
+
+        if (open) {
+            wordBreak = 'break-all';
+            whiteSpace = 'break-spaces';
+        }
+
+        return {wordBreak, whiteSpace};
+    }, [open]);
+
     React.useEffect(() => {
         if (ref.current) {
             if (value !== prevValue.current) {
@@ -44,18 +56,6 @@ export const LongValue: React.FC<LongValueProps> = ({value, className}) => {
             }
         }
     });
-
-    const currentTextProperies = React.useMemo(() => {
-        let wordBreak: 'break-all' | undefined;
-        let whiteSpace: 'break-spaces' | undefined;
-
-        if (open) {
-            wordBreak = 'break-all';
-            whiteSpace = 'break-spaces';
-        }
-
-        return {wordBreak, whiteSpace};
-    }, [open]);
 
     return (
         <div ref={ref} onClick={long ? handleClick : undefined}>
