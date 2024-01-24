@@ -1,6 +1,7 @@
 import {DynamicFormConfig, DynamicViewConfig, StringSpec, ValidatorType} from '../../core';
 import {
     Accordeon,
+    AccordeonCardLayout,
     ArrayBase,
     ArrayBaseView,
     BaseView,
@@ -88,6 +89,7 @@ export const dynamicConfig: DynamicFormConfig = {
             transparent: Transparent,
             card_accordeon: CardAccordeon,
             card_section: CardSection,
+            accordeon_card: AccordeonCardLayout,
         },
         validators: {
             base: getArrayValidator(),

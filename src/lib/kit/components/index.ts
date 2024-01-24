@@ -1,4 +1,3 @@
-export * from './AccordeonCard';
 export * from './Card';
 export * from './CopyButton';
 export * from './ErrorWrapper';

@@ -1,5 +1,6 @@
 export * from './ViewAccordeon';
 export * from './ViewCardAccordeon';
+export * from './ViewAccordeonCard';
 export * from './ViewCardSection';
 export * from './ViewRow';
 export * from './ViewSection';
