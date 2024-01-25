@@ -2,7 +2,7 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import {ArrayViewLayoutProps} from '../../../../core';
+import {ArrayViewLayoutProps, ObjectViewLayoutProps} from '../../../../core';
 import {isNotEmptyValue} from '../../../utils';
 import {AccordeonCard} from '../../AccordeonCard';
 
@@ -13,7 +13,9 @@ interface AccordeonCardProps {
     alwaysOpen?: boolean;
 }
 
-export const ViewAccordeonCard = <T extends ArrayViewLayoutProps & AccordeonCardProps>({
+export const ViewAccordeonCard = <
+    T extends (ArrayViewLayoutProps | ObjectViewLayoutProps) & AccordeonCardProps,
+>({
     value,
     name,
     spec,
@@ -34,7 +36,6 @@ export const ViewAccordeonCard = <T extends ArrayViewLayoutProps & AccordeonCard
         <AccordeonCard
             name={name}
             header={spec.viewSpec.layoutTitle || ''}
-            description={spec.viewSpec.layoutDescription || ''}
             open={open}
             onToggle={setOpen}
             alwaysOpen={alwaysOpen}

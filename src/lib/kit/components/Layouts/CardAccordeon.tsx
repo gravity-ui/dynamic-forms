@@ -3,8 +3,7 @@ import React from 'react';
 import {FieldValue, LayoutProps, Spec} from '../../../core';
 import {Card, ErrorWrapper} from '../../components';
 import {useErrorChecker} from '../../hooks';
-
-import {RemoveButton} from './Accordeon/RemoveButton';
+import {RemoveButton} from '../RemoveButton';
 
 export const CardAccordeon = <T extends FieldValue, S extends Spec>({
     name,

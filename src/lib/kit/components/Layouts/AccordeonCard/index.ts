@@ -1,1 +1,1 @@
-export * from './AccordeonCard';
+export * from './AccordeonCardForm';

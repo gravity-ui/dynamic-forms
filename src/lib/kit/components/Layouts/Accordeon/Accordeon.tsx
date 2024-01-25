@@ -3,9 +3,8 @@ import React from 'react';
 import {ArrayLayoutProps, ObjectLayoutProps} from '../../../../core';
 import {ErrorWrapper} from '../../../components';
 import {useErrorChecker} from '../../../hooks';
+import {RemoveButton} from '../../RemoveButton';
 import {SimpleVerticalAccordeon} from '../../SimpleVerticalAccordeon';
-
-import {RemoveButton} from './RemoveButton';
 
 export const Accordeon = <T extends ArrayLayoutProps | ObjectLayoutProps>({
     name,

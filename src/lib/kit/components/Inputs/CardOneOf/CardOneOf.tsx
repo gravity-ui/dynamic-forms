@@ -12,7 +12,7 @@ import {
 } from '../../../../core';
 import {useErrorChecker, useOneOf} from '../../../hooks';
 import {Row} from '../../Layouts';
-import {RemoveButton} from '../../Layouts/Accordeon/RemoveButton';
+import {RemoveButton} from '../../RemoveButton';
 
 export const CardOneOf: ObjectIndependentInput = (props) => {
     const {input, meta, spec, name} = props;
