@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.5.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.4.1...v3.5.0) (2024-01-25)
+
+
+### Features
+
+* added text components instead of spans/divs in dynamic forms ([#158](https://github.com/gravity-ui/dynamic-forms/issues/158)) ([f17b426](https://github.com/gravity-ui/dynamic-forms/commit/f17b4266eda54de092f959ac90d7ff99d5334e8e))
+
+
+### Bug Fixes
+
+* fix controller updateStore method ([#161](https://github.com/gravity-ui/dynamic-forms/issues/161)) ([ef5bab2](https://github.com/gravity-ui/dynamic-forms/commit/ef5bab22767700e2846db87c80a6e87ed4320a19))
+
 ## [3.4.1](https://github.com/gravity-ui/dynamic-forms/compare/v3.4.0...v3.4.1) (2024-01-17)
 
 
