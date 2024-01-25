@@ -36,7 +36,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.STORYBOOK_S3_SECRET_KEY }}
           AWS_DEFAULT_REGION: ru-central1
           AWS_EC2_METADATA_DISABLED: true
-        run: aws s3 cp ./playwright-report s3://playwright-reports/dynamic-forms/pulls/${{ github.event.pull_request.number }}/ --endpoint-url=https://storage.yandexcloud.net --recursive
+        run: aws s3 cp playwright-report s3://playwright-reports/dynamic-forms/pulls/${{ github.event.pull_request.number }}/ --endpoint-url=https://storage.yandexcloud.net --recursive
         shell: bash
       - name: Create Comment
         if: always()
