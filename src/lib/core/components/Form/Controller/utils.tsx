@@ -555,15 +555,13 @@ export const updateStore = <
             state: store.state,
         };
 
-        if (updateState) {
-            nextStore = methodOnChange(nextStore, {
-                valOrSetter: (value) =>
-                    valueMutatorUpdated ? (valueMutator as {value: DirtyValue}).value : value,
-                ...(errorMutatorUpdated
-                    ? {errorMutator: (errorMutator as {value: BaseValidateError}).value}
-                    : {}),
-            });
-        }
+        nextStore = methodOnChange(nextStore, {
+            valOrSetter: (value) =>
+                valueMutatorUpdated ? (valueMutator as {value: DirtyValue}).value : value,
+            ...(errorMutatorUpdated
+                ? {errorMutator: (errorMutator as {value: BaseValidateError}).value}
+                : {}),
+        });
 
         setStore(nextStore);
     } else if (updateNonCritical) {
