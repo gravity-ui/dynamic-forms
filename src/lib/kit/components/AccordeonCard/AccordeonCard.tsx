@@ -116,10 +116,7 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
                     </div>
                 ) : null}
             </div>
-            <div
-                ref={bodyRef}
-                className={`${b('body', {open: open && !emptyBody})} ${classNameBody}`}
-            >
+            <div ref={bodyRef} className={b('body', {open: open && !emptyBody}, classNameBody)}>
                 {children}
             </div>
         </div>

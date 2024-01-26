@@ -11,23 +11,11 @@ import './AccordeonCardForm.scss';
 
 const b = block('accordeon-card-form');
 
-interface AccordeonCardFormProps {
-    className?: string;
-    ignoreHeaderToggle?: boolean;
-    titleSize?: 's' | 'm';
-    alwaysOpen?: boolean;
-}
-
-export const AccordeonCardForm = <
-    T extends (ArrayLayoutProps | ObjectLayoutProps) & AccordeonCardFormProps,
->({
+export const AccordeonCardForm = <T extends ArrayLayoutProps | ObjectLayoutProps>({
     name,
     spec,
     input,
     children,
-    ignoreHeaderToggle,
-    titleSize,
-    alwaysOpen,
     meta,
 }: T): JSX.Element => {
     const [open, setOpen] = React.useState(Boolean(spec.viewSpec?.layoutOpen));
@@ -56,9 +44,6 @@ export const AccordeonCardForm = <
             open={open}
             onToggle={setOpen}
             headerActionsTemplate={removeButton}
-            alwaysOpen={alwaysOpen}
-            titleSize={titleSize}
-            ignoreHeaderToggle={ignoreHeaderToggle}
         >
             <ErrorWrapper name={name} meta={meta} withoutChildErrorStyles>
                 {children}

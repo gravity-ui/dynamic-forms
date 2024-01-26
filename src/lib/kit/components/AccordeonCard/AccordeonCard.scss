@@ -9,9 +9,20 @@
     border-radius: 5px;
     color: var(--g-color-text-primary);
     background-color: var(--g-color-base-float);
-    & .df-row {
+    .#{$ns}row {
         width: 100%;
         max-width: unset;
+
+        .#{$ns}select,
+        .#{$ns}multi-select,
+        .#{$ns}transparent_array-item {
+            max-width: unset;
+        }
+    }
+
+    .#{$ns}monaco-input,
+    .#{$ns}monaco-base-view {
+        width: 100%;
     }
 
     &:hover {
