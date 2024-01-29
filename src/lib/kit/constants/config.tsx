@@ -1,6 +1,7 @@
 import {DynamicFormConfig, DynamicViewConfig, StringSpec, ValidatorType} from '../../core';
 import {
     Accordeon,
+    AccordeonCardForm,
     ArrayBase,
     ArrayBaseView,
     BaseView,
@@ -51,6 +52,7 @@ import {
     TextLinkView,
     Transparent,
     ViewAccordeon,
+    ViewAccordeonCard,
     ViewCardAccordeon,
     ViewCardSection,
     ViewGroup,
@@ -88,6 +90,7 @@ export const dynamicConfig: DynamicFormConfig = {
             transparent: Transparent,
             card_accordeon: CardAccordeon,
             card_section: CardSection,
+            accordeon_card: AccordeonCardForm,
         },
         validators: {
             base: getArrayValidator(),
@@ -145,6 +148,7 @@ export const dynamicConfig: DynamicFormConfig = {
             transparent: Transparent,
             card_accordeon: CardAccordeon,
             card_section: CardSection,
+            accordeon_card: AccordeonCardForm,
         },
         validators: {
             base: getObjectValidator(),
@@ -198,6 +202,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
             transparent: ViewTransparent,
             card_accordeon: ViewCardAccordeon,
             card_section: ViewCardSection,
+            accordeon_card: ViewAccordeonCard,
         },
     },
     boolean: {
@@ -246,6 +251,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
             transparent: ViewTransparent,
             card_accordeon: ViewCardAccordeon,
             card_section: ViewCardSection,
+            accordeon_card: ViewAccordeonCard,
         },
     },
     string: {

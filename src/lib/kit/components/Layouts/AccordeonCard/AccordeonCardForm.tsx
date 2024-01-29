@@ -1,17 +1,22 @@
 import React from 'react';
 
 import {ArrayLayoutProps, ObjectLayoutProps} from '../../../../core';
-import {ErrorWrapper} from '../../../components';
 import {useErrorChecker} from '../../../hooks';
+import {block} from '../../../utils';
+import {AccordeonCard} from '../../AccordeonCard';
+import {ErrorWrapper} from '../../ErrorWrapper';
 import {RemoveButton} from '../../RemoveButton';
-import {SimpleVerticalAccordeon} from '../../SimpleVerticalAccordeon';
 
-export const Accordeon = <T extends ArrayLayoutProps | ObjectLayoutProps>({
+import './AccordeonCardForm.scss';
+
+const b = block('accordeon-card-form');
+
+export const AccordeonCardForm = <T extends ArrayLayoutProps | ObjectLayoutProps>({
     name,
     spec,
     input,
-    meta,
     children,
+    meta,
 }: T): JSX.Element => {
     const [open, setOpen] = React.useState(Boolean(spec.viewSpec?.layoutOpen));
 
@@ -31,19 +36,18 @@ export const Accordeon = <T extends ArrayLayoutProps | ObjectLayoutProps>({
     useErrorChecker({name, meta, open, setOpen});
 
     return (
-        <SimpleVerticalAccordeon
+        <AccordeonCard
+            classNameBody={b('accordeon-card-body')}
             name={name}
-            title={spec.viewSpec.layoutTitle || ''}
-            note={spec.viewSpec.layoutDescription || ''}
+            header={spec.viewSpec.layoutTitle || ''}
+            description={spec.viewSpec.layoutDescription || ''}
             open={open}
-            onOpenChange={setOpen}
+            onToggle={setOpen}
             headerActionsTemplate={removeButton}
-            hideInsteadOfDestroy
-            withBranchView
         >
             <ErrorWrapper name={name} meta={meta} withoutChildErrorStyles>
                 {children}
             </ErrorWrapper>
-        </SimpleVerticalAccordeon>
+        </AccordeonCard>
     );
 };

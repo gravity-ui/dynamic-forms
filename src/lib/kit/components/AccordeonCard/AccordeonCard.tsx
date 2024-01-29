@@ -22,6 +22,7 @@ export interface AccordeonCardProps {
     ignoreHeaderToggle?: boolean;
     titleSize?: 's' | 'm';
     alwaysOpen?: boolean;
+    classNameBody?: string;
 }
 export const AccordeonCard: React.FC<AccordeonCardProps> = ({
     className,
@@ -35,6 +36,7 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
     titleSize = 'm',
     alwaysOpen,
     children,
+    classNameBody,
 }) => {
     const accordeonRef = React.useRef<HTMLDivElement>(null);
     const bodyRef = React.useRef<HTMLDivElement>(null);
@@ -114,7 +116,7 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
                     </div>
                 ) : null}
             </div>
-            <div ref={bodyRef} className={b('body', {open: open && !emptyBody})}>
+            <div ref={bodyRef} className={b('body', {open: open && !emptyBody}, classNameBody)}>
                 {children}
             </div>
         </div>

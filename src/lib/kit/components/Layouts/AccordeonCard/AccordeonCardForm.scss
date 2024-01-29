@@ -1,0 +1,7 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}accordeon-card-form {
+    &__accordeon-card-body {
+        padding-right: 32px;
+    }
+}

@@ -3,7 +3,7 @@ import React from 'react';
 import {Ellipsis} from '@gravity-ui/icons';
 import {Button, DropdownMenu, DropdownMenuItemMixed, Icon} from '@gravity-ui/uikit';
 
-import i18n from '../../../i18n';
+import i18n from '../../i18n';
 
 export interface RemoveButtonProps {
     name: string;

@@ -5,11 +5,25 @@
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
-    max-width: 750px;
     box-shadow: 0 1px 5px var(--g-color-sfx-shadow);
     border-radius: 5px;
     color: var(--g-color-text-primary);
     background-color: var(--g-color-base-float);
+    .#{$ns}row {
+        width: 100%;
+        max-width: unset;
+
+        .#{$ns}select,
+        .#{$ns}multi-select,
+        .#{$ns}transparent_array-item {
+            max-width: unset;
+        }
+    }
+
+    .#{$ns}monaco-input,
+    .#{$ns}monaco-base-view {
+        width: 100%;
+    }
 
     &:hover {
         box-shadow: 0 3px 10px var(--g-color-sfx-shadow);
@@ -85,7 +99,6 @@
 
     &__body {
         display: none;
-        margin-top: -10px 0 8px;
         padding: 16px;
 
         &_open {
