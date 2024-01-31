@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Select, Text} from '@gravity-ui/uikit';
+import {Select, SelectProps as SelectBaseProps, Text} from '@gravity-ui/uikit';
 
 import {ArrayInput, FieldArrayValue, transformArrIn, transformArrOut} from '../../../../core';
 import {block} from '../../../utils';
@@ -9,7 +9,7 @@ import './MultiSelect.scss';
 
 const b = block('multi-select');
 
-export const MultiSelect: ArrayInput = ({name, input, spec}) => {
+export const MultiSelect: ArrayInput<SelectBaseProps> = ({name, input, spec, inputProps}) => {
     const {value, onBlur, onChange, onFocus} = input;
 
     const filterable = React.useMemo(() => (spec.enum?.length || 0) > 9, [spec.enum?.length]);
@@ -81,6 +81,7 @@ export const MultiSelect: ArrayInput = ({name, input, spec}) => {
             getOptionHeight={getOptionHeight}
             multiple
             qa={name}
+            {...inputProps}
         />
     );
 };

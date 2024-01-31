@@ -5,7 +5,11 @@ import {ReadAsMethod, SpecTypes} from '../constants';
 
 import {ArrayValue, ObjectValue} from './';
 
-export interface ArraySpec<LinkType = any> {
+export interface ArraySpec<
+    LinkType = any,
+    InputProps extends Record<string, any> = {},
+    LayoutProps extends Record<string, any> = {},
+> {
     defaultValue?: ArrayValue;
     type: SpecTypes.Array;
     required?: boolean;
@@ -36,10 +40,16 @@ export interface ArraySpec<LinkType = any> {
             filterPlaceholder?: string;
             meta?: Record<string, string>;
         };
+        inputProps?: InputProps;
+        layoutProps?: LayoutProps;
     };
 }
 
-export interface BooleanSpec<LinkType = any> {
+export interface BooleanSpec<
+    LinkType = any,
+    InputProps extends Record<string, any> = {},
+    LayoutProps extends Record<string, any> = {},
+> {
     defaultValue?: boolean;
     type: SpecTypes.Boolean;
     required?: boolean;
@@ -53,10 +63,16 @@ export interface BooleanSpec<LinkType = any> {
         layoutOpen?: boolean;
         link?: LinkType;
         hidden?: boolean;
+        inputProps?: InputProps;
+        layoutProps?: LayoutProps;
     };
 }
 
-export interface NumberSpec<LinkType = any> {
+export interface NumberSpec<
+    LinkType = any,
+    InputProps extends Record<string, any> = {},
+    LayoutProps extends Record<string, any> = {},
+> {
     defaultValue?: number;
     type: SpecTypes.Number;
     required?: boolean;
@@ -75,10 +91,16 @@ export interface NumberSpec<LinkType = any> {
         placeholder?: string;
         copy?: boolean;
         hidden?: boolean;
+        inputProps?: InputProps;
+        layoutProps?: LayoutProps;
     };
 }
 
-export interface ObjectSpec<LinkType = any> {
+export interface ObjectSpec<
+    LinkType = any,
+    InputProps extends Record<string, any> = {},
+    LayoutProps extends Record<string, any> = {},
+> {
     defaultValue?: ObjectValue;
     type: SpecTypes.Object;
     required?: boolean;
@@ -99,10 +121,16 @@ export interface ObjectSpec<LinkType = any> {
         };
         placeholder?: string;
         hidden?: boolean;
+        layoutProps?: LayoutProps;
+        inputProps?: InputProps;
     };
 }
 
-export interface StringSpec<LinkType = any> {
+export interface StringSpec<
+    LinkType = any,
+    InputProps extends Record<string, any> = {},
+    LayoutProps extends Record<string, any> = {},
+> {
     defaultValue?: string;
     type: SpecTypes.String;
     required?: boolean;
@@ -149,6 +177,8 @@ export interface StringSpec<LinkType = any> {
             filterPlaceholder?: string;
             meta?: Record<string, string>;
         };
+        inputProps?: InputProps;
+        layoutProps?: LayoutProps;
         generateRandomValueButton?: boolean;
     };
 }

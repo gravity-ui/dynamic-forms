@@ -1,15 +1,18 @@
 import React from 'react';
 
 import {PasswordInput} from '@gravity-ui/components';
-import {TextInput} from '@gravity-ui/uikit';
+import {TextInput, TextInputProps as TextInputBaseProps} from '@gravity-ui/uikit';
 import _ from 'lodash';
 
 import {FieldRenderProps, NumberInputProps, StringInputProps} from '../../../../core';
 
-export const Text = <T extends NumberInputProps | StringInputProps>({
+export const Text = <
+    T extends NumberInputProps<TextInputBaseProps> | StringInputProps<TextInputBaseProps>,
+>({
     name,
     input: {value, onBlur, onChange, onFocus},
     spec,
+    inputProps,
 }: T) => {
     const props = {
         value: _.isNil(value) ? '' : `${value}`,
@@ -20,6 +23,7 @@ export const Text = <T extends NumberInputProps | StringInputProps>({
         disabled: spec.viewSpec.disabled,
         placeholder: spec.viewSpec.placeholder,
         qa: name,
+        ...inputProps,
     };
 
     if (spec.viewSpec.type === 'password') {

@@ -15,13 +15,33 @@ import {
     ValidatorsMap,
 } from './';
 
-export type StringInputProps = InputProps<string, StringSpec>;
-export type StringIndependentInputProps = IndependentInputProps<string, StringSpec>;
-export type StringLayoutProps = LayoutProps<string, StringSpec>;
+export type StringInputProps<IProps extends Record<string, any> = {}> = InputProps<
+    string,
+    StringSpec<any, IProps>
+>;
 
-export type StringInput = InputType<string, StringSpec>;
-export type StringIndependentInput = IndependentInputType<string, StringSpec>;
-export type StringLayout = LayoutType<string, StringSpec>;
+export type StringIndependentInputProps<IProps extends Record<string, any> = {}> =
+    IndependentInputProps<string, StringSpec<any, IProps>>;
+
+export type StringLayoutProps<LProps extends Record<string, any> = {}> = LayoutProps<
+    string,
+    StringSpec<any, any, LProps>
+>;
+
+export type StringInput<IProps extends Record<string, any> = {}> = InputType<
+    string,
+    StringSpec<any, IProps>
+>;
+
+export type StringIndependentInput<IProps extends Record<string, any> = {}> = IndependentInputType<
+    string,
+    StringSpec<any, IProps>
+>;
+
+export type StringLayout<LProps extends Record<string, any> = {}> = LayoutType<
+    string,
+    StringSpec<any, any, LProps>
+>;
 
 export type StringInputEntity = InputEntity<string, StringSpec>;
 export type StringIndependentInputEntity = IndependentInputEntity<string, StringSpec>;

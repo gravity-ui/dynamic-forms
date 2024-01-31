@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Select as SelectBase, Text} from '@gravity-ui/uikit';
+import {Select as SelectBase, SelectProps as SelectBaseProps, Text} from '@gravity-ui/uikit';
 
 import {StringInput} from '../../../../core';
 import {block} from '../../../utils';
@@ -9,7 +9,7 @@ import './Select.scss';
 
 const b = block('select');
 
-export const Select: StringInput = ({name, input, spec}) => {
+export const Select: StringInput<SelectBaseProps> = ({name, input, spec, inputProps}) => {
     const {value, onBlur, onChange, onFocus} = input;
 
     const filterable = React.useMemo(() => (spec.enum?.length || 0) > 9, [spec.enum?.length]);
@@ -75,6 +75,7 @@ export const Select: StringInput = ({name, input, spec}) => {
             getOptionHeight={getOptionHeight}
             renderOption={renderOption}
             qa={name}
+            {...inputProps}
         />
     );
 };

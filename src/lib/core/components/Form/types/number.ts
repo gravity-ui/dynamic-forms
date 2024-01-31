@@ -15,13 +15,32 @@ import {
     ValidatorsMap,
 } from './';
 
-export type NumberInputProps = InputProps<number, NumberSpec>;
-export type NumberIndependentInputProps = IndependentInputProps<number, NumberSpec>;
-export type NumberLayoutProps = LayoutProps<number, NumberSpec>;
+export type NumberInputProps<IProps extends Record<string, any> = {}> = InputProps<
+    number,
+    NumberSpec<any, IProps>
+>;
 
-export type NumberInput = InputType<number, NumberSpec>;
-export type NumberIndependentInput = IndependentInputType<number, NumberSpec>;
-export type NumberLayout = LayoutType<number, NumberSpec>;
+export type NumberIndependentInputProps<IProps extends Record<string, any> = {}> =
+    IndependentInputProps<number, NumberSpec<any, IProps>>;
+
+export type NumberLayoutProps<LProps extends Record<string, any> = {}> = LayoutProps<
+    number,
+    NumberSpec<any, any, LProps>
+>;
+
+export type NumberInput<IProps extends Record<string, any> = {}> = InputType<
+    number,
+    NumberSpec<any, IProps>
+>;
+
+export type NumberIndependentInput<IProps extends Record<string, any> = {}> = IndependentInputType<
+    number,
+    NumberSpec<any, IProps>
+>;
+export type NumberLayout<LProps extends Record<string, any> = {}> = LayoutType<
+    number,
+    NumberSpec<any, any, LProps>
+>;
 
 export type NumberInputEntity = InputEntity<number, NumberSpec>;
 export type NumberIndependentInputEntity = IndependentInputEntity<number, NumberSpec>;
