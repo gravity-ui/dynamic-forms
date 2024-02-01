@@ -5,6 +5,7 @@ import {ReadAsMethod, SpecTypes} from '../constants';
 
 import {ArrayValue, ObjectValue} from './';
 
+//TODO: Need to move on InputComponentProps extends Record<string, any> | undefined = undefined;
 export interface ArraySpec<
     LinkType = any,
     InputComponentProps extends Record<string, any> = {},

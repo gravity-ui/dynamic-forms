@@ -33,7 +33,7 @@ export const Select: StringInput<SelectProps> = ({name, input, spec, inputProps}
     const options = React.useMemo(
         () =>
             withCustomOptions
-                ? externalOptions
+                ? externalOptions || []
                 : spec.enum?.map((id) => ({
                       id,
                       value: id,

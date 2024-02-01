@@ -34,7 +34,7 @@ export const MultiSelect: ArrayInput<MultiSelectProps> = ({name, input, spec, in
     const options = React.useMemo(
         () =>
             withCustomOptions
-                ? externalOptions
+                ? externalOptions || []
                 : spec.enum?.map((id) => ({
                       id,
                       value: id,
