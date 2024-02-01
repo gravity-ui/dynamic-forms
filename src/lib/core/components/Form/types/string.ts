@@ -15,32 +15,34 @@ import {
     ValidatorsMap,
 } from './';
 
-export type StringInputProps<IProps extends Record<string, any> = {}> = InputProps<
+export type StringInputProps<InputComponentProps extends Record<string, any> = {}> = InputProps<
     string,
-    StringSpec<any, IProps>
+    StringSpec<undefined, InputComponentProps>
 >;
 
-export type StringIndependentInputProps<IProps extends Record<string, any> = {}> =
-    IndependentInputProps<string, StringSpec<any, IProps>>;
+export type StringIndependentInputProps<
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> = IndependentInputProps<string, StringSpec<undefined, InputComponentProps, LayoutComponentProps>>;
 
-export type StringLayoutProps<LProps extends Record<string, any> = {}> = LayoutProps<
+export type StringLayoutProps<LayoutComponentProps extends Record<string, any> = {}> = LayoutProps<
     string,
-    StringSpec<any, any, LProps>
+    StringSpec<undefined, any, LayoutComponentProps>
 >;
 
-export type StringInput<IProps extends Record<string, any> = {}> = InputType<
+export type StringInput<InputComponentProps extends Record<string, any> = {}> = InputType<
     string,
-    StringSpec<any, IProps>
+    StringSpec<undefined, InputComponentProps>
 >;
 
-export type StringIndependentInput<IProps extends Record<string, any> = {}> = IndependentInputType<
-    string,
-    StringSpec<any, IProps>
->;
+export type StringIndependentInput<
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> = IndependentInputType<string, StringSpec<undefined, InputComponentProps, LayoutComponentProps>>;
 
-export type StringLayout<LProps extends Record<string, any> = {}> = LayoutType<
+export type StringLayout<LayoutComponentProps extends Record<string, any> = {}> = LayoutType<
     string,
-    StringSpec<any, any, LProps>
+    StringSpec<undefined, any, LayoutComponentProps>
 >;
 
 export type StringInputEntity = InputEntity<string, StringSpec>;

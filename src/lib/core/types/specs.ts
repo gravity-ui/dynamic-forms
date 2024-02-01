@@ -7,8 +7,8 @@ import {ArrayValue, ObjectValue} from './';
 
 export interface ArraySpec<
     LinkType = any,
-    InputProps extends Record<string, any> = {},
-    LayoutProps extends Record<string, any> = {},
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
 > {
     defaultValue?: ArrayValue;
     type: SpecTypes.Array;
@@ -40,15 +40,15 @@ export interface ArraySpec<
             filterPlaceholder?: string;
             meta?: Record<string, string>;
         };
-        inputProps?: InputProps;
-        layoutProps?: LayoutProps;
+        inputProps?: InputComponentProps;
+        layoutProps?: LayoutComponentProps;
     };
 }
 
 export interface BooleanSpec<
     LinkType = any,
-    InputProps extends Record<string, any> = {},
-    LayoutProps extends Record<string, any> = {},
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
 > {
     defaultValue?: boolean;
     type: SpecTypes.Boolean;
@@ -63,15 +63,15 @@ export interface BooleanSpec<
         layoutOpen?: boolean;
         link?: LinkType;
         hidden?: boolean;
-        inputProps?: InputProps;
-        layoutProps?: LayoutProps;
+        inputProps?: InputComponentProps;
+        layoutProps?: LayoutComponentProps;
     };
 }
 
 export interface NumberSpec<
     LinkType = any,
-    InputProps extends Record<string, any> = {},
-    LayoutProps extends Record<string, any> = {},
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
 > {
     defaultValue?: number;
     type: SpecTypes.Number;
@@ -91,15 +91,15 @@ export interface NumberSpec<
         placeholder?: string;
         copy?: boolean;
         hidden?: boolean;
-        inputProps?: InputProps;
-        layoutProps?: LayoutProps;
+        inputProps?: InputComponentProps;
+        layoutProps?: LayoutComponentProps;
     };
 }
 
 export interface ObjectSpec<
     LinkType = any,
-    InputProps extends Record<string, any> = {},
-    LayoutProps extends Record<string, any> = {},
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
 > {
     defaultValue?: ObjectValue;
     type: SpecTypes.Object;
@@ -121,15 +121,15 @@ export interface ObjectSpec<
         };
         placeholder?: string;
         hidden?: boolean;
-        layoutProps?: LayoutProps;
-        inputProps?: InputProps;
+        inputProps?: InputComponentProps;
+        layoutProps?: LayoutComponentProps;
     };
 }
 
 export interface StringSpec<
     LinkType = any,
-    InputProps extends Record<string, any> = {},
-    LayoutProps extends Record<string, any> = {},
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
 > {
     defaultValue?: string;
     type: SpecTypes.String;
@@ -177,8 +177,8 @@ export interface StringSpec<
             filterPlaceholder?: string;
             meta?: Record<string, string>;
         };
-        inputProps?: InputProps;
-        layoutProps?: LayoutProps;
+        inputProps?: InputComponentProps;
+        layoutProps?: LayoutComponentProps;
         generateRandomValueButton?: boolean;
     };
 }

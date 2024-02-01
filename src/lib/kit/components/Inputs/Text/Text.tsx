@@ -6,24 +6,28 @@ import _ from 'lodash';
 
 import {FieldRenderProps, NumberInputProps, StringInputProps} from '../../../../core';
 
-export const Text = <
-    T extends NumberInputProps<TextInputBaseProps> | StringInputProps<TextInputBaseProps>,
->({
+export interface TextProps
+    extends Omit<
+        TextInputBaseProps,
+        'value' | 'onBlur' | 'onFocus' | 'onUpdate' | 'disabled' | 'placeholder' | 'qa'
+    > {}
+
+export const Text = <T extends NumberInputProps<TextProps> | StringInputProps<TextProps>>({
     name,
     input: {value, onBlur, onChange, onFocus},
     spec,
     inputProps,
 }: T) => {
     const props = {
-        value: _.isNil(value) ? '' : `${value}`,
         hasClear: true,
+        ...inputProps,
+        value: _.isNil(value) ? '' : `${value}`,
         onBlur: onBlur,
         onFocus: onFocus,
         onUpdate: onChange as FieldRenderProps<string>['input']['onChange'],
         disabled: spec.viewSpec.disabled,
         placeholder: spec.viewSpec.placeholder,
         qa: name,
-        ...inputProps,
     };
 
     if (spec.viewSpec.type === 'password') {

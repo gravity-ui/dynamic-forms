@@ -16,29 +16,38 @@ import {
     ValidatorsMap,
 } from './';
 
-export type ArrayInputProps<IProps extends Record<string, any> = {}> = InputProps<
+export type ArrayInputProps<InputComponentProps extends Record<string, any> = {}> = InputProps<
     FieldArrayValue,
-    ArraySpec<any, IProps>
+    ArraySpec<undefined, InputComponentProps>
 >;
-export type ArrayIndependentInputProps<IProps extends Record<string, any> = {}> =
-    IndependentInputProps<FieldArrayValue, ArraySpec<any, IProps>>;
+export type ArrayIndependentInputProps<
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> = IndependentInputProps<
+    FieldArrayValue,
+    ArraySpec<undefined, InputComponentProps, LayoutComponentProps>
+>;
 
-export type ArrayLayoutProps<LProps extends Record<string, any> = {}> = LayoutProps<
+export type ArrayLayoutProps<LayoutComponentProps extends Record<string, any> = {}> = LayoutProps<
     FieldArrayValue,
-    ArraySpec<any, any, LProps>
+    ArraySpec<undefined, any, LayoutComponentProps>
 >;
 
-export type ArrayInput<IProps extends Record<string, any> = {}> = InputType<
+export type ArrayInput<InputComponentProps extends Record<string, any> = {}> = InputType<
     FieldArrayValue,
-    ArraySpec<any, IProps>
+    ArraySpec<undefined, InputComponentProps>
 >;
-export type ArrayIndependentInput<IProps extends Record<string, any> = {}> = IndependentInputType<
+export type ArrayIndependentInput<
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> = IndependentInputType<
     FieldArrayValue,
-    ArraySpec<any, IProps>
+    ArraySpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
-export type ArrayLayout<LProps extends Record<string, any> = {}> = LayoutType<
+
+export type ArrayLayout<LayoutComponentProps extends Record<string, any> = {}> = LayoutType<
     FieldArrayValue,
-    ArraySpec<any, any, LProps>
+    ArraySpec<undefined, any, LayoutComponentProps>
 >;
 
 export type ArrayInputEntity = InputEntity<FieldArrayValue, ArraySpec>;

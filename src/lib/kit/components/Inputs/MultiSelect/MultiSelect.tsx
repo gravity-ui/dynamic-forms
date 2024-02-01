@@ -7,32 +7,57 @@ import {block} from '../../../utils';
 
 import './MultiSelect.scss';
 
+export interface MultiSelectProps
+    extends Omit<
+        SelectBaseProps,
+        | 'onUpdate'
+        | 'value'
+        | 'onOpenChange'
+        | 'disabled'
+        | 'placeholder'
+        | 'filterPlaceholder'
+        | 'multiple'
+        | 'qa'
+    > {
+    withCustomOptions?: boolean;
+}
+
 const b = block('multi-select');
 
-export const MultiSelect: ArrayInput<SelectBaseProps> = ({name, input, spec, inputProps}) => {
+export const MultiSelect: ArrayInput<MultiSelectProps> = ({name, input, spec, inputProps}) => {
     const {value, onBlur, onChange, onFocus} = input;
 
     const filterable = React.useMemo(() => (spec.enum?.length || 0) > 9, [spec.enum?.length]);
 
+    const {withCustomOptions, options: externalOptions} = inputProps || {};
+
     const options = React.useMemo(
         () =>
-            spec.enum?.map((id) => ({
-                id,
-                value: id,
-                text: spec.description?.[id] || id,
-                content: spec.viewSpec.selectParams?.meta?.[id] ? (
-                    <div key={id}>
-                        <Text>{spec.description?.[id] || id}</Text>
-                        <Text color="secondary" className={b('meta-text')}>
-                            {spec.viewSpec.selectParams.meta[id]}
-                        </Text>
-                    </div>
-                ) : (
-                    spec.description?.[id] || id
-                ),
-                key: id,
-            })),
-        [spec.enum, spec.description, spec.viewSpec.selectParams?.meta],
+            withCustomOptions
+                ? externalOptions
+                : spec.enum?.map((id) => ({
+                      id,
+                      value: id,
+                      text: spec.description?.[id] || id,
+                      content: spec.viewSpec.selectParams?.meta?.[id] ? (
+                          <div key={id}>
+                              <Text>{spec.description?.[id] || id}</Text>
+                              <Text color="secondary" className={b('meta-text')}>
+                                  {spec.viewSpec.selectParams.meta[id]}
+                              </Text>
+                          </div>
+                      ) : (
+                          spec.description?.[id] || id
+                      ),
+                      key: id,
+                  })),
+        [
+            spec.enum,
+            spec.description,
+            spec.viewSpec.selectParams?.meta,
+            externalOptions,
+            withCustomOptions,
+        ],
     );
 
     const renderOption = React.useCallback((option: {value: string; content?: React.ReactNode}) => {
@@ -69,19 +94,19 @@ export const MultiSelect: ArrayInput<SelectBaseProps> = ({name, input, spec, inp
         <Select
             width="max"
             className={b()}
+            filterable={filterable}
+            renderOption={renderOption}
+            getOptionHeight={getOptionHeight}
+            {...inputProps}
             value={_value}
             options={options}
             onUpdate={handleChange}
             onOpenChange={handleToggle}
             disabled={spec.viewSpec.disabled}
             placeholder={spec.viewSpec.placeholder}
-            filterable={filterable}
             filterPlaceholder={spec.viewSpec.selectParams?.filterPlaceholder}
-            renderOption={renderOption}
-            getOptionHeight={getOptionHeight}
             multiple
             qa={name}
-            {...inputProps}
         />
     );
 };

@@ -12,6 +12,7 @@ export type InputProps<Value extends FieldValue, SpecType extends Spec> = {
 
 export type IndependentInputProps<Value extends FieldValue, SpecType extends Spec> = {
     Layout: LayoutType<Value, SpecType> | undefined;
+    layoutProps?: SpecType['viewSpec']['layoutProps'];
 } & InputProps<Value, SpecType>;
 
 export type InputType<Value extends FieldValue, SpecType extends Spec> = (

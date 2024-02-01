@@ -145,6 +145,7 @@ export const getRender = <DirtyValue extends FieldValue, SpecType extends Spec>(
                             name={name}
                             Layout={Layout}
                             inputProps={inputProps}
+                            layoutProps={layoutProps}
                             {...props}
                         />
                     );

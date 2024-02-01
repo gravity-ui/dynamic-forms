@@ -15,31 +15,34 @@ import {
     ValidatorsMap,
 } from './';
 
-export type NumberInputProps<IProps extends Record<string, any> = {}> = InputProps<
+export type NumberInputProps<InputComponentProps extends Record<string, any> = {}> = InputProps<
     number,
-    NumberSpec<any, IProps>
+    NumberSpec<undefined, InputComponentProps>
 >;
 
-export type NumberIndependentInputProps<IProps extends Record<string, any> = {}> =
-    IndependentInputProps<number, NumberSpec<any, IProps>>;
+export type NumberIndependentInputProps<
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> = IndependentInputProps<number, NumberSpec<undefined, InputComponentProps, LayoutComponentProps>>;
 
-export type NumberLayoutProps<LProps extends Record<string, any> = {}> = LayoutProps<
+export type NumberLayoutProps<LayoutComponentProps extends Record<string, any> = {}> = LayoutProps<
     number,
-    NumberSpec<any, any, LProps>
+    NumberSpec<any, any, LayoutComponentProps>
 >;
 
-export type NumberInput<IProps extends Record<string, any> = {}> = InputType<
+export type NumberInput<InputComponentProps extends Record<string, any> = {}> = InputType<
     number,
-    NumberSpec<any, IProps>
+    NumberSpec<undefined, InputComponentProps>
 >;
 
-export type NumberIndependentInput<IProps extends Record<string, any> = {}> = IndependentInputType<
+export type NumberIndependentInput<
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> = IndependentInputType<number, NumberSpec<undefined, InputComponentProps, LayoutComponentProps>>;
+
+export type NumberLayout<LayoutComponentProps extends Record<string, any> = {}> = LayoutType<
     number,
-    NumberSpec<any, IProps>
->;
-export type NumberLayout<LProps extends Record<string, any> = {}> = LayoutType<
-    number,
-    NumberSpec<any, any, LProps>
+    NumberSpec<undefined, any, LayoutComponentProps>
 >;
 
 export type NumberInputEntity = InputEntity<number, NumberSpec>;
