@@ -2,7 +2,6 @@ name: Playwright Tests
 
 on:
   pull_request:
-  workflow_run:
  
 
 jobs:
@@ -29,27 +28,3 @@ jobs:
           name: playwright-report
           path: ./playwright-report
           retention-days: 1
-
-  deploy:
-      name: Upload Playwright report to s3
-      if: >
-        github.event.workflow_run.event == 'pull_request' &&
-        github.event.workflow_run.conclusion == 'success'
-      runs-on: ubuntu-latest
-      steps:
-        - name: Upload
-          env:
-            AWS_ACCESS_KEY_ID: ${{ secrets.STORYBOOK_S3_KEY_ID }}
-            AWS_SECRET_ACCESS_KEY: ${{ secrets.STORYBOOK_S3_SECRET_KEY }}
-            AWS_DEFAULT_REGION: ru-central1
-            AWS_EC2_METADATA_DISABLED: true
-          run: aws s3 cp --recursive ./playwright-report s3://playwright-reports/dynamic-forms/pulls/${{ github.event.pull_request.number }}/ --endpoint-url=https://storage.yandexcloud.net
-          shell: bash
-        - name: Create Comment
-          uses: marocchino/sticky-pull-request-comment@v2
-          with:
-            GITHUB_TOKEN: ${{ secrets.GRAVITY_UI_BOT_GITHUB_TOKEN }}
-            number: ${{ github.event.pull_request.number }}
-            header: playwright test
-            message: '[Playwright Test Component](https://storage.yandexcloud.net/playwright-reports/dynamic-forms/pulls/${{ github.event.pull_request.number }}/index.html) is ready.'
-  
