@@ -27,3 +27,13 @@ jobs:
           name: playwright-report
           path: ./playwright-report
           retention-days: 1
+      - name: Save PR ID
+        run: |
+          pr="${{ github.event.pull_request.number }}"
+          echo $pr > ./pr-id.txt
+        shell: bash
+      - name: Create PR Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: pr
+          path: ./pr-id.txt
