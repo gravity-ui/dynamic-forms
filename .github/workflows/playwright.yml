@@ -3,13 +3,12 @@ name: Playwright Tests
 on:
   pull_request:
  
+permissions: read-all
 
 jobs:
   test:
     name: Test component
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: read
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
