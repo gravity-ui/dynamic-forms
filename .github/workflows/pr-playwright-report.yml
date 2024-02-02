@@ -3,11 +3,13 @@ name: PR Playwright Report
 on:
   workflow_run:
     workflows: ['Playwright Tests']
-    types: ['completed']
+    types:
+      - completed
 
 jobs:
-  deploy:
+  comment:
     name: Upload Playwright report to s3
+    if: github.event.workflow_run.event == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Upload
