@@ -8,6 +8,8 @@ jobs:
   test:
     name: Test component
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -29,8 +31,6 @@ jobs:
           path: ./playwright-report
           retention-days: 1   
       - name: Upload Playwright report to s3
-        if: >
-            github.event.workflow_run.event == 'pull_request' 
         env:
             AWS_ACCESS_KEY_ID: ${{ secrets.STORYBOOK_S3_KEY_ID }}
             AWS_SECRET_ACCESS_KEY: ${{ secrets.STORYBOOK_S3_SECRET_KEY }}
