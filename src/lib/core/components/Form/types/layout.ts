@@ -6,6 +6,7 @@ import {FieldValue, InputProps} from './';
 
 export type LayoutProps<Value extends FieldValue, SpecType extends Spec> = {
     children: React.ReactElement;
+    layoutProps?: SpecType['viewSpec']['layoutProps'];
 } & InputProps<Value, SpecType>;
 
 export type LayoutType<Value extends FieldValue, SpecType extends Spec> = (

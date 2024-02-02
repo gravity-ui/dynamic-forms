@@ -15,13 +15,41 @@ import {
     ValidatorsMap,
 } from './';
 
-export type BooleanInputProps = InputProps<boolean, BooleanSpec>;
-export type BooleanIndependentInputProps = IndependentInputProps<boolean, BooleanSpec>;
-export type BooleanLayoutProps = LayoutProps<boolean, BooleanSpec>;
+export type BooleanInputProps<InputComponentProps extends Record<string, any> = {}> = InputProps<
+    boolean,
+    BooleanSpec<undefined, InputComponentProps>
+>;
 
-export type BooleanInput = InputType<boolean, BooleanSpec>;
-export type BooleanIndependentInput = IndependentInputType<boolean, BooleanSpec>;
-export type BooleanLayout = LayoutType<boolean, BooleanSpec>;
+export type BooleanIndependentInputProps<
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> = IndependentInputProps<
+    boolean,
+    BooleanSpec<undefined, InputComponentProps, LayoutComponentProps>
+>;
+
+export type BooleanLayoutProps<LayoutComponentProps extends Record<string, any> = {}> = LayoutProps<
+    boolean,
+    BooleanSpec<undefined, any, LayoutComponentProps>
+>;
+
+export type BooleanInput<InputComponentProps extends Record<string, any> = {}> = InputType<
+    boolean,
+    BooleanSpec<undefined, InputComponentProps>
+>;
+
+export type BooleanIndependentInput<
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> = IndependentInputType<
+    boolean,
+    BooleanSpec<undefined, InputComponentProps, LayoutComponentProps>
+>;
+
+export type BooleanLayout<LayoutComponentProps extends Record<string, any> = {}> = LayoutType<
+    boolean,
+    BooleanSpec<undefined, any, LayoutComponentProps>
+>;
 
 export type BooleanInputEntity = InputEntity<boolean, BooleanSpec>;
 export type BooleanIndependentInputEntity = IndependentInputEntity<boolean, BooleanSpec>;

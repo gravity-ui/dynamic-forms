@@ -16,13 +16,40 @@ import {
     ValidatorsMap,
 } from './';
 
-export type ObjectInputProps = InputProps<FieldObjectValue, ObjectSpec>;
-export type ObjectIndependentInputProps = IndependentInputProps<FieldObjectValue, ObjectSpec>;
-export type ObjectLayoutProps = LayoutProps<FieldObjectValue, ObjectSpec>;
+export type ObjectInputProps<InputComponentProps extends Record<string, any> = {}> = InputProps<
+    FieldObjectValue,
+    ObjectSpec<undefined, InputComponentProps>
+>;
+export type ObjectIndependentInputProps<
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> = IndependentInputProps<
+    FieldObjectValue,
+    ObjectSpec<undefined, InputComponentProps, LayoutComponentProps>
+>;
 
-export type ObjectInput = InputType<FieldObjectValue, ObjectSpec>;
-export type ObjectIndependentInput = IndependentInputType<FieldObjectValue, ObjectSpec>;
-export type ObjectLayout = LayoutType<FieldObjectValue, ObjectSpec>;
+export type ObjectLayoutProps<LayoutComponentProps extends Record<string, any> = {}> = LayoutProps<
+    FieldObjectValue,
+    ObjectSpec<undefined, any, LayoutComponentProps>
+>;
+
+export type ObjectInput<InputComponentProps extends Record<string, any> = {}> = InputType<
+    FieldObjectValue,
+    ObjectSpec<undefined, InputComponentProps>
+>;
+
+export type ObjectIndependentInput<
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> = IndependentInputType<
+    FieldObjectValue,
+    ObjectSpec<undefined, InputComponentProps, LayoutComponentProps>
+>;
+
+export type ObjectLayout<LayoutComponentProps extends Record<string, any> = {}> = LayoutType<
+    FieldObjectValue,
+    ObjectSpec<undefined, any, LayoutComponentProps>
+>;
 
 export type ObjectInputEntity = InputEntity<FieldObjectValue, ObjectSpec>;
 export type ObjectIndependentInputEntity = IndependentInputEntity<FieldObjectValue, ObjectSpec>;

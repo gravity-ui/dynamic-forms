@@ -16,13 +16,39 @@ import {
     ValidatorsMap,
 } from './';
 
-export type ArrayInputProps = InputProps<FieldArrayValue, ArraySpec>;
-export type ArrayIndependentInputProps = IndependentInputProps<FieldArrayValue, ArraySpec>;
-export type ArrayLayoutProps = LayoutProps<FieldArrayValue, ArraySpec>;
+export type ArrayInputProps<InputComponentProps extends Record<string, any> = {}> = InputProps<
+    FieldArrayValue,
+    ArraySpec<undefined, InputComponentProps>
+>;
+export type ArrayIndependentInputProps<
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> = IndependentInputProps<
+    FieldArrayValue,
+    ArraySpec<undefined, InputComponentProps, LayoutComponentProps>
+>;
 
-export type ArrayInput = InputType<FieldArrayValue, ArraySpec>;
-export type ArrayIndependentInput = IndependentInputType<FieldArrayValue, ArraySpec>;
-export type ArrayLayout = LayoutType<FieldArrayValue, ArraySpec>;
+export type ArrayLayoutProps<LayoutComponentProps extends Record<string, any> = {}> = LayoutProps<
+    FieldArrayValue,
+    ArraySpec<undefined, any, LayoutComponentProps>
+>;
+
+export type ArrayInput<InputComponentProps extends Record<string, any> = {}> = InputType<
+    FieldArrayValue,
+    ArraySpec<undefined, InputComponentProps>
+>;
+export type ArrayIndependentInput<
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> = IndependentInputType<
+    FieldArrayValue,
+    ArraySpec<undefined, InputComponentProps, LayoutComponentProps>
+>;
+
+export type ArrayLayout<LayoutComponentProps extends Record<string, any> = {}> = LayoutType<
+    FieldArrayValue,
+    ArraySpec<undefined, any, LayoutComponentProps>
+>;
 
 export type ArrayInputEntity = InputEntity<FieldArrayValue, ArraySpec>;
 export type ArrayIndependentInputEntity = IndependentInputEntity<FieldArrayValue, ArraySpec>;

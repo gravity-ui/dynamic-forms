@@ -15,13 +15,35 @@ import {
     ValidatorsMap,
 } from './';
 
-export type NumberInputProps = InputProps<number, NumberSpec>;
-export type NumberIndependentInputProps = IndependentInputProps<number, NumberSpec>;
-export type NumberLayoutProps = LayoutProps<number, NumberSpec>;
+export type NumberInputProps<InputComponentProps extends Record<string, any> = {}> = InputProps<
+    number,
+    NumberSpec<undefined, InputComponentProps>
+>;
 
-export type NumberInput = InputType<number, NumberSpec>;
-export type NumberIndependentInput = IndependentInputType<number, NumberSpec>;
-export type NumberLayout = LayoutType<number, NumberSpec>;
+export type NumberIndependentInputProps<
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> = IndependentInputProps<number, NumberSpec<undefined, InputComponentProps, LayoutComponentProps>>;
+
+export type NumberLayoutProps<LayoutComponentProps extends Record<string, any> = {}> = LayoutProps<
+    number,
+    NumberSpec<undefined, any, LayoutComponentProps>
+>;
+
+export type NumberInput<InputComponentProps extends Record<string, any> = {}> = InputType<
+    number,
+    NumberSpec<undefined, InputComponentProps>
+>;
+
+export type NumberIndependentInput<
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> = IndependentInputType<number, NumberSpec<undefined, InputComponentProps, LayoutComponentProps>>;
+
+export type NumberLayout<LayoutComponentProps extends Record<string, any> = {}> = LayoutType<
+    number,
+    NumberSpec<undefined, any, LayoutComponentProps>
+>;
 
 export type NumberInputEntity = InputEntity<number, NumberSpec>;
 export type NumberIndependentInputEntity = IndependentInputEntity<number, NumberSpec>;

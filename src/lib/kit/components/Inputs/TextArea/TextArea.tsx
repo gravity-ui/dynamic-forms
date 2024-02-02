@@ -1,21 +1,28 @@
 import React from 'react';
 
-import {TextArea as TextAreaBase} from '@gravity-ui/uikit';
+import {TextArea as TextAreaBase, TextAreaProps as TextAreaBaseProps} from '@gravity-ui/uikit';
 
 import {StringInput} from '../../../../core';
 
-export const TextArea: StringInput = ({name, input, spec}) => {
+export interface TextAreaProps
+    extends Omit<
+        TextAreaBaseProps,
+        'value' | 'onBlur' | 'onFocus' | 'onUpdate' | 'disabled' | 'placeholder' | 'qa'
+    > {}
+
+export const TextArea: StringInput<TextAreaProps> = ({name, input, spec, inputProps}) => {
     const {value, onBlur, onChange, onFocus} = input;
 
     return (
         <TextAreaBase
+            maxRows={20}
+            minRows={8}
+            hasClear
+            {...inputProps}
             value={value || ''}
             onBlur={onBlur}
             onFocus={onFocus}
             onUpdate={onChange}
-            maxRows={20}
-            minRows={8}
-            hasClear
             disabled={spec.viewSpec.disabled}
             placeholder={spec.viewSpec.placeholder}
             qa={name}

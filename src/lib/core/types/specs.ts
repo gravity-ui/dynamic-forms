@@ -5,7 +5,12 @@ import {ReadAsMethod, SpecTypes} from '../constants';
 
 import {ArrayValue, ObjectValue} from './';
 
-export interface ArraySpec<LinkType = any> {
+//TODO: Need to move on InputComponentProps extends Record<string, any> | undefined = undefined;
+export interface ArraySpec<
+    LinkType = any,
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> {
     defaultValue?: ArrayValue;
     type: SpecTypes.Array;
     required?: boolean;
@@ -36,10 +41,16 @@ export interface ArraySpec<LinkType = any> {
             filterPlaceholder?: string;
             meta?: Record<string, string>;
         };
+        inputProps?: InputComponentProps;
+        layoutProps?: LayoutComponentProps;
     };
 }
 
-export interface BooleanSpec<LinkType = any> {
+export interface BooleanSpec<
+    LinkType = any,
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> {
     defaultValue?: boolean;
     type: SpecTypes.Boolean;
     required?: boolean;
@@ -53,10 +64,16 @@ export interface BooleanSpec<LinkType = any> {
         layoutOpen?: boolean;
         link?: LinkType;
         hidden?: boolean;
+        inputProps?: InputComponentProps;
+        layoutProps?: LayoutComponentProps;
     };
 }
 
-export interface NumberSpec<LinkType = any> {
+export interface NumberSpec<
+    LinkType = any,
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> {
     defaultValue?: number;
     type: SpecTypes.Number;
     required?: boolean;
@@ -75,10 +92,16 @@ export interface NumberSpec<LinkType = any> {
         placeholder?: string;
         copy?: boolean;
         hidden?: boolean;
+        inputProps?: InputComponentProps;
+        layoutProps?: LayoutComponentProps;
     };
 }
 
-export interface ObjectSpec<LinkType = any> {
+export interface ObjectSpec<
+    LinkType = any,
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> {
     defaultValue?: ObjectValue;
     type: SpecTypes.Object;
     required?: boolean;
@@ -99,10 +122,16 @@ export interface ObjectSpec<LinkType = any> {
         };
         placeholder?: string;
         hidden?: boolean;
+        inputProps?: InputComponentProps;
+        layoutProps?: LayoutComponentProps;
     };
 }
 
-export interface StringSpec<LinkType = any> {
+export interface StringSpec<
+    LinkType = any,
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> {
     defaultValue?: string;
     type: SpecTypes.String;
     required?: boolean;
@@ -149,6 +178,8 @@ export interface StringSpec<LinkType = any> {
             filterPlaceholder?: string;
             meta?: Record<string, string>;
         };
+        inputProps?: InputComponentProps;
+        layoutProps?: LayoutComponentProps;
         generateRandomValueButton?: boolean;
     };
 }
