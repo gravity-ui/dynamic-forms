@@ -3,8 +3,6 @@ name: PR Playwright Report
 on:
   workflow_run:
     workflows: ['Playwright Tests']
-    types:
-      - completed
 
 jobs:
    deploy:
