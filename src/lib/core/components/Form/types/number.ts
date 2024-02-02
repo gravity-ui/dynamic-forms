@@ -27,7 +27,7 @@ export type NumberIndependentInputProps<
 
 export type NumberLayoutProps<LayoutComponentProps extends Record<string, any> = {}> = LayoutProps<
     number,
-    NumberSpec<any, any, LayoutComponentProps>
+    NumberSpec<undefined, any, LayoutComponentProps>
 >;
 
 export type NumberInput<InputComponentProps extends Record<string, any> = {}> = InputType<
