@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.6.1](https://github.com/gravity-ui/dynamic-forms/compare/v3.6.0...v3.6.1) (2024-02-13)
+
+
+### Bug Fixes
+
+* build command on windows, rimraf version ([#167](https://github.com/gravity-ui/dynamic-forms/issues/167)) ([224fd78](https://github.com/gravity-ui/dynamic-forms/commit/224fd780f0077f045a90b07e42b314cc9178876d))
+
 ## [3.6.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.5.0...v3.6.0) (2024-02-02)
 
 
