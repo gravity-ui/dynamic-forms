@@ -50,7 +50,7 @@ test.describe('Text Input', () => {
         });
 
         test('layout transperant', async ({mount, expectScreenshot}) => {
-            await mount(<DynamicForm spec={NUMBER_SPEC.layoutTransperant} />);
+            await mount(<DynamicForm spec={NUMBER_SPEC.layoutTransparent} />);
 
             await expectScreenshot();
         });

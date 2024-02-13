@@ -29,6 +29,14 @@ export const CHECKBOX: Record<string, BooleanSpec> = {
             layoutTitle: 'File Input',
         },
     },
+    layoutTransparent: {
+        type: SpecTypes.Boolean,
+        viewSpec: {
+            type: 'base',
+            layout: 'transparent',
+            layoutTitle: 'Flag',
+        },
+    },
     row_verbose: {
         type: SpecTypes.Boolean,
         viewSpec: {

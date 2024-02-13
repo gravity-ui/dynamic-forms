@@ -51,7 +51,7 @@ export const TEXT_AREA_SPEC: Record<string, StringSpec> = {
             layoutDescription: 'description',
         },
     },
-    layoutTransperant: {
+    layoutTransparent: {
         type: SpecTypes.String,
         viewSpec: {
             type: 'textarea',
