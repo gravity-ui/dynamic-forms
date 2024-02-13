@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.6.1](https://github.com/gravity-ui/dynamic-forms/compare/v3.6.0...v3.6.1) (2024-02-13)
+
+
+### Bug Fixes
+
+* build command on windows, rimraf version ([#167](https://github.com/gravity-ui/dynamic-forms/issues/167)) ([224fd78](https://github.com/gravity-ui/dynamic-forms/commit/224fd780f0077f045a90b07e42b314cc9178876d))
+
+## [3.6.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.5.0...v3.6.0) (2024-02-02)
+
+
+### Features
+
+* added accordeon card to config ([#162](https://github.com/gravity-ui/dynamic-forms/issues/162)) ([ab23f6c](https://github.com/gravity-ui/dynamic-forms/commit/ab23f6ca3dd7277fdd2fb59a78c0f958f002bfd4))
+* **spec:** add generic for InputProps and LayoutProps into Spec ([#164](https://github.com/gravity-ui/dynamic-forms/issues/164)) ([2b2ae90](https://github.com/gravity-ui/dynamic-forms/commit/2b2ae904388f7cc0b6b78eb8d7a7138ef03a6f8a))
+
 ## [3.5.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.4.1...v3.5.0) (2024-01-25)
 
 

@@ -135,18 +135,30 @@ export const getRender = <DirtyValue extends FieldValue, SpecType extends Spec>(
     const render = (props: FieldRenderProps<DirtyValue>) => {
         if (inputEntity && isCorrectSpec(spec) && _.isString(name)) {
             if (!spec.viewSpec.hidden) {
+                const {layoutProps, inputProps} = spec.viewSpec;
                 if (inputEntity.independent) {
                     const InputComponent = inputEntity.Component;
 
-                    return <InputComponent spec={spec} name={name} Layout={Layout} {...props} />;
+                    return (
+                        <InputComponent
+                            spec={spec}
+                            name={name}
+                            Layout={Layout}
+                            inputProps={inputProps}
+                            layoutProps={layoutProps}
+                            {...props}
+                        />
+                    );
                 }
 
                 const InputComponent = inputEntity.Component;
-                const input = <InputComponent spec={spec} name={name} {...props} />;
+                const input = (
+                    <InputComponent spec={spec} name={name} inputProps={inputProps} {...props} />
+                );
 
                 if (Layout) {
                     return (
-                        <Layout spec={spec} name={name} {...props}>
+                        <Layout spec={spec} name={name} layoutProps={layoutProps} {...props}>
                             {input}
                         </Layout>
                     );

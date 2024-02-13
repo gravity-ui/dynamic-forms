@@ -1,6 +1,6 @@
 {
   "name": "@gravity-ui/dynamic-forms",
-  "version": "3.5.0",
+  "version": "3.6.1",
   "description": "",
   "license": "MIT",
   "main": "build/cjs/index.js",
@@ -98,7 +98,7 @@
     "react-final-form": "^6.5.3",
     "react-is": "^18.2.0",
     "react-monaco-editor": "^0.46.0",
-    "rimraf": "^4.1.2",
+    "rimraf": "5.0.5",
     "sass": "^1.57.1",
     "sass-loader": "^10.1.1",
     "storybook": "^7.0.27",

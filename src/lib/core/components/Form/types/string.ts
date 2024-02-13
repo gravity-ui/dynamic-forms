@@ -15,13 +15,35 @@ import {
     ValidatorsMap,
 } from './';
 
-export type StringInputProps = InputProps<string, StringSpec>;
-export type StringIndependentInputProps = IndependentInputProps<string, StringSpec>;
-export type StringLayoutProps = LayoutProps<string, StringSpec>;
+export type StringInputProps<InputComponentProps extends Record<string, any> = {}> = InputProps<
+    string,
+    StringSpec<undefined, InputComponentProps>
+>;
 
-export type StringInput = InputType<string, StringSpec>;
-export type StringIndependentInput = IndependentInputType<string, StringSpec>;
-export type StringLayout = LayoutType<string, StringSpec>;
+export type StringIndependentInputProps<
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> = IndependentInputProps<string, StringSpec<undefined, InputComponentProps, LayoutComponentProps>>;
+
+export type StringLayoutProps<LayoutComponentProps extends Record<string, any> = {}> = LayoutProps<
+    string,
+    StringSpec<undefined, any, LayoutComponentProps>
+>;
+
+export type StringInput<InputComponentProps extends Record<string, any> = {}> = InputType<
+    string,
+    StringSpec<undefined, InputComponentProps>
+>;
+
+export type StringIndependentInput<
+    InputComponentProps extends Record<string, any> = {},
+    LayoutComponentProps extends Record<string, any> = {},
+> = IndependentInputType<string, StringSpec<undefined, InputComponentProps, LayoutComponentProps>>;
+
+export type StringLayout<LayoutComponentProps extends Record<string, any> = {}> = LayoutType<
+    string,
+    StringSpec<undefined, any, LayoutComponentProps>
+>;
 
 export type StringInputEntity = InputEntity<string, StringSpec>;
 export type StringIndependentInputEntity = IndependentInputEntity<string, StringSpec>;
