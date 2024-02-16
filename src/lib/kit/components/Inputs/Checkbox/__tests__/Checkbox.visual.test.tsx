@@ -30,6 +30,12 @@ test.describe('Checkbox', () => {
 
         await expectScreenshot();
     });
+
+    test('layout transparent', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicForm spec={CHECKBOX.layoutTransparent} />);
+
+        await expectScreenshot();
+    });
 });
 
 test.describe('Checkbox view', () => {

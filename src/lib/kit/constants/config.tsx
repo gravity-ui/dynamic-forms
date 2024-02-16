@@ -105,6 +105,7 @@ export const dynamicConfig: DynamicFormConfig = {
             row: Row,
             row_verbose: RowVerbose,
             table_item: TableCell,
+            transparent: Transparent,
         },
         validators: {
             base: getBooleanValidator(),
@@ -214,6 +215,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
             row: ViewRow,
             row_verbose: ViewRow,
             table_item: ViewTableCell,
+            transparent: ViewTransparent,
         },
     },
     number: {
