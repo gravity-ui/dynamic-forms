@@ -27,9 +27,10 @@ export interface GetArrayValidatorParams extends CommonValidatorParams {
 export const getArrayValidator = (params: GetArrayValidatorParams = {}) => {
     const {ignoreRequiredCheck, ignoreMaxLengthCheck, ignoreMinLengthCheck, customErrorMessages} =
         params;
-    const errorMessages = {...ErrorMessages, ...customErrorMessages};
 
     return (spec: ArraySpec, value?: ArrayValue) => {
+        const errorMessages = {...ErrorMessages, ...customErrorMessages};
+
         const valueLength = value?.length || 0;
 
         if (!ignoreRequiredCheck && spec.required && !_.isArray(value)) {
@@ -60,9 +61,10 @@ export interface GetBooleanValidatorParams extends CommonValidatorParams {}
 
 export const getBooleanValidator = (params: GetBooleanValidatorParams = {}) => {
     const {ignoreRequiredCheck, customErrorMessages} = params;
-    const errorMessages = {...ErrorMessages, ...customErrorMessages};
 
     return (spec: BooleanSpec, value?: boolean) => {
+        const errorMessages = {...ErrorMessages, ...customErrorMessages};
+
         if (!ignoreRequiredCheck && spec.required && !value) {
             return errorMessages.REQUIRED;
         }
@@ -95,10 +97,11 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
         ignoreZeroStart,
         customErrorMessages,
     } = params;
-    const errorMessages = {...ErrorMessages, ...customErrorMessages};
 
     // eslint-disable-next-line complexity
     return (spec: NumberSpec, value: string | number = '') => {
+        const errorMessages = {...ErrorMessages, ...customErrorMessages};
+
         const stringValue = String(value);
 
         if (!ignoreRequiredCheck && spec.required && !stringValue.length) {
@@ -165,9 +168,10 @@ export interface GetObjectValidatorParams extends CommonValidatorParams {}
 
 export const getObjectValidator = (params: GetObjectValidatorParams = {}) => {
     const {ignoreRequiredCheck, customErrorMessages} = params;
-    const errorMessages = {...ErrorMessages, ...customErrorMessages};
 
     return (spec: ObjectSpec, value?: ObjectValue) => {
+        const errorMessages = {...ErrorMessages, ...customErrorMessages};
+
         if (!ignoreRequiredCheck && spec.required && !value) {
             return errorMessages.REQUIRED;
         }
@@ -194,10 +198,11 @@ export const getStringValidator = (params: GetStringValidatorParams = {}) => {
         ignoreRegExpCheck,
         customErrorMessages,
     } = params;
-    const errorMessages = {...ErrorMessages, ...customErrorMessages};
 
     // eslint-disable-next-line complexity
     return (spec: StringSpec, value = '') => {
+        const errorMessages = {...ErrorMessages, ...customErrorMessages};
+
         const valueLength = value?.length;
 
         if (!ignoreRequiredCheck && spec.required && !valueLength) {
