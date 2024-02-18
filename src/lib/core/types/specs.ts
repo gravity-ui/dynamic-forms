@@ -5,11 +5,10 @@ import {ReadAsMethod, SpecTypes} from '../constants';
 
 import {ArrayValue, ObjectValue} from './';
 
-//TODO: Need to move on InputComponentProps extends Record<string, any> | undefined = undefined;
 export interface ArraySpec<
     LinkType = any,
-    InputComponentProps extends Record<string, any> = {},
-    LayoutComponentProps extends Record<string, any> = {},
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
 > {
     defaultValue?: ArrayValue;
     type: SpecTypes.Array;
@@ -48,8 +47,8 @@ export interface ArraySpec<
 
 export interface BooleanSpec<
     LinkType = any,
-    InputComponentProps extends Record<string, any> = {},
-    LayoutComponentProps extends Record<string, any> = {},
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
 > {
     defaultValue?: boolean;
     type: SpecTypes.Boolean;
@@ -71,8 +70,8 @@ export interface BooleanSpec<
 
 export interface NumberSpec<
     LinkType = any,
-    InputComponentProps extends Record<string, any> = {},
-    LayoutComponentProps extends Record<string, any> = {},
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
 > {
     defaultValue?: number;
     type: SpecTypes.Number;
@@ -99,8 +98,8 @@ export interface NumberSpec<
 
 export interface ObjectSpec<
     LinkType = any,
-    InputComponentProps extends Record<string, any> = {},
-    LayoutComponentProps extends Record<string, any> = {},
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
 > {
     defaultValue?: ObjectValue;
     type: SpecTypes.Object;
@@ -129,8 +128,8 @@ export interface ObjectSpec<
 
 export interface StringSpec<
     LinkType = any,
-    InputComponentProps extends Record<string, any> = {},
-    LayoutComponentProps extends Record<string, any> = {},
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
 > {
     defaultValue?: string;
     type: SpecTypes.String;
@@ -184,4 +183,13 @@ export interface StringSpec<
     };
 }
 
-export type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
+export type Spec<
+    LinkType = any,
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> =
+    | ArraySpec<LinkType, InputComponentProps, LayoutComponentProps>
+    | BooleanSpec<LinkType, InputComponentProps, LayoutComponentProps>
+    | NumberSpec<LinkType, InputComponentProps, LayoutComponentProps>
+    | ObjectSpec<LinkType, InputComponentProps, LayoutComponentProps>
+    | StringSpec<LinkType, InputComponentProps, LayoutComponentProps>;

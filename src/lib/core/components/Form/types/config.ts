@@ -15,7 +15,7 @@ import {
 export interface TypeConfig<
     DirtyValue extends FieldValue,
     Value extends FormValue,
-    SpecType extends Spec,
+    SpecType extends Spec<undefined, any, any>,
 > {
     inputs: InputsMap<DirtyValue, SpecType>;
     layouts: LayoutsMap<DirtyValue, SpecType>;

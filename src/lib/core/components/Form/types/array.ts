@@ -16,45 +16,83 @@ import {
     ValidatorsMap,
 } from './';
 
-export type ArrayInputProps<InputComponentProps extends Record<string, any> = {}> = InputProps<
+export type ArrayInputProps<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+> = InputProps<
     FieldArrayValue,
-    ArraySpec<undefined, InputComponentProps>
+    InputComponentProps,
+    undefined,
+    ArraySpec<undefined, InputComponentProps, undefined>
 >;
+
 export type ArrayIndependentInputProps<
-    InputComponentProps extends Record<string, any> = {},
-    LayoutComponentProps extends Record<string, any> = {},
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
 > = IndependentInputProps<
     FieldArrayValue,
+    InputComponentProps,
+    LayoutComponentProps,
     ArraySpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
 
-export type ArrayLayoutProps<LayoutComponentProps extends Record<string, any> = {}> = LayoutProps<
+export type ArrayLayoutProps<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = LayoutProps<
     FieldArrayValue,
-    ArraySpec<undefined, any, LayoutComponentProps>
+    InputComponentProps,
+    LayoutComponentProps,
+    ArraySpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
 
-export type ArrayInput<InputComponentProps extends Record<string, any> = {}> = InputType<
-    FieldArrayValue,
-    ArraySpec<undefined, InputComponentProps>
->;
+export type ArrayInput<InputComponentProps extends Record<string, any> | undefined = undefined> =
+    InputType<
+        FieldArrayValue,
+        InputComponentProps,
+        undefined,
+        ArraySpec<undefined, InputComponentProps, undefined>
+    >;
+
 export type ArrayIndependentInput<
-    InputComponentProps extends Record<string, any> = {},
-    LayoutComponentProps extends Record<string, any> = {},
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
 > = IndependentInputType<
     FieldArrayValue,
+    InputComponentProps,
+    LayoutComponentProps,
     ArraySpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
 
-export type ArrayLayout<LayoutComponentProps extends Record<string, any> = {}> = LayoutType<
+export type ArrayLayout<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = LayoutType<
     FieldArrayValue,
-    ArraySpec<undefined, any, LayoutComponentProps>
+    InputComponentProps,
+    LayoutComponentProps,
+    ArraySpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
 
-export type ArrayInputEntity = InputEntity<FieldArrayValue, ArraySpec>;
-export type ArrayIndependentInputEntity = IndependentInputEntity<FieldArrayValue, ArraySpec>;
+export type ArrayInputEntity<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+> = InputEntity<
+    FieldArrayValue,
+    InputComponentProps,
+    undefined,
+    ArraySpec<undefined, InputComponentProps, undefined>
+>;
+export type ArrayIndependentInputEntity<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = IndependentInputEntity<
+    FieldArrayValue,
+    InputComponentProps,
+    LayoutComponentProps,
+    ArraySpec<undefined, InputComponentProps, LayoutComponentProps>
+>;
 
-export type ArrayInputsMap = InputsMap<FieldArrayValue, ArraySpec>;
-export type ArrayLayoutsMap = LayoutsMap<FieldArrayValue, ArraySpec>;
-export type ArrayValidatorsMap = ValidatorsMap<ArrayValue, ArraySpec>;
+export type ArrayInputsMap = InputsMap<FieldArrayValue, ArraySpec<undefined, any, any>>;
+export type ArrayLayoutsMap = LayoutsMap<FieldArrayValue, ArraySpec<undefined, any, any>>;
+export type ArrayValidatorsMap = ValidatorsMap<ArrayValue, ArraySpec<undefined, any, any>>;
 
-export type ArrayConfig = TypeConfig<FieldArrayValue, ArrayValue, ArraySpec>;
+export type ArrayConfig = TypeConfig<FieldArrayValue, ArrayValue, ArraySpec<undefined, any, any>>;

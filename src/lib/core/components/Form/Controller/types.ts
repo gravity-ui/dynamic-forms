@@ -22,16 +22,26 @@ export interface GetComponentsParams<SpecType extends Spec> {
     config: DynamicFormConfig;
 }
 
-export interface GetComponentsReturn<DirtyValue extends FieldValue, SpecType extends Spec> {
-    inputEntity?: InputEntity<DirtyValue, SpecType> | IndependentInputEntity<DirtyValue, SpecType>;
-    Layout?: LayoutType<DirtyValue, SpecType>;
+export interface GetComponentsReturn<
+    DirtyValue extends FieldValue,
+    SpecType extends Spec<undefined, undefined, undefined>,
+> {
+    inputEntity?:
+        | InputEntity<DirtyValue, undefined, undefined, SpecType>
+        | IndependentInputEntity<DirtyValue, undefined, undefined, SpecType>;
+    Layout?: LayoutType<DirtyValue, undefined, undefined, SpecType>;
 }
 
-export interface GetRenderParams<DirtyValue extends FieldValue, SpecType extends Spec> {
+export interface GetRenderParams<
+    DirtyValue extends FieldValue,
+    SpecType extends Spec<undefined, undefined, undefined>,
+> {
     name: string;
     spec: SpecType;
-    inputEntity?: InputEntity<DirtyValue, SpecType> | IndependentInputEntity<DirtyValue, SpecType>;
-    Layout?: LayoutType<DirtyValue, SpecType>;
+    inputEntity?:
+        | InputEntity<DirtyValue, undefined, undefined, SpecType>
+        | IndependentInputEntity<DirtyValue, undefined, undefined, SpecType>;
+    Layout?: LayoutType<DirtyValue, undefined, undefined, SpecType>;
 }
 
 export interface GetValidateParams<SpecType extends Spec> {

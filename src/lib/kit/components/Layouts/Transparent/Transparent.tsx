@@ -26,7 +26,7 @@ export const Transparent = <T extends FieldValue, S extends Spec>({
     input,
     meta,
     children,
-}: LayoutProps<T, S>) => {
+}: LayoutProps<T, undefined, undefined, S>) => {
     const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
     const generateButton = React.useMemo(() => withGenerateButton(spec), [spec]);
     const arrOrObjFlag = React.useMemo(() => isArraySpec(spec) || isObjectSpec(spec), [spec]);
