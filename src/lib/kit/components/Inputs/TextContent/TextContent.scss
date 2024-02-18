@@ -1,12 +1,12 @@
 @import '../../../styles/variables.scss';
 
 .#{$ns}text-content {
-    &.yc-label {
+    &.g-label {
         height: auto;
         width: auto;
     }
 
-    .yc-label__text {
+    .g-label__text {
         text-align: initial;
         white-space: initial;
     }

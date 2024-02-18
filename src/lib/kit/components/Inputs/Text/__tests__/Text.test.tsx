@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {ThemeProvider} from '@gravity-ui/uikit';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import _ from 'lodash';
@@ -40,10 +41,25 @@ const SPEC_PASSWORD: StringSpec = {
 };
 
 const DynamicForm = ({spec}: {spec: Spec}) => (
-    <Form initialValues={{}} onSubmit={_.noop}>
-        {() => <DynamicField name={NAME} spec={spec} config={dynamicConfig} />}
-    </Form>
+    <ThemeProvider>
+        <Form initialValues={{}} onSubmit={_.noop}>
+            {() => <DynamicField name={NAME} spec={spec} config={dynamicConfig} />}
+        </Form>
+    </ThemeProvider>
 );
+
+beforeEach(() => {
+    window.matchMedia = () => ({
+        media: '',
+        matches: false,
+        onchange: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        dispatchEvent: (_) => true,
+    });
+});
 
 describe('Text input', () => {
     test('input display check', () => {
@@ -81,14 +97,14 @@ describe('Text input', () => {
         const user = userEvent.setup();
         const input = screen.getByPlaceholderText(PLACEHOLDER);
 
-        let clearButton = screen.queryByRole('button', {name: 'Clear input value'});
+        let clearButton = screen.queryByRole('button', {name: 'Clear'});
 
         expect(clearButton).not.toBeInTheDocument();
 
         await user.click(input);
         await user.keyboard('text value');
 
-        clearButton = screen.queryByRole('button', {name: 'Clear input value'});
+        clearButton = screen.queryByRole('button', {name: 'Clear'});
 
         expect(clearButton).toBeInTheDocument();
 
@@ -158,7 +174,7 @@ describe('Text input', () => {
         expect(container.querySelector('.df-error-wrapper__error-text')).toBeInTheDocument();
         expect(screen.getByText('Value must be a number')).toBeVisible();
 
-        const clearButton = screen.queryByRole('button', {name: 'Clear input value'});
+        const clearButton = screen.queryByRole('button', {name: 'Clear'});
 
         expect(clearButton).toBeInTheDocument();
 

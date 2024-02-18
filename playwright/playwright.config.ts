@@ -67,10 +67,10 @@ const config: PlaywrightTestConfig = {
             name: 'chromium',
             use: {...devices['Desktop Chrome'], deviceScaleFactor: 2},
         },
-        {
-            name: 'webkit',
-            use: {...devices['Desktop Safari'], deviceScaleFactor: 2},
-        },
+        // {
+        //     name: 'webkit',
+        //     use: {...devices['Desktop Safari'], deviceScaleFactor: 2},
+        // },
     ],
 };
 

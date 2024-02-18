@@ -19,7 +19,10 @@
         .g-text-area__content:hover:not(.#{$ns}error-wrapper-ignore),
         .yc-text-input_view_normal:not(.#{$ns}error-wrapper-ignore) .yc-text-input__control,
         .yc-text-input_view_normal:not(.#{$ns}error-wrapper-ignore) .yc-text-input__content,
-        .yc-checkbox__indicator:not(.#{$ns}error-wrapper-ignore)::before {
+        .g-text-input_view_normal:not(.#{$ns}error-wrapper-ignore) .g-text-input__control,
+        .g-text-input_view_normal:not(.#{$ns}error-wrapper-ignore) .g-text-input__content,
+        .yc-checkbox__indicator:not(.#{$ns}error-wrapper-ignore)::before,
+        .g-checkbox__indicator:not(.#{$ns}error-wrapper-ignore)::before {
             border-color: var(--g-color-text-danger);
         }
     }

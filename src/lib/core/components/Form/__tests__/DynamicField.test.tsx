@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {ThemeProvider} from '@gravity-ui/uikit';
 import {act, render} from '@testing-library/react';
 import {FormApi} from 'final-form';
 import _ from 'lodash';
@@ -139,32 +140,47 @@ const spec: ObjectSpec = {
 
 jest.mock('lodash/debounce', () => (f: Function) => f);
 
+beforeEach(() => {
+    window.matchMedia = () => ({
+        media: '',
+        matches: false,
+        onchange: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        dispatchEvent: (_) => true,
+    });
+});
+
 test('Form/hooks/DynamicField', () => {
     const mirror: WonderMirror = {field: {}, controller: {}};
     let form = null as FormApi | null;
 
     render(
-        <Form initialValues={{}} onSubmit={_.noop}>
-            {() => {
-                const Caller = () => {
-                    form = useForm();
+        <ThemeProvider>
+            <Form initialValues={{}} onSubmit={_.noop}>
+                {() => {
+                    const Caller = () => {
+                        form = useForm();
 
-                    return null;
-                };
+                        return null;
+                    };
 
-                return (
-                    <React.Fragment>
-                        <DynamicField
-                            name={name}
-                            spec={spec}
-                            config={dynamicConfig}
-                            __mirror={mirror}
-                        />
-                        <Caller />
-                    </React.Fragment>
-                );
-            }}
-        </Form>,
+                    return (
+                        <React.Fragment>
+                            <DynamicField
+                                name={name}
+                                spec={spec}
+                                config={dynamicConfig}
+                                __mirror={mirror}
+                            />
+                            <Caller />
+                        </React.Fragment>
+                    );
+                }}
+            </Form>
+        </ThemeProvider>,
     );
 
     const value = {

@@ -58,7 +58,7 @@ export const LongValue: React.FC<LongValueProps> = ({value, className}) => {
     });
 
     return (
-        <div ref={ref} onClick={long ? handleClick : undefined}>
+        <div className={b('container')} ref={ref} onClick={long ? handleClick : undefined}>
             <Text className={b({long}, className)} ellipsis={true} {...currentTextProperies}>
                 {value}
             </Text>

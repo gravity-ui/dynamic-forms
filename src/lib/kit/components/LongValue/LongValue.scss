@@ -2,11 +2,16 @@
 
 .#{$ns}long-value {
     max-width: 100%;
+
     &_long {
         cursor: pointer;
 
         &:hover {
             color: var(--g-color-text-secondary);
         }
+    }
+
+    &__container {
+        display: flex;
     }
 }
