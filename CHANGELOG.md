@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.0.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.7.0...v4.0.0) (2024-02-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* update packages ([#172](https://github.com/gravity-ui/dynamic-forms/issues/172))
+
+### Features
+
+* update packages ([#172](https://github.com/gravity-ui/dynamic-forms/issues/172)) ([32a4547](https://github.com/gravity-ui/dynamic-forms/commit/32a4547bbfccbd0c5499db28e29d7c9b4719e1da))
+
 ## [3.7.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.6.1...v3.7.0) (2024-02-16)
 
 
