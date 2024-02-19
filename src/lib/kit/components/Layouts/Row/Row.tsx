@@ -33,7 +33,7 @@ const RowBase = <T extends FieldValue, S extends Spec>({
     meta,
     verboseDescription,
     children,
-}: LayoutProps<T, S> & RowProps) => {
+}: LayoutProps<T, undefined, undefined, S> & RowProps) => {
     const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
     const generateButton = React.useMemo(() => withGenerateButton(spec), [spec]);
 
@@ -98,10 +98,10 @@ const RowBase = <T extends FieldValue, S extends Spec>({
     );
 };
 
-export const Row = <T extends FieldValue, S extends Spec>(props: LayoutProps<T, S>) => (
-    <RowBase {...props} />
-);
+export const Row = <T extends FieldValue, S extends Spec>(
+    props: LayoutProps<T, undefined, undefined, S>,
+) => <RowBase {...props} />;
 
-export const RowVerbose = <T extends FieldValue, S extends Spec>(props: LayoutProps<T, S>) => (
-    <RowBase verboseDescription {...props} />
-);
+export const RowVerbose = <T extends FieldValue, S extends Spec>(
+    props: LayoutProps<T, undefined, undefined, S>,
+) => <RowBase verboseDescription {...props} />;

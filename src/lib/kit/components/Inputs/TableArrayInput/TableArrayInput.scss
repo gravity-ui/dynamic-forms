@@ -4,13 +4,13 @@
     &__table {
         margin-bottom: 10px;
 
-        .yc-table__cell {
+        .g-table__cell {
             border-bottom: 0px transparent;
         }
     }
 
     &__row {
-        .yc-table__cell {
+        .g-table__cell {
             border-bottom: 0px transparent;
             border-top: 1px solid var(--g-color-line-generic);
         }
@@ -22,7 +22,9 @@
 
     &__cell {
         .yc-text-input,
+        .g-text-input,
         .yc-select-control,
+        .g-select-control,
         .yc-select,
         .g-select {
             max-width: 150px;
@@ -34,7 +36,9 @@
             padding-left: 3px;
 
             .yc-text-input,
+            .g-text-input,
             .yc-select-control:not(.#{$ns}multi-select),
+            .g-select-control:not(.#{$ns}multi-select),
             .yc-select:not(.#{$ns}multi-select),
             .g-select:not(.#{$ns}multi-select) {
                 max-width: unset;

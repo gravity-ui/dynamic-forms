@@ -37,7 +37,7 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
     descriptionAsSubtitle,
     children,
     ...restProps
-}: (LayoutProps<D, S> | ViewLayoutProps<T, S>) & SectionProps) => {
+}: (LayoutProps<D, undefined, undefined, S> | ViewLayoutProps<T, S>) & SectionProps) => {
     const meta = (restProps as FieldRenderProps<D>).meta as FieldRenderProps<D>['meta'] | undefined;
     const arrOrObjFlag = isArraySpec(spec) || isObjectSpec(spec);
     const titleRef = React.useRef<HTMLHeadingElement>(null);
@@ -108,25 +108,31 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
 };
 
 export const Section = <D extends FieldValue, T extends FormValue, S extends Spec>(
-    props: (LayoutProps<D, S> | ViewLayoutProps<T, S>) & Pick<SectionProps, 'ignoreDescription'>,
+    props: (LayoutProps<D, undefined, undefined, S> | ViewLayoutProps<T, S>) &
+        Pick<SectionProps, 'ignoreDescription'>,
 ) => <SectionBase titleSize="m" {...props} />;
 
 export const Section2 = <D extends FieldValue, T extends FormValue, S extends Spec>(
-    props: (LayoutProps<D, S> | ViewLayoutProps<T, S>) & Pick<SectionProps, 'ignoreDescription'>,
+    props: (LayoutProps<D, undefined, undefined, S> | ViewLayoutProps<T, S>) &
+        Pick<SectionProps, 'ignoreDescription'>,
 ) => <SectionBase titleSize="s" {...props} />;
 
 export const SectionWithSubtitle = <D extends FieldValue, T extends FormValue, S extends Spec>(
-    props: (LayoutProps<D, S> | ViewLayoutProps<T, S>) & Pick<SectionProps, 'ignoreDescription'>,
+    props: (LayoutProps<D, undefined, undefined, S> | ViewLayoutProps<T, S>) &
+        Pick<SectionProps, 'ignoreDescription'>,
 ) => <SectionBase titleSize="m" descriptionAsSubtitle {...props} />;
 
 export const SectionWithSubtitle2 = <D extends FieldValue, T extends FormValue, S extends Spec>(
-    props: (LayoutProps<D, S> | ViewLayoutProps<T, S>) & Pick<SectionProps, 'ignoreDescription'>,
+    props: (LayoutProps<D, undefined, undefined, S> | ViewLayoutProps<T, S>) &
+        Pick<SectionProps, 'ignoreDescription'>,
 ) => <SectionBase titleSize="s" descriptionAsSubtitle {...props} />;
 
 export const Group = <D extends FieldValue, T extends FormValue, S extends Spec>(
-    props: (LayoutProps<D, S> | ViewLayoutProps<T, S>) & Pick<SectionProps, 'ignoreDescription'>,
+    props: (LayoutProps<D, undefined, undefined, S> | ViewLayoutProps<T, S>) &
+        Pick<SectionProps, 'ignoreDescription'>,
 ) => <SectionBase titleSize="m" withIndent={true} {...props} />;
 
 export const Group2 = <D extends FieldValue, T extends FormValue, S extends Spec>(
-    props: (LayoutProps<D, S> | ViewLayoutProps<T, S>) & Pick<SectionProps, 'ignoreDescription'>,
+    props: (LayoutProps<D, undefined, undefined, S> | ViewLayoutProps<T, S>) &
+        Pick<SectionProps, 'ignoreDescription'>,
 ) => <SectionBase titleSize="s" withIndent={true} {...props} />;

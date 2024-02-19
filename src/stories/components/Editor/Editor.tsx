@@ -73,7 +73,7 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
                     <MonacoEditor {...props} width="640px" height="calc(100% - 49px)" />
                 ),
                 withoutDialog: true,
-            } as MonacoInputBaseProps),
+            }) as MonacoInputBaseProps,
         [],
     );
 
@@ -89,7 +89,7 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
                     <MonacoEditor {...props} width="640px" height="calc(100% - 49px)" />
                 ),
                 withoutDialog: true,
-            } as MonacoInputBaseProps),
+            }) as MonacoInputBaseProps,
         [],
     );
 

@@ -11,7 +11,7 @@ export const CardAccordeon = <T extends FieldValue, S extends Spec>({
     input,
     meta,
     children,
-}: LayoutProps<T, S>) => {
+}: LayoutProps<T, undefined, undefined, S>) => {
     const [open, setOpen] = React.useState(Boolean(spec.viewSpec?.layoutOpen));
 
     const onToggle = React.useCallback(() => setOpen((f) => !f), [setOpen]);

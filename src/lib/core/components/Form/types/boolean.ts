@@ -15,47 +15,83 @@ import {
     ValidatorsMap,
 } from './';
 
-export type BooleanInputProps<InputComponentProps extends Record<string, any> = {}> = InputProps<
+export type BooleanInputProps<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+> = InputProps<
     boolean,
-    BooleanSpec<undefined, InputComponentProps>
+    InputComponentProps,
+    undefined,
+    BooleanSpec<undefined, InputComponentProps, undefined>
 >;
 
 export type BooleanIndependentInputProps<
-    InputComponentProps extends Record<string, any> = {},
-    LayoutComponentProps extends Record<string, any> = {},
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
 > = IndependentInputProps<
     boolean,
+    InputComponentProps,
+    LayoutComponentProps,
     BooleanSpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
 
-export type BooleanLayoutProps<LayoutComponentProps extends Record<string, any> = {}> = LayoutProps<
+export type BooleanLayoutProps<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = LayoutProps<
     boolean,
-    BooleanSpec<undefined, any, LayoutComponentProps>
+    InputComponentProps,
+    LayoutComponentProps,
+    BooleanSpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
 
-export type BooleanInput<InputComponentProps extends Record<string, any> = {}> = InputType<
-    boolean,
-    BooleanSpec<undefined, InputComponentProps>
->;
+export type BooleanInput<InputComponentProps extends Record<string, any> | undefined = undefined> =
+    InputType<
+        boolean,
+        InputComponentProps,
+        undefined,
+        BooleanSpec<undefined, InputComponentProps, undefined>
+    >;
 
 export type BooleanIndependentInput<
-    InputComponentProps extends Record<string, any> = {},
-    LayoutComponentProps extends Record<string, any> = {},
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
 > = IndependentInputType<
     boolean,
+    InputComponentProps,
+    LayoutComponentProps,
     BooleanSpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
 
-export type BooleanLayout<LayoutComponentProps extends Record<string, any> = {}> = LayoutType<
+export type BooleanLayout<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = LayoutType<
     boolean,
-    BooleanSpec<undefined, any, LayoutComponentProps>
+    InputComponentProps,
+    LayoutComponentProps,
+    BooleanSpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
 
-export type BooleanInputEntity = InputEntity<boolean, BooleanSpec>;
-export type BooleanIndependentInputEntity = IndependentInputEntity<boolean, BooleanSpec>;
+export type BooleanInputEntity<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+> = InputEntity<
+    boolean,
+    InputComponentProps,
+    undefined,
+    BooleanSpec<undefined, InputComponentProps, undefined>
+>;
+export type BooleanIndependentInputEntity<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = IndependentInputEntity<
+    boolean,
+    InputComponentProps,
+    LayoutComponentProps,
+    BooleanSpec<undefined, InputComponentProps, LayoutComponentProps>
+>;
 
-export type BooleanInputsMap = InputsMap<boolean, BooleanSpec>;
-export type BooleanLayoutsMap = LayoutsMap<boolean, BooleanSpec>;
-export type BooleanValidatorsMap = ValidatorsMap<boolean, BooleanSpec>;
+export type BooleanInputsMap = InputsMap<boolean, BooleanSpec<undefined, any, any>>;
+export type BooleanLayoutsMap = LayoutsMap<boolean, BooleanSpec<undefined, any, any>>;
+export type BooleanValidatorsMap = ValidatorsMap<boolean, BooleanSpec<undefined, any, any>>;
 
-export type BooleanConfig = TypeConfig<boolean, boolean, BooleanSpec>;
+export type BooleanConfig = TypeConfig<boolean, boolean, BooleanSpec<undefined, any, any>>;

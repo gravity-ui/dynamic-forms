@@ -64,13 +64,14 @@
     }
 
     &__title {
+        display: flex;
         max-width: 533px;
     }
 
     &__note {
         margin-left: 5px;
 
-        .yc-help-popover {
+        .gc-help-popover {
             display: flex;
 
             & > span {

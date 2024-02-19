@@ -15,41 +15,83 @@ import {
     ValidatorsMap,
 } from './';
 
-export type StringInputProps<InputComponentProps extends Record<string, any> = {}> = InputProps<
+export type StringInputProps<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+> = InputProps<
     string,
-    StringSpec<undefined, InputComponentProps>
+    InputComponentProps,
+    undefined,
+    StringSpec<undefined, InputComponentProps, undefined>
 >;
 
 export type StringIndependentInputProps<
-    InputComponentProps extends Record<string, any> = {},
-    LayoutComponentProps extends Record<string, any> = {},
-> = IndependentInputProps<string, StringSpec<undefined, InputComponentProps, LayoutComponentProps>>;
-
-export type StringLayoutProps<LayoutComponentProps extends Record<string, any> = {}> = LayoutProps<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = IndependentInputProps<
     string,
-    StringSpec<undefined, any, LayoutComponentProps>
+    InputComponentProps,
+    LayoutComponentProps,
+    StringSpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
 
-export type StringInput<InputComponentProps extends Record<string, any> = {}> = InputType<
+export type StringLayoutProps<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = LayoutProps<
     string,
-    StringSpec<undefined, InputComponentProps>
+    InputComponentProps,
+    LayoutComponentProps,
+    StringSpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
+
+export type StringInput<InputComponentProps extends Record<string, any> | undefined = undefined> =
+    InputType<
+        string,
+        InputComponentProps,
+        undefined,
+        StringSpec<undefined, InputComponentProps, undefined>
+    >;
 
 export type StringIndependentInput<
-    InputComponentProps extends Record<string, any> = {},
-    LayoutComponentProps extends Record<string, any> = {},
-> = IndependentInputType<string, StringSpec<undefined, InputComponentProps, LayoutComponentProps>>;
-
-export type StringLayout<LayoutComponentProps extends Record<string, any> = {}> = LayoutType<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = IndependentInputType<
     string,
-    StringSpec<undefined, any, LayoutComponentProps>
+    InputComponentProps,
+    LayoutComponentProps,
+    StringSpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
 
-export type StringInputEntity = InputEntity<string, StringSpec>;
-export type StringIndependentInputEntity = IndependentInputEntity<string, StringSpec>;
+export type StringLayout<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = LayoutType<
+    string,
+    InputComponentProps,
+    LayoutComponentProps,
+    StringSpec<undefined, InputComponentProps, LayoutComponentProps>
+>;
 
-export type StringInputsMap = InputsMap<string, StringSpec>;
-export type StringLayoutsMap = LayoutsMap<string, StringSpec>;
-export type StringValidatorsMap = ValidatorsMap<string, StringSpec>;
+export type StringInputEntity<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+> = InputEntity<
+    string,
+    InputComponentProps,
+    undefined,
+    StringSpec<undefined, InputComponentProps, undefined>
+>;
+export type StringIndependentInputEntity<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = IndependentInputEntity<
+    string,
+    InputComponentProps,
+    LayoutComponentProps,
+    StringSpec<undefined, InputComponentProps, LayoutComponentProps>
+>;
 
-export type StringConfig = TypeConfig<string, string, StringSpec>;
+export type StringInputsMap = InputsMap<string, StringSpec<undefined, any, any>>;
+export type StringLayoutsMap = LayoutsMap<string, StringSpec<undefined, any, any>>;
+export type StringValidatorsMap = ValidatorsMap<string, StringSpec<undefined, any, any>>;
+
+export type StringConfig = TypeConfig<string, string, StringSpec<undefined, any, any>>;

@@ -10,7 +10,7 @@ export const CardSection = <T extends FieldValue, S extends Spec>({
     input,
     meta,
     children,
-}: LayoutProps<T, S>) => {
+}: LayoutProps<T, undefined, undefined, S>) => {
     const removeButton = React.useMemo(() => {
         if (spec.required || !input.value) {
             return null;

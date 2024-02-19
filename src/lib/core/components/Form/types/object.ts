@@ -16,46 +16,86 @@ import {
     ValidatorsMap,
 } from './';
 
-export type ObjectInputProps<InputComponentProps extends Record<string, any> = {}> = InputProps<
+export type ObjectInputProps<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+> = InputProps<
     FieldObjectValue,
-    ObjectSpec<undefined, InputComponentProps>
+    InputComponentProps,
+    undefined,
+    ObjectSpec<undefined, InputComponentProps, undefined>
 >;
 export type ObjectIndependentInputProps<
-    InputComponentProps extends Record<string, any> = {},
-    LayoutComponentProps extends Record<string, any> = {},
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
 > = IndependentInputProps<
     FieldObjectValue,
+    InputComponentProps,
+    LayoutComponentProps,
     ObjectSpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
 
-export type ObjectLayoutProps<LayoutComponentProps extends Record<string, any> = {}> = LayoutProps<
+export type ObjectLayoutProps<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = LayoutProps<
     FieldObjectValue,
-    ObjectSpec<undefined, any, LayoutComponentProps>
+    InputComponentProps,
+    LayoutComponentProps,
+    ObjectSpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
 
-export type ObjectInput<InputComponentProps extends Record<string, any> = {}> = InputType<
-    FieldObjectValue,
-    ObjectSpec<undefined, InputComponentProps>
->;
+export type ObjectInput<InputComponentProps extends Record<string, any> | undefined = undefined> =
+    InputType<
+        FieldObjectValue,
+        InputComponentProps,
+        undefined,
+        ObjectSpec<undefined, InputComponentProps, undefined>
+    >;
 
 export type ObjectIndependentInput<
-    InputComponentProps extends Record<string, any> = {},
-    LayoutComponentProps extends Record<string, any> = {},
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
 > = IndependentInputType<
     FieldObjectValue,
+    InputComponentProps,
+    LayoutComponentProps,
     ObjectSpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
 
-export type ObjectLayout<LayoutComponentProps extends Record<string, any> = {}> = LayoutType<
+export type ObjectLayout<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = LayoutType<
     FieldObjectValue,
-    ObjectSpec<undefined, any, LayoutComponentProps>
+    InputComponentProps,
+    LayoutComponentProps,
+    ObjectSpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
 
-export type ObjectInputEntity = InputEntity<FieldObjectValue, ObjectSpec>;
-export type ObjectIndependentInputEntity = IndependentInputEntity<FieldObjectValue, ObjectSpec>;
+export type ObjectInputEntity<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+> = InputEntity<
+    FieldObjectValue,
+    InputComponentProps,
+    undefined,
+    ObjectSpec<undefined, InputComponentProps, undefined>
+>;
+export type ObjectIndependentInputEntity<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = IndependentInputEntity<
+    FieldObjectValue,
+    InputComponentProps,
+    LayoutComponentProps,
+    ObjectSpec<undefined, InputComponentProps, LayoutComponentProps>
+>;
 
-export type ObjectInputsMap = InputsMap<FieldObjectValue, ObjectSpec>;
-export type ObjectLayoutsMap = LayoutsMap<FieldObjectValue, ObjectSpec>;
-export type ObjectValidatorsMap = ValidatorsMap<ObjectValue, ObjectSpec>;
+export type ObjectInputsMap = InputsMap<FieldObjectValue, ObjectSpec<undefined, any, any>>;
+export type ObjectLayoutsMap = LayoutsMap<FieldObjectValue, ObjectSpec<undefined, any, any>>;
+export type ObjectValidatorsMap = ValidatorsMap<ObjectValue, ObjectSpec<undefined, any, any>>;
 
-export type ObjectConfig = TypeConfig<FieldObjectValue, ObjectValue, ObjectSpec>;
+export type ObjectConfig = TypeConfig<
+    FieldObjectValue,
+    ObjectValue,
+    ObjectSpec<undefined, any, any>
+>;

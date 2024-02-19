@@ -15,41 +15,83 @@ import {
     ValidatorsMap,
 } from './';
 
-export type NumberInputProps<InputComponentProps extends Record<string, any> = {}> = InputProps<
+export type NumberInputProps<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+> = InputProps<
     number,
-    NumberSpec<undefined, InputComponentProps>
+    InputComponentProps,
+    undefined,
+    NumberSpec<undefined, InputComponentProps, undefined>
 >;
 
 export type NumberIndependentInputProps<
-    InputComponentProps extends Record<string, any> = {},
-    LayoutComponentProps extends Record<string, any> = {},
-> = IndependentInputProps<number, NumberSpec<undefined, InputComponentProps, LayoutComponentProps>>;
-
-export type NumberLayoutProps<LayoutComponentProps extends Record<string, any> = {}> = LayoutProps<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = IndependentInputProps<
     number,
-    NumberSpec<undefined, any, LayoutComponentProps>
+    InputComponentProps,
+    LayoutComponentProps,
+    NumberSpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
 
-export type NumberInput<InputComponentProps extends Record<string, any> = {}> = InputType<
+export type NumberLayoutProps<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = LayoutProps<
     number,
-    NumberSpec<undefined, InputComponentProps>
+    InputComponentProps,
+    LayoutComponentProps,
+    NumberSpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
+
+export type NumberInput<InputComponentProps extends Record<string, any> | undefined = undefined> =
+    InputType<
+        number,
+        InputComponentProps,
+        undefined,
+        NumberSpec<undefined, InputComponentProps, undefined>
+    >;
 
 export type NumberIndependentInput<
-    InputComponentProps extends Record<string, any> = {},
-    LayoutComponentProps extends Record<string, any> = {},
-> = IndependentInputType<number, NumberSpec<undefined, InputComponentProps, LayoutComponentProps>>;
-
-export type NumberLayout<LayoutComponentProps extends Record<string, any> = {}> = LayoutType<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = IndependentInputType<
     number,
-    NumberSpec<undefined, any, LayoutComponentProps>
+    InputComponentProps,
+    LayoutComponentProps,
+    NumberSpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
 
-export type NumberInputEntity = InputEntity<number, NumberSpec>;
-export type NumberIndependentInputEntity = IndependentInputEntity<number, NumberSpec>;
+export type NumberLayout<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = LayoutType<
+    number,
+    InputComponentProps,
+    LayoutComponentProps,
+    NumberSpec<undefined, InputComponentProps, LayoutComponentProps>
+>;
 
-export type NumberInputsMap = InputsMap<number, NumberSpec>;
-export type NumberLayoutsMap = LayoutsMap<number, NumberSpec>;
-export type NumberValidatorsMap = ValidatorsMap<number, NumberSpec>;
+export type NumberInputEntity<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+> = InputEntity<
+    number,
+    InputComponentProps,
+    undefined,
+    NumberSpec<undefined, InputComponentProps, undefined>
+>;
+export type NumberIndependentInputEntity<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+    LayoutComponentProps extends Record<string, any> | undefined = undefined,
+> = IndependentInputEntity<
+    number,
+    InputComponentProps,
+    LayoutComponentProps,
+    NumberSpec<undefined, InputComponentProps, LayoutComponentProps>
+>;
 
-export type NumberConfig = TypeConfig<number, number, NumberSpec>;
+export type NumberInputsMap = InputsMap<number, NumberSpec<undefined, any, any>>;
+export type NumberLayoutsMap = LayoutsMap<number, NumberSpec<undefined, any, any>>;
+export type NumberValidatorsMap = ValidatorsMap<number, NumberSpec<undefined, any, any>>;
+
+export type NumberConfig = TypeConfig<number, number, NumberSpec<undefined, any, any>>;
