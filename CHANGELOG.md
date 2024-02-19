@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.7.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.6.1...v3.7.0) (2024-02-16)
+
+
+### Features
+
+* **objectInline:** support inline boolean fields ([#171](https://github.com/gravity-ui/dynamic-forms/issues/171)) ([043761c](https://github.com/gravity-ui/dynamic-forms/commit/043761c0a497967510d267147c2bf0899428bc08))
+
+
+### Bug Fixes
+
+* **validation:** impossible to switch the language for validation errors ([#173](https://github.com/gravity-ui/dynamic-forms/issues/173)) ([1f3f81c](https://github.com/gravity-ui/dynamic-forms/commit/1f3f81c657e065c96875d91f69541cf34eaa6948))
+
 ## [3.6.1](https://github.com/gravity-ui/dynamic-forms/compare/v3.6.0...v3.6.1) (2024-02-13)
 
 

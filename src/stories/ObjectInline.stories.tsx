@@ -33,6 +33,13 @@ const baseSpec: ObjectSpec = {
                 layoutTitle: 'Name',
             },
         },
+        license: {
+            type: SpecTypes.Boolean,
+            viewSpec: {
+                type: 'base',
+                layout: 'transparent',
+            },
+        },
     },
     viewSpec: {
         type: 'inline',

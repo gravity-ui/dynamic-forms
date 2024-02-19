@@ -69,7 +69,7 @@ export const NUMBER_SPEC: Record<string, NumberSpec> = {
             placeholder: 'placeholder text',
         },
     },
-    layoutTransperant: {
+    layoutTransparent: {
         type: SpecTypes.Number,
         viewSpec: {
             type: 'base',

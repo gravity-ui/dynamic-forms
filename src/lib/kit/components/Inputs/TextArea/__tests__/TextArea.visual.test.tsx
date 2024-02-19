@@ -43,7 +43,7 @@ test.describe('Text Area', () => {
     });
 
     test('layout transperant', async ({mount, expectScreenshot}) => {
-        await mount(<DynamicForm spec={TEXT_AREA_SPEC.layoutTransperant} />);
+        await mount(<DynamicForm spec={TEXT_AREA_SPEC.layoutTransparent} />);
 
         await expectScreenshot();
     });
