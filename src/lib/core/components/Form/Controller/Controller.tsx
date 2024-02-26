@@ -1,6 +1,6 @@
 import React from 'react';
 
-import _ from 'lodash';
+import omit from 'lodash/omit';
 
 import {FormValue, Spec} from '../../../types';
 import {useControllerMirror, useDynamicFormsCtx, useSearch} from '../hooks';
@@ -119,7 +119,7 @@ export const Controller = <
                 onItemRemove: methods.onItemRemove,
                 onDrop: methods.onDrop,
             },
-            meta: {..._.omit(store.state, 'value'), submitFailed: store.tools.submitFailed},
+            meta: {...omit(store.state, 'value'), submitFailed: store.tools.submitFailed},
         }),
         [methods, store.name, store.state, store.tools.submitFailed],
     );

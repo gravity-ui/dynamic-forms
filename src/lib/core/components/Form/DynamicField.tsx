@@ -1,6 +1,8 @@
 import React from 'react';
 
-import _ from 'lodash';
+import isFunction from 'lodash/isFunction';
+import isString from 'lodash/isString';
+import get from 'lodash/get';
 import {isValidElementType} from 'react-is';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
@@ -68,13 +70,13 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
             setField,
             removeField,
             isHiddenField,
-            searchFunction: _.isFunction(search) ? search : getDefaultSearchFunction(search),
+            searchFunction: isFunction(search) ? search : getDefaultSearchFunction(search),
         }),
         [isHiddenField, removeField, search, setField],
     );
 
     const correctParams = React.useMemo(
-        () => _.isString(name) && isCorrectSpec(spec) && isCorrectConfig(config),
+        () => isString(name) && isCorrectSpec(spec) && isCorrectConfig(config),
         [name, spec, config],
     );
 
@@ -96,7 +98,7 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
                         name={name}
                         parentOnChange={null}
                         parentOnUnmount={null}
-                        value={_.get(store.values, name)}
+                        value={get(store.values, name)}
                     />
                     {watcher}
                 </SearchContext.Provider>

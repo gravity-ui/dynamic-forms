@@ -1,6 +1,7 @@
 import React from 'react';
 
-import _ from 'lodash';
+import get from 'lodash/get';
+import isString from 'lodash/isString';
 import {isValidElementType} from 'react-is';
 
 import {isCorrectSpec} from '../../../helpers';
@@ -25,9 +26,9 @@ export const useRender = <Value extends FormValue, SpecType extends Spec>({
     Link,
 }: UseRenderParams<Value, SpecType>) => {
     const render = React.useMemo(() => {
-        if (viewEntity && isCorrectSpec(spec) && _.isString(name)) {
+        if (viewEntity && isCorrectSpec(spec) && isString(name)) {
             if (!spec.viewSpec.hidden) {
-                const currentValue = name ? _.get(value, name) : value;
+                const currentValue = name ? get(value, name) : value;
                 const linkValue =
                     isValidElementType(Link) && spec?.viewSpec?.link ? (
                         <Link value={currentValue} link={spec.viewSpec.link} />

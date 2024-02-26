@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import {Spec, SpecTypes, StringSpec} from '../../../core';
 import {isCorrectSizeParams, isNotEmptyValue, prepareSpec} from '../common';
 

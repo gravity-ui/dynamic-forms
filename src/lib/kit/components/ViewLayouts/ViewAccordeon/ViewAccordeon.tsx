@@ -1,6 +1,6 @@
 import React from 'react';
 
-import _ from 'lodash';
+import isBoolean from 'lodash/isBoolean';
 
 import {ArrayViewLayoutProps, ObjectViewLayoutProps} from '../../../../core';
 import {isNotEmptyValue} from '../../../utils';
@@ -13,7 +13,7 @@ export const ViewAccordeon = <T extends ArrayViewLayoutProps | ObjectViewLayoutP
     children,
 }: T): JSX.Element | null => {
     const [open, setOpen] = React.useState(
-        _.isBoolean(spec.viewSpec.layoutOpen) ? spec.viewSpec.layoutOpen : true,
+        isBoolean(spec.viewSpec.layoutOpen) ? spec.viewSpec.layoutOpen : true,
     );
 
     if (!isNotEmptyValue(value, spec)) {

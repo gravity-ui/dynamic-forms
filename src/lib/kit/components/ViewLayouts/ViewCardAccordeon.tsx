@@ -1,6 +1,6 @@
 import React from 'react';
 
-import _ from 'lodash';
+import isBoolean from 'lodash/isBoolean';
 
 import {Card} from '../';
 import {ArrayViewLayoutProps, ObjectViewLayoutProps} from '../../../core';
@@ -13,7 +13,7 @@ export const ViewCardAccordeon = <T extends ArrayViewLayoutProps | ObjectViewLay
     children,
 }: T): JSX.Element | null => {
     const [open, setOpen] = React.useState(
-        _.isBoolean(spec.viewSpec.layoutOpen) ? spec.viewSpec.layoutOpen : true,
+        isBoolean(spec.viewSpec.layoutOpen) ? spec.viewSpec.layoutOpen : true,
     );
 
     const onToggle = React.useCallback(() => setOpen((f) => !f), [setOpen]);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import _ from 'lodash';
+import isString from 'lodash/isString';
 import {isValidElementType} from 'react-is';
 
 import {isCorrectSpec} from '../../../helpers';
@@ -43,7 +43,7 @@ export const useComponents = <Value extends FormValue, SpecType extends Spec>(
     }, [views, spec?.viewSpec?.type]);
 
     const Layout: ViewLayoutType<Value, SpecType> | undefined = React.useMemo(() => {
-        if (layouts && _.isString(spec.viewSpec.layout)) {
+        if (layouts && isString(spec.viewSpec.layout)) {
             const Component = layouts[spec.viewSpec.layout];
 
             if (isValidElementType(Component)) {

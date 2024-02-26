@@ -1,6 +1,5 @@
 import React from 'react';
 
-import _ from 'lodash';
 import {isValidElementType} from 'react-is';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 

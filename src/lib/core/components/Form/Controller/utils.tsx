@@ -1,6 +1,17 @@
 import React from 'react';
 
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
+import isArray from 'lodash/isArray';
+import isBoolean from 'lodash/isBoolean';
+import isEqual from 'lodash/isEqual';
+import isFunction from 'lodash/isFunction';
+import isNil from 'lodash/isNil';
+import isString from 'lodash/isString';
+import isUndefined from 'lodash/isUndefined';
+import keys from 'lodash/keys';
+import merge from 'lodash/merge';
+import omit from 'lodash/omit';
 import {isValidElementType} from 'react-is';
 
 import {SpecTypes} from '../../../constants';
@@ -33,9 +44,9 @@ import {
 
 const isErrorMutatorCorrect = (errorMutator: {value: ValidateError} | typeof EMPTY_MUTATOR) =>
     errorMutator !== EMPTY_MUTATOR &&
-    (_.isString(errorMutator.value) ||
-        _.isBoolean(errorMutator.value) ||
-        _.isUndefined(errorMutator.value));
+    (isString(errorMutator.value) ||
+        isBoolean(errorMutator.value) ||
+        isUndefined(errorMutator.value));
 
 const isValueMutatorCorrect = (
     valueMutator: {value: FormValue} | typeof EMPTY_MUTATOR,
@@ -43,7 +54,7 @@ const isValueMutatorCorrect = (
 ) =>
     valueMutator !== EMPTY_MUTATOR &&
     (typeof valueMutator.value === spec.type ||
-        (_.isArray(valueMutator.value) && spec.type === SpecTypes.Array) ||
+        (isArray(valueMutator.value) && spec.type === SpecTypes.Array) ||
         valueMutator.value === undefined);
 
 export const updateParentStore = <
@@ -78,10 +89,10 @@ export const getSpec = <SpecType extends Spec>({
     spec,
     mutatorsStore,
 }: GetSpecParams<SpecType>): SpecType => {
-    const mutator = _.get(mutatorsStore.spec, name, EMPTY_MUTATOR);
+    const mutator = get(mutatorsStore.spec, name, EMPTY_MUTATOR);
 
     if (mutator !== EMPTY_MUTATOR) {
-        const mutatedSpec = _.merge(_.cloneDeep(spec), mutator.value);
+        const mutatedSpec = merge(cloneDeep(spec), mutator.value);
 
         if (isCorrectSpec(mutatedSpec)) {
             return mutatedSpec;
@@ -114,7 +125,7 @@ export const getComponents = <
             }
         }
 
-        if (layouts && _.isString(spec.viewSpec.layout)) {
+        if (layouts && isString(spec.viewSpec.layout)) {
             const Component = layouts[spec.viewSpec.layout];
 
             if (isValidElementType(Component)) {
@@ -133,7 +144,7 @@ export const getRender = <DirtyValue extends FieldValue, SpecType extends Spec>(
     Layout,
 }: GetRenderParams<DirtyValue, SpecType>) => {
     const render = (props: FieldRenderProps<DirtyValue>) => {
-        if (inputEntity && isCorrectSpec(spec) && _.isString(name)) {
+        if (inputEntity && isCorrectSpec(spec) && isString(name)) {
             if (!spec.viewSpec.hidden) {
                 const {layoutProps, inputProps} = spec.viewSpec;
                 if (inputEntity.independent) {
@@ -191,13 +202,13 @@ export const getValidate = <
 
         if (validators) {
             if (
-                (!_.isString(spec.validator) || !spec.validator.length) &&
-                _.isFunction(validators.base)
+                (!isString(spec.validator) || !spec.validator.length) &&
+                isFunction(validators.base)
             ) {
                 validate = (value?: Value) => validators.base(spec, value);
             }
 
-            if (_.isString(spec.validator) && _.isFunction(validators[spec.validator])) {
+            if (isString(spec.validator) && isFunction(validators[spec.validator])) {
                 validate = (value?: Value) => validators[spec.validator!]!(spec, value);
             }
         }
@@ -218,16 +229,16 @@ export const getFieldInitials = <
     validate,
     mutatorsStore,
 }: GetFieldInitialsParams<DirtyValue, Value, SpecType>) => {
-    const valueMutator = transformArrIn(_.get(mutatorsStore.values, name, EMPTY_MUTATOR)) as
+    const valueMutator = transformArrIn(get(mutatorsStore.values, name, EMPTY_MUTATOR)) as
         | {value: DirtyValue}
         | typeof EMPTY_MUTATOR;
-    let value = _.cloneDeep(valueFromParent);
+    let value = cloneDeep(valueFromParent);
 
     if (isValueMutatorCorrect(valueMutator, spec)) {
         value = (valueMutator as {value: DirtyValue}).value;
     }
 
-    if (_.isNil(value)) {
+    if (isNil(value)) {
         if (spec.defaultValue) {
             value = transformArrIn(spec.defaultValue) as DirtyValue;
         }
@@ -242,7 +253,7 @@ export const getFieldInitials = <
         }
     }
 
-    let errorMutator: {value: BaseValidateError} | typeof EMPTY_MUTATOR = _.get(
+    let errorMutator: {value: BaseValidateError} | typeof EMPTY_MUTATOR = get(
         mutatorsStore.errors,
         name,
         EMPTY_MUTATOR,
@@ -254,7 +265,7 @@ export const getFieldInitials = <
 
     const error =
         validate?.(transformArrOut(value)) || (errorMutator as {value: BaseValidateError})?.value;
-    const dirty = !_.isEqual(value, initialValue);
+    const dirty = !isEqual(value, initialValue);
 
     return {
         initialValue,
@@ -282,7 +293,7 @@ export const getFieldMethods = <
         {valOrSetter, childErrors, errorMutator},
     ) => {
         const {state, validate, spec} = store;
-        const _value = _.isFunction(valOrSetter) ? valOrSetter(state.value) : valOrSetter;
+        const _value = isFunction(valOrSetter) ? valOrSetter(state.value) : valOrSetter;
         const error = validate?.(transformArrOut(_value)) || errorMutator;
         let value = transformArrIn(_value);
 
@@ -293,15 +304,15 @@ export const getFieldMethods = <
         let newChildErrors: Record<string, ValidateError> = {...state.childErrors};
 
         if (childErrors) {
-            const nearestChildName = _.keys(childErrors).sort((a, b) => a.length - b.length)[0];
+            const nearestChildName = keys(childErrors).sort((a, b) => a.length - b.length)[0];
 
             if (nearestChildName) {
-                const existingСhildNames = _.keys(newChildErrors).filter((childName) =>
+                const existingСhildNames = keys(newChildErrors).filter((childName) =>
                     childName.startsWith(nearestChildName),
                 );
 
                 newChildErrors = {
-                    ..._.omit(newChildErrors, existingСhildNames),
+                    ...omit(newChildErrors, existingСhildNames),
                     ...childErrors,
                 };
             }
@@ -311,7 +322,7 @@ export const getFieldMethods = <
             ...store,
             state: {
                 ...store.state,
-                dirty: !_.isEqual(value, state.initialValue),
+                dirty: !isEqual(value, state.initialValue),
                 error,
                 invalid: Boolean(error),
                 modified: true,
@@ -376,7 +387,7 @@ export const getFieldMethods = <
             return onChange(store, {
                 valOrSetter: (currentValue) =>
                     currentValue
-                        ? (_.omit(
+                        ? (omit(
                               currentValue as FieldArrayValue | FieldObjectValue,
                               childName.split(`${name}.`)[1],
                           ) as DirtyValue)
@@ -408,7 +419,7 @@ export const getFieldMethods = <
             ...store,
             state: {
                 ...store.state,
-                dirty: !_.isEqual(value, store.state.initialValue),
+                dirty: !isEqual(value, store.state.initialValue),
                 error,
                 invalid: Boolean(error),
                 modified: true,
@@ -467,7 +478,7 @@ export const initializeStore = <
         valueFromParent,
         validate,
         mutatorsStore,
-        initialValue: _.get(tools.initialValue, name),
+        initialValue: get(tools.initialValue, name),
     });
 
     const initialsStore: ControllerStore<DirtyValue, Value, SpecType> = {
@@ -484,7 +495,7 @@ export const initializeStore = <
         state,
     };
 
-    if (!_.isEqual(valueFromParent, state.value) || state.error) {
+    if (!isEqual(valueFromParent, state.value) || state.error) {
         initialsStore.afterStoreUpdateCB = () => updateParentStore(initialsStore);
     }
 
@@ -508,17 +519,17 @@ export const updateStore = <
     tools,
     methodOnChange,
 }: UpdateStoreParams<DirtyValue, Value, SpecType>) => {
-    const storeSpecMutator = _.get(store.mutatorsStore.spec, store.name, EMPTY_MUTATOR);
-    const storeValueMutator = _.get(store.mutatorsStore.values, store.name, EMPTY_MUTATOR) as
+    const storeSpecMutator = get(store.mutatorsStore.spec, store.name, EMPTY_MUTATOR);
+    const storeValueMutator = get(store.mutatorsStore.values, store.name, EMPTY_MUTATOR) as
         | {value: DirtyValue}
         | typeof EMPTY_MUTATOR;
-    const storeErrorMutator = _.get(store.mutatorsStore.errors, store.name, EMPTY_MUTATOR);
+    const storeErrorMutator = get(store.mutatorsStore.errors, store.name, EMPTY_MUTATOR);
 
-    const specMutator = _.get(mutatorsStore.spec, name, EMPTY_MUTATOR);
-    const valueMutator = _.get(mutatorsStore.values, name, EMPTY_MUTATOR) as
+    const specMutator = get(mutatorsStore.spec, name, EMPTY_MUTATOR);
+    const valueMutator = get(mutatorsStore.values, name, EMPTY_MUTATOR) as
         | {value: DirtyValue}
         | typeof EMPTY_MUTATOR;
-    const errorMutator = _.get(mutatorsStore.errors, name, EMPTY_MUTATOR);
+    const errorMutator = get(mutatorsStore.errors, name, EMPTY_MUTATOR);
 
     const valueMutatorUpdated =
         isValueMutatorCorrect(valueMutator, getSpec({name, spec: _spec, mutatorsStore})) &&
@@ -533,7 +544,7 @@ export const updateStore = <
         tools.onChange !== store.tools.onChange ||
         tools.onUnmount !== store.tools.onUnmount;
     const updateAllStore =
-        !_.isEqual(_spec, store.initialSpec) ||
+        !isEqual(_spec, store.initialSpec) ||
         config !== store.config ||
         (specMutator !== EMPTY_MUTATOR && specMutator !== storeSpecMutator);
     const updateAllStoreAndClearParentValues = name !== store.name;

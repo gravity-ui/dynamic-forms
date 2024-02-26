@@ -1,4 +1,6 @@
-import _ from 'lodash';
+import isArray from 'lodash/isArray';
+import isNumber from 'lodash/isNumber';
+import isString from 'lodash/isString';
 
 import {
     ArraySpec,
@@ -33,7 +35,7 @@ export const getArrayValidator = (params: GetArrayValidatorParams = {}) => {
 
         const valueLength = value?.length || 0;
 
-        if (!ignoreRequiredCheck && spec.required && !_.isArray(value)) {
+        if (!ignoreRequiredCheck && spec.required && !isArray(value)) {
             return errorMessages.REQUIRED;
         }
 
@@ -138,7 +140,7 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
 
         if (
             !ignoreMaximumCheck &&
-            _.isNumber(spec.maximum) &&
+            isNumber(spec.maximum) &&
             stringValue.length &&
             Number(stringValue) > spec.maximum
         ) {
@@ -147,14 +149,14 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
 
         if (
             !ignoreMinimumCheck &&
-            _.isNumber(spec.minimum) &&
+            isNumber(spec.minimum) &&
             stringValue.length &&
             spec.minimum > Number(stringValue)
         ) {
             return errorMessages.minNumber(spec.minimum);
         }
 
-        if (_.isString(spec.format) && stringValue.length) {
+        if (isString(spec.format) && stringValue.length) {
             if (!ignoreIntCheck && spec.format === 'int64' && !isInt(stringValue)) {
                 return errorMessages.INT;
             }
@@ -235,11 +237,11 @@ export const getStringValidator = (params: GetStringValidatorParams = {}) => {
             return errorMessages.minLength(spec.minLength);
         }
 
-        if (_.isString(spec.pattern) && spec.pattern.length) {
+        if (isString(spec.pattern) && spec.pattern.length) {
             const regex = new RegExp(spec.pattern);
 
             if (!ignoreRegExpCheck && !regex.test(value)) {
-                return _.isString(spec.patternError) && spec.patternError.length
+                return isString(spec.patternError) && spec.patternError.length
                     ? spec.patternError
                     : errorMessages.INVALID;
             }

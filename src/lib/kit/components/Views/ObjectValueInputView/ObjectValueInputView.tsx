@@ -1,6 +1,6 @@
 import React from 'react';
 
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import {ObjectIndependentView, ViewController} from '../../../../core';
 
@@ -9,7 +9,7 @@ const OBJECT_VALUE_PROPERTY_NAME = 'value';
 export const ObjectValueInputView: ObjectIndependentView = ({spec, name, Layout, ...restProps}) => {
     const childSpec = React.useMemo(() => {
         if (spec.properties?.[OBJECT_VALUE_PROPERTY_NAME]) {
-            const childSpec = _.cloneDeep(spec.properties[OBJECT_VALUE_PROPERTY_NAME]);
+            const childSpec = cloneDeep(spec.properties[OBJECT_VALUE_PROPERTY_NAME]);
 
             childSpec.viewSpec.layout = '';
 

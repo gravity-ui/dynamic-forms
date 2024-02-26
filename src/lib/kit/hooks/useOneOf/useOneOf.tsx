@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {RadioButton, Select} from '@gravity-ui/uikit';
-import _ from 'lodash';
+import isObjectLike from 'lodash/isObjectLike';
+import some from 'lodash/some';
 
 import {ObjectIndependentInputProps} from '../../../core';
 import {TogglerCard} from '../../components';
@@ -22,14 +23,14 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
     const {name, input, spec, Layout} = props;
 
     const specProperties = React.useMemo(
-        () => (_.isObjectLike(spec.properties) ? spec.properties! : {}),
+        () => (isObjectLike(spec.properties) ? spec.properties! : {}),
         [spec.properties],
     );
 
     const [oneOfValue, setOneOfValue] = React.useState(() => {
         let valueKeys: string[] | undefined;
 
-        if (_.isObjectLike(input.value)) {
+        if (isObjectLike(input.value)) {
             const keys = Object.keys(input.value);
 
             if (keys.length) {
@@ -78,7 +79,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
             spec.viewSpec.oneOfParams?.toggler !== 'radio' &&
             (spec.viewSpec.oneOfParams?.toggler === 'select' ||
                 options.length > 3 ||
-                _.some(options, ({title}) => title.length > MAX_TAB_TITLE_LENGTH))
+                some(options, ({title}) => title.length > MAX_TAB_TITLE_LENGTH))
         ) {
             return 'select';
         }

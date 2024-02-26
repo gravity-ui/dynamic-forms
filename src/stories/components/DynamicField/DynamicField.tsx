@@ -1,6 +1,6 @@
 import React from 'react';
 
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import RandExp from 'randexp';
 import MonacoEditor from 'react-monaco-editor';
 import {v4 as uuidv4} from 'uuid';
@@ -29,7 +29,7 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
     parseJsonDefaultValue = true,
 }) => {
     const config = React.useMemo(() => {
-        const cfg = _.cloneDeep(dynamicConfig);
+        const cfg = cloneDeep(dynamicConfig);
 
         cfg.object.inputs['spec_selector'] = {Component: SpecSelector, independent: true};
 

@@ -1,6 +1,10 @@
 import React from 'react';
 
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
+import isObjectLike from 'lodash/isObjectLike';
+import keys from 'lodash/keys';
+import set from 'lodash/set';
 
 import {FormValue} from '../../../types';
 import {
@@ -20,11 +24,11 @@ export const useMutators = (externalMutators?: DynamicFormMutators) => {
                 a: DynamicFormMutatorsStore['spec'] = {},
                 b: Record<string, SpecMutator>,
             ) => {
-                const result = _.cloneDeep(a);
+                const result = cloneDeep(a);
 
                 const getKeys = (parent: any): string[][] => {
-                    if (_.isObjectLike(parent)) {
-                        return _.keys(parent).reduce((acc: string[][], parentKey) => {
+                    if (isObjectLike(parent)) {
+                        return keys(parent).reduce((acc: string[][], parentKey) => {
                             const childKeys = getKeys(parent[parentKey]);
 
                             return [
@@ -39,7 +43,7 @@ export const useMutators = (externalMutators?: DynamicFormMutators) => {
                 };
 
                 getKeys(b).forEach((key) => {
-                    _.set(result, [key[0], 'value', ...key.slice(1)], _.get(b, key));
+                    set(result, [key[0], 'value', ...key.slice(1)], get(b, key));
                 });
 
                 return result;
@@ -49,10 +53,10 @@ export const useMutators = (externalMutators?: DynamicFormMutators) => {
                 a: Record<string, {value: T}> = {},
                 b: Record<string, T>,
             ) => {
-                const result = _.cloneDeep(a);
+                const result = cloneDeep(a);
 
                 Object.keys(b).forEach((key) => {
-                    _.set(result, [key, 'value'], b[key]);
+                    set(result, [key, 'value'], b[key]);
                 });
 
                 return result;

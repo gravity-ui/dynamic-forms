@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {render} from '@testing-library/react';
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import {Spec} from '../../../../../core';
 import {BaseView, ViewRow, dynamicViewConfig} from '../../../../../kit';
@@ -49,7 +49,7 @@ describe('View/hooks/useComponents', () => {
 
     test('inputEntity and Layout not found', () => {
         const mirror: UseComponentsProps['mirror'] = {};
-        const _spec = _.cloneDeep(spec);
+        const _spec = cloneDeep(spec);
 
         _spec.viewSpec.type = 'nonexistent';
         _spec.viewSpec.layout = 'nonexistent';
@@ -63,7 +63,7 @@ describe('View/hooks/useComponents', () => {
 
     test('inputEntity not found', () => {
         const mirror: UseComponentsProps['mirror'] = {};
-        const _spec = _.cloneDeep(spec);
+        const _spec = cloneDeep(spec);
 
         _spec.viewSpec.type = 'nonexistent';
         _spec.viewSpec.layout = 'row';
@@ -76,7 +76,7 @@ describe('View/hooks/useComponents', () => {
 
     test('Layout not found', () => {
         const mirror: UseComponentsProps['mirror'] = {};
-        const _spec = _.cloneDeep(spec);
+        const _spec = cloneDeep(spec);
 
         _spec.viewSpec.type = 'base';
         _spec.viewSpec.layout = 'nonexistent';
@@ -89,7 +89,7 @@ describe('View/hooks/useComponents', () => {
 
     test('inputEntity and Layout found', () => {
         const mirror: UseComponentsProps['mirror'] = {};
-        const _spec = _.cloneDeep(spec);
+        const _spec = cloneDeep(spec);
 
         _spec.viewSpec.type = 'base';
         _spec.viewSpec.layout = 'row';

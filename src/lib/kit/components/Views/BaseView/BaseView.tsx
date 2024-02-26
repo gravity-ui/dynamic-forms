@@ -1,6 +1,6 @@
 import React from 'react';
 
-import _ from 'lodash';
+import isString from 'lodash/isString';
 
 import {BooleanViewProps, NumberViewProps, StringSpec, StringViewProps} from '../../../../core';
 import {LongValue} from '../../../components';
@@ -10,7 +10,7 @@ export const BaseView = <T extends BooleanViewProps | NumberViewProps | StringVi
     spec,
     linkValue,
 }: React.PropsWithChildren<T>) => {
-    if (_.isString(value) && linkValue) {
+    if (isString(value) && linkValue) {
         return <>{linkValue}</>;
     }
 

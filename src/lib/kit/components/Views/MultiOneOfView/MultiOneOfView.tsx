@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Popover} from '@gravity-ui/uikit';
-import _ from 'lodash';
+import isObjectLike from 'lodash/isObjectLike';
 
 import {ObjectIndependentView, ObjectIndependentViewProps, ViewController} from '../../../../core';
 import {block} from '../../../utils';
@@ -19,7 +19,7 @@ export const MultiOneOfView: React.FC<MultiOneOfViewProps> = (props) => {
     const {name, value, Layout, spec, withoutIndent} = props;
 
     const specProperties = React.useMemo(
-        () => (_.isObjectLike(spec.properties) ? spec.properties! : {}),
+        () => (isObjectLike(spec.properties) ? spec.properties! : {}),
         [spec.properties],
     );
 

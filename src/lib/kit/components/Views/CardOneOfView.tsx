@@ -1,6 +1,6 @@
 import React from 'react';
 
-import _ from 'lodash';
+import isObjectLike from 'lodash/isObjectLike';
 
 import {Card, ViewRow} from '../';
 import {ObjectIndependentView, StringSpec, ViewController} from '../../../core';
@@ -13,7 +13,7 @@ export const CardOneOfView: ObjectIndependentView = (props) => {
     const onToggle = React.useCallback(() => setOpen((f) => !f), [setOpen]);
 
     const specProperties = React.useMemo(
-        () => (_.isObjectLike(spec.properties) ? spec.properties! : {}),
+        () => (isObjectLike(spec.properties) ? spec.properties! : {}),
         [spec.properties],
     );
 

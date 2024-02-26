@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import {divide, multiply} from '../bigIntMath';
 
 describe('kit/utils/bigIntMath', () => {

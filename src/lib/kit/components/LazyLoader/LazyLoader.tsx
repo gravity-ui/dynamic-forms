@@ -1,6 +1,6 @@
 import React from 'react';
 
-import _ from 'lodash';
+import isUndefined from 'lodash/isUndefined';
 
 export type LazyLoaderProps = {
     component: React.LazyExoticComponent<React.ComponentType<any>>;
@@ -17,7 +17,7 @@ export const LazyLoader = ({
     const updateFallback = async (): Promise<void> => {
         const result = await component._result;
 
-        if (!_.isUndefined(result)) {
+        if (!isUndefined(result)) {
             fallback.current = (result as any).default;
         }
     };

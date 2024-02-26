@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ChevronDown} from '@gravity-ui/icons';
 import {Button, Icon, Text} from '@gravity-ui/uikit';
-import _ from 'lodash';
+import isString from 'lodash/isString';
 
 import {block} from '../../utils';
 
@@ -72,7 +72,7 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
     });
 
     const currentHeaderVariant = React.useMemo(() => {
-        if (!_.isString(header)) {
+        if (!isString(header)) {
             return 'body-1';
         }
 

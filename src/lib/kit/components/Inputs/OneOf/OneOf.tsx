@@ -1,6 +1,6 @@
 import React from 'react';
 
-import _ from 'lodash';
+import set from 'lodash/set';
 
 import {GroupIndent} from '../../';
 import {
@@ -30,7 +30,7 @@ const OneOfComponent: React.FC<OneOfProps> = (props) => {
             childValue: FieldValue,
             childErrors?: Record<string, ValidateError>,
         ) => {
-            const value = _.set({}, childName.split(`${props.input.name}.`).join(''), childValue);
+            const value = set({}, childName.split(`${props.input.name}.`).join(''), childValue);
 
             props.input.onChange(value, childErrors);
         },

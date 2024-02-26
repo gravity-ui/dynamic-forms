@@ -1,4 +1,9 @@
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import isArray from 'lodash/isArray';
+import isNil from 'lodash/isNil';
+import isObject from 'lodash/isObject';
+import isObjectLike from 'lodash/isObjectLike';
+import isString from 'lodash/isString';
 
 import {
     FormValue,
@@ -16,11 +21,11 @@ import {isFloat} from '../validators/helpers';
 import {divide} from './bigIntMath';
 
 export const isNotEmptyValue = (value: FormValue | undefined, spec: Spec | undefined): boolean => {
-    if (_.isNil(value)) {
+    if (isNil(value)) {
         return false;
     }
 
-    if (_.isString(value)) {
+    if (isString(value)) {
         if (!value) {
             return false;
         }
@@ -30,7 +35,7 @@ export const isNotEmptyValue = (value: FormValue | undefined, spec: Spec | undef
         }
     }
 
-    if (_.isObject(value) && isObjectSpec(spec)) {
+    if (isObject(value) && isObjectSpec(spec)) {
         const keys = Object.keys(value);
 
         // the only case when an empty object is considered a non-empty value is when it is a stub for oneof
@@ -45,7 +50,7 @@ export const isNotEmptyValue = (value: FormValue | undefined, spec: Spec | undef
     }
 
     if (
-        _.isArray(value) &&
+        isArray(value) &&
         isArraySpec(spec) &&
         !value.filter((item) => isNotEmptyValue(item, spec.items)).length
     ) {
@@ -59,14 +64,14 @@ export const prepareSpec = <Type extends Spec>(
     spec: Type,
     parseJsonDefaultValue?: boolean,
 ): Type => {
-    if (_.isObjectLike(spec)) {
-        const result: Record<string, any> = _.cloneDeep(spec);
+    if (isObjectLike(spec)) {
+        const result: Record<string, any> = cloneDeep(spec);
 
-        if (_.isString(result.type)) {
+        if (isString(result.type)) {
             result.type = result.type.toLowerCase() as Spec['type'];
         }
 
-        if (!_.isNil(result.defaultValue)) {
+        if (!isNil(result.defaultValue)) {
             let _defaultValue = result.defaultValue;
 
             if (parseJsonDefaultValue) {
@@ -79,7 +84,7 @@ export const prepareSpec = <Type extends Spec>(
 
             if (
                 typeof _defaultValue === result.type ||
-                (_.isArray(_defaultValue) && result.type === SpecTypes.Array)
+                (isArray(_defaultValue) && result.type === SpecTypes.Array)
             ) {
                 result.defaultValue = _defaultValue;
             } else {
@@ -87,35 +92,35 @@ export const prepareSpec = <Type extends Spec>(
             }
         }
 
-        if (_.isString(result.viewSpec?.type)) {
+        if (isString(result.viewSpec?.type)) {
             result.viewSpec.type = result.viewSpec.type.toLowerCase();
         }
 
-        if (_.isString(result.viewSpec?.layout)) {
+        if (isString(result.viewSpec?.layout)) {
             result.viewSpec.layout = result.viewSpec.layout.toLowerCase();
         }
 
-        if (_.isString(result.viewSpec?.addButtonPosition)) {
+        if (isString(result.viewSpec?.addButtonPosition)) {
             result.viewSpec.addButtonPosition = result.viewSpec.addButtonPosition.toLowerCase();
         }
 
-        if (_.isString(result.viewSpec?.themeLabel)) {
+        if (isString(result.viewSpec?.themeLabel)) {
             result.viewSpec.textContentParams = {
                 ...result.viewSpec.textContentParams,
                 themeLabel: result.viewSpec.themeLabel.toLowerCase(),
             };
         }
 
-        if (_.isString(result.viewSpec?.oneOfParams?.toggler)) {
+        if (isString(result.viewSpec?.oneOfParams?.toggler)) {
             result.viewSpec.oneOfParams.toggler = result.viewSpec.oneOfParams.toggler.toLowerCase();
         }
 
-        if (_.isString(result.viewSpec?.textContentParams?.themeLabel)) {
+        if (isString(result.viewSpec?.textContentParams?.themeLabel)) {
             result.viewSpec.textContentParams.themeLabel =
                 result.viewSpec.textContentParams.themeLabel.toLowerCase();
         }
 
-        if (_.isString(result.validator)) {
+        if (isString(result.validator)) {
             result.validator = result.validator.toLowerCase();
         }
 
@@ -126,11 +131,11 @@ export const prepareSpec = <Type extends Spec>(
             result.maxLength = undefined;
             result.minLength = undefined;
         } else {
-            if (!_.isNil(result.maxLength) && isFloat(`${result.maxLength}`)) {
+            if (!isNil(result.maxLength) && isFloat(`${result.maxLength}`)) {
                 result.maxLength = BigInt(result.maxLength);
             }
 
-            if (!_.isNil(result.minLength) && isFloat(`${result.minLength}`)) {
+            if (!isNil(result.minLength) && isFloat(`${result.minLength}`)) {
                 result.minLength = BigInt(result.minLength);
             }
         }
@@ -143,20 +148,20 @@ export const prepareSpec = <Type extends Spec>(
             result.maximum = undefined;
             result.minimum = undefined;
         } else {
-            if (!_.isNil(result.maximum) && isFloat(`${result.maximum}`)) {
+            if (!isNil(result.maximum) && isFloat(`${result.maximum}`)) {
                 result.maximum = Number(result.maximum);
             }
 
-            if (!_.isNil(result.minimum) && isFloat(`${result.minimum}`)) {
+            if (!isNil(result.minimum) && isFloat(`${result.minimum}`)) {
                 result.minimum = Number(result.minimum);
             }
         }
 
-        if (_.isString(result.format)) {
+        if (isString(result.format)) {
             result.format = result.format.toLowerCase() as NumberSpec['format'];
         }
 
-        if (_.isObjectLike(result.properties)) {
+        if (isObjectLike(result.properties)) {
             Object.keys(result.properties).forEach((key) => {
                 result.properties[key] = prepareSpec(result.properties[key], parseJsonDefaultValue);
             });
@@ -173,8 +178,8 @@ export const isCorrectSizeParams = (spec: StringSpec) => {
 
     if (
         !sizeParams ||
-        !_.isString(sizeParams.defaultType) ||
-        !_.isObject(sizeParams.scale) ||
+        !isString(sizeParams.defaultType) ||
+        !isObject(sizeParams.scale) ||
         !sizeParams.scale[sizeParams.defaultType] ||
         Object.values(sizeParams.scale).some(({factor}) => !divide(factor, factor))
     ) {

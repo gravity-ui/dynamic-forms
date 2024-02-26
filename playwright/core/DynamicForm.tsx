@@ -2,7 +2,7 @@ import React from 'react';
 
 import {MobileProvider, ThemeProvider} from '@gravity-ui/uikit';
 
-import _ from 'lodash';
+import noop from 'lodash/noop';
 import {Form} from 'react-final-form';
 
 import {DynamicField} from '../../src/lib/core/components/Form/DynamicField';
@@ -15,7 +15,7 @@ export const DynamicForm = ({spec}: {spec: Spec}) => {
     return (
         <ThemeProvider>
             <MobileProvider>
-                <Form initialValues={{}} onSubmit={_.noop}>
+                <Form initialValues={{}} onSubmit={noop}>
                     {() => (
                         <DynamicField
                             name="input"

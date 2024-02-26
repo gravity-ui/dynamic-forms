@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Plus} from '@gravity-ui/icons';
 import {Button, Icon, Label} from '@gravity-ui/uikit';
-import _ from 'lodash';
+import set from 'lodash/set';
 
 import {
     ArrayInput,
@@ -66,11 +66,7 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
         (childName: string, childValue: FieldValue, childErrors?: Record<string, ValidateError>) =>
             input.onChange(
                 (currentValue) =>
-                    _.set(
-                        {...currentValue},
-                        childName.split(`${input.name}.`).join(''),
-                        childValue,
-                    ),
+                    set({...currentValue}, childName.split(`${input.name}.`).join(''), childValue),
                 childErrors,
             ),
         [input.onChange, input.name],

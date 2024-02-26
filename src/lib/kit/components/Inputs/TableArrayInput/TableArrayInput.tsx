@@ -2,7 +2,8 @@ import React from 'react';
 
 import {Plus, TrashBin} from '@gravity-ui/icons';
 import {Button, Icon, Table} from '@gravity-ui/uikit';
-import _ from 'lodash';
+import noop from 'lodash/noop';
+import set from 'lodash/set';
 
 import {
     ArrayInput,
@@ -56,11 +57,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
         (childName: string, childValue: FieldValue, childErrors?: Record<string, ValidateError>) =>
             input.onChange(
                 (currentValue) =>
-                    _.set(
-                        {...currentValue},
-                        childName.split(`${input.name}.`).join(''),
-                        childValue,
-                    ),
+                    set({...currentValue}, childName.split(`${input.name}.`).join(''), childValue),
                 childErrors,
             ),
         [input.onChange, input.name],
@@ -143,7 +140,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                             spec={preparedEntitySpec}
                             name={`${name}.<${key}>.${property}`}
                             parentOnChange={parentOnChange}
-                            parentOnUnmount={_.noop}
+                            parentOnUnmount={noop}
                         />
                     </div>
                 );

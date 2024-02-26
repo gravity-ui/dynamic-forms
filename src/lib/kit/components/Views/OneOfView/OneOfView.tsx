@@ -1,6 +1,6 @@
 import React from 'react';
 
-import _ from 'lodash';
+import isObjectLike from 'lodash/isObjectLike';
 
 import {GroupIndent} from '../../';
 import {ObjectIndependentView, ObjectIndependentViewProps, ViewController} from '../../../../core';
@@ -18,7 +18,7 @@ const OneOfViewComponent: React.FC<OneOfViewProps> = (props) => {
     const {value = {}, spec, Layout, name} = props;
 
     const specProperties = React.useMemo(
-        () => (_.isObjectLike(spec.properties) ? spec.properties! : {}),
+        () => (isObjectLike(spec.properties) ? spec.properties! : {}),
         [spec.properties],
     );
 

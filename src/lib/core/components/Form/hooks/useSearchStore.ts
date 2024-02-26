@@ -1,6 +1,7 @@
 import React from 'react';
 
-import _ from 'lodash';
+import isUndefined from 'lodash/isUndefined';
+import omit from 'lodash/omit';
 
 import {getParentName} from '../';
 
@@ -31,7 +32,7 @@ export const useSearchStore = () => {
                 }
             }
 
-            if (_.isUndefined(selfFlag)) {
+            if (isUndefined(selfFlag)) {
                 return false;
             }
 
@@ -45,7 +46,7 @@ export const useSearchStore = () => {
         setField: (name: string, search: boolean) =>
             setStore((store) => ({...store, [name]: search})),
         removeField: (name: string) => {
-            setStore((store) => _.omit(store, name));
+            setStore((store) => omit(store, name));
         },
         isHiddenField,
     };

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import _ from 'lodash';
+import once from 'lodash/once';
 
 import {DynamicViewContext} from '../types';
 
-const createContext = _.once(() => React.createContext({} as unknown as DynamicViewContext));
+const createContext = once(() => React.createContext({} as unknown as DynamicViewContext));
 
 export const useCreateContext = () => createContext();

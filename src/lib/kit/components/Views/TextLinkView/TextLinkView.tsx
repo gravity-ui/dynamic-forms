@@ -1,6 +1,6 @@
 import React from 'react';
 
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import {ObjectIndependentView, ViewController, isStringSpec} from '../../../../core';
 
@@ -12,7 +12,7 @@ export const TextLinkView: ObjectIndependentView = ({value, spec, name, Layout, 
             spec.properties?.[TEXT_LINK_PROPERTY_NAME] &&
             isStringSpec(spec.properties[TEXT_LINK_PROPERTY_NAME])
         ) {
-            const childSpec = _.cloneDeep(spec.properties[TEXT_LINK_PROPERTY_NAME]);
+            const childSpec = cloneDeep(spec.properties[TEXT_LINK_PROPERTY_NAME]);
 
             childSpec.viewSpec.layout = '';
             childSpec.viewSpec.link = value?.link;

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {render} from '@testing-library/react';
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import {UseRenderParams, useComponents, useRender} from '../';
 import {FormValue, Spec} from '../../../../../core';
@@ -58,7 +58,7 @@ describe('View/hooks/useRender', () => {
 
     test('incorrect name', () => {
         const mirror: UseRenderProps['mirror'] = {};
-        const _spec = _.cloneDeep(spec);
+        const _spec = cloneDeep(spec);
 
         _spec.viewSpec.type = 'base';
 
@@ -110,7 +110,7 @@ describe('View/hooks/useRender', () => {
 
     test('viewEntity and Layout found', () => {
         const mirror: UseRenderProps['mirror'] = {};
-        const _spec = _.cloneDeep(spec);
+        const _spec = cloneDeep(spec);
 
         _spec.viewSpec.type = 'base';
         _spec.viewSpec.layout = 'row';
@@ -130,7 +130,7 @@ describe('View/hooks/useRender', () => {
 
     test('viewEntity found', () => {
         const mirror: UseRenderProps['mirror'] = {};
-        const _spec = _.cloneDeep(spec);
+        const _spec = cloneDeep(spec);
 
         _spec.viewSpec.type = 'base';
 
@@ -148,7 +148,7 @@ describe('View/hooks/useRender', () => {
 
     test('incorrect Link', () => {
         const mirror: UseRenderProps['mirror'] = {};
-        const _spec = _.cloneDeep(spec);
+        const _spec = cloneDeep(spec);
 
         _spec.viewSpec.type = 'base';
         _spec.viewSpec.link = 'link';
@@ -169,7 +169,7 @@ describe('View/hooks/useRender', () => {
     test('correct Link', () => {
         const mirror: UseRenderProps['mirror'] = {};
         const Link = () => null;
-        const _spec = _.cloneDeep(spec);
+        const _spec = cloneDeep(spec);
 
         _spec.viewSpec.type = 'base';
         _spec.viewSpec.link = 'link';

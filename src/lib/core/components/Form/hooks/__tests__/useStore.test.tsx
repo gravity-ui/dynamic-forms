@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {act, render} from '@testing-library/react';
-import _ from 'lodash';
+import noop from 'lodash/noop';
+import omit from 'lodash/omit';
 import {Form} from 'react-final-form';
 
 import {dynamicConfig} from '../../../../../kit';
@@ -21,7 +22,7 @@ describe('Form/hooks/useStore', () => {
         const mirror: WonderMirror = {field: {}, controller: {}};
 
         render(
-            <Form initialValues={value} onSubmit={_.noop}>
+            <Form initialValues={value} onSubmit={noop}>
                 {() => (
                     <DynamicField
                         name={name}
@@ -41,7 +42,7 @@ describe('Form/hooks/useStore', () => {
         const mirror: WonderMirror = {field: {}, controller: {}};
 
         const {rerender} = render(
-            <Form initialValues={value} onSubmit={_.noop}>
+            <Form initialValues={value} onSubmit={noop}>
                 {() => (
                     <DynamicField
                         name={name}
@@ -59,7 +60,7 @@ describe('Form/hooks/useStore', () => {
         const nextName = `${name}.key`;
 
         rerender(
-            <Form initialValues={value} onSubmit={_.noop}>
+            <Form initialValues={value} onSubmit={noop}>
                 {() => (
                     <DynamicField
                         name={nextName}
@@ -79,7 +80,7 @@ describe('Form/hooks/useStore', () => {
         const mirror: WonderMirror = {field: {}, controller: {}};
 
         render(
-            <Form initialValues={value} onSubmit={_.noop}>
+            <Form initialValues={value} onSubmit={noop}>
                 {() => (
                     <DynamicField
                         name={name}
@@ -131,8 +132,8 @@ describe('Form/hooks/useStore', () => {
             mirror.field.useStore?.tools.onUnmount(unmountName);
         });
 
-        const nextValue1 = (_.omit(nextValue, unmountName) as typeof nextValue)[name];
-        const nextErrors1 = _.omit(
+        const nextValue1 = (omit(nextValue, unmountName) as typeof nextValue)[name];
+        const nextErrors1 = omit(
             nextErrors,
             Object.keys(nextErrors).filter((key) => key.startsWith(unmountName)),
         );

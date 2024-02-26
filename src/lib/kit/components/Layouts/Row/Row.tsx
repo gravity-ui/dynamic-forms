@@ -3,7 +3,6 @@ import React from 'react';
 import {HelpPopover} from '@gravity-ui/components';
 import {TrashBin} from '@gravity-ui/icons';
 import {Button, Icon, Text} from '@gravity-ui/uikit';
-import _ from 'lodash';
 
 import {
     FieldValue,

@@ -3,7 +3,8 @@ import React from 'react';
 import {ThemeProvider} from '@gravity-ui/uikit';
 import {act, render} from '@testing-library/react';
 import {FormApi} from 'final-form';
-import _ from 'lodash';
+import noop from 'lodash/noop';
+import values from 'lodash/values';
 import {Form, useForm} from 'react-final-form';
 
 import {ErrorMessages, dynamicConfig} from '../../../../kit';
@@ -159,7 +160,7 @@ test('Form/hooks/DynamicField', () => {
 
     render(
         <ThemeProvider>
-            <Form initialValues={{}} onSubmit={_.noop}>
+            <Form initialValues={{}} onSubmit={noop}>
                 {() => {
                     const Caller = () => {
                         form = useForm();
@@ -208,7 +209,7 @@ test('Form/hooks/DynamicField', () => {
     expect(form?.getState().values[name]).toMatchObject(value[name]);
     expect(mirror.field.useStore?.store.errors).toMatchObject(errors);
     expect(form?.getState().errors?.[name]).toBe(
-        _.values(mirror.field.useStore?.store.errors)
+        values(mirror.field.useStore?.store.errors)
             .reverse()
             .find((err) => Boolean(err)),
     );
@@ -246,7 +247,7 @@ test('Form/hooks/DynamicField', () => {
     expect(form?.getState().values[name]).toMatchObject(value1[name]);
     expect(mirror.field.useStore?.store.errors).toMatchObject(errors1);
     expect(form?.getState().errors?.[name]).toBe(
-        _.values(mirror.field.useStore?.store.errors)
+        values(mirror.field.useStore?.store.errors)
             .reverse()
             .find((err) => Boolean(err)),
     );
@@ -278,7 +279,7 @@ test('Form/hooks/DynamicField', () => {
     expect(form?.getState().values[name]).toMatchObject(value2[name]);
     expect(mirror.field.useStore?.store.errors).toMatchObject(errors2);
     expect(form?.getState().errors?.[name]).toBe(
-        _.values(mirror.field.useStore?.store.errors)
+        values(mirror.field.useStore?.store.errors)
             .reverse()
             .find((err) => Boolean(err)),
     );
@@ -299,7 +300,7 @@ test('Form/hooks/DynamicField', () => {
     expect(form?.getState().values[name]).toBe(value3[name]);
     expect(mirror.field.useStore?.store.errors).toMatchObject(errors3);
     expect(form?.getState().errors?.[name]).toBe(
-        _.values(mirror.field.useStore?.store.errors)
+        values(mirror.field.useStore?.store.errors)
             .reverse()
             .find((err) => Boolean(err)),
     );
@@ -351,7 +352,7 @@ test('Form/hooks/DynamicField', () => {
     expect(form?.getState().values[name]).toMatchObject(transformArrOut(value4)[name]);
     expect(mirror.field.useStore?.store.errors).toMatchObject(errors4);
     expect(form?.getState().errors?.[name]).toBe(
-        _.values(mirror.field.useStore?.store.errors)
+        values(mirror.field.useStore?.store.errors)
             .reverse()
             .find((err) => Boolean(err)),
     );
@@ -400,7 +401,7 @@ test('Form/hooks/DynamicField', () => {
     expect(form?.getState().values[name]).toMatchObject(transformArrOut(value5)[name]);
     expect(mirror.field.useStore?.store.errors).toMatchObject(errors5);
     expect(form?.getState().errors?.[name]).toBe(
-        _.values(mirror.field.useStore?.store.errors)
+        values(mirror.field.useStore?.store.errors)
             .reverse()
             .find((err) => Boolean(err)),
     );

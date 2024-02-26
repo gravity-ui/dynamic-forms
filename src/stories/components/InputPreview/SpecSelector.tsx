@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Select} from '@gravity-ui/uikit';
-import _ from 'lodash';
+import set from 'lodash/set';
 import {useField} from 'react-final-form';
 
 import {
@@ -55,7 +55,7 @@ export const SpecSelector: ObjectIndependentInput = (props) => {
             childValue: FieldValue,
             childErrors?: Record<string, ValidateError>,
         ) => {
-            const value = _.set({}, childName.split(`${props.input.name}.`).join(''), childValue);
+            const value = set({}, childName.split(`${props.input.name}.`).join(''), childValue);
 
             props.input.onChange(value, childErrors);
         },

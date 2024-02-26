@@ -2,7 +2,8 @@ import React from 'react';
 
 import {Plus} from '@gravity-ui/icons';
 import {Button, Icon} from '@gravity-ui/uikit';
-import _ from 'lodash';
+import isObjectLike from 'lodash/isObjectLike';
+import set from 'lodash/set';
 
 import {
     Controller,
@@ -53,7 +54,7 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
         (childName: string, childValue: FieldValue, childErrors?: Record<string, ValidateError>) =>
             restProps.input.onChange(
                 (currentValue) =>
-                    _.set(
+                    set(
                         {...currentValue},
                         childName.split(`${restProps.input.name}.`).join(''),
                         childValue,
@@ -66,7 +67,7 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
     const content = React.useMemo(() => {
         if (
             !spec.properties ||
-            !_.isObjectLike(spec.properties) ||
+            !isObjectLike(spec.properties) ||
             !Object.keys(spec.properties || {}).length
         ) {
             return null;

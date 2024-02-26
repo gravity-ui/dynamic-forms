@@ -1,6 +1,6 @@
 import React from 'react';
 
-import _ from 'lodash';
+import isObjectLike from 'lodash/isObjectLike';
 
 import {ObjectIndependentView, ObjectIndependentViewProps, ViewController} from '../../../../core';
 import {block, filterPropertiesForObjectInline} from '../../../utils';
@@ -20,7 +20,7 @@ export const ObjectBaseView: React.FC<ObjectBaseViewProps> = ({
     Layout,
     ...restProps
 }) => {
-    if (!spec.properties || !_.isObjectLike(spec.properties)) {
+    if (!spec.properties || !isObjectLike(spec.properties)) {
         return null;
     }
 

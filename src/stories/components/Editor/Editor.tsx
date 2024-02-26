@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {RadioButton, Switch, Text} from '@gravity-ui/uikit';
-import _ from 'lodash';
+import noop from 'lodash/noop';
 import {Form} from 'react-final-form';
 import MonacoEditor from 'react-monaco-editor';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
@@ -82,7 +82,7 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
             ({
                 input: {
                     value: JSON.stringify(value, null, 2),
-                    onChange: _.noop,
+                    onChange: noop,
                 },
                 spec: {viewSpec: {monacoParams: {language: 'json', fontSize: 11}, disabled: true}},
                 MonacoComponent: (props: MonacoEditorProps) => (
@@ -134,7 +134,7 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
                         </RadioButton.Option>
                     ))}
                 </RadioButton>
-                <Form initialValues={{input: value}} onSubmit={_.noop}>
+                <Form initialValues={{input: value}} onSubmit={noop}>
                     {(form) => (
                         <React.Fragment>
                             {ready ? (
