@@ -1,9 +1,9 @@
 import React from 'react';
 
-import _ from 'lodash';
+import once from 'lodash/once';
 
 import {SearchContext} from '../types';
 
-const createContext = _.once(() => React.createContext({} as unknown as SearchContext));
+const createContext = once(() => React.createContext({} as unknown as SearchContext));
 
 export const useCreateSearchContext = () => createContext();

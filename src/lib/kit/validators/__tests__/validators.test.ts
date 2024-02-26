@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import {ArraySpec, BooleanSpec, NumberSpec, ObjectSpec, SpecTypes, StringSpec} from '../../../core';
 import {ErrorMessages} from '../messages';
 import {

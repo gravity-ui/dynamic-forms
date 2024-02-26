@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {act, render} from '@testing-library/react';
-import _ from 'lodash';
+import isObjectLike from 'lodash/isObjectLike';
+import noop from 'lodash/noop';
 import {Form} from 'react-final-form';
 
 import {Spec} from '../../../../../core';
@@ -46,7 +47,7 @@ describe('Form/hooks/useSearchStore', () => {
         const mirror: WonderMirror = {field: {}, controller: {}};
 
         render(
-            <Form initialValues={value} onSubmit={_.noop}>
+            <Form initialValues={value} onSubmit={noop}>
                 {() => (
                     <DynamicField
                         name={name}
@@ -65,7 +66,7 @@ describe('Form/hooks/useSearchStore', () => {
         const mirror: WonderMirror = {field: {}, controller: {}};
 
         const {rerender} = render(
-            <Form initialValues={value} onSubmit={_.noop}>
+            <Form initialValues={value} onSubmit={noop}>
                 {() => (
                     <DynamicField
                         name={name}
@@ -86,7 +87,7 @@ describe('Form/hooks/useSearchStore', () => {
         });
 
         rerender(
-            <Form initialValues={value} onSubmit={_.noop}>
+            <Form initialValues={value} onSubmit={noop}>
                 {() => (
                     <DynamicField
                         name={name}
@@ -110,7 +111,7 @@ describe('Form/hooks/useSearchStore', () => {
     test('function search', () => {
         const mirror: WonderMirror = {field: {}, controller: {}};
         const searchFunction = (__: any, value: FieldValue) => {
-            if (_.isObjectLike(value)) {
+            if (isObjectLike(value)) {
                 return false;
             }
 
@@ -118,7 +119,7 @@ describe('Form/hooks/useSearchStore', () => {
         };
 
         const {rerender} = render(
-            <Form initialValues={value} onSubmit={_.noop}>
+            <Form initialValues={value} onSubmit={noop}>
                 {() => (
                     <DynamicField
                         name={name}
@@ -143,7 +144,7 @@ describe('Form/hooks/useSearchStore', () => {
         };
 
         rerender(
-            <Form initialValues={value} onSubmit={_.noop}>
+            <Form initialValues={value} onSubmit={noop}>
                 {() => (
                     <DynamicField
                         name={name}
@@ -168,7 +169,7 @@ describe('Form/hooks/useSearchStore', () => {
         const mirror: WonderMirror = {field: {}, controller: {}};
 
         render(
-            <Form initialValues={value} onSubmit={_.noop}>
+            <Form initialValues={value} onSubmit={noop}>
                 {() => (
                     <DynamicField
                         name={name}
@@ -211,7 +212,7 @@ describe('Form/hooks/useSearchStore', () => {
         const mirror: WonderMirror = {field: {}, controller: {}};
 
         const {rerender} = render(
-            <Form initialValues={value} onSubmit={_.noop}>
+            <Form initialValues={value} onSubmit={noop}>
                 {() => (
                     <DynamicField
                         name={name}
@@ -234,7 +235,7 @@ describe('Form/hooks/useSearchStore', () => {
         expect(mirror.field.useSearchStore?.isHiddenField('name.surname')).toBe(false);
 
         rerender(
-            <Form initialValues={value} onSubmit={_.noop}>
+            <Form initialValues={value} onSubmit={noop}>
                 {() => (
                     <DynamicField
                         name={name}

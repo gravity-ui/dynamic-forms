@@ -1,6 +1,10 @@
 import React from 'react';
 
-import _ from 'lodash';
+import clone from 'lodash/clone';
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
+import omit from 'lodash/omit';
+import set from 'lodash/set';
 import {useFormState} from 'react-final-form';
 
 import {DynamicFieldStore, FieldObjectValue, FieldValue, ValidateError} from '../types';
@@ -11,17 +15,17 @@ export const useStore = (name: string) => {
     const firstRenderRef = React.useRef(true);
     const [store, setStore] = React.useState<DynamicFieldStore>(() => {
         const values: FieldObjectValue = transformArrIn({
-            [name]: _.get(formState.values, name),
+            [name]: get(formState.values, name),
         });
 
         const initialValue = transformArrIn({
-            [name]: _.get(formState.initialValues, name),
+            [name]: get(formState.initialValues, name),
         });
 
         return {
             name,
-            initialValue: _.cloneDeep(initialValue),
-            values: _.cloneDeep(values),
+            initialValue: cloneDeep(initialValue),
+            values: cloneDeep(values),
             errors: {},
         };
     });
@@ -34,14 +38,14 @@ export const useStore = (name: string) => {
             onChange: (name: string, value: FieldValue, errors?: Record<string, ValidateError>) =>
                 setStore((store) => ({
                     ...store,
-                    values: _.set({...store.values}, name, _.clone(value)),
+                    values: set({...store.values}, name, clone(value)),
                     errors: errors || {},
                 })),
             onUnmount: (name: string) =>
                 setStore((store) => ({
                     ...store,
-                    values: _.omit(store.values, name),
-                    errors: _.omit(
+                    values: omit(store.values, name),
+                    errors: omit(
                         store.errors,
                         Object.keys(store.errors).filter((key) => key.startsWith(name)),
                     ),
@@ -54,17 +58,17 @@ export const useStore = (name: string) => {
     React.useEffect(() => {
         if (!firstRenderRef.current) {
             const values: FieldObjectValue = transformArrIn({
-                [name]: _.get(formState.values, name),
+                [name]: get(formState.values, name),
             });
 
             const initialValue = transformArrIn({
-                [name]: _.get(formState.initialValues, name),
+                [name]: get(formState.initialValues, name),
             });
 
             setStore({
                 name: name,
-                initialValue: _.cloneDeep(initialValue),
-                values: _.cloneDeep(values),
+                initialValue: cloneDeep(initialValue),
+                values: cloneDeep(values),
                 errors: {},
             });
         }

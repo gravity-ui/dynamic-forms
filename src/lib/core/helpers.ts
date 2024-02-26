@@ -1,17 +1,18 @@
-import _ from 'lodash';
+import isObjectLike from 'lodash/isObjectLike';
+import isString from 'lodash/isString';
 
 import {SpecTypes} from './constants';
 import {ArraySpec, BooleanSpec, NumberSpec, ObjectSpec, StringSpec} from './types';
 
 export const isCorrectSpec = (candidate: any) =>
-    _.isObjectLike(candidate) &&
+    isObjectLike(candidate) &&
     (candidate.type === SpecTypes.Array ||
         candidate.type === SpecTypes.Boolean ||
         candidate.type === SpecTypes.Number ||
         candidate.type === SpecTypes.Object ||
         candidate.type === SpecTypes.String) &&
-    _.isObjectLike(candidate.viewSpec) &&
-    _.isString(candidate.viewSpec.type);
+    isObjectLike(candidate.viewSpec) &&
+    isString(candidate.viewSpec.type);
 
 export const isArraySpec = (candidate: any): candidate is ArraySpec =>
     candidate?.type === SpecTypes.Array;

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Label} from '@gravity-ui/uikit';
-import _ from 'lodash';
+import map from 'lodash/map';
 
 import {ArrayView, Spec, ViewController, isCorrectSpec} from '../../../../core';
 import {block} from '../../../utils';
@@ -35,7 +35,7 @@ export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
 
     const items = React.useMemo(
         () =>
-            _.map(value, (__, idx) => {
+            map(value, (__, idx) => {
                 const itemSpec = getItemSpec(idx);
 
                 if (!itemSpec) {

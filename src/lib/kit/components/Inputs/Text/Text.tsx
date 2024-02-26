@@ -2,7 +2,7 @@ import React from 'react';
 
 import {PasswordInput} from '@gravity-ui/components';
 import {TextInput, TextInputProps as TextInputBaseProps} from '@gravity-ui/uikit';
-import _ from 'lodash';
+import isNil from 'lodash/isNil';
 
 import {FieldRenderProps, NumberInputProps, StringInputProps} from '../../../../core';
 
@@ -21,7 +21,7 @@ export const Text = <T extends NumberInputProps<TextProps> | StringInputProps<Te
     const props = {
         hasClear: true,
         ...inputProps,
-        value: _.isNil(value) ? '' : `${value}`,
+        value: isNil(value) ? '' : `${value}`,
         onBlur: onBlur,
         onFocus: onFocus,
         onUpdate: onChange as FieldRenderProps<string>['input']['onChange'],

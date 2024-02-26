@@ -2,7 +2,8 @@ import React from 'react';
 
 import {act, render} from '@testing-library/react';
 import {FormApi} from 'final-form';
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import noop from 'lodash/noop';
 import {Form, useForm} from 'react-final-form';
 
 import {ErrorMessages, dynamicConfig} from '../../../../../kit';
@@ -20,13 +21,13 @@ jest.mock('lodash/debounce', () => (f: Function) => f);
 describe('Form/hooks/useIntegrationFF', () => {
     test('values changed', () => {
         const mirror: WonderMirror = {field: {}, controller: {}};
-        const _spec = _.cloneDeep(spec);
+        const _spec = cloneDeep(spec);
         let form = null as FormApi | null;
 
         _spec.defaultValue = value[name];
 
         render(
-            <Form initialValues={{}} onSubmit={_.noop}>
+            <Form initialValues={{}} onSubmit={noop}>
                 {() => {
                     const Caller = () => {
                         form = useForm();
@@ -63,13 +64,13 @@ describe('Form/hooks/useIntegrationFF', () => {
 
     test('errors changed', () => {
         const mirror: WonderMirror = {field: {}, controller: {}};
-        const _spec = _.cloneDeep(spec);
+        const _spec = cloneDeep(spec);
         let form = null as FormApi | null;
 
         _spec.required = true;
 
         render(
-            <Form initialValues={value} onSubmit={_.noop}>
+            <Form initialValues={value} onSubmit={noop}>
                 {() => {
                     const Caller = () => {
                         form = useForm();

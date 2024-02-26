@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import {
     ObjectSpec,
@@ -20,7 +20,7 @@ import {
 } from './constants';
 
 export const transformCorrect = (spec: Spec) => {
-    const _spec = _.cloneDeep(spec);
+    const _spec = cloneDeep(spec);
 
     if (isArraySpec(_spec) && _spec.items) {
         _spec.items = {
@@ -71,7 +71,7 @@ export const transformCorrect = (spec: Spec) => {
 };
 
 export const transformIncorrect = (spec: Spec) => {
-    const _spec = _.cloneDeep(spec);
+    const _spec = cloneDeep(spec);
 
     if (isArraySpec(_spec) && _spec.items) {
         const incorrectItems = _spec.items as unknown as Record<SpecTypes, Spec>;

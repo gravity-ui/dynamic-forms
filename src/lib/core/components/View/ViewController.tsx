@@ -1,7 +1,5 @@
 import React from 'react';
 
-import _ from 'lodash';
-
 import {Spec} from '../../types';
 
 import {useComponents, useDynamicFormsCtx, useRender} from './hooks';

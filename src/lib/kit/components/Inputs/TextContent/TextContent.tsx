@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Label, Text} from '@gravity-ui/uikit';
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import {StringIndependentInputProps} from '../../../../core';
 import {block} from '../../../utils';
@@ -68,7 +68,7 @@ export const TextContent: React.FC<StringIndependentInputProps> = ({
     }
 
     if (Layout) {
-        const _spec = _.cloneDeep(spec);
+        const _spec = cloneDeep(spec);
 
         if (!textContentParams?.text) {
             _spec.viewSpec.layoutDescription = undefined;

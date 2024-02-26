@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 export const isInt = (value: string) => {
     const regex = /^(?:[-+]?(?:0|[1-9]\d*))$/;
 

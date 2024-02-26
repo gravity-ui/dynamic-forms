@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {Table} from '@gravity-ui/uikit';
-import _ from 'lodash';
 
 import {
     ArrayView,

@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {Select} from '@gravity-ui/uikit';
-import _ from 'lodash';
+import isObjectLike from 'lodash/isObjectLike';
+import set from 'lodash/set';
 
 import {
     Controller,
@@ -46,7 +47,7 @@ export const MultiOneOf: React.FC<MultiOneOfProps> = (props) => {
         ) => {
             onChange(
                 (currentValue) =>
-                    _.set({...currentValue}, childName.split(`${name}.`).join(''), childValue),
+                    set({...currentValue}, childName.split(`${name}.`).join(''), childValue),
                 childErrors,
             );
         },
@@ -54,7 +55,7 @@ export const MultiOneOf: React.FC<MultiOneOfProps> = (props) => {
     );
 
     const specProperties = React.useMemo(
-        () => (_.isObjectLike(spec.properties) ? spec.properties! : {}),
+        () => (isObjectLike(spec.properties) ? spec.properties! : {}),
         [spec.properties],
     );
 

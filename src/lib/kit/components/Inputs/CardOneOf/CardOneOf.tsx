@@ -1,6 +1,6 @@
 import React from 'react';
 
-import _ from 'lodash';
+import set from 'lodash/set';
 
 import {Card} from '../../';
 import {
@@ -50,7 +50,7 @@ export const CardOneOf: ObjectIndependentInput = (props) => {
             childValue: FieldValue,
             childErrors?: Record<string, ValidateError>,
         ) => {
-            const value = _.set({}, childName.split(`${input.name}.`).join(''), childValue);
+            const value = set({}, childName.split(`${input.name}.`).join(''), childValue);
 
             input.onChange(value, childErrors);
         },

@@ -3,7 +3,8 @@ import React from 'react';
 import {ThemeProvider} from '@gravity-ui/uikit';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import noop from 'lodash/noop';
 import {Form} from 'react-final-form';
 
 import {DynamicField, NumberSpec, Spec, SpecTypes, StringSpec} from '../../../../../core';
@@ -42,7 +43,7 @@ const SPEC_PASSWORD: StringSpec = {
 
 const DynamicForm = ({spec}: {spec: Spec}) => (
     <ThemeProvider>
-        <Form initialValues={{}} onSubmit={_.noop}>
+        <Form initialValues={{}} onSubmit={noop}>
             {() => <DynamicField name={NAME} spec={spec} config={dynamicConfig} />}
         </Form>
     </ThemeProvider>
@@ -117,7 +118,7 @@ describe('Text input', () => {
     });
 
     test('checking default values String spec', async () => {
-        const spec = _.cloneDeep(SPEC_STRING);
+        const spec = cloneDeep(SPEC_STRING);
         spec.defaultValue = 'default value';
 
         render(<DynamicForm spec={spec} />);
@@ -128,7 +129,7 @@ describe('Text input', () => {
     });
 
     test('checking default values Number spec', async () => {
-        const spec = _.cloneDeep(SPEC_NUMBER);
+        const spec = cloneDeep(SPEC_NUMBER);
         spec.defaultValue = 123;
 
         render(<DynamicForm spec={spec} />);
@@ -139,7 +140,7 @@ describe('Text input', () => {
     });
 
     test('disabled input check', async () => {
-        const spec = _.cloneDeep(SPEC_STRING);
+        const spec = cloneDeep(SPEC_STRING);
         spec.viewSpec.disabled = true;
 
         render(<DynamicForm spec={spec} />);

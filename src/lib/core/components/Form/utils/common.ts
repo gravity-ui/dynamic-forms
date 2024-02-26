@@ -1,4 +1,7 @@
-import _ from 'lodash';
+import forEach from 'lodash/forEach';
+import isArray from 'lodash/isArray';
+import isObject from 'lodash/isObject';
+import isObjectLike from 'lodash/isObjectLike';
 
 import {SpecTypes} from '../../../constants';
 import {isStringSpec} from '../../../helpers';
@@ -8,17 +11,17 @@ import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG, SPEC_TYPE_FOR_GENERATE_BUTTON} from
 export const isCorrectConfig = (candidate: any) =>
     Object.values(SpecTypes).every(
         (type) =>
-            _.isObjectLike(candidate) &&
-            _.isObjectLike(candidate[type]) &&
-            _.isObjectLike(candidate[type].inputs) &&
-            _.isObjectLike(candidate[type].layouts) &&
-            _.isObjectLike(candidate[type].validators),
+            isObjectLike(candidate) &&
+            isObjectLike(candidate[type]) &&
+            isObjectLike(candidate[type].inputs) &&
+            isObjectLike(candidate[type].layouts) &&
+            isObjectLike(candidate[type].validators),
     );
 
 export const transformArrIn = <Type extends FormValue, ReturnType extends FormValue = Type>(
     value: Type,
 ): ReturnType => {
-    if (_.isArray(value)) {
+    if (isArray(value)) {
         return value.reduce(
             (arrObj: ObjectValue, item, idx) => {
                 arrObj[`<${idx}>`] = transformArrIn(item);
@@ -29,10 +32,10 @@ export const transformArrIn = <Type extends FormValue, ReturnType extends FormVa
         ) as ReturnType;
     }
 
-    if (_.isObject(value)) {
+    if (isObject(value)) {
         const _value: ObjectValue = {...value};
 
-        _.forEach(_value, (item, key) => {
+        forEach(_value, (item, key) => {
             _value[key] = transformArrIn(item);
         });
 
@@ -45,7 +48,7 @@ export const transformArrIn = <Type extends FormValue, ReturnType extends FormVa
 export const transformArrOut = <Type extends FormValue, ReturnType extends FormValue = Type>(
     value: Type,
 ): ReturnType => {
-    if (_.isObject(value) && !_.isArray(value)) {
+    if (isObject(value) && !isArray(value)) {
         if ((value as ObjectValue)[OBJECT_ARRAY_FLAG]) {
             const _value = Object.keys(value)
                 .filter((key) => key !== OBJECT_ARRAY_FLAG && key !== OBJECT_ARRAY_CNT)
@@ -58,7 +61,7 @@ export const transformArrOut = <Type extends FormValue, ReturnType extends FormV
 
         const _value: ObjectValue = {...(value as ObjectValue)};
 
-        _.forEach(_value, (item, key) => {
+        forEach(_value, (item, key) => {
             _value[key] = transformArrOut(item);
         });
 

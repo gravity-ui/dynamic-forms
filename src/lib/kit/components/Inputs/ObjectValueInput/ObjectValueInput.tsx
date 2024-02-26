@@ -1,6 +1,7 @@
 import React from 'react';
 
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import set from 'lodash/set';
 
 import {Controller, FieldValue, ObjectIndependentInput, ValidateError} from '../../../../core';
 
@@ -13,7 +14,7 @@ export const ObjectValueInput: ObjectIndependentInput = (props) => {
         (childName: string, childValue: FieldValue, childErrors?: Record<string, ValidateError>) =>
             input.onChange(
                 (currentValue) =>
-                    _.set({...currentValue}, childName.split(`${name}.`).join(''), childValue),
+                    set({...currentValue}, childName.split(`${name}.`).join(''), childValue),
                 childErrors,
             ),
         [input.onChange, input.name],
@@ -21,7 +22,7 @@ export const ObjectValueInput: ObjectIndependentInput = (props) => {
 
     const childSpec = React.useMemo(() => {
         if (spec.properties?.[OBJECT_VALUE_PROPERTY_NAME]) {
-            const childSpec = _.cloneDeep(spec.properties[OBJECT_VALUE_PROPERTY_NAME]);
+            const childSpec = cloneDeep(spec.properties[OBJECT_VALUE_PROPERTY_NAME]);
 
             childSpec.viewSpec.layout = 'transparent';
 

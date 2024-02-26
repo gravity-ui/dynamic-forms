@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Button} from '@gravity-ui/uikit';
-import _ from 'lodash';
+import isFunction from 'lodash/isFunction';
 
 import {useGenerateRandomValue} from '../../../core/components/Form/hooks';
 import {StringSpec} from '../../../core/types';
@@ -23,7 +23,7 @@ export const GenerateRandomValueButton: React.FC<GenerateRandomValueButtonProps>
 }) => {
     const generateRandomValue = useGenerateRandomValue();
 
-    if (_.isFunction(generateRandomValue) && spec.viewSpec.generateRandomValueButton) {
+    if (isFunction(generateRandomValue) && spec.viewSpec.generateRandomValueButton) {
         return (
             <Button onClick={() => onChange(generateRandomValue(spec))} className={b()}>
                 {i18n('button-generate')}

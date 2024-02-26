@@ -1,7 +1,5 @@
 import React from 'react';
 
-import _ from 'lodash';
-
 import {FormValue, Spec, ViewLayoutProps} from '../../../../core';
 import {isNotEmptyValue} from '../../../utils';
 import {Group, Group2, Section, Section2} from '../../Layouts';

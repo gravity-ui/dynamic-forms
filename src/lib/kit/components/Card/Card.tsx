@@ -3,7 +3,7 @@ import React from 'react';
 import {HelpPopover} from '@gravity-ui/components';
 import {ChevronDown} from '@gravity-ui/icons';
 import {Button, Card as CardBase, Icon, Popover, Text} from '@gravity-ui/uikit';
-import _ from 'lodash';
+import isString from 'lodash/isString';
 
 import {COMMON_POPOVER_PLACEMENT, COMMON_TITLE_MAX_WIDTH} from '../../constants/common';
 import {block} from '../../utils';
@@ -71,7 +71,7 @@ export const Card: React.FC<CardProps> = ({
     const titlePopoverDisabled = (titleRef.current?.offsetWidth || 0) <= COMMON_TITLE_MAX_WIDTH;
 
     const title = React.useMemo(() => {
-        if (_.isString(propsTitle)) {
+        if (isString(propsTitle)) {
             return (
                 <React.Fragment>
                     <Popover

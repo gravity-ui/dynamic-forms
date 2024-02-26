@@ -1,7 +1,9 @@
 import React from 'react';
 
 import {render} from '@testing-library/react';
-import _ from 'lodash';
+
+import noop from 'lodash/noop';
+
 import {Form} from 'react-final-form';
 
 import {dynamicConfig} from '../../../../../kit';
@@ -45,7 +47,7 @@ describe('Form/hooks/useSearch', () => {
         const mirror: WonderMirror = {field: {}, controller: {}};
 
         const {rerender} = render(
-            <Form initialValues={value} onSubmit={_.noop}>
+            <Form initialValues={value} onSubmit={noop}>
                 {() => (
                     <DynamicField
                         name={name}
@@ -67,7 +69,7 @@ describe('Form/hooks/useSearch', () => {
         expect(mirror.controller['name.surname']?.useSearch?.(null)).toBe(null);
 
         rerender(
-            <Form initialValues={value} onSubmit={_.noop}>
+            <Form initialValues={value} onSubmit={noop}>
                 {() => (
                     <DynamicField
                         name={name}

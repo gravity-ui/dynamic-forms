@@ -1,7 +1,9 @@
 import React from 'react';
 
-import _ from 'lodash';
 import debounce from 'lodash/debounce';
+import get from 'lodash/get';
+import isFunction from 'lodash/isFunction';
+import values from 'lodash/values';
 import {Field as FinalFormField, useForm} from 'react-final-form';
 
 import {AsyncValidateError, BaseValidateError, DynamicFieldStore, FieldValue} from '../types';
@@ -19,9 +21,9 @@ export const useIntegrationFF = (store: DynamicFieldStore, withoutDebounce?: boo
                 const asyncErrors: AsyncValidateError[] = [];
                 let error: BaseValidateError;
 
-                _.values(store.errors).forEach((err) => {
+                values(store.errors).forEach((err) => {
                     if (err) {
-                        if (_.isFunction((err as AsyncValidateError)?.then)) {
+                        if (isFunction((err as AsyncValidateError)?.then)) {
                             asyncErrors.push(err as AsyncValidateError);
                         } else {
                             error = err as BaseValidateError;
@@ -43,7 +45,7 @@ export const useIntegrationFF = (store: DynamicFieldStore, withoutDebounce?: boo
     const change = React.useMemo(() => {
         const cb = (value: FieldValue) => {
             if (store.name) {
-                form.change(store.name, _.get(transformArrOut(value), store.name));
+                form.change(store.name, get(transformArrOut(value), store.name));
             }
         };
 
