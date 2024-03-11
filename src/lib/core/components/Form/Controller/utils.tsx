@@ -195,7 +195,7 @@ export const getValidate = <
 }: GetValidateParams<SpecType>) => {
     let validate: (value?: Value) => ValidateError = () => undefined;
 
-    if (isCorrectConfig(config) && isCorrectSpec(spec)) {
+    if (isCorrectConfig(config) && isCorrectSpec(spec) && !spec.viewSpec.hidden) {
         const {validators} = config[spec.type] as unknown as
             | TypeConfig<DirtyValue, Value, SpecType>
             | Record<string, undefined>;
