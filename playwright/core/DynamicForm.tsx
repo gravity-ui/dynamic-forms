@@ -1,7 +1,5 @@
 import React from 'react';
 
-import {MobileProvider, ThemeProvider} from '@gravity-ui/uikit';
-
 import _ from 'lodash';
 import {Form} from 'react-final-form';
 
@@ -13,19 +11,15 @@ export const DynamicForm = ({spec}: {spec: Spec}) => {
     const generateRandomValue = () => 'value';
 
     return (
-        <ThemeProvider>
-            <MobileProvider>
-                <Form initialValues={{}} onSubmit={_.noop}>
-                    {() => (
-                        <DynamicField
-                            name="input"
-                            spec={spec}
-                            config={dynamicConfig}
-                            generateRandomValue={generateRandomValue}
-                        />
-                    )}
-                </Form>
-            </MobileProvider>
-        </ThemeProvider>
+        <Form initialValues={{}} onSubmit={_.noop}>
+            {() => (
+                <DynamicField
+                    name="input"
+                    spec={spec}
+                    config={dynamicConfig}
+                    generateRandomValue={generateRandomValue}
+                />
+            )}
+        </Form>
     );
 };
