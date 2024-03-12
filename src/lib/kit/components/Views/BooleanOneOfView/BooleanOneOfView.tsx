@@ -37,7 +37,7 @@ export const BooleanOneOfView: React.FC<BooleanOneOfViewProps> = (props) => {
             return null;
         }
 
-        const _valueSpec = cloneDeep(spec.properties[OBJECT_VALUE_PROPERTY_NAME]);
+        const _valueSpec = cloneDeep(specProperties[OBJECT_VALUE_PROPERTY_NAME]);
 
         _valueSpec.viewSpec.layout = 'transparent';
 
@@ -53,7 +53,7 @@ export const BooleanOneOfView: React.FC<BooleanOneOfViewProps> = (props) => {
         }
 
         return <React.Fragment>{togglerInput}</React.Fragment>;
-    }, [Layout, name, props, spec.properties, specProperties]);
+    }, [Layout, name, props, specProperties]);
 
     const valueKey = React.useMemo(() => {
         const oneOfValue = String(value[OBJECT_VALUE_PROPERTY_NAME]);

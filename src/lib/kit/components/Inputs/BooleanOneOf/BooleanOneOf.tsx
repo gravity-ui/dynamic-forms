@@ -80,7 +80,7 @@ export const BooleanOneOf: React.FC<BooleanOneOfProps> = (props) => {
             return null;
         }
 
-        const _valueSpec = cloneDeep(spec.properties[OBJECT_VALUE_PROPERTY_NAME]);
+        const _valueSpec = cloneDeep(specProperties[OBJECT_VALUE_PROPERTY_NAME]);
 
         _valueSpec.viewSpec.layout = 'transparent';
 
@@ -106,7 +106,7 @@ export const BooleanOneOf: React.FC<BooleanOneOfProps> = (props) => {
         input.value,
         name,
         props,
-        spec.properties,
+        specProperties,
         valueSpec,
     ]);
 
