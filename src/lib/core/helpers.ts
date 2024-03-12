@@ -1,7 +1,7 @@
 import isObjectLike from 'lodash/isObjectLike';
 import isString from 'lodash/isString';
 
-import {SpecTypes} from './constants';
+import {BooleanOneOfValue, SpecTypes} from './constants';
 import {ArraySpec, BooleanSpec, NumberSpec, ObjectSpec, StringSpec} from './types';
 
 export const isCorrectSpec = (candidate: any) =>
@@ -28,3 +28,6 @@ export const isObjectSpec = (candidate: any): candidate is ObjectSpec =>
 
 export const isStringSpec = (candidate: any): candidate is StringSpec =>
     candidate?.type === SpecTypes.String;
+
+export const isBooleanOneOfValue = (value: string) =>
+    value === BooleanOneOfValue.FALSE || value === BooleanOneOfValue.TRUE;

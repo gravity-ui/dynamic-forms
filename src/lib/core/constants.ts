@@ -11,3 +11,8 @@ export type ReadAsMethod =
     | 'readAsBinaryString'
     | 'readAsDataURL'
     | 'readAsText';
+
+export enum BooleanOneOfValue {
+    FALSE = 'false',
+    TRUE = 'true',
+}

@@ -1,4 +1,5 @@
 export * from './ArrayBase';
+export * from './BooleanOneOf';
 export * from './CardOneOf';
 export * from './Checkbox';
 export * from './FileInput';

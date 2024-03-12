@@ -1,4 +1,5 @@
 export * from './ArrayBaseView';
+export * from './BooleanOneOfView';
 export * from './BaseView';
 export * from './CardOneOfView';
 export * from './FileInputView';
