@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {OBJECT_BASE, VALUE} from './helpers';
+import {OBJECT_BASE, OBJECT_INLINE, VALUE, VALUE_INLINE} from './helpers';
 
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
@@ -75,8 +75,36 @@ test.describe('Object Base', () => {
     });
 });
 
+test.describe('Object Inline', () => {
+    test('default', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicForm spec={OBJECT_INLINE.default} />);
+
+        await expectScreenshot();
+    });
+
+    test('delimiter', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicForm spec={OBJECT_INLINE.delimiter} />);
+
+        await expectScreenshot();
+    });
+});
+
 test('Object Base view', async ({mount, expectScreenshot}) => {
     await mount(<DynamicView spec={OBJECT_BASE.default} value={VALUE} />);
 
     await expectScreenshot();
+});
+
+test.describe('Object Inline view', () => {
+    test('default', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicView spec={OBJECT_INLINE.default} value={VALUE_INLINE} />);
+
+        await expectScreenshot();
+    });
+
+    test('delimiter', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicView spec={OBJECT_INLINE.delimiter} value={VALUE_INLINE} />);
+
+        await expectScreenshot();
+    });
 });

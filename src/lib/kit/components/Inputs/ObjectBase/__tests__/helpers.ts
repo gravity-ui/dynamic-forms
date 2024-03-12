@@ -408,7 +408,73 @@ export const OBJECT_BASE: Record<string, ObjectSpec> = {
     },
 };
 
+export const OBJECT_INLINE: Record<string, ObjectSpec> = {
+    default: {
+        type: SpecTypes.Object,
+        defaultValue: {type: 'first', name: 'Name'},
+        properties: {
+            type: {
+                type: SpecTypes.String,
+                enum: ['first', 'second', 'third'],
+                viewSpec: {
+                    type: 'select',
+                    placeholder: 'Choose type',
+                    layout: 'transparent',
+                    layoutTitle: 'Type',
+                },
+            },
+            name: {
+                type: SpecTypes.String,
+                viewSpec: {
+                    type: 'base',
+                    placeholder: 'Type your name',
+                    layout: 'transparent',
+                    layoutTitle: 'Name',
+                },
+            },
+        },
+        viewSpec: {
+            type: 'inline',
+            layout: 'row',
+            layoutTitle: 'Candidate',
+        },
+    },
+    delimiter: {
+        type: SpecTypes.Object,
+        defaultValue: {type: 'first', name: 'Name'},
+        properties: {
+            type: {
+                type: SpecTypes.String,
+                enum: ['first', 'second', 'third'],
+                viewSpec: {
+                    type: 'select',
+                    placeholder: 'Choose type',
+                    layout: 'transparent',
+                    layoutTitle: 'Type',
+                },
+            },
+            name: {
+                type: SpecTypes.String,
+                viewSpec: {
+                    type: 'base',
+                    placeholder: 'Type your name',
+                    layout: 'transparent',
+                    layoutTitle: 'Name',
+                },
+            },
+        },
+        viewSpec: {
+            type: 'inline',
+            layout: 'row',
+            layoutTitle: 'Candidate',
+            delimiter: ':',
+        },
+    },
+};
+
 export const VALUE: FormValue = {
     name: 'name',
     age: 10,
 };
+
+export const VALUE_INLINE: FormValue = {type: 'first', name: 'Name'};

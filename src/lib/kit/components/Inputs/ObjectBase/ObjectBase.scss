@@ -16,4 +16,11 @@
             }
         }
     }
+
+    &__delimiter {
+        display: flex;
+        margin-right: 8px;
+        align-items: center;
+        white-space: nowrap;
+    }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Plus} from '@gravity-ui/icons';
-import {Button, Icon} from '@gravity-ui/uikit';
+import {Button, Icon, Text} from '@gravity-ui/uikit';
 import isObjectLike from 'lodash/isObjectLike';
 import set from 'lodash/set';
 
@@ -81,28 +81,38 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
             ? filterPropertiesForObjectInline(spec.properties)
             : spec.properties;
 
+        const delimiter =
+            inline && spec.viewSpec.delimiter ? spec.viewSpec.delimiter.substring(0, 5) : null;
+
+        const orderProperties = spec.viewSpec.order || Object.keys(specProperties);
+
         return (
             <div className={b('content', {inline})}>
-                {(spec.viewSpec.order || Object.keys(specProperties)).map((property: string) =>
+                {orderProperties.map((property: string, idx: number) =>
                     specProperties[property] ? (
-                        <Controller
-                            value={restProps.input.value?.[property]}
-                            spec={specProperties[property]}
-                            name={`${name ? name + '.' : ''}${property}`}
-                            parentOnChange={parentOnChange}
-                            parentOnUnmount={restProps.input.parentOnUnmount}
-                            key={`${name ? name + '.' : ''}${property}`}
-                        />
+                        <React.Fragment key={`${name ? name + '.' : ''}${property}`}>
+                            <Controller
+                                value={restProps.input.value?.[property]}
+                                spec={specProperties[property]}
+                                name={`${name ? name + '.' : ''}${property}`}
+                                parentOnChange={parentOnChange}
+                                parentOnUnmount={restProps.input.parentOnUnmount}
+                            />
+                            {delimiter && orderProperties.length - 1 !== idx ? (
+                                <Text className={b('delimiter')}>{delimiter}</Text>
+                            ) : null}
+                        </React.Fragment>
                     ) : null,
                 )}
             </div>
         );
     }, [
         spec.properties,
+        spec.viewSpec.delimiter,
         spec.viewSpec.order,
+        inline,
         restProps.input.value,
         restProps.input.parentOnUnmount,
-        inline,
         addBtn,
         name,
         parentOnChange,

@@ -221,6 +221,11 @@ const itemPrefix: StringSpec = {
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Item Prefix'},
 };
 
+const delimiter: StringSpec = {
+    type: SpecTypes.String,
+    viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Delimiter'},
+};
+
 const addButtonPosition: StringSpec = {
     type: SpecTypes.String,
     enum: ['―', 'down', 'right'],
@@ -581,6 +586,7 @@ export const getObjectOptions = (): ObjectSpec => ({
                 oneOfParams,
                 placeholder,
                 hidden,
+                delimiter,
             },
             [
                 'disabled',
@@ -593,6 +599,7 @@ export const getObjectOptions = (): ObjectSpec => ({
                 'oneOfParams',
                 'placeholder',
                 'hidden',
+                'delimiter',
             ],
         ),
     },
