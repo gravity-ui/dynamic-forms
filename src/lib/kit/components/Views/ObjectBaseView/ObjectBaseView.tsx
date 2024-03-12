@@ -57,7 +57,7 @@ export const ObjectBaseView: React.FC<ObjectBaseViewProps> = ({
         );
     }, [inline, name, spec.properties, spec.viewSpec.delimiter, spec.viewSpec.order]);
 
-    if (!Layout) {
+    if (!Layout || !content) {
         return content;
     }
 
