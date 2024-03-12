@@ -16,6 +16,7 @@ import {
     transformArrIn,
 } from '../../../../core';
 import {block, filterPropertiesForObjectInline} from '../../../utils';
+import {MAX_LENGTH_DELIMITER} from '../../../constants';
 
 import './ObjectBase.scss';
 
@@ -82,7 +83,9 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
             : spec.properties;
 
         const delimiter =
-            inline && spec.viewSpec.delimiter ? spec.viewSpec.delimiter.substring(0, 5) : null;
+            inline && spec.viewSpec.delimiter
+                ? spec.viewSpec.delimiter.substring(0, MAX_LENGTH_DELIMITER)
+                : null;
 
         const orderProperties = spec.viewSpec.order || Object.keys(specProperties);
 
@@ -110,9 +113,9 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
         spec.properties,
         spec.viewSpec.delimiter,
         spec.viewSpec.order,
-        inline,
         restProps.input.value,
         restProps.input.parentOnUnmount,
+        inline,
         addBtn,
         name,
         parentOnChange,
