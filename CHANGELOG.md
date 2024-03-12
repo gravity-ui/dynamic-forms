@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.1](https://github.com/gravity-ui/dynamic-forms/compare/v4.0.0...v4.0.1) (2024-03-12)
+
+
+### Bug Fixes
+
+* add condition that removes validate of hidden fields ([#178](https://github.com/gravity-ui/dynamic-forms/issues/178)) ([bbd98e9](https://github.com/gravity-ui/dynamic-forms/commit/bbd98e9d44bb4b9c32ef28302d99760622d48325))
+
 ## [4.0.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.7.0...v4.0.0) (2024-02-19)
 
 
