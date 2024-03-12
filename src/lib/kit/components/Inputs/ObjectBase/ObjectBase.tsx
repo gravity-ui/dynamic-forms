@@ -16,7 +16,7 @@ import {
     transformArrIn,
 } from '../../../../core';
 import {block, filterPropertiesForObjectInline} from '../../../utils';
-import {MAX_LENGTH_DELIMITER} from '../../../constants';
+import {MAX_LENGTH_DELIMITER} from '../../../constants/common';
 
 import './ObjectBase.scss';
 
