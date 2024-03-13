@@ -492,6 +492,73 @@ export const ONEOF: Record<string, ObjectSpec> = {
             order: ['external', 'internal', 'empty'],
         },
     },
+    defaultCheckbox: {
+        type: SpecTypes.Object,
+        defaultValue: {
+            external: {
+                name: 'name',
+                age: 10,
+            },
+        },
+        properties: {
+            external: {
+                required: true,
+                type: SpecTypes.Object,
+                properties: {
+                    name: {
+                        type: SpecTypes.String,
+                        viewSpec: {
+                            type: 'base',
+                            layout: 'row',
+                            layoutTitle: 'Name',
+                        },
+                    },
+                    age: {
+                        type: SpecTypes.Number,
+                        viewSpec: {
+                            type: 'base',
+                            layout: 'row',
+                            layoutTitle: 'Age',
+                        },
+                    },
+                    license: {
+                        type: SpecTypes.Boolean,
+                        viewSpec: {
+                            type: 'base',
+                            layout: 'row',
+                            layoutTitle: 'License',
+                        },
+                    },
+                },
+                viewSpec: {
+                    type: 'base',
+                    layoutTitle: 'Person data',
+                },
+            },
+            internal: {
+                required: true,
+                type: SpecTypes.String,
+                viewSpec: {
+                    type: 'base',
+                    layout: 'row',
+                    layoutTitle: 'Person id',
+                },
+            },
+        },
+        viewSpec: {
+            type: 'oneof',
+            layout: 'row',
+            layoutTitle: 'Candidate',
+            order: ['external', 'internal'],
+            oneOfParams: {
+                toggler: 'checkbox',
+                booleanMap: {
+                    true: 'external',
+                    false: 'internal',
+                },
+            },
+        },
+    },
 };
 
 export const VALUE: Record<string, FormValue> = {
@@ -851,6 +918,70 @@ export const ONEOF_FALT: Record<string, ObjectSpec> = {
             layoutDescription: 'desription',
             layoutTitle: 'Candidate',
             order: ['external', 'internal', 'empty'],
+        },
+    },
+    defaultCheckbox: {
+        type: SpecTypes.Object,
+        defaultValue: {
+            internal: 'string',
+        },
+        properties: {
+            external: {
+                required: true,
+                type: SpecTypes.Object,
+                properties: {
+                    name: {
+                        type: SpecTypes.String,
+                        viewSpec: {
+                            type: 'base',
+                            layout: 'row',
+                            layoutTitle: 'Name',
+                        },
+                    },
+                    age: {
+                        type: SpecTypes.Number,
+                        viewSpec: {
+                            type: 'base',
+                            layout: 'row',
+                            layoutTitle: 'Age',
+                        },
+                    },
+                    license: {
+                        type: SpecTypes.Boolean,
+                        viewSpec: {
+                            type: 'base',
+                            layout: 'row',
+                            layoutTitle: 'License',
+                        },
+                    },
+                },
+                viewSpec: {
+                    type: 'base',
+                    layoutTitle: 'Person data',
+                },
+            },
+            internal: {
+                required: true,
+                type: SpecTypes.String,
+                viewSpec: {
+                    type: 'base',
+                    layout: 'row',
+                    layoutTitle: 'Person id',
+                },
+            },
+        },
+        viewSpec: {
+            type: 'oneof',
+            layout: 'row',
+            layoutTitle: 'Candidate',
+            order: ['external', 'internal'],
+            oneOfParams: {
+                toggler: 'checkbox',
+                booleanMap: {
+                    true: 'external',
+                    false: 'internal',
+                },
+            },
         },
     },
 };

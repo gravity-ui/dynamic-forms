@@ -72,7 +72,7 @@ const template = (spec: ObjectSpec = baseSpec) => {
 
 export const OneOf = template();
 
-export const Label = template({
+export const OneOfCheckbox = template({
     ...baseSpec,
     properties: {
         internal: {
@@ -104,9 +104,7 @@ export const Label = template({
         },
     },
     viewSpec: {
-        type: 'oneof',
-        layout: 'row',
-        layoutTitle: 'Candidate',
+        ...baseSpec.viewSpec,
         order: ['external', 'internal'],
         oneOfParams: {
             toggler: 'checkbox',
