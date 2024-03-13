@@ -61,6 +61,7 @@ const excludeOptions = [
     'viewSpec.itemLabel',
     'viewSpec.table',
     'viewSpec.oneOfParams',
+    'viewSpec.delimiter',
 ];
 
 const value = {

@@ -45,6 +45,10 @@ const baseSpec: ObjectSpec = {
         type: 'inline',
         layout: 'row',
         layoutTitle: 'Candidate',
+        delimiter: {
+            type: ':',
+            name: '-',
+        },
     },
 };
 

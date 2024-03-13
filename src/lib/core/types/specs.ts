@@ -123,6 +123,7 @@ export interface ObjectSpec<
         hidden?: boolean;
         inputProps?: InputComponentProps;
         layoutProps?: LayoutComponentProps;
+        delimiter?: Record<string, string>;
     };
 }
 
