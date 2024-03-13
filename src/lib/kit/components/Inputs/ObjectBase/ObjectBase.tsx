@@ -16,7 +16,6 @@ import {
     transformArrIn,
 } from '../../../../core';
 import {block, filterPropertiesForObjectInline} from '../../../utils';
-import {MAX_LENGTH_DELIMITER} from '../../../constants/common';
 
 import './ObjectBase.scss';
 
@@ -82,16 +81,12 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
             ? filterPropertiesForObjectInline(spec.properties)
             : spec.properties;
 
-        const delimiter =
-            inline && spec.viewSpec.delimiter
-                ? spec.viewSpec.delimiter.substring(0, MAX_LENGTH_DELIMITER)
-                : null;
-
+        const delimiter = spec.viewSpec.delimiter;
         const orderProperties = spec.viewSpec.order || Object.keys(specProperties);
 
         return (
             <div className={b('content', {inline})}>
-                {orderProperties.map((property: string, idx: number) =>
+                {orderProperties.map((property: string) =>
                     specProperties[property] ? (
                         <React.Fragment key={`${name ? name + '.' : ''}${property}`}>
                             <Controller
@@ -101,8 +96,8 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
                                 parentOnChange={parentOnChange}
                                 parentOnUnmount={restProps.input.parentOnUnmount}
                             />
-                            {delimiter && orderProperties.length - 1 !== idx ? (
-                                <Text className={b('delimiter')}>{delimiter}</Text>
+                            {delimiter && delimiter[property] ? (
+                                <Text className={b('delimiter')}>{delimiter[property]}</Text>
                             ) : null}
                         </React.Fragment>
                     ) : null,

@@ -5,7 +5,6 @@ import {Text} from '@gravity-ui/uikit';
 
 import {ObjectIndependentView, ObjectIndependentViewProps, ViewController} from '../../../../core';
 import {block, filterPropertiesForObjectInline} from '../../../utils';
-import {MAX_LENGTH_DELIMITER} from '../../../constants/common';
 
 import './ObjectBaseView.scss';
 
@@ -31,24 +30,20 @@ export const ObjectBaseView: React.FC<ObjectBaseViewProps> = ({
             ? filterPropertiesForObjectInline(spec.properties)
             : spec.properties;
 
-        const delimiter =
-            inline && spec.viewSpec.delimiter
-                ? spec.viewSpec.delimiter.substring(0, MAX_LENGTH_DELIMITER)
-                : null;
-
+        const delimiter = spec.viewSpec.delimiter;
         const orderProperties = spec.viewSpec.order || Object.keys(specProperties);
 
         return (
             <div className={b('content', {inline})}>
-                {orderProperties.map((property: string, idx: number) =>
+                {orderProperties.map((property: string) =>
                     specProperties[property] ? (
                         <React.Fragment key={`${name ? name + '.' : ''}${property}`}>
                             <ViewController
                                 spec={specProperties[property]}
                                 name={`${name ? name + '.' : ''}${property}`}
                             />
-                            {delimiter && orderProperties.length - 1 !== idx ? (
-                                <Text className={b('delimiter')}>{delimiter}</Text>
+                            {delimiter && delimiter[property] ? (
+                                <Text className={b('delimiter')}>{delimiter[property]}</Text>
                             ) : null}
                         </React.Fragment>
                     ) : null,

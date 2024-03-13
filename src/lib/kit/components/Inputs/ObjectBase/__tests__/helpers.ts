@@ -467,7 +467,7 @@ export const OBJECT_INLINE: Record<string, ObjectSpec> = {
             type: 'inline',
             layout: 'row',
             layoutTitle: 'Candidate',
-            delimiter: ':',
+            delimiter: {type: ':'},
         },
     },
 };
