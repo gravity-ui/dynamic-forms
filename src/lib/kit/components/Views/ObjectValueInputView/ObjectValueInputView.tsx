@@ -3,8 +3,7 @@ import React from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 
 import {ObjectIndependentView, ViewController} from '../../../../core';
-
-const OBJECT_VALUE_PROPERTY_NAME = 'value';
+import {OBJECT_VALUE_PROPERTY_NAME} from '../../../constants/common';
 
 export const ObjectValueInputView: ObjectIndependentView = ({spec, name, Layout, ...restProps}) => {
     const childSpec = React.useMemo(() => {
