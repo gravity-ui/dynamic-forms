@@ -2,27 +2,24 @@ import React from 'react';
 
 import {StoryFn} from '@storybook/react';
 
-import {BooleanOneOfFlat as BooleanOneOfFlatBase, ObjectSpec, SpecTypes} from '../lib';
+import {ObjectSpec, OneOf as OneOfBase, SpecTypes} from '../lib';
 
 import {InputPreview} from './components';
 
 export default {
-    title: 'Object/BooleanOneOfFlat',
-    component: BooleanOneOfFlatBase,
+    title: 'Object/OneOfCheckbox',
+    component: OneOfBase,
 };
 
 const baseSpec: ObjectSpec = {
     type: SpecTypes.Object,
     properties: {
-        value: {
-            type: SpecTypes.Boolean,
-            viewSpec: {type: 'base', layout: 'transparent', layoutTitle: ''},
-        },
-        true: {
+        internal: {
+            required: true,
             type: SpecTypes.String,
-            viewSpec: {type: 'textarea', layout: 'row', layoutTitle: 'Description'},
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Person id'},
         },
-        false: {
+        external: {
             required: true,
             type: SpecTypes.Object,
             properties: {
@@ -46,21 +43,28 @@ const baseSpec: ObjectSpec = {
         },
     },
     viewSpec: {
-        type: 'boolean_oneof_flat',
+        type: 'oneof_flat',
         layout: 'row',
         layoutTitle: 'Candidate',
-        order: ['value', 'false', 'true'],
+        order: ['external', 'internal'],
+        oneOfParams: {
+            toggler: 'checkbox',
+            booleanMap: {
+                true: 'external',
+                false: 'internal',
+            },
+        },
     },
 };
 
-const excludeOptions = ['viewSpec.type', 'viewSpec.placeholder', 'viewSpec.oneOfParams'];
+const excludeOptions = ['viewSpec.type', 'viewSpec.placeholder', 'description'];
 
 const template = (spec: ObjectSpec = baseSpec) => {
-    const Template: StoryFn<typeof BooleanOneOfFlatBase> = (__, {viewMode}) => (
+    const Template: StoryFn<typeof OneOfBase> = (__, {viewMode}) => (
         <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
     );
 
     return Template;
 };
 
-export const BooleanOneOfFlat = template();
+export const OneOfCheckbox = template();

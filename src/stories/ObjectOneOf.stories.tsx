@@ -71,3 +71,49 @@ const template = (spec: ObjectSpec = baseSpec) => {
 };
 
 export const OneOf = template();
+
+export const Label = template({
+    ...baseSpec,
+    properties: {
+        internal: {
+            required: true,
+            type: SpecTypes.String,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Person id'},
+        },
+        external: {
+            required: true,
+            type: SpecTypes.Object,
+            properties: {
+                name: {
+                    type: SpecTypes.String,
+                    viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Name'},
+                },
+                age: {
+                    type: SpecTypes.Number,
+                    viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Age'},
+                },
+                license: {
+                    type: SpecTypes.Boolean,
+                    viewSpec: {type: 'base', layout: 'row', layoutTitle: 'License'},
+                },
+            },
+            viewSpec: {
+                type: 'base',
+                layoutTitle: 'Person data',
+            },
+        },
+    },
+    viewSpec: {
+        type: 'oneof',
+        layout: 'row',
+        layoutTitle: 'Candidate',
+        order: ['external', 'internal'],
+        oneOfParams: {
+            toggler: 'checkbox',
+            booleanMap: {
+                true: 'external',
+                false: 'internal',
+            },
+        },
+    },
+});

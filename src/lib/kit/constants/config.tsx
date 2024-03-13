@@ -5,10 +5,6 @@ import {
     ArrayBase,
     ArrayBaseView,
     BaseView,
-    BooleanOneOf,
-    BooleanOneOfFlat,
-    BooleanOneOfView,
-    BooleanOneOfViewFlat,
     CardAccordeon,
     CardOneOf,
     CardOneOfView,
@@ -141,8 +137,6 @@ export const dynamicConfig: DynamicFormConfig = {
             multi_oneof: {Component: MultiOneOf, independent: true},
             multi_oneof_flat: {Component: MultiOneOfFlat, independent: true},
             inline: {Component: ObjectInline, independent: true},
-            boolean_oneof: {Component: BooleanOneOf, independent: true},
-            boolean_oneof_flat: {Component: BooleanOneOfFlat, independent: true},
         },
         layouts: {
             row: Row,
@@ -247,8 +241,6 @@ export const dynamicViewConfig: DynamicViewConfig = {
             multi_oneof: {Component: MultiOneOfView, independent: true},
             multi_oneof_flat: {Component: MultiOneOfFlatView, independent: true},
             inline: {Component: ObjectInlineView, independent: true},
-            boolean_oneof: {Component: BooleanOneOfView, independent: true},
-            boolean_oneof_flat: {Component: BooleanOneOfViewFlat, independent: true},
         },
         layouts: {
             row: ViewRow,

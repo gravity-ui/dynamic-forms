@@ -366,6 +366,33 @@ const oneOfParams: ObjectSpec = {
             enum: ['―', 'radio', 'select', 'card'],
             viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Switch type'},
         },
+        booleanMap: {
+            type: SpecTypes.Object,
+            properties: {
+                true: {
+                    type: SpecTypes.String,
+                    viewSpec: {
+                        type: 'base',
+                        layout: 'row',
+                        layoutTitle: 'True property',
+                    },
+                },
+                false: {
+                    type: SpecTypes.String,
+                    viewSpec: {
+                        type: 'base',
+                        layout: 'row',
+                        layoutTitle: 'False property',
+                    },
+                },
+            },
+            viewSpec: {
+                type: 'base',
+                layout: 'accordeon',
+                layoutTitle: 'Boolean Map',
+                layoutOpen: true,
+            },
+        },
     },
     viewSpec: {
         type: 'base',
