@@ -1,6 +1,7 @@
 import React from 'react';
 
-import _ from 'lodash';
+import {Text} from '@gravity-ui/uikit';
+import isObjectLike from 'lodash/isObjectLike';
 
 import {ObjectIndependentView, ObjectIndependentViewProps, ViewController} from '../../../../core';
 import {block, filterPropertiesForObjectInline} from '../../../utils';
@@ -20,29 +21,38 @@ export const ObjectBaseView: React.FC<ObjectBaseViewProps> = ({
     Layout,
     ...restProps
 }) => {
-    if (!spec.properties || !_.isObjectLike(spec.properties)) {
-        return null;
-    }
+    const content = React.useMemo(() => {
+        if (!spec.properties || !isObjectLike(spec.properties)) {
+            return null;
+        }
 
-    const specProperties = inline
-        ? filterPropertiesForObjectInline(spec.properties)
-        : spec.properties;
+        const specProperties = inline
+            ? filterPropertiesForObjectInline(spec.properties)
+            : spec.properties;
 
-    const content = (
-        <div className={b('content', {inline})}>
-            {(spec.viewSpec.order || Object.keys(specProperties)).map((property: string) =>
-                specProperties[property] ? (
-                    <ViewController
-                        spec={specProperties[property]}
-                        name={`${name ? name + '.' : ''}${property}`}
-                        key={`${name ? name + '.' : ''}${property}`}
-                    />
-                ) : null,
-            )}
-        </div>
-    );
+        const delimiter = spec.viewSpec.delimiter;
+        const orderProperties = spec.viewSpec.order || Object.keys(specProperties);
 
-    if (!Layout) {
+        return (
+            <div className={b('content', {inline})}>
+                {orderProperties.map((property: string) =>
+                    specProperties[property] ? (
+                        <React.Fragment key={`${name ? name + '.' : ''}${property}`}>
+                            <ViewController
+                                spec={specProperties[property]}
+                                name={`${name ? name + '.' : ''}${property}`}
+                            />
+                            {delimiter && delimiter[property] ? (
+                                <Text className={b('delimiter')}>{delimiter[property]}</Text>
+                            ) : null}
+                        </React.Fragment>
+                    ) : null,
+                )}
+            </div>
+        );
+    }, [inline, name, spec.properties, spec.viewSpec.delimiter, spec.viewSpec.order]);
+
+    if (!Layout || !content) {
         return content;
     }
 
