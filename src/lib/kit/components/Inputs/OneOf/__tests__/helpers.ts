@@ -971,7 +971,7 @@ export const ONEOF_FALT: Record<string, ObjectSpec> = {
             },
         },
         viewSpec: {
-            type: 'oneof',
+            type: 'oneof_flat',
             layout: 'row',
             layoutTitle: 'Candidate',
             order: ['external', 'internal'],
