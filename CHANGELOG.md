@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.8.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.7.0...v3.8.0) (2024-03-14)
+
+
+### Features
+
+* update inputs  ([#187](https://github.com/gravity-ui/dynamic-forms/issues/187)) ([a6cebc3](https://github.com/gravity-ui/dynamic-forms/commit/a6cebc3e42f62948cb4fb16fb80c8d0d120be7b7))
+
 ## [3.7.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.6.1...v3.7.0) (2024-02-16)
 
 
