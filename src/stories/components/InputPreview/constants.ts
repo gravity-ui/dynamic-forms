@@ -211,6 +211,11 @@ const layoutOpen: BooleanSpec = {
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Layout open'},
 };
 
+const tableWordWrap: BooleanSpec = {
+    type: SpecTypes.Boolean,
+    viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Table word wrap'},
+};
+
 const itemLabel: StringSpec = {
     type: SpecTypes.String,
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Item label'},
@@ -502,6 +507,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 itemLabel,
                 itemPrefix,
                 table,
+                tableWordWrap,
                 placeholder,
                 addButtonPosition,
                 hidden,
@@ -517,6 +523,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 'itemLabel',
                 'itemPrefix',
                 'table',
+                'tableWordWrap',
                 'placeholder',
                 'addButtonPosition',
                 'hidden',
