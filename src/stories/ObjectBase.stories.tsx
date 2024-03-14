@@ -37,7 +37,12 @@ const baseSpec: ObjectSpec = {
 
 const value = {name: 'Foo', age: 13, license: false};
 
-const excludeOptions = ['description', 'viewSpec.type', 'viewSpec.oneOfParams'];
+const excludeOptions = [
+    'description',
+    'viewSpec.type',
+    'viewSpec.oneOfParams',
+    'viewSpec.delimiter',
+];
 
 const template = (spec: ObjectSpec = baseSpec) => {
     const Template: StoryFn<typeof ObjectBase> = (__, {viewMode}) => (

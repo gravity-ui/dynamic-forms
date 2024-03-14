@@ -59,7 +59,7 @@ const baseSpec: ObjectSpec = {
     },
 };
 
-const excludeOptions = ['viewSpec.type', 'viewSpec.placeholder'];
+const excludeOptions = ['viewSpec.type', 'viewSpec.placeholder', 'viewSpec.delimiter'];
 
 const template = (spec: ObjectSpec = baseSpec) => {
     const Template: StoryFn<typeof CardOneOfBase> = (__, {viewMode}) => (
