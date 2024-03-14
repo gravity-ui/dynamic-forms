@@ -26,4 +26,10 @@
             margin-right: 8px;
         }
     }
+
+    &__checkbox {
+        height: 28px;
+        display: flex;
+        align-items: center;
+    }
 }
