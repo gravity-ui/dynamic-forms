@@ -50,6 +50,12 @@ test.describe('OneOf', () => {
             await expectScreenshot();
         });
     });
+
+    test('toggler checkbox default', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicForm spec={ONEOF.defaultCheckbox} />);
+
+        await expectScreenshot();
+    });
 });
 
 test.describe('OneOf view', () => {
@@ -77,6 +83,12 @@ test.describe('OneOf view', () => {
 
             await expectScreenshot();
         });
+    });
+
+    test('toggler checkbox default', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicView spec={ONEOF.defaultCheckbox} value={VALUE.object} />);
+
+        await expectScreenshot();
     });
 });
 
@@ -112,6 +124,12 @@ test.describe('OneOf Flat', () => {
             await expectScreenshot();
         });
     });
+
+    test('toggler checkbox default', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicForm spec={ONEOF_FALT.defaultCheckbox} />);
+
+        await expectScreenshot();
+    });
 });
 
 test.describe('OneOf Flat view', () => {
@@ -139,5 +157,11 @@ test.describe('OneOf Flat view', () => {
 
             await expectScreenshot();
         });
+    });
+
+    test('toggler checkbox default', async ({mount, expectScreenshot}) => {
+        await mount(<DynamicView spec={ONEOF_FALT.defaultCheckbox} value={VALUE.string} />);
+
+        await expectScreenshot();
     });
 });

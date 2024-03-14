@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import {GroupIndent} from '../../';
 import {ObjectIndependentView, ObjectIndependentViewProps, ViewController} from '../../../../core';
-import {block} from '../../../utils';
+import {block, objectKeys} from '../../../utils';
 
 import './OneOfView.scss';
 
@@ -22,15 +22,30 @@ const OneOfViewComponent: React.FC<OneOfViewProps> = (props) => {
         [spec.properties],
     );
 
+    const specBooleanMap = React.useMemo(
+        () => spec.viewSpec.oneOfParams?.booleanMap,
+        [spec.viewSpec.oneOfParams?.booleanMap],
+    );
+
     const valueKey = React.useMemo(() => Object.keys(value)[0], [value]);
 
     const valueName = React.useMemo(() => {
+        if (spec.viewSpec.oneOfParams?.toggler === 'checkbox' && specBooleanMap) {
+            return objectKeys(specBooleanMap).find((key) => specBooleanMap[key] === valueKey);
+        }
+
         return (
             spec.description?.[valueKey] ||
             specProperties[valueKey]?.viewSpec.layoutTitle ||
             valueKey
         );
-    }, [valueKey, spec.description, specProperties]);
+    }, [
+        valueKey,
+        spec.description,
+        specProperties,
+        spec.viewSpec.oneOfParams?.toggler,
+        specBooleanMap,
+    ]);
 
     const wrappedValue = React.useMemo(() => {
         if (Layout) {
