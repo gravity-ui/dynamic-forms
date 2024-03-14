@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.1.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.0.1...v4.1.0) (2024-03-14)
+
+
+### Features
+
+* **BooleanOneOf:** add new input BooleanOneOf ([#182](https://github.com/gravity-ui/dynamic-forms/issues/182)) ([b859136](https://github.com/gravity-ui/dynamic-forms/commit/b85913687c9198dc655ca5f49126090f9be35e86))
+* **Delimiter:** add delimiter for object inline ([#181](https://github.com/gravity-ui/dynamic-forms/issues/181)) ([5012d5d](https://github.com/gravity-ui/dynamic-forms/commit/5012d5dc93a2daeaaf7df737ac5707fa35c144b2))
+
 ## [4.0.1](https://github.com/gravity-ui/dynamic-forms/compare/v4.0.0...v4.0.1) (2024-03-12)
 
 
