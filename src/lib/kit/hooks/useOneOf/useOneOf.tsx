@@ -1,11 +1,12 @@
 import React from 'react';
 
-import {RadioButton, Select} from '@gravity-ui/uikit';
-import _ from 'lodash';
+import {Checkbox, RadioButton, Select} from '@gravity-ui/uikit';
+import isObjectLike from 'lodash/isObjectLike';
+import some from 'lodash/some';
 
 import {ObjectIndependentInputProps} from '../../../core';
 import {TogglerCard} from '../../components';
-import {block} from '../../utils';
+import {block, objectKeys} from '../../utils';
 
 import './useOneOf.scss';
 
@@ -22,14 +23,19 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
     const {name, input, spec, Layout} = props;
 
     const specProperties = React.useMemo(
-        () => (_.isObjectLike(spec.properties) ? spec.properties! : {}),
+        () => (isObjectLike(spec.properties) ? spec.properties! : {}),
         [spec.properties],
+    );
+
+    const specBooleanMap = React.useMemo(
+        () => spec.viewSpec.oneOfParams?.booleanMap,
+        [spec.viewSpec.oneOfParams?.booleanMap],
     );
 
     const [oneOfValue, setOneOfValue] = React.useState(() => {
         let valueKeys: string[] | undefined;
 
-        if (_.isObjectLike(input.value)) {
+        if (isObjectLike(input.value)) {
             const keys = Object.keys(input.value);
 
             if (keys.length) {
@@ -50,6 +56,30 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
         },
         [setOneOfValue, input.onChange, oneOfValue],
     );
+
+    const onCheckboxChange = React.useCallback(
+        (checked: boolean) => {
+            if (specBooleanMap) {
+                const value = String(checked) as 'true' | 'false';
+                const newValue = specBooleanMap[value];
+
+                onOneOfChange([newValue]);
+            }
+        },
+        [onOneOfChange, specBooleanMap],
+    );
+
+    const checkboxValue = React.useMemo(() => {
+        if (specBooleanMap) {
+            const keyBooleanMap = objectKeys(specBooleanMap).find(
+                (key) => specBooleanMap[key] === oneOfValue,
+            );
+
+            return keyBooleanMap === 'true';
+        }
+
+        return undefined;
+    }, [oneOfValue, specBooleanMap]);
 
     const options = React.useMemo(
         () =>
@@ -78,13 +108,21 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
             spec.viewSpec.oneOfParams?.toggler !== 'radio' &&
             (spec.viewSpec.oneOfParams?.toggler === 'select' ||
                 options.length > 3 ||
-                _.some(options, ({title}) => title.length > MAX_TAB_TITLE_LENGTH))
+                some(options, ({title}) => title.length > MAX_TAB_TITLE_LENGTH))
         ) {
             return 'select';
         }
 
+        if (
+            spec.viewSpec.oneOfParams?.toggler === 'checkbox' &&
+            options.length === 2 &&
+            specBooleanMap
+        ) {
+            return 'checkbox';
+        }
+
         return 'radio';
-    }, [options, spec.viewSpec.oneOfParams?.toggler]);
+    }, [options, spec.viewSpec.oneOfParams?.toggler, specBooleanMap]);
 
     const togglerInput = React.useMemo(() => {
         if (togglerType === 'card') {
@@ -125,6 +163,19 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
             );
         }
 
+        if (togglerType === 'checkbox') {
+            return (
+                <div className={b('checkbox')}>
+                    <Checkbox
+                        checked={checkboxValue}
+                        onUpdate={onCheckboxChange}
+                        disabled={spec.viewSpec.disabled}
+                        qa={name}
+                    />
+                </div>
+            );
+        }
+
         return (
             <RadioButton
                 value={oneOfValue}
@@ -143,10 +194,13 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
         togglerType,
         oneOfValue,
         spec.viewSpec.disabled,
+        spec.description,
         name,
         options,
         onOneOfChange,
         specProperties,
+        onCheckboxChange,
+        checkboxValue,
     ]);
 
     const toggler = React.useMemo(() => {

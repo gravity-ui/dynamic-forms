@@ -1,8 +1,9 @@
 import React from 'react';
 
 import {Plus} from '@gravity-ui/icons';
-import {Button, Icon} from '@gravity-ui/uikit';
-import _ from 'lodash';
+import {Button, Icon, Text} from '@gravity-ui/uikit';
+import isObjectLike from 'lodash/isObjectLike';
+import set from 'lodash/set';
 
 import {
     Controller,
@@ -53,7 +54,7 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
         (childName: string, childValue: FieldValue, childErrors?: Record<string, ValidateError>) =>
             restProps.input.onChange(
                 (currentValue) =>
-                    _.set(
+                    set(
                         {...currentValue},
                         childName.split(`${restProps.input.name}.`).join(''),
                         childValue,
@@ -66,7 +67,7 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
     const content = React.useMemo(() => {
         if (
             !spec.properties ||
-            !_.isObjectLike(spec.properties) ||
+            !isObjectLike(spec.properties) ||
             !Object.keys(spec.properties || {}).length
         ) {
             return null;
@@ -80,24 +81,32 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
             ? filterPropertiesForObjectInline(spec.properties)
             : spec.properties;
 
+        const delimiter = spec.viewSpec.delimiter;
+        const orderProperties = spec.viewSpec.order || Object.keys(specProperties);
+
         return (
             <div className={b('content', {inline})}>
-                {(spec.viewSpec.order || Object.keys(specProperties)).map((property: string) =>
+                {orderProperties.map((property: string) =>
                     specProperties[property] ? (
-                        <Controller
-                            value={restProps.input.value?.[property]}
-                            spec={specProperties[property]}
-                            name={`${name ? name + '.' : ''}${property}`}
-                            parentOnChange={parentOnChange}
-                            parentOnUnmount={restProps.input.parentOnUnmount}
-                            key={`${name ? name + '.' : ''}${property}`}
-                        />
+                        <React.Fragment key={`${name ? name + '.' : ''}${property}`}>
+                            <Controller
+                                value={restProps.input.value?.[property]}
+                                spec={specProperties[property]}
+                                name={`${name ? name + '.' : ''}${property}`}
+                                parentOnChange={parentOnChange}
+                                parentOnUnmount={restProps.input.parentOnUnmount}
+                            />
+                            {delimiter && delimiter[property] ? (
+                                <Text className={b('delimiter')}>{delimiter[property]}</Text>
+                            ) : null}
+                        </React.Fragment>
                     ) : null,
                 )}
             </div>
         );
     }, [
         spec.properties,
+        spec.viewSpec.delimiter,
         spec.viewSpec.order,
         restProps.input.value,
         restProps.input.parentOnUnmount,

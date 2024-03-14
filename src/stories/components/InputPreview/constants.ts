@@ -221,6 +221,33 @@ const itemPrefix: StringSpec = {
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Item Prefix'},
 };
 
+const delimiter: ArraySpec = {
+    type: SpecTypes.Array,
+    items: {
+        type: SpecTypes.Object,
+        properties: {
+            property: {
+                type: SpecTypes.String,
+                viewSpec: {type: 'base', layout: 'table_item'},
+            },
+            delimiter: {
+                type: SpecTypes.String,
+                viewSpec: {type: 'base', layout: 'table_item'},
+            },
+        },
+        viewSpec: {type: ''},
+    },
+    viewSpec: {
+        type: 'table',
+        layout: 'accordeon',
+        layoutTitle: 'Delimiter',
+        table: [
+            {label: 'Property', property: 'property'},
+            {label: 'Delimiter', property: 'delimiter'},
+        ],
+    },
+};
+
 const addButtonPosition: StringSpec = {
     type: SpecTypes.String,
     enum: ['―', 'down', 'right'],
@@ -363,8 +390,35 @@ const oneOfParams: ObjectSpec = {
     properties: {
         toggler: {
             type: SpecTypes.String,
-            enum: ['―', 'radio', 'select', 'card'],
+            enum: ['―', 'radio', 'select', 'card', 'checkbox'],
             viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Switch type'},
+        },
+        booleanMap: {
+            type: SpecTypes.Object,
+            properties: {
+                true: {
+                    type: SpecTypes.String,
+                    viewSpec: {
+                        type: 'base',
+                        layout: 'row',
+                        layoutTitle: 'True property',
+                    },
+                },
+                false: {
+                    type: SpecTypes.String,
+                    viewSpec: {
+                        type: 'base',
+                        layout: 'row',
+                        layoutTitle: 'False property',
+                    },
+                },
+            },
+            viewSpec: {
+                type: 'base',
+                layout: 'accordeon',
+                layoutTitle: 'Boolean Map',
+                layoutOpen: true,
+            },
         },
     },
     viewSpec: {
@@ -581,6 +635,7 @@ export const getObjectOptions = (): ObjectSpec => ({
                 oneOfParams,
                 placeholder,
                 hidden,
+                delimiter,
             },
             [
                 'disabled',
@@ -593,6 +648,7 @@ export const getObjectOptions = (): ObjectSpec => ({
                 'oneOfParams',
                 'placeholder',
                 'hidden',
+                'delimiter',
             ],
         ),
     },

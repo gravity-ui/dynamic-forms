@@ -118,12 +118,14 @@ export interface ObjectSpec<
         order?: string[];
         link?: LinkType;
         oneOfParams?: {
-            toggler?: 'select' | 'radio' | 'card';
+            toggler?: 'select' | 'radio' | 'card' | 'checkbox';
+            booleanMap?: Record<'true' | 'false', string>;
         };
         placeholder?: string;
         hidden?: boolean;
         inputProps?: InputComponentProps;
         layoutProps?: LayoutComponentProps;
+        delimiter?: Record<string, string>;
     };
 }
 

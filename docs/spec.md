@@ -94,6 +94,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.oneOfParams       | `object`                 |          | [Parameters](#oneofparams) that must be passed to oneof input                                                                                                                           |
 | viewSpec.placeholder       | `string`                 |          | A short hint displayed in the field before the user enters the value                                                                                                                    |
 | viewSpec.hidden            | `boolean`                |          | Hide field and view                                                                                                                                                                     |
+| viewSpec.delimiter         | `Record<string, string>` |          | Values of delimiters of inline object input elements                                                                                                                                    |
 
 ### StringSpec
 
@@ -144,9 +145,10 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 
 #### OneOfParams
 
-| Property | Type                          | Required | Description |
-| :------- | :---------------------------- | :------: | :---------- |
-| toggler  | `'select'` `'radio'` `'card'` |          | Switch type |
+| Property   | Type                                       | Required | Description                                    |
+| :--------- | :----------------------------------------- | :------: | :--------------------------------------------- |
+| toggler    | `'select'` `'radio'` `'card'` `'checkbox'` |          | Switch type                                    |
+| booleanMap | `Record<'true' 'false', string>`           |          | Special object for oneof toggler type checkbox |
 
 #### FileInput
 

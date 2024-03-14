@@ -67,6 +67,15 @@ export const transformCorrect = (spec: Spec) => {
         })) as unknown as Record<string, string>;
     }
 
+    if (isObjectSpec(_spec) && _spec.viewSpec.delimiter) {
+        const correctDelimiter = _spec.viewSpec.delimiter;
+
+        _spec.viewSpec.delimiter = Object.keys(correctDelimiter).map((key) => ({
+            property: key,
+            delimiter: correctDelimiter[key],
+        })) as unknown as Record<string, string>;
+    }
+
     return _spec;
 };
 
@@ -148,6 +157,22 @@ export const transformIncorrect = (spec: Spec) => {
         _spec.viewSpec.selectParams.meta = incorrectMeta.reduce(
             (acc: Record<string, string>, {property, text}) => {
                 acc[property] = text;
+
+                return acc;
+            },
+            {},
+        );
+    }
+
+    if (isObjectSpec(_spec) && _spec.viewSpec.delimiter) {
+        const incorrectDelimiter = _spec.viewSpec.delimiter as unknown as {
+            property: string;
+            delimiter: string;
+        }[];
+
+        _spec.viewSpec.delimiter = incorrectDelimiter.reduce(
+            (acc: Record<string, string>, {property, delimiter}) => {
+                acc[property] = delimiter;
 
                 return acc;
             },
