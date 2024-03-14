@@ -54,6 +54,7 @@ const excludeOptions = [
     'viewSpec.type',
     'viewSpec.itemLabel',
     'viewSpec.table',
+    'viewSpec.tableWordWrap',
     'viewSpec.itemPrefix',
     'viewSpec.addButtonPosition',
 ];

@@ -37,6 +37,7 @@ const excludeOptions = [
     'description',
     'viewSpec.type',
     'viewSpec.table',
+    'viewSpec.tableWordWrap',
     'viewSpec.placeholder',
     'viewSpec.selectParams',
 ];

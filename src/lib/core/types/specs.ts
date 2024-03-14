@@ -32,6 +32,7 @@ export interface ArraySpec<
             label: string;
             property: string;
         }[];
+        tableWordWrap?: boolean;
         link?: LinkType;
         placeholder?: string;
         addButtonPosition?: 'down' | 'right';

@@ -175,6 +175,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                     getRowId={(_, idx) => `${name}-${idx}`}
                     verticalAlign="top"
                     getRowClassNames={getRowClassNames}
+                    wordWrap={spec.viewSpec.tableWordWrap}
                 />
             ) : null}
             {!arrayInput.value && spec.defaultValue ? (

@@ -60,6 +60,7 @@ const excludeOptions = [
     'viewSpec.type',
     'viewSpec.itemLabel',
     'viewSpec.table',
+    'viewSpec.tableWordWrap',
     'viewSpec.oneOfParams',
     'viewSpec.delimiter',
 ];
