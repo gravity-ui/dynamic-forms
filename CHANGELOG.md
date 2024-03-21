@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.9.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.8.0...v3.9.0) (2024-03-21)
+
+
+### Features
+
+* add checkbox input props ([#193](https://github.com/gravity-ui/dynamic-forms/issues/193)) ([a90a44b](https://github.com/gravity-ui/dynamic-forms/commit/a90a44b20ac5105683f33de31a16c7380265b93c))
+
 ## [3.8.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.7.0...v3.8.0) (2024-03-14)
 
 
