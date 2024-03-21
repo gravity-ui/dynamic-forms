@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.2.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.1.0...v4.2.0) (2024-03-21)
+
+
+### Features
+
+* add input props for checkbox input ([#191](https://github.com/gravity-ui/dynamic-forms/issues/191)) ([d59d3a7](https://github.com/gravity-ui/dynamic-forms/commit/d59d3a7918080b6ab802e4a002d6057577351663))
+
+
+### Bug Fixes
+
+* fix inline object delimiter styles ([#190](https://github.com/gravity-ui/dynamic-forms/issues/190)) ([32217ea](https://github.com/gravity-ui/dynamic-forms/commit/32217ea10e583d1ec50638ad4c9a08bfa6eca8fd))
+
 ## [4.1.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.0.1...v4.1.0) (2024-03-14)
 
 
