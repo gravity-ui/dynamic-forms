@@ -33,6 +33,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.addButtonPosition | `"down"/"right"`                       |          | The location of the button adding a new element to the array. Default value "down".                                                                                                     |
 | viewSpec.hidden            | `boolean`                              |          | Hide field and view                                                                                                                                                                     |
 | viewSpec.selectParams      | `object`                               |          | [Parameters](#selectparams) additional options for the selector                                                                                                                         |
+| viewSpec.inputProps        | `object`                               |          | [InputProps](./input-props-map.md) Additional properties for internal input components                                                                                                  |
 
 ### BooleanSpec
 
@@ -50,6 +51,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.layoutOpen        | `boolean`   |          | Expand [Layout](./config.md#layouts) at the first rendering                                                                                                                             |
 | viewSpec.link              | `any`       |          | A field containing information for forming a [link](#link) for a value                                                                                                                  |
 | viewSpec.hidden            | `boolean`   |          | Hide field and view                                                                                                                                                                     |
+| viewSpec.inputProps        | `object`    |          | [InputProps](./input-props-map.md) Additional properties for internal input components                                                                                                  |
 
 ### NumberSpec
 
@@ -72,6 +74,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.placeholder       | `string`          |          | A short hint displayed in the field before the user enters the value                                                                                                                    |
 | viewSpec.copy              | `boolean`         |          | For `true`, will add a copy value button                                                                                                                                                |
 | viewSpec.hidden            | `boolean`         |          | Hide field and view                                                                                                                                                                     |
+| viewSpec.inputProps        | `object`          |          | [InputProps](./input-props-map.md) Additional properties for internal input components                                                                                                  |
 
 ### ObjectSpec
 
@@ -127,6 +130,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.textContentParams         | `object`                 |          | [Parameters](#textcontentparams) that must be passed to text content                                                                                                                    |
 | viewSpec.selectParams              | `object`                 |          | [Parameters](#selectparams) additional options for the selector                                                                                                                         |
 | viewSpec.generateRandomValueButton | `boolean`                |          | Shows a button that allows you to generate a random value depending on the passed [function generateRandomValue](./lib.md#dynamicfield)                                                 |
+| viewSpec.inputProps                | `object`                 |          | [InputProps](./input-props-map.md) Additional properties for internal input components                                                                                                  |
 
 #### SizeParams
 
