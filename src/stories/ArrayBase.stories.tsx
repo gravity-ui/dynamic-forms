@@ -39,6 +39,7 @@ const excludeOptions = [
     'viewSpec.table',
     'viewSpec.placeholder',
     'viewSpec.selectParams',
+    'viewSpec.inputProps',
 ];
 
 const template = () => {

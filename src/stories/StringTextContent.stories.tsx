@@ -44,6 +44,7 @@ const excludeOptions = [
     'viewSpec.copy',
     'viewSpec.selectParams',
     'viewSpec.generateRandomValueButton',
+    'viewSpec.inputProps',
 ];
 
 const value = 'value';
