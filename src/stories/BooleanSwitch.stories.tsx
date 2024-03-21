@@ -16,7 +16,7 @@ const baseSpec: BooleanSpec = {
     viewSpec: {type: 'switch', layout: 'row', layoutTitle: 'Flag'},
 };
 
-const excludeOptions = ['viewSpec.type'];
+const excludeOptions = ['viewSpec.type', 'viewSpec.inputProps'];
 
 const template = (spec: BooleanSpec = baseSpec) => {
     const Template: StoryFn<typeof SwitchBase> = (__, {viewMode}) => (
