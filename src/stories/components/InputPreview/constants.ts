@@ -480,6 +480,48 @@ const copy: BooleanSpec = {
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Copy'},
 };
 
+const inputProps: ArraySpec = {
+    type: SpecTypes.Array,
+    items: {
+        type: SpecTypes.Object,
+        required: true,
+        properties: {
+            prop: {
+                type: SpecTypes.Object,
+                required: true,
+                properties: {
+                    key: {
+                        type: SpecTypes.String,
+                        viewSpec: {type: 'base', layout: 'transparent', placeholder: 'property'},
+                    },
+                    value: {
+                        type: SpecTypes.String,
+                        viewSpec: {type: 'base', layout: 'transparent', placeholder: 'value'},
+                    },
+                },
+                viewSpec: {
+                    type: 'inline',
+                    layout: 'transparent',
+                    delimiter: {key: ':'},
+                },
+            },
+            parse: {
+                type: SpecTypes.Boolean,
+                viewSpec: {
+                    type: 'base',
+                    inputProps: {content: 'parse like JSON value'} as unknown as undefined,
+                },
+            },
+        },
+        viewSpec: {type: 'base', layout: 'transparent'},
+    },
+    viewSpec: {
+        type: 'base',
+        layout: 'row',
+        layoutTitle: 'Input props',
+    },
+};
+
 export const getArrayOptions = (): ObjectSpec => ({
     type: SpecTypes.Object,
     required: true,
@@ -506,6 +548,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 addButtonPosition,
                 hidden,
                 selectParams,
+                inputProps,
             },
             [
                 'disabled',
@@ -521,6 +564,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 'addButtonPosition',
                 'hidden',
                 'selectParams',
+                'inputProps',
             ],
         ),
     },
@@ -555,6 +599,7 @@ export const getBooleanOptions = (): ObjectSpec => ({
                 layoutDescription,
                 layoutOpen,
                 hidden,
+                inputProps,
             },
             [
                 'disabled',
@@ -564,6 +609,7 @@ export const getBooleanOptions = (): ObjectSpec => ({
                 'layoutDescription',
                 'layoutOpen',
                 'hidden',
+                'inputProps',
             ],
         ),
     },
@@ -594,6 +640,7 @@ export const getNumberOptions = (): ObjectSpec => ({
                 placeholder,
                 copy,
                 hidden,
+                inputProps,
             },
             [
                 'disabled',
@@ -605,6 +652,7 @@ export const getNumberOptions = (): ObjectSpec => ({
                 'placeholder',
                 'copy',
                 'hidden',
+                'inputProps',
             ],
         ),
     },
@@ -691,6 +739,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 hidden,
                 selectParams,
                 generateRandomValueButton,
+                inputProps,
             },
             [
                 'disabled',
@@ -708,6 +757,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 'hidden',
                 'selectParams',
                 'generateRandomValueButton',
+                'inputProps',
             ],
         ),
     },

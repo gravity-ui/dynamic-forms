@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Checkbox as CheckboxBase} from '@gravity-ui/uikit';
+import {Checkbox as CheckboxBase, CheckboxProps as CheckboxBaseProps} from '@gravity-ui/uikit';
 
 import {BooleanInput} from '../../../../core';
 import {block} from '../../../utils';
@@ -9,7 +9,13 @@ import './Checkbox.scss';
 
 const b = block('checkbox');
 
-export const Checkbox: BooleanInput = ({name, input, spec}) => {
+export interface CheckboxProps
+    extends Omit<
+        CheckboxBaseProps,
+        'checked' | 'onChange' | 'onBlur' | 'onFocus' | 'disabled' | 'qa'
+    > {}
+
+export const Checkbox: BooleanInput<CheckboxProps> = ({name, input, spec, inputProps}) => {
     const {value, onBlur, onChange, onFocus} = input;
 
     const handleChange = React.useCallback(
@@ -20,6 +26,7 @@ export const Checkbox: BooleanInput = ({name, input, spec}) => {
     return (
         <div className={b()}>
             <CheckboxBase
+                {...inputProps}
                 checked={value}
                 onChange={handleChange}
                 onBlur={onBlur}
