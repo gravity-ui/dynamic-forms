@@ -100,7 +100,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
     );
 
     const togglerType = React.useMemo(() => {
-        if (spec.viewSpec.oneOfParams?.toggler === 'card' && options.length < 3) {
+        if (spec.viewSpec.oneOfParams?.toggler === 'card' && options.length < 4) {
             return 'card';
         }
 
