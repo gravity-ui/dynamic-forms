@@ -22,8 +22,12 @@
     &__card {
         display: flex;
 
-        & > :first-child {
+        & > * {
             margin-right: 8px;
+        }
+
+        & > :last-child {
+            margin-right: 0;
         }
     }
 
