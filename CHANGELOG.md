@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.10.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.9.0...v3.10.0) (2024-04-23)
+
+
+### Features
+
+* increase max options for CardOneOf ([#197](https://github.com/gravity-ui/dynamic-forms/issues/197)) ([#199](https://github.com/gravity-ui/dynamic-forms/issues/199)) ([6efbc15](https://github.com/gravity-ui/dynamic-forms/commit/6efbc1534f2474000a30e33199c7fcbe53637ce1))
+
 ## [3.9.0](https://github.com/gravity-ui/dynamic-forms/compare/v3.8.0...v3.9.0) (2024-03-21)
 
 
