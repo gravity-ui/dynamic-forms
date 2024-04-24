@@ -3,7 +3,7 @@ module.exports = {
     moduleFileExtensions: ['js', 'json', 'ts', 'tsx'],
     rootDir: '.',
     transform: {
-        '\\.[jt]sx?$': ['ts-jest', {tsconfig: './tsconfig.test.json'}],
+        '\\.(ts|tsx)$': ['@swc/jest'],
     },
     transformIgnorePatterns: ['node_modules/(?!(@gravity-ui|tinygesture))'],
     coverageDirectory: './coverage',
