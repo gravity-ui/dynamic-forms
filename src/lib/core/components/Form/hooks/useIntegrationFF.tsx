@@ -2,6 +2,7 @@ import React from 'react';
 
 import debounce from 'lodash/debounce';
 import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
 import isFunction from 'lodash/isFunction';
 import values from 'lodash/values';
 import {Field as FinalFormField, useForm} from 'react-final-form';
@@ -37,6 +38,7 @@ export const useIntegrationFF = (store: DynamicFieldStore, withoutDebounce?: boo
 
                 return error;
             },
+            isEqual,
         };
 
         return <FinalFormField {...props} />;
