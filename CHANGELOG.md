@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.4.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.3.0...v4.4.0) (2024-06-10)
+
+
+### Features
+
+* add is equal check for final form ([#203](https://github.com/gravity-ui/dynamic-forms/issues/203)) ([c918c71](https://github.com/gravity-ui/dynamic-forms/commit/c918c71fb9402e2bd842cdf0fc14f8bd3eb0b414))
+
 ## [4.3.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.2.0...v4.3.0) (2024-04-23)
 
 
