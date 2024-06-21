@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {RadioButton, Switch, Text} from '@gravity-ui/uikit';
+import {RadioButton, Switch, Text, useTheme} from '@gravity-ui/uikit';
 import noop from 'lodash/noop';
 import {Form} from 'react-final-form';
 import MonacoEditor from 'react-monaco-editor';
@@ -32,6 +32,7 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
     const [ready, setReady] = React.useState(true);
     const [toggler, setToggler] = React.useState<'form' | 'view' | 'json'>('form');
     const [parseJson, setParseJson] = React.useState(false);
+    const theme = useTheme();
 
     const togglerItems = React.useMemo(
         () => [
@@ -70,11 +71,16 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
                 },
                 spec: {viewSpec: {monacoParams: {language: 'json', fontSize: 11}}},
                 MonacoComponent: (props: MonacoEditorProps) => (
-                    <MonacoEditor {...props} width="640px" height="calc(100% - 49px)" />
+                    <MonacoEditor
+                        {...props}
+                        width="640px"
+                        height="calc(100% - 49px)"
+                        theme={`vs-${theme.includes('dark') ? 'dark' : 'light'}`}
+                    />
                 ),
                 withoutDialog: true,
             }) as MonacoInputBaseProps,
-        [],
+        [theme],
     );
 
     const getValuesEditorProps = React.useCallback(
@@ -86,11 +92,16 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
                 },
                 spec: {viewSpec: {monacoParams: {language: 'json', fontSize: 11}, disabled: true}},
                 MonacoComponent: (props: MonacoEditorProps) => (
-                    <MonacoEditor {...props} width="640px" height="calc(100% - 49px)" />
+                    <MonacoEditor
+                        {...props}
+                        width="640px"
+                        height="calc(100% - 49px)"
+                        theme={`vs-${theme.includes('dark') ? 'dark' : 'light'}`}
+                    />
                 ),
                 withoutDialog: true,
             }) as MonacoInputBaseProps,
-        [],
+        [theme],
     );
 
     const getViewProps = React.useCallback(
