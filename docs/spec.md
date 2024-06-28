@@ -162,6 +162,12 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | readAsMethod | `'readAsArrayBuffer'` `'readAsBinaryString'` `'readAsDataURL'` `'readAsText'` |          | File reading method                                                                    |
 | ignoreText   | `boolean`                                                                     |          | For `true`, will show the `File uploaded` stub instead of the field value              |
 
+#### DateInput
+
+| Property     | Type     | Required | Description                                                                             |
+| :----------- | :------- | :------: | :-------------------------------------------------------------------------------------- |
+| outputFormat | `string` |          | Format returning string. [Available formats](https://day.js.org/docs/en/display/format) |
+
 #### TextContentParams
 
 | Property   | Type                                                                                                                                                                                                                                                                                              | Required | Description                                                         |

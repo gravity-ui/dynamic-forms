@@ -45,6 +45,8 @@
   "dependencies": {
     "@bem-react/classname": "^1.6.0",
     "@gravity-ui/components": "^3.0.0",
+    "@gravity-ui/date-components": "^2.5.0",
+    "@gravity-ui/date-utils": "^2.5.3",
     "@gravity-ui/i18n": "^1.2.0",
     "@gravity-ui/icons": "^2.8.1",
     "lodash": "^4.17.20"

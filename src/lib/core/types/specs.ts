@@ -174,6 +174,9 @@ export interface StringSpec<
             readAsMethod?: ReadAsMethod;
             ignoreText?: boolean;
         };
+        dateInput?: {
+            outputFormat?: string;
+        };
         copy?: boolean;
         selectParams?: {
             filterPlaceholder?: string;

@@ -2,7 +2,7 @@ import React from 'react';
 
 import {StoryFn} from '@storybook/react';
 
-import {ArrayBase, ObjectSpec, SpecTypes} from '../lib';
+import {ArrayBase, ObjectSpec, SpecTypes, StringSpec} from '../lib';
 
 import {Editor as EditorBase} from './components/Editor/Editor';
 
@@ -71,6 +71,21 @@ const spec: ObjectSpec = {
                             type: SpecTypes.Number,
                             viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Age'},
                         },
+                        // @ts-ignore
+                        birthday: {
+                            type: SpecTypes.String,
+                            viewSpec: {
+                                type: 'date_input',
+                                layout: 'row',
+                                layoutTitle: 'Birthday',
+                                dateInput: {
+                                    outputFormat: 'YYYY-MM-DD',
+                                },
+                                inputProps: {
+                                    format: 'YYYY-MM-DD',
+                                },
+                            },
+                        } as StringSpec<any, {format: string}>,
                         license: {
                             type: SpecTypes.Boolean,
                             viewSpec: {type: 'base', layout: 'row', layoutTitle: 'License'},
