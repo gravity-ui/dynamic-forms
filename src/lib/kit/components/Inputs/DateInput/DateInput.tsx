@@ -3,6 +3,11 @@ import React, {useCallback} from 'react';
 import {DatePicker, DatePickerProps} from '@gravity-ui/date-components';
 import {StringInputProps} from '../../../../core';
 import {DateTime, dateTimeParse} from '@gravity-ui/date-utils';
+import {block} from '../../../utils';
+
+import './DateInput.scss';
+
+const b = block('date-input');
 
 export interface DateProps
     extends Omit<DatePickerProps, 'value' | 'disabled' | 'placeholder' | 'qa'> {}
@@ -15,17 +20,20 @@ export const DateInput: React.FC<StringInputProps<DateProps>> = ({
 }) => {
     const {value, onChange, onBlur, onFocus} = input;
 
-    const onUpdate = useCallback((date: DateTime | null) => {
-        if (!date) {
-            onChange('');
-        } else if (spec.viewSpec.dateInput?.outputFormat) {
-            onChange(date.format(spec.viewSpec.dateInput.outputFormat));
-        } else {
-            onChange(date.toISOString());
-        }
-    }, []);
+    const onUpdate = useCallback(
+        (date: DateTime | null) => {
+            if (!date) {
+                onChange('');
+            } else if (spec.viewSpec.dateInput?.outputFormat) {
+                onChange(date.format(spec.viewSpec.dateInput.outputFormat));
+            } else {
+                onChange(date.toISOString());
+            }
+        },
+        [spec.viewSpec.dateInput?.outputFormat],
+    );
 
-    const props = {
+    const props: DatePickerProps = {
         hasClear: true,
         ...inputProps,
         onBlur: onBlur as (e: React.FocusEvent<HTMLElement>) => void,
@@ -34,10 +42,9 @@ export const DateInput: React.FC<StringInputProps<DateProps>> = ({
         onUpdate,
         disabled: spec.viewSpec.disabled,
         placeholder: spec.viewSpec.placeholder,
-        qa: name,
     };
 
-    return <DatePicker {...props} />;
+    return <DatePicker className={b()} data-qa={name} {...props} />;
 };
 
 export default DateInput;
