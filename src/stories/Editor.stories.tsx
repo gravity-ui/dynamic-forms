@@ -79,6 +79,7 @@ const spec: ObjectSpec = {
                                 layoutTitle: 'Birthday',
                                 dateInput: {
                                     outputFormat: 'YYYY-MM-DD',
+                                    printFormat: 'YYYY-MM',
                                 },
                             },
                         },
