@@ -18,6 +18,7 @@ This component serves as the primary entry point for drawing dynamic forms.
 | Monaco                  | `React.ComponentType<MonacoEditorProps>` |          | [MonacoEditor](https://github.com/react-monaco-editor/react-monaco-editor) component for Monaco [Input](./config.md#inputs)                               |
 | search                  | `string \| function`                     |          | A string or function for performing a form search                                                                                                         |
 | withoutInsertFFDebounce | `boolean`                                |          | Flag that disables the delay before inserting data into the final-form store                                                                              |
+| destroyOnUnregister     | `boolean`                                |          | If true, the value of a field will be destroyed when that field is unregistered. Defaults to true                                                         |
 | generateRandomValue     | `function`                               |          | Function that is necessary to generate a random value                                                                                                     |
 
 ### Controller
