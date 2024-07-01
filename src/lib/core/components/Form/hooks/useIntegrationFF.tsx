@@ -72,7 +72,7 @@ export const useIntegrationFF = (
                 form.change(store.name, undefined);
             }
         };
-    }, [destroyOnUnregister]);
+    }, []);
 
     return watcher;
 };
