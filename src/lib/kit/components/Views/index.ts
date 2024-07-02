@@ -12,3 +12,4 @@ export * from './OneOfView';
 export * from './TableArrayView';
 export * from './TextAreaView';
 export * from './TextLinkView';
+export * from './FormatedDateView';

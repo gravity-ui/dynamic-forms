@@ -2,6 +2,7 @@ export * from './ArrayBase';
 export * from './CardOneOf';
 export * from './Checkbox';
 export * from './FileInput';
+export * from './DateInput';
 export * from './MonacoInput';
 export * from './MultiOneOf';
 export * from './MultiSelect';

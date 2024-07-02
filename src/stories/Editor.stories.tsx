@@ -71,6 +71,18 @@ const spec: ObjectSpec = {
                             type: SpecTypes.Number,
                             viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Age'},
                         },
+                        birthday: {
+                            type: SpecTypes.String,
+                            viewSpec: {
+                                type: 'date_input',
+                                layout: 'row',
+                                layoutTitle: 'Birthday',
+                                dateInput: {
+                                    outputFormat: 'YYYY-MM-DD',
+                                    printFormat: 'YYYY-MM',
+                                },
+                            },
+                        },
                         license: {
                             type: SpecTypes.Boolean,
                             viewSpec: {type: 'base', layout: 'row', layoutTitle: 'License'},
