@@ -131,6 +131,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.selectParams              | `object`                 |          | [Parameters](#selectparams) additional options for the selector                                                                                                                         |
 | viewSpec.generateRandomValueButton | `boolean`                |          | Shows a button that allows you to generate a random value depending on the passed [function generateRandomValue](./lib.md#dynamicfield)                                                 |
 | viewSpec.inputProps                | `object`                 |          | [InputProps](./input-props-map.md) Additional properties for internal input components                                                                                                  |
+| viewSpec.dateInput                 | `object`                 |          | [Parameters](#dateinput) additional options for the date picker                                                                                                                         |
 
 #### SizeParams
 
