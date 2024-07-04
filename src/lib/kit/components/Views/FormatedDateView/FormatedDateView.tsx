@@ -2,16 +2,25 @@ import React from 'react';
 
 import isString from 'lodash/isString';
 
-import {StringViewProps} from '../../../../core';
-import {BaseView} from '../../../components';
+import {StringSpec, ViewProps} from '../../../../core';
+import {BaseView, DateValueProps} from '../../../components';
 import {dateTimeParse} from '@gravity-ui/date-utils';
+import isObject from 'lodash/isObject';
 
-export const FormatedDateView = <T extends StringViewProps>({
+interface Timestamp {
+    seconds: string;
+    nanos?: number;
+}
+
+export const FormatedDateView: React.FC<ViewProps<DateValueProps, StringSpec>> = ({
     value,
     spec,
     ...restProps
-}: React.PropsWithChildren<T>) => {
-    let formatedValue = value;
+}) => {
+    let formatedValue =
+        value && isObject(value) && (value as object as Timestamp).seconds
+            ? (value as object as Timestamp)?.seconds
+            : value;
 
     const dateSpec = spec.viewSpec.dateInput;
     const format = dateSpec && (dateSpec.printFormat || dateSpec.outputFormat);
@@ -19,5 +28,5 @@ export const FormatedDateView = <T extends StringViewProps>({
         formatedValue = dateTimeParse(value)?.format(format) || formatedValue;
     }
 
-    return <BaseView spec={spec} value={formatedValue} {...restProps} />;
+    return <BaseView spec={spec} value={String(formatedValue)} {...restProps} />;
 };

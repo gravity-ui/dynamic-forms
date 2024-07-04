@@ -24,6 +24,7 @@ const spec: ObjectSpec = {
                 name: 'Bar',
                 age: 12345,
                 license: true,
+                birthday: new Date('2020-01-01'),
             },
         },
     },

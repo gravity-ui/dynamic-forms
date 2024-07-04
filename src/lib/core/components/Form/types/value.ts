@@ -11,6 +11,7 @@ export type FieldValue =
     | number
     | boolean
     | string
+    | Date
     | FieldArrayValue
     | FieldObjectValue
     | null

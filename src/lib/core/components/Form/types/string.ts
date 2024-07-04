@@ -1,6 +1,7 @@
 import {StringSpec} from '../../../types';
 
 import {
+    FieldValue,
     IndependentInputEntity,
     IndependentInputProps,
     IndependentInputType,
@@ -17,8 +18,9 @@ import {
 
 export type StringInputProps<
     InputComponentProps extends Record<string, any> | undefined = undefined,
+    Value extends FieldValue = string,
 > = InputProps<
-    string,
+    Value,
     InputComponentProps,
     undefined,
     StringSpec<undefined, InputComponentProps, undefined>

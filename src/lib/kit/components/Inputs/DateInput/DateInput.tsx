@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 
 import {DatePicker, DatePickerProps} from '@gravity-ui/date-components';
-import {StringInputProps} from '../../../../core';
+import {FieldObjectValue, StringInputProps} from '../../../../core';
 import {DateTime, dateTimeParse} from '@gravity-ui/date-utils';
 import {block} from '../../../utils';
 
@@ -12,25 +12,45 @@ const b = block('date-input');
 export interface DateProps
     extends Omit<DatePickerProps, 'value' | 'disabled' | 'placeholder' | 'qa'> {}
 
-export const DateInput: React.FC<StringInputProps<DateProps>> = ({
+export type DateValueProps = string | number | Date | FieldObjectValue | undefined;
+
+export const DateInput: React.FC<StringInputProps<DateProps, DateValueProps>> = ({
     name,
     input,
     spec,
     inputProps,
 }) => {
     const {value, onChange, onBlur, onFocus} = input;
+    const {dateInput: {outputFormat, valueType} = {}} = spec.viewSpec;
 
     const onUpdate = useCallback(
         (date: DateTime | null) => {
             if (!date) {
                 onChange('');
-            } else if (spec.viewSpec.dateInput?.outputFormat) {
-                onChange(date.format(spec.viewSpec.dateInput.outputFormat));
+            } else if (outputFormat) {
+                onChange(date.format(outputFormat));
             } else {
-                onChange(date.toISOString());
+                switch (valueType) {
+                    case 'date_time':
+                        onChange(date as object as FieldObjectValue);
+                        break;
+                    case 'date':
+                        onChange(date.toDate());
+                        break;
+                    case 'timestamp':
+                        onChange({
+                            seconds: date.second(),
+                            nanos: 0,
+                        } as FieldObjectValue);
+                        break;
+                    case 'string':
+                    default:
+                        onChange(date.toISOString());
+                        break;
+                }
             }
         },
-        [spec.viewSpec.dateInput?.outputFormat],
+        [outputFormat],
     );
 
     const props: DatePickerProps = {
