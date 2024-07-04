@@ -11,5 +11,3 @@ export type ReadAsMethod =
     | 'readAsBinaryString'
     | 'readAsDataURL'
     | 'readAsText';
-
-export type DateValueType = 'string' | 'date' | 'timestamp' | 'date_time';

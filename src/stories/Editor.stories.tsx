@@ -24,7 +24,7 @@ const spec: ObjectSpec = {
                 name: 'Bar',
                 age: 12345,
                 license: true,
-                birthday: new Date('2020-01-01'),
+                birthday: new Date('2020-01-01').toISOString(),
             },
         },
     },
@@ -79,8 +79,7 @@ const spec: ObjectSpec = {
                                 layout: 'row',
                                 layoutTitle: 'Birthday',
                                 dateInput: {
-                                    outputFormat: 'YYYY-MM-DD',
-                                    printFormat: 'YYYY-MM',
+                                    outputFormat: 'timestamp',
                                 },
                             },
                         },

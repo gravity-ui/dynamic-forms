@@ -482,15 +482,6 @@ const dateInput: ObjectSpec = {
             type: SpecTypes.String,
             viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Output format'},
         },
-        printFormat: {
-            type: SpecTypes.String,
-            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Print format'},
-        },
-        valueType: {
-            type: SpecTypes.String,
-            enum: ['string', 'date', 'timestamp', 'date_time'],
-            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Value type'},
-        },
     },
     viewSpec: {
         type: 'base',

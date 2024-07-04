@@ -1,7 +1,7 @@
 import {LabelProps} from '@gravity-ui/uikit';
 import {ColorTextBaseProps} from '@gravity-ui/uikit/build/esm/components/Text/colorText/colorText';
 
-import {DateValueType, ReadAsMethod, SpecTypes} from '../constants';
+import {ReadAsMethod, SpecTypes} from '../constants';
 
 import {ArrayValue, ObjectValue} from './';
 
@@ -176,8 +176,6 @@ export interface StringSpec<
         };
         dateInput?: {
             outputFormat?: string;
-            printFormat?: string;
-            valueType?: DateValueType;
         };
         copy?: boolean;
         selectParams?: {
