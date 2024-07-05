@@ -176,6 +176,7 @@ export interface StringSpec<
         };
         dateInput?: {
             outputFormat?: string;
+            printFormat?: string;
         };
         copy?: boolean;
         selectParams?: {

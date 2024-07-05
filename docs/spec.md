@@ -168,6 +168,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | Property     | Type                                                 | Required | Description                                                                                                     |
 | :----------- | :--------------------------------------------------- | :------: | :-------------------------------------------------------------------------------------------------------------- |
 | outputFormat | `string` \| string \| date \| timestamp \| date_time |          | Format returning string (for backend and logic). [Available formats](https://day.js.org/docs/en/display/format) |
+| printFormat  | `string`                                             |          | Format print string (for view in read form). [Available formats](https://day.js.org/docs/en/display/format)     |
 
 You can provide all props of [original component](https://preview.gravity-ui.com/date-components/?path=/docs/components-datepicker--docs) through [viewSpec.inputProps](./input-props-map.md).
 

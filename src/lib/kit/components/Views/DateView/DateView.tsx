@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {StringSpec, StringViewProps} from '../../../../core';
-import {BaseView, DefaultDateFormat} from '../../../components';
+import {BaseView, DEFAULT_DATE_FORMAT} from '../../../components';
 import {dateTimeParse} from '@gravity-ui/date-utils';
 import isObject from 'lodash/isObject';
 import {DatePickerProps} from '@gravity-ui/date-components/dist/esm/components/DatePicker/DatePicker';
@@ -17,10 +17,10 @@ export const DateView: React.FC<StringViewProps> = ({value, spec, ...restProps})
             ? (value as any)?.seconds * 1000
             : value;
 
-    const dateSpec = spec.viewSpec.dateInput;
-    const inputFormat = (spec as StringSpec<any, DatePickerProps | undefined>)!.viewSpec.inputProps
-        ?.format;
-    const format = (dateSpec && inputFormat) || DefaultDateFormat;
+    const localSpec = (spec as StringSpec<any, DatePickerProps | undefined>)!.viewSpec;
+
+    const format =
+        localSpec.inputProps?.format || localSpec.dateInput?.printFormat || DEFAULT_DATE_FORMAT;
 
     if (formatedValue && format) {
         formatedValue = dateTimeParse(formatedValue)?.format(format) || formatedValue;

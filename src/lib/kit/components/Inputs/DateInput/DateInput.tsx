@@ -7,7 +7,7 @@ import {block} from '../../../utils';
 
 import './DateInput.scss';
 
-export const DefaultDateFormat = 'DD-MM-YYYY';
+export const DEFAULT_DATE_FORMAT = 'DD-MM-YYYY';
 
 const b = block('date-input');
 
@@ -21,7 +21,8 @@ export const DateInput: React.FC<StringInputProps<DateProps>> = ({
     inputProps,
 }) => {
     const {value, onChange, onBlur, onFocus} = input;
-    const outputFormat = spec.viewSpec.dateInput?.outputFormat;
+    const dateInput = spec.viewSpec.dateInput;
+    const outputFormat = dateInput?.outputFormat;
 
     const onUpdate = useCallback(
         (date: DateTime | null) => {
@@ -42,8 +43,12 @@ export const DateInput: React.FC<StringInputProps<DateProps>> = ({
                         } as any);
                         break;
                     case 'string':
-                    default:
+                    case undefined:
+                    case '':
                         onChange(date.toISOString());
+                        break;
+                    default:
+                        onChange(date.format(outputFormat));
                         break;
                 }
             }
@@ -53,8 +58,8 @@ export const DateInput: React.FC<StringInputProps<DateProps>> = ({
 
     const props: DatePickerProps = {
         hasClear: true,
+        format: dateInput?.printFormat || DEFAULT_DATE_FORMAT,
         ...inputProps,
-        format: inputProps?.format || DefaultDateFormat,
         onBlur: onBlur as (e: React.FocusEvent<HTMLElement>) => void,
         onFocus: onFocus as (e: React.FocusEvent<HTMLElement>) => void,
         value: value
