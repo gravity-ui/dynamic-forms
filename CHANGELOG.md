@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.5.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.4.0...v4.5.0) (2024-07-01)
+
+
+### Features
+
+* add destroyOnUnregister property ([#206](https://github.com/gravity-ui/dynamic-forms/issues/206)) ([d2b7ce6](https://github.com/gravity-ui/dynamic-forms/commit/d2b7ce63c462b50515cb950c468906b81d4369df))
+
 ## [4.4.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.3.0...v4.4.0) (2024-06-10)
 
 

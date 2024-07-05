@@ -10,7 +10,11 @@ import {Field as FinalFormField, useForm} from 'react-final-form';
 import {AsyncValidateError, BaseValidateError, DynamicFieldStore, FieldValue} from '../types';
 import {transformArrOut} from '../utils';
 
-export const useIntegrationFF = (store: DynamicFieldStore, withoutDebounce?: boolean) => {
+export const useIntegrationFF = (
+    store: DynamicFieldStore,
+    withoutDebounce?: boolean,
+    destroyOnUnregister?: boolean,
+) => {
     const form = useForm();
 
     const watcher = React.useMemo(() => {
@@ -64,7 +68,7 @@ export const useIntegrationFF = (store: DynamicFieldStore, withoutDebounce?: boo
 
     React.useEffect(() => {
         return () => {
-            if (store.name) {
+            if (store.name && destroyOnUnregister) {
                 form.change(store.name, undefined);
             }
         };

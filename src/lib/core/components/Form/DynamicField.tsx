@@ -1,8 +1,8 @@
 import React from 'react';
 
+import get from 'lodash/get';
 import isFunction from 'lodash/isFunction';
 import isString from 'lodash/isString';
-import get from 'lodash/get';
 import {isValidElementType} from 'react-is';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
@@ -30,6 +30,7 @@ export interface DynamicFieldProps {
     search?: string | ((spec: Spec, input: FieldValue, name: string) => boolean);
     generateRandomValue?: (spec: StringSpec) => string;
     withoutInsertFFDebounce?: boolean;
+    destroyOnUnregister?: boolean;
     mutators?: DynamicFormMutators;
     __mirror?: WonderMirror;
 }
@@ -42,13 +43,14 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
     generateRandomValue,
     search,
     withoutInsertFFDebounce,
+    destroyOnUnregister = true,
     mutators: externalMutators,
     __mirror,
 }) => {
     const DynamicFormsCtx = useCreateContext();
     const SearchContext = useCreateSearchContext();
     const {tools, store} = useStore(name);
-    const watcher = useIntegrationFF(store, withoutInsertFFDebounce);
+    const watcher = useIntegrationFF(store, withoutInsertFFDebounce, destroyOnUnregister);
     const {mutatorsStore, mutateDFState} = useMutators(externalMutators);
     const {store: searchStore, setField, removeField, isHiddenField} = useSearchStore();
 
