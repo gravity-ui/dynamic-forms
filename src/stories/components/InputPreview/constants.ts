@@ -475,6 +475,25 @@ const fileInput: ObjectSpec = {
     },
 };
 
+const dateInput: ObjectSpec = {
+    type: SpecTypes.Object,
+    properties: {
+        outputFormat: {
+            type: SpecTypes.String,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Output format'},
+        },
+        printFormat: {
+            type: SpecTypes.String,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Print format'},
+        },
+    },
+    viewSpec: {
+        type: 'base',
+        layout: 'accordeon',
+        layoutTitle: 'Date Input',
+    },
+};
+
 const copy: BooleanSpec = {
     type: SpecTypes.Boolean,
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Copy'},
@@ -735,6 +754,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 textContentParams,
                 placeholder,
                 fileInput,
+                dateInput,
                 copy,
                 hidden,
                 selectParams,
@@ -753,6 +773,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 'textContentParams',
                 'placeholder',
                 'fileInput',
+                'dateInput',
                 'copy',
                 'hidden',
                 'selectParams',

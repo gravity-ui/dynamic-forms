@@ -44,6 +44,7 @@ const excludeOptions = [
     'viewSpec.monacoParams',
     'viewSpec.textContentParams',
     'viewSpec.fileInput',
+    'viewSpec.dateInput',
     'viewSpec.selectParams',
     'viewSpec.generateRandomValueButton',
     'viewSpec.inputProps',

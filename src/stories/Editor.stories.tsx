@@ -24,6 +24,7 @@ const spec: ObjectSpec = {
                 name: 'Bar',
                 age: 12345,
                 license: true,
+                birthday: new Date('2020-01-01').toISOString(),
             },
         },
     },
@@ -70,6 +71,17 @@ const spec: ObjectSpec = {
                         age: {
                             type: SpecTypes.Number,
                             viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Age'},
+                        },
+                        birthday: {
+                            type: SpecTypes.String,
+                            viewSpec: {
+                                type: 'date_input',
+                                layout: 'row',
+                                layoutTitle: 'Birthday',
+                                dateInput: {
+                                    outputFormat: 'timestamp',
+                                },
+                            },
                         },
                         license: {
                             type: SpecTypes.Boolean,

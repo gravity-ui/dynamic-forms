@@ -131,6 +131,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.selectParams              | `object`                 |          | [Parameters](#selectparams) additional options for the selector                                                                                                                         |
 | viewSpec.generateRandomValueButton | `boolean`                |          | Shows a button that allows you to generate a random value depending on the passed [function generateRandomValue](./lib.md#dynamicfield)                                                 |
 | viewSpec.inputProps                | `object`                 |          | [InputProps](./input-props-map.md) Additional properties for internal input components                                                                                                  |
+| viewSpec.dateInput                 | `object`                 |          | [Parameters](#dateinput) additional options for the date picker                                                                                                                         |
 
 #### SizeParams
 
@@ -161,6 +162,15 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | accept       | `string`                                                                      |          | Acceptable file extensions, for example: `'.png'`, `'audio/\*'`, `'.jpg, .jpeg, .png'` |
 | readAsMethod | `'readAsArrayBuffer'` `'readAsBinaryString'` `'readAsDataURL'` `'readAsText'` |          | File reading method                                                                    |
 | ignoreText   | `boolean`                                                                     |          | For `true`, will show the `File uploaded` stub instead of the field value              |
+
+#### DateInput
+
+| Property     | Type                                                 | Required | Description                                                                                                     |
+| :----------- | :--------------------------------------------------- | :------: | :-------------------------------------------------------------------------------------------------------------- |
+| outputFormat | `string` \| string \| date \| timestamp \| date_time |          | Format returning string (for backend and logic). [Available formats](https://day.js.org/docs/en/display/format) |
+| printFormat  | `string`                                             |          | Format print string (for view in read form). [Available formats](https://day.js.org/docs/en/display/format)     |
+
+You can provide all props of [original component](https://preview.gravity-ui.com/date-components/?path=/docs/components-datepicker--docs) through [viewSpec.inputProps](./input-props-map.md).
 
 #### TextContentParams
 
