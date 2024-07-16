@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.6.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.5.0...v4.6.0) (2024-07-16)
+
+
+### Features
+
+* add date picker string type ([#205](https://github.com/gravity-ui/dynamic-forms/issues/205)) ([fa6ce32](https://github.com/gravity-ui/dynamic-forms/commit/fa6ce32711324a1e032b3e58966bac3b7d0942b3))
+* improve hints ([#209](https://github.com/gravity-ui/dynamic-forms/issues/209)) ([a69acfd](https://github.com/gravity-ui/dynamic-forms/commit/a69acfde70bc5cfb5923ff6d1065a0d18721f218))
+
 ## [4.5.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.4.0...v4.5.0) (2024-07-01)
 
 
