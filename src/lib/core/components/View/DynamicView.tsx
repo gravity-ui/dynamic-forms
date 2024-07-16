@@ -20,14 +20,28 @@ export interface DynamicViewProps {
         link: Spec['viewSpec']['link'];
     }>;
     Monaco?: React.ComponentType<MonacoEditorProps>;
+    showLayoutDescription?: boolean;
 }
 
-export const DynamicView = ({value, spec, config, Link, Monaco}: DynamicViewProps) => {
+export const DynamicView = ({
+    value,
+    spec,
+    config,
+    Link,
+    Monaco,
+    showLayoutDescription,
+}: DynamicViewProps) => {
     const DynamicFormsCtx = useCreateContext();
 
     const context = React.useMemo(
-        () => ({config, value, Link, Monaco: isValidElementType(Monaco) ? Monaco : undefined}),
-        [config, value, Link, Monaco],
+        () => ({
+            config,
+            value,
+            showLayoutDescription,
+            Link,
+            Monaco: isValidElementType(Monaco) ? Monaco : undefined,
+        }),
+        [config, value, Link, Monaco, showLayoutDescription],
     );
 
     if (isCorrectSpec(spec) && isCorrectViewConfig(config)) {

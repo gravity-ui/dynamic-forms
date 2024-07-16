@@ -267,6 +267,10 @@ const table: ArraySpec = {
                 type: SpecTypes.String,
                 viewSpec: {type: 'base', layout: 'table_item'},
             },
+            description: {
+                type: SpecTypes.String,
+                viewSpec: {type: 'base', layout: 'table_item'},
+            },
         },
         viewSpec: {type: ''},
     },
@@ -277,6 +281,7 @@ const table: ArraySpec = {
         table: [
             {label: 'Property', property: 'property'},
             {label: 'Label', property: 'label'},
+            {label: 'Description', property: 'description'},
         ],
     },
 };

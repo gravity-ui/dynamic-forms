@@ -31,6 +31,7 @@ export interface ArraySpec<
         table?: {
             label: string;
             property: string;
+            description?: string;
         }[];
         link?: LinkType;
         placeholder?: string;

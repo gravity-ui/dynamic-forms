@@ -16,7 +16,11 @@ const baseSpec: ObjectSpec = {
     properties: {
         name: {
             type: SpecTypes.String,
-            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Name'},
+            viewSpec: {
+                type: 'base',
+                layout: 'row',
+                layoutTitle: 'Name',
+            },
         },
         age: {
             type: SpecTypes.Number,

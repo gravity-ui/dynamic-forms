@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {Plus, TrashBin} from '@gravity-ui/icons';
-import {Button, Icon, Table} from '@gravity-ui/uikit';
+import {Button, Flex, Icon, Table} from '@gravity-ui/uikit';
+import {HelpPopover} from '@gravity-ui/components';
 import noop from 'lodash/noop';
 import set from 'lodash/set';
 
@@ -100,9 +101,16 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
             ),
         };
 
-        const columns = table.map(({property, label}) => ({
+        const columns = table.map(({property, label, description}) => ({
             id: property,
-            name: label,
+            name: !description
+                ? label
+                : () => (
+                      <Flex gap={0.5} alignItems="center">
+                          {label}
+                          <HelpPopover htmlContent={description} placement={['bottom', 'top']} />
+                      </Flex>
+                  ),
             template: (
                 {
                     key,

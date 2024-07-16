@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {RadioButton, Switch, Text, useTheme} from '@gravity-ui/uikit';
+import {Flex, RadioButton, Switch, Text, useTheme} from '@gravity-ui/uikit';
 import noop from 'lodash/noop';
 import {Form} from 'react-final-form';
 import MonacoEditor from 'react-monaco-editor';
@@ -30,6 +30,7 @@ export interface EditorProps {
 export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMode}) => {
     const [spec, setSpec] = React.useState(externalSpec);
     const [ready, setReady] = React.useState(true);
+    const [showLayoutDescription, setShowLayoutDescription] = React.useState(false);
     const [toggler, setToggler] = React.useState<'form' | 'view' | 'json'>('form');
     const [parseJson, setParseJson] = React.useState(false);
     const theme = useTheme();
@@ -105,13 +106,14 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
     );
 
     const getViewProps = React.useCallback(
-        (values: FormValue, spec: Spec) => ({
+        (values: FormValue, spec: Spec, showLayoutDescription: boolean) => ({
             value: {'__any-name': values},
             spec: {
                 type: SpecTypes.Object,
                 properties: {'__any-name': spec},
                 viewSpec: {type: 'base'},
             },
+            showLayoutDescription,
         }),
         [],
     );
@@ -158,7 +160,20 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
                                 </div>
                             ) : null}
                             <div className={b('input-view', {hidden: toggler !== 'view'})}>
-                                <DynamicView {...getViewProps(form.values.input, spec)} />
+                                <Flex gap={1} spacing={{mb: 6}}>
+                                    <Text variant="body-2">Enable showLayoutDescription props</Text>
+                                    <Switch
+                                        onChange={() => setShowLayoutDescription((v) => !v)}
+                                        className={b('switch')}
+                                    />
+                                </Flex>
+                                <DynamicView
+                                    {...getViewProps(
+                                        form.values.input,
+                                        spec,
+                                        showLayoutDescription,
+                                    )}
+                                />
                             </div>
                             {toggler === 'json' ? (
                                 <div className={b('monaco')}>

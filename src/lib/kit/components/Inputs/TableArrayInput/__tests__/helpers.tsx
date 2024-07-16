@@ -406,6 +406,80 @@ export const TABLE_ARRAY_INPUT: Record<string, ArraySpec> = {
             ],
         },
     },
+    propertyDescription: {
+        type: SpecTypes.Array,
+        items: {
+            type: SpecTypes.Object,
+            properties: {
+                name: {
+                    type: SpecTypes.String,
+                    viewSpec: {
+                        type: 'base',
+                        layout: 'table_item',
+                    },
+                },
+                age: {
+                    type: SpecTypes.Number,
+                    viewSpec: {
+                        type: 'base',
+                        layout: 'table_item',
+                    },
+                },
+                size: {
+                    type: SpecTypes.Array,
+                    enum: ['s', 'm', 'l'],
+                    description: {
+                        s: 'Small',
+                        m: 'Medium',
+                        l: 'Large',
+                    },
+                    viewSpec: {
+                        type: 'select',
+                        layout: 'table_item',
+                    },
+                },
+                license: {
+                    type: SpecTypes.Boolean,
+                    viewSpec: {
+                        type: 'base',
+                        layout: 'table_item',
+                    },
+                },
+            },
+            viewSpec: {
+                type: '',
+            },
+        },
+        viewSpec: {
+            type: 'table',
+            layout: 'accordeon',
+            layoutTitle: 'Table',
+            layoutOpen: true,
+            itemLabel: 'Candidate',
+            table: [
+                {
+                    label: 'Name',
+                    property: 'name',
+                    description: 'Description for name',
+                },
+                {
+                    label: 'Age',
+                    property: 'age',
+                    description: 'Description for age',
+                },
+                {
+                    label: 'Size',
+                    property: 'size',
+                    description: 'Description for size',
+                },
+                {
+                    label: 'Driver license',
+                    property: 'license',
+                    description: 'Description for license',
+                },
+            ],
+        },
+    },
 };
 
 export const VALUE: Record<string, FormValue> = {

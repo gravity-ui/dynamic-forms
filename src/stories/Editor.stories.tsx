@@ -33,7 +33,13 @@ const spec: ObjectSpec = {
     properties: {
         id: {
             type: SpecTypes.Number,
-            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'id', copy: true},
+            viewSpec: {
+                type: 'base',
+                layout: 'row',
+                layoutTitle: 'id',
+                layoutDescription: 'uniq id',
+                copy: true,
+            },
         },
         name: {
             type: SpecTypes.String,
@@ -121,6 +127,7 @@ const spec: ObjectSpec = {
                 type: 'base',
                 layout: 'accordeon',
                 layoutTitle: 'Labels',
+                layoutDescription: 'List of tags',
                 layoutOpen: true,
                 itemLabel: 'Add element',
             },

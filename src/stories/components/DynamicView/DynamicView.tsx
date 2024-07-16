@@ -15,14 +15,16 @@ import {DynLink} from './DynLink';
 export interface DynamicViewProps {
     value: FormValue;
     spec: Spec;
+    showLayoutDescription?: boolean;
 }
 
-export const DynamicView: React.FC<DynamicViewProps> = ({value, spec}) => (
+export const DynamicView: React.FC<DynamicViewProps> = ({value, spec, showLayoutDescription}) => (
     <BaseDynamicView
         value={value}
         spec={prepareSpec(spec)}
         config={dynamicViewConfig}
         Monaco={MonacoEditor}
         Link={DynLink}
+        showLayoutDescription={showLayoutDescription}
     />
 );
