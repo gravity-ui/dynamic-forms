@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Table} from '@gravity-ui/uikit';
+import {Flex, Table} from '@gravity-ui/uikit';
 
 import {
     ArrayView,
@@ -10,14 +10,18 @@ import {
     isArraySpec,
     isBooleanSpec,
     isObjectSpec,
+    useDynamicFormsCtx,
 } from '../../../../core';
 import {block} from '../../../utils';
 
 import './TableArrayView.scss';
+import {HelpPopover} from '@gravity-ui/components';
 
 const b = block('table-array-view');
 
 export const TableArrayView: ArrayView = ({value = [], spec, name}) => {
+    const {showLayoutDescription} = useDynamicFormsCtx();
+
     const columns = React.useMemo(() => {
         const {
             items,
@@ -39,9 +43,20 @@ export const TableArrayView: ArrayView = ({value = [], spec, name}) => {
             ),
         };
 
-        const columns = table.map(({property, label}) => ({
+        const columns = table.map(({property, label, description}) => ({
             id: property,
-            name: label,
+            name:
+                description && showLayoutDescription
+                    ? () => (
+                          <Flex gap={0.5} alignItems="center">
+                              {label}
+                              <HelpPopover
+                                  htmlContent={description}
+                                  placement={['bottom', 'top']}
+                              />
+                          </Flex>
+                      )
+                    : label,
             template: (_: FormValue, idx: number) => {
                 const entitySpec = items?.properties?.[property];
 
@@ -65,7 +80,7 @@ export const TableArrayView: ArrayView = ({value = [], spec, name}) => {
         }));
 
         return [idxColumn, ...columns];
-    }, [name, spec]);
+    }, [name, spec, showLayoutDescription]);
 
     if (!columns) {
         return null;

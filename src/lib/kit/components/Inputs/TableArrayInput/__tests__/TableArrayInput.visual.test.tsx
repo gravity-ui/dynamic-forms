@@ -40,6 +40,14 @@ test.describe('Table Array Input', () => {
 
         await expectScreenshot();
     });
+
+    test('table property description', async ({mount, expectScreenshot}) => {
+        const component = await mount(<DynamicForm spec={TABLE_ARRAY_INPUT.propertyDescription} />);
+
+        await component.getByText('Candidate').click();
+
+        await expectScreenshot();
+    });
 });
 
 test.describe('Table Array Input view', () => {

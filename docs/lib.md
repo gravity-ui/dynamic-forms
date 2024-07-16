@@ -39,13 +39,14 @@ This component locates all required rendering elements and renders the entity.
 
 This component serves as the primary entry point for creating an overview of form values.
 
-| Property | Type                                                                       | Required | Description                                                                                                                 |
-| :------- | :------------------------------------------------------------------------- | :------: | :-------------------------------------------------------------------------------------------------------------------------- |
-| value    | `AnyObject`                                                                |   yes    | Form value                                                                                                                  |
-| spec     | `Spec`                                                                     |   yes    | An [spec](./spec.md#specs) describing the entity                                                                            |
-| config   | `DynamicViewConfig`                                                        |   yes    | A [config](./config.md) containing [Views](./config.md#views) and [ViewLayouts](./config.md#viewlayouts) for each entity    |
-| Link     | `React.ComponentType<{value: FormValue; link: Spec['viewSpec']['link'];}>` |          | [Component](./spec.md#link) for converting values to links                                                                  |
-| Monaco   | `React.ComponentType<MonacoEditorProps>`                                   |          | [MonacoEditor](https://github.com/react-monaco-editor/react-monaco-editor) component for Monaco [Input](./config.md#inputs) |
+| Property              | Type                                                                       | Required | Description                                                                                                                 |
+| :-------------------- | :------------------------------------------------------------------------- | :------: | :-------------------------------------------------------------------------------------------------------------------------- |
+| value                 | `AnyObject`                                                                |   yes    | Form value                                                                                                                  |
+| spec                  | `Spec`                                                                     |   yes    | An [spec](./spec.md#specs) describing the entity                                                                            |
+| config                | `DynamicViewConfig`                                                        |   yes    | A [config](./config.md) containing [Views](./config.md#views) and [ViewLayouts](./config.md#viewlayouts) for each entity    |
+| Link                  | `React.ComponentType<{value: FormValue; link: Spec['viewSpec']['link'];}>` |          | [Component](./spec.md#link) for converting values to links                                                                  |
+| Monaco                | `React.ComponentType<MonacoEditorProps>`                                   |          | [MonacoEditor](https://github.com/react-monaco-editor/react-monaco-editor) component for Monaco [Input](./config.md#inputs) |
+| showLayoutDescription | boolean                                                                    |          | enable to show viewSpec.layoutDescription hint                                                                              |
 
 ### ViewController
 

@@ -46,7 +46,7 @@ const spec: ArraySpec = {
         layoutOpen: true,
         itemLabel: 'Candidate',
         table: [
-            {label: 'Name', property: 'name'},
+            {label: 'Name', property: 'name', description: 'Your first name'},
             {label: 'Age', property: 'age'},
             {label: 'Size', property: 'size'},
             {label: 'Driver license', property: 'license'},
