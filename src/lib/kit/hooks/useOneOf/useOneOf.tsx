@@ -180,11 +180,16 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
             <RadioButton
                 value={oneOfValue}
                 onChange={(event) => onOneOfChange([event.target.value])}
+                width="auto"
                 disabled={spec.viewSpec.disabled}
                 qa={name}
             >
                 {options.map((option) => (
-                    <RadioButton.Option key={option.value} value={option.value}>
+                    <RadioButton.Option
+                        key={option.value}
+                        value={option.value}
+                        title={option.title}
+                    >
                         {option.title}
                     </RadioButton.Option>
                 ))}
