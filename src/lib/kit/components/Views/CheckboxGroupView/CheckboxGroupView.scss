@@ -1,0 +1,35 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}checkbox-group-view {
+    display: flex;
+
+    & > *:not(:last-child) {
+        margin-right: 6px;
+    }
+
+    &_vertical {
+        flex-direction: column;
+        align-items: flex-start;
+
+        & > *:not(:last-child) {
+            margin-right: 0px;
+            margin-bottom: 6px;
+        }
+    }
+
+    &__tooltip {
+        overflow-wrap: break-word;
+    }
+
+    &__tooltip-container {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        margin-bottom: 6px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

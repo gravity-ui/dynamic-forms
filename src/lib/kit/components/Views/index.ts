@@ -1,5 +1,6 @@
 export * from './ArrayBaseView';
 export * from './BaseView';
+export * from './CheckboxGroupView';
 export * from './CardOneOfView';
 export * from './FileInputView';
 export * from './MonacoInputView';

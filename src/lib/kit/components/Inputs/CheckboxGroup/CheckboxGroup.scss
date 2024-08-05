@@ -1,0 +1,23 @@
+@import '../../../styles/variables';
+
+.#{$ns}checkbox-group {
+    display: flex;
+    align-items: center;
+    height: 28px;
+
+    & > *:not(:last-child) {
+        margin-right: 6px;
+    }
+
+    &_vertical {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 8px;
+        height: auto;
+
+        & > *:not(:last-child) {
+            margin-right: 0px;
+            margin-bottom: 6px;
+        }
+    }
+}

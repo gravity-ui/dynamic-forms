@@ -43,6 +43,10 @@ export interface ArraySpec<
         };
         inputProps?: InputComponentProps;
         layoutProps?: LayoutComponentProps;
+        checkboxGroupParams?: {
+            placement?: 'horizontal' | 'vertical';
+            disabled?: Record<string, boolean>;
+        };
     };
 }
 

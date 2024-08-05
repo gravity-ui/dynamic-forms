@@ -56,6 +56,7 @@ const excludeOptions = [
     'viewSpec.table',
     'viewSpec.itemPrefix',
     'viewSpec.addButtonPosition',
+    'viewSpec.checkboxGroupParams',
 ];
 
 const template = () => {

@@ -78,6 +78,32 @@ const spec: ObjectSpec = {
                             type: SpecTypes.Number,
                             viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Age'},
                         },
+                        non_working_days: {
+                            type: SpecTypes.Array,
+                            enum: [
+                                'monday',
+                                'tuesday',
+                                'wednesday',
+                                'thursday',
+                                'friday',
+                                'saturday',
+                                'sunday',
+                            ],
+                            description: {
+                                monday: 'Mon',
+                                tuesday: 'Tue',
+                                wednesday: 'Wed',
+                                thursday: 'Thu',
+                                friday: 'Fri',
+                                saturday: 'Sat',
+                                sunday: 'Sun',
+                            },
+                            viewSpec: {
+                                type: 'checkbox_group',
+                                layout: 'row',
+                                layoutTitle: 'Non-working days',
+                            },
+                        },
                         birthday: {
                             type: SpecTypes.String,
                             viewSpec: {
