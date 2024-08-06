@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.7.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.6.0...v4.7.0) (2024-08-06)
+
+
+### Features
+
+* **CheckboxGroup:** added new input CheckboxGroup ([#214](https://github.com/gravity-ui/dynamic-forms/issues/214)) ([075e48b](https://github.com/gravity-ui/dynamic-forms/commit/075e48b1e1a804e8d57d905d62a19a5c370a9b04))
+
 ## [4.6.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.5.0...v4.6.0) (2024-07-16)
 
 
