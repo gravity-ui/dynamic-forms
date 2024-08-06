@@ -10,6 +10,8 @@ import {
     CardOneOfView,
     CardSection,
     Checkbox,
+    CheckboxGroup,
+    CheckboxGroupView,
     DateInput,
     DateView,
     FileInput,
@@ -79,6 +81,7 @@ export const dynamicConfig: DynamicFormConfig = {
             select: {Component: MultiSelect},
             table: {Component: TableArrayInput},
             base: {Component: ArrayBase},
+            checkbox_group: {Component: CheckboxGroup},
         },
         layouts: {
             row: Row,
@@ -193,6 +196,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
             select: {Component: MultiSelectView},
             table: {Component: TableArrayView},
             base: {Component: ArrayBaseView},
+            checkbox_group: {Component: CheckboxGroupView},
         },
         layouts: {
             row: ViewRow,

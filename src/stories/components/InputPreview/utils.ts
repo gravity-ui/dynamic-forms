@@ -67,6 +67,15 @@ export const transformCorrect = (spec: Spec) => {
         })) as unknown as Record<string, string>;
     }
 
+    if (isArraySpec(_spec) && _spec.viewSpec.checkboxGroupParams?.disabled) {
+        const correctMeta = _spec.viewSpec.checkboxGroupParams.disabled;
+
+        _spec.viewSpec.checkboxGroupParams.disabled = Object.keys(correctMeta).map((key) => ({
+            property: key,
+            disabled: correctMeta[key],
+        })) as unknown as Record<string, boolean>;
+    }
+
     if (isObjectSpec(_spec) && _spec.viewSpec.delimiter) {
         const correctDelimiter = _spec.viewSpec.delimiter;
 
@@ -157,6 +166,22 @@ export const transformIncorrect = (spec: Spec) => {
         _spec.viewSpec.selectParams.meta = incorrectMeta.reduce(
             (acc: Record<string, string>, {property, text}) => {
                 acc[property] = text;
+
+                return acc;
+            },
+            {},
+        );
+    }
+
+    if (isArraySpec(_spec) && _spec.viewSpec.checkboxGroupParams?.disabled) {
+        const incorrectMeta = _spec.viewSpec.checkboxGroupParams.disabled as unknown as {
+            property: string;
+            disabled: boolean;
+        }[];
+
+        _spec.viewSpec.checkboxGroupParams.disabled = incorrectMeta.reduce(
+            (acc: Record<string, boolean>, {property, disabled}) => {
+                acc[property] = disabled;
 
                 return acc;
             },

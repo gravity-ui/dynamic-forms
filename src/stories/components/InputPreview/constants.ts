@@ -166,6 +166,44 @@ const selectParams: ObjectSpec = {
     },
 };
 
+const checkboxGroupParams: ObjectSpec = {
+    type: SpecTypes.Object,
+    properties: {
+        placement: {
+            type: SpecTypes.String,
+            enum: ['―', 'horizontal', 'vertical'],
+            viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Placement'},
+        },
+        disabled: {
+            type: SpecTypes.Array,
+            items: {
+                type: SpecTypes.Object,
+                properties: {
+                    property: {
+                        type: SpecTypes.String,
+                        viewSpec: {type: 'base', layout: 'table_item'},
+                    },
+                    disabled: {
+                        type: SpecTypes.Boolean,
+                        viewSpec: {type: 'base', layout: 'table_item'},
+                    },
+                },
+                viewSpec: {type: ''},
+            },
+            viewSpec: {
+                type: 'table',
+                layout: 'accordeon',
+                layoutTitle: 'Disabled',
+                table: [
+                    {label: 'Property', property: 'property'},
+                    {label: 'Disabled', property: 'disabled'},
+                ],
+            },
+        },
+    },
+    viewSpec: {type: 'base', layout: 'accordeon', layoutTitle: 'Checkbox Group Params'},
+};
+
 const getValidator = (map: Record<string, unknown>): StringSpec => ({
     type: SpecTypes.String,
     enum: ['―', ...Object.keys(map)],
@@ -572,6 +610,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 addButtonPosition,
                 hidden,
                 selectParams,
+                checkboxGroupParams,
                 inputProps,
             },
             [
@@ -588,6 +627,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 'addButtonPosition',
                 'hidden',
                 'selectParams',
+                'checkboxGroupParams',
                 'inputProps',
             ],
         ),

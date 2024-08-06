@@ -62,6 +62,7 @@ const excludeOptions = [
     'viewSpec.itemPrefix',
     'viewSpec.addButtonPosition',
     'viewSpec.selectParams',
+    'viewSpec.checkboxGroupParams',
     'viewSpec.inputProps',
 ];
 
