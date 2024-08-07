@@ -79,26 +79,27 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 
 ### ObjectSpec
 
-| Property                   | Type                     | Required | Description                                                                                                                                                                             |
-| :------------------------- | :----------------------- | :------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| defaultValue               | `FieldObjectValue`       |          | Default value                                                                                                                                                                           |
-| type                       | `"object"`               |   yes    | Entity type                                                                                                                                                                             |
-| required                   | `boolean`                |          | Can the value be `undefined` or `null`                                                                                                                                                  |
-| properties                 | `Record<string, Spec>`   |          | `Specs` of child entities                                                                                                                                                               |
-| description                | `Record<string, string>` |          | Easy-to-understand names for keys from `properties`                                                                                                                                     |
-| validator                  | `string`                 |          | The key for determining the [validator](./config.md#validators) for the entity, if the value is empty, the base [validator](./config.md#validators) from the entity config will be used |
-| viewSpec.disabled          | `boolean`                |          | Is the field available for editing                                                                                                                                                      |
-| viewSpec.type              | `string`                 |   yes    | Key to define [Input](./config.md#inputs) for an entity                                                                                                                                 |
-| viewSpec.layout            | `string`                 |          | Key to define [Layout](./config.md#layouts) for an entity                                                                                                                               |
-| viewSpec.layoutTitle       | `string`                 |          | Title for [Layout](./config.md#layouts)                                                                                                                                                 |
-| viewSpec.layoutDescription | `string`                 |          | Additional description/hint for [Layout](./config.md#layouts)                                                                                                                           |
-| viewSpec.layoutOpen        | `boolean`                |          | Expand [Layout](./config.md#layouts) at the first rendering                                                                                                                             |
-| viewSpec.order             | `string[]`               |          | Array of `properties` keys in the right order                                                                                                                                           |
-| viewSpec.link              | `any`                    |          | A field containing information for forming a [link](#link) for a value                                                                                                                  |
-| viewSpec.oneOfParams       | `object`                 |          | [Parameters](#oneofparams) that must be passed to oneof input                                                                                                                           |
-| viewSpec.placeholder       | `string`                 |          | A short hint displayed in the field before the user enters the value                                                                                                                    |
-| viewSpec.hidden            | `boolean`                |          | Hide field and view                                                                                                                                                                     |
-| viewSpec.delimiter         | `Record<string, string>` |          | Values of delimiters of inline object input elements                                                                                                                                    |
+| Property                         | Type                     | Required | Description                                                                                                                                                                             |
+| :------------------------------- | :----------------------- | :------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| defaultValue                     | `FieldObjectValue`       |          | Default value                                                                                                                                                                           |
+| type                             | `"object"`               |   yes    | Entity type                                                                                                                                                                             |
+| required                         | `boolean`                |          | Can the value be `undefined` or `null`                                                                                                                                                  |
+| properties                       | `Record<string, Spec>`   |          | `Specs` of child entities                                                                                                                                                               |
+| description                      | `Record<string, string>` |          | Easy-to-understand names for keys from `properties`                                                                                                                                     |
+| validator                        | `string`                 |          | The key for determining the [validator](./config.md#validators) for the entity, if the value is empty, the base [validator](./config.md#validators) from the entity config will be used |
+| viewSpec.disabled                | `boolean`                |          | Is the field available for editing                                                                                                                                                      |
+| viewSpec.type                    | `string`                 |   yes    | Key to define [Input](./config.md#inputs) for an entity                                                                                                                                 |
+| viewSpec.layout                  | `string`                 |          | Key to define [Layout](./config.md#layouts) for an entity                                                                                                                               |
+| viewSpec.layoutTitle             | `string`                 |          | Title for [Layout](./config.md#layouts)                                                                                                                                                 |
+| viewSpec.layoutDescription       | `string`                 |          | Additional description/hint for [Layout](./config.md#layouts)                                                                                                                           |
+| viewSpec.layoutOpen              | `boolean`                |          | Expand [Layout](./config.md#layouts) at the first rendering                                                                                                                             |
+| viewSpec.order                   | `string[]`               |          | Array of `properties` keys in the right order                                                                                                                                           |
+| viewSpec.link                    | `any`                    |          | A field containing information for forming a [link](#link) for a value                                                                                                                  |
+| viewSpec.oneOfParams             | `object`                 |          | [Parameters](#oneofparams) that must be passed to oneof input                                                                                                                           |
+| viewSpec.placeholder             | `string`                 |          | A short hint displayed in the field before the user enters the value                                                                                                                    |
+| viewSpec.hidden                  | `boolean`                |          | Hide field and view                                                                                                                                                                     |
+| viewSpec.delimiter               | `Record<string, string>` |          | Values of delimiters of inline object input elements                                                                                                                                    |
+| viewSpec.timeRangeSelectorParams | `object`                 |          | [Parameters](#timerangeselectorparams) additional options for the Time Range Selector                                                                                                   |
 
 ### StringSpec
 
@@ -195,6 +196,12 @@ You can provide all props of [original component](https://preview.gravity-ui.com
 | :-------- | :-------------------------- | :------: | :----------------------------------------- |
 | placement | `'horizontal'` `'vertical'` |          | Placement checkbox, default `'horizontal'` |
 | disabled  | `Record<string, boolean>`   |          | Disabled checkbox for enum values          |
+
+#### TimeRangeSelectorParams
+
+| Property | Type     | Required | Description                                         |
+| :------- | :------- | :------: | :-------------------------------------------------- |
+| timeStep | `number` |          | The time step is specified in minutes, default `60` |
 
 #### Link
 

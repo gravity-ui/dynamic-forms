@@ -3,11 +3,18 @@ import React from 'react';
 import isString from 'lodash/isString';
 
 import {Select, type SelectOption} from '@gravity-ui/uikit';
-import {FormRow} from '@gravity-ui/components';
 
-import {FieldValue, StringSpec} from '../../../../../../core';
+import {
+    FieldObjectValue,
+    FieldValue,
+    IndependentInputProps,
+    ObjectSpec,
+    StringSpec,
+} from '../../../../../../core';
 
 import {block} from '../../../../../utils';
+
+import {Row} from '../../../../Layouts/Row';
 
 import './TimeRangeSelect.scss';
 
@@ -20,6 +27,12 @@ interface TimeRangeSelectProps {
     value?: FieldValue;
     placeholder?: string;
     handleChange: (value: string[]) => void;
+    props: IndependentInputProps<
+        FieldObjectValue,
+        undefined,
+        undefined,
+        ObjectSpec<undefined, undefined, undefined>
+    >;
 }
 
 export const TimeRangeSelect: React.FC<TimeRangeSelectProps> = ({
@@ -28,6 +41,7 @@ export const TimeRangeSelect: React.FC<TimeRangeSelectProps> = ({
     options,
     value,
     placeholder,
+    props,
     handleChange,
 }) => {
     const filterable = React.useMemo(() => (options?.length || 0) > 9, [options?.length]);
@@ -41,10 +55,7 @@ export const TimeRangeSelect: React.FC<TimeRangeSelectProps> = ({
     }, [value]);
 
     return (
-        <FormRow
-            label={spec.viewSpec.layoutTitle}
-            labelHelpPopover={spec.viewSpec.layoutDescription}
-        >
+        <Row {...{...props, spec}}>
             <Select
                 className={b('select')}
                 filterable={filterable}
@@ -55,7 +66,8 @@ export const TimeRangeSelect: React.FC<TimeRangeSelectProps> = ({
                 placeholder={spec.viewSpec.placeholder || placeholder}
                 filterPlaceholder={spec.viewSpec.selectParams?.filterPlaceholder}
                 qa={name}
+                popupClassName={b('select-popup')}
             />
-        </FormRow>
+        </Row>
     );
 };

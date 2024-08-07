@@ -34,6 +34,9 @@ const baseSpec: ObjectSpec = {
     viewSpec: {
         type: 'time_range_selector',
         layout: 'transparent',
+        timeRangeSelectorParams: {
+            timeStep: 30,
+        },
     },
 };
 
