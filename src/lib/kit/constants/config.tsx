@@ -54,6 +54,7 @@ import {
     TextContent,
     TextLink,
     TextLinkView,
+    TimeRangeSelector,
     Transparent,
     ViewAccordeon,
     ViewAccordeonCard,
@@ -142,6 +143,7 @@ export const dynamicConfig: DynamicFormConfig = {
             multi_oneof: {Component: MultiOneOf, independent: true},
             multi_oneof_flat: {Component: MultiOneOfFlat, independent: true},
             inline: {Component: ObjectInline, independent: true},
+            time_range_selector: {Component: TimeRangeSelector, independent: true},
         },
         layouts: {
             row: Row,
@@ -248,6 +250,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
             multi_oneof: {Component: MultiOneOfView, independent: true},
             multi_oneof_flat: {Component: MultiOneOfFlatView, independent: true},
             inline: {Component: ObjectInlineView, independent: true},
+            time_range_selector: {Component: ObjectBaseView, independent: true},
         },
         layouts: {
             row: ViewRow,

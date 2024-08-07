@@ -1,0 +1,9 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}time-range-selector {
+    & > * .#{$ns}select {
+        min-width: 100px;
+        max-width: unset;
+        width: unset;
+    }
+}
