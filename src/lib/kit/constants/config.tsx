@@ -55,6 +55,7 @@ import {
     TextLink,
     TextLinkView,
     TimeRangeSelector,
+    TimeRangeSelectorView,
     Transparent,
     ViewAccordeon,
     ViewAccordeonCard,
@@ -250,7 +251,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
             multi_oneof: {Component: MultiOneOfView, independent: true},
             multi_oneof_flat: {Component: MultiOneOfFlatView, independent: true},
             inline: {Component: ObjectInlineView, independent: true},
-            time_range_selector: {Component: ObjectBaseView, independent: true},
+            time_range_selector: {Component: TimeRangeSelectorView, independent: true},
         },
         layouts: {
             row: ViewRow,
