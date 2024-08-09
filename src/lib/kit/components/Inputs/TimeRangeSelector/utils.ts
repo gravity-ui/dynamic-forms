@@ -7,9 +7,7 @@ export const filterTimeArray = (
     cutoff: string,
     direction: 'greater' | 'less',
 ) => {
-    if (direction === 'greater') {
-        return times.filter(({value: time}) => time > cutoff);
-    }
-
-    return times.filter(({value: time}) => time < cutoff);
+    return times.filter(({value: time}) =>
+        direction === 'greater' ? time > cutoff : time < cutoff,
+    );
 };

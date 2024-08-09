@@ -3,9 +3,7 @@ import React from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 
 import {ObjectIndependentView, ViewController, isStringSpec} from '../../../../core';
-
-const START_TIME = 'start';
-const END_TIME = 'end';
+import {END_TIME, START_TIME} from '../../../constants/common';
 
 export const TimeRangeSelectorView: ObjectIndependentView = ({
     value,
@@ -15,23 +13,17 @@ export const TimeRangeSelectorView: ObjectIndependentView = ({
     ...restProps
 }) => {
     const {startTimeSpec, endTimeSpec} = React.useMemo(() => {
-        let startTimeSpec, endTimeSpec;
+        const [startTimeSpec, endTimeSpec] = [START_TIME, END_TIME].map((key) => {
+            if (spec.properties?.[key] && isStringSpec(spec.properties[key])) {
+                const _spec = cloneDeep(spec.properties[key]);
 
-        if (spec.properties?.[START_TIME] && isStringSpec(spec.properties[START_TIME])) {
-            const _spec = cloneDeep(spec.properties[START_TIME]);
+                _spec.viewSpec.layout = 'row';
 
-            _spec.viewSpec.layout = 'row';
+                return _spec;
+            }
 
-            startTimeSpec = _spec;
-        }
-
-        if (spec.properties?.[END_TIME] && isStringSpec(spec.properties[END_TIME])) {
-            const _spec = cloneDeep(spec.properties[END_TIME]);
-
-            _spec.viewSpec.layout = 'row';
-
-            endTimeSpec = _spec;
-        }
+            return undefined;
+        });
 
         return {startTimeSpec, endTimeSpec};
     }, [spec.properties]);

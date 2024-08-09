@@ -5,30 +5,24 @@ import isString from 'lodash/isString';
 import set from 'lodash/set';
 
 import {FieldValue, ObjectIndependentInput, ValidateError, isStringSpec} from '../../../../core';
+import {END_TIME, START_TIME} from '../../../constants/common';
 
 import {TimeRangeSelect} from './components';
 import {filterTimeArray} from './utils';
-
-const START_TIME = 'start';
-const END_TIME = 'end';
 
 export const TimeRangeSelector: ObjectIndependentInput = (props) => {
     const {spec, input, name, Layout} = props;
 
     const {startTimeSpec, endTimeSpec} = React.useMemo(() => {
-        let startTimeSpec, endTimeSpec;
+        const [startTimeSpec, endTimeSpec] = [START_TIME, END_TIME].map((key) => {
+            if (spec.properties?.[key] && isStringSpec(spec.properties[key])) {
+                const _spec = cloneDeep(spec.properties[key]);
 
-        if (spec.properties?.[START_TIME] && isStringSpec(spec.properties[START_TIME])) {
-            const _spec = cloneDeep(spec.properties[START_TIME]);
+                return _spec;
+            }
 
-            startTimeSpec = _spec;
-        }
-
-        if (spec.properties?.[END_TIME] && isStringSpec(spec.properties[END_TIME])) {
-            const _spec = cloneDeep(spec.properties[END_TIME]);
-
-            endTimeSpec = _spec;
-        }
+            return undefined;
+        });
 
         return {startTimeSpec, endTimeSpec};
     }, [spec.properties]);
@@ -51,17 +45,17 @@ export const TimeRangeSelector: ObjectIndependentInput = (props) => {
         let startTimeOptions = defaultTimeOptions.slice(0, -1);
         let endTimeOptions = defaultTimeOptions.slice(1);
 
-        if (input.value?.[START_TIME] && isString(input.value[START_TIME])) {
-            endTimeOptions = filterTimeArray(
-                defaultTimeOptions,
-                input.value[START_TIME],
-                'greater',
-            );
-        }
+        [START_TIME, END_TIME].forEach((key) => {
+            if (input.value?.[key] && isString(input.value[key])) {
+                const time = input.value[key];
 
-        if (input.value?.[END_TIME] && isString(input.value[END_TIME])) {
-            startTimeOptions = filterTimeArray(defaultTimeOptions, input.value[END_TIME], 'less');
-        }
+                if (START_TIME === key) {
+                    endTimeOptions = filterTimeArray(defaultTimeOptions, time, 'greater');
+                } else {
+                    startTimeOptions = filterTimeArray(defaultTimeOptions, time, 'less');
+                }
+            }
+        });
 
         return {startTimeOptions, endTimeOptions};
     }, [defaultTimeOptions, input.value]);
