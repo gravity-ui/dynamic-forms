@@ -15,8 +15,10 @@ export const TimeRangeSelector: ObjectIndependentInput = (props) => {
 
     const {startTimeSpec, endTimeSpec} = React.useMemo(() => {
         const [startTimeSpec, endTimeSpec] = [START_TIME, END_TIME].map((key) => {
-            if (spec.properties?.[key] && isStringSpec(spec.properties[key])) {
-                const _spec = cloneDeep(spec.properties[key]);
+            const property = spec.properties?.[key];
+
+            if (isStringSpec(property)) {
+                const _spec = cloneDeep(property);
 
                 return _spec;
             }
@@ -46,9 +48,9 @@ export const TimeRangeSelector: ObjectIndependentInput = (props) => {
         let endTimeOptions = defaultTimeOptions.slice(1);
 
         [START_TIME, END_TIME].forEach((key) => {
-            if (input.value?.[key] && isString(input.value[key])) {
-                const time = input.value[key];
+            const time = input.value?.[key];
 
+            if (isString(time)) {
                 if (START_TIME === key) {
                     endTimeOptions = filterTimeArray(defaultTimeOptions, time, 'greater');
                 } else {
