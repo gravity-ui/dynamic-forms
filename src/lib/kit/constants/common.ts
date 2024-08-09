@@ -5,3 +5,6 @@ export const COMMON_POPOVER_PLACEMENT: PopoverProps['placement'] = ['bottom', 't
 export const COMMON_TITLE_MAX_WIDTH = 533;
 
 export const OBJECT_VALUE_PROPERTY_NAME = 'value';
+
+export const START_TIME = 'start';
+export const END_TIME = 'end';

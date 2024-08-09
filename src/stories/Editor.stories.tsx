@@ -104,6 +104,32 @@ const spec: ObjectSpec = {
                                 layoutTitle: 'Non-working days',
                             },
                         },
+                        working_hours: {
+                            type: SpecTypes.Object,
+                            properties: {
+                                start: {
+                                    type: SpecTypes.String,
+                                    viewSpec: {
+                                        type: 'select',
+                                        layout: 'row',
+                                        layoutTitle: 'The begining of the work day',
+                                    },
+                                },
+                                end: {
+                                    type: SpecTypes.String,
+                                    viewSpec: {
+                                        type: 'select',
+                                        layout: 'row',
+                                        layoutTitle: 'End of the working day',
+                                    },
+                                },
+                            },
+                            viewSpec: {
+                                type: 'time_range_selector',
+                                layoutTitle: 'Working hours',
+                                layoutDescription: 'transparent',
+                            },
+                        },
                         birthday: {
                             type: SpecTypes.String,
                             viewSpec: {

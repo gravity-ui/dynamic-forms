@@ -130,6 +130,9 @@ export interface ObjectSpec<
         inputProps?: InputComponentProps;
         layoutProps?: LayoutComponentProps;
         delimiter?: Record<string, string>;
+        timeRangeSelectorParams?: {
+            timeStep?: number;
+        };
     };
 }
 

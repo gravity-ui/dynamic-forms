@@ -518,6 +518,26 @@ const fileInput: ObjectSpec = {
     },
 };
 
+const timeRangeSelectorParams: ObjectSpec = {
+    type: SpecTypes.Object,
+    properties: {
+        timeStep: {
+            type: SpecTypes.Number,
+            viewSpec: {
+                type: 'base',
+                layout: 'row',
+                layoutTitle: 'Time step',
+                layoutDescription: 'The step is set in minutes',
+            },
+        },
+    },
+    viewSpec: {
+        type: 'base',
+        layout: 'accordeon',
+        layoutTitle: 'Time Range Selector',
+    },
+};
+
 const dateInput: ObjectSpec = {
     type: SpecTypes.Object,
     properties: {
@@ -748,6 +768,7 @@ export const getObjectOptions = (): ObjectSpec => ({
                 placeholder,
                 hidden,
                 delimiter,
+                timeRangeSelectorParams,
             },
             [
                 'disabled',
@@ -761,6 +782,7 @@ export const getObjectOptions = (): ObjectSpec => ({
                 'placeholder',
                 'hidden',
                 'delimiter',
+                'timeRangeSelectorParams',
             ],
         ),
     },

@@ -1,0 +1,11 @@
+@import '../../../../../styles/variables.scss';
+
+.#{$ns}time-range-select {
+    &__select {
+        min-width: 100px;
+    }
+
+    &__select-popup {
+        max-height: 250px;
+    }
+}
