@@ -119,7 +119,10 @@
     "react": "^16.0.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.0.0 || ^17.0.0 || ^18.0.0",
     "react-final-form": "^6.5.3",
-    "react-is": "^16.0.0 || ^17.0.0 || ^18.0.0"
+    "react-is": "^16.0.0 || ^17.0.0 || ^18.0.0",
+    "@gravity-ui/date-components": "^2.0.0",
+    "@gravity-ui/date-utils": "^2.0.0",
+    "@gravity-ui/components": "^3.0.0"
   },
   "nano-staged": {
     "*.{scss}": [
