@@ -63,6 +63,7 @@ export const TIME_RANGE_SELECTOR: Record<string, ObjectSpec> = {
                     type: 'select',
                     layout: 'row',
                     layoutTitle: 'Start of launch',
+                    placeholder: '00:00',
                 },
             },
             end: {
@@ -72,6 +73,7 @@ export const TIME_RANGE_SELECTOR: Record<string, ObjectSpec> = {
                     type: 'select',
                     layout: 'row',
                     layoutTitle: 'End of launch',
+                    placeholder: '01:00',
                 },
             },
         },
@@ -94,6 +96,7 @@ export const TIME_RANGE_SELECTOR: Record<string, ObjectSpec> = {
                     type: 'select',
                     layout: 'row',
                     layoutTitle: 'Start of launch',
+                    placeholder: '00:00',
                 },
             },
             end: {
@@ -103,6 +106,7 @@ export const TIME_RANGE_SELECTOR: Record<string, ObjectSpec> = {
                     type: 'select',
                     layout: 'row',
                     layoutTitle: 'End of launch',
+                    placeholder: '01:00',
                 },
             },
         },
@@ -122,6 +126,7 @@ export const TIME_RANGE_SELECTOR: Record<string, ObjectSpec> = {
                     type: 'select',
                     layout: 'row',
                     layoutTitle: 'Start of launch',
+                    placeholder: '00:00',
                 },
             },
             end: {
@@ -132,6 +137,7 @@ export const TIME_RANGE_SELECTOR: Record<string, ObjectSpec> = {
                     type: 'select',
                     layout: 'row',
                     layoutTitle: 'End of launch',
+                    placeholder: '01:00',
                 },
             },
         },
@@ -151,6 +157,7 @@ export const TIME_RANGE_SELECTOR: Record<string, ObjectSpec> = {
                     layout: 'row',
                     layoutTitle: 'Start of launch',
                     layoutDescription: 'End of launch Description',
+                    placeholder: '00:00',
                 },
             },
             end: {
@@ -161,6 +168,7 @@ export const TIME_RANGE_SELECTOR: Record<string, ObjectSpec> = {
                     layout: 'row',
                     layoutTitle: 'End of launch',
                     layoutDescription: 'End of launch Description',
+                    placeholder: '01:00',
                 },
             },
         },
