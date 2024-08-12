@@ -3,10 +3,21 @@ export const filterTimeArray = (
     cutoff: string,
     direction: 'greater' | 'less',
 ) => {
-    return times.filter(({value: time}) =>
-        direction === 'greater' ? time > cutoff : time < cutoff,
-    );
+    const isTimeFormat = (value: string) => /^\d{1,2}:\d{2}$/.test(value);
+
+    const compareValues = (a: string, b: string) => {
+        if (isTimeFormat(a) && isTimeFormat(b)) {
+            return direction === 'greater' ? a > b : a < b;
+        } else {
+            const aNum = parseInt(a, 10);
+            const bNum = parseInt(b, 10);
+
+            return direction === 'greater' ? aNum > bNum : aNum < bNum;
+        }
+    };
+
+    return times.filter(({value: time}) => compareValues(time, cutoff));
 };
 
 export const validateArray = (arr: {value: string}[]) =>
-    arr.every((obj) => /^([01]\d|2[0-3]):([0-5]\d)$/.test(obj.value));
+    arr.every((obj) => /^(\d+|\d{1,2}:\d{1,2})$/.test(obj.value));
