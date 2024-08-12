@@ -37,7 +37,6 @@ export const TimeRangeSelector: ObjectIndependentInput = (props) => {
                     return spec.enum.map((id) => ({
                         id,
                         value: id,
-                        text: spec.description?.[id] || id,
                         content: spec.viewSpec.selectParams?.meta?.[id] ? (
                             <div key={id}>
                                 <Text>{spec.description?.[id] || id}</Text>
@@ -114,7 +113,6 @@ export const TimeRangeSelector: ObjectIndependentInput = (props) => {
                 name={`${name}.${START_TIME}`}
                 options={startTimeOptions}
                 value={input.value?.[START_TIME]}
-                placeholder={startTimeOptions[0]?.text}
                 handleChange={(value) => parentOnChange(START_TIME, value[0])}
                 props={props}
             />
@@ -123,7 +121,6 @@ export const TimeRangeSelector: ObjectIndependentInput = (props) => {
                 name={`${name}.${END_TIME}`}
                 options={endTimeOptions}
                 value={input.value?.[END_TIME]}
-                placeholder={endTimeOptions[0]?.text}
                 handleChange={(value) => parentOnChange(END_TIME, value[0])}
                 props={props}
             />

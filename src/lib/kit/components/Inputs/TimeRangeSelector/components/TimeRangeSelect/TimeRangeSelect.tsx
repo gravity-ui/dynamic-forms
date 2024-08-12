@@ -25,7 +25,6 @@ interface TimeRangeSelectProps {
     name: string;
     options: SelectOption<string>[];
     value?: FieldValue;
-    placeholder?: string;
     handleChange: (value: string[]) => void;
     props: IndependentInputProps<
         FieldObjectValue,
@@ -40,7 +39,6 @@ export const TimeRangeSelect: React.FC<TimeRangeSelectProps> = ({
     spec,
     options,
     value,
-    placeholder,
     props,
     handleChange,
 }) => {
@@ -75,7 +73,7 @@ export const TimeRangeSelect: React.FC<TimeRangeSelectProps> = ({
                 options={options}
                 onUpdate={handleChange}
                 disabled={spec.viewSpec.disabled}
-                placeholder={spec.viewSpec.placeholder || placeholder}
+                placeholder={spec.viewSpec.placeholder}
                 filterPlaceholder={spec.viewSpec.selectParams?.filterPlaceholder}
                 renderOption={renderOption}
                 getOptionHeight={getOptionHeight}

@@ -45,6 +45,10 @@ const baseSpec: ObjectSpec = {
                 type: 'select',
                 layout: 'row',
                 layoutTitle: 'Start of launch',
+                placeholder: '00:00',
+                selectParams: {
+                    filterPlaceholder: 'Start time',
+                },
             },
         },
         end: {
@@ -78,6 +82,10 @@ const baseSpec: ObjectSpec = {
                 type: 'select',
                 layout: 'row',
                 layoutTitle: 'End of launch',
+                placeholder: '01:00',
+                selectParams: {
+                    filterPlaceholder: 'End time',
+                },
             },
         },
     },
