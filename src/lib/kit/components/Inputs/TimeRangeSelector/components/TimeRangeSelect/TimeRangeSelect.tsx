@@ -54,6 +54,18 @@ export const TimeRangeSelect: React.FC<TimeRangeSelectProps> = ({
         return undefined;
     }, [value]);
 
+    const renderOption = React.useCallback((option: {value: string; content?: React.ReactNode}) => {
+        return <React.Fragment key={option.value}>{option.content || option.value}</React.Fragment>;
+    }, []);
+
+    const getOptionHeight = React.useCallback(() => {
+        if (spec.viewSpec.selectParams?.meta) {
+            return 44;
+        }
+
+        return 28;
+    }, [spec.viewSpec.selectParams?.meta]);
+
     return (
         <Row {...{...props, spec}}>
             <Select
@@ -65,6 +77,8 @@ export const TimeRangeSelect: React.FC<TimeRangeSelectProps> = ({
                 disabled={spec.viewSpec.disabled}
                 placeholder={spec.viewSpec.placeholder || placeholder}
                 filterPlaceholder={spec.viewSpec.selectParams?.filterPlaceholder}
+                renderOption={renderOption}
+                getOptionHeight={getOptionHeight}
                 qa={name}
                 popupClassName={b('select-popup')}
             />

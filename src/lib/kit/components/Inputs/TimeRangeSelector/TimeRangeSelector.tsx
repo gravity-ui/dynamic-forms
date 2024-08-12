@@ -1,66 +1,97 @@
 import React from 'react';
 
-import cloneDeep from 'lodash/cloneDeep';
+import {Text} from '@gravity-ui/uikit';
+
 import isString from 'lodash/isString';
 import set from 'lodash/set';
 
-import {FieldValue, ObjectIndependentInput, ValidateError, isStringSpec} from '../../../../core';
+import {
+    FieldValue,
+    ObjectIndependentInput,
+    StringSpec,
+    ValidateError,
+    isStringSpec,
+} from '../../../../core';
 import {END_TIME, START_TIME} from '../../../constants/common';
 
 import {TimeRangeSelect} from './components';
-import {filterTimeArray} from './utils';
+import {filterTimeArray, validateArray} from './utils';
 
 export const TimeRangeSelector: ObjectIndependentInput = (props) => {
     const {spec, input, name, Layout} = props;
 
-    const {startTimeSpec, endTimeSpec} = React.useMemo(() => {
-        const [startTimeSpec, endTimeSpec] = [START_TIME, END_TIME].map((key) => {
-            const property = spec.properties?.[key];
+    const [startTimeSpec, endTimeSpec] = React.useMemo(
+        () =>
+            [START_TIME, END_TIME].map((key) =>
+                isStringSpec(spec.properties?.[key])
+                    ? (spec.properties?.[key] as StringSpec<any, undefined, undefined>)
+                    : undefined,
+            ),
+        [spec.properties],
+    );
 
-            if (isStringSpec(property)) {
-                const _spec = cloneDeep(property);
+    const {initialStartTimeOptions, initialEndTimeOptions, canBeFiltered} = React.useMemo(() => {
+        const [initialStartTimeOptions, initialEndTimeOptions] = [startTimeSpec, endTimeSpec].map(
+            (spec) => {
+                if (spec && spec.enum) {
+                    return spec.enum.map((id) => ({
+                        id,
+                        value: id,
+                        text: spec.description?.[id] || id,
+                        content: spec.viewSpec.selectParams?.meta?.[id] ? (
+                            <div key={id}>
+                                <Text>{spec.description?.[id] || id}</Text>
+                                <Text color="secondary" as="div">
+                                    {spec.viewSpec.selectParams.meta[id]}
+                                </Text>
+                            </div>
+                        ) : (
+                            spec.description?.[id] || id
+                        ),
+                        key: id,
+                    }));
+                }
 
-                return _spec;
-            }
+                return undefined;
+            },
+        );
 
-            return undefined;
-        });
+        const canBeFiltered =
+            initialStartTimeOptions &&
+            initialEndTimeOptions &&
+            validateArray(initialStartTimeOptions) &&
+            validateArray(initialEndTimeOptions);
 
-        return {startTimeSpec, endTimeSpec};
-    }, [spec.properties]);
-
-    const defaultTimeOptions = React.useMemo(() => {
-        const times: string[] = [];
-        const totalMinutesInDay = 24 * 60;
-        const step = spec.viewSpec.timeRangeSelectorParams?.timeStep || 60;
-
-        for (let minutes = 0; minutes < totalMinutesInDay; minutes += step) {
-            const hours = Math.floor(minutes / 60);
-            const mins = minutes % 60;
-            times.push(`${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`);
-        }
-
-        return times.map((time) => ({id: time, content: time, value: time}));
-    }, [spec.viewSpec.timeRangeSelectorParams?.timeStep]);
+        return {
+            initialStartTimeOptions,
+            initialEndTimeOptions,
+            canBeFiltered,
+        };
+    }, [endTimeSpec, startTimeSpec]);
 
     const {startTimeOptions, endTimeOptions} = React.useMemo(() => {
-        let startTimeOptions = defaultTimeOptions.slice(0, -1);
-        let endTimeOptions = defaultTimeOptions.slice(1);
+        let startTimeOptions = initialStartTimeOptions;
+        let endTimeOptions = initialEndTimeOptions;
 
         [START_TIME, END_TIME].forEach((key) => {
             const time = input.value?.[key];
 
-            if (isString(time)) {
+            if (
+                isString(time) &&
+                canBeFiltered &&
+                initialEndTimeOptions &&
+                initialStartTimeOptions
+            ) {
                 if (START_TIME === key) {
-                    endTimeOptions = filterTimeArray(defaultTimeOptions, time, 'greater');
+                    endTimeOptions = filterTimeArray(initialEndTimeOptions, time, 'greater');
                 } else {
-                    startTimeOptions = filterTimeArray(defaultTimeOptions, time, 'less');
+                    startTimeOptions = filterTimeArray(initialStartTimeOptions, time, 'less');
                 }
             }
         });
 
         return {startTimeOptions, endTimeOptions};
-    }, [defaultTimeOptions, input.value]);
+    }, [canBeFiltered, initialEndTimeOptions, initialStartTimeOptions, input.value]);
 
     const parentOnChange = React.useCallback(
         (childName: string, childValue: FieldValue, childErrors?: Record<string, ValidateError>) =>
@@ -72,7 +103,7 @@ export const TimeRangeSelector: ObjectIndependentInput = (props) => {
         [input, name],
     );
 
-    if (!startTimeSpec || !endTimeSpec) {
+    if (!startTimeSpec || !endTimeSpec || !startTimeOptions || !endTimeOptions) {
         return null;
     }
 
@@ -83,7 +114,7 @@ export const TimeRangeSelector: ObjectIndependentInput = (props) => {
                 name={`${name}.${START_TIME}`}
                 options={startTimeOptions}
                 value={input.value?.[START_TIME]}
-                placeholder={startTimeOptions[0]?.content}
+                placeholder={startTimeOptions[0]?.text}
                 handleChange={(value) => parentOnChange(START_TIME, value[0])}
                 props={props}
             />
@@ -92,7 +123,7 @@ export const TimeRangeSelector: ObjectIndependentInput = (props) => {
                 name={`${name}.${END_TIME}`}
                 options={endTimeOptions}
                 value={input.value?.[END_TIME]}
-                placeholder={endTimeOptions[0]?.content}
+                placeholder={endTimeOptions[0]?.text}
                 handleChange={(value) => parentOnChange(END_TIME, value[0])}
                 props={props}
             />
