@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.7.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.6.0...v4.7.0) (2024-08-12)
+
+
+### Features
+
+* **CheckboxGroup:** added new input CheckboxGroup ([#214](https://github.com/gravity-ui/dynamic-forms/issues/214)) ([075e48b](https://github.com/gravity-ui/dynamic-forms/commit/075e48b1e1a804e8d57d905d62a19a5c370a9b04))
+* **TimeRangeSelector:** added new input Time Range Selector ([#216](https://github.com/gravity-ui/dynamic-forms/issues/216)) ([2acde25](https://github.com/gravity-ui/dynamic-forms/commit/2acde25ced03057bd1bf03978fca49f35451ea23))
+
 ## [4.6.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.5.0...v4.6.0) (2024-07-16)
 
 
