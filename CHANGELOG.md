@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.7.1](https://github.com/gravity-ui/dynamic-forms/compare/v4.7.0...v4.7.1) (2024-08-13)
+
+
+### Bug Fixes
+
+* version date-components and date-utils ([#217](https://github.com/gravity-ui/dynamic-forms/issues/217)) ([a76b204](https://github.com/gravity-ui/dynamic-forms/commit/a76b204fa48fbbd12801a8145d11d28127c82110))
+
 ## [4.7.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.6.0...v4.7.0) (2024-08-12)
 
 
