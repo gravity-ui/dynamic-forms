@@ -175,12 +175,14 @@ export const InputPreview: React.FC<InputPreviewProps> = ({
                                 search={searchInput}
                             />
                         </div>
-                        <div className={b('input-view', {hidden: togglerInput !== 'view'})}>
-                            <DynamicView
-                                value={form.values.input}
-                                spec={transformIncorrect(form.values.options)}
-                            />
-                        </div>
+                        {togglerInput === 'view' ? (
+                            <div className={b('input-view')}>
+                                <DynamicView
+                                    value={form.values.input}
+                                    spec={transformIncorrect(form.values.options)}
+                                />
+                            </div>
+                        ) : null}
                         {togglerInput === 'json' ? (
                             <div className={b('monaco')}>{renderMonaco(form.values.input)}</div>
                         ) : null}

@@ -21,18 +21,6 @@ export const LongValue: React.FC<LongValueProps> = ({value, className}) => {
 
     const handleClick = React.useCallback(() => setOpen((f) => !f), [setOpen]);
 
-    const currentTextProperies = React.useMemo(() => {
-        let wordBreak: 'break-all' | undefined;
-        let whiteSpace: 'break-spaces' | undefined;
-
-        if (open) {
-            wordBreak = 'break-all';
-            whiteSpace = 'break-spaces';
-        }
-
-        return {wordBreak, whiteSpace};
-    }, [open]);
-
     React.useEffect(() => {
         if (ref.current) {
             if (value !== prevValue.current) {
@@ -58,10 +46,14 @@ export const LongValue: React.FC<LongValueProps> = ({value, className}) => {
     });
 
     return (
-        <div className={b('container')} ref={ref} onClick={long ? handleClick : undefined}>
-            <Text className={b({long}, className)} ellipsis={true} {...currentTextProperies}>
-                {value}
-            </Text>
-        </div>
+        <Text
+            as="div"
+            ref={ref}
+            className={b({open, long}, className)}
+            // @ts-ignore
+            onClick={long ? handleClick : undefined}
+        >
+            {value}
+        </Text>
     );
 };
