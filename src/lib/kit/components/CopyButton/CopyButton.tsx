@@ -21,7 +21,11 @@ export interface CopyButtonProps {
 
 export const CopyButton: React.FC<CopyButtonProps> = ({spec, value}) => {
     if ((isStringSpec(spec) || isNumberSpec(spec)) && spec.viewSpec.copy) {
-        return <ClipboardButton className={b()} text={`${value}`} size="s" />;
+        return (
+            <div className={b()}>
+                <ClipboardButton className={b('button')} text={`${value}`} size="xs" />
+            </div>
+        );
     }
 
     return null;

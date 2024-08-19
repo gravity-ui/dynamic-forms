@@ -159,22 +159,26 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
                                     />
                                 </div>
                             ) : null}
-                            <div className={b('input-view', {hidden: toggler !== 'view'})}>
-                                <Flex gap={1} spacing={{mb: 6}}>
-                                    <Text variant="body-2">Enable showLayoutDescription props</Text>
-                                    <Switch
-                                        onChange={() => setShowLayoutDescription((v) => !v)}
-                                        className={b('switch')}
+                            {toggler === 'view' ? (
+                                <div className={b('input-view')}>
+                                    <Flex gap={1} spacing={{mb: 6}}>
+                                        <Text variant="body-2">
+                                            Enable showLayoutDescription props
+                                        </Text>
+                                        <Switch
+                                            onChange={() => setShowLayoutDescription((v) => !v)}
+                                            className={b('switch')}
+                                        />
+                                    </Flex>
+                                    <DynamicView
+                                        {...getViewProps(
+                                            form.values.input,
+                                            spec,
+                                            showLayoutDescription,
+                                        )}
                                     />
-                                </Flex>
-                                <DynamicView
-                                    {...getViewProps(
-                                        form.values.input,
-                                        spec,
-                                        showLayoutDescription,
-                                    )}
-                                />
-                            </div>
+                                </div>
+                            ) : null}
                             {toggler === 'json' ? (
                                 <div className={b('monaco')}>
                                     <MonacoInput {...getValuesEditorProps(form.values.input)} />
