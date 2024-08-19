@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.7.2](https://github.com/gravity-ui/dynamic-forms/compare/v4.7.1...v4.7.2) (2024-08-19)
+
+
+### Bug Fixes
+
+* copy button and long value components fixes ([#219](https://github.com/gravity-ui/dynamic-forms/issues/219)) ([176200d](https://github.com/gravity-ui/dynamic-forms/commit/176200d80eab83132fdc6f46454d49197550a5bb))
+
 ## [4.7.1](https://github.com/gravity-ui/dynamic-forms/compare/v4.7.0...v4.7.1) (2024-08-13)
 
 
