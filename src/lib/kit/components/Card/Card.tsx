@@ -78,6 +78,7 @@ export const Card: React.FC<CardProps> = ({
                         content={propsTitle}
                         disabled={titlePopoverDisabled}
                         placement={COMMON_POPOVER_PLACEMENT}
+                        className={b('title-popover')}
                     >
                         <Text
                             className={b('title')}
