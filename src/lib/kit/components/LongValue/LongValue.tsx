@@ -12,14 +12,21 @@ const b = block('long-value');
 
 export interface LongValueProps extends TextProps {
     value?: string | number | boolean;
+    onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-export const LongValue: React.FC<LongValueProps> = ({value, className, ...restProps}) => {
+export const LongValue: React.FC<LongValueProps> = ({value, onClick, className, ...restProps}) => {
     const ref = React.useRef<HTMLDivElement>(null);
     const [open, setOpen] = React.useState(false);
     const [long, setLong] = React.useState(false);
 
-    const handleClick = React.useCallback(() => setOpen((f) => !f), [setOpen]);
+    const handleClick = React.useCallback(
+        (e: React.MouseEvent<HTMLDivElement>) => {
+            onClick?.(e);
+            setOpen((f) => !f);
+        },
+        [setOpen, onClick],
+    );
 
     React.useEffect(() => {
         if (ref.current) {
