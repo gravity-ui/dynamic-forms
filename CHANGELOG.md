@@ -1,5 +1,34 @@
 # Changelog
 
+## [4.7.3](https://github.com/gravity-ui/dynamic-forms/compare/v4.7.2...v4.7.3) (2024-08-20)
+
+
+### Bug Fixes
+
+* add observer for long value component ([#221](https://github.com/gravity-ui/dynamic-forms/issues/221)) ([836ab26](https://github.com/gravity-ui/dynamic-forms/commit/836ab2674e8c109f63a71fa58438d5022745b488))
+
+## [4.7.2](https://github.com/gravity-ui/dynamic-forms/compare/v4.7.1...v4.7.2) (2024-08-19)
+
+
+### Bug Fixes
+
+* copy button and long value components fixes ([#219](https://github.com/gravity-ui/dynamic-forms/issues/219)) ([176200d](https://github.com/gravity-ui/dynamic-forms/commit/176200d80eab83132fdc6f46454d49197550a5bb))
+
+## [4.7.1](https://github.com/gravity-ui/dynamic-forms/compare/v4.7.0...v4.7.1) (2024-08-13)
+
+
+### Bug Fixes
+
+* version date-components and date-utils ([#217](https://github.com/gravity-ui/dynamic-forms/issues/217)) ([a76b204](https://github.com/gravity-ui/dynamic-forms/commit/a76b204fa48fbbd12801a8145d11d28127c82110))
+
+## [4.7.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.6.0...v4.7.0) (2024-08-12)
+
+
+### Features
+
+* **CheckboxGroup:** added new input CheckboxGroup ([#214](https://github.com/gravity-ui/dynamic-forms/issues/214)) ([075e48b](https://github.com/gravity-ui/dynamic-forms/commit/075e48b1e1a804e8d57d905d62a19a5c370a9b04))
+* **TimeRangeSelector:** added new input Time Range Selector ([#216](https://github.com/gravity-ui/dynamic-forms/issues/216)) ([2acde25](https://github.com/gravity-ui/dynamic-forms/commit/2acde25ced03057bd1bf03978fca49f35451ea23))
+
 ## [4.6.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.5.0...v4.6.0) (2024-07-16)
 
 

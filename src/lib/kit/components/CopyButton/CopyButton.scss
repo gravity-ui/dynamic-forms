@@ -1,6 +1,14 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}copy-button {
+    width: 20px;
     display: none;
-    margin: 2px 0 0 5px;
+    position: relative;
+    margin: -1px 0 0 5px;
+
+    &__button {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 }
