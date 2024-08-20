@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.7.3](https://github.com/gravity-ui/dynamic-forms/compare/v4.7.2...v4.7.3) (2024-08-20)
+
+
+### Bug Fixes
+
+* add observer for long value component ([#221](https://github.com/gravity-ui/dynamic-forms/issues/221)) ([836ab26](https://github.com/gravity-ui/dynamic-forms/commit/836ab2674e8c109f63a71fa58438d5022745b488))
+
 ## [4.7.2](https://github.com/gravity-ui/dynamic-forms/compare/v4.7.1...v4.7.2) (2024-08-19)
 
 
