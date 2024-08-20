@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.9.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.8.0...v4.9.0) (2024-08-20)
+
+
+### Features
+
+* add click handler prop for long value ([#226](https://github.com/gravity-ui/dynamic-forms/issues/226)) ([5495961](https://github.com/gravity-ui/dynamic-forms/commit/5495961dcb9646f63c12cac65c2367a341b9405d))
+
 ## [4.8.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.7.3...v4.8.0) (2024-08-20)
 
 
