@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.8.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.7.3...v4.8.0) (2024-08-20)
+
+
+### Features
+
+* add ability to use custom patternError ([#224](https://github.com/gravity-ui/dynamic-forms/issues/224)) ([10768ff](https://github.com/gravity-ui/dynamic-forms/commit/10768ff195b492a029c96cfb0e903db7fe2b12dd))
+
 ## [4.7.3](https://github.com/gravity-ui/dynamic-forms/compare/v4.7.2...v4.7.3) (2024-08-20)
 
 
