@@ -131,6 +131,36 @@ describe('kit/utils/common', () => {
         expect(prepareSpec({properties: {prop: {type: 'NUMBER'}}} as any)).toMatchObject({
             properties: {prop: {type: 'number'}},
         });
+
+        const getErrorMessage = (regexp?: string) => {
+            return `My custom error message for ${regexp}`;
+        };
+
+        expect(prepareSpec({pattern: '[a-zA-Z0-9]'} as any, false, getErrorMessage)).toMatchObject({
+            pattern: '[a-zA-Z0-9]',
+            patternError: 'My custom error message for [a-zA-Z0-9]',
+        });
+
+        expect(
+            prepareSpec(
+                {
+                    properties: {
+                        test: {
+                            pattern: '[a-zA-Z0-9]',
+                        },
+                    },
+                } as any,
+                false,
+                getErrorMessage,
+            ),
+        ).toMatchObject({
+            properties: {
+                test: {
+                    pattern: '[a-zA-Z0-9]',
+                    patternError: 'My custom error message for [a-zA-Z0-9]',
+                },
+            },
+        });
     });
 
     test('isCorrectSizeParams', () => {

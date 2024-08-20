@@ -4,6 +4,7 @@ import isNil from 'lodash/isNil';
 import isObject from 'lodash/isObject';
 import isObjectLike from 'lodash/isObjectLike';
 import isString from 'lodash/isString';
+import isEmpty from 'lodash/isEmpty';
 
 import {
     FormValue,
@@ -63,6 +64,7 @@ export const isNotEmptyValue = (value: FormValue | undefined, spec: Spec | undef
 export const prepareSpec = <Type extends Spec>(
     spec: Type,
     parseJsonDefaultValue?: boolean,
+    overridePatternError?: (pattern?: string) => string,
 ): Type => {
     if (isObjectLike(spec)) {
         const result: Record<string, any> = cloneDeep(spec);
@@ -140,8 +142,12 @@ export const prepareSpec = <Type extends Spec>(
             }
         }
 
+        if (!isEmpty(result.pattern) && isEmpty(result.patternError) && overridePatternError) {
+            result.patternError = overridePatternError(result.pattern);
+        }
+
         if (result.items) {
-            result.items = prepareSpec(result.items, parseJsonDefaultValue);
+            result.items = prepareSpec(result.items, parseJsonDefaultValue, overridePatternError);
         }
 
         if (result.maximum === 0 && result.minimum === 0) {
@@ -163,7 +169,11 @@ export const prepareSpec = <Type extends Spec>(
 
         if (isObjectLike(result.properties)) {
             Object.keys(result.properties).forEach((key) => {
-                result.properties[key] = prepareSpec(result.properties[key], parseJsonDefaultValue);
+                result.properties[key] = prepareSpec(
+                    result.properties[key],
+                    parseJsonDefaultValue,
+                    overridePatternError,
+                );
             });
         }
 
