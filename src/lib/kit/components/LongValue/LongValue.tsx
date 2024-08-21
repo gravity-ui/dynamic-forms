@@ -15,7 +15,12 @@ export interface LongValueProps extends TextProps {
     onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-export const LongValue: React.FC<LongValueProps> = ({value, onClick, className, ...restProps}) => {
+export const LongValue: React.FC<LongValueProps> = ({
+    value,
+    onClick,
+    className: externalClassName,
+    ...restProps
+}) => {
     const ref = React.useRef<HTMLDivElement>(null);
     const [open, setOpen] = React.useState(false);
     const [long, setLong] = React.useState(false);
@@ -26,6 +31,19 @@ export const LongValue: React.FC<LongValueProps> = ({value, onClick, className, 
             setOpen((f) => !f);
         },
         [setOpen, onClick],
+    );
+
+    const className = React.useMemo(
+        () =>
+            b(
+                {
+                    open,
+                    long,
+                    ...(restProps.color ? {[restProps.color]: true} : {}),
+                },
+                externalClassName,
+            ),
+        [open, long, externalClassName, restProps.color],
     );
 
     React.useEffect(() => {

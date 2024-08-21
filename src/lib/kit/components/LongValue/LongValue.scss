@@ -16,5 +16,11 @@
         &:hover {
             color: var(--g-color-text-secondary);
         }
+
+        &.#{$ns}long-value_secondary {
+            &:hover {
+                color: var(--g-color-text-primary);
+            }
+        }
     }
 }
