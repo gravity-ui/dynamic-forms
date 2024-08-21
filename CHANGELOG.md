@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.10.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.9.0...v4.10.0) (2024-08-21)
+
+
+### Features
+
+* add styles for long value ([#228](https://github.com/gravity-ui/dynamic-forms/issues/228)) ([6d73640](https://github.com/gravity-ui/dynamic-forms/commit/6d736401f1077f3760e40179e600bd611d48bfaa))
+
 ## [4.9.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.8.0...v4.9.0) (2024-08-20)
 
 
