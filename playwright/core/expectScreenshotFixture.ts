@@ -2,6 +2,12 @@ import {expect} from '@playwright/experimental-ct-react';
 
 import type {ExpectScreenshotFixture, PlaywrightFixture} from './types';
 
+declare global {
+    interface Window {
+        __setTheme: (theme?: string) => void;
+    }
+}
+
 export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture> = async (
     {page},
     use,
@@ -13,11 +19,9 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
         ...pageScreenshotOptions
     } = {}) => {
         const captureScreenshot = async (theme: string) => {
-            const root = page.locator('#root');
+            await page.waitForFunction(() => typeof window.__setTheme === 'function');
 
-            await root.evaluate((el, theme) => {
-                el.classList.value = `g-root g-root_theme_${theme}`;
-            }, theme);
+            await page.evaluate((t) => window.__setTheme(t), theme);
 
             return (component || page.locator('.playwright-wrapper-test')).screenshot({
                 animations: 'disabled',
