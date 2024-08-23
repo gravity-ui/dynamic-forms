@@ -10,7 +10,7 @@ declare global {
     }
 }
 
-export const Provider = ({children}) => {
+export const Providers = ({children}) => {
     const [switcherTheme, setSwitcherTheme] = React.useState<string>('light');
 
     window.__setTheme = setSwitcherTheme;
