@@ -12,13 +12,7 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
         screenshotName,
         ...pageScreenshotOptions
     } = {}) => {
-        const captureScreenshot = async (theme: string) => {
-            const root = page.locator('#root');
-
-            await root.evaluate((el, theme) => {
-                el.classList.value = `g-root g-root_theme_${theme}`;
-            }, theme);
-
+        const captureScreenshot = async () => {
             return (component || page.locator('.playwright-wrapper-test')).screenshot({
                 animations: 'disabled',
                 ...pageScreenshotOptions,
@@ -27,12 +21,14 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
 
         const nameScreenshot = testInfo.titlePath.slice(1).join(' ');
 
-        expect(await captureScreenshot('dark')).toMatchSnapshot({
-            name: `${screenshotName || nameScreenshot} dark.png`,
+        expect(await captureScreenshot()).toMatchSnapshot({
+            name: `${screenshotName || nameScreenshot} light.png`,
         });
 
-        expect(await captureScreenshot('light')).toMatchSnapshot({
-            name: `${screenshotName || nameScreenshot} light.png`,
+        await page.emulateMedia({colorScheme: 'dark'});
+
+        expect(await captureScreenshot()).toMatchSnapshot({
+            name: `${screenshotName || nameScreenshot} dark.png`,
         });
     };
 

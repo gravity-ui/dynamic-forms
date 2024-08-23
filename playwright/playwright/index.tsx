@@ -7,7 +7,7 @@ import './index.scss';
 
 beforeMount(async ({App}) => {
     return (
-        <ThemeProvider theme="light">
+        <ThemeProvider>
             <MobileProvider>
                 <App />
             </MobileProvider>
