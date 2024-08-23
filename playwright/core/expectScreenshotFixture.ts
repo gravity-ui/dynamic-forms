@@ -2,12 +2,6 @@ import {expect} from '@playwright/experimental-ct-react';
 
 import type {ExpectScreenshotFixture, PlaywrightFixture} from './types';
 
-declare global {
-    interface Window {
-        __setTheme: (theme?: string) => void;
-    }
-}
-
 export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture> = async (
     {page},
     use,
@@ -31,9 +25,7 @@ export const expectScreenshotFixture: PlaywrightFixture<ExpectScreenshotFixture>
             name: `${screenshotName || nameScreenshot} light.png`,
         });
 
-        await page.waitForFunction(() => typeof window.__setTheme === 'function');
-
-        await page.evaluate((t) => window.__setTheme(t), 'dark');
+        await page.emulateMedia({colorScheme: 'dark'});
 
         expect(await captureScreenshot()).toMatchSnapshot({
             name: `${screenshotName || nameScreenshot} dark.png`,
