@@ -2,7 +2,7 @@ import React from 'react';
 
 import {MobileProvider, ThemeProvider} from '@gravity-ui/uikit';
 
-import './index.scss';
+import './Providers.scss';
 
 declare global {
     interface Window {
