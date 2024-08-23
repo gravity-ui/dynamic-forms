@@ -13,7 +13,9 @@ declare global {
 export const Providers = ({children}) => {
     const [switcherTheme, setSwitcherTheme] = React.useState<string>('light');
 
-    window.__setTheme = setSwitcherTheme;
+    if (!window.__setTheme) {
+        window.__setTheme = setSwitcherTheme;
+    }
 
     return (
         <ThemeProvider theme={switcherTheme} scoped>
