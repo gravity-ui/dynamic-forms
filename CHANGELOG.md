@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.12.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.11.0...v4.12.0) (2024-09-16)
+
+
+### Features
+
+* add view for text-content ([#235](https://github.com/gravity-ui/dynamic-forms/issues/235)) ([a04374a](https://github.com/gravity-ui/dynamic-forms/commit/a04374a826c2186d8a92916933408b9d99d718a9))
+
 ## [4.11.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.10.0...v4.11.0) (2024-08-22)
 
 
