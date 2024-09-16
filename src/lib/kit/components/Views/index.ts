@@ -12,6 +12,7 @@ export * from './ObjectValueInputView';
 export * from './OneOfView';
 export * from './TableArrayView';
 export * from './TextAreaView';
+export * from './TextContentView';
 export * from './TextLinkView';
 export * from './TimeRangeSelectorView';
 export * from './DateView';
