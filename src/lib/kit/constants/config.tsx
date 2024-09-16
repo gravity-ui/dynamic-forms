@@ -52,6 +52,7 @@ import {
     TextArea,
     TextAreaView,
     TextContent,
+    TextContentView,
     TextLink,
     TextLinkView,
     TimeRangeSelector,
@@ -277,7 +278,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
             file_input: {Component: FileInputView},
             number_with_scale: {Component: NumberWithScaleView},
             monaco_input: {Component: MonacoView},
-            text_content: undefined,
+            text_content: {Component: TextContentView, independent: true},
         },
         layouts: {
             row: ViewRow,
