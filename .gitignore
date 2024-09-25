@@ -13,6 +13,6 @@ build
 storybook-static
 
 #Playwright
-/playwright/playwright/.cache
-/playwright-report
+.cache*
+playwright-report*
 /test-results
