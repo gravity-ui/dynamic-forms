@@ -15,4 +15,8 @@ export interface DynamicViewContext {
         link: Spec['viewSpec']['link'];
     }>;
     Monaco?: React.ComponentType<MonacoEditorProps>;
+    shared: {
+        store: Record<string, any>;
+        onChangeShared: (name: string, value: any) => void;
+    };
 }

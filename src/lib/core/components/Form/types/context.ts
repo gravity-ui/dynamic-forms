@@ -26,6 +26,10 @@ export interface DynamicFormsContext {
         mutateDFState: (mutators: DynamicFormMutators) => void;
     };
     store: DynamicFieldStore;
+    shared: {
+        store: Record<string, any>;
+        onChangeShared: (name: string, value: any) => void;
+    };
     mutatorsStore: DynamicFormMutatorsStore;
     __mirror?: WonderMirror;
 }

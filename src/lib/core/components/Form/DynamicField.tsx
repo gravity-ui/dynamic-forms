@@ -14,6 +14,7 @@ import {
     useCreateContext,
     useCreateSearchContext,
     useDynamicFieldMirror,
+    useFormSharedStore,
     useIntegrationFF,
     useMutators,
     useSearchStore,
@@ -53,6 +54,7 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
     const watcher = useIntegrationFF(store, withoutInsertFFDebounce, destroyOnUnregister);
     const {mutatorsStore, mutateDFState} = useMutators(externalMutators);
     const {store: searchStore, setField, removeField, isHiddenField} = useSearchStore();
+    const shared = useFormSharedStore();
 
     const context = React.useMemo(
         () => ({
@@ -61,10 +63,21 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
             generateRandomValue,
             tools: {...tools, mutateDFState},
             store,
+            shared,
             mutatorsStore,
             __mirror,
         }),
-        [tools, config, Monaco, __mirror, generateRandomValue, mutatorsStore, mutateDFState, store],
+        [
+            tools,
+            shared,
+            config,
+            Monaco,
+            __mirror,
+            generateRandomValue,
+            mutatorsStore,
+            mutateDFState,
+            store,
+        ],
     );
 
     const searchContext = React.useMemo(

@@ -8,7 +8,7 @@ import {FormValue, Spec} from '../../types';
 
 import {ViewController} from './ViewController';
 import {isCorrectViewConfig} from './helpers';
-import {useCreateContext} from './hooks';
+import {useCreateContext, useViewSharedStore} from './hooks';
 import {DynamicViewConfig} from './types';
 
 export interface DynamicViewProps {
@@ -32,6 +32,7 @@ export const DynamicView = ({
     showLayoutDescription,
 }: DynamicViewProps) => {
     const DynamicFormsCtx = useCreateContext();
+    const shared = useViewSharedStore();
 
     const context = React.useMemo(
         () => ({
@@ -40,8 +41,9 @@ export const DynamicView = ({
             showLayoutDescription,
             Link,
             Monaco: isValidElementType(Monaco) ? Monaco : undefined,
+            shared,
         }),
-        [config, value, Link, Monaco, showLayoutDescription],
+        [config, value, Link, Monaco, showLayoutDescription, shared],
     );
 
     if (isCorrectSpec(spec) && isCorrectViewConfig(config)) {
