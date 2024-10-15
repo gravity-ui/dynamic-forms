@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.13.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.12.0...v4.13.0) (2024-10-15)
+
+
+### Features
+
+* add shared store to context ([#238](https://github.com/gravity-ui/dynamic-forms/issues/238)) ([87854ca](https://github.com/gravity-ui/dynamic-forms/commit/87854caa484e13efe4ab6667455537670e805cf5))
+
 ## [4.12.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.11.0...v4.12.0) (2024-09-16)
 
 
