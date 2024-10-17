@@ -33,6 +33,7 @@ export interface DynamicFieldProps {
     withoutInsertFFDebounce?: boolean;
     destroyOnUnregister?: boolean;
     mutators?: DynamicFormMutators;
+    shared?: Record<string, any>;
     __mirror?: WonderMirror;
 }
 
@@ -46,6 +47,7 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
     withoutInsertFFDebounce,
     destroyOnUnregister = true,
     mutators: externalMutators,
+    shared: externalShared,
     __mirror,
 }) => {
     const DynamicFormsCtx = useCreateContext();
@@ -54,7 +56,7 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
     const watcher = useIntegrationFF(store, withoutInsertFFDebounce, destroyOnUnregister);
     const {mutatorsStore, mutateDFState} = useMutators(externalMutators);
     const {store: searchStore, setField, removeField, isHiddenField} = useSearchStore();
-    const shared = useFormSharedStore();
+    const shared = useFormSharedStore(externalShared);
 
     const context = React.useMemo(
         () => ({
