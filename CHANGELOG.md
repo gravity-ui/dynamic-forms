@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.14.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.13.0...v4.14.0) (2024-10-17)
+
+
+### Features
+
+* add ability to use external values for shared context ([#240](https://github.com/gravity-ui/dynamic-forms/issues/240)) ([d1b69cb](https://github.com/gravity-ui/dynamic-forms/commit/d1b69cb8f98672423616b40f245d61120dbf21c4))
+
 ## [4.13.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.12.0...v4.13.0) (2024-10-15)
 
 
