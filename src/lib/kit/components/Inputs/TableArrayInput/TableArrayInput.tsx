@@ -95,6 +95,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                     onClick={() => onItemRemove(key)}
                     key={`remove-${key}`}
                     qa={`${name}-item-remove-${key}`}
+                    disabled={keys.length <= spec.minLength}
                 >
                     <Icon data={TrashBin} size={16} />
                 </Button>
@@ -199,14 +200,18 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                     {spec.viewSpec.layoutTitle || null}
                 </Button>
             ) : (
-                <Button
-                    onClick={onItemAdd}
-                    disabled={spec.viewSpec.disabled}
-                    qa={`${name}-add-item`}
-                >
-                    <Icon data={Plus} size={14} />
-                    {spec.viewSpec.itemLabel || null}
-                </Button>
+                <React.Fragment>
+                    {keys.length >= spec.maxLength ? null : (
+                        <Button
+                            onClick={onItemAdd}
+                            disabled={spec.viewSpec.disabled}
+                            qa={`${name}-add-item`}
+                        >
+                            <Icon data={Plus} size={14} />
+                            {spec.viewSpec.itemLabel || null}
+                        </Button>
+                    )}
+                </React.Fragment>
             )}
         </div>
     );

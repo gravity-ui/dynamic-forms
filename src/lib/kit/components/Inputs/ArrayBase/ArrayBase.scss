@@ -22,6 +22,15 @@
                 min-width: unset;
             }
         }
+
+        &_disabled-remove-button {
+            & > * .df-row__remove-button {
+                color: var(--g-color-text-hint);
+                background-color: transparent;
+                cursor: default;
+                pointer-events: none;
+            }
+        }
     }
 
     &__item-prefix {

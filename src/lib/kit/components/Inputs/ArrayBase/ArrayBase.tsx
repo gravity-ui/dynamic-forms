@@ -42,6 +42,10 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
         return isBooleanSpec(spec.items) || isNumberSpec(spec.items) || isStringSpec(spec.items);
     }, [spec.items]);
 
+    const disabledRemoveButton = React.useMemo(() => {
+        return keys.length <= spec.minLength;
+    }, [keys.length, spec.minLength]);
+
     const getItemSpec = React.useCallback(
         (idx: number): typeof spec.items | null => {
             if (!itemSpecCorrect) {
@@ -87,6 +91,10 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
             title = spec.viewSpec.layoutTitle;
         }
 
+        if (keys.length >= spec.maxLength) {
+            return null;
+        }
+
         return (
             <Button
                 onClick={onClick}
@@ -107,6 +115,7 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
         spec.viewSpec.itemLabel,
         spec.viewSpec.layoutTitle,
         spec.viewSpec.addButtonPosition,
+        keys,
     ]);
 
     const items = React.useMemo(
@@ -159,6 +168,7 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
                     'add-button-down':
                         spec.viewSpec.addButtonPosition !== 'right' && keys.length > 0,
                     'items-primitive': itemsPrimitive,
+                    'disabled-remove-button': disabledRemoveButton,
                 })}
             >
                 {items}
