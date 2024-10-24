@@ -1,15 +1,14 @@
 import React from 'react';
 
 import {HelpPopover} from '@gravity-ui/components';
-import {TrashBin} from '@gravity-ui/icons';
-import {Button, Icon, Text} from '@gravity-ui/uikit';
+
+import {Text} from '@gravity-ui/uikit';
 
 import {
     FieldValue,
     LayoutProps,
     Spec,
     StringSpec,
-    isArrayItem,
     isArraySpec,
     isObjectSpec,
     withGenerateButton,
@@ -32,8 +31,8 @@ const RowBase = <T extends FieldValue, S extends Spec>({
     meta,
     verboseDescription,
     children,
+    additionalContentLayout,
 }: LayoutProps<T, undefined, undefined, S> & RowProps) => {
-    const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
     const generateButton = React.useMemo(() => withGenerateButton(spec), [spec]);
 
     return (
@@ -75,16 +74,7 @@ const RowBase = <T extends FieldValue, S extends Spec>({
                             onChange={input.onChange as (value: string) => void}
                         />
                     ) : null}
-                    {arrayItem ? (
-                        <Button
-                            view="flat-secondary"
-                            className={b('remove-button')}
-                            onClick={input.onDrop}
-                            qa={`${name}-remove-item`}
-                        >
-                            <Icon data={TrashBin} size={16} />
-                        </Button>
-                    ) : null}
+                    {additionalContentLayout}
                 </div>
                 {verboseDescription && spec.viewSpec.layoutDescription ? (
                     <div
