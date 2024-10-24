@@ -142,6 +142,7 @@ export const getRender = <DirtyValue extends FieldValue, SpecType extends Spec>(
     spec,
     inputEntity,
     Layout,
+    additionalContentLayout,
 }: GetRenderParams<DirtyValue, SpecType>) => {
     const render = (props: FieldRenderProps<DirtyValue>) => {
         if (inputEntity && isCorrectSpec(spec) && isString(name)) {
@@ -169,7 +170,13 @@ export const getRender = <DirtyValue extends FieldValue, SpecType extends Spec>(
 
                 if (Layout) {
                     return (
-                        <Layout spec={spec} name={name} layoutProps={layoutProps} {...props}>
+                        <Layout
+                            spec={spec}
+                            name={name}
+                            layoutProps={layoutProps}
+                            additionalContentLayout={additionalContentLayout}
+                            {...props}
+                        >
                             {input}
                         </Layout>
                     );
@@ -467,10 +474,11 @@ export const initializeStore = <
     tools,
     parentOnChange,
     parentOnUnmount,
+    additionalContentLayout,
 }: InitializeStoreParams<DirtyValue, SpecType>): ControllerStore<DirtyValue, Value, SpecType> => {
     const spec = getSpec({name, spec: _spec, mutatorsStore});
     const components = getComponents<DirtyValue, Value, SpecType>({spec, config});
-    const render = getRender({name, spec, ...components});
+    const render = getRender({name, spec, ...components, additionalContentLayout});
     const validate = getValidate({spec, config});
     const state = getFieldInitials({
         name,

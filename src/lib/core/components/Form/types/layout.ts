@@ -12,6 +12,7 @@ export type LayoutProps<
 > = {
     children: React.ReactElement;
     layoutProps?: LayoutComponentProps;
+    additionalContentLayout?: React.ReactNode;
 } & Omit<InputProps<Value, InputComponentProps, LayoutComponentProps, SpecType>, 'inputProps'>;
 
 export type LayoutType<

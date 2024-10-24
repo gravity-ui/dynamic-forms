@@ -21,6 +21,7 @@ export interface ControllerProps<DirtyValue extends FieldValue, SpecType extends
           ) => void)
         | null;
     parentOnUnmount: ((childName: string) => void) | null;
+    additionalContentLayout?: React.ReactNode;
 }
 
 export const Controller = <
@@ -33,6 +34,7 @@ export const Controller = <
     value: valueFromParent,
     parentOnChange,
     parentOnUnmount,
+    additionalContentLayout,
 }: ControllerProps<DirtyValue, SpecType>) => {
     const {config, tools, mutatorsStore, __mirror} = useDynamicFormsCtx();
 
@@ -47,6 +49,7 @@ export const Controller = <
             tools,
             parentOnChange,
             parentOnUnmount,
+            additionalContentLayout,
         }),
     );
 
@@ -120,8 +123,9 @@ export const Controller = <
                 onDrop: methods.onDrop,
             },
             meta: {...omit(store.state, 'value'), submitFailed: store.tools.submitFailed},
+            additionalContentLayout: additionalContentLayout,
         }),
-        [methods, store.name, store.state, store.tools.submitFailed],
+        [methods, store.name, store.state, store.tools.submitFailed, additionalContentLayout],
     );
 
     const withSearch = useSearch(store.spec, store.state.value, store.name);
