@@ -166,10 +166,11 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 
 #### DateInput
 
-| Property     | Type                                                 | Required | Description                                                                                                     |
-| :----------- | :--------------------------------------------------- | :------: | :-------------------------------------------------------------------------------------------------------------- |
-| outputFormat | `string` \| string \| date \| timestamp \| date_time |          | Format returning string (for backend and logic). [Available formats](https://day.js.org/docs/en/display/format) |
-| printFormat  | `string`                                             |          | Format print string (for view in read form). [Available formats](https://day.js.org/docs/en/display/format)     |
+| Property     | Type                                                 | Required | Description                                                                                                          |
+| :----------- | :--------------------------------------------------- | :------: | :------------------------------------------------------------------------------------------------------------------- |
+| outputFormat | `string` \| string \| date \| timestamp \| date_time |          | Format returning string (for backend and logic). [Available formats](https://day.js.org/docs/en/display/format)      |
+| printFormat  | `string`                                             |          | Format print string (for view in read form). [Available formats](https://day.js.org/docs/en/display/format)          |
+| timeZone     | `string`                                             |          | Sets the time zone. [Learn more about time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) |
 
 You can provide all props of [original component](https://preview.gravity-ui.com/date-components/?path=/docs/components-datepicker--docs) through [viewSpec.inputProps](./input-props-map.md).
 

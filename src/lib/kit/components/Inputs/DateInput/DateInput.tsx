@@ -2,12 +2,12 @@ import React, {useCallback} from 'react';
 
 import {DatePicker, DatePickerProps} from '@gravity-ui/date-components';
 import {StringInputProps} from '../../../../core';
-import {DateTime, dateTimeParse} from '@gravity-ui/date-utils';
+import {DateTime, dateTimeParse, isValidTimeZone} from '@gravity-ui/date-utils';
 import {block} from '../../../utils';
 
 import './DateInput.scss';
 
-export const DEFAULT_DATE_FORMAT = 'DD-MM-YYYY';
+export const DEFAULT_DATE_FORMAT = 'DD.MM.YYYY HH:mm';
 
 const b = block('date-input');
 
@@ -22,6 +22,8 @@ export const DateInput: React.FC<StringInputProps<DateProps>> = ({
 }) => {
     const {value, onChange, onBlur, onFocus} = input;
     const dateInput = spec.viewSpec.dateInput;
+    const timeZone =
+        dateInput?.timeZone && isValidTimeZone(dateInput.timeZone) ? dateInput.timeZone : undefined;
     const outputFormat = dateInput?.outputFormat;
 
     const onUpdate = useCallback(
@@ -63,11 +65,15 @@ export const DateInput: React.FC<StringInputProps<DateProps>> = ({
         onBlur: onBlur as (e: React.FocusEvent<HTMLElement>) => void,
         onFocus: onFocus as (e: React.FocusEvent<HTMLElement>) => void,
         value: value
-            ? dateTimeParse((value as any).seconds ? (value as any).seconds * 1000 : value) || null
+            ? dateTimeParse((value as any).seconds ? (value as any).seconds * 1000 : value, {
+                  format: dateInput?.outputFormat,
+                  timeZone,
+              }) || null
             : null,
         onUpdate,
         disabled: spec.viewSpec.disabled,
         placeholder: spec.viewSpec.placeholder,
+        timeZone,
     };
 
     return <DatePicker className={b()} data-qa={name} {...props} />;
