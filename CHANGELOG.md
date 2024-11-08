@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.14.1](https://github.com/gravity-ui/dynamic-forms/compare/v4.14.0...v4.14.1) (2024-11-08)
+
+
+### Bug Fixes
+
+* date picker components value parser ([#243](https://github.com/gravity-ui/dynamic-forms/issues/243)) ([395eb37](https://github.com/gravity-ui/dynamic-forms/commit/395eb370c0fbc1e586b90e23c3512a57b971800d))
+
 ## [4.14.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.13.0...v4.14.0) (2024-10-17)
 
 
