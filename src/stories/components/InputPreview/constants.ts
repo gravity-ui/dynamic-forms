@@ -549,6 +549,10 @@ const dateInput: ObjectSpec = {
             type: SpecTypes.String,
             viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Print format'},
         },
+        timeZone: {
+            type: SpecTypes.String,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Time zone'},
+        },
     },
     viewSpec: {
         type: 'base',

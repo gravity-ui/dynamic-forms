@@ -182,6 +182,7 @@ export interface StringSpec<
         dateInput?: {
             outputFormat?: string;
             printFormat?: string;
+            timeZone?: string;
         };
         copy?: boolean;
         selectParams?: {
