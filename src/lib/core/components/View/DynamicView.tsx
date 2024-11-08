@@ -21,6 +21,7 @@ export interface DynamicViewProps {
     }>;
     Monaco?: React.ComponentType<MonacoEditorProps>;
     showLayoutDescription?: boolean;
+    shared?: Record<string, any>;
 }
 
 export const DynamicView = ({
@@ -30,9 +31,10 @@ export const DynamicView = ({
     Link,
     Monaco,
     showLayoutDescription,
+    shared: externalShared,
 }: DynamicViewProps) => {
     const DynamicFormsCtx = useCreateContext();
-    const shared = useViewSharedStore();
+    const shared = useViewSharedStore(externalShared);
 
     const context = React.useMemo(
         () => ({
