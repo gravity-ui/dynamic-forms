@@ -81,9 +81,14 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
         return undefined;
     }, [oneOfValue, specBooleanMap]);
 
+    const propertiesOrder = React.useMemo(
+        () => (spec.viewSpec.order?.length ? spec.viewSpec.order : Object.keys(specProperties)),
+        [spec.viewSpec.order, specProperties],
+    );
+
     const options = React.useMemo(
         () =>
-            (spec.viewSpec.order || Object.keys(specProperties)).map((value) => {
+            propertiesOrder.map((value) => {
                 const title =
                     spec.description?.[value] ||
                     specProperties[value]?.viewSpec.layoutTitle ||
@@ -96,7 +101,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
                     content: title,
                 };
             }),
-        [spec.description, spec.viewSpec.order, specProperties],
+        [propertiesOrder, spec.description, specProperties],
     );
 
     const togglerType = React.useMemo(() => {
