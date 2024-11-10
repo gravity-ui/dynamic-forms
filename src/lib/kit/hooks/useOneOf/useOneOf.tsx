@@ -43,7 +43,11 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
             }
         }
 
-        return (valueKeys || spec.viewSpec.order || Object.keys(specProperties))[0];
+        if (valueKeys) return valueKeys[0];
+
+        if (spec.viewSpec.order?.length) return spec.viewSpec.order[0];
+
+        return Object.keys(specProperties)[0];
     });
 
     const onOneOfChange = React.useCallback(
