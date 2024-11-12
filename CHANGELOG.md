@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.14.2](https://github.com/gravity-ui/dynamic-forms/compare/v4.14.1...v4.14.2) (2024-11-12)
+
+
+### Bug Fixes
+
+* Unify behavior of empty and undefined `viewSpec.order` in object form ([#246](https://github.com/gravity-ui/dynamic-forms/issues/246)) ([d67e322](https://github.com/gravity-ui/dynamic-forms/commit/d67e32296657b917f658f175db6eade1bb0ba992))
+
 ## [4.14.1](https://github.com/gravity-ui/dynamic-forms/compare/v4.14.0...v4.14.1) (2024-11-08)
 
 
