@@ -82,7 +82,9 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
             : spec.properties;
 
         const delimiter = spec.viewSpec.delimiter;
-        const orderProperties = spec.viewSpec.order || Object.keys(specProperties);
+        const orderProperties = spec.viewSpec.order?.length
+            ? spec.viewSpec.order
+            : Object.keys(specProperties);
 
         return (
             <div className={b('content', {inline})}>
