@@ -12,27 +12,29 @@ $block: '.#{$ns}section';
     }
 
     &__header {
+        display: flex;
+        align-items: center;
         margin-bottom: $normalOffset;
 
-        &_with-popover {
-            display: flex;
+        &_size_s {
+            height: 18px;
+        }
+
+        &_size_m {
+            height: 20px;
         }
     }
 
     &__title {
         max-width: 533px;
-        font-weight: 500;
-        margin: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+    }
 
-        &_size_s {
-            font-size: 13px;
-        }
+    &__title-popover {
+        display: flex;
+        align-items: center;
 
-        &_size_m {
-            font-size: 15px;
+        .g-popover__handler {
+            display: flex;
         }
     }
 
@@ -50,5 +52,9 @@ $block: '.#{$ns}section';
 
     &__description {
         margin-top: 4px;
+    }
+
+    &__remove-button {
+        margin-left: 5px;
     }
 }
