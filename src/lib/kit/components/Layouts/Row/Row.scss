@@ -5,6 +5,7 @@
     width: 500px;
     max-width: 500px;
     margin-bottom: 15px;
+    overflow: hidden;
 
     &:last-child {
         margin-bottom: 0;
@@ -65,11 +66,13 @@
         display: flex;
         flex-direction: column;
         flex-grow: 1;
+        overflow: hidden;
         margin-left: 15px;
 
         &-inner {
             display: flex;
             justify-content: space-around;
+            overflow: hidden;
         }
     }
 
@@ -89,5 +92,6 @@
 
     &__error-wrapper {
         flex: 1 1 100%;
+        overflow: hidden;
     }
 }

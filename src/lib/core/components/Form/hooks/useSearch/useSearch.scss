@@ -2,7 +2,7 @@
 
 .#{$ns}use-search {
     margin-bottom: 15px;
-
+    width: max-content;
     &_hidden {
         display: none;
     }
