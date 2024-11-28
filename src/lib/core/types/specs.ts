@@ -47,6 +47,7 @@ export interface ArraySpec<
             placement?: 'horizontal' | 'vertical';
             disabled?: Record<string, boolean>;
         };
+        enableLockLength?: boolean;
     };
 }
 

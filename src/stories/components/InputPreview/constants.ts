@@ -17,6 +17,11 @@ const required: BooleanSpec = {
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Required'},
 };
 
+const enableLockLength: BooleanSpec = {
+    type: SpecTypes.Boolean,
+    viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Enable Lock Length'},
+};
+
 const maxLength: NumberSpec = {
     type: SpecTypes.Number,
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Max length'},
@@ -635,6 +640,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 hidden,
                 selectParams,
                 checkboxGroupParams,
+                enableLockLength,
                 inputProps,
             },
             [
@@ -652,6 +658,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 'hidden',
                 'selectParams',
                 'checkboxGroupParams',
+                'enableLockLength',
                 'inputProps',
             ],
         ),

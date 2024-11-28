@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Plus, TrashBin} from '@gravity-ui/icons';
-import {Button, Flex, Icon, Table} from '@gravity-ui/uikit';
+import {Button, Flex, Icon, Popover, Table} from '@gravity-ui/uikit';
 import {HelpPopover} from '@gravity-ui/components';
 import noop from 'lodash/noop';
 import set from 'lodash/set';
@@ -23,6 +23,7 @@ import {
 } from '../../../../core';
 import {useSearchContext} from '../../../../core/components/Form/hooks';
 import {block} from '../../../utils';
+import i18n from '../../../i18n';
 
 import './TableArrayInput.scss';
 
@@ -42,6 +43,20 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                 })),
         [arrayInput.value],
     );
+
+    const disabledButtonLength = React.useMemo(() => {
+        if (spec.viewSpec.enableLockLength) {
+            return {
+                remove: keys.length <= (spec.minLength || 0),
+                add: keys.length >= (spec.maxLength || Infinity),
+            };
+        }
+
+        return {
+            remove: false,
+            add: false,
+        };
+    }, [keys.length, spec.maxLength, spec.minLength, spec.viewSpec.enableLockLength]);
 
     const onItemAdd = React.useCallback(() => {
         arrayInput.onItemAdd({});
@@ -90,14 +105,22 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
             name: '',
             sticky: 'right',
             template: ({key}: {key: string}) => (
-                <Button
-                    view="flat-secondary"
-                    onClick={() => onItemRemove(key)}
-                    key={`remove-${key}`}
-                    qa={`${name}-item-remove-${key}`}
+                <Popover
+                    content={i18n('label_error-min-length-array', {
+                        count: spec.minLength,
+                    })}
+                    disabled={!disabledButtonLength.remove}
                 >
-                    <Icon data={TrashBin} size={16} />
-                </Button>
+                    <Button
+                        view="flat-secondary"
+                        onClick={() => onItemRemove(key)}
+                        key={`remove-${key}`}
+                        qa={`${name}-item-remove-${key}`}
+                        disabled={disabledButtonLength.remove}
+                    >
+                        <Icon data={TrashBin} size={16} />
+                    </Button>
+                </Popover>
             ),
         };
 
@@ -199,14 +222,21 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                     {spec.viewSpec.layoutTitle || null}
                 </Button>
             ) : (
-                <Button
-                    onClick={onItemAdd}
-                    disabled={spec.viewSpec.disabled}
-                    qa={`${name}-add-item`}
+                <Popover
+                    content={i18n('label_error-max-length-array', {
+                        count: spec.maxLength,
+                    })}
+                    disabled={!disabledButtonLength.add}
                 >
-                    <Icon data={Plus} size={14} />
-                    {spec.viewSpec.itemLabel || null}
-                </Button>
+                    <Button
+                        onClick={onItemAdd}
+                        disabled={spec.viewSpec.disabled || disabledButtonLength.add}
+                        qa={`${name}-add-item`}
+                    >
+                        <Icon data={Plus} size={14} />
+                        {spec.viewSpec.itemLabel || null}
+                    </Button>
+                </Popover>
             )}
         </div>
     );

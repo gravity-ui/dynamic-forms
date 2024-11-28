@@ -1,8 +1,5 @@
 import React from 'react';
 
-import {TrashBin} from '@gravity-ui/icons';
-import {Button, Icon} from '@gravity-ui/uikit';
-
 import {
     FieldValue,
     LayoutProps,
@@ -26,27 +23,11 @@ export const Transparent = <T extends FieldValue, S extends Spec>({
     input,
     meta,
     children,
+    additionalContentLayout,
 }: LayoutProps<T, undefined, undefined, S>) => {
     const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
     const generateButton = React.useMemo(() => withGenerateButton(spec), [spec]);
     const arrOrObjFlag = React.useMemo(() => isArraySpec(spec) || isObjectSpec(spec), [spec]);
-
-    const removeButton = React.useMemo(() => {
-        if (arrayItem) {
-            return (
-                <Button
-                    view="flat-secondary"
-                    className={b('remove-button')}
-                    onClick={input.onDrop}
-                    qa={`${name}-remove-item`}
-                >
-                    <Icon data={TrashBin} size={16} />
-                </Button>
-            );
-        }
-
-        return null;
-    }, [input.onDrop, arrayItem, name]);
 
     return (
         <div
@@ -71,7 +52,7 @@ export const Transparent = <T extends FieldValue, S extends Spec>({
                     onChange={input.onChange as (value: string) => void}
                 />
             ) : null}
-            {removeButton}
+            {additionalContentLayout}
         </div>
     );
 };

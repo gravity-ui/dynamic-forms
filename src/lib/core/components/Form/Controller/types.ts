@@ -1,3 +1,4 @@
+import React from 'react';
 import {FormValue, Spec} from '../../../types';
 import {
     DynamicFormConfig,
@@ -42,6 +43,7 @@ export interface GetRenderParams<
         | InputEntity<DirtyValue, undefined, undefined, SpecType>
         | IndependentInputEntity<DirtyValue, undefined, undefined, SpecType>;
     Layout?: LayoutType<DirtyValue, undefined, undefined, SpecType>;
+    additionalContentLayout?: React.ReactNode;
 }
 
 export interface GetValidateParams<SpecType extends Spec> {
@@ -110,6 +112,7 @@ export interface InitializeStoreParams<DirtyValue extends FieldValue, SpecType e
           ) => void)
         | null;
     parentOnUnmount: ((childName: string) => void) | null;
+    additionalContentLayout?: React.ReactNode;
 }
 
 export interface ControllerStore<
@@ -148,6 +151,7 @@ export interface ControllerStore<
         childErrors: Record<string, ValidateError>;
     };
     afterStoreUpdateCB?: () => void;
+    additionalContentLayout?: React.ReactNode;
 }
 
 export interface UpdateStoreParams<

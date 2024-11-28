@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {Plus} from '@gravity-ui/icons';
-import {Button, Icon, Label} from '@gravity-ui/uikit';
+import {Plus, TrashBin} from '@gravity-ui/icons';
+import {Button, Icon, Label, Popover} from '@gravity-ui/uikit';
 import set from 'lodash/set';
 
 import {
@@ -21,6 +21,7 @@ import {
     transformArrIn,
 } from '../../../../core';
 import {block} from '../../../utils';
+import i18n from '../../../i18n';
 
 import './ArrayBase.scss';
 
@@ -41,6 +42,20 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
     const itemsPrimitive = React.useMemo(() => {
         return isBooleanSpec(spec.items) || isNumberSpec(spec.items) || isStringSpec(spec.items);
     }, [spec.items]);
+
+    const disabledButtonLength = React.useMemo(() => {
+        if (spec.viewSpec.enableLockLength) {
+            return {
+                remove: keys.length <= (spec.minLength || 0),
+                add: keys.length >= (spec.maxLength || Infinity),
+            };
+        }
+
+        return {
+            remove: false,
+            add: false,
+        };
+    }, [keys.length, spec.maxLength, spec.minLength, spec.viewSpec.enableLockLength]);
 
     const getItemSpec = React.useCallback(
         (idx: number): typeof spec.items | null => {
@@ -72,6 +87,13 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
         [input.onChange, input.name],
     );
 
+    const removeItem = React.useCallback(
+        (key: string) => {
+            arrayInput.onItemRemove(key);
+        },
+        [arrayInput],
+    );
+
     const AddButton: React.FC = React.useCallback(() => {
         let onClick = () => arrayInput.onItemAdd(undefined);
 
@@ -88,15 +110,24 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
         }
 
         return (
-            <Button
-                onClick={onClick}
-                disabled={spec.viewSpec.disabled}
-                qa={qa}
-                className={b('add-button', {right: spec.viewSpec.addButtonPosition === 'right'})}
+            <Popover
+                content={i18n('label_error-max-length-array', {
+                    count: spec.maxLength,
+                })}
+                disabled={!disabledButtonLength.add}
             >
-                <Icon data={Plus} size={14} />
-                {title || null}
-            </Button>
+                <Button
+                    onClick={onClick}
+                    disabled={spec.viewSpec.disabled || disabledButtonLength.add}
+                    qa={qa}
+                    className={b('add-button', {
+                        right: spec.viewSpec.addButtonPosition === 'right',
+                    })}
+                >
+                    <Icon data={Plus} size={14} />
+                    {title || null}
+                </Button>
+            </Popover>
         );
     }, [
         arrayInput,
@@ -107,6 +138,7 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
         spec.viewSpec.itemLabel,
         spec.viewSpec.layoutTitle,
         spec.viewSpec.addButtonPosition,
+        disabledButtonLength,
     ]);
 
     const items = React.useMemo(
@@ -133,6 +165,25 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
                             parentOnUnmount={input.parentOnUnmount}
                             spec={itemSpec}
                             name={`${name}.<${key}>`}
+                            additionalContentLayout={
+                                <Popover
+                                    content={i18n('label_error-min-length-array', {
+                                        count: spec.minLength,
+                                    })}
+                                    disabled={!disabledButtonLength.remove}
+                                >
+                                    <Button
+                                        view="flat-secondary"
+                                        onClick={() => removeItem(key)}
+                                        key={`remove-${key}`}
+                                        qa={`${name}-item-remove-${key}`}
+                                        disabled={disabledButtonLength.remove}
+                                        className={b('remove-button')}
+                                    >
+                                        <Icon data={TrashBin} size={16} />
+                                    </Button>
+                                </Popover>
+                            }
                         />
                     </React.Fragment>
                 );
@@ -145,6 +196,9 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
             input.parentOnUnmount,
             input.value,
             spec.viewSpec.itemPrefix,
+            spec.minLength,
+            disabledButtonLength.remove,
+            removeItem,
         ],
     );
 
