@@ -11,6 +11,7 @@
     }
 
     &__items-wrapper {
+        overflow: auto;
         &_add-button-down {
             margin-bottom: 15px;
         }
