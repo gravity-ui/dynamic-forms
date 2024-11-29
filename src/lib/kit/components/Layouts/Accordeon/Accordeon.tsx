@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ArrayLayoutProps, ObjectLayoutProps} from '../../../../core';
+import {ArrayLayoutProps, ObjectLayoutProps, isArrayItem} from '../../../../core';
 import {ErrorWrapper} from '../../../components';
 import {useErrorChecker} from '../../../hooks';
 import {RemoveButton} from '../../RemoveButton';
@@ -21,7 +21,7 @@ export const Accordeon = <T extends ArrayLayoutProps | ObjectLayoutProps>({
     }, [input.onDrop, setOpen]);
 
     const removeButton = React.useMemo(() => {
-        if (spec.required || !input.value) {
+        if (!isArrayItem(name) && (spec.required || !input.value)) {
             return null;
         }
 
