@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {FieldValue, LayoutProps, Spec} from '../../../core';
+import {FieldValue, LayoutProps, Spec, isArrayItem} from '../../../core';
 import {Card, ErrorWrapper} from '../../components';
 import {RemoveButton} from '../RemoveButton';
 
@@ -12,7 +12,7 @@ export const CardSection = <T extends FieldValue, S extends Spec>({
     children,
 }: LayoutProps<T, undefined, undefined, S>) => {
     const removeButton = React.useMemo(() => {
-        if (spec.required || !input.value) {
+        if (!isArrayItem(name) && (spec.required || !input.value)) {
             return null;
         }
 

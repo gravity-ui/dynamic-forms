@@ -23,18 +23,14 @@ $animationDuration: 0.3s;
             margin-left: -13px;
             max-width: 533px;
         }
+
+        .g-popover__handler {
+            display: flex;
+        }
     }
 
     &__tooltip {
         margin: 0px 5px;
-
-        .g-help-popover {
-            display: flex;
-
-            & > span {
-                display: flex;
-            }
-        }
     }
 
     &__chevron {

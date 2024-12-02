@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ArrayLayoutProps, ObjectLayoutProps} from '../../../../core';
+import {ArrayLayoutProps, ObjectLayoutProps, isArrayItem} from '../../../../core';
 import {useErrorChecker} from '../../../hooks';
 import {block} from '../../../utils';
 import {AccordeonCard} from '../../AccordeonCard';
@@ -26,7 +26,7 @@ export const AccordeonCardForm = <T extends ArrayLayoutProps | ObjectLayoutProps
     }, [input.onDrop, setOpen]);
 
     const removeButton = React.useMemo(() => {
-        if (spec.required || !input.value) {
+        if (!isArrayItem(name) && (spec.required || !input.value)) {
             return null;
         }
 
