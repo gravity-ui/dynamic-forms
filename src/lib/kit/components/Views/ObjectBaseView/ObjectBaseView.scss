@@ -7,11 +7,11 @@
 
             & > div {
                 flex: auto;
-                margin-right: 8px;
-                margin-bottom: 0;
+                margin-right: var(--g-spacing-2);
+                margin-bottom: var(--g-spacing-0);
 
                 &:last-child {
-                    margin-right: 0;
+                    margin-right: var(--g-spacing-0);
                 }
             }
         }
@@ -19,7 +19,7 @@
 
     &__delimiter {
         display: flex;
-        margin-right: 8px;
+        margin-right: var(--g-spacing-2);
         align-items: center;
         white-space: nowrap;
     }

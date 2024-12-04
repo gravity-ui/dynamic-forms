@@ -3,15 +3,17 @@
 $animationDuration: 0.3s;
 
 .#{$ns}simple-vertical-accordeon {
-    margin-bottom: $normalOffset;
+    --_--inner-max-width: 533px;
+
+    margin-bottom: var(--g-spacing-5);
 
     &:last-child {
         margin-bottom: 0;
     }
 
     &_branch &__body {
-        padding-left: $normalOffset;
-        margin-left: 5px;
+        padding-left: var(--g-spacing-5);
+        margin-left: $df-offset-5;
         border-left: 1px solid var(--g-color-line-generic-accent);
     }
 
@@ -20,8 +22,11 @@ $animationDuration: 0.3s;
         align-items: center;
 
         &-inner {
-            margin-left: -13px;
-            max-width: 533px;
+            margin-left: -$df-offset-13;
+            max-width: var(
+                --df-simple-vertical-accordeon-header-inner-max-width,
+                var(--_--inner-max-width)
+            );
         }
 
         .g-popover__handler {
@@ -30,7 +35,7 @@ $animationDuration: 0.3s;
     }
 
     &__tooltip {
-        margin: 0px 5px;
+        margin: var(--g-spacing-0) $df-offset-5;
     }
 
     &__chevron {
@@ -42,8 +47,8 @@ $animationDuration: 0.3s;
     }
 
     &__body {
-        margin-top: 4px;
-        padding-top: $smallOffset - 4px;
+        margin-top: var(--g-spacing-1);
+        padding-top: $df-offset-6;
 
         &_hidden {
             display: none;

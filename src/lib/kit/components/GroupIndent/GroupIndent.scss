@@ -1,15 +1,15 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}group-indent {
-    padding-top: 11px;
-    padding-left: $normalOffset;
-    margin-top: -11px;
-    margin-bottom: 20px;
-    margin-left: 5px;
+    padding-top: $df-offset-11;
+    padding-left: var(--g-spacing-5);
+    margin-top: -$df-offset-11;
+    margin-bottom: var(--g-spacing-5);
+    margin-left: $df-offset-5;
     border-left: 1px solid var(--g-color-line-generic-accent);
 
     &:last-child {
-        margin-bottom: 0;
+        margin-bottom: var(--g-spacing-0);
     }
 
     &:empty {
@@ -17,6 +17,6 @@
     }
 
     & > .#{$ns}simple-vertical-accordeon_view {
-        margin-top: -10px;
+        margin-top: -$df-offset-10;
     }
 }

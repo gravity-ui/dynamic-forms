@@ -2,18 +2,18 @@
 
 .#{$ns}oneof-view {
     & > .#{$ns}group-indent {
-        margin-bottom: 20px;
+        margin-bottom: var(--g-spacing-5);
     }
 
     &:last-child > .#{$ns}group-indent {
-        margin-bottom: 0;
+        margin-bottom: var(--g-spacing-0);
     }
 
     &_flat {
         & > .#{$ns}group-indent {
-            margin: 0 0 20px;
+            margin: var(--g-spacing-0) var(--g-spacing-0) var(--g-spacing-5);
             border-left: none;
-            padding: 0;
+            padding: var(--g-spacing-0);
         }
     }
 }

@@ -12,8 +12,8 @@
         &_card {
             & + .#{$ns}group-indent {
                 & > .#{$ns}use-search:not(.#{$ns}group-indent) {
-                    padding-top: 0px;
-                    margin-top: 15px;
+                    padding-top: var(--g-spacing-0);
+                    margin-top: $df-offset-15;
                 }
             }
         }
@@ -23,11 +23,11 @@
         display: flex;
 
         & > * {
-            margin-right: 8px;
+            margin-right: var(--g-spacing-2);
         }
 
         & > :last-child {
-            margin-right: 0;
+            margin-right: var(--g-spacing-0);
         }
     }
 

@@ -1,8 +1,10 @@
 @import '../../../styles/variables';
 
 .#{$ns}select {
+    --_--max-width: 305px;
+
     // TODO: Remove this styles
-    max-width: 305px;
+    max-width: var(--df-select-max-width, var(--_--max-width));
 
     &__meta-text {
         display: block;

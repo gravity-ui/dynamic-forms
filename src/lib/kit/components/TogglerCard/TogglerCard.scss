@@ -1,8 +1,10 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}toggler-card {
-    width: 254px;
-    padding: 10px;
+    --_--width: 254px;
+
+    width: var(--df-toggler-card-width, var(--_--width));
+    padding: $df-offset-6;
     height: 88px;
 
     &__header {
@@ -12,9 +14,9 @@
     }
 
     &__text {
-        margin-top: 12px;
+        margin-top: var(--g-spacing-3);
         display: block;
-        margin-right: 15px;
+        margin-right: $df-offset-15;
         height: 36px;
         overflow: hidden;
         text-overflow: ellipsis;

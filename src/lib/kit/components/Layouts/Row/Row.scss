@@ -1,17 +1,21 @@
 @import '../../../styles/variables.scss';
 
 .#{$ns}row {
+    --_--width: 500px;
+    --_--max-width: 500px;
+    --_--left-width: 180px;
+
     display: flex;
-    width: 500px;
-    max-width: 500px;
-    margin-bottom: 15px;
+    width: var(--df-row-width, var(--_--width));
+    max-width: var(--df-row-max-width, var(--_--max-width));
+    margin-bottom: $df-offset-15;
 
     &:last-child {
-        margin-bottom: 0;
+        margin-bottom: var(--g-spacing-0);
     }
 
     &__left {
-        width: 180px;
+        width: var(--df-row-left-width, var(--_--left-width));
         min-height: 28px;
         display: flex;
         margin-bottom: auto;
@@ -33,7 +37,7 @@
 
     &__title {
         word-break: break-word;
-        margin-right: 3px;
+        margin-right: $df-offset-3;
 
         &_required {
             &::after {
@@ -44,12 +48,12 @@
     }
 
     &__note {
-        padding-right: 16px;
+        padding-right: var(--g-spacing-4);
         position: relative;
 
         &-inner {
             position: absolute;
-            margin-top: 1px;
+            margin-top: $df-offset-1;
 
             .g-help-popover {
                 display: flex;
@@ -65,7 +69,7 @@
         display: flex;
         flex-direction: column;
         flex-grow: 1;
-        margin-left: 15px;
+        margin-left: $df-offset-15;
 
         &-inner {
             display: flex;
@@ -74,13 +78,13 @@
     }
 
     &__description {
-        margin-top: 10px;
+        margin-top: $df-offset-10;
         color: var(--g-color-text-secondary);
         word-break: break-word;
     }
 
     &__remove-button {
-        margin-left: 5px;
+        margin-left: $df-offset-5;
     }
 
     &__required-mark {

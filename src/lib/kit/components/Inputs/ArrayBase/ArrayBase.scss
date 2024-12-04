@@ -12,7 +12,7 @@
 
     &__items-wrapper {
         &_add-button-down {
-            margin-bottom: 15px;
+            margin-bottom: $df-offset-15;
         }
 
         &_items-primitive {
@@ -25,13 +25,13 @@
     }
 
     &__item-prefix {
-        margin-top: -7px;
-        margin-bottom: 8px;
+        margin-top: -$df-offset-7;
+        margin-bottom: var(--g-spacing-2);
     }
 
     &__add-button {
         &_right {
-            margin-left: 4px;
+            margin-left: var(--g-spacing-1);
         }
     }
 }

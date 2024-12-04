@@ -3,10 +3,10 @@
 
 .#{$ns}view-transparent {
     display: flex;
-    margin-bottom: 20px;
+    margin-bottom: var(--g-spacing-5);
 
     &:last-child {
-        margin-bottom: 0;
+        margin-bottom: var(--g-spacing-0);
     }
 
     @include with-copy-button();

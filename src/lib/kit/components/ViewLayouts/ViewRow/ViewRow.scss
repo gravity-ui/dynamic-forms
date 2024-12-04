@@ -2,18 +2,23 @@
 @import '../../../styles/mixins.scss';
 
 .#{$ns}view-row {
+    --_--left-width: 300px;
+    --_--left-max-width: 300px;
+    --_--left-min-width: 300px;
+    --_--right-width: 480px;
+
     width: 100%;
     display: flex;
-    margin-bottom: 20px;
+    margin-bottom: var(--g-spacing-5);
 
     &:last-child {
-        margin-bottom: 0;
+        margin-bottom: var(--g-spacing-0);
     }
 
     &__left {
-        width: 300px;
-        max-width: 300px;
-        min-width: 300px;
+        width: var(--df-view-row-left-width, var(--_--left-width));
+        max-width: var(--df-view-row-left-max-width, var(--_--left-max-width));
+        min-width: var(--df-view-row-left-min-width, var(--_--left-min-width));
         display: flex;
         align-items: baseline;
         overflow: hidden;
@@ -26,21 +31,21 @@
     &__dots {
         min-width: 40px;
         flex-grow: 1;
-        margin: 0 2px;
+        margin: var(--g-spacing-0) var(--g-spacing-half);
         border-bottom: 1px dotted var(--g-color-text-secondary);
     }
 
     &__right {
-        max-width: 480px;
+        max-width: var(--df-view-row-right-width, var(--_--right-width));
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
 
         & > .#{$ns}view-transparent {
-            margin-bottom: 6px;
+            margin-bottom: $df-offset-6;
 
             &:last-child {
-                margin-bottom: 0;
+                margin-bottom: var(--g-spacing-0);
             }
         }
     }

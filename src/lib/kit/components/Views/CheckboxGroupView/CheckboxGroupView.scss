@@ -4,7 +4,7 @@
     display: flex;
 
     & > *:not(:last-child) {
-        margin-right: 6px;
+        margin-right: $df-offset-6;
     }
 
     &_vertical {
@@ -12,8 +12,8 @@
         align-items: flex-start;
 
         & > *:not(:last-child) {
-            margin-right: 0px;
-            margin-bottom: 6px;
+            margin-right: var(--g-spacing-0);
+            margin-bottom: $df-offset-6;
         }
     }
 
@@ -26,10 +26,10 @@
         overflow: hidden;
         text-overflow: ellipsis;
         display: block;
-        margin-bottom: 6px;
+        margin-bottom: $df-offset-6;
 
         &:last-child {
-            margin-bottom: 0;
+            margin-bottom: var(--g-spacing-0);
         }
     }
 }
