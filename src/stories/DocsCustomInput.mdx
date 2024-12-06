@@ -1,0 +1,157 @@
+import {Meta} from '@storybook/addon-docs';
+
+<Meta title="Docs/Custom input" />
+
+# Custom Input in Dynamic Forms
+
+The `@gravity-ui/dynamic-forms` library provides a standard set of inputs, but sometimes you may need to add your own custom input. In this guide, we'll walk through how to create and integrate a custom text input into a dynamic forms.
+
+## Steps to Add a Custom Input
+
+1. [Create Your Own Input](#1-create-your-own-input)
+2. [Create a View for the Input](#2-create-a-view-for-the-input)
+3. [Integrate the Input into the Config](#3-integrate-the-input-into-the-config)
+4. [Use the Custom Input](#4-use-the-custom-input)
+
+---
+
+### 1. Create Your Own Input
+
+First, we need to create our own input component. Inputs in `@gravity-ui/dynamic-forms` come in the following types:
+
+    -   `array`
+    -   `string`
+    -   `object`
+    -   `number`
+    -   `boolean`
+
+We'll be creating a string type input, intended for text data entry.
+
+    ```tsx
+    import React from 'react';
+    import { isNil } from 'lodash';
+
+    import type { FieldRenderProps, StringInput } from '@gravity-ui/dynamic-forms';
+    import type { TextInputProps as TextInputBaseProps } from '@gravity-ui/uikit';
+    import { TextInput } from '@gravity-ui/uikit';
+
+    export interface TextProps
+    extends Omit<
+        TextInputBaseProps,
+        'value' | 'onBlur' | 'onFocus' | 'onUpdate' | 'disabled' | 'placeholder' | 'qa'
+    > {}
+
+    export const CustomTextInput: StringInput<TextProps> = ({
+    name,
+    input: { value, onBlur, onChange, onFocus },
+    spec,
+    inputProps,
+    }) => {
+    const props = {
+        hasClear: true,
+        ...inputProps,
+        value: isNil(value) ? '' : ${value}, // Set default value if value is null or undefined
+        onBlur,
+        onFocus,
+        onUpdate: onChange as FieldRenderProps<string>['input']['onChange'],
+        disabled: spec.viewSpec.disabled,
+        placeholder: spec.viewSpec.placeholder,
+        qa: name,
+    };
+
+    return <TextInput {...props} type="text" />;
+    };
+    ```
+
+### 2. Create a View for the Input
+
+To display the input's value in view mode, we need to create a view component.
+
+    ```tsx
+    import React from 'react';
+
+    import type {StringView} from '@gravity-ui/dynamic-forms';
+    import {Text} from '@gravity-ui/uikit';
+
+    export const CustomTextInputView: StringView = ({value}) => {
+        return <Text>{value}</Text>;
+    };
+    ```
+
+### 3. Integrate the Input into the Config
+
+Next, we need to integrate our custom input and its view into the dynamic form configurations.
+
+    ```tsx
+    import _ from 'lodash';
+
+    import type { DynamicFormConfig, DynamicViewConfig } from '@gravity-ui/dynamic-forms';
+    import {
+    dynamicConfig as libConfig,
+    dynamicViewConfig as libViewConfig,
+    } from '@gravity-ui/dynamic-forms';
+
+    import { CustomTextInput } from './CustomTextInput';
+    import { CustomTextInputView } from './CustomTextInputView';
+
+    const getDynamicConfig = (): DynamicFormConfig => {
+    const dynamicConfig = _.cloneDeep(libConfig);
+
+    // Register our custom input with a specific name
+    dynamicConfig.string.inputs['custom_text_input'] = { Component: CustomTextInput };
+
+    return dynamicConfig;
+    };
+
+    export const dynamicConfig = getDynamicConfig();
+
+    const getDynamicViewConfig = (): DynamicViewConfig => {
+    const dynamicViewConfig = _.cloneDeep(libViewConfig);
+
+    // Register the view for our custom input
+    dynamicViewConfig.string.views['custom_text_input'] = { Component: CustomTextInputView };
+
+    return dynamicViewConfig;
+    };
+
+    export const dynamicViewConfig = getDynamicViewConfig();
+    ```
+
+**Explanations:**
+
+    -   We clone the base library configuration using `\_.cloneDeep` to avoid modifying the original settings and prevent potential conflicts.
+    -   In the square brackets, we specify the name of our custom input `'custom_text_input'`.
+    -   If you use a name that matches an existing one in the library, your input will override the standard one.
+
+### 4. Use the Custom Input
+
+Now, you can use your custom input in the form specification by setting its type to `'custom_text_input'`.
+
+#### Example Field Spec:
+
+    ``` json
+    {
+       "type": "string",
+        "viewSpec": {
+            "type": "custom_text_input", // Specify the input name in 'type'
+            "layout": "row",
+            "layoutTitle": "Name",
+            "placeholder": "Enter your name"
+        }
+    }
+    ```
+
+**Explanations:**
+
+    - The field will use our custom input `'custom_text_input'`, which we registered in the configuration.
+    - layout, layoutTitle, and placeholder are used to configure the field's appearance and behavior.
+
+## Conclusion
+
+In this guide, we've explored how to create and integrate a custom text input into a dynamic form using the `@gravity-ui/dynamic-forms` library. Now, you can create custom inputs tailored to your specific requirements.
+
+**Benefits of Creating Custom Inputs:**
+
+    -   Flexibility in displaying and processing data.
+    -   Ability to implement unique logic and styles.
+    -   Enhancing user experience through customization.
