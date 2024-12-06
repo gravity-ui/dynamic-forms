@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.14.3](https://github.com/gravity-ui/dynamic-forms/compare/v4.14.2...v4.14.3) (2024-11-29)
+
+
+### Bug Fixes
+
+* fix remove button for array item object ([#251](https://github.com/gravity-ui/dynamic-forms/issues/251)) ([f156e5b](https://github.com/gravity-ui/dynamic-forms/commit/f156e5b8ecd230da2de3de52422a3ec182c653bf))
+
 ## [4.14.2](https://github.com/gravity-ui/dynamic-forms/compare/v4.14.1...v4.14.2) (2024-11-12)
 
 
