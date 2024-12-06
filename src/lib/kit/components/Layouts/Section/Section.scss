@@ -3,18 +3,20 @@
 $block: '.#{$ns}section';
 
 #{$block} {
-    margin-bottom: $normalOffset;
+    --_--title-max-width: 533px;
+
+    margin-bottom: var(--g-spacing-5);
 
     $block: &;
 
     &:last-child {
-        margin-bottom: 0;
+        margin-bottom: var(--g-spacing-0);
     }
 
     &__header {
         display: flex;
         align-items: center;
-        margin-bottom: $normalOffset;
+        margin-bottom: var(--g-spacing-5);
 
         &_size_s {
             height: 18px;
@@ -26,7 +28,7 @@ $block: '.#{$ns}section';
     }
 
     &__title {
-        max-width: 533px;
+        max-width: var(--df-section-title-max-width, var(--_--title-max-width));
     }
 
     &__title-popover {
@@ -39,7 +41,7 @@ $block: '.#{$ns}section';
     }
 
     &__note {
-        margin-left: 5px;
+        margin-left: $df-offset-5;
 
         .g-help-popover {
             display: flex;
@@ -51,10 +53,10 @@ $block: '.#{$ns}section';
     }
 
     &__description {
-        margin-top: 4px;
+        margin-top: var(--g-spacing-1);
     }
 
     &__remove-button {
-        margin-left: 5px;
+        margin-left: $df-offset-5;
     }
 }

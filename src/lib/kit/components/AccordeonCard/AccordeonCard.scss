@@ -6,7 +6,7 @@
     justify-content: space-between;
     box-sizing: border-box;
     box-shadow: 0 1px 5px var(--g-color-sfx-shadow);
-    border-radius: 5px;
+    border-radius: $df-border-radius-xs;
     color: var(--g-color-text-primary);
     background-color: var(--g-color-base-float);
     .#{$ns}row {
@@ -30,7 +30,7 @@
     }
 
     &:last-child {
-        margin-bottom: 0;
+        margin-bottom: var(--g-spacing-0);
     }
 
     &_empty {
@@ -49,7 +49,7 @@
         position: relative;
         box-sizing: border-box;
         width: 100%;
-        padding: 16px;
+        padding: var(--g-spacing-4);
 
         &:hover {
             cursor: pointer;
@@ -78,7 +78,7 @@
         }
 
         &-content-description {
-            margin-top: 12px;
+            margin-top: var(--g-spacing-3);
             color: var(--g-color-text-complementary);
         }
 
@@ -90,7 +90,7 @@
     }
 
     &__interal-actions {
-        margin-right: 5px;
+        margin-right: $df-offset-5;
     }
 
     &__toggle-icon_open {
@@ -99,7 +99,7 @@
 
     &__body {
         display: none;
-        padding: 16px;
+        padding: var(--g-spacing-4);
 
         &_open {
             display: block;

@@ -8,7 +8,7 @@
     }
 
     &__chevron {
-        margin: 3px;
+        margin: $df-offset-3;
 
         &_open {
             transform: rotate(180deg);

@@ -1,7 +1,9 @@
 @import '../../../styles/variables';
 
 .#{$ns}multi-select {
-    max-width: 305px;
+    --_--max-width: 305px;
+
+    max-width: var(--df-multi-select-max-width, var(--_--max-width));
 
     &__meta-text {
         display: block;

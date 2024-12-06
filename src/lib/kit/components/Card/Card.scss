@@ -1,10 +1,12 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}card {
-    margin-bottom: 20px;
+    --_--title-max-width: 533px;
+
+    margin-bottom: var(--g-spacing-5);
 
     &:last-child {
-        margin-bottom: 0;
+        margin-bottom: var(--g-spacing-0);
     }
 
     .#{$ns}row {
@@ -41,7 +43,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 20px;
+        padding: var(--g-spacing-5);
 
         &_interactive {
             cursor: pointer;
@@ -59,12 +61,12 @@
         align-items: center;
 
         & > * {
-            margin-left: 10px;
+            margin-left: $df-offset-10;
         }
     }
 
     &__title {
-        max-width: 533px;
+        max-width: var(--df-card-title-max-width, var(--_--title-max-width));
         height: 20px;
     }
 
@@ -73,7 +75,7 @@
     }
 
     &__note {
-        margin-left: 5px;
+        margin-left: $df-offset-5;
 
         .gc-help-popover {
             display: flex;
@@ -92,7 +94,7 @@
 
     &__body {
         display: none;
-        padding: 0 20px 20px;
+        padding: 0 var(--g-spacing-5) var(--g-spacing-5);
 
         &_open {
             display: block;
