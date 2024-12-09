@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.14.4](https://github.com/gravity-ui/dynamic-forms/compare/v4.14.3...v4.14.4) (2024-12-09)
+
+
+### Bug Fixes
+
+* Fix meta types ([#255](https://github.com/gravity-ui/dynamic-forms/issues/255)) ([e7a710c](https://github.com/gravity-ui/dynamic-forms/commit/e7a710ce90c48440c35624dd2c5b093adb9f39d5))
+
 ## [4.14.3](https://github.com/gravity-ui/dynamic-forms/compare/v4.14.2...v4.14.3) (2024-11-29)
 
 
