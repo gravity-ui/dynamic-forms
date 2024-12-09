@@ -11,14 +11,14 @@
         justify-content: center;
 
         & > .#{$ns}view-row:last-child {
-            margin-bottom: 0;
+            margin-bottom: var(--g-spacing-0);
         }
 
         & > .#{$ns}view-transparent {
-            margin-bottom: 6px;
+            margin-bottom: $df-offset-6;
 
             &:last-child {
-                margin-bottom: 0;
+                margin-bottom: var(--g-spacing-0);
             }
         }
     }

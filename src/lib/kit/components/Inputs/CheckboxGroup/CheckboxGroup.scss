@@ -6,18 +6,18 @@
     height: 28px;
 
     & > *:not(:last-child) {
-        margin-right: 6px;
+        margin-right: $df-offset-6;
     }
 
     &_vertical {
         flex-direction: column;
         align-items: flex-start;
-        margin-top: 8px;
+        margin-top: var(--g-spacing-2);
         height: auto;
 
         & > *:not(:last-child) {
-            margin-right: 0px;
-            margin-bottom: 6px;
+            margin-right: var(--g-spacing-0);
+            margin-bottom: $df-offset-6;
         }
     }
 }
