@@ -33,5 +33,6 @@ export interface FieldRenderProps<Value extends FieldValue> {
         valid: boolean;
         visited: boolean;
         submitFailed: boolean;
+        childErrors: Record<string, ValidateError>;
     };
 }
