@@ -12,6 +12,8 @@ import {
     Checkbox,
     CheckboxGroup,
     CheckboxGroupView,
+    Column,
+    ColumnVerbose,
     DateInput,
     DateView,
     FileInput,
@@ -62,6 +64,7 @@ import {
     ViewAccordeonCard,
     ViewCardAccordeon,
     ViewCardSection,
+    ViewColumn,
     ViewGroup,
     ViewGroup2,
     ViewRow,
@@ -89,6 +92,8 @@ export const dynamicConfig: DynamicFormConfig = {
         layouts: {
             row: Row,
             row_verbose: RowVerbose,
+            column: Column,
+            column_verbose: ColumnVerbose,
             accordeon: Accordeon,
             section: Section,
             section2: Section2,
@@ -112,6 +117,8 @@ export const dynamicConfig: DynamicFormConfig = {
         layouts: {
             row: Row,
             row_verbose: RowVerbose,
+            column: Column,
+            column_verbose: ColumnVerbose,
             table_item: TableCell,
             transparent: Transparent,
         },
@@ -126,6 +133,8 @@ export const dynamicConfig: DynamicFormConfig = {
         layouts: {
             row: Row,
             row_verbose: RowVerbose,
+            column: Column,
+            column_verbose: ColumnVerbose,
             table_item: TableCell,
             transparent: Transparent,
         },
@@ -150,6 +159,8 @@ export const dynamicConfig: DynamicFormConfig = {
         layouts: {
             row: Row,
             row_verbose: RowVerbose,
+            column: Column,
+            column_verbose: ColumnVerbose,
             accordeon: Accordeon,
             section: Section,
             section2: Section2,
@@ -179,6 +190,8 @@ export const dynamicConfig: DynamicFormConfig = {
         layouts: {
             row: Row,
             row_verbose: RowVerbose,
+            column: Column,
+            column_verbose: ColumnVerbose,
             table_item: TableCell,
             transparent: Transparent,
             section: Section,
@@ -205,6 +218,8 @@ export const dynamicViewConfig: DynamicViewConfig = {
         layouts: {
             row: ViewRow,
             row_verbose: ViewRow,
+            column: ViewColumn,
+            column_verbose: ViewColumn,
             accordeon: ViewAccordeon,
             section: ViewSection,
             section2: ViewSection2,
@@ -225,6 +240,8 @@ export const dynamicViewConfig: DynamicViewConfig = {
         layouts: {
             row: ViewRow,
             row_verbose: ViewRow,
+            column: ViewColumn,
+            column_verbose: ViewColumn,
             table_item: ViewTableCell,
             transparent: ViewTransparent,
         },
@@ -236,6 +253,8 @@ export const dynamicViewConfig: DynamicViewConfig = {
         layouts: {
             row: ViewRow,
             row_verbose: ViewRow,
+            column: ViewColumn,
+            column_verbose: ViewColumn,
             table_item: ViewTableCell,
             transparent: ViewTransparent,
         },
@@ -257,6 +276,8 @@ export const dynamicViewConfig: DynamicViewConfig = {
         layouts: {
             row: ViewRow,
             row_verbose: ViewRow,
+            column: ViewColumn,
+            column_verbose: ViewColumn,
             accordeon: ViewAccordeon,
             section: ViewSection,
             section2: ViewSection2,
@@ -283,6 +304,8 @@ export const dynamicViewConfig: DynamicViewConfig = {
         layouts: {
             row: ViewRow,
             row_verbose: ViewRow,
+            column: ViewColumn,
+            column_verbose: ViewColumn,
             table_item: ViewTableCell,
             transparent: ViewTransparent,
             section: ViewSection,

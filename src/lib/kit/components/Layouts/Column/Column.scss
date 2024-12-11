@@ -1,0 +1,87 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}column {
+    margin-bottom: 15px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &__first-row {
+        min-height: 28px;
+        display: flex;
+        margin-bottom: auto;
+        flex-direction: column;
+        flex-shrink: 0;
+
+        &-inner {
+            display: inline;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        &::after {
+            content: '';
+            width: 100%;
+            flex-shrink: 1;
+        }
+    }
+
+    &__title {
+        word-break: break-word;
+        margin-right: 3px;
+
+        &_required {
+            &::after {
+                content: '*';
+                color: var(--g-color-text-danger);
+            }
+        }
+    }
+
+    &__note {
+        position: relative;
+
+        &-inner {
+            position: absolute;
+            margin-top: 1px;
+
+            .g-help-popover {
+                display: flex;
+
+                & > span {
+                    display: flex;
+                }
+            }
+        }
+    }
+
+    &__second-row {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+
+        &-inner {
+            display: flex;
+            justify-content: space-around;
+        }
+    }
+
+    &__description {
+        margin-top: 10px;
+        color: var(--g-color-text-secondary);
+        word-break: break-word;
+    }
+
+    &__remove-button {
+        margin-left: 5px;
+    }
+
+    &__required-mark {
+        color: var(--g-color-text-danger);
+    }
+
+    &__error-wrapper {
+        min-width: 100%;
+    }
+}
