@@ -3,6 +3,7 @@ export * from './AccordeonCard';
 export * from './CardAccordeon';
 export * from './CardSection';
 export * from './Row';
+export * from './Column';
 export * from './Section';
 export * from './TableCell';
 export * from './Transparent';
