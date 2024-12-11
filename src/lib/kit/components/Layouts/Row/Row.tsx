@@ -22,6 +22,7 @@ import './Row.scss';
 const b = block('row');
 
 interface RowProps {
+    direction?: 'vertical' | 'horizontal';
     verboseDescription?: boolean;
 }
 
@@ -31,20 +32,21 @@ const RowBase = <T extends FieldValue, S extends Spec>({
     input,
     meta,
     verboseDescription,
+    direction = 'vertical',
     children,
 }: LayoutProps<T, undefined, undefined, S> & RowProps) => {
     const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
     const generateButton = React.useMemo(() => withGenerateButton(spec), [spec]);
 
     return (
-        <div className={b()}>
-            <div className={b('left')}>
-                <div className={b('left-inner')}>
+        <div className={b('', {direction})}>
+            <div className={b('label', {direction})}>
+                <div className={b('label-inner')}>
                     <Text className={b('title', {required: spec.required})}>
                         {spec.viewSpec.layoutTitle}
                     </Text>
                     {!verboseDescription && spec.viewSpec.layoutDescription ? (
-                        <span className={b('note')}>
+                        <span className={b('note', {direction})}>
                             <Text className={b('note-inner')}>
                                 <HelpPopover
                                     htmlContent={spec.viewSpec.layoutDescription}
@@ -55,8 +57,8 @@ const RowBase = <T extends FieldValue, S extends Spec>({
                     ) : null}
                 </div>
             </div>
-            <div className={b('right')}>
-                <div className={b('right-inner')}>
+            <div className={b('value', {direction})}>
+                <div className={b('value-inner')}>
                     <ErrorWrapper
                         name={name}
                         meta={meta}
