@@ -1,17 +1,29 @@
 @import '../../../styles/variables.scss';
 
 .#{$ns}row {
-    display: flex;
-    width: 500px;
-    max-width: 500px;
     margin-bottom: 15px;
+
+    &_direction-horizontal {
+        display: flex;
+        width: 500px;
+        max-width: 500px;
+    }
+
+    &_direction-vertical {
+        display: flex;
+        width: 500px;
+        max-width: 500px;
+    }
 
     &:last-child {
         margin-bottom: 0;
     }
 
-    &__left {
-        width: 180px;
+    &__label {
+        &_direction-horizontal {
+            width: 180px;
+        }
+
         min-height: 28px;
         display: flex;
         margin-bottom: auto;
@@ -44,8 +56,11 @@
     }
 
     &__note {
-        padding-right: 16px;
         position: relative;
+
+        &_direction-horizontal {
+            padding-right: 16px;
+        }
 
         &-inner {
             position: absolute;
@@ -61,11 +76,13 @@
         }
     }
 
-    &__right {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        margin-left: 15px;
+    &__value {
+        &_direction-horizontal {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            margin-left: 15px;
+        }
 
         &-inner {
             display: flex;

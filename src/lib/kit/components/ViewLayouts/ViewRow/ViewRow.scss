@@ -3,17 +3,23 @@
 
 .#{$ns}view-row {
     width: 100%;
-    display: flex;
     margin-bottom: 20px;
 
     &:last-child {
         margin-bottom: 0;
     }
 
-    &__left {
-        width: 300px;
-        max-width: 300px;
-        min-width: 300px;
+    &_direction-horizontal {
+        display: flex;
+    }
+
+    &__label {
+        &_direction-horizontal {
+            width: 300px;
+            max-width: 300px;
+            min-width: 300px;
+        }
+
         display: flex;
         align-items: baseline;
         overflow: hidden;
@@ -30,11 +36,13 @@
         border-bottom: 1px dotted var(--g-color-text-secondary);
     }
 
-    &__right {
-        max-width: 480px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+    &__value {
+        &_direction-horizontal {
+            max-width: 480px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
         & > .#{$ns}view-transparent {
             margin-bottom: 6px;

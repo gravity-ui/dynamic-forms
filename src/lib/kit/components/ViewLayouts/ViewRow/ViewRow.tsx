@@ -15,7 +15,10 @@ export const ViewRow = <T extends FormValue, S extends Spec>({
     value,
     spec,
     children,
-}: ViewLayoutProps<T, S>) => {
+    direction = 'vertical',
+}: ViewLayoutProps<T, S> & {
+    direction?: 'vertical' | 'horizontal';
+}) => {
     const {showLayoutDescription} = useDynamicFormsCtx();
 
     if (!isNotEmptyValue(value, spec)) {
@@ -23,8 +26,8 @@ export const ViewRow = <T extends FormValue, S extends Spec>({
     }
 
     return (
-        <div className={b()}>
-            <div className={b('left')}>
+        <div className={b('', {direction})}>
+            <div className={b('label', {direction})}>
                 <Text whiteSpace="nowrap" color="secondary" ellipsis={true}>
                     {spec.viewSpec.layoutTitle}
                 </Text>
@@ -35,9 +38,9 @@ export const ViewRow = <T extends FormValue, S extends Spec>({
                         placement={['bottom', 'top']}
                     />
                 ) : null}
-                <div className={b('dots')} />
+                {direction === 'horizontal' && <div className={b('dots')} />}
             </div>
-            <div className={b('right')}>{children}</div>
+            <div className={b('value', {direction})}>{children}</div>
             <CopyButton spec={spec} value={value} />
         </div>
     );
