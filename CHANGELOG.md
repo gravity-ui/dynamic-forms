@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.15.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.14.3...v4.15.0) (2024-12-12)
+
+
+### Features
+
+* add column view ([#257](https://github.com/gravity-ui/dynamic-forms/issues/257)) ([0138f29](https://github.com/gravity-ui/dynamic-forms/commit/0138f29f1352d4e1fb5b62efa5e40c446a09412a))
+
+
+### Bug Fixes
+
+* Fix meta types ([#255](https://github.com/gravity-ui/dynamic-forms/issues/255)) ([e7a710c](https://github.com/gravity-ui/dynamic-forms/commit/e7a710ce90c48440c35624dd2c5b093adb9f39d5))
+
 ## [4.14.3](https://github.com/gravity-ui/dynamic-forms/compare/v4.14.2...v4.14.3) (2024-11-29)
 
 
