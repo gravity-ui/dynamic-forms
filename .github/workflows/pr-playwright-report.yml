@@ -12,27 +12,27 @@ jobs:
     if: github.event.workflow_run.event == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - name: Set PR Number
-          id: pr
-          run: echo "PR_NUMBER=${{ github.event.workflow_run.pull_requests[0].number }}" >> $GITHUB_ENV
-          shell: bash
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
           github-token: ${{ secrets.GRAVITY_UI_BOT_GITHUB_TOKEN }}
           run_id: ${{ github.event.workflow_run.id }}
+      - name: Extract PR Number
+        id: pr
+        run: echo "::set-output name=id::$(<pr/pr-id.txt)"
+        shell: bash
       - name: Upload to S3
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.STORYBOOK_S3_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.STORYBOOK_S3_SECRET_KEY }}
           AWS_DEFAULT_REGION: ru-central1
           AWS_EC2_METADATA_DISABLED: true
-        run: aws s3 cp playwright-report s3://playwright-reports/dynamic-forms/pulls/${{ env.PR_NUMBER  }}/ --endpoint-url=https://storage.yandexcloud.net --recursive
+        run: aws s3 cp playwright-report s3://playwright-reports/dynamic-forms/pulls/${{ steps.pr.outputs.id }}/ --endpoint-url=https://storage.yandexcloud.net --recursive
         shell: bash
       - name: Create Comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           GITHUB_TOKEN: ${{ secrets.GRAVITY_UI_BOT_GITHUB_TOKEN }}
-          number: ${{ env.PR_NUMBER  }}
+          number: ${{ steps.pr.outputs.id }}
           header: playwright test
-          message: '[Playwright Test Component](https://storage.yandexcloud.net/playwright-reports/dynamic-forms/pulls/${{ env.PR_NUMBER  }}/index.html) is ready.'
+          message: '[Playwright Test Component](https://storage.yandexcloud.net/playwright-reports/dynamic-forms/pulls/${{ steps.pr.outputs.id }}/index.html) is ready.'
