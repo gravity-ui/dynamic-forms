@@ -4,4 +4,18 @@ import Spec from '../../docs/spec.md?raw';
 
 <Meta title="Docs/Spec" />
 
-<Markdown>{Spec}</Markdown>
+export const replacements = [
+    ['./lib.md', '?path=/docs/docs-lib--docs'],
+    ['./config.md', '?path=/docs/docs-config--docs'],
+    ['./input-props-map.md', '?path=/docs/docs-input-props-map--docs'],
+];
+
+export const applyReplacements = (text, replacements) => {
+    return replacements.reduce((result, [searchValue, replaceValue]) => {
+        return result.split(searchValue).join(replaceValue);
+    }, text);
+};
+
+export const content = applyReplacements(Spec, replacements);
+
+<Markdown>{content}</Markdown>

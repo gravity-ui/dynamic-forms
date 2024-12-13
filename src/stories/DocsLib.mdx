@@ -4,4 +4,22 @@ import Lib from '../../docs/lib.md?raw';
 
 <Meta title="Docs/Lib" />
 
-<Markdown>{Lib}</Markdown>
+export const replacements = [
+    [
+        '../src/lib/kit/constants/config.tsx',
+        'https://github.com/gravity-ui/dynamic-forms/blob/main/src/lib/kit/constants/config.tsx',
+    ],
+    ['./spec.md', '?path=/docs/docs-spec--docs'],
+    ['./config.md', '?path=/docs/docs-config--docs'],
+
+];
+
+export const applyReplacements = (text, replacements) => {
+    return replacements.reduce((result, [searchValue, replaceValue]) => {
+        return result.split(searchValue).join(replaceValue);
+    }, text);
+};
+
+export const content = applyReplacements(Lib, replacements);
+
+<Markdown>{content}</Markdown>
