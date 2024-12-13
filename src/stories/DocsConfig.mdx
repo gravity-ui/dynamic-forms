@@ -4,4 +4,9 @@ import Config from '../../docs/config.md?raw';
 
 <Meta title="Docs/Config" />
 
-<Markdown>{Config}</Markdown>
+<Markdown>
+    {Config.replace(
+        `../src/lib/kit/constants/config.tsx`,
+        `https://github.com/gravity-ui/dynamic-forms/blob/main/src/lib/kit/constants/config.tsx`,
+    )}
+</Markdown>
