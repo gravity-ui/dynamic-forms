@@ -3,6 +3,7 @@ export * from './ViewCardAccordeon';
 export * from './ViewAccordeonCard';
 export * from './ViewCardSection';
 export * from './ViewRow';
+export * from './ViewColumn';
 export * from './ViewSection';
 export * from './ViewTableCell';
 export * from './ViewTransparent';
