@@ -1,21 +1,19 @@
 @import '../../../styles/variables';
 
 .#{$ns}multi-oneof {
-    --_--select-max-width: 305px;
-
     &__select {
-        max-width: var(--df-multi-oneof-max-width-select, var(--_--select-max-width));
+        max-width: var(--df-multi-oneof-select-max-width, 305px);
     }
 
     &__content {
         &_flat {
             & > .#{$ns}group-indent {
-                margin: var(--g-spacing-0);
+                margin: var(--df-multi-oneof-content-flat-margin, var(--g-spacing-0));
                 border-left: none;
-                padding: var(--g-spacing-0);
+                padding: var(--df-multi-oneof-content-flat-padding, var(--g-spacing-0));
 
                 & > .#{$ns}use-search {
-                    margin-top: $df-offset-15;
+                    margin-top: var(--df-spacing-inputs, $df-spacing-inputs);
 
                     &:empty {
                         display: none;

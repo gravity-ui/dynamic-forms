@@ -6,7 +6,7 @@
 
     &:last-child {
         & > .#{$ns}group-indent {
-            margin-bottom: var(--g-spacing-0);
+            margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
         }
     }
 
@@ -15,11 +15,14 @@
             all: unset;
 
             & > .#{$ns}use-search {
-                padding-top: $df-offset-11;
-                padding-left: var(--g-spacing-5);
-                margin-top: var(--g-spacing-1);
-                margin-bottom: var(--g-spacing-5);
-                margin-left: $df-offset-5;
+                padding: var(
+                    --df-oneof-base-padding,
+                    $df-offset-11 var(--g-spacing-0) var(--g-spacing-0) var(--g-spacing-5)
+                );
+                margin: var(
+                    --df-oneof-base-margin,
+                    var(--g-spacing-1) var(--g-spacing-0) var(--g-spacing-5) $df-offset-5
+                );
                 border-left: 1px solid var(--g-color-line-generic-accent);
 
                 &:empty {
@@ -27,11 +30,14 @@
                 }
 
                 &:last-child {
-                    margin-bottom: var(--g-spacing-0);
+                    margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
                 }
 
                 & > .#{$ns}simple-vertical-accordeon_view {
-                    margin-top: -$df-offset-10;
+                    margin-top: var(
+                        --df-oneof-base-simple-vertical-accordeon-margin-top,
+                        -$df-offset-10
+                    );
                 }
             }
         }
@@ -39,12 +45,12 @@
 
     &_flat {
         & > .#{$ns}group-indent {
-            margin: var(--g-spacing-0);
+            margin: var(--df-oneof-flat-margin, var(--g-spacing-0));
             border-left: none;
-            padding: var(--g-spacing-0);
+            padding: var(--df-oneof-flat-padding, var(--g-spacing-0));
 
             & > .#{$ns}use-search {
-                margin-top: $df-offset-15;
+                margin-top: var(--df-spacing-inputs, $df-spacing-inputs);
 
                 &:empty {
                     display: none;

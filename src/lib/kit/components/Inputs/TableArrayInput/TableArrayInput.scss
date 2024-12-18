@@ -1,11 +1,8 @@
 @import '../../../styles/variables';
 
 .#{$ns}table-array {
-    --_--cell-max-width: 150px;
-    --_--cell-min-width: 150px;
-
     &__table {
-        margin-bottom: $df-offset-10;
+        margin-bottom: var(--df-table-array-table-margin-bottom, $df-offset-10);
 
         .g-table__cell {
             border-bottom: 0px transparent;
@@ -30,13 +27,13 @@
         .g-select-control,
         .yc-select,
         .g-select {
-            max-width: var(--df-table-cell-max-width, var(--_--cell-max-width));
-            min-width: var(--df-table-cell-min-width, var(--_--cell-min-width));
+            max-width: var(--df-table-array-cell-max-width, 150px);
+            min-width: var(--df-table-array-cell-min-width, 150px);
         }
 
         &_arr,
         &_obj {
-            padding-left: $df-offset-3;
+            padding-left: var(--df-table-array-cell-obj-padding-left, $df-offset-3);
 
             .yc-text-input,
             .g-text-input,
@@ -48,7 +45,10 @@
             }
 
             & > .simple-vertical-accordeon {
-                margin-bottom: var(--g-spacing-0);
+                margin-bottom: var(
+                    --df-table-array-cell-obj-simple-vertical-accordeon-margin-bottom,
+                    var(--g-spacing-0)
+                );
             }
         }
 
@@ -59,6 +59,6 @@
     }
 
     &__idx {
-        padding-top: $df-offset-6;
+        padding-top: var(--df-table-array-idx-padding-top, $df-offset-6);
     }
 }

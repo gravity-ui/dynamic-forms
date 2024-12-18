@@ -19,7 +19,8 @@ $ns: 'df-';
     --g-spacing-10: calc(var(--g-spacing-base) * 10); // 40px
 }
 */
-//DOUNT use TODO replace with spacing from gravity
+
+//TODO List of old variables, do not use! There will be different ones soon
 $df-offset-1: 1px;
 $df-offset-3: 3px;
 $df-offset-5: 5px;
@@ -30,8 +31,24 @@ $df-offset-11: 11px;
 $df-offset-13: 13px;
 $df-offset-15: 15px;
 
+//Spacing variables
+$df-spacing-inputs: $df-offset-15; //TODO --g-spacing-4
+$df-spacing-inputs-section: var(--g-spacing-5); // 20px
+$df-spacing-last-child: var(--g-spacing-0); // 0px
+$df-spacing-view: var(--g-spacing-5); // 20px
+
+//Remove button margin
+$df-remove-button-margin-left: $df-offset-5; //TODO --g-spacing
+
 /* Border-radius */
 $df-border-radius-xs: 5px;
+
+// Tooltip container
+$df-tooltip-container-max-width: 100%;
+$df-tooltip-container-margin-bottom: 6px;
+
+// Checbox height
+$df-checkbox-height: 28px;
 
 // Fonts
 $defaultFontFamily: var(--g-text-body-font-family);

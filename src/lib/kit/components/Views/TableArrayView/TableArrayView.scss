@@ -1,23 +1,20 @@
 @import '../../../styles/variables';
 
 .#{$ns}table-array-view {
-    --_--cell-min-width: 150px;
-    --_--cell-max-width: 150px;
-
     &__table {
-        margin-bottom: $df-offset-10;
+        margin-bottom: var(--df-table-array-view-table-margin-bottom, $df-offset-10);
     }
 
     &__cell {
-        max-width: var(--df-table-array-view-cell-min-width, var(--_--cell-min-width));
-        min-width: var(--df-table-array-view-cell-max-width, var(--_--cell-max-width));
+        max-width: var(--df-table-array-view-cell-min-width, 150px);
+        min-width: var(--df-table-array-view-cell-max-width, 150px);
 
         &_arr,
         &_obj {
             max-width: unset;
 
             & > .simple-vertical-accordeon {
-                margin-bottom: var(--g-spacing-0);
+                margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
             }
         }
 

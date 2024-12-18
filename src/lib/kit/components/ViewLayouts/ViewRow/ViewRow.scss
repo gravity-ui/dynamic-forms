@@ -2,50 +2,48 @@
 @import '../../../styles/mixins.scss';
 
 .#{$ns}view-row {
-    --_--left-width: 300px;
-    --_--left-max-width: 300px;
-    --_--left-min-width: 300px;
-    --_--right-width: 480px;
-
-    width: 100%;
+    width: var(--df-view-row-width, 100%);
     display: flex;
-    margin-bottom: var(--g-spacing-5);
+    margin-bottom: var(--df-spacing-view, $df-spacing-view);
 
     &:last-child {
-        margin-bottom: var(--g-spacing-0);
+        margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
     }
 
     &__left {
-        width: var(--df-view-row-left-width, var(--_--left-width));
-        max-width: var(--df-view-row-left-max-width, var(--_--left-max-width));
-        min-width: var(--df-view-row-left-min-width, var(--_--left-min-width));
+        width: var(--df-view-row-left-width, 300px);
+        max-width: var(--df-view-row-left-max-width, 300px);
+        min-width: var(--df-view-row-left-min-width, 300px);
         display: flex;
         align-items: baseline;
         overflow: hidden;
     }
 
     &__note {
-        margin-inline-start: var(--g-spacing-half);
+        margin-inline-start: var(--df-view-row-note-margin-inline-start, var(--g-spacing-half));
     }
 
     &__dots {
-        min-width: 40px;
+        min-width: var(--df-view-row-dots-min-width, 40px);
         flex-grow: 1;
-        margin: var(--g-spacing-0) var(--g-spacing-half);
+        margin: var(--df-view-row-dots-margin, var(--g-spacing-0) var(--g-spacing-half));
         border-bottom: 1px dotted var(--g-color-text-secondary);
     }
 
     &__right {
-        max-width: var(--df-view-row-right-width, var(--_--right-width));
+        max-width: var(--df-view-row-right-width, 480px);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
 
         & > .#{$ns}view-transparent {
-            margin-bottom: $df-offset-6;
+            margin-bottom: var(
+                --df-view-row-right-child-view-transparent-margin-bottom,
+                $df-offset-6
+            );
 
             &:last-child {
-                margin-bottom: var(--g-spacing-0);
+                margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
             }
         }
     }

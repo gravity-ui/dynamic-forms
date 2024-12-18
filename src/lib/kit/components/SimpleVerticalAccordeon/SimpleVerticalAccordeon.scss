@@ -3,17 +3,15 @@
 $animationDuration: 0.3s;
 
 .#{$ns}simple-vertical-accordeon {
-    --_--inner-max-width: 533px;
-
-    margin-bottom: var(--g-spacing-5);
+    margin-bottom: var(--df-spacing-inputs-section, $df-spacing-inputs-section);
 
     &:last-child {
-        margin-bottom: 0;
+        margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
     }
 
     &_branch &__body {
-        padding-left: var(--g-spacing-5);
-        margin-left: $df-offset-5;
+        padding-left: var(--df-simple-vertical-accordeon-body-padding-left, var(--g-spacing-5));
+        margin-left: var(--df-simple-vertical-accordeon-body-margin-left, $df-offset-5);
         border-left: 1px solid var(--g-color-line-generic-accent);
     }
 
@@ -22,11 +20,11 @@ $animationDuration: 0.3s;
         align-items: center;
 
         &-inner {
-            margin-left: -$df-offset-13;
-            max-width: var(
-                --df-simple-vertical-accordeon-header-inner-max-width,
-                var(--_--inner-max-width)
+            margin-left: var(
+                --df-simple-vertical-accordeon-header-inner-margin-left,
+                -$df-offset-13
             );
+            max-width: var(--df-simple-vertical-accordeon-header-inner-max-width, 533px);
         }
 
         .g-popover__handler {
@@ -35,7 +33,7 @@ $animationDuration: 0.3s;
     }
 
     &__tooltip {
-        margin: var(--g-spacing-0) $df-offset-5;
+        margin: var(--df-simple-vertical-accordeon-tooltip-margin, var(--g-spacing-0) $df-offset-5);
     }
 
     &__chevron {
@@ -47,8 +45,8 @@ $animationDuration: 0.3s;
     }
 
     &__body {
-        margin-top: var(--g-spacing-1);
-        padding-top: $df-offset-6;
+        margin-top: var(--df-simple-vertical-accordeon-body-margin-top, var(--g-spacing-1));
+        padding-top: var(--df-simple-vertical-accordeon-body-padding-top, $df-offset-6);
 
         &_hidden {
             display: none;

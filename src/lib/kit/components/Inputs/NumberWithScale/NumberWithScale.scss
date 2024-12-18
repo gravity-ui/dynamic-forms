@@ -1,14 +1,12 @@
 @import '../../../styles/variables';
 
 .#{$ns}number-with-scale {
-    $df-number-with-scale-max-width: 102px;
-
     &__wrapper {
         display: flex;
     }
 
     &__select {
-        max-width: $df-number-with-scale-max-width;
-        margin-left: $df-offset-5;
+        max-width: var(--df-number-with-scale-select-max-width, 102px);
+        margin-left: var(--df-number-with-scale-select-margin-left, $df-offset-5);
     }
 }

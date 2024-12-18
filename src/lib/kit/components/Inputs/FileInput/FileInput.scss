@@ -1,8 +1,6 @@
 @import '../../../styles/variables.scss';
 
 .#{$ns}file-input {
-    --_--file-name-max-width: 160px;
-
     display: flex;
 
     &__input {
@@ -11,7 +9,7 @@
 
     &__file-name {
         display: block;
-        margin: auto $df-offset-10;
-        max-width: var(--df-file-input-file-name-max-width, var(--_--file-name-max-width));
+        margin: var(--df-file-input-file-name-margin, auto $df-offset-10);
+        max-width: var(--df-file-input-file-name-max-width, 160px);
     }
 }

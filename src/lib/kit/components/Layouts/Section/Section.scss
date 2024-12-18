@@ -3,32 +3,30 @@
 $block: '.#{$ns}section';
 
 #{$block} {
-    --_--title-max-width: 533px;
-
-    margin-bottom: var(--g-spacing-5);
+    margin-bottom: var(--df-spacing-inputs-section, $df-spacing-inputs-section);
 
     $block: &;
 
     &:last-child {
-        margin-bottom: var(--g-spacing-0);
+        margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
     }
 
     &__header {
         display: flex;
         align-items: center;
-        margin-bottom: var(--g-spacing-5);
+        margin-bottom: var(--df-section-header-margin-bottom, var(--g-spacing-5));
 
         &_size_s {
-            height: 18px;
+            height: var(--df-section-header-size-s, 18px);
         }
 
         &_size_m {
-            height: 20px;
+            height: var(--df-section-header-size-m, 20px);
         }
     }
 
     &__title {
-        max-width: var(--df-section-title-max-width, var(--_--title-max-width));
+        max-width: var(--df-section-title-max-width, 533px);
     }
 
     &__title-popover {
@@ -41,7 +39,7 @@ $block: '.#{$ns}section';
     }
 
     &__note {
-        margin-left: $df-offset-5;
+        margin-left: var(--df-section-note-margin-left, $df-offset-5);
 
         .g-help-popover {
             display: flex;
@@ -53,10 +51,10 @@ $block: '.#{$ns}section';
     }
 
     &__description {
-        margin-top: var(--g-spacing-1);
+        margin-top: var(--df-section-description-margin-top, var(--g-spacing-1));
     }
 
     &__remove-button {
-        margin-left: $df-offset-5;
+        margin-left: var(--df-remove-button-margin-left, $df-remove-button-margin-left);
     }
 }

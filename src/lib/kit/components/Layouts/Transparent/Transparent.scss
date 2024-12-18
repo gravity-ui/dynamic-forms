@@ -1,17 +1,15 @@
 @import '../../../styles/variables.scss';
 
 .#{$ns}transparent {
-    --_--array-item-max-width: 338px;
-
     display: flex;
-    margin-bottom: $df-offset-15;
+    margin-bottom: var(--df-spacing-inputs, $df-spacing-inputs);
 
     &:last-child {
-        margin-bottom: var(--g-spacing-0);
+        margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
     }
 
     &_array-item {
-        max-width: var(--df-transparent-array-item-max-width, var(--_--array-item-max-width));
+        max-width: var(--df-transparent-array-item-max-width, 338px);
     }
 
     &_without-max-width {
@@ -23,6 +21,6 @@
     }
 
     &__remove-button {
-        margin-left: $df-offset-5;
+        margin-left: var(--df-remove-button-margin-left, $df-remove-button-margin-left);
     }
 }

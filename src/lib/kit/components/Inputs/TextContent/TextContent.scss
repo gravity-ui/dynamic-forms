@@ -14,7 +14,7 @@
     &__icon {
         display: flex;
         align-items: center;
-        margin-right: var(--g-spacing-1);
+        margin-right: var(--df-text-content-icon-margin-right, var(--g-spacing-1));
     }
 
     &__wrapper {
@@ -22,6 +22,6 @@
     }
 
     &__separator {
-        margin: var(--g-spacing-0) var(--g-spacing-1);
+        margin: var(--df-text-content-separator-margin, var(--g-spacing-0) var(--g-spacing-1));
     }
 }

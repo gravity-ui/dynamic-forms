@@ -1,22 +1,18 @@
 @import '../../../styles/variables.scss';
 
 .#{$ns}row {
-    --_--width: 500px;
-    --_--max-width: 500px;
-    --_--left-width: 180px;
-
     display: flex;
-    width: var(--df-row-width, var(--_--width));
-    max-width: var(--df-row-max-width, var(--_--max-width));
-    margin-bottom: $df-offset-15;
+    width: var(--df-row-width, 500px);
+    max-width: var(--df-row-max-width, 500px);
+    margin-bottom: var(--df-spacing-inputs, $df-spacing-inputs);
 
     &:last-child {
-        margin-bottom: var(--g-spacing-0);
+        margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
     }
 
     &__left {
-        width: var(--df-row-left-width, var(--_--left-width));
-        min-height: 28px;
+        width: var(--df-row-left-width, 180px);
+        min-height: var(--df-row-left-min-height, 28px);
         display: flex;
         margin-bottom: auto;
         flex-direction: column;
@@ -37,7 +33,7 @@
 
     &__title {
         word-break: break-word;
-        margin-right: $df-offset-3;
+        margin-right: var(--df-row-title-margin-right, $df-offset-3);
 
         &_required {
             &::after {
@@ -48,12 +44,12 @@
     }
 
     &__note {
-        padding-right: var(--g-spacing-4);
+        padding-right: var(--df-row-note-padding-right, var(--g-spacing-4));
         position: relative;
 
         &-inner {
             position: absolute;
-            margin-top: $df-offset-1;
+            margin-top: var(--df-row-note-inner-margin-top, $df-offset-1);
 
             .g-help-popover {
                 display: flex;
@@ -69,7 +65,7 @@
         display: flex;
         flex-direction: column;
         flex-grow: 1;
-        margin-left: $df-offset-15;
+        margin-left: var(--df-row-right-margin-left, $df-offset-15);
 
         &-inner {
             display: flex;
@@ -78,13 +74,13 @@
     }
 
     &__description {
-        margin-top: $df-offset-10;
+        margin-top: var(--df-row-description-margin-top, $df-offset-10);
         color: var(--g-color-text-secondary);
         word-break: break-word;
     }
 
     &__remove-button {
-        margin-left: $df-offset-5;
+        margin-left: var(--df-remove-button-margin-left, $df-remove-button-margin-left);
     }
 
     &__required-mark {

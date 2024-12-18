@@ -3,21 +3,23 @@
 .#{$ns}checkbox-group {
     display: flex;
     align-items: center;
-    height: 28px;
+    height: var(--df-checkbox-height, $df-checkbox-height);
 
     & > *:not(:last-child) {
-        margin-right: $df-offset-6;
+        margin-right: var(--df-checkbox-group-child-margin-right, $df-offset-6);
     }
 
     &_vertical {
         flex-direction: column;
         align-items: flex-start;
-        margin-top: var(--g-spacing-2);
+        margin-top: var(--df-checkbox-group-vertical-margin-top, var(--g-spacing-2));
         height: auto;
 
         & > *:not(:last-child) {
-            margin-right: var(--g-spacing-0);
-            margin-bottom: $df-offset-6;
+            margin: var(
+                --df-checkbox-group-vertical-child-margin,
+                var(--g-spacing-0) var(--g-spacing-0) $df-offset-6
+            );
         }
     }
 }
