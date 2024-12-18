@@ -2,7 +2,7 @@
 
 .#{$ns}monaco-input {
     // TODO: Remove this styles
-    width: 550px;
+    width: var(--df-monaco-input-width, 550px);
 
     &__container {
         border: 1px solid var(--g-color-line-generic);

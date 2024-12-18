@@ -6,11 +6,12 @@
     justify-content: space-between;
     box-sizing: border-box;
     box-shadow: 0 1px 5px var(--g-color-sfx-shadow);
-    border-radius: 5px;
+    border-radius: var(--df-accordeon-card-border-radius, $df-border-radius-xs);
     color: var(--g-color-text-primary);
     background-color: var(--g-color-base-float);
+
     .#{$ns}row {
-        width: 100%;
+        width: var(--df-accordeon-card-row-width, 100%);
         max-width: unset;
 
         .#{$ns}select,
@@ -22,7 +23,7 @@
 
     .#{$ns}monaco-input,
     .#{$ns}monaco-base-view {
-        width: 100%;
+        width: var(--df-accordeon-card-monaco-input-width, 100%);
     }
 
     &:hover {
@@ -30,7 +31,7 @@
     }
 
     &:last-child {
-        margin-bottom: 0;
+        margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
     }
 
     &_empty {
@@ -48,8 +49,8 @@
         display: flex;
         position: relative;
         box-sizing: border-box;
-        width: 100%;
-        padding: 16px;
+        width: var(--df-accordeon-card-header-width, 100%);
+        padding: var(--df-accordeon-card-header-padding, var(--g-spacing-4));
 
         &:hover {
             cursor: pointer;
@@ -78,7 +79,7 @@
         }
 
         &-content-description {
-            margin-top: 12px;
+            margin-top: var(--df-accordeon-card-content-description-margin-top, var(--g-spacing-3));
             color: var(--g-color-text-complementary);
         }
 
@@ -90,7 +91,7 @@
     }
 
     &__interal-actions {
-        margin-right: 5px;
+        margin-right: var(--df-accordeon-card-interal-actions-margin-right, $df-offset-5);
     }
 
     &__toggle-icon_open {
@@ -99,7 +100,7 @@
 
     &__body {
         display: none;
-        padding: 16px;
+        padding: var(--df-accordeon-card-body-padding, var(--g-spacing-4));
 
         &_open {
             display: block;

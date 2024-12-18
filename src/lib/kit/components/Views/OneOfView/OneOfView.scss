@@ -2,18 +2,21 @@
 
 .#{$ns}oneof-view {
     & > .#{$ns}group-indent {
-        margin-bottom: 20px;
+        margin-bottom: var(--df-spacing-inputs-section, $df-spacing-inputs-section);
     }
 
     &:last-child > .#{$ns}group-indent {
-        margin-bottom: 0;
+        margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
     }
 
     &_flat {
         & > .#{$ns}group-indent {
-            margin: 0 0 20px;
+            margin: var(
+                --df-oneof-view-flat-child-margin,
+                var(--g-spacing-0) var(--g-spacing-0) var(--g-spacing-5)
+            );
             border-left: none;
-            padding: 0;
+            padding: var(--df-oneof-view-flat-child-padding, var(--g-spacing-0));
         }
     }
 }

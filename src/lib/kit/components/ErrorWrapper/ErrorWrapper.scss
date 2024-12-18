@@ -1,7 +1,7 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}error-wrapper {
-    width: 100%;
+    width: var(--df-error-wrapper-width, 100%);
 
     &_error {
         .yc-select-control:not(.#{$ns}error-wrapper-ignore),
@@ -29,7 +29,7 @@
 
     &__error-text {
         color: var(--g-color-text-danger);
-        margin-top: 2px;
+        margin-top: var(--df-error-wrapper-error-text-margin-top, var(--g-spacing-half));
         font-size: var(--g-text-body-1-font-size);
         line-height: var(--g-text-body-1-line-height);
     }

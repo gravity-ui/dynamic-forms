@@ -2,10 +2,10 @@
 @import '../../../styles/mixins.scss';
 
 .#{$ns}view-column {
-    margin-bottom: 20px;
+    margin-bottom: var(--df-spacing-view, $df-spacing-view);
 
     &:last-child {
-        margin-bottom: 0;
+        margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
     }
 
     &__first-row {
@@ -14,15 +14,18 @@
     }
 
     &__note {
-        margin-inline-start: var(--g-spacing-half);
+        margin-inline-start: var(--df-view-column-note-margin-inline-start, var(--g-spacing-half));
     }
 
     &__second-row {
         & > .#{$ns}view-transparent {
-            margin-bottom: 6px;
+            margin-bottom: var(
+                --df-view-column-second-row-child-view-transperant-margin-bottom,
+                $df-offset-6
+            );
 
             &:last-child {
-                margin-bottom: 0;
+                margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
             }
         }
     }

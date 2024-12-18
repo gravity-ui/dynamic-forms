@@ -1,10 +1,10 @@
 @import '../../../styles/variables.scss';
 
 .#{$ns}monaco-header {
-    height: 52px;
+    height: var(--df-monaco-header-height, 52px);
     display: flex;
     justify-content: space-between;
-    padding: 15px;
+    padding: var(--df-monaco-header-padding, $df-offset-15);
     align-items: center;
     background-color: var(--g-color-base-float-hover);
 }

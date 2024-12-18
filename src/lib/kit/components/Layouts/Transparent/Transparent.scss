@@ -2,14 +2,14 @@
 
 .#{$ns}transparent {
     display: flex;
-    margin-bottom: 15px;
+    margin-bottom: var(--df-spacing-inputs, $df-spacing-inputs);
 
     &:last-child {
-        margin-bottom: 0;
+        margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
     }
 
     &_array-item {
-        max-width: 338px;
+        max-width: var(--df-transparent-array-item-max-width, 338px);
     }
 
     &_without-max-width {
@@ -21,6 +21,6 @@
     }
 
     &__remove-button {
-        margin-left: 5px;
+        margin-left: var(--df-remove-button-margin-left, $df-remove-button-margin-left);
     }
 }

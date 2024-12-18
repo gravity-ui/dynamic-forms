@@ -2,7 +2,7 @@
 
 .#{$ns}select {
     // TODO: Remove this styles
-    max-width: 305px;
+    max-width: var(--df-select-max-width, 305px);
 
     &__meta-text {
         display: block;
