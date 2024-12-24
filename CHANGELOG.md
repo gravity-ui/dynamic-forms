@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.16.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.15.0...v4.16.0) (2024-12-24)
+
+
+### Features
+
+* css api ([#254](https://github.com/gravity-ui/dynamic-forms/issues/254)) ([c5608e7](https://github.com/gravity-ui/dynamic-forms/commit/c5608e7eee86f61348dacd79e2c13665ef054b22))
+
+
+### Bug Fixes
+
+* upload s3 playwright tests ([#259](https://github.com/gravity-ui/dynamic-forms/issues/259)) ([33b8173](https://github.com/gravity-ui/dynamic-forms/commit/33b8173cf38f0c72d68bfb294cbe9831c3ae7d7b))
+
 ## [4.15.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.14.3...v4.15.0) (2024-12-12)
 
 
