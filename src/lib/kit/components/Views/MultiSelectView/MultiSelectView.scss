@@ -6,14 +6,17 @@
     }
 
     &__tooltip-container {
-        max-width: 100%;
+        max-width: var(--df-tooltip-container-max-width, $df-tooltip-container-max-width);
         overflow: hidden;
         text-overflow: ellipsis;
         display: block;
-        margin-bottom: 6px;
+        margin-bottom: var(
+            --df-tooltip-container-margin-bottom,
+            $df-tooltip-container-margin-bottom
+        );
 
         &:last-child {
-            margin-bottom: 0;
+            margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
         }
     }
 }

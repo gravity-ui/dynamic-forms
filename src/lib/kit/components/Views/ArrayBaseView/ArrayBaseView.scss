@@ -2,6 +2,6 @@
 
 .#{$ns}array-base-view {
     &__item-prefix {
-        margin-bottom: 6px;
+        margin-bottom: var(--df-array-base-view-item-prefix-margin-bottom, $df-offset-6);
     }
 }

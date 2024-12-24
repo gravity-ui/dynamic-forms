@@ -4,7 +4,7 @@
     display: flex;
 
     & > *:not(:last-child) {
-        margin-right: 6px;
+        margin-right: var(--df-checkbox-group-view-child-margin-right, $df-offset-6);
     }
 
     &_vertical {
@@ -12,8 +12,10 @@
         align-items: flex-start;
 
         & > *:not(:last-child) {
-            margin-right: 0px;
-            margin-bottom: 6px;
+            margin: var(
+                --df-checkbox-group-view-vertical-child-margin,
+                var(--g-spacing-0) var(--g-spacing-0) $df-offset-6
+            );
         }
     }
 
@@ -22,14 +24,17 @@
     }
 
     &__tooltip-container {
-        max-width: 100%;
+        max-width: var(--df-tooltip-container-max-width, $df-tooltip-container-max-width);
         overflow: hidden;
         text-overflow: ellipsis;
         display: block;
-        margin-bottom: 6px;
+        margin-bottom: var(
+            --df-tooltip-container-margin-bottom,
+            $df-tooltip-container-margin-bottom
+        );
 
         &:last-child {
-            margin-bottom: 0;
+            margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
         }
     }
 }

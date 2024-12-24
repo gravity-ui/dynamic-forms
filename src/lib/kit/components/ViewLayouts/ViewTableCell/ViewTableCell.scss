@@ -5,20 +5,23 @@
     display: flex;
 
     &__inner {
-        max-width: 100%;
+        max-width: var(--df-view-table-cell-inner-max-width, 100%);
         display: flex;
         flex-direction: column;
         justify-content: center;
 
         & > .#{$ns}view-row:last-child {
-            margin-bottom: 0;
+            margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
         }
 
         & > .#{$ns}view-transparent {
-            margin-bottom: 6px;
+            margin-bottom: var(
+                --df-view-table-cell-inner-child-view-transparent-margin-bottom,
+                $df-offset-6
+            );
 
             &:last-child {
-                margin-bottom: 0;
+                margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
             }
         }
     }

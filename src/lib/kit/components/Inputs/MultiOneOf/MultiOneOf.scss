@@ -2,18 +2,18 @@
 
 .#{$ns}multi-oneof {
     &__select {
-        max-width: 305px;
+        max-width: var(--df-multi-oneof-select-max-width, 305px);
     }
 
     &__content {
         &_flat {
             & > .#{$ns}group-indent {
-                margin: 0;
+                margin: var(--df-multi-oneof-content-flat-margin, var(--g-spacing-0));
                 border-left: none;
-                padding: 0;
+                padding: var(--df-multi-oneof-content-flat-padding, var(--g-spacing-0));
 
                 & > .#{$ns}use-search {
-                    margin-top: 15px;
+                    margin-top: var(--df-spacing-inputs, $df-spacing-inputs);
 
                     &:empty {
                         display: none;

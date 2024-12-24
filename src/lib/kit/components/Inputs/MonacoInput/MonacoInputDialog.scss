@@ -2,7 +2,10 @@
 
 .#{$ns}monaco-input-dialog {
     .g-dialog-footer {
-        padding: 10px 32px 32px;
+        padding: var(
+            --df-monaco-input-dialog-dialog-footer-padding,
+            $df-offset-6 var(--g-spacing-8) var(--g-spacing-8)
+        );
     }
 
     &__container {
@@ -11,7 +14,7 @@
 
     &__dialog-header {
         .g-dialog-header__caption {
-            min-height: 24px;
+            min-height: var(--df-monaco-dialog-header-caption-min-height, 24px);
         }
     }
 }

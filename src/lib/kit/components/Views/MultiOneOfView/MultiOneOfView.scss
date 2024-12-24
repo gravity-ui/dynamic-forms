@@ -6,29 +6,38 @@
     }
 
     &__tooltip-container {
-        max-width: 100%;
+        max-width: var(--df-tooltip-container-max-width, $df-tooltip-container-max-width);
         overflow: hidden;
         text-overflow: ellipsis;
         display: block;
-        margin-bottom: 6px;
+        margin-bottom: var(
+            --df-tooltip-container-margin-bottom,
+            $df-tooltip-container-margin-bottom
+        );
 
         &:last-child {
-            margin-bottom: 0;
+            margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
         }
     }
 
     &__content {
         &_multiple-values {
             & > .#{$ns}group-indent {
-                padding-top: 0px;
+                padding-top: var(
+                    --df-multi-oneof-view-content-multiple-values-child-padding-top,
+                    var(--g-spacing-0)
+                );
             }
         }
 
         &_flat {
             & > .#{$ns}group-indent {
-                margin: 0 0 20px;
+                margin: var(
+                    --df-multi-oneof-view-content-flat-child-margin,
+                    var(--g-spacing-0) var(--g-spacing-0) var(--g-spacing-5)
+                );
                 border-left: none;
-                padding: 0;
+                padding: var(--df-multi-oneof-view-content-flat-child-padding, var(--g-spacing-0));
             }
         }
     }

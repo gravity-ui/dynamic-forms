@@ -2,5 +2,5 @@
 
 .#{$ns}monaco-base-view {
     border: 1px solid var(--g-color-line-generic);
-    width: 550px;
+    width: var(--df-monaco-base-view-width, 550px);
 }

@@ -7,11 +7,13 @@
 
             & > div {
                 flex: auto;
-                margin-right: 8px;
-                margin-bottom: 0;
+                margin: var(
+                    --df-object-base-view-content-inline-margin,
+                    var(--g-spacing-0) var(--g-spacing-2) var(--g-spacing-0) var(--g-spacing-0)
+                );
 
                 &:last-child {
-                    margin-right: 0;
+                    margin-right: var(--df-spacing-last-child, $df-spacing-last-child);
                 }
             }
         }
@@ -19,7 +21,7 @@
 
     &__delimiter {
         display: flex;
-        margin-right: 8px;
+        margin-right: var(--df-object-base-view-delimiter-right, var(--g-spacing-2));
         align-items: center;
         white-space: nowrap;
     }
