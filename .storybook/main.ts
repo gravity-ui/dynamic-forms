@@ -3,8 +3,8 @@ import type {StorybookConfig} from '@storybook/react-webpack5';
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 const config: StorybookConfig = {
-    stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-    addons: ['@storybook/addon-essentials', '@storybook/preset-scss'],
+    stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+    addons: ['@storybook/addon-essentials', '@storybook/preset-scss', '@storybook/addon-docs'],
     framework: {
         name: '@storybook/react-webpack5',
         options: {fastRefresh: true},

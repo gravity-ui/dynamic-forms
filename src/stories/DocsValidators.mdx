@@ -1,0 +1,577 @@
+import {Meta, Markdown} from '@storybook/addon-docs';
+
+<Meta title="Docs/Validators" />
+
+# Validators in Dynamic Forms
+
+The `@gravity-ui/dynamic-forms` library provides a basic set of validators and methods for validating inputs. In this guide, we'll explore how to work with validators for various data types, how to customize them to suit your needs, and how to create your own custom validators.
+
+## Contents
+
+1. [Validation of Arrays](#1-validation-of-arrays)
+2. [Validation of Boolean Values](#2-validation-of-boolean-values)
+3. [Validation of Numbers](#3-validation-of-numbers)
+4. [Validation of Objects](#4-validation-of-objects)
+5. [Validation of Strings](#5-validation-of-strings)
+6. [Adding Custom Validation](#6-adding-custom-validation)
+7. [Conclusion](#conclusion)
+
+---
+
+## 1. Validation of Arrays
+
+In dynamic forms, you can set restrictions on the number of elements in an array using the `maxLength` and `minLength` fields. You can also specify that an array is `required`, meaning it must contain at least one element.
+
+Additionally, you can use the base validator by spec `"validator": "base"` in the field.
+
+### Example Usage in Specification:
+
+```json
+{
+    "type": "array",
+    "items": {
+        "type": "string",
+        "viewSpec": {
+            "type": "base",
+            "layout": "row",
+            "layoutTitle": "Element"
+        }
+    },
+    "viewSpec": {
+        "type": "base",
+        "layout": "accordeon",
+        "layoutTitle": "Elements",
+        "layoutOpen": true,
+        "itemLabel": "Add element"
+    },
+    "required": true,
+    "maxLength": 5,
+    "minLength": 2,
+    "validator": "base"
+}
+```
+
+### Implementation of the Array Validator
+
+```ts
+interface CommonValidatorParams {
+    ignoreRequiredCheck?: boolean;
+    customErrorMessages?: Partial<ErrorMessagesType>;
+}
+
+export interface GetArrayValidatorParams extends CommonValidatorParams {
+    ignoreMaxLengthCheck?: boolean;
+    ignoreMinLengthCheck?: boolean;
+}
+
+export const getArrayValidator = (params: GetArrayValidatorParams = {}) => {
+    const {ignoreRequiredCheck, ignoreMaxLengthCheck, ignoreMinLengthCheck, customErrorMessages} =
+        params;
+
+    return (spec: ArraySpec, value?: ArrayValue) => {
+        const errorMessages = {...ErrorMessages, ...customErrorMessages};
+
+        const valueLength = value?.length || 0;
+
+        if (!ignoreRequiredCheck && spec.required && !Array.isArray(value)) {
+            return errorMessages.REQUIRED;
+        }
+
+        if (
+            !ignoreMaxLengthCheck &&
+            typeof spec.maxLength === 'number' &&
+            valueLength > spec.maxLength
+        ) {
+            return errorMessages.maxLengthArr(spec.maxLength);
+        }
+
+        if (
+            !ignoreMinLengthCheck &&
+            typeof spec.minLength === 'number' &&
+            valueLength < spec.minLength
+        ) {
+            return errorMessages.minLengthArr(spec.minLength);
+        }
+
+        return false;
+    };
+};
+```
+
+**Explanation:**
+
+    -   **ignoreRequiredCheck**, **ignoreMaxLengthCheck**, **ignoreMinLengthCheck**: Parameters that allow you to ignore corresponding checks during validation.
+    -   **customErrorMessages**: Allows you to override default error messages.
+    -   **valueLength**: Length of the array value.
+    -   The validator returns an error string if validation fails, or false if everything is correct.
+
+---
+
+## 2. Validation of Boolean Values
+
+For boolean values, you can also specify the `required` field, indicating that the value must be set (not undefined).
+
+### Example Usage in Specification
+
+```json
+{
+    "type": "boolean",
+    "viewSpec": {
+        "type": "base",
+        "layout": "row",
+        "layoutTitle": "Flag"
+    },
+    "required": true,
+    "validator": "base"
+}
+```
+
+### Implementation of the Boolean Validator
+
+```ts
+export interface GetBooleanValidatorParams extends CommonValidatorParams {}
+
+export const getBooleanValidator = (params: GetBooleanValidatorParams = {}) => {
+    const {ignoreRequiredCheck, customErrorMessages} = params;
+
+    return (spec: BooleanSpec, value?: boolean) => {
+        const errorMessages = {...ErrorMessages, ...customErrorMessages};
+
+        if (!ignoreRequiredCheck && spec.required && value === undefined) {
+            return errorMessages.REQUIRED;
+        }
+
+        return false;
+    };
+};
+```
+
+**Explanation:**
+
+-   **`ignoreRequiredCheck`**: Parameter to ignore the required check.
+-   The validator checks that if the `required`
+
+field is specified, the value should not be `undefined`.
+
+-   Returns an error message or false.
+
+---
+
+## 3. Validation of Numbers
+
+For numbers, several validator options are available to check:
+
+    -   Required input (`required`).
+    -   Maximum and minimum values (`maximum`, `minimum`).
+
+### Example Usage in Specification:
+
+```json
+{
+    "type": "number",
+    "viewSpec": {
+        "type": "base",
+        "layout": "row",
+        "layoutTitle": "Age",
+        "placeholder": "placeholder text"
+    },
+    "required": true,
+    "maximum": 12,
+    "minimum": 2,
+    "validator": "base"
+}
+```
+
+### Implementation of the Number Validator
+
+```ts
+export interface GetNumberValidatorParams extends CommonValidatorParams {
+    ignoreSpaceStartCheck?: boolean;
+    ignoreSpaceEndCheck?: boolean;
+    ignoreNumberCheck?: boolean;
+    ignoreMaximumCheck?: boolean;
+    ignoreMinimumCheck?: boolean;
+    ignoreIntCheck?: boolean;
+    ignoreDotEnd?: boolean;
+    ignoreZeroStart?: boolean;
+}
+
+export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
+    const {
+        ignoreRequiredCheck,
+        ignoreSpaceStartCheck,
+        ignoreSpaceEndCheck,
+        ignoreNumberCheck,
+        ignoreMaximumCheck,
+        ignoreMinimumCheck,
+        ignoreIntCheck,
+        ignoreDotEnd,
+        ignoreZeroStart,
+        customErrorMessages,
+    } = params;
+
+    return (spec: NumberSpec, value: string | number = '') => {
+        const errorMessages = {...ErrorMessages, ...customErrorMessages};
+
+        const stringValue = String(value).trim();
+
+        if (!ignoreRequiredCheck && spec.required && !stringValue.length) {
+            return errorMessages.REQUIRED;
+        }
+
+        if (!ignoreSpaceStartCheck && /^\s/.test(stringValue)) {
+            return errorMessages.SPACE_START;
+        }
+
+        if (!ignoreSpaceEndCheck && /\s$/.test(stringValue)) {
+            return errorMessages.SPACE_END;
+        }
+
+        const numberValue = Number(stringValue);
+
+        if (!ignoreNumberCheck && isNaN(numberValue)) {
+            return errorMessages.MUST_BE_NUMBER;
+        }
+
+        if (!ignoreMaximumCheck && typeof spec.maximum === 'number' && numberValue > spec.maximum) {
+            return errorMessages.MAXIMUM_NUMBER(spec.maximum);
+        }
+
+        if (!ignoreMinimumCheck && typeof spec.minimum === 'number' && numberValue < spec.minimum) {
+            return errorMessages.MINIMUM_NUMBER(spec.minimum);
+        }
+
+        if (!ignoreIntCheck && spec.wholeNumber && !Number.isInteger(numberValue)) {
+            return errorMessages.MUST_BE_INTEGER;
+        }
+
+        if (!ignoreDotEnd && /\.$/.test(stringValue)) {
+            return errorMessages.NO_DOT_AT_END;
+        }
+
+        if (!ignoreZeroStart && /^0\d+/.test(stringValue)) {
+            return errorMessages.NO_LEADING_ZERO;
+        }
+
+        return false;
+    };
+};
+```
+
+**Explanation:**
+
+    -   **Check Ignoring Parameters**: Allow you to disable specific validator checks.
+    -   **stringValue**: String representation of the value, trimmed of extra spaces.
+    -   **Checks Performed**:
+        -   Required field.
+        -   No spaces at the start and end.
+        -   Numeric value correctness.
+        -   Compliance with maximum and minimum values.
+        -   Integer number.
+        -   No dot at the end.
+        -   No leading zeros.
+
+## 4. Validation of Objects
+
+For objects, you can specify that they are required using the `required` field. This means the object must have at least one property with a value.
+
+You can also use the base validator by setting `"validator": "base"`.
+
+### Example Usage in Specification:
+
+```json
+{
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "viewSpec": {
+                "type": "base",
+                "layout": "row",
+                "layoutTitle": "Name"
+            }
+        },
+        "age": {
+            "type": "number",
+            "viewSpec": {
+                "type": "base",
+                "layout": "row",
+                "layoutTitle": "Age"
+            }
+        },
+        "license": {
+            "type": "boolean",
+            "viewSpec": {
+                "type": "base",
+                "layout": "row",
+                "layoutTitle": "License"
+            }
+        }
+    },
+    "viewSpec": {
+        "type": "base",
+        "layout": "accordeon",
+        "layoutTitle": "Candidate",
+        "layoutOpen": true
+    },
+    "required": true,
+    "validator": "base"
+}
+```
+
+### Implementation of the Object Validator
+
+```ts
+export interface GetObjectValidatorParams extends CommonValidatorParams {}
+
+export const getObjectValidator = (params: GetObjectValidatorParams = {}) => {
+    const {ignoreRequiredCheck, customErrorMessages} = params;
+
+    return (spec: ObjectSpec, value?: ObjectValue) => {
+        const errorMessages = {...ErrorMessages, ...customErrorMessages};
+
+        if (!ignoreRequiredCheck && spec.required && !value) {
+            return errorMessages.REQUIRED;
+        }
+
+        return false;
+    };
+};
+```
+
+**Explanation:**
+
+    -   **`ignoreRequiredCheck`**: Allows skipping the required object check.
+    -   The validator checks that if the object is required, the value should not be `undefined` or `null`.
+    -   Returns an error message or `false`.
+
+---
+
+## 5. Validation of Strings
+
+For strings, multiple validation options are available:
+
+    -   Required field (`required`).
+    -   Maximum and minimum length (`maxLength`, `minLength`).
+    -   Pattern matching using a regular expression (`pattern`).
+
+### Example Usage in Specification:
+
+```json
+{
+    "type": "string",
+    "viewSpec": {
+        "type": "base",
+        "layout": "row",
+        "layoutTitle": "Name",
+        "placeholder": "placeholder text"
+    },
+    "maxLength": 20,
+    "minLength": 2,
+    "pattern": "^[a-zA-Z0-9]+$",
+    "patternError": "Only Latin letters and numbers are allowed",
+    "validator": "base"
+}
+```
+
+### Implementation of the String Validator
+
+```ts
+export interface GetStringValidatorParams extends CommonValidatorParams {
+    ignoreSpaceStartCheck?: boolean;
+    ignoreSpaceEndCheck?: boolean;
+    ignoreMaxLengthCheck?: boolean;
+    ignoreMinLengthCheck?: boolean;
+    ignoreRegExpCheck?: boolean;
+}
+
+export const getStringValidator = (params: GetStringValidatorParams = {}) => {
+    const {
+        ignoreRequiredCheck,
+        ignoreSpaceStartCheck,
+        ignoreSpaceEndCheck,
+        ignoreMaxLengthCheck,
+        ignoreMinLengthCheck,
+        ignoreRegExpCheck,
+        customErrorMessages,
+    } = params;
+
+    return (spec: StringSpec, value = '') => {
+        const errorMessages = {...ErrorMessages, ...customErrorMessages};
+
+        const valueLength = value.length;
+
+        if (!ignoreRequiredCheck && spec.required && !valueLength) {
+            return errorMessages.REQUIRED;
+        }
+
+        if (valueLength) {
+            if (!ignoreSpaceStartCheck && /^\s/.test(value)) {
+                return errorMessages.SPACE_START;
+            }
+
+            if (!ignoreSpaceEndCheck && /\s$/.test(value)) {
+                return errorMessages.SPACE_END;
+            }
+        }
+
+        if (
+            !ignoreMaxLengthCheck &&
+            typeof spec.maxLength === 'number' &&
+            valueLength > spec.maxLength
+        ) {
+            return errorMessages.maxLength(spec.maxLength);
+        }
+
+        if (
+            !ignoreMinLengthCheck &&
+            typeof spec.minLength === 'number' &&
+            valueLength < spec.minLength
+        ) {
+            return errorMessages.minLength(spec.minLength);
+        }
+
+        if (spec.pattern && !ignoreRegExpCheck) {
+            const regex = new RegExp(spec.pattern);
+
+            if (!regex.test(value)) {
+                return spec.patternError || errorMessages.INVALID;
+            }
+        }
+
+        return false;
+    };
+};
+```
+
+**Explanation:**
+
+    -   **Check Ignoring Parameters**: Allow you to disable specific validator checks.
+    -   **`valueLength`**: Length of the string.
+    -   **Checks Performed**:
+        -   Required field.
+        -   No spaces at the start and end.
+        -   Maximum and minimum length.
+        -   Pattern matching using regular expressions.
+    -   **`spec.pattern`**: Regular expression for string validation.
+    -   **`spec.patternError`**: Error message displayed if the string does not match the pattern.
+
+---
+
+## 6. Adding Custom Validation
+
+Sometimes, the standard validators may not be sufficient for your specific requirements. In such cases, you can add your own custom validation. There are two ways to do this:
+
+### Method 1: Configuring the Base Validator
+
+You can use an existing base validator and pass the necessary parameters to configure it.
+
+#### Steps:
+
+    1. Import the base validator, for example, getStringValidator.
+
+    2. Customize the validator's parameters to suit your needs.
+
+    3. Register your custom validator in the dynamic form configuration.
+
+#### Example:
+
+```ts
+import _ from 'lodash';
+
+import type {DynamicFormConfig} from '@gravity-ui/dynamic-forms';
+import {dynamicConfig as libConfig, getStringValidator} from '@gravity-ui/dynamic-forms';
+
+const getDynamicConfig = (): DynamicFormConfig => {
+    const dynamicConfig = _.cloneDeep(libConfig);
+
+    // Register our custom validator with a specific name
+    dynamicConfig.string.validators['custom_validator'] = getStringValidator({
+        ignoreSpaceStartCheck: true,
+        ignoreSpaceEndCheck: true,
+    });
+
+    return dynamicConfig;
+};
+
+export const dynamicConfig = getDynamicConfig();
+```
+
+**Explanation:**
+
+    -   We disabled checks for spaces at the start and end of the string by passing the corresponding parameters to `getStringValidator`.
+    -   Assigned our validator the name `'custom_validator'`, under which it can be used in the form spec.
+
+#### Using in Specification:
+
+```json
+{
+    "type": "string",
+    "viewSpec": {
+        "type": "base",
+        "layout": "row",
+        "layoutTitle": "Name",
+        "placeholder": "placeholder text"
+    },
+    "maxLength": 20,
+    "minLength": 2,
+    "pattern": "^[a-zA-Z0-9]+$",
+    "patternError": "Only Latin letters and numbers are allowed",
+    "validator": "custom_validator"
+}
+```
+
+### Method 2: Creating Your Own Validator
+
+You can create your own validation function that meets your unique requirements.
+
+#### Steps:
+
+1. Create your validator function that corresponds to the required data type.
+
+```ts
+const myCustomValidator = (spec: StringSpec, value: string) => {
+    if (!value.includes('example')) {
+        return 'The string must contain the word "example"';
+    }
+    return false;
+};
+```
+
+2. Register your validator in the dynamic form configuration.
+
+```ts
+import _ from 'lodash';
+import type {DynamicFormConfig} from '@gravity-ui/dynamic-forms';
+import {dynamicConfig as libConfig} from '@gravity-ui/dynamic-forms';
+
+const getDynamicConfig = (): DynamicFormConfig => {
+    const dynamicConfig = _.cloneDeep(libConfig);
+
+    // Register our custom validator with a specific name
+    dynamicConfig.string.validators['custom_validator'] = myCustomValidator;
+
+    return dynamicConfig;
+};
+
+export const dynamicConfig = getDynamicConfig();
+```
+
+**Explanation:**
+
+    -   We created the `myCustomValidator` function, which checks if the string contains the word `"example"`.
+    -   Registered this validator under the name 'custom_validator'.
+
+**Note:** Ensure that your validator function matches the signature expected by the library and returns either a string with an error message or `false` if validation is successful.
+
+---
+
+## Conclusion
+
+Validating data in dynamic forms is an essential part of ensuring users enter information correctly. The `@gravity-ui/dynamic-forms` library provides flexible options for configuring validators for various data types and allows you to create your own custom validators that cater to the specific needs of your application.
+
+**Benefits of Using Validators:**
+
+    -   Ensuring data integrity and correctness.
+    -   Improving user experience by providing timely feedback on input errors.
+    -   Ability to finely tune checks to meet specific requirements.
