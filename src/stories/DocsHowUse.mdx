@@ -1,0 +1,248 @@
+import {Meta, Markdown} from '@storybook/addon-docs';
+
+import Lib from '../../docs/lib.md?raw';
+
+<Meta title="Docs/How use dynamic forms" />
+
+# How to Use Dynamic Forms
+
+To use the DynamicField component from the `@gravity-ui/dynamic-forms` library, you need to integrate it with a form management library `react-final-form`.
+
+## Basic Usage
+
+Here's a basic example of how to use `DynamicField` within a form.
+
+```tsx
+import React from 'react';
+import {Form} from 'react-final-form';
+import {DynamicField, DynamicFormConfig} from '@gravity-ui/dynamic-forms';
+
+const MyForm = () => {
+    const onSubmit = (formValues) => {
+        console.log(formValues);
+    };
+
+    const spec = {
+        type: 'object',
+        properties: {
+            name: {
+                type: 'string',
+                viewSpec: {
+                    type: 'base',
+                    layout: 'row',
+                    layoutTitle: 'Name',
+                },
+            },
+            age: {
+                type: 'number',
+                viewSpec: {
+                    type: 'base',
+                    layout: 'row',
+                    layoutTitle: 'Age',
+                },
+            },
+            license: {
+                type: 'boolean',
+                viewSpec: {
+                    type: 'base',
+                    layout: 'row',
+                    layoutTitle: 'License',
+                },
+            },
+        },
+        viewSpec: {
+            type: 'base',
+            layout: 'accordion',
+            layoutTitle: 'Candidate',
+            layoutOpen: true,
+        },
+    };
+
+    return (
+        <Form onSubmit={onSubmit}>
+            {({handleSubmit}) => (
+                <form onSubmit={handleSubmit}>
+                    <DynamicField name="dynamicfield" spec={spec} config={DynamicFormConfig} />
+                    <button type="submit">Submit</button>
+                </form>
+            )}
+        </Form>
+    );
+};
+
+export default MyForm;
+```
+
+**Explanation:**
+
+-   We first import the necessary components from `react-final-form` and `@gravity-ui/dynamic-forms`.
+-   The `spec` object defines the structure of our dynamic form fields.
+    -   It describes an object with properties name, age, and license.
+    -   Each property has a type and a viewSpec that defines how the field should be displayed.
+-   The `DynamicField` component uses this `spec` to render the form fields dynamically.
+-   The name prop of DynamicField (`"dynamicfield"`) is the key under which the form values will be stored in the `react-final-form` state.
+-   When the form is submitted, the onSubmit function will log the form values.
+
+**Form State:**
+
+In the `react-final-form` state, the dynamicfield object will be registered. As you fill out the form, the state will look like this:
+
+```json
+{
+    "dynamicfield": {
+        "name": "John Doe",
+        "age": 30,
+        "license": true
+    }
+}
+```
+
+---
+
+## Providing Initial Values to DynamicField
+
+To pass initial values into the `DynamicField`, you can set the `initialValues` prop on the Form component from `react-final-form`. The `DynamicField` will pick up the initial values from the form's state.
+
+### Example:
+
+```tsx
+import React from 'react';
+import {Form} from 'react-final-form';
+import {DynamicField, DynamicFormConfig} from '@gravity-ui/dynamic-forms';
+
+const MyForm = () => {
+    const onSubmit = (formValues) => {
+        console.log(formValues);
+    };
+
+    const initialValues = {
+        dynamicfield: {
+            name: 'John Doe',
+            age: 30,
+            license: true,
+        },
+    };
+
+    const spec = {
+        // ... (same as before)
+    };
+
+    return (
+        <Form onSubmit={onSubmit} initialValues={initialValues}>
+            {({handleSubmit}) => (
+                <form onSubmit={handleSubmit}>
+                    <DynamicField name="dynamicfield" spec={spec} config={DynamicFormConfig} />
+                    <button type="submit">Submit</button>
+                </form>
+            )}
+        </Form>
+    );
+};
+
+export default MyForm;
+```
+
+**Explanation:**
+
+-   We define `initialValues` with the initial data we want to populate the form with.
+-   The key `'dynamicfield'` corresponds to the name prop of `DynamicField`.
+-   The initialValues object is passed to the Form component.
+-   When the form renders, the fields will be pre-filled with the initial values provided.
+
+---
+
+## Displaying Filled Values Using DynamicView
+
+To display the values that have been filled in the form, you should use the `DynamicView` component provided by the `@gravity-ui/dynamic-forms` library. The `DynamicView` component renders the form values based on the same `spec` used to render the form.
+
+### Example:
+
+```tsx
+import React from 'react';
+import {DynamicView, DynamicViewConfig} from '@gravity-ui/dynamic-forms';
+
+const MyView = () => {
+    const spec = {
+        type: 'object',
+        properties: {
+            name: {
+                type: 'string',
+                viewSpec: {
+                    type: 'base',
+                    layout: 'row',
+                    layoutTitle: 'Name',
+                },
+            },
+            age: {
+                type: 'number',
+                viewSpec: {
+                    type: 'base',
+                    layout: 'row',
+                    layoutTitle: 'Age',
+                },
+            },
+            license: {
+                type: 'boolean',
+                viewSpec: {
+                    type: 'base',
+                    layout: 'row',
+                    layoutTitle: 'License',
+                },
+            },
+        },
+        viewSpec: {
+            type: 'base',
+            layout: 'accordion',
+            layoutTitle: 'Candidate',
+            layoutOpen: true,
+        },
+    };
+
+    const values = {
+        name: 'John Doe',
+        age: 30,
+        license: true,
+    };
+
+    return <DynamicView values={values} spec={spec} config={DynamicViewConfig} />;
+};
+
+export default MyView;
+```
+
+**Explanation:**
+
+-   We import `DynamicView` and `DynamicViewConfig` from `@gravity-ui/dynamic-forms`.
+-   The spec object is the same as the one used to render the form fields with `DynamicField`.
+-   The values object contains the data we want to display.
+-   The `DynamicView` component takes the values and the spec to render the data appropriately.
+-   This allows you to display the filled values in a structured and consistent way, matching the layout and styling of your forms.
+
+## Notes on Using DynamicField with react-final-form
+
+-   The `name` prop of `DynamicField` determines where the form data will be stored within the form state.
+-   All fields rendered by `DynamicField` will be nested under the key specified by name.
+-   It's essential to match the shape of `initialValues` with the expected structure of the form data.
+-   The `spec` object defines the schema of your dynamic form and is crucial for rendering the correct fields.
+
+---
+
+## Notes on Using DynamicView
+
+-   `DynamicView` uses the same spec as `DynamicField`, ensuring consistency between the form and the display of its values.
+-   You can customize the `viewSpec` within the spec to adjust how the data is displayed.
+-   The config prop allows you to provide custom configurations for the `DynamicView` component, similar to how you can configure `DynamicField`.
+
+---
+
+## Conclusion
+
+In this guide, we've discussed:
+
+-   Integrating `DynamicField` with `react-final-form`: Rendering dynamic forms by specifying a schema and managing form state.
+-   Providing Initial Values: How to set default values for your dynamic form fields using `initialValues`.
+-   Displaying Form Values with DynamicView: Using DynamicView to display the values filled in the form in a structured and styled manner.
+
+By following these steps, you can create flexible forms and display their data consistently, enhancing the user experience.
+
+---

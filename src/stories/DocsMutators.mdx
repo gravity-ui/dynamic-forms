@@ -1,0 +1,284 @@
+import {Meta} from '@storybook/addon-docs';
+
+<Meta title="Docs/Mutators" />
+
+# Mutators
+
+Let's explore how to implement a mutator inside your custom input component. `Mutators` are used to dynamically change the form's `spec`, field `values`, and `errors`. This can be particularly useful when you need to update the form's state based on user interactions within a [custom input](?path=/docs/docs-custom-input--docs).
+
+## Mutators Interface
+
+The DynamicFormMutators interface defines the shape of the mutators object:
+
+```ts
+export interface DynamicFormMutators {
+    errors?: Record<string, BaseValidateError>;
+    values?: Record<string, FormValue>;
+    spec?: Record<string, SpecMutator>;
+}
+```
+
+-   **values**: An object mapping field paths to new values.
+-   **spec**: An object mapping field paths to spec mutations (SpecMutator), allowing you to change field properties like disabled, hidden, etc.
+-   **errors**: An object mapping field paths to validation errors.
+
+_Note_: The keys in these objects are strings representing the paths to the fields in the form specification.
+
+## Purpose of Mutators
+
+-   Purpose: To provide a select input that triggers specific mutations on the form's state when a new option is selected.
+-   Functionality: Depending on the selected option, it can:
+    -   Disable or enable other fields.
+    -   Update the values of other fields.
+    -   Set validation errors on other fields.
+    -   Combine any of the above.
+
+Here's how you can create a mutator within your custom input:
+
+```tsx
+import React from 'react';
+
+import type {
+    BaseValidateError,
+    FormValue,
+    SelectProps,
+    SpecMutator,
+    StringInputProps,
+} from '@gravity-ui/dynamic-forms';
+import {Select, useMutateDFState} from '@gravity-ui/dynamic-forms';
+
+type OnChangeValue = Parameters<StringInputProps['input']['onChange']>[0];
+
+type MutationVariants = {
+    spec?: SpecMutator;
+    values?: FormValue;
+    errors?: BaseValidateError;
+};
+
+const MUTATION_VARIANTS: Record<string, MutationVariants> = {
+    spec: {
+        spec: {
+            viewSpec: {
+                disabled: true,
+            },
+        },
+    },
+    value: {
+        values: 'mutation value',
+    },
+    error: {
+        errors: 'mutation error',
+    },
+    all: {
+        spec: {
+            viewSpec: {
+                disabled: true,
+            },
+        },
+        values: 'mutation value',
+        errors: 'mutation error',
+    },
+};
+
+function removeAfterLastDot(str: string) {
+    const lastDotIndex = str.lastIndexOf('.');
+    if (lastDotIndex === -1) {
+        return str;
+    }
+    return str.substring(0, lastDotIndex);
+}
+
+export const MutationsSelect = (props: StringInputProps<SelectProps>) => {
+    const mutate = useMutateDFState();
+
+    const rowFieldName = React.useMemo(() => removeAfterLastDot(props.name), [props.name]);
+
+    const handleChange = React.useCallback(
+        (newType: OnChangeValue) => {
+            props.input.onChange(newType);
+
+            if (typeof newType !== 'string') {
+                return;
+            }
+
+            const nameMutationField = `${rowFieldName}.${newType}`;
+
+            mutate({
+                spec: {[nameMutationField]: {...MUTATION_VARIANTS[newType].spec}},
+                values: {[nameMutationField]: MUTATION_VARIANTS[newType].values},
+                errors: {[nameMutationField]: MUTATION_VARIANTS[newType].errors},
+            });
+        },
+        [props.input, rowFieldName, mutate],
+    );
+
+    const newProps = {
+        ...props,
+        input: {
+            ...props.input,
+            onChange: (value: OnChangeValue) => handleChange(value),
+        },
+    };
+
+    return <Select {...newProps} />;
+};
+```
+
+### Exapmle spec
+
+```js
+{
+    type: 'object',
+    properties: {
+        spec: {
+            type: 'string',
+            viewSpec: {
+                type: 'base',
+                layout: 'row',
+                layoutTitle: 'spec',
+            },
+        },
+        value: {
+            type: 'string',
+            viewSpec: {
+                type: 'base',
+                layout: 'row',
+                layoutTitle: 'value',
+            },
+        },
+        error: {
+            type: 'string',
+            viewSpec: {
+                type: 'base',
+                layout: 'row',
+                layoutTitle: 'error',
+            },
+        },
+        all: {
+            type: 'string',
+            viewSpec: {
+                type: 'base',
+                layout: 'row',
+                layoutTitle: 'all',
+            },
+        },
+        mutate: {
+            type: 'string',
+            enum: ['spec', 'value', 'error', 'all'],
+            viewSpec: {
+                type: 'mutations-select',
+                layout: 'row',
+                layoutTitle: 'mutate',
+            },
+        },
+    },
+    viewSpec: {
+        type: 'base',
+        layout: 'accordeon',
+        layoutTitle: 'Candidate',
+        layoutOpen: true,
+    },
+};
+```
+
+The MutationsSelect component is a custom React component designed to interact with the `@gravity-ui/dynamic-forms` library. It extends the functionality of a standard Select input by applying dynamic mutations to the form's state based on the user's selection. These mutations can modify the form's spec (`spec`), field values (`values`), and validation errors (`errors`).
+
+Remember to:
+
+-   Use the useMutateDFState hook to access the mutateDFState function.
+-   Define mutations for spec, values, and/or errors as needed.
+-   Apply mutations in your input's event handlers (e.g., onChange).
+
+# External Mutators
+
+External mutators allow you to modify the form's state from outside the input components. This is particularly useful when you need to trigger state changes based on events that occur outside of your form inputs, such as data fetching, external user actions, or any side effects.
+
+## Overview
+
+-   Purpose: To apply mutations to the form's state from outside the form components, enabling dynamic updates based on external events.
+-   Usage: Pass a mutators object to the `DynamicField` component to apply mutations to the form's state.
+
+## How External Mutators Work
+
+When an external event occurs (e.g., a data fetch completes, a timeout, a global state change), you can use the mutators prop to pass mutations to the `DynamicField` component. The form will apply these mutations to update its state accordingly.
+
+```tsx
+import React, {useEffect, useState} from 'react';
+import {DynamicField, DynamicFormMutators} from '@gravity-ui/dynamic-forms';
+
+const ExternalMutatorsExample = () => {
+    const [mutators, setMutators] = useState<DynamicFormMutators>({});
+    const spec = {
+        // Your form spec
+    };
+
+    useEffect(() => {
+        // Simulate an external event, e.g., data fetching
+        fetchData().then((data) => {
+            // Define the mutations you want to apply
+            const newMutators: DynamicFormMutators = {
+                values: {
+                    fieldName: data.value,
+                },
+                spec: {
+                    fieldName: {
+                        disabled: data.disableField,
+                    },
+                },
+                errors: data.hasError ? {fieldName: 'Error message'} : {},
+            };
+            // Update the mutators state to trigger mutations
+            setMutators(newMutators);
+        });
+    }, []);
+
+    return <DynamicField spec={spec} name="fieldName" mutators={mutators} />;
+};
+
+export default ExternalMutatorsExample;
+```
+
+-   Defining Mutations: We create a DynamicFormMutators object that specifies the mutations we want to apply. This object can include values, spec, and errors.
+
+```tsx
+const newMutators: DynamicFormMutators = {
+    values: {
+        fieldName: data.value,
+    },
+    spec: {
+        fieldName: {
+            disabled: data.disableField,
+        },
+    },
+    errors: data.hasError ? {fieldName: 'Error message'} : {},
+};
+```
+
+-   Updating Mutators State: By calling setMutators, we update the mutators state, which triggers the form to apply the mutations.
+
+```tsx
+setMutators(newMutators);
+```
+
+-   Passing Mutators to DynamicField: We pass the mutators object as a prop to the DynamicField component.
+
+```tsx
+<DynamicField spec={spec} name="fieldName" mutators={mutators} />
+```
+
+## Conclusion
+
+External mutators provide a powerful way to dynamically update your form's state based on external events or conditions. By passing a mutators object to the `DynamicField`, you can modify field `values`, `spec`, and validation `errors` without directly interacting with the input components.
+
+This approach enhances the flexibility and responsiveness of your forms, allowing for a more dynamic user experience.
+
+---
+
+Example Use Cases:
+
+-   Conditional Form Fields: Show or hide fields based on external data.
+-   Prefilling Forms: Populate form fields with data fetched from an API.
+-   Form Validation: Apply custom validation messages based on server-side logic.
+-   Disabling Inputs: Disable or enable inputs based on user roles or permissions.
+
+---
