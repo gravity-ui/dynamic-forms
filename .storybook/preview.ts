@@ -3,13 +3,8 @@ import {withTheme, withLang} from './decorators';
 export const decorators = [withTheme, withLang];
 
 export const parameters = {
-    actions: {argTypesRegex: '^on[A-Z].*'},
-    controls: {
-        matchers: {
-            color: /(background|color)$/i,
-            date: /Date$/,
-        },
-    },
+    controls: {disable: true},
+    actions: {disable: true},
 };
 
 export const globalTypes = {
@@ -37,4 +32,4 @@ export const globalTypes = {
             ],
         },
     },
-}
+};
