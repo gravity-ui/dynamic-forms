@@ -350,6 +350,15 @@ const textContentParams: ObjectSpec = {
             enum: ['―', ...TEXT_COLORS],
             viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Icon color'},
         },
+        titleAlert: {
+            type: SpecTypes.String,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Title alert'},
+        },
+        themeAlert: {
+            type: SpecTypes.String,
+            enum: ['―', 'normal', 'info', 'danger', 'warning', 'success', 'utility'],
+            viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Theme alert'},
+        },
     },
     viewSpec: {
         type: 'base',

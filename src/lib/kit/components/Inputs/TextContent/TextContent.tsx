@@ -1,6 +1,8 @@
 import React from 'react';
 
-import {Label, Text} from '@gravity-ui/uikit';
+import {isEmpty} from 'lodash';
+
+import {Alert, Label, Text} from '@gravity-ui/uikit';
 import cloneDeep from 'lodash/cloneDeep';
 
 import {StringIndependentInput, StringSpec} from '../../../../core';
@@ -41,7 +43,22 @@ export const TextContentComponent: React.FC<TextContentComponentProps> = ({
 
     let content = <span dangerouslySetInnerHTML={{__html: text}} />;
 
-    if (textContentParams?.themeLabel) {
+    if (textContentParams?.themeAlert) {
+        const titleAlert =
+            textContentParams?.titleAlert || !isEmpty(textContentParams?.titleAlert)
+                ? textContentParams.titleAlert
+                : undefined;
+
+        content = (
+            <Alert
+                icon={iconLib}
+                message={content}
+                // If the title is an empty line, then you need to explicitly write undefined, otherwise there will be an additional indent
+                title={titleAlert}
+                theme={textContentParams?.themeAlert}
+            />
+        );
+    } else if (textContentParams?.themeLabel) {
         content = (
             <Label
                 size="m"

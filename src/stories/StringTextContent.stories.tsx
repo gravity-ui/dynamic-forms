@@ -76,3 +76,15 @@ export const Label = template({
         },
     },
 });
+
+export const Alert = template({
+    ...baseSpec,
+    viewSpec: {
+        ...baseSpec.viewSpec,
+        textContentParams: {
+            text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit',
+            themeAlert: 'info',
+            titleAlert: 'Title alert',
+        },
+    },
+});
