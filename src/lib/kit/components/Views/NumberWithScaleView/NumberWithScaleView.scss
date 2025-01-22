@@ -11,10 +11,10 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 100%;
+        max-width: var(--df-tooltip-container-max-width, $df-tooltip-container-max-width);
     }
 
     &__size {
-        margin-left: 2px;
+        margin-left: var(--df-number-with-scale-view-size-margin-left, var(--g-spacing-half));
     }
 }

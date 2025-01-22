@@ -1,14 +1,14 @@
 @import '../../../styles/variables.scss';
 
 .#{$ns}column {
-    margin-bottom: 15px;
+    margin-bottom: var(--df-spacing-inputs, $df-spacing-inputs);
 
     &:last-child {
-        margin-bottom: 0;
+        margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
     }
 
     &__first-row {
-        min-height: 28px;
+        min-height: var(--df-column-first-row-min-height, 28px);
         display: flex;
         margin-bottom: auto;
         flex-direction: column;
@@ -29,7 +29,7 @@
 
     &__title {
         word-break: break-word;
-        margin-right: 3px;
+        margin-right: var(--df-column-title-margin-right, $df-offset-3);
 
         &_required {
             &::after {
@@ -44,7 +44,7 @@
 
         &-inner {
             position: absolute;
-            margin-top: 1px;
+            margin-top: var(--df-column-note-inner-margin-top, $df-offset-1);
 
             .g-help-popover {
                 display: flex;
@@ -68,7 +68,7 @@
     }
 
     &__remove-button {
-        margin-left: 5px;
+        margin-left: var(--df-remove-button-margin-left, $df-remove-button-margin-left);
     }
 
     &__required-mark {
