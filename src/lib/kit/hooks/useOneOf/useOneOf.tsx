@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Checkbox, RadioButton, Select} from '@gravity-ui/uikit';
+import {Checkbox, SegmentedRadioGroup, Select} from '@gravity-ui/uikit';
 import isObjectLike from 'lodash/isObjectLike';
 import some from 'lodash/some';
 
@@ -186,18 +186,18 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
         }
 
         return (
-            <RadioButton
+            <SegmentedRadioGroup
                 value={oneOfValue}
                 onChange={(event) => onOneOfChange([event.target.value])}
                 disabled={spec.viewSpec.disabled}
                 qa={name}
             >
                 {options.map((option) => (
-                    <RadioButton.Option key={option.value} value={option.value}>
+                    <SegmentedRadioGroup.Option key={option.value} value={option.value}>
                         {option.title}
-                    </RadioButton.Option>
+                    </SegmentedRadioGroup.Option>
                 ))}
-            </RadioButton>
+            </SegmentedRadioGroup>
         );
     }, [
         togglerType,

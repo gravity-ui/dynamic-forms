@@ -36,6 +36,10 @@ $animationDuration: 0.3s;
         margin: var(--df-simple-vertical-accordeon-tooltip-margin, var(--g-spacing-0) $df-offset-5);
     }
 
+    &__popover {
+        padding: var(--g-spacing-2);
+    }
+
     &__chevron {
         transform: rotate(-90deg);
 

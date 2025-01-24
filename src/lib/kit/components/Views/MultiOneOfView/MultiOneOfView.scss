@@ -1,19 +1,18 @@
 @import '../../../styles/variables.scss';
 
 .#{$ns}multi-oneof-view {
-    &__tooltip {
+    &__popover {
+        padding: var(--g-spacing-2);
         overflow-wrap: break-word;
+        max-width: 300px;
     }
 
-    &__tooltip-container {
-        max-width: var(--df-tooltip-container-max-width, $df-tooltip-container-max-width);
+    &__item {
+        max-width: var(--df-popover-item-max-width, $df-popover-item-max-width);
         overflow: hidden;
         text-overflow: ellipsis;
         display: block;
-        margin-bottom: var(
-            --df-tooltip-container-margin-bottom,
-            $df-tooltip-container-margin-bottom
-        );
+        margin-bottom: var(--df-popover-item-margin-bottom, $df-popover-item-margin-bottom);
 
         &:last-child {
             margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);

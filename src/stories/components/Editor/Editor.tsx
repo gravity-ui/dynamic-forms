@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Flex, RadioButton, Switch, Text, useTheme} from '@gravity-ui/uikit';
+import {Flex, SegmentedRadioGroup, Switch, Text, useTheme} from '@gravity-ui/uikit';
 import noop from 'lodash/noop';
 import {Form} from 'react-final-form';
 import MonacoEditor from 'react-monaco-editor';
@@ -136,17 +136,17 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
                 </div>
             </div>
             <div className={b('input')}>
-                <RadioButton
+                <SegmentedRadioGroup
                     value={toggler}
                     onChange={handleChangeTogglerInput}
                     className={b('toggler')}
                 >
                     {togglerItems.map((option) => (
-                        <RadioButton.Option key={option.value} value={option.value}>
+                        <SegmentedRadioGroup.Option key={option.value} value={option.value}>
                             {option.title}
-                        </RadioButton.Option>
+                        </SegmentedRadioGroup.Option>
                     ))}
-                </RadioButton>
+                </SegmentedRadioGroup>
                 <Form initialValues={{input: value}} onSubmit={noop}>
                     {(form) => (
                         <React.Fragment>

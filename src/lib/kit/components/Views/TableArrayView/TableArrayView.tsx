@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Flex, Table} from '@gravity-ui/uikit';
+import {Flex, HelpMark, Table} from '@gravity-ui/uikit';
 
 import {
     ArrayView,
@@ -13,9 +13,9 @@ import {
     useDynamicFormsCtx,
 } from '../../../../core';
 import {block} from '../../../utils';
+import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 
 import './TableArrayView.scss';
-import {HelpPopover} from '@gravity-ui/components';
 
 const b = block('table-array-view');
 
@@ -50,10 +50,13 @@ export const TableArrayView: ArrayView = ({value = [], spec, name}) => {
                     ? () => (
                           <Flex gap={0.5} alignItems="center">
                               {label}
-                              <HelpPopover
-                                  htmlContent={description}
-                                  placement={['bottom', 'top']}
-                              />
+                              <HelpMark
+                                  popoverProps={{
+                                      placement: COMMON_POPOVER_PLACEMENT,
+                                  }}
+                              >
+                                  {description}
+                              </HelpMark>
                           </Flex>
                       )
                     : label,

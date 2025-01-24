@@ -58,16 +58,16 @@ This will adjust the `--df-row-width` and `--df-row-max-width` variables for the
 
 Below is a list of common CSS variables that you can use to adjust various aspects of the components:
 
-| Variable                               | Default Value | Description                                                            |
-| :------------------------------------- | :------------ | :--------------------------------------------------------------------- |
-| `--df-spacing-inputs`                  | `15px`        | Spacing between inputs (TODO: consider using `--g-spacing`)            |
-| `--df-spacing-last-child`              | `0px`         | Spacing for the last values in inputs                                  |
-| `--df-spacing-inputs-section`          | `20px`        | Spacing between sections and inputs                                    |
-| `--df-tooltip-container-max-width`     | `100%`        | Maximum width of the tooltip container                                 |
-| `--df-tooltip-container-margin-bottom` | `6px`         | Bottom margin of the tooltip container                                 |
-| `--df-remove-button-margin-left`       | `5px`         | Left margin for the remove button (TODO: consider using `--g-spacing`) |
-| `--df-spacing-view`                    | `20px`        | Spacing in the view component                                          |
-| `--df-checkbox-height`                 | `28px`        | Height of the checkbox                                                 |
+| Variable                          | Default Value | Description                                                            |
+| :-------------------------------- | :------------ | :--------------------------------------------------------------------- |
+| `--df-spacing-inputs`             | `15px`        | Spacing between inputs (TODO: consider using `--g-spacing`)            |
+| `--df-spacing-last-child`         | `0px`         | Spacing for the last values in inputs                                  |
+| `--df-spacing-inputs-section`     | `20px`        | Spacing between sections and inputs                                    |
+| `--df-popover-item-max-width`     | `100%`        | Maximum width of the popover item                                      |
+| `--df-popover-item-margin-bottom` | `6px`         | Bottom margin of the popover item                                      |
+| `--df-remove-button-margin-left`  | `5px`         | Left margin for the remove button (TODO: consider using `--g-spacing`) |
+| `--df-spacing-view`               | `20px`        | Spacing in the view component                                          |
+| `--df-checkbox-height`            | `28px`        | Height of the checkbox                                                 |
 
 ---
 
@@ -203,6 +203,7 @@ Variables for the Checkbox Group component:
 | `--df-checkbox-group-child-margin-right`    |     `6px`     | Right margin for child checkbox elements                              |
 | `--df-checkbox-group-vertical-margin-top`   |     `8px`     | Top margin in vertical layout                                         |
 | `--df-checkbox-group-vertical-child-margin` | `0px 0px 6px` | Margin for child elements in vertical view (top, right, bottom, left) |
+| `--df-checkbox-margint-start`               |     `5px`     | Indent from text to checkbox                                          |
 
 ---
 

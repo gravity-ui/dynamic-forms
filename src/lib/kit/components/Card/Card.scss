@@ -68,8 +68,10 @@
         height: var(--df-card-title-height, var(--g-spacing-5));
     }
 
-    &__title-popover {
-        height: var(--df-card-title-popover-height, var(--g-spacing-5));
+    &__popover {
+        padding: var(--g-spacing-2);
+        overflow-wrap: break-word;
+        max-width: 300px;
     }
 
     &__note {
