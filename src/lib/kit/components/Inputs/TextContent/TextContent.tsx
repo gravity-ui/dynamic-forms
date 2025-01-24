@@ -39,7 +39,7 @@ export const TextContentComponent: React.FC<TextContentComponentProps> = ({
 
     const iconLib = textContentParams?.icon ? (
         <LazyLoader component={loadIcon(textContentParams?.icon)} />
-    ) : null;
+    ) : undefined;
 
     let content = <span dangerouslySetInnerHTML={{__html: text}} />;
 
