@@ -92,10 +92,6 @@ describe('kit/utils/common', () => {
             viewSpec: {addButtonPosition: 'down'},
         });
 
-        expect(prepareSpec({viewSpec: {themeLabel: 'WARNING'}} as any)).toMatchObject({
-            viewSpec: {textContentParams: {themeLabel: 'warning'}},
-        });
-
         expect(prepareSpec({viewSpec: {oneOfParams: {toggler: 'SELECT'}}} as any)).toMatchObject({
             viewSpec: {oneOfParams: {toggler: 'select'}},
         });
