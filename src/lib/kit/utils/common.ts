@@ -107,10 +107,7 @@ export const prepareSpec = <Type extends Spec>(
         }
 
         if (isString(result.viewSpec?.themeLabel)) {
-            result.viewSpec.textContentParams = {
-                ...result.viewSpec.textContentParams,
-                themeLabel: result.viewSpec.themeLabel.toLowerCase(),
-            };
+            result.viewSpec.themeLabel = result.viewSpec.themeLabel.toLowerCase();
         }
 
         if (isString(result.viewSpec?.oneOfParams?.toggler)) {
