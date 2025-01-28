@@ -2,19 +2,6 @@ import {withTheme, withLang} from './decorators';
 
 export const decorators = [withTheme, withLang];
 
-/* export const parameters = {
-    options: {
-        showPanel: false,
-        controls: {expanded: false},
-    },
-    previewTabs: {
-        docs: {hidden: true},
-        'storybook/docs/panel': {
-            hidden: true,
-        },
-    },
-};
- */
 export const globalTypes = {
     theme: {
         defaultValue: 'light',
