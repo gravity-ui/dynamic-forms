@@ -69,4 +69,36 @@ test.describe('Text Content', () => {
             await expectScreenshot();
         });
     });
+
+    test.describe('Alert', () => {
+        test('default', async ({mount, expectScreenshot}) => {
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.defaultAlert} />);
+
+            await expectScreenshot();
+        });
+
+        test('layout row', async ({mount, expectScreenshot}) => {
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.alertLayoutRow} />);
+
+            await expectScreenshot();
+        });
+
+        test('layout row verbose', async ({mount, expectScreenshot}) => {
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.alertLayoutRowVerbose} />);
+
+            await expectScreenshot();
+        });
+
+        test('layout transparent', async ({mount, expectScreenshot}) => {
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.alertLayoutTransparent} />);
+
+            await expectScreenshot();
+        });
+
+        test('without title', async ({mount, expectScreenshot}) => {
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.alertWithoutTitle} />);
+
+            await expectScreenshot();
+        });
+    });
 });
