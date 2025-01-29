@@ -2,16 +2,6 @@ import {withTheme, withLang} from './decorators';
 
 export const decorators = [withTheme, withLang];
 
-export const parameters = {
-    actions: {argTypesRegex: '^on[A-Z].*'},
-    controls: {
-        matchers: {
-            color: /(background|color)$/i,
-            date: /Date$/,
-        },
-    },
-};
-
 export const globalTypes = {
     theme: {
         defaultValue: 'light',
@@ -37,4 +27,4 @@ export const globalTypes = {
             ],
         },
     },
-}
+};
