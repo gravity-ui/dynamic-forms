@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {HelpPopover} from '@gravity-ui/components';
-import {Popover, Text} from '@gravity-ui/uikit';
+import {HelpMark, Popover, Text} from '@gravity-ui/uikit';
 
 import {GroupIndent} from '../../';
 import {RemoveButton} from '../../RemoveButton';
@@ -88,10 +87,13 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
         } else {
             description = (
                 <Text className={b('note')}>
-                    <HelpPopover
-                        htmlContent={spec.viewSpec.layoutDescription}
-                        placement={['bottom', 'top']}
-                    />
+                    <HelpMark
+                        popoverProps={{
+                            placement: COMMON_POPOVER_PLACEMENT,
+                        }}
+                    >
+                        {spec.viewSpec.layoutDescription}
+                    </HelpMark>
                 </Text>
             );
         }
@@ -111,7 +113,7 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
                     })}
                 >
                     <Popover
-                        className={b('title-popover')}
+                        className={b('popover')}
                         content={layoutTitle}
                         placement={COMMON_POPOVER_PLACEMENT}
                         disabled={layoutTitlePopoverDisabled}
