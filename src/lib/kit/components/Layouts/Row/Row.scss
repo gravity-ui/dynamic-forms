@@ -33,7 +33,7 @@
 
     &__title {
         word-break: break-word;
-        margin-right: var(--df-row-title-margin-right, $df-offset-3);
+        margin-right: var(--df-row-title-margin-right, var(--g-spacing-half));
 
         &_required {
             &::after {
@@ -49,7 +49,7 @@
 
         &-inner {
             position: absolute;
-            margin-top: var(--df-row-note-inner-margin-top, $df-offset-1);
+            margin-top: var(--df-row-note-inner-margin-top, var(--g-spacing-0));
 
             .g-help-popover {
                 display: flex;
@@ -65,7 +65,7 @@
         display: flex;
         flex-direction: column;
         flex-grow: 1;
-        margin-left: var(--df-row-right-margin-left, $df-offset-15);
+        margin-left: var(--df-row-right-margin-left, var(--g-spacing-4));
 
         &-inner {
             display: flex;
@@ -74,7 +74,7 @@
     }
 
     &__description {
-        margin-top: var(--df-row-description-margin-top, $df-offset-10);
+        margin-top: var(--df-row-description-margin-top, var(--g-spacing-2));
         color: var(--g-color-text-secondary);
         word-break: break-word;
     }

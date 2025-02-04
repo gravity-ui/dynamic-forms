@@ -17,7 +17,7 @@
             & > .#{$ns}use-search {
                 padding: var(
                     --df-oneof-base-padding,
-                    $df-offset-11 var(--g-spacing-0) var(--g-spacing-0) var(--g-spacing-5)
+                    var(--g-spacing-3) var(--g-spacing-0) var(--g-spacing-0) var(--g-spacing-5)
                 );
                 margin: var(
                     --df-oneof-base-margin,
@@ -34,10 +34,7 @@
                 }
 
                 & > .#{$ns}simple-vertical-accordeon_view {
-                    margin-top: var(
-                        --df-oneof-base-simple-vertical-accordeon-margin-top,
-                        -$df-offset-10
-                    );
+                    margin-top: var(--df-oneof-base-simple-vertical-accordeon-margin-top, -12px);
                 }
             }
         }

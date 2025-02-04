@@ -14,7 +14,7 @@
     &__text {
         margin: var(
             --df-toggler-card-text-margin,
-            var(--g-spacing-3) $df-offset-15 var(--g-spacing-0) var(--g-spacing-0)
+            var(--g-spacing-3) var(--g-spacing-4) var(--g-spacing-0) var(--g-spacing-0)
         );
         display: block;
         height: var(--df-toggler-card-text-height, 36px);

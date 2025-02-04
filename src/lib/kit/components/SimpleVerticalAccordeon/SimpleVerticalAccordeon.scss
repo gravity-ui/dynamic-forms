@@ -20,10 +20,7 @@ $animationDuration: 0.3s;
         align-items: center;
 
         &-inner {
-            margin-left: var(
-                --df-simple-vertical-accordeon-header-inner-margin-left,
-                -$df-offset-13
-            );
+            margin-left: var(--df-simple-vertical-accordeon-header-inner-margin-left, -13px);
             max-width: var(--df-simple-vertical-accordeon-header-inner-max-width, 533px);
         }
 

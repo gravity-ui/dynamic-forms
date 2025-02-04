@@ -58,16 +58,16 @@ This will adjust the `--df-row-width` and `--df-row-max-width` variables for the
 
 Below is a list of common CSS variables that you can use to adjust various aspects of the components:
 
-| Variable                          | Default Value | Description                                                            |
-| :-------------------------------- | :------------ | :--------------------------------------------------------------------- |
-| `--df-spacing-inputs`             | `15px`        | Spacing between inputs (TODO: consider using `--g-spacing`)            |
-| `--df-spacing-last-child`         | `0px`         | Spacing for the last values in inputs                                  |
-| `--df-spacing-inputs-section`     | `20px`        | Spacing between sections and inputs                                    |
-| `--df-popover-item-max-width`     | `100%`        | Maximum width of the popover item                                      |
-| `--df-popover-item-margin-bottom` | `6px`         | Bottom margin of the popover item                                      |
-| `--df-remove-button-margin-left`  | `5px`         | Left margin for the remove button (TODO: consider using `--g-spacing`) |
-| `--df-spacing-view`               | `20px`        | Spacing in the view component                                          |
-| `--df-checkbox-height`            | `28px`        | Height of the checkbox                                                 |
+| Variable                          | Default Value | Description                           |
+| :-------------------------------- | :------------ | :------------------------------------ |
+| `--df-spacing-inputs`             | `16px`        | Spacing between inputs                |
+| `--df-spacing-last-child`         | `0px`         | Spacing for the last values in inputs |
+| `--df-spacing-inputs-section`     | `20px`        | Spacing between sections and inputs   |
+| `--df-popover-item-max-width`     | `100%`        | Maximum width of the popover item     |
+| `--df-popover-item-margin-bottom` | `6px`         | Bottom margin of the popover item     |
+| `--df-remove-button-margin-left`  | `4px`         | Left margin for the remove button     |
+| `--df-spacing-view`               | `20px`        | Spacing in the view component         |
+| `--df-checkbox-height`            | `28px`        | Height of the checkbox                |
 
 ---
 
@@ -84,7 +84,7 @@ The following CSS variables are specific to the Accordion Card component:
 | `--df-accordeon-card-header-width`                   |    `100%`     | Width of the accordion card header                  |
 | `--df-accordeon-card-header-padding`                 |    `16px`     | Padding of the accordion card header                |
 | `--df-accordeon-card-content-description-margin-top` |    `12px`     | Top margin of the content description               |
-| `--df-accordeon-card-interal-actions-margin-right`   |    `20px`     | Right margin for internal actions                   |
+| `--df-accordeon-card-interal-actions-margin-right`   |     `4px`     | Right margin for internal actions                   |
 | `--df-accordeon-card-body-padding`                   |    `20px`     | Padding of the accordion card body                  |
 
 ---
@@ -99,10 +99,10 @@ The following CSS variables are specific to the Card component:
 | `--df-card-monaco-input-width`             |     `100%`      | Width of the Monaco input within the card            |
 | `--df-card-header-padding`                 |     `20px`      | Padding of the card header                           |
 | `--df-card-title-max-width`                |     `533px`     | Maximum width of the card title                      |
-| `--df-card-header-right-child-margin-left` |     `10px`      | Left margin of the header's right child              |
+| `--df-card-header-right-child-margin-left` |      `8px`      | Left margin of the header's right child              |
 | `--df-card-title-height`                   |     `20px`      | Height of the card title                             |
 | `--df-card-title-popover-height`           |     `20px`      | Height of the card title popover                     |
-| `--df-card-note-margin-left`               |      `5px`      | Left margin of the card note                         |
+| `--df-card-note-margin-left`               |      `4px`      | Left margin of the card note                         |
 | `--df-card-body-padding`                   | `0px 20px 20px` | Padding of the card body (top, right & left, bottom) |
 
 ---
@@ -111,11 +111,11 @@ The following CSS variables are specific to the Card component:
 
 The Group Indent variables adjust the indentation and spacing of grouped elements:
 
-| Variable                                                      |    Default Value     | Description                                                           |
-| :------------------------------------------------------------ | :------------------: | :-------------------------------------------------------------------- |
-| `--df-group-indent-padding`                                   | `-11px 0px 0px 20px` | Padding for the group indent (top, right, bottom, left)               |
-| `--df-group-indent-margin`                                    | `-11px 0px 0px 5px`  | Margin for the group indent (top, right, bottom, left)                |
-| `--df-group-indent-simple-vertical-accordeon-view-margin-top` |       `-10px`        | Top margin for the simple vertical accordion view within group indent |
+| Variable                                                      |    Default Value    | Description                                                           |
+| :------------------------------------------------------------ | :-----------------: | :-------------------------------------------------------------------- |
+| `--df-group-indent-padding`                                   | `12px 0px 0px 20px` | Padding for the group indent (top, right, bottom, left)               |
+| `--df-group-indent-margin`                                    | `-12px 0px 0px 5px` | Margin for the group indent (top, right, bottom, left)                |
+| `--df-group-indent-simple-vertical-accordeon-view-margin-top` |       `-10px`       | Top margin for the simple vertical accordion view within group indent |
 
 ---
 
@@ -175,7 +175,7 @@ Variables for customizing the Toggler Card component:
 | `--df-toggler-card-width`       |       `254px`       | Width of the toggler card                                          |
 | `--df-toggler-card-padding`     |        `6px`        | Padding inside the toggler card                                    |
 | `--df-toggler-card-height`      |       `88px`        | Height of the toggler card                                         |
-| `--df-toggler-card-text-margin` | `12px 15px 0px 0px` | Margin for the text in the toggler card (top, right, bottom, left) |
+| `--df-toggler-card-text-margin` | `12px 16px 0px 0px` | Margin for the text in the toggler card (top, right, bottom, left) |
 | `--df-toggler-card-text-height` |       `36px`        | Height of the text field within the toggler card                   |
 
 ---
@@ -189,7 +189,7 @@ Variables for the Array Base input component:
 | Variable                                       | Default Value  | Description                                     |
 | :--------------------------------------------- | :------------: | :---------------------------------------------- |
 | `--df-array-base-items-primitive-min-width`    |     `100%`     | Minimum width for primitive array items         |
-| `--df-array-base-item-prefix-margin`           | `-7px 0px 8px` | Margin for the item prefix (top, right, bottom) |
+| `--df-array-base-item-prefix-margin`           | `-8px 0px 8px` | Margin for the item prefix (top, right, bottom) |
 | `--df-array-base-add-button-right-margin-left` |     `4px`      | Left margin for the "Add" button on the right   |
 
 ---
@@ -223,7 +223,7 @@ Variables for the File Input component:
 
 | Variable                              | Default Value | Description                                       |
 | :------------------------------------ | :-----------: | :------------------------------------------------ |
-| `--df-file-input-file-name-margin`    |  `auto 10px`  | Margin for the file name (top/bottom, left/right) |
+| `--df-file-input-file-name-margin`    |  `auto 8px`   | Margin for the file name (top/bottom, left/right) |
 | `--df-file-input-file-name-max-width` |    `160px`    | Maximum width for the displayed file name         |
 
 ---
@@ -236,7 +236,7 @@ Variables for the Monaco Input component:
 | :----------------------------------------------- | :-------------: | :-------------------------------------------------------- |
 | `--df-monaco-input-width`                        |     `550px`     | Width of the Monaco editor input                          |
 | `--df-monaco-header-height`                      |     `52px`      | Height of the Monaco editor header                        |
-| `--df-monaco-header-padding`                     |     `15px`      | Padding inside the Monaco editor header                   |
+| `--df-monaco-header-padding`                     |     `16px`      | Padding inside the Monaco editor header                   |
 | `--df-monaco-input-dialog-dialog-footer-padding` | `6px 32px 32px` | Padding for the Monaco dialog footer (top, sides, bottom) |
 | `--df-monaco-dialog-header-caption-min-height`   |     `24px`      | Minimum height for the Monaco dialog header caption       |
 
@@ -294,9 +294,9 @@ Variables for the OneOf component:
 
 | Variable                                               |    Default Value    | Description                              |
 | :----------------------------------------------------- | :-----------------: | :--------------------------------------- |
-| `--df-oneof-base-padding`                              | `11px 0px 0px 20px` | Base padding (top, right, bottom, left)  |
+| `--df-oneof-base-padding`                              | `12px 0px 0px 20px` | Base padding (top, right, bottom, left)  |
 | `--df-oneof-base-margin`                               | `4px 0px 20px 5px`  | Base margin (top, right, bottom, left)   |
-| `--df-oneof-base-simple-vertical-accordeon-margin-top` |       `-10px`       | Top margin for simple vertical accordion |
+| `--df-oneof-base-simple-vertical-accordeon-margin-top` |       `-12px`       | Top margin for simple vertical accordion |
 | `--df-oneof-flat-margin`                               |        `0px`        | Margin for flat layout                   |
 | `--df-oneof-flat-padding`                              |        `0px`        | Padding for flat layout                  |
 
@@ -328,10 +328,10 @@ Variables for the Table Array component:
 
 | Variable                                                            | Default Value | Description                                                  |
 | :------------------------------------------------------------------ | :-----------: | :----------------------------------------------------------- |
-| `--df-table-array-table-margin-bottom`                              |    `10px`     | Bottom margin of the table                                   |
+| `--df-table-array-table-margin-bottom`                              |     `8px`     | Bottom margin of the table                                   |
 | `--df-table-array-cell-max-width`                                   |    `150px`    | Maximum width of a table cell                                |
 | `--df-table-array-cell-min-width`                                   |    `150px`    | Minimum width of a table cell                                |
-| `--df-table-array-cell-obj-padding-left`                            |     `3px`     | Left padding within a cell containing an object              |
+| `--df-table-array-cell-obj-padding-left`                            |     `2px`     | Left padding within a cell containing an object              |
 | `--df-table-array-idx-padding-top`                                  |     `6px`     | Top padding for the index column in the table                |
 | `--df-table-array-cell-obj-simple-vertical-accordeon-margin-bottom` |     `0px`     | ottom margin for cell objects with simple vertical accordion |
 
@@ -375,11 +375,11 @@ Variables for the Checkbox Group View component:
 
 Variables for the Monaco Input View component:
 
-| Variable                                 |  Default Value   | Description                                       |
-| :--------------------------------------- | :--------------: | :------------------------------------------------ |
-| `--df-monaco-base-view-width`            |     `550px`      | Width of the Monaco input view                    |
-| `--df-monaco-view-dialog-footer-padding` | `10px 32px 32px` | Padding of the dialog footer (top, sides, bottom) |
-| `--df-monaco-view-dialog-header-height`  |      `48px`      | Height of the dialog header                       |
+| Variable                                 | Default Value | Description                    |
+| :--------------------------------------- | :-----------: | :----------------------------- |
+| `--df-monaco-base-view-width`            |    `550px`    | Width of the Monaco input view |
+| `--df-monaco-view-dialog-footer-padding` |    `16px`     | Padding of the dialog footer   |
+| `--df-monaco-view-dialog-header-height`  |    `48px`     | Height of the dialog header    |
 
 ---
 
@@ -435,7 +435,7 @@ Variables for the Table Array View component:
 | :------------------------------------------ | :-----------: | :------------------------- |
 | `--df-table-array-view-cell-min-width`      |    `150px`    | Minimum width of cell      |
 | `--df-table-array-view-cell-max-width`      |    `150px`    | Maximum width of cell      |
-| `--df-table-array-view-table-margin-bottom` |    `10px`     | Bottom margin of the table |
+| `--df-table-array-view-table-margin-bottom` |    `12px`     | Bottom margin of the table |
 
 ---
 
@@ -445,7 +445,7 @@ Variables for the Text Area View component:
 
 | Variable                             | Default Value | Description                 |
 | :----------------------------------- | :-----------: | :-------------------------- |
-| `--df-text-area-view-chevron-margin` |     `3px`     | Margin for the chevron icon |
+| `--df-text-area-view-chevron-margin` |     `2px`     | Margin for the chevron icon |
 
 ---
 
@@ -468,8 +468,8 @@ Variables for the Column layout:
 | Variable                            | Default Value | Description                     |
 | :---------------------------------- | :-----------: | :------------------------------ |
 | `--df-column-first-row-min-height`  |    `28px`     | Minimum height of the first row |
-| `--df-column-title-margin-right`    |     `3px`     | Right margin of the title       |
-| `--df-column-note-inner-margin-top` |     `1px`     | Top margin inside the note      |
+| `--df-column-title-margin-right`    |     `2px`     | Right margin of the title       |
+| `--df-column-note-inner-margin-top` |     `0px`     | Top margin inside the note      |
 
 ---
 
@@ -483,11 +483,11 @@ Variables for the Row layout:
 | `--df-row-max-width`              |    `500px`    | Maximum width of the row           |
 | `--df-row-left-width`             |    `180px`    | Width of the left section          |
 | `--df-row-left-min-height`        |    `28px`     | Minimum height of the left section |
-| `--df-row-title-margin-right`     |     `3px`     | Right margin of the title          |
+| `--df-row-title-margin-right`     |     `2px`     | Right margin of the title          |
 | `--df-row-note-padding-right`     |    `16px`     | Right padding of the note          |
-| `--df-row-note-inner-margin-top`  |     `1px`     | Top margin inside the note         |
-| `--df-row-right-margin-left`      |    `15px`     | Left margin of the right section   |
-| `--df-row-description-margin-top` |    `10px`     | Top margin of the description      |
+| `--df-row-note-inner-margin-top`  |     `0px`     | Top margin inside the note         |
+| `--df-row-right-margin-left`      |    `16px`     | Left margin of the right section   |
+| `--df-row-description-margin-top` |     `8px`     | Top margin of the description      |
 
 ---
 

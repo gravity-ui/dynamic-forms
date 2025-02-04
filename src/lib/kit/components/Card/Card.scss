@@ -59,7 +59,7 @@
         align-items: center;
 
         & > * {
-            margin-left: var(--df-card-header-right-child-margin-left, $df-offset-10);
+            margin-left: var(--df-card-header-right-child-margin-left, var(--g-spacing-2));
         }
     }
 
@@ -75,7 +75,7 @@
     }
 
     &__note {
-        margin-left: var(--df-card-note-margin-left, $df-offset-5);
+        margin-left: var(--df-card-note-margin-left, var(--g-spacing-1));
 
         .gc-help-popover {
             display: flex;
