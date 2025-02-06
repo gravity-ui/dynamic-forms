@@ -46,6 +46,7 @@ const excludeOptions = [
     'viewSpec.inputProps',
     'viewSpec.placeholder',
     'viewSpec.layoutOpen',
+    'viewSpec.layoutProps',
 ];
 
 const template = () => {

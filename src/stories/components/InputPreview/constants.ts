@@ -359,6 +359,11 @@ const textContentParams: ObjectSpec = {
             enum: ['―', 'normal', 'info', 'danger', 'warning', 'success', 'utility'],
             viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Theme alert'},
         },
+        viewAlert: {
+            type: SpecTypes.String,
+            enum: ['―', 'filled', 'outlined'],
+            viewSpec: {type: 'select', layout: 'row', layoutTitle: 'View alert'},
+        },
     },
     viewSpec: {
         type: 'base',
@@ -575,6 +580,48 @@ const copy: BooleanSpec = {
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Copy'},
 };
 
+const layoutProps: ArraySpec = {
+    type: SpecTypes.Array,
+    items: {
+        type: SpecTypes.Object,
+        required: true,
+        properties: {
+            prop: {
+                type: SpecTypes.Object,
+                required: true,
+                properties: {
+                    key: {
+                        type: SpecTypes.String,
+                        viewSpec: {type: 'base', layout: 'transparent', placeholder: 'property'},
+                    },
+                    value: {
+                        type: SpecTypes.String,
+                        viewSpec: {type: 'base', layout: 'transparent', placeholder: 'value'},
+                    },
+                },
+                viewSpec: {
+                    type: 'inline',
+                    layout: 'transparent',
+                    delimiter: {key: ':'},
+                },
+            },
+            parse: {
+                type: SpecTypes.Boolean,
+                viewSpec: {
+                    type: 'base',
+                    inputProps: {content: 'parse like JSON value'} as unknown as undefined,
+                },
+            },
+        },
+        viewSpec: {type: 'base', layout: 'transparent'},
+    },
+    viewSpec: {
+        type: 'base',
+        layout: 'row',
+        layoutTitle: 'Layout props',
+    },
+};
+
 const inputProps: ArraySpec = {
     type: SpecTypes.Array,
     items: {
@@ -645,6 +692,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 selectParams,
                 checkboxGroupParams,
                 inputProps,
+                layoutProps,
             },
             [
                 'disabled',
@@ -662,6 +710,7 @@ export const getArrayOptions = (): ObjectSpec => ({
                 'selectParams',
                 'checkboxGroupParams',
                 'inputProps',
+                'layoutProps',
             ],
         ),
     },
@@ -782,6 +831,7 @@ export const getObjectOptions = (): ObjectSpec => ({
                 hidden,
                 delimiter,
                 timeRangeSelectorParams,
+                layoutProps,
             },
             [
                 'disabled',
@@ -796,6 +846,7 @@ export const getObjectOptions = (): ObjectSpec => ({
                 'hidden',
                 'delimiter',
                 'timeRangeSelectorParams',
+                'layoutProps',
             ],
         ),
     },

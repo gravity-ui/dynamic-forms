@@ -4,7 +4,10 @@ import {FormValue, Spec} from '../../../';
 
 import {ViewLayoutType} from './';
 
-export type ViewProps<Value extends FormValue, SpecType extends Spec> = {
+export type ViewProps<
+    Value extends FormValue,
+    SpecType extends Spec<undefined, undefined, Record<string, any> | undefined> = Spec,
+> = {
     spec: SpecType;
     name: string;
     value?: Value;

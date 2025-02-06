@@ -4,7 +4,10 @@ import {FormValue, Spec} from '../../../';
 
 import {ViewProps} from './';
 
-export type ViewLayoutProps<Value extends FormValue, SpecType extends Spec> = {
+export type ViewLayoutProps<
+    Value extends FormValue,
+    SpecType extends Spec<undefined, undefined, Record<string, any> | undefined> = Spec,
+> = {
     children: React.ReactElement;
 } & ViewProps<Value, SpecType>;
 
