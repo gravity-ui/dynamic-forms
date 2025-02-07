@@ -3,7 +3,7 @@ import React from 'react';
 import isObjectLike from 'lodash/isObjectLike';
 
 import {Card, ViewRow} from '../';
-import {ObjectIndependentView, StringSpec, ViewController} from '../../../core';
+import {ObjectIndependentView, ViewController} from '../../../core';
 
 export const CardOneOfView: ObjectIndependentView = (props) => {
     const {value = {}, spec, name, Layout} = props;
@@ -29,8 +29,8 @@ export const CardOneOfView: ObjectIndependentView = (props) => {
 
     const title = React.useMemo(() => {
         const titleProps = {
-            spec: spec as unknown as StringSpec,
-            value: valueName,
+            spec: spec,
+            value: valueName as any,
             name: name,
             children: <>{valueName}</>,
         } as const;
