@@ -36,6 +36,20 @@ test.describe('Card OneOf', () => {
 
         await expectScreenshot();
     });
+
+    test('column layout', async ({mount, expectScreenshot}) => {
+        const specWithColumnLayout = {
+            ...CARD_ONEOF.default,
+            viewSpec: {
+                ...CARD_ONEOF.default.viewSpec,
+                layout: 'column',
+            },
+        } as const;
+
+        await mount(<DynamicForm spec={specWithColumnLayout} />);
+
+        await expectScreenshot();
+    });
 });
 
 test.describe('Card OneOf view', () => {
@@ -47,6 +61,20 @@ test.describe('Card OneOf view', () => {
 
     test('string', async ({mount, expectScreenshot}) => {
         await mount(<DynamicView spec={CARD_ONEOF.default} value={VALUE.string} />);
+
+        await expectScreenshot();
+    });
+
+    test('column layout', async ({mount, expectScreenshot}) => {
+        const specWithColumnLayout = {
+            ...CARD_ONEOF.default,
+            viewSpec: {
+                ...CARD_ONEOF.default.viewSpec,
+                layout: 'column',
+            },
+        } as const;
+
+        await mount(<DynamicView spec={specWithColumnLayout} value={VALUE.string} />);
 
         await expectScreenshot();
     });
