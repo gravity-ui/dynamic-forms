@@ -39,7 +39,7 @@ export const CardOneOf: ObjectIndependentInput = (props) => {
         }
 
         return <Row {...togglerProps} />;
-    }, [togglerInput, props]);
+    }, [togglerInput, props, Layout]);
 
     const actions = React.useMemo(() => {
         if (isArrayItem(name)) {

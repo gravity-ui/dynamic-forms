@@ -6,7 +6,7 @@ import {Card, ViewRow} from '../';
 import {ObjectIndependentView, StringSpec, ViewController} from '../../../core';
 
 export const CardOneOfView: ObjectIndependentView = (props) => {
-    const {value = {}, spec, name} = props;
+    const {value = {}, spec, name, Layout} = props;
 
     const [open, setOpen] = React.useState(true);
 
@@ -27,14 +27,20 @@ export const CardOneOfView: ObjectIndependentView = (props) => {
         );
     }, [valueKey, spec.description, specProperties]);
 
-    const title = React.useMemo(
-        () => (
-            <ViewRow spec={spec as unknown as StringSpec} value={valueName} name={name}>
-                <>{valueName}</>
-            </ViewRow>
-        ),
-        [spec, name, valueName],
-    );
+    const title = React.useMemo(() => {
+        const titleProps = {
+            spec: spec as unknown as StringSpec,
+            value: valueName,
+            name: name,
+            children: <>{valueName}</>,
+        } as const;
+
+        if (Layout) {
+            return <Layout {...titleProps} />;
+        }
+
+        return <ViewRow {...titleProps} />;
+    }, [spec, name, valueName, Layout]);
 
     if (!value || !Object.keys(value).length) {
         return null;
