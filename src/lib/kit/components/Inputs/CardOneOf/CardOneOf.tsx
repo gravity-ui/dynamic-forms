@@ -15,7 +15,7 @@ import {Row} from '../../Layouts';
 import {RemoveButton} from '../../RemoveButton';
 
 export const CardOneOf: ObjectIndependentInput = (props) => {
-    const {input, meta, spec, name} = props;
+    const {input, meta, spec, name, Layout} = props;
 
     const [open, setOpen] = React.useState(true);
 
@@ -27,14 +27,19 @@ export const CardOneOf: ObjectIndependentInput = (props) => {
         onTogglerChange: onOpen,
     });
 
-    const toggler = React.useMemo(
-        () => (
-            <Row {...props} name="__stub-name">
-                {togglerInput}
-            </Row>
-        ),
-        [togglerInput, props],
-    );
+    const toggler = React.useMemo(() => {
+        const togglerProps = {
+            ...props,
+            name: '__stub-name',
+            children: togglerInput,
+        } as const;
+
+        if (Layout) {
+            return <Layout {...togglerProps} />;
+        }
+
+        return <Row {...togglerProps} />;
+    }, [togglerInput, props]);
 
     const actions = React.useMemo(() => {
         if (isArrayItem(name)) {
