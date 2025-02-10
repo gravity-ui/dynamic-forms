@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.17.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.16.1...v4.17.0) (2025-02-10)
+
+
+### Features
+
+* add layout props variant header for section and accordeon and a… ([#271](https://github.com/gravity-ui/dynamic-forms/issues/271)) ([78baa28](https://github.com/gravity-ui/dynamic-forms/commit/78baa2864744683d2b5fdb4feb28536aecf22831))
+
+
+### Bug Fixes
+
+* update actions preview build and preview deploy ([#272](https://github.com/gravity-ui/dynamic-forms/issues/272)) ([00a3bb4](https://github.com/gravity-ui/dynamic-forms/commit/00a3bb4bd996bf74c7fc42ad97b4c329e7545d53))
+
 ## [4.16.1](https://github.com/gravity-ui/dynamic-forms/compare/v4.16.0...v4.16.1) (2025-02-07)
 
 
