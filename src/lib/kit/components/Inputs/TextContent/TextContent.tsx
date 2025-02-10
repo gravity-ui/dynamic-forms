@@ -56,6 +56,7 @@ export const TextContentComponent: React.FC<TextContentComponentProps> = ({
                 // If the title is an empty line, then you need to explicitly write undefined, otherwise there will be an additional indent
                 title={titleAlert}
                 theme={textContentParams?.themeAlert}
+                view={textContentParams?.viewAlert}
             />
         );
     } else if (textContentParams?.themeLabel) {

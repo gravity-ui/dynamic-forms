@@ -1,12 +1,19 @@
 import React from 'react';
 
 import isBoolean from 'lodash/isBoolean';
+import {TextProps} from '@gravity-ui/uikit';
 
-import {ArrayViewLayoutProps, ObjectViewLayoutProps, useDynamicFormsCtx} from '../../../../core';
+import {ArrayValue, ObjectValue, Spec, ViewLayoutProps, useDynamicFormsCtx} from '../../../../core';
 import {isNotEmptyValue} from '../../../utils';
 import {SimpleVerticalAccordeon} from '../../SimpleVerticalAccordeon';
 
-export const ViewAccordeon = <T extends ArrayViewLayoutProps | ObjectViewLayoutProps>({
+interface ViewAccordeonLayoutProps {
+    variantTitle?: TextProps['variant'];
+}
+
+export const ViewAccordeon = <
+    T extends ViewLayoutProps<ArrayValue | ObjectValue, Spec<any, any, ViewAccordeonLayoutProps>>,
+>({
     name,
     value,
     spec,
@@ -17,7 +24,9 @@ export const ViewAccordeon = <T extends ArrayViewLayoutProps | ObjectViewLayoutP
         isBoolean(spec.viewSpec.layoutOpen) ? spec.viewSpec.layoutOpen : true,
     );
 
-    if (!isNotEmptyValue(value, spec)) {
+    const {variantTitle} = spec.viewSpec.layoutProps || {};
+
+    if (!isNotEmptyValue(value, spec as Spec)) {
         return null;
     }
 
@@ -35,6 +44,7 @@ export const ViewAccordeon = <T extends ArrayViewLayoutProps | ObjectViewLayoutP
             hideInsteadOfDestroy
             withBranchView
             viewLayout
+            variantTitle={variantTitle}
         >
             {children}
         </SimpleVerticalAccordeon>

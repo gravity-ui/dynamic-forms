@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {HelpPopover} from '@gravity-ui/components';
-import {Popover, Text} from '@gravity-ui/uikit';
+import {Popover, Text, TextProps} from '@gravity-ui/uikit';
 
 import {GroupIndent} from '../../';
 import {RemoveButton} from '../../RemoveButton';
@@ -23,6 +23,10 @@ import './Section.scss';
 
 const b = block('section');
 
+interface SectionLayoutProps {
+    variantTitle?: TextProps['variant'];
+}
+
 interface SectionProps {
     titleSize: 's' | 'm';
     withIndent?: boolean;
@@ -30,7 +34,11 @@ interface SectionProps {
     descriptionAsSubtitle?: boolean;
 }
 
-const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>({
+const SectionBase = <
+    D extends FieldValue,
+    T extends FormValue,
+    S extends Spec<any, any, SectionLayoutProps>,
+>({
     name,
     spec,
     titleSize,
@@ -39,7 +47,7 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
     descriptionAsSubtitle,
     children,
     ...restProps
-}: (LayoutProps<D, undefined, undefined, S> | ViewLayoutProps<T, S>) & SectionProps) => {
+}: (LayoutProps<D, undefined, SectionLayoutProps, S> | ViewLayoutProps<T, S>) & SectionProps) => {
     const input = (restProps as FieldRenderProps<D>).input as
         | FieldRenderProps<D>['input']
         | undefined;
@@ -47,6 +55,29 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
     const arrOrObjFlag = isArraySpec(spec) || isObjectSpec(spec);
     const titleRef = React.useRef<HTMLHeadingElement>(null);
     let content = children;
+
+    const {variantTitle: variantTitleProp} = spec.viewSpec.layoutProps || {};
+
+    const {sizeTitle, variantTitle} = React.useMemo(() => {
+        if (variantTitleProp) {
+            return {
+                sizeTitle: undefined,
+                variantTitle: variantTitleProp,
+            };
+        }
+
+        if (titleSize === 'm') {
+            return {
+                sizeTitle: titleSize,
+                variantTitle: 'body-2',
+            };
+        }
+
+        return {
+            sizeTitle: titleSize,
+            variantTitle: 'body-1',
+        };
+    }, [variantTitleProp, titleSize]);
 
     const removeButton = React.useMemo(() => {
         if (input?.value && input?.onDrop && isArrayItem(name)) {
@@ -107,7 +138,7 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
                 <div
                     className={b('header', {
                         'with-popover': !descriptionAsSubtitle,
-                        size: titleSize,
+                        size: sizeTitle,
                     })}
                 >
                     <Popover
@@ -118,7 +149,7 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
                     >
                         <Text
                             className={b('title')}
-                            variant={titleSize === 'm' ? 'body-2' : 'body-1'}
+                            variant={variantTitle as TextProps['variant']}
                             ref={titleRef}
                             ellipsis
                         >

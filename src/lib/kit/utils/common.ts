@@ -120,6 +120,11 @@ export const prepareSpec = <Type extends Spec>(
                 result.viewSpec.textContentParams.themeAlert.toLowerCase();
         }
 
+        if (isString(result.viewSpec?.textContentParams?.viewAlert)) {
+            result.viewSpec.textContentParams.viewAlert =
+                result.viewSpec.textContentParams.viewAlert.toLowerCase();
+        }
+
         if (isString(result.validator)) {
             result.validator = result.validator.toLowerCase();
         }

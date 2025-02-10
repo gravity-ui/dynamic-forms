@@ -231,6 +231,33 @@ export const transformIncorrect = (spec: Spec) => {
         );
     }
 
+    if (_spec.viewSpec.layoutProps) {
+        const incorrectLayoutProps = _spec.viewSpec.layoutProps as unknown as {
+            prop?: {key?: string; value?: string};
+            parse: string;
+        }[];
+
+        // @ts-ignore
+        _spec.viewSpec.layoutProps = incorrectLayoutProps.reduce(
+            (acc: Record<string, any>, {prop, parse}) => {
+                if (prop?.key && prop?.value) {
+                    if (parse) {
+                        try {
+                            const _value = JSON.parse(prop.value);
+
+                            acc[prop.key] = _value;
+                        } catch {}
+                    } else {
+                        acc[prop.key] = prop.value;
+                    }
+                }
+
+                return acc;
+            },
+            {},
+        );
+    }
+
     return _spec;
 };
 

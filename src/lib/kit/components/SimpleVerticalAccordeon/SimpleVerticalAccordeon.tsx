@@ -2,7 +2,7 @@ import React from 'react';
 
 import {HelpPopover} from '@gravity-ui/components';
 import {ChevronDown} from '@gravity-ui/icons';
-import {Button, Icon, Popover, Text} from '@gravity-ui/uikit';
+import {Button, Icon, Popover, Text, TextProps} from '@gravity-ui/uikit';
 
 import {COMMON_POPOVER_PLACEMENT} from '../../constants/common';
 import {block} from '../../utils';
@@ -27,6 +27,7 @@ interface SimpleVerticalAccordeonProps {
     hideInsteadOfDestroy?: boolean;
     withBranchView?: boolean;
     viewLayout?: boolean;
+    variantTitle?: TextProps['variant'];
 }
 
 interface SimpleVerticalAccordeonState {
@@ -81,6 +82,7 @@ export class SimpleVerticalAccordeon extends React.Component<
             withBranchView,
             viewLayout,
             name,
+            variantTitle,
         } = this.props;
         const {open, hidden, isFirstRender} = this.state;
 
@@ -104,7 +106,7 @@ export class SimpleVerticalAccordeon extends React.Component<
         const titlePopoverDisabled =
             (this.titleRef.current?.offsetWidth || 0) <= TITLE_TEXT_MAX_WIDTH;
 
-        const currentTitleVariant = this.getCurrentTitleVariant();
+        const currentTitleVariant = variantTitle || this.getCurrentTitleVariant();
 
         return (
             Boolean(React.Children.count(children)) && (

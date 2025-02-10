@@ -63,6 +63,7 @@ const excludeOptions = [
     'viewSpec.oneOfParams',
     'viewSpec.delimiter',
     'viewSpec.inputProps',
+    'viewSpec.layoutProps',
 ];
 
 const value = {
