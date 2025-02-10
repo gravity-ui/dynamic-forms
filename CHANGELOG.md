@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.0.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.17.0...v5.0.0) (2025-02-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* udpate uikit 7 ([#266](https://github.com/gravity-ui/dynamic-forms/issues/266))
+
+### chore
+
+* udpate uikit 7 ([#266](https://github.com/gravity-ui/dynamic-forms/issues/266)) ([e3addab](https://github.com/gravity-ui/dynamic-forms/commit/e3addab09b46f4558a8ca36c6f1909c8f1205048))
+
 ## [4.17.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.16.1...v4.17.0) (2025-02-10)
 
 
