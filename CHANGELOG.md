@@ -1,5 +1,15 @@
 # Changelog
 
+## [4.16.1](https://github.com/gravity-ui/dynamic-forms/compare/v4.16.0...v4.16.1) (2025-02-07)
+
+
+### Bug Fixes
+
+* card one of view layout ([#273](https://github.com/gravity-ui/dynamic-forms/issues/273)) ([dcac2b1](https://github.com/gravity-ui/dynamic-forms/commit/dcac2b1744e1ed34a5f0590329a5ae8504417473))
+* hide stotybook actions ([#264](https://github.com/gravity-ui/dynamic-forms/issues/264)) ([824be18](https://github.com/gravity-ui/dynamic-forms/commit/824be18ac4882475e6f277372c0f47d63dcc1ffa))
+* playwright report ([#268](https://github.com/gravity-ui/dynamic-forms/issues/268)) ([ac75f76](https://github.com/gravity-ui/dynamic-forms/commit/ac75f765b3a7a8ef5f0258474aaed02d807dcdc8))
+* text content theme ([#267](https://github.com/gravity-ui/dynamic-forms/issues/267)) ([aa2963c](https://github.com/gravity-ui/dynamic-forms/commit/aa2963cd999413fbe41d57396fb26551cb351593))
+
 ## [4.16.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.15.0...v4.16.0) (2025-01-22)
 
 
