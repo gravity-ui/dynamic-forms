@@ -1,11 +1,12 @@
 import React from 'react';
 
-import {Popover} from '@gravity-ui/uikit';
+import {Popover, Text} from '@gravity-ui/uikit';
 import isObjectLike from 'lodash/isObjectLike';
 
 import {ObjectIndependentView, ObjectIndependentViewProps, ViewController} from '../../../../core';
 import {block} from '../../../utils';
 import {GroupIndent} from '../../GroupIndent';
+import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 
 import './MultiOneOfView.scss';
 
@@ -45,14 +46,14 @@ export const MultiOneOfView: React.FC<MultiOneOfViewProps> = (props) => {
                 {items.map((item) => {
                     return (
                         <Popover
-                            placement={['bottom', 'top']}
-                            key={item}
+                            placement={COMMON_POPOVER_PLACEMENT}
                             content={item}
-                            className={b('tooltip-container')}
-                            contentClassName={b('tooltip')}
+                            className={b('popover')}
                             disabled={item.length < 51}
+                            hasArrow={true}
+                            key={item}
                         >
-                            {item}
+                            <Text className={b('item')}>{item}</Text>
                         </Popover>
                     );
                 })}

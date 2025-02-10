@@ -19,11 +19,11 @@ const NumberWithScaleViewBase: React.FC<StringViewProps> = ({spec, value}) => {
             <Popover
                 placement={['bottom', 'top']}
                 content={initialValue}
-                className={b('tooltip-container')}
-                contentClassName={b('tooltip')}
+                className={b('popover')}
                 disabled={initialValue.length < 26}
+                hasArrow={true}
             >
-                {initialValue}
+                <Text className={b('item')}>{initialValue}</Text>
             </Popover>
             <Text className={b('size')}>{scale[initialType].title}</Text>
         </div>

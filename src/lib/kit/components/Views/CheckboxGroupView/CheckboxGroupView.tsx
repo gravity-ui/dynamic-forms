@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Popover} from '@gravity-ui/uikit';
+import {Popover, Text} from '@gravity-ui/uikit';
 import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 import {ArrayView} from '../../../../core';
 import {block} from '../../../utils';
@@ -27,14 +27,16 @@ export const CheckboxGroupView: ArrayView = ({spec, value = []}) => {
             {items.map((item, idx) => (
                 <Popover
                     placement={COMMON_POPOVER_PLACEMENT}
-                    key={item}
                     content={item}
-                    className={b('tooltip-container')}
-                    contentClassName={b('tooltip')}
+                    className={b('popover')}
+                    key={item}
+                    hasArrow={true}
                     disabled={item.length < 51}
                 >
-                    {item}
-                    {!verticalPlacement && idx !== items.length - 1 ? ', ' : null}
+                    <Text className={b('item')}>
+                        {item}
+                        {!verticalPlacement && idx !== items.length - 1 ? ', ' : null}
+                    </Text>
                 </Popover>
             ))}
         </div>

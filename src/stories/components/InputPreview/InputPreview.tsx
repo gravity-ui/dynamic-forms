@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {RadioButton, TextInput, useTheme} from '@gravity-ui/uikit';
+import {SegmentedRadioGroup, TextInput, useTheme} from '@gravity-ui/uikit';
 import noop from 'lodash/noop';
 import {Form} from 'react-final-form';
 import MonacoEditor from 'react-monaco-editor';
@@ -114,17 +114,17 @@ export const InputPreview: React.FC<InputPreviewProps> = ({
             {(form) => (
                 <div className={b({docs: viewMode === 'docs'})}>
                     <div className={b('options')}>
-                        <RadioButton
+                        <SegmentedRadioGroup
                             value={toggler}
                             onChange={handleChangeToggler}
                             className={b('toggler')}
                         >
                             {togglerItems.map((option) => (
-                                <RadioButton.Option key={option.value} value={option.value}>
+                                <SegmentedRadioGroup.Option key={option.value} value={option.value}>
                                     {option.title}
-                                </RadioButton.Option>
+                                </SegmentedRadioGroup.Option>
                             ))}
-                        </RadioButton>
+                        </SegmentedRadioGroup>
                         <div className={b('options-field', {hidden: toggler !== 'form'})}>
                             <TextInput
                                 size="m"
@@ -149,17 +149,17 @@ export const InputPreview: React.FC<InputPreviewProps> = ({
                         ) : null}
                     </div>
                     <div className={b('input')}>
-                        <RadioButton
+                        <SegmentedRadioGroup
                             value={togglerInput}
                             onChange={handleChangeTogglerInput}
                             className={b('toggler')}
                         >
                             {togglerInputItems.map((option) => (
-                                <RadioButton.Option key={option.value} value={option.value}>
+                                <SegmentedRadioGroup.Option key={option.value} value={option.value}>
                                     {option.title}
-                                </RadioButton.Option>
+                                </SegmentedRadioGroup.Option>
                             ))}
-                        </RadioButton>
+                        </SegmentedRadioGroup>
                         <div className={b('input-field', {hidden: togglerInput !== 'form'})}>
                             <TextInput
                                 size="m"

@@ -5,6 +5,10 @@
     align-items: center;
     height: var(--df-checkbox-height, $df-checkbox-height);
 
+    .g-control-label__text {
+        margin-inline-start: var(--df-checkbox-margint-start, 5px);
+    }
+
     & > *:not(:last-child) {
         margin-right: var(--df-checkbox-group-child-margin-right, $df-offset-6);
     }

@@ -29,13 +29,10 @@ $block: '.#{$ns}section';
         max-width: var(--df-section-title-max-width, 533px);
     }
 
-    &__title-popover {
-        display: flex;
-        align-items: center;
-
-        .g-popover__handler {
-            display: flex;
-        }
+    &__popover {
+        padding: var(--g-spacing-2);
+        overflow-wrap: break-word;
+        max-width: 300px;
     }
 
     &__note {
