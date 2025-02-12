@@ -114,7 +114,7 @@ The Group Indent variables adjust the indentation and spacing of grouped element
 | Variable                                                      |    Default Value    | Description                                                           |
 | :------------------------------------------------------------ | :-----------------: | :-------------------------------------------------------------------- |
 | `--df-group-indent-padding`                                   | `12px 0px 0px 20px` | Padding for the group indent (top, right, bottom, left)               |
-| `--df-group-indent-margin`                                    | `-12px 0px 0px 5px` | Margin for the group indent (top, right, bottom, left)                |
+| `--df-group-indent-margin`                                    | `-12px 0px 0px 4px` | Margin for the group indent (top, right, bottom, left)                |
 | `--df-group-indent-simple-vertical-accordeon-view-margin-top` |       `-10px`       | Top margin for the simple vertical accordion view within group indent |
 
 ---
@@ -157,12 +157,12 @@ Variables for customizing the Simple Vertical Accordion component:
 | Variable                                                  | Default Value | Description                                 |
 | :-------------------------------------------------------- | :-----------: | :------------------------------------------ |
 | `--df-simple-vertical-accordeon-body-padding-left`        |    `20px`     | Left padding of the accordion body          |
-| `--df-simple-vertical-accordeon-body-margin-left`         |     `5px`     | Left margin of the accordion body           |
-| `--df-simple-vertical-accordeon-header-inner-margin-left` |    `-13px`    | Left margin of the header inner element     |
+| `--df-simple-vertical-accordeon-body-margin-left`         |     `4px`     | Left margin of the accordion body           |
+| `--df-simple-vertical-accordeon-header-inner-margin-left` |    `-12px`    | Left margin of the header inner element     |
 | `--df-simple-vertical-accordeon-header-inner-max-width`   |    `533px`    | Maximum width of the header inner element   |
-| `--df-simple-vertical-accordeon-tooltip-margin`           |   `0px 5px`   | Margin for the tooltip within the accordion |
+| `--df-simple-vertical-accordeon-tooltip-margin`           |   `0px 4px`   | Margin for the tooltip within the accordion |
 | `--df-simple-vertical-accordeon-body-margin-top`          |     `4px`     | Top margin of the accordion body            |
-| `--df-simple-vertical-accordeon-body-padding-top`         |     `6px`     | Top padding of the accordion body           |
+| `--df-simple-vertical-accordeon-body-padding-top`         |     `4px`     | Top padding of the accordion body           |
 
 ---
 
@@ -173,7 +173,7 @@ Variables for customizing the Toggler Card component:
 | Variable                        |    Default Value    | Description                                                        |
 | :------------------------------ | :-----------------: | :----------------------------------------------------------------- |
 | `--df-toggler-card-width`       |       `254px`       | Width of the toggler card                                          |
-| `--df-toggler-card-padding`     |        `6px`        | Padding inside the toggler card                                    |
+| `--df-toggler-card-padding`     |        `8px`        | Padding inside the toggler card                                    |
 | `--df-toggler-card-height`      |       `88px`        | Height of the toggler card                                         |
 | `--df-toggler-card-text-margin` | `12px 16px 0px 0px` | Margin for the text in the toggler card (top, right, bottom, left) |
 | `--df-toggler-card-text-height` |       `36px`        | Height of the text field within the toggler card                   |
@@ -200,10 +200,10 @@ Variables for the Checkbox Group component:
 
 | Variable                                    | Default Value | Description                                                           |
 | :------------------------------------------ | :-----------: | :-------------------------------------------------------------------- |
-| `--df-checkbox-group-child-margin-right`    |     `6px`     | Right margin for child checkbox elements                              |
+| `--df-checkbox-group-child-margin-right`    |    `12px`     | Right margin for child checkbox elements                              |
 | `--df-checkbox-group-vertical-margin-top`   |     `8px`     | Top margin in vertical layout                                         |
-| `--df-checkbox-group-vertical-child-margin` | `0px 0px 6px` | Margin for child elements in vertical view (top, right, bottom, left) |
-| `--df-checkbox-margint-start`               |     `5px`     | Indent from text to checkbox                                          |
+| `--df-checkbox-group-vertical-child-margin` | `0px 0px 8px` | Margin for child elements in vertical view (top, right, bottom, left) |
+| `--df-checkbox-margint-start`               |     `4px`     | Indent from text to checkbox                                          |
 
 ---
 
@@ -237,7 +237,7 @@ Variables for the Monaco Input component:
 | `--df-monaco-input-width`                        |     `550px`     | Width of the Monaco editor input                          |
 | `--df-monaco-header-height`                      |     `52px`      | Height of the Monaco editor header                        |
 | `--df-monaco-header-padding`                     |     `16px`      | Padding inside the Monaco editor header                   |
-| `--df-monaco-input-dialog-dialog-footer-padding` | `6px 32px 32px` | Padding for the Monaco dialog footer (top, sides, bottom) |
+| `--df-monaco-input-dialog-dialog-footer-padding` | `8px 32px 32px` | Padding for the Monaco dialog footer (top, sides, bottom) |
 | `--df-monaco-dialog-header-caption-min-height`   |     `24px`      | Minimum height for the Monaco dialog header caption       |
 
 ---
@@ -271,7 +271,7 @@ Variables for the Number with Scale input component:
 | Variable                                    | Default Value | Description                       |
 | :------------------------------------------ | :-----------: | :-------------------------------- |
 | `--df-number-with-scale-select-max-width`   |    `102px`    | Maximum width of the select input |
-| `--df-number-with-scale-select-margin-left` |     `5px`     | Left margin of the select input   |
+| `--df-number-with-scale-select-margin-left` |     `4px`     | Left margin of the select input   |
 
 ---
 
@@ -295,7 +295,7 @@ Variables for the OneOf component:
 | Variable                                               |    Default Value    | Description                              |
 | :----------------------------------------------------- | :-----------------: | :--------------------------------------- |
 | `--df-oneof-base-padding`                              | `12px 0px 0px 20px` | Base padding (top, right, bottom, left)  |
-| `--df-oneof-base-margin`                               | `4px 0px 20px 5px`  | Base margin (top, right, bottom, left)   |
+| `--df-oneof-base-margin`                               | `4px 0px 20px 4px`  | Base margin (top, right, bottom, left)   |
 | `--df-oneof-base-simple-vertical-accordeon-margin-top` |       `-12px`       | Top margin for simple vertical accordion |
 | `--df-oneof-flat-margin`                               |        `0px`        | Margin for flat layout                   |
 | `--df-oneof-flat-padding`                              |        `0px`        | Padding for flat layout                  |
@@ -366,8 +366,8 @@ Variables for the Checkbox Group View component:
 
 | Variable                                         | Default Value | Description                                                |
 | :----------------------------------------------- | :-----------: | :--------------------------------------------------------- |
-| `--df-checkbox-group-view-child-margin-right`    |     `6px`     | Right margin of child items                                |
-| `--df-checkbox-group-view-vertical-child-margin` | `0px 0px 6px` | Margin for vertical child items (top, right, bottom, left) |
+| `--df-checkbox-group-view-child-margin-right`    |    `12px`     | Right margin of child items                                |
+| `--df-checkbox-group-view-vertical-child-margin` | `0px 0px 8px` | Margin for vertical child items (top, right, bottom, left) |
 
 ---
 
@@ -501,7 +501,7 @@ Variables for the Section layout:
 | `--df-section-header-size-s`          |    `18px`     | Headers size for small headers     |
 | `--df-section-header-size-m`          |    `20px`     | Headers size for medium headers    |
 | `--df-section-title-max-width`        |    `533px`    | Maximum width of the section title |
-| `--df-section-note-margin-left`       |     `5px`     | Left margin of the note            |
+| `--df-section-note-margin-left`       |     `4px`     | Left margin of the note            |
 | `--df-section-description-margin-top` |     `4px`     | Top margin of the description      |
 
 ---

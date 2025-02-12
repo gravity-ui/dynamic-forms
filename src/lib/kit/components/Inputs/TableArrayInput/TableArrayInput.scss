@@ -59,6 +59,6 @@
     }
 
     &__idx {
-        padding-top: var(--df-table-array-idx-padding-top, $df-offset-6);
+        padding-top: var(--df-table-array-idx-padding-top, 6px);
     }
 }

@@ -2,7 +2,7 @@
 
 .#{$ns}toggler-card {
     width: var(--df-toggler-card-width, 254px);
-    padding: var(--df-toggler-card-padding, $df-offset-6);
+    padding: var(--df-toggler-card-padding, var(--g-spacing-2));
     height: var(--df-toggler-card-height, 88px);
 
     &__header {

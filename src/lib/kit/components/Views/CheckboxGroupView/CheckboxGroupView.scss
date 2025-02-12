@@ -4,7 +4,7 @@
     display: flex;
 
     & > *:not(:last-child) {
-        margin-right: var(--df-checkbox-group-view-child-margin-right, $df-offset-6);
+        margin-right: var(--df-checkbox-group-view-child-margin-right, var(--g-spacing-3));
     }
 
     &_vertical {
@@ -14,7 +14,7 @@
         & > *:not(:last-child) {
             margin: var(
                 --df-checkbox-group-view-vertical-child-margin,
-                var(--g-spacing-0) var(--g-spacing-0) $df-offset-6
+                var(--g-spacing-0) var(--g-spacing-0) var(--g-spacing-2)
             );
         }
     }
