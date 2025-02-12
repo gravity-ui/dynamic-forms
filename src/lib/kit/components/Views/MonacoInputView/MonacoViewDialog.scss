@@ -2,10 +2,7 @@
 
 .#{$ns}monaco-view-dialog {
     .g-dialog-footer {
-        padding: var(
-            --df-monaco-view-dialog-footer-padding,
-            $df-offset-10 var(--g-spacing-8) var(--g-spacing-8)
-        );
+        padding: var(--df-monaco-view-dialog-footer-padding, var(--g-spacing-4));
     }
 
     &__container {

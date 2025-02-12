@@ -36,7 +36,7 @@ $block: '.#{$ns}section';
     }
 
     &__note {
-        margin-left: var(--df-section-note-margin-left, $df-offset-5);
+        margin-left: var(--df-section-note-margin-left, var(--g-spacing-1));
 
         .g-help-popover {
             display: flex;

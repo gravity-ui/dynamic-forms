@@ -4,7 +4,7 @@
     .g-dialog-footer {
         padding: var(
             --df-monaco-input-dialog-dialog-footer-padding,
-            $df-offset-6 var(--g-spacing-8) var(--g-spacing-8)
+            var(--g-spacing-2) var(--g-spacing-8) var(--g-spacing-8)
         );
     }
 

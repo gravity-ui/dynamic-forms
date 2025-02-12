@@ -2,7 +2,7 @@
 
 .#{$ns}table-array-view {
     &__table {
-        margin-bottom: var(--df-table-array-view-table-margin-bottom, $df-offset-10);
+        margin-bottom: var(--df-table-array-view-table-margin-bottom, var(--g-spacing-3));
     }
 
     &__cell {
