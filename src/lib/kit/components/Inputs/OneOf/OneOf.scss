@@ -34,7 +34,10 @@
                 }
 
                 & > .#{$ns}simple-vertical-accordeon_view {
-                    margin-top: var(--df-oneof-base-simple-vertical-accordeon-margin-top, -12px);
+                    margin-top: var(
+                        --df-oneof-base-simple-vertical-accordeon-margin-top,
+                        $negative-g-spacing-3
+                    );
                 }
             }
         }
