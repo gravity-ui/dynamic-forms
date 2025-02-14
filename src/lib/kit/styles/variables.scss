@@ -20,25 +20,17 @@ $ns: 'df-';
 }
 */
 
-//TODO List of old variables, do not use! There will be different ones soon
-$df-offset-1: 1px;
-$df-offset-3: 3px;
-$df-offset-5: 5px;
-$df-offset-6: 6px;
-$df-offset-7: 7px;
-$df-offset-10: 10px;
-$df-offset-11: 11px;
-$df-offset-13: 13px;
-$df-offset-15: 15px;
+$negative-g-spacing-2: calc(-1 * var(--g-spacing-2));
+$negative-g-spacing-3: calc(-1 * var(--g-spacing-3));
 
 //Spacing variables
-$df-spacing-inputs: $df-offset-15; //TODO --g-spacing-4
+$df-spacing-inputs: var(--g-spacing-4); // 16px
 $df-spacing-inputs-section: var(--g-spacing-5); // 20px
 $df-spacing-last-child: var(--g-spacing-0); // 0px
 $df-spacing-view: var(--g-spacing-5); // 20px
 
 //Remove button margin
-$df-remove-button-margin-left: $df-offset-5; //TODO --g-spacing
+$df-remove-button-margin-left: var(--g-spacing-1); // 4px
 
 /* Border-radius */
 $df-border-radius-xs: 5px;

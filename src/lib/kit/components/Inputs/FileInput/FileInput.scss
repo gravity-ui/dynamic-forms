@@ -9,7 +9,7 @@
 
     &__file-name {
         display: block;
-        margin: var(--df-file-input-file-name-margin, auto $df-offset-10);
+        margin: var(--df-file-input-file-name-margin, auto var(--g-spacing-2));
         max-width: var(--df-file-input-file-name-max-width, 160px);
     }
 }

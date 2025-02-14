@@ -21,7 +21,7 @@
         & > .#{$ns}view-transparent {
             margin-bottom: var(
                 --df-view-column-second-row-child-view-transperant-margin-bottom,
-                $df-offset-6
+                var(--g-spacing-2)
             );
 
             &:last-child {

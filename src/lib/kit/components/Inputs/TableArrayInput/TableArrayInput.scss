@@ -2,7 +2,7 @@
 
 .#{$ns}table-array {
     &__table {
-        margin-bottom: var(--df-table-array-table-margin-bottom, $df-offset-10);
+        margin-bottom: var(--df-table-array-table-margin-bottom, var(--g-spacing-2));
 
         .g-table__cell {
             border-bottom: 0px transparent;
@@ -33,7 +33,7 @@
 
         &_arr,
         &_obj {
-            padding-left: var(--df-table-array-cell-obj-padding-left, $df-offset-3);
+            padding-left: var(--df-table-array-cell-obj-padding-left, var(--g-spacing-half));
 
             .yc-text-input,
             .g-text-input,
@@ -59,6 +59,6 @@
     }
 
     &__idx {
-        padding-top: var(--df-table-array-idx-padding-top, $df-offset-6);
+        padding-top: var(--df-table-array-idx-padding-top, 6px);
     }
 }

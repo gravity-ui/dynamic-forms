@@ -4,7 +4,7 @@
     height: var(--df-monaco-header-height, 52px);
     display: flex;
     justify-content: space-between;
-    padding: var(--df-monaco-header-padding, $df-offset-15);
+    padding: var(--df-monaco-header-padding, var(--g-spacing-4));
     align-items: center;
     background-color: var(--g-color-base-float-hover);
 }

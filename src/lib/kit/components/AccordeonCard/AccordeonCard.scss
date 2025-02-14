@@ -91,7 +91,7 @@
     }
 
     &__interal-actions {
-        margin-right: var(--df-accordeon-card-interal-actions-margin-right, $df-offset-5);
+        margin-right: var(--df-accordeon-card-interal-actions-margin-right, var(--g-spacing-1));
     }
 
     &__toggle-icon_open {
