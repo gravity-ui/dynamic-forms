@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.1.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.0.0...v5.1.0) (2025-02-14)
+
+
+### Features
+
+* Desing change ([#276](https://github.com/gravity-ui/dynamic-forms/issues/276)) ([537fd8d](https://github.com/gravity-ui/dynamic-forms/commit/537fd8d9dc552d031ce59097bd25f49730509735))
+
 ## [5.0.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.17.0...v5.0.0) (2025-02-10)
 
 
