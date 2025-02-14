@@ -121,7 +121,7 @@ The Group Indent variables adjust the indentation and spacing of grouped element
 | :------------------------------------------------------------ | :-----------------: | :-------------------------------------------------------------------- |
 | `--df-group-indent-padding`                                   | `12px 0px 0px 20px` | Padding for the group indent (top, right, bottom, left)               |
 | `--df-group-indent-margin`                                    | `-12px 0px 0px 4px` | Margin for the group indent (top, right, bottom, left)                |
-| `--df-group-indent-simple-vertical-accordeon-view-margin-top` |       `-10px`       | Top margin for the simple vertical accordion view within group indent |
+| `--df-group-indent-simple-vertical-accordeon-view-margin-top` |       `-12px`       | Top margin for the simple vertical accordion view within group indent |
 
 ---
 
