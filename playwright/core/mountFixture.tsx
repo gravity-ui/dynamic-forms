@@ -1,5 +1,6 @@
 import React from 'react';
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 import type {JsonObject} from '@playwright/experimental-ct-core/types/component';
 import type {MountOptions} from '@playwright/experimental-ct-react';
 
