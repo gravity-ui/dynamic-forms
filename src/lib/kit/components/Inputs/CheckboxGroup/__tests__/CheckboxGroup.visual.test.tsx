@@ -8,13 +8,19 @@ import {DynamicView} from '~playwright/core/DynamicView';
 
 test.describe('CheckboxGroup', () => {
     test('default', async ({mount, expectScreenshot}) => {
-        await mount(<DynamicForm spec={CHECKBOX_GROUP.default} />);
+        await mount(<DynamicForm spec={CHECKBOX_GROUP.default} />, undefined, {
+            width: '660px',
+            padding: 20,
+        });
 
         await expectScreenshot();
     });
 
     test('default value', async ({mount, expectScreenshot}) => {
-        await mount(<DynamicForm spec={CHECKBOX_GROUP.defaultValue} />);
+        await mount(<DynamicForm spec={CHECKBOX_GROUP.defaultValue} />, undefined, {
+            width: '660px',
+            padding: 20,
+        });
 
         await expectScreenshot();
     });
@@ -26,7 +32,10 @@ test.describe('CheckboxGroup', () => {
     });
 
     test('disabled', async ({mount, expectScreenshot}) => {
-        await mount(<DynamicForm spec={CHECKBOX_GROUP.disabled} />);
+        await mount(<DynamicForm spec={CHECKBOX_GROUP.disabled} />, undefined, {
+            width: '660px',
+            padding: 20,
+        });
 
         await expectScreenshot();
     });

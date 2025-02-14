@@ -20,7 +20,8 @@ $ns: 'df-';
 }
 */
 
-$negative-g-spacing-3: calc(-1 * var(--g-spacing-3, 12px));
+$negative-g-spacing-2: calc(-1 * var(--g-spacing-2));
+$negative-g-spacing-3: calc(-1 * var(--g-spacing-3));
 
 //Spacing variables
 $df-spacing-inputs: var(--g-spacing-4); // 16px

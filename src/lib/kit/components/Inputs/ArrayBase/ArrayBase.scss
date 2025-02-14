@@ -25,7 +25,10 @@
     }
 
     &__item-prefix {
-        margin: var(--df-array-base-item-prefix-margin, -8px var(--g-spacing-0) var(--g-spacing-2));
+        margin: var(
+            --df-array-base-item-prefix-margin,
+            $negative-g-spacing-2 var(--g-spacing-0) var(--g-spacing-2)
+        );
     }
 
     &__add-button {

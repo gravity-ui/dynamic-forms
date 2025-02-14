@@ -73,6 +73,12 @@ Below is a list of common CSS variables that you can use to adjust various aspec
 
 ## Components
 
+### CopyButton
+
+| Variable                  | Default Value      | Description        |
+| :------------------------ | :----------------- | :----------------- |
+| `--df-copy-button-margin` | `0px 0px 0px 4px ` | Margin copy button |
+
 ### Accordeon card
 
 The following CSS variables are specific to the Accordion Card component:

@@ -4,7 +4,10 @@
     width: 20px;
     display: none;
     position: relative;
-    margin: -1px 0 0 5px;
+    margin: var(
+        --df-copy-button-margin,
+        var(--g-spacing-0) var(--g-spacing-0) var(--g-spacing-0) var(--g-spacing-1)
+    );
 
     &__button {
         position: absolute;
