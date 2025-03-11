@@ -3,7 +3,8 @@ import React from 'react';
 import isObjectLike from 'lodash/isObjectLike';
 
 import {Card, ViewRow} from '../';
-import {ObjectIndependentView, ViewController} from '../../../core';
+import type {ObjectIndependentView} from '../../../core';
+import {ViewController} from '../../../core';
 
 export const CardOneOfView: ObjectIndependentView = (props) => {
     const {value = {}, spec, name, Layout} = props;

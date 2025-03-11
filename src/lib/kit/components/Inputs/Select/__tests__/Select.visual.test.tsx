@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {SELECT, VALUE} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {SELECT, VALUE} from './helpers';
 
 test.describe('Select', () => {
     test('default', async ({mount, expectScreenshot}) => {

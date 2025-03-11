@@ -1,8 +1,8 @@
-import React from 'react';
+import type React from 'react';
 
-import {FormValue, Spec} from '../../../';
+import type {FormValue, Spec} from '../../../';
 
-import {ViewLayoutType} from './';
+import type {ViewLayoutType} from './';
 
 export type ViewProps<
     Value extends FormValue,

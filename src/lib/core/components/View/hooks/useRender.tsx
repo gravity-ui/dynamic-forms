@@ -5,8 +5,8 @@ import isString from 'lodash/isString';
 import {isValidElementType} from 'react-is';
 
 import {isCorrectSpec} from '../../../helpers';
-import {FormValue, Spec} from '../../../types';
-import {IndependentViewEntity, ViewEntity, ViewLayoutType} from '../types';
+import type {FormValue, Spec} from '../../../types';
+import type {IndependentViewEntity, ViewEntity, ViewLayoutType} from '../types';
 
 export interface UseRenderParams<Value extends FormValue, SpecType extends Spec> {
     value: Value;

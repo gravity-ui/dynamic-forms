@@ -1,6 +1,6 @@
-import {BooleanSpec} from '../../../types';
+import type {BooleanSpec} from '../../../types';
 
-import {
+import type {
     IndependentViewEntity,
     IndependentViewProps,
     IndependentViewType,

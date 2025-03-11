@@ -2,18 +2,16 @@ import React from 'react';
 
 import {Flex, HelpMark, Table} from '@gravity-ui/uikit';
 
+import type {ArrayView, FormValue, ObjectValue} from '../../../../core';
 import {
-    ArrayView,
-    FormValue,
-    ObjectValue,
     ViewController,
     isArraySpec,
     isBooleanSpec,
     isObjectSpec,
     useDynamicFormsCtx,
 } from '../../../../core';
-import {block} from '../../../utils';
 import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
+import {block} from '../../../utils';
 
 import './TableArrayView.scss';
 

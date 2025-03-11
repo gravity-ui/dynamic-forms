@@ -1,9 +1,10 @@
 import React from 'react';
 
-import isObjectLike from 'lodash/isObjectLike';
 import {Text} from '@gravity-ui/uikit';
+import isObjectLike from 'lodash/isObjectLike';
 
-import {ObjectIndependentView, ObjectIndependentViewProps, ViewController} from '../../../../core';
+import type {ObjectIndependentView, ObjectIndependentViewProps} from '../../../../core';
+import {ViewController} from '../../../../core';
 import {block, filterPropertiesForObjectInline} from '../../../utils';
 
 import './ObjectBaseView.scss';

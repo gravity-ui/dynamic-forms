@@ -1,5 +1,5 @@
 import {SpecTypes} from '../../../../constants';
-import {StringSpec} from '../../../../types';
+import type {StringSpec} from '../../../../types';
 import {getDefaultSearchFunction, getParentName} from '../search';
 
 const spec: StringSpec = {type: SpecTypes.String, viewSpec: {type: '', layoutTitle: 'user'}};

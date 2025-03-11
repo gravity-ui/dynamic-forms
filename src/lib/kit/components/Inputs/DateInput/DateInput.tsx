@@ -1,8 +1,11 @@
 import React, {useCallback} from 'react';
 
-import {DatePicker, DatePickerProps} from '@gravity-ui/date-components';
-import {StringInputProps} from '../../../../core';
-import {DateTime, dateTimeParse, isValidTimeZone} from '@gravity-ui/date-utils';
+import type {DatePickerProps} from '@gravity-ui/date-components';
+import {DatePicker} from '@gravity-ui/date-components';
+import type {DateTime} from '@gravity-ui/date-utils';
+import {dateTimeParse, isValidTimeZone} from '@gravity-ui/date-utils';
+
+import type {StringInputProps} from '../../../../core';
 import {block} from '../../../utils';
 
 import './DateInput.scss';

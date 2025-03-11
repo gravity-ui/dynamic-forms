@@ -2,28 +2,29 @@ import React from 'react';
 
 import {Plus, TrashBin} from '@gravity-ui/icons';
 import {Button, Flex, HelpMark, Icon, Table} from '@gravity-ui/uikit';
-
 import noop from 'lodash/noop';
 import set from 'lodash/set';
 
-import {
+import type {
     ArrayInput,
     ArrayValue,
-    Controller,
     FieldArrayValue,
     FieldObjectValue,
     FieldValue,
+    ValidateError,
+} from '../../../../core';
+import {
+    Controller,
     OBJECT_ARRAY_CNT,
     OBJECT_ARRAY_FLAG,
-    ValidateError,
     isArraySpec,
     isBooleanSpec,
     isObjectSpec,
     transformArrIn,
 } from '../../../../core';
 import {useSearchContext} from '../../../../core/components/Form/hooks';
-import {block} from '../../../utils';
 import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
+import {block} from '../../../utils';
 
 import './TableArrayInput.scss';
 

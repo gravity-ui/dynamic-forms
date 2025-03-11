@@ -5,16 +5,15 @@ import {Button, Icon, Text} from '@gravity-ui/uikit';
 import isObjectLike from 'lodash/isObjectLike';
 import set from 'lodash/set';
 
-import {
-    Controller,
+import type {
     FieldObjectValue,
     FieldValue,
     ObjectIndependentInput,
     ObjectIndependentInputProps,
     ObjectValue,
     ValidateError,
-    transformArrIn,
 } from '../../../../core';
+import {Controller, transformArrIn} from '../../../../core';
 import {block, filterPropertiesForObjectInline} from '../../../utils';
 
 import './ObjectBase.scss';

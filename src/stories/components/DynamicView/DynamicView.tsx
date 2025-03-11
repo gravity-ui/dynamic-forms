@@ -2,13 +2,8 @@ import React from 'react';
 
 import MonacoEditor from 'react-monaco-editor';
 
-import {
-    DynamicView as BaseDynamicView,
-    FormValue,
-    Spec,
-    dynamicViewConfig,
-    prepareSpec,
-} from '../../../lib';
+import type {FormValue, Spec} from '../../../lib';
+import {DynamicView as BaseDynamicView, dynamicViewConfig, prepareSpec} from '../../../lib';
 
 import {DynLink} from './DynLink';
 

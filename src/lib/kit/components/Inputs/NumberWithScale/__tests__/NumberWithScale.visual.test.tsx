@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {NUMBER_WITH_SCALE, VALUE} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {NUMBER_WITH_SCALE, VALUE} from './helpers';
 
 test.describe('Number With Scale', () => {
     test('default', async ({mount, expectScreenshot}) => {

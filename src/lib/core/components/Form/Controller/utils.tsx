@@ -16,9 +16,9 @@ import {isValidElementType} from 'react-is';
 
 import {SpecTypes} from '../../../constants';
 import {isArraySpec, isCorrectSpec, isNumberSpec, isObjectSpec} from '../../../helpers';
-import {FormValue, Spec} from '../../../types';
+import type {FormValue, Spec} from '../../../types';
 import {EMPTY_MUTATOR, OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG} from '../constants';
-import {
+import type {
     BaseValidateError,
     FieldArrayValue,
     FieldObjectValue,
@@ -29,7 +29,7 @@ import {
 } from '../types';
 import {isArrayItem, isCorrectConfig, transformArrIn, transformArrOut} from '../utils';
 
-import {
+import type {
     ControllerStore,
     GetComponentsParams,
     GetComponentsReturn,

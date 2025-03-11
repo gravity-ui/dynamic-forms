@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {TextArea as TextAreaBase, TextAreaProps as TextAreaBaseProps} from '@gravity-ui/uikit';
+import type {TextAreaProps as TextAreaBaseProps} from '@gravity-ui/uikit';
+import {TextArea as TextAreaBase} from '@gravity-ui/uikit';
 
-import {StringInput} from '../../../../core';
+import type {StringInput} from '../../../../core';
 
 export interface TextAreaProps
     extends Omit<

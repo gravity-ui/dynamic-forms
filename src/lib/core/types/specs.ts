@@ -1,9 +1,9 @@
 import type {AlertProps, LabelProps} from '@gravity-ui/uikit';
-import {ColorTextBaseProps} from '@gravity-ui/uikit/build/esm/components/Text/colorText/colorText';
+import type {ColorTextBaseProps} from '@gravity-ui/uikit/build/esm/components/Text/colorText/colorText';
 
-import {ReadAsMethod, SpecTypes} from '../constants';
+import type {ReadAsMethod, SpecTypes} from '../constants';
 
-import {ArrayValue, ObjectValue} from './';
+import type {ArrayValue, ObjectValue} from './';
 
 export interface ArraySpec<
     LinkType = any,

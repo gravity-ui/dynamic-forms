@@ -4,7 +4,7 @@ import {ChevronsExpandUpRight} from '@gravity-ui/icons';
 import {Button, Icon} from '@gravity-ui/uikit';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
-import {StringInputProps} from '../../../../core/';
+import type {StringInputProps} from '../../../../core/';
 import {useMonaco} from '../../../../core/components/Form/hooks';
 import {block} from '../../../utils';
 

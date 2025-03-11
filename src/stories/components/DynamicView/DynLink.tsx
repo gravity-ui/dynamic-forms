@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {FormValue} from '../../../lib';
+import type {FormValue} from '../../../lib';
 
 interface DynLinkProps {
     value: FormValue;

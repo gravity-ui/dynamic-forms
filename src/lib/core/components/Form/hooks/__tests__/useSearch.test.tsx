@@ -1,16 +1,14 @@
 import React from 'react';
 
 import {render} from '@testing-library/react';
-
 import noop from 'lodash/noop';
-
 import {Form} from 'react-final-form';
 
 import {dynamicConfig} from '../../../../../kit';
 import {SpecTypes} from '../../../../constants';
-import {ObjectSpec} from '../../../../types';
+import type {ObjectSpec} from '../../../../types';
 import {DynamicField} from '../../DynamicField';
-import {WonderMirror} from '../../types';
+import type {WonderMirror} from '../../types';
 
 const spec: ObjectSpec = {
     type: SpecTypes.Object,

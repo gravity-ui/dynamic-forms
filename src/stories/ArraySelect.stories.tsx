@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {StoryFn} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
-import {ArraySpec, MultiSelect, SpecTypes} from '../lib';
+import type {ArraySpec} from '../lib';
+import {MultiSelect, SpecTypes} from '../lib';
 
 import {InputPreview} from './components';
 

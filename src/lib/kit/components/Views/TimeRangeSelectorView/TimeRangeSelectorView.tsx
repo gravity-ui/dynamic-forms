@@ -2,7 +2,8 @@ import React from 'react';
 
 import cloneDeep from 'lodash/cloneDeep';
 
-import {ObjectIndependentView, ViewController, isStringSpec} from '../../../../core';
+import type {ObjectIndependentView} from '../../../../core';
+import {ViewController, isStringSpec} from '../../../../core';
 import {END_TIME, START_TIME} from '../../../constants/common';
 
 export const TimeRangeSelectorView: ObjectIndependentView = ({

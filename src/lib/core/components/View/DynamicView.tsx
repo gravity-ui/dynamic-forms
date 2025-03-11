@@ -4,12 +4,12 @@ import {isValidElementType} from 'react-is';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
 import {isCorrectSpec} from '../../helpers';
-import {FormValue, Spec} from '../../types';
+import type {FormValue, Spec} from '../../types';
 
 import {ViewController} from './ViewController';
 import {isCorrectViewConfig} from './helpers';
 import {useCreateContext, useViewSharedStore} from './hooks';
-import {DynamicViewConfig} from './types';
+import type {DynamicViewConfig} from './types';
 
 export interface DynamicViewProps {
     value: FormValue;

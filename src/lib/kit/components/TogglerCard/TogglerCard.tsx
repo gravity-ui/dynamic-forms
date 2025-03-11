@@ -2,8 +2,8 @@ import React from 'react';
 
 import {Card, HelpMark, Text} from '@gravity-ui/uikit';
 
-import {block} from '../../utils';
 import {COMMON_POPOVER_PLACEMENT} from '../../constants/common';
+import {block} from '../../utils';
 
 import './TogglerCard.scss';
 

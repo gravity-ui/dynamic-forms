@@ -5,7 +5,7 @@ import isObjectLike from 'lodash/isObjectLike';
 
 import {SpecTypes} from '../../../constants';
 import {isStringSpec} from '../../../helpers';
-import {FormValue, ObjectValue, Spec} from '../../../types';
+import type {FormValue, ObjectValue, Spec} from '../../../types';
 import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG, SPEC_TYPE_FOR_GENERATE_BUTTON} from '../constants';
 
 export const isCorrectConfig = (candidate: any) =>

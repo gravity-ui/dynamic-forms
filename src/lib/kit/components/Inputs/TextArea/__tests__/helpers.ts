@@ -1,4 +1,5 @@
-import {SpecTypes, StringSpec} from '../../../../../core';
+import type {StringSpec} from '../../../../../core';
+import {SpecTypes} from '../../../../../core';
 
 export const TEXT_AREA_SPEC: Record<string, StringSpec> = {
     default: {

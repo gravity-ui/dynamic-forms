@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {TextProps} from '@gravity-ui/uikit';
+import type {TextProps} from '@gravity-ui/uikit';
 
-import {ArrayLayoutProps, ObjectLayoutProps, isArrayItem} from '../../../../core';
+import type {ArrayLayoutProps, ObjectLayoutProps} from '../../../../core';
+import {isArrayItem} from '../../../../core';
 import {ErrorWrapper} from '../../../components';
 import {useErrorChecker} from '../../../hooks';
 import {RemoveButton} from '../../RemoveButton';

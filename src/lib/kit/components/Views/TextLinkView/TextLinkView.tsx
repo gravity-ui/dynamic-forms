@@ -2,7 +2,8 @@ import React from 'react';
 
 import cloneDeep from 'lodash/cloneDeep';
 
-import {ObjectIndependentView, ViewController, isStringSpec} from '../../../../core';
+import type {ObjectIndependentView} from '../../../../core';
+import {ViewController, isStringSpec} from '../../../../core';
 
 const TEXT_LINK_PROPERTY_NAME = 'text';
 

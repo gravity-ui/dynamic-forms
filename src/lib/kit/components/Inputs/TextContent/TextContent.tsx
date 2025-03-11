@@ -1,11 +1,10 @@
 import React from 'react';
 
-import {isEmpty} from 'lodash';
-
 import {Alert, Label, Text} from '@gravity-ui/uikit';
+import {isEmpty} from 'lodash';
 import cloneDeep from 'lodash/cloneDeep';
 
-import {StringIndependentInput, StringSpec} from '../../../../core';
+import type {StringIndependentInput, StringSpec} from '../../../../core';
 import {block} from '../../../utils';
 import {LazyLoader} from '../../LazyLoader';
 

@@ -1,4 +1,5 @@
-import {Spec, SpecTypes, StringSpec} from '../../../core';
+import type {Spec, StringSpec} from '../../../core';
+import {SpecTypes} from '../../../core';
 import {isCorrectSizeParams, isNotEmptyValue, prepareSpec} from '../common';
 
 describe('kit/utils/common', () => {

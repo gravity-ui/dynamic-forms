@@ -1,4 +1,4 @@
-import {FieldObjectValue, ValidateError} from '../types';
+import type {FieldObjectValue, ValidateError} from '../types';
 
 export interface DynamicFieldStore {
     name: string;

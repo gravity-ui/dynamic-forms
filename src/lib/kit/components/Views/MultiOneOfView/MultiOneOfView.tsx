@@ -3,10 +3,11 @@ import React from 'react';
 import {Popover, Text} from '@gravity-ui/uikit';
 import isObjectLike from 'lodash/isObjectLike';
 
-import {ObjectIndependentView, ObjectIndependentViewProps, ViewController} from '../../../../core';
+import type {ObjectIndependentView, ObjectIndependentViewProps} from '../../../../core';
+import {ViewController} from '../../../../core';
+import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 import {block} from '../../../utils';
 import {GroupIndent} from '../../GroupIndent';
-import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 
 import './MultiOneOfView.scss';
 

@@ -7,7 +7,7 @@ import {isValidElementType} from 'react-is';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
 import {isCorrectSpec} from '../../helpers';
-import {Spec, StringSpec} from '../../types';
+import type {Spec, StringSpec} from '../../types';
 
 import {Controller} from './Controller';
 import {
@@ -20,7 +20,7 @@ import {
     useSearchStore,
     useStore,
 } from './hooks';
-import {DynamicFormConfig, DynamicFormMutators, FieldValue, WonderMirror} from './types';
+import type {DynamicFormConfig, DynamicFormMutators, FieldValue, WonderMirror} from './types';
 import {getDefaultSearchFunction, isCorrectConfig} from './utils';
 
 export interface DynamicFieldProps {

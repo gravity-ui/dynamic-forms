@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {FieldValue, LayoutProps, Spec, isArrayItem} from '../../../core';
+import type {FieldValue, LayoutProps, Spec} from '../../../core';
+import {isArrayItem} from '../../../core';
 import {Card, ErrorWrapper} from '../../components';
 import {useErrorChecker} from '../../hooks';
 import {RemoveButton} from '../RemoveButton';

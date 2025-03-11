@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Switch as SwitchBase} from '@gravity-ui/uikit';
 
-import {BooleanInput} from '../../../../core';
+import type {BooleanInput} from '../../../../core';
 import {block} from '../../../utils';
 
 import './Switch.scss';

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {ArrayLayoutProps, ObjectLayoutProps, isArrayItem} from '../../../../core';
+import type {ArrayLayoutProps, ObjectLayoutProps} from '../../../../core';
+import {isArrayItem} from '../../../../core';
 import {useErrorChecker} from '../../../hooks';
 import {block} from '../../../utils';
 import {AccordeonCard} from '../../AccordeonCard';

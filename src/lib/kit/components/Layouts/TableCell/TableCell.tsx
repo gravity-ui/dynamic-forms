@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {FieldValue, LayoutProps, Spec} from '../../../../core';
+import type {FieldValue, LayoutProps, Spec} from '../../../../core';
 import {ErrorWrapper} from '../../../components';
 
 export const TableCell = <T extends FieldValue, S extends Spec>({

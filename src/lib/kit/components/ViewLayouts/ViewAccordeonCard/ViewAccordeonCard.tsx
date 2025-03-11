@@ -2,7 +2,7 @@ import React from 'react';
 
 import isBoolean from 'lodash/isBoolean';
 
-import {ArrayViewLayoutProps, ObjectViewLayoutProps} from '../../../../core';
+import type {ArrayViewLayoutProps, ObjectViewLayoutProps} from '../../../../core';
 import {isNotEmptyValue} from '../../../utils';
 import {AccordeonCard} from '../../AccordeonCard';
 

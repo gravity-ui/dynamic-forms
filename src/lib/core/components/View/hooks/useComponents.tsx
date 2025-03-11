@@ -4,9 +4,9 @@ import isString from 'lodash/isString';
 import {isValidElementType} from 'react-is';
 
 import {isCorrectSpec} from '../../../helpers';
-import {FormValue, Spec} from '../../../types';
+import type {FormValue, Spec} from '../../../types';
 import {isCorrectViewConfig} from '../helpers';
-import {
+import type {
     DynamicViewConfig,
     IndependentViewEntity,
     ViewEntity,

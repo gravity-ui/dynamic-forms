@@ -3,13 +3,8 @@ import React from 'react';
 import set from 'lodash/set';
 
 import {Card} from '../../';
-import {
-    Controller,
-    FieldValue,
-    ObjectIndependentInput,
-    ValidateError,
-    isArrayItem,
-} from '../../../../core';
+import type {FieldValue, ObjectIndependentInput, ValidateError} from '../../../../core';
+import {Controller, isArrayItem} from '../../../../core';
 import {useErrorChecker, useOneOf} from '../../../hooks';
 import {Row} from '../../Layouts';
 import {RemoveButton} from '../../RemoveButton';

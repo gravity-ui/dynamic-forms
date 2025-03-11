@@ -1,4 +1,4 @@
-import {ReadAsMethod} from '../../../../core';
+import type {ReadAsMethod} from '../../../../core';
 
 export function readFile(
     file: Blob,

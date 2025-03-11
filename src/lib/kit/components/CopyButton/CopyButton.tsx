@@ -2,7 +2,8 @@ import React from 'react';
 
 import {ClipboardButton} from '@gravity-ui/uikit';
 
-import {FormValue, Spec, isNumberSpec, isStringSpec} from '../../../core';
+import type {FormValue, Spec} from '../../../core';
+import {isNumberSpec, isStringSpec} from '../../../core';
 import {block} from '../../utils';
 
 import './CopyButton.scss';

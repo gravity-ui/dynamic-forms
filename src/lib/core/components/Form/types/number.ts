@@ -1,6 +1,6 @@
-import {NumberSpec} from '../../../types';
+import type {NumberSpec} from '../../../types';
 
-import {
+import type {
     IndependentInputEntity,
     IndependentInputProps,
     IndependentInputType,

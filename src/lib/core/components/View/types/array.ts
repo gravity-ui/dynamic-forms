@@ -1,6 +1,6 @@
-import {ArraySpec, ArrayValue} from '../../../types';
+import type {ArraySpec, ArrayValue} from '../../../types';
 
-import {
+import type {
     IndependentViewEntity,
     IndependentViewProps,
     IndependentViewType,

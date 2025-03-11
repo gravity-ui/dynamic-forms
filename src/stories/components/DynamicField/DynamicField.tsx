@@ -5,14 +5,8 @@ import RandExp from 'randexp';
 import MonacoEditor from 'react-monaco-editor';
 import {v4 as uuidv4} from 'uuid';
 
-import {
-    DynamicField as BaseDynamicField,
-    FieldValue,
-    Spec,
-    StringSpec,
-    dynamicConfig,
-    prepareSpec,
-} from '../../../lib';
+import type {FieldValue, Spec, StringSpec} from '../../../lib';
+import {DynamicField as BaseDynamicField, dynamicConfig, prepareSpec} from '../../../lib';
 import {SpecSelector} from '../InputPreview/SpecSelector';
 
 export interface DynamicFieldProps {

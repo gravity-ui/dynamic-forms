@@ -1,7 +1,8 @@
 import React from 'react';
 
-import {StringIndependentView} from '../../../core';
-import {TextContentComponent, TextContentComponentProps} from '../Inputs';
+import type {StringIndependentView} from '../../../core';
+import type {TextContentComponentProps} from '../Inputs';
+import {TextContentComponent} from '../Inputs';
 
 export const TextContentView: StringIndependentView = ({name, spec, Layout, value}) => {
     const WrappedLayout = React.useMemo(() => {

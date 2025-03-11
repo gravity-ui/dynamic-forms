@@ -3,11 +3,11 @@ import React from 'react';
 import {render} from '@testing-library/react';
 import cloneDeep from 'lodash/cloneDeep';
 
-import {Spec} from '../../../../../core';
+import type {Spec} from '../../../../../core';
 import {BaseView, ViewRow, dynamicViewConfig} from '../../../../../kit';
 import {SpecTypes} from '../../../../constants';
-import {StringSpec} from '../../../../types';
-import {DynamicViewConfig} from '../../types';
+import type {StringSpec} from '../../../../types';
+import type {DynamicViewConfig} from '../../types';
 import {useComponents} from '../useComponents';
 
 const spec: StringSpec = {type: SpecTypes.String, viewSpec: {type: '', layout: ''}};

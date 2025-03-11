@@ -1,5 +1,5 @@
-import {FormValue, Spec} from '../../../types';
-import {
+import type {FormValue, Spec} from '../../../types';
+import type {
     DynamicFormConfig,
     DynamicFormMutatorsStore,
     DynamicFormsContext,

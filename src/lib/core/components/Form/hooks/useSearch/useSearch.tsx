@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {block} from '../../../../../kit/utils';
-import {Spec} from '../../../../types';
-import {FieldValue} from '../../types';
+import type {Spec} from '../../../../types';
+import type {FieldValue} from '../../types';
 import {useSearchContext} from '../useSearchContext';
 
 import './useSearch.scss';

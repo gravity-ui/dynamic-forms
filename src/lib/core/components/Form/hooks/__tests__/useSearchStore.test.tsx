@@ -5,12 +5,12 @@ import isObjectLike from 'lodash/isObjectLike';
 import noop from 'lodash/noop';
 import {Form} from 'react-final-form';
 
-import {Spec} from '../../../../../core';
+import type {Spec} from '../../../../../core';
 import {dynamicConfig} from '../../../../../kit';
 import {SpecTypes} from '../../../../constants';
-import {ObjectSpec} from '../../../../types';
+import type {ObjectSpec} from '../../../../types';
 import {DynamicField} from '../../DynamicField';
-import {FieldValue, WonderMirror} from '../../types';
+import type {FieldValue, WonderMirror} from '../../types';
 
 const spec: ObjectSpec = {
     type: SpecTypes.Object,

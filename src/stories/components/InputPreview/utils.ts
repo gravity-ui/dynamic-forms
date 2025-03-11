@@ -1,15 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 
-import {
-    ObjectSpec,
-    Spec,
-    SpecTypes,
-    isArraySpec,
-    isBooleanSpec,
-    isNumberSpec,
-    isObjectSpec,
-    isStringSpec,
-} from '../../../lib';
+import type {ObjectSpec, Spec, SpecTypes} from '../../../lib';
+import {isArraySpec, isBooleanSpec, isNumberSpec, isObjectSpec, isStringSpec} from '../../../lib';
 
 import {
     getArrayOptions,
@@ -210,7 +202,7 @@ export const transformIncorrect = (spec: Spec) => {
             parse: string;
         }[];
 
-        // @ts-ignore
+        // @ts-expect-error
         _spec.viewSpec.inputProps = incorrectInputProps.reduce(
             (acc: Record<string, any>, {prop, parse}) => {
                 if (prop?.key && prop?.value) {
@@ -237,7 +229,7 @@ export const transformIncorrect = (spec: Spec) => {
             parse: string;
         }[];
 
-        // @ts-ignore
+        // @ts-expect-error
         _spec.viewSpec.layoutProps = incorrectLayoutProps.reduce(
             (acc: Record<string, any>, {prop, parse}) => {
                 if (prop?.key && prop?.value) {

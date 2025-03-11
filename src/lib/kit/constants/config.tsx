@@ -1,4 +1,4 @@
-import {DynamicFormConfig, DynamicViewConfig, StringSpec, ValidatorType} from '../../core';
+import type {DynamicFormConfig, DynamicViewConfig, StringSpec, ValidatorType} from '../../core';
 import {
     Accordeon,
     AccordeonCardForm,

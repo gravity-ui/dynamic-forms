@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {NUMBER_SPEC, PASSWORD_SPEC, STRING_SPEC} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
+
+import {NUMBER_SPEC, PASSWORD_SPEC, STRING_SPEC} from './helpers';
 
 test.describe('Text Input', () => {
     test.describe('Number spec', () => {

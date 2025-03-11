@@ -1,17 +1,11 @@
 import React from 'react';
 
 import {Text} from '@gravity-ui/uikit';
-
 import isString from 'lodash/isString';
 import set from 'lodash/set';
 
-import {
-    FieldValue,
-    ObjectIndependentInput,
-    StringSpec,
-    ValidateError,
-    isStringSpec,
-} from '../../../../core';
+import type {FieldValue, ObjectIndependentInput, StringSpec, ValidateError} from '../../../../core';
+import {isStringSpec} from '../../../../core';
 import {END_TIME, START_TIME} from '../../../constants/common';
 
 import {TimeRangeSelect} from './components';

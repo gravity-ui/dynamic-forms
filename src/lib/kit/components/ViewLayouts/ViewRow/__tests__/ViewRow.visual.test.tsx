@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {VALUE, VIEW_ROW} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {VALUE, VIEW_ROW} from './helpers';
 
 test.describe('ViewRow View', () => {
     test('object spec', async ({mount, expectScreenshot}) => {

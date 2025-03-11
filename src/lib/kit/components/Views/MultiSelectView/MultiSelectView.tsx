@@ -2,9 +2,9 @@ import React from 'react';
 
 import {Popover, Text} from '@gravity-ui/uikit';
 
-import {ArrayView} from '../../../../core';
-import {block} from '../../../utils';
+import type {ArrayView} from '../../../../core';
 import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
+import {block} from '../../../utils';
 
 import './MultiSelectView.scss';
 

@@ -1,8 +1,9 @@
 import React from 'react';
 
 import {Popover, Text} from '@gravity-ui/uikit';
+
+import type {ArrayView} from '../../../../core';
 import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
-import {ArrayView} from '../../../../core';
 import {block} from '../../../utils';
 
 import './CheckboxGroupView.scss';

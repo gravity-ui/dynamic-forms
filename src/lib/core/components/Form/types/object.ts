@@ -1,6 +1,6 @@
-import {ObjectSpec, ObjectValue} from '../../../types';
+import type {ObjectSpec, ObjectValue} from '../../../types';
 
-import {
+import type {
     FieldObjectValue,
     IndependentInputEntity,
     IndependentInputProps,

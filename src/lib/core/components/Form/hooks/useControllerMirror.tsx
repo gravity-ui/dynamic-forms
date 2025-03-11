@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ControllerMirror, WonderMirror} from '../types';
+import type {ControllerMirror, WonderMirror} from '../types';
 
 export const useControllerMirror = (
     name: string,

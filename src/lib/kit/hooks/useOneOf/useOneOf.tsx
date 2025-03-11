@@ -4,7 +4,7 @@ import {Checkbox, SegmentedRadioGroup, Select} from '@gravity-ui/uikit';
 import isObjectLike from 'lodash/isObjectLike';
 import some from 'lodash/some';
 
-import {ObjectIndependentInputProps} from '../../../core';
+import type {ObjectIndependentInputProps} from '../../../core';
 import {TogglerCard} from '../../components';
 import {block, objectKeys} from '../../utils';
 
