@@ -96,7 +96,6 @@ export const LongValue: React.FC<LongValueProps> = ({
             {...restProps}
             ref={ref}
             className={b({open, long}, className)}
-            // @ts-expect-error
             onClick={long ? handleClick : undefined}
         >
             {value}
