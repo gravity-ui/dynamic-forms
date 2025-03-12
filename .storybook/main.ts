@@ -8,12 +8,20 @@ const config: StorybookConfig = {
         {
             name: '@storybook/addon-essentials',
             options: {
-                controls: false,
                 actions: false,
+                backgrounds: false,
+                controls: false,
+                measure: false,
+                outline: false,
+                toolbars: true,
+                viewport: false,
+                docs: true,
             },
         },
         '@storybook/preset-scss',
+        '@storybook/addon-webpack5-compiler-swc',
     ],
+
     framework: {
         name: '@storybook/react-webpack5',
         options: {fastRefresh: true},
