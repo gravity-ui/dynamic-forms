@@ -23,6 +23,7 @@ export interface AccordeonCardProps {
     titleSize?: 's' | 'm';
     alwaysOpen?: boolean;
     classNameBody?: string;
+    renderHtml?: (text: string) => React.ReactNode;
 }
 export const AccordeonCard: React.FC<AccordeonCardProps> = ({
     className,
@@ -37,6 +38,7 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
     alwaysOpen,
     children,
     classNameBody,
+    renderHtml,
 }) => {
     const accordeonRef = React.useRef<HTMLDivElement>(null);
     const bodyRef = React.useRef<HTMLDivElement>(null);
@@ -95,10 +97,14 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
                 <div className={b('header-content')}>
                     <Text variant={currentHeaderVariant}>{header}</Text>
                     {description ? (
-                        <span
-                            className={b('header-content-description')}
-                            dangerouslySetInnerHTML={{__html: description}}
-                        />
+                        renderHtml ? (
+                            renderHtml(description)
+                        ) : (
+                            <span
+                                className={b('header-content-description')}
+                                dangerouslySetInnerHTML={{__html: description}}
+                            />
+                        )
                     ) : null}
                 </div>
                 {!emptyBody && !alwaysOpen ? (
