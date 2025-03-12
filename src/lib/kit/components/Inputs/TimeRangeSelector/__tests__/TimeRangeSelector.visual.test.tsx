@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {TIME_RANGE_SELECTOR, VALUE} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {TIME_RANGE_SELECTOR, VALUE} from './helpers';
 
 test.describe('TimeRangeSelector', () => {
     test('default', async ({mount, expectScreenshot}) => {

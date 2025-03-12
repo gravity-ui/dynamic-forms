@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {TEXT_CONTENT_SPEC} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
+
+import {TEXT_CONTENT_SPEC} from './helpers';
 
 test.describe('Text Content', () => {
     test.describe('Text', () => {

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {OBJECT_VALUE_INPUT, VALUE} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {OBJECT_VALUE_INPUT, VALUE} from './helpers';
 
 test.describe('Object Value Input', () => {
     test('default', async ({mount, expectScreenshot}) => {

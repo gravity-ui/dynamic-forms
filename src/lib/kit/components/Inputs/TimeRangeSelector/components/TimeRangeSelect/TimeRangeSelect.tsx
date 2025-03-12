@@ -1,19 +1,16 @@
 import React from 'react';
 
+import {Select, type SelectOption} from '@gravity-ui/uikit';
 import isString from 'lodash/isString';
 
-import {Select, type SelectOption} from '@gravity-ui/uikit';
-
-import {
+import type {
     FieldObjectValue,
     FieldValue,
     IndependentInputProps,
     ObjectSpec,
     StringSpec,
 } from '../../../../../../core';
-
 import {block} from '../../../../../utils';
-
 import {Row} from '../../../../Layouts/Row';
 
 import './TimeRangeSelect.scss';

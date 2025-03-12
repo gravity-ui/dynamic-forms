@@ -3,7 +3,7 @@ import React from 'react';
 import {Xmark} from '@gravity-ui/icons';
 import {Button, Icon, Label, Text} from '@gravity-ui/uikit';
 
-import {StringInputProps} from '../../../../core';
+import type {StringInputProps} from '../../../../core';
 import i18n from '../../../../kit/i18n';
 import {block} from '../../../utils';
 

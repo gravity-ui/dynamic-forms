@@ -7,14 +7,8 @@ import MonacoEditor from 'react-monaco-editor';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
 import {DynamicField, DynamicView} from '../';
-import {
-    AnyObject,
-    FormValue,
-    MonacoInput,
-    MonacoInputBaseProps,
-    Spec,
-    SpecTypes,
-} from '../../../lib';
+import type {AnyObject, FormValue, MonacoInputBaseProps, Spec} from '../../../lib';
+import {MonacoInput, SpecTypes} from '../../../lib';
 import {cn} from '../../../lib/kit/utils/cn';
 
 import './Editor.scss';

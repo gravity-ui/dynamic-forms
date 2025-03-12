@@ -1,4 +1,5 @@
-import {NumberSpec, SpecTypes, StringSpec} from '../../../../../core';
+import type {NumberSpec, StringSpec} from '../../../../../core';
+import {SpecTypes} from '../../../../../core';
 
 export const NUMBER_SPEC: Record<string, NumberSpec> = {
     default: {

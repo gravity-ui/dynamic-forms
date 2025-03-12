@@ -1,6 +1,6 @@
-import React from 'react';
+import type React from 'react';
 
-import {FieldValue, ValidateError} from './';
+import type {FieldValue, ValidateError} from './';
 
 export interface FieldRenderProps<Value extends FieldValue> {
     input: {

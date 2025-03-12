@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Select, TextInput} from '@gravity-ui/uikit';
 
-import {StringInputProps} from '../../../../core';
+import type {StringInputProps} from '../../../../core';
 import {block, divide, isCorrectSizeParams, multiply} from '../../../utils';
 
 import {useInitial} from './useInitial';

@@ -1,7 +1,9 @@
 import React from 'react';
 
-import {ArrayInput, FieldArrayValue, transformArrIn, transformArrOut} from '../../../../core';
 import {Checkbox, type CheckboxProps as CheckboxBaseProps} from '@gravity-ui/uikit';
+
+import type {ArrayInput, FieldArrayValue} from '../../../../core';
+import {transformArrIn, transformArrOut} from '../../../../core';
 import {block} from '../../../utils';
 
 import './CheckboxGroup.scss';

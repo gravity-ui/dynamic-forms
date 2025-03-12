@@ -3,12 +3,13 @@ import React from 'react';
 import {render} from '@testing-library/react';
 import cloneDeep from 'lodash/cloneDeep';
 
-import {UseRenderParams, useComponents, useRender} from '../';
-import {FormValue, Spec} from '../../../../../core';
+import type {UseRenderParams} from '../';
+import {useComponents, useRender} from '../';
+import type {FormValue, Spec} from '../../../../../core';
 import {BaseView, ObjectBaseView, ViewRow, dynamicViewConfig} from '../../../../../kit';
 import {SpecTypes} from '../../../../constants';
-import {AnyObject, ObjectSpec, StringSpec} from '../../../../types';
-import {DynamicViewConfig} from '../../types';
+import type {AnyObject, ObjectSpec, StringSpec} from '../../../../types';
+import type {DynamicViewConfig} from '../../types';
 
 const name = 'name';
 const value = {name: 'value'};

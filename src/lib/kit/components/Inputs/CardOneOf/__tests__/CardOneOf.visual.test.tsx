@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {CARD_ONEOF, VALUE} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {CARD_ONEOF, VALUE} from './helpers';
 
 test.describe('Card OneOf', () => {
     test('default', async ({mount, expectScreenshot}) => {

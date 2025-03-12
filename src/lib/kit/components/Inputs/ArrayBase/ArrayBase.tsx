@@ -4,16 +4,18 @@ import {Plus} from '@gravity-ui/icons';
 import {Button, Icon, Label} from '@gravity-ui/uikit';
 import set from 'lodash/set';
 
-import {
+import type {
     ArrayInput,
     ArrayValue,
-    Controller,
     FieldArrayValue,
     FieldValue,
-    OBJECT_ARRAY_CNT,
-    OBJECT_ARRAY_FLAG,
     Spec,
     ValidateError,
+} from '../../../../core';
+import {
+    Controller,
+    OBJECT_ARRAY_CNT,
+    OBJECT_ARRAY_FLAG,
     isBooleanSpec,
     isCorrectSpec,
     isNumberSpec,

@@ -7,7 +7,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import noop from 'lodash/noop';
 import {Form} from 'react-final-form';
 
-import {DynamicField, NumberSpec, Spec, SpecTypes, StringSpec} from '../../../../../core';
+import type {NumberSpec, Spec, StringSpec} from '../../../../../core';
+import {DynamicField, SpecTypes} from '../../../../../core';
 import {dynamicConfig} from '../../../../constants';
 
 const NAME = 'input';

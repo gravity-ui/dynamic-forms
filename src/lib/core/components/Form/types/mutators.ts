@@ -1,4 +1,4 @@
-import {
+import type {
     ArraySpec,
     BooleanSpec,
     FormValue,
@@ -7,7 +7,7 @@ import {
     StringSpec,
 } from '../../../types';
 
-import {BaseValidateError} from './';
+import type {BaseValidateError} from './';
 
 export type SpecMutator = Partial<
     | (Omit<ArraySpec, 'viewSpec'> & {viewSpec: Partial<ArraySpec['viewSpec']>})

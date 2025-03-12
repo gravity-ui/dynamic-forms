@@ -1,6 +1,6 @@
-import {useIntegrationFF, useSearch, useSearchStore, useStore} from '../hooks';
+import type {useIntegrationFF, useSearch, useSearchStore, useStore} from '../hooks';
 
-import {FieldRenderProps} from './field';
+import type {FieldRenderProps} from './field';
 
 export interface ControllerMirror {
     useField?: FieldRenderProps<any>;

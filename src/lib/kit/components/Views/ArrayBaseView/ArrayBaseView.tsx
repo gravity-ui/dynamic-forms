@@ -3,7 +3,8 @@ import React from 'react';
 import {Label} from '@gravity-ui/uikit';
 import map from 'lodash/map';
 
-import {ArrayView, Spec, ViewController, isCorrectSpec} from '../../../../core';
+import type {ArrayView, Spec} from '../../../../core';
+import {ViewController, isCorrectSpec} from '../../../../core';
 import {block} from '../../../utils';
 
 import './ArrayBaseView.scss';

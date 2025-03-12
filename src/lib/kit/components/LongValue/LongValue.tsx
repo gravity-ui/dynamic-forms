@@ -1,8 +1,7 @@
 import React from 'react';
 
-import once from 'lodash/once';
-
 import {Text, type TextProps} from '@gravity-ui/uikit';
+import once from 'lodash/once';
 
 import {block} from '../../utils';
 
@@ -97,7 +96,6 @@ export const LongValue: React.FC<LongValueProps> = ({
             {...restProps}
             ref={ref}
             className={b({open, long}, className)}
-            // @ts-ignore
             onClick={long ? handleClick : undefined}
         >
             {value}

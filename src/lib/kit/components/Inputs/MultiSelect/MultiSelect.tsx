@@ -1,8 +1,10 @@
 import React from 'react';
 
-import {Select, SelectProps as SelectBaseProps, Text} from '@gravity-ui/uikit';
+import type {SelectProps as SelectBaseProps} from '@gravity-ui/uikit';
+import {Select, Text} from '@gravity-ui/uikit';
 
-import {ArrayInput, FieldArrayValue, transformArrIn, transformArrOut} from '../../../../core';
+import type {ArrayInput, FieldArrayValue} from '../../../../core';
+import {transformArrIn, transformArrOut} from '../../../../core';
 import {block} from '../../../utils';
 
 import './MultiSelect.scss';

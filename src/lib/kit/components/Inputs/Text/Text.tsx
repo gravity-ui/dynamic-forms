@@ -1,9 +1,10 @@
 import React from 'react';
 
-import {PasswordInput, TextInput, TextInputProps as TextInputBaseProps} from '@gravity-ui/uikit';
+import type {TextInputProps as TextInputBaseProps} from '@gravity-ui/uikit';
+import {PasswordInput, TextInput} from '@gravity-ui/uikit';
 import isNil from 'lodash/isNil';
 
-import {FieldRenderProps, NumberInputProps, StringInputProps} from '../../../../core';
+import type {FieldRenderProps, NumberInputProps, StringInputProps} from '../../../../core';
 
 export interface TextProps
     extends Omit<

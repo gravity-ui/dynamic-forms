@@ -2,10 +2,11 @@ import React from 'react';
 
 import {HelpMark, Text} from '@gravity-ui/uikit';
 
-import {FormValue, Spec, ViewLayoutProps, useDynamicFormsCtx} from '../../../../core';
+import type {FormValue, Spec, ViewLayoutProps} from '../../../../core';
+import {useDynamicFormsCtx} from '../../../../core';
 import {CopyButton} from '../../../../kit';
-import {block, isNotEmptyValue} from '../../../utils';
 import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
+import {block, isNotEmptyValue} from '../../../utils';
 
 import './ViewColumn.scss';
 

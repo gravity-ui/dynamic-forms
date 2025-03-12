@@ -3,7 +3,8 @@ import React from 'react';
 import isObjectLike from 'lodash/isObjectLike';
 
 import {GroupIndent} from '../../';
-import {ObjectIndependentView, ObjectIndependentViewProps, ViewController} from '../../../../core';
+import type {ObjectIndependentView, ObjectIndependentViewProps} from '../../../../core';
+import {ViewController} from '../../../../core';
 import {block, objectKeys} from '../../../utils';
 
 import './OneOfView.scss';

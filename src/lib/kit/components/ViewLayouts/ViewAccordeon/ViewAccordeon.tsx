@@ -1,9 +1,10 @@
 import React from 'react';
 
+import type {TextProps} from '@gravity-ui/uikit';
 import isBoolean from 'lodash/isBoolean';
-import {TextProps} from '@gravity-ui/uikit';
 
-import {ArrayValue, ObjectValue, Spec, ViewLayoutProps, useDynamicFormsCtx} from '../../../../core';
+import type {ArrayValue, ObjectValue, Spec, ViewLayoutProps} from '../../../../core';
+import {useDynamicFormsCtx} from '../../../../core';
 import {isNotEmptyValue} from '../../../utils';
 import {SimpleVerticalAccordeon} from '../../SimpleVerticalAccordeon';
 

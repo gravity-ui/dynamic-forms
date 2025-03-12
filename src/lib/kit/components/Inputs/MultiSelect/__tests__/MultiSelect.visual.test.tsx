@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {MULTI_SELECT, VALUE} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {MULTI_SELECT, VALUE} from './helpers';
 
 test.describe('Multi Select', () => {
     test('default', async ({mount, expectScreenshot}) => {

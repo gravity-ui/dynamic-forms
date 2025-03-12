@@ -2,7 +2,12 @@ import React from 'react';
 
 import isString from 'lodash/isString';
 
-import {BooleanViewProps, NumberViewProps, StringSpec, StringViewProps} from '../../../../core';
+import type {
+    BooleanViewProps,
+    NumberViewProps,
+    StringSpec,
+    StringViewProps,
+} from '../../../../core';
 import {LongValue} from '../../../components';
 
 export const BaseView = <T extends BooleanViewProps | NumberViewProps | StringViewProps>({

@@ -1,4 +1,4 @@
-import {FormValue, Spec} from '../../../types';
+import type {FormValue, Spec} from '../../../types';
 
 export type BaseValidateError = string | boolean | undefined;
 

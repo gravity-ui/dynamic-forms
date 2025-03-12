@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {StoryFn} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
-import {BooleanSpec, Checkbox, SpecTypes} from '../lib';
+import type {BooleanSpec} from '../lib';
+import {Checkbox, SpecTypes} from '../lib';
 
 import {InputPreview} from './components';
 

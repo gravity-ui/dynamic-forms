@@ -3,7 +3,8 @@ import React from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import set from 'lodash/set';
 
-import {Controller, FieldValue, ObjectIndependentInput, ValidateError} from '../../../../core';
+import type {FieldValue, ObjectIndependentInput, ValidateError} from '../../../../core';
+import {Controller} from '../../../../core';
 import {OBJECT_VALUE_PROPERTY_NAME} from '../../../constants/common';
 
 export const ObjectValueInput: ObjectIndependentInput = (props) => {

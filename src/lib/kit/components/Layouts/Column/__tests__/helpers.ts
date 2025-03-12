@@ -1,4 +1,5 @@
-import {FormValue, ObjectSpec, SpecTypes} from '../../../../../core';
+import type {FormValue, ObjectSpec} from '../../../../../core';
+import {SpecTypes} from '../../../../../core';
 
 export const COLUMN_CARD: ObjectSpec = {
     defaultValue: {

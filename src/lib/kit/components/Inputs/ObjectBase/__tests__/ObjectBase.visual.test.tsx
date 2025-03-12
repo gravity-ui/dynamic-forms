@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {OBJECT_BASE, OBJECT_INLINE, VALUE, VALUE_INLINE} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {OBJECT_BASE, OBJECT_INLINE, VALUE, VALUE_INLINE} from './helpers';
 
 test.describe('Object Base', () => {
     test('default', async ({mount, expectScreenshot}) => {

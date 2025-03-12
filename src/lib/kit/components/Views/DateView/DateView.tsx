@@ -1,9 +1,10 @@
 import React from 'react';
 
-import {StringViewProps} from '../../../../core';
-import {BaseView, DEFAULT_DATE_FORMAT} from '../../../components';
 import {dateTimeParse} from '@gravity-ui/date-utils';
 import isObject from 'lodash/isObject';
+
+import type {StringViewProps} from '../../../../core';
+import {BaseView, DEFAULT_DATE_FORMAT} from '../../../components';
 
 interface Timestamp {
     seconds: string;

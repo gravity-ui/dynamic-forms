@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {StoryFn} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
-import {ObjectSpec, SpecTypes, TextLink as TextLinkBase} from '../lib';
+import type {ObjectSpec} from '../lib';
+import {SpecTypes, TextLink as TextLinkBase} from '../lib';
 
 import {InputPreview} from './components';
 

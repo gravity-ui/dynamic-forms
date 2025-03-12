@@ -7,7 +7,7 @@ import isFunction from 'lodash/isFunction';
 import values from 'lodash/values';
 import {Field as FinalFormField, useForm} from 'react-final-form';
 
-import {AsyncValidateError, BaseValidateError, DynamicFieldStore, FieldValue} from '../types';
+import type {AsyncValidateError, BaseValidateError, DynamicFieldStore, FieldValue} from '../types';
 import {transformArrOut} from '../utils';
 
 export const useIntegrationFF = (

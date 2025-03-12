@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {FormValue, Spec, ViewLayoutProps} from '../../../core';
+import type {FormValue, Spec, ViewLayoutProps} from '../../../core';
 import {Card} from '../../components';
 import {isNotEmptyValue} from '../../utils';
 

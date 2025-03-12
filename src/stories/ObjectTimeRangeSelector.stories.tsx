@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {StoryFn} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
-import {ObjectSpec, SpecTypes, TimeRangeSelector as TimeRangeSelectorBase} from '../lib';
+import type {ObjectSpec} from '../lib';
+import {SpecTypes, TimeRangeSelector as TimeRangeSelectorBase} from '../lib';
 
 import {InputPreview} from './components';
 

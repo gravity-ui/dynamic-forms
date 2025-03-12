@@ -1,16 +1,15 @@
 import {TEXT_COLORS} from '@gravity-ui/uikit';
 
-import {
+import type {
     ArraySpec,
     BooleanSpec,
     NumberSpec,
     ObjectSpec,
     ObjectValue,
     Spec,
-    SpecTypes,
     StringSpec,
-    dynamicConfig,
 } from '../../../lib';
+import {SpecTypes, dynamicConfig} from '../../../lib';
 
 const required: BooleanSpec = {
     type: SpecTypes.Boolean,

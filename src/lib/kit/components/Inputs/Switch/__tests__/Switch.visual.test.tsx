@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {SWITCH, VALUE} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {SWITCH, VALUE} from './helpers';
 
 test.describe('Switch', () => {
     test('default', async ({mount, expectScreenshot}) => {

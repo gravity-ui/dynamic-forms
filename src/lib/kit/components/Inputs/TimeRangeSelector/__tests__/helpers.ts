@@ -1,4 +1,5 @@
-import {FormValue, ObjectSpec, SpecTypes} from '../../../../../core';
+import type {FormValue, ObjectSpec} from '../../../../../core';
+import {SpecTypes} from '../../../../../core';
 
 const ENUM_START = [
     '00:00',

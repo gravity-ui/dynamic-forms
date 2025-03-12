@@ -4,13 +4,13 @@ import {Select} from '@gravity-ui/uikit';
 import isObjectLike from 'lodash/isObjectLike';
 import set from 'lodash/set';
 
-import {
-    Controller,
+import type {
     FieldValue,
     ObjectIndependentInput,
     ObjectIndependentInputProps,
     ValidateError,
 } from '../../../../core';
+import {Controller} from '../../../../core';
 import {block} from '../../../utils';
 import {GroupIndent} from '../../GroupIndent';
 

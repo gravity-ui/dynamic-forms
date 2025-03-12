@@ -2,16 +2,16 @@ import React from 'react';
 
 import {ThemeProvider} from '@gravity-ui/uikit';
 import {act, render} from '@testing-library/react';
-import {FormApi} from 'final-form';
+import type {FormApi} from 'final-form';
 import noop from 'lodash/noop';
 import values from 'lodash/values';
 import {Form, useForm} from 'react-final-form';
 
 import {ErrorMessages, dynamicConfig} from '../../../../kit';
 import {SpecTypes} from '../../../constants';
-import {ObjectSpec} from '../../../types';
+import type {ObjectSpec} from '../../../types';
 import {DynamicField} from '../DynamicField';
-import {FieldArrayValue, WonderMirror} from '../types';
+import type {FieldArrayValue, WonderMirror} from '../types';
 import {transformArrOut} from '../utils';
 
 const name = 'name';

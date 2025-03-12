@@ -1,22 +1,21 @@
 import React from 'react';
 
-import {HelpMark, Popover, Text, TextProps} from '@gravity-ui/uikit';
+import type {TextProps} from '@gravity-ui/uikit';
+import {HelpMark, Popover, Text} from '@gravity-ui/uikit';
 
 import {GroupIndent} from '../../';
-import {RemoveButton} from '../../RemoveButton';
 import {COMMON_POPOVER_PLACEMENT, COMMON_TITLE_MAX_WIDTH, ErrorWrapper} from '../../../';
-import {
+import type {
     FieldRenderProps,
     FieldValue,
     FormValue,
     LayoutProps,
     Spec,
     ViewLayoutProps,
-    isArrayItem,
-    isArraySpec,
-    isObjectSpec,
 } from '../../../../core';
+import {isArrayItem, isArraySpec, isObjectSpec} from '../../../../core';
 import {block} from '../../../utils';
+import {RemoveButton} from '../../RemoveButton';
 
 import './Section.scss';
 

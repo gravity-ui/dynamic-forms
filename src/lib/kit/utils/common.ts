@@ -1,22 +1,13 @@
 import cloneDeep from 'lodash/cloneDeep';
 import isArray from 'lodash/isArray';
+import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
 import isObject from 'lodash/isObject';
 import isObjectLike from 'lodash/isObjectLike';
 import isString from 'lodash/isString';
-import isEmpty from 'lodash/isEmpty';
 
-import {
-    FormValue,
-    NumberSpec,
-    ObjectValue,
-    Spec,
-    SpecTypes,
-    StringSpec,
-    isArraySpec,
-    isObjectSpec,
-    isStringSpec,
-} from '../../core';
+import type {FormValue, NumberSpec, ObjectValue, Spec, StringSpec} from '../../core';
+import {SpecTypes, isArraySpec, isObjectSpec, isStringSpec} from '../../core';
 import {isFloat} from '../validators/helpers';
 
 import {divide} from './bigIntMath';

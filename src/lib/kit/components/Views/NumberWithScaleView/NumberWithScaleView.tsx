@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Popover, Text} from '@gravity-ui/uikit';
 
-import {StringViewProps} from '../../../../core';
+import type {StringViewProps} from '../../../../core';
 import {block, isCorrectSizeParams} from '../../../utils';
 import {useInitial} from '../../Inputs/NumberWithScale/useInitial';
 

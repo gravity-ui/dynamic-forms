@@ -2,11 +2,11 @@ import React from 'react';
 
 import omit from 'lodash/omit';
 
-import {FormValue, Spec} from '../../../types';
+import type {FormValue, Spec} from '../../../types';
 import {useControllerMirror, useDynamicFormsCtx, useSearch} from '../hooks';
-import {ControllerMirror, FieldValue, ValidateError} from '../types';
+import type {ControllerMirror, FieldValue, ValidateError} from '../types';
 
-import {ControllerStore} from './types';
+import type {ControllerStore} from './types';
 import {callUnmout, getFieldMethods, initializeStore, updateStore} from './utils';
 
 export interface ControllerProps<DirtyValue extends FieldValue, SpecType extends Spec> {

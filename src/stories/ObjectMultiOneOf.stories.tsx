@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {StoryFn} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
-import {MultiOneOf as MultiOneOfBase, ObjectSpec, SpecTypes} from '../lib';
+import type {ObjectSpec} from '../lib';
+import {MultiOneOf as MultiOneOfBase, SpecTypes} from '../lib';
 
 import {InputPreview} from './components';
 

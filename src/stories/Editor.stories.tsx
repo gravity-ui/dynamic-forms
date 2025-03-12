@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {StoryFn} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
-import {ArrayBase, ObjectSpec, SpecTypes} from '../lib';
+import type {ArrayBase, ObjectSpec} from '../lib';
+import {SpecTypes} from '../lib';
 
 import {Editor as EditorBase} from './components/Editor/Editor';
 

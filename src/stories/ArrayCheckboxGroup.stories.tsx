@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {StoryFn} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
-import {ArraySpec, CheckboxGroup as CheckboxGroupBase, SpecTypes} from '../lib';
+import type {ArraySpec} from '../lib';
+import {CheckboxGroup as CheckboxGroupBase, SpecTypes} from '../lib';
 
 import {InputPreview} from './components';
 

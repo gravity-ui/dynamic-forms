@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {VALUE, VIEW_COLUMN} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {VALUE, VIEW_COLUMN} from './helpers';
 
 test.describe('ViewColumn View', () => {
     test('object spec', async ({mount, expectScreenshot}) => {

@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {ChevronDown} from '@gravity-ui/icons';
-import {Button, HelpMark, Icon, Popover, Text, TextProps} from '@gravity-ui/uikit';
+import type {TextProps} from '@gravity-ui/uikit';
+import {Button, HelpMark, Icon, Popover, Text} from '@gravity-ui/uikit';
 
 import {COMMON_POPOVER_PLACEMENT} from '../../constants/common';
 import {block} from '../../utils';

@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {StoryFn} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
-import {CardOneOf as CardOneOfBase, ObjectSpec, SpecTypes} from '../lib';
+import type {ObjectSpec} from '../lib';
+import {CardOneOf as CardOneOfBase, SpecTypes} from '../lib';
 
 import {InputPreview} from './components';
 

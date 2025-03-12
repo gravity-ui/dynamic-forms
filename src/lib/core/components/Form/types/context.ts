@@ -1,10 +1,10 @@
-import React from 'react';
+import type React from 'react';
 
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
-import {StringSpec} from '../../../types';
+import type {StringSpec} from '../../../types';
 
-import {
+import type {
     DynamicFieldStore,
     DynamicFormConfig,
     DynamicFormMutators,

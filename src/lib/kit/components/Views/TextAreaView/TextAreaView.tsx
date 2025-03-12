@@ -3,7 +3,7 @@ import React from 'react';
 import {ChevronDown} from '@gravity-ui/icons';
 import {Icon, Text} from '@gravity-ui/uikit';
 
-import {StringView} from '../../../../core';
+import type {StringView} from '../../../../core';
 import {block} from '../../../utils';
 
 import './TextAreaView.scss';

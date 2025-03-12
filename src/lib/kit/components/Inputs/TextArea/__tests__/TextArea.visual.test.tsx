@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {TEXT_AREA_SPEC} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
+
+import {TEXT_AREA_SPEC} from './helpers';
 
 test.describe('Text Area', () => {
     test('default', async ({mount, expectScreenshot}) => {
