@@ -1,0 +1,21 @@
+import {Meta, Markdown} from '@storybook/addon-docs';
+
+import Config from '../../docs/config.md?raw';
+
+<Meta title="Other/CustomRenderHtml" />
+
+export const replacements = [
+    ['../src', 'https://github.com/gravity-ui/dynamic-forms/blob/main/src/'],
+    ['./lib.md', '?path=/docs/docs-lib--docs'],
+    ['./spec.md', '?path=/docs/docs-spec--docs'],
+];
+
+export const applyReplacements = (text, replacements) => {
+    return replacements.reduce((result, [searchValue, replaceValue]) => {
+        return result.split(searchValue).join(replaceValue);
+    }, text);
+};
+
+export const content = applyReplacements(Config, replacements);
+
+<Markdown>{content}</Markdown>

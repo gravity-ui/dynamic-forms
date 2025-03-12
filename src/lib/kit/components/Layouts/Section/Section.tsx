@@ -31,6 +31,7 @@ interface SectionProps {
     withIndent?: boolean;
     ignoreDescription?: boolean;
     descriptionAsSubtitle?: boolean;
+    renderHtml?: (text: string) => React.ReactNode;
 }
 
 const SectionBase = <
@@ -45,6 +46,7 @@ const SectionBase = <
     ignoreDescription,
     descriptionAsSubtitle,
     children,
+    renderHtml,
     ...restProps
 }: (LayoutProps<D, undefined, SectionLayoutProps, S> | ViewLayoutProps<T, S>) & SectionProps) => {
     const input = (restProps as FieldRenderProps<D>).input as
@@ -107,7 +109,9 @@ const SectionBase = <
     let description: React.ReactNode;
     if (spec.viewSpec.layoutDescription && !ignoreDescription) {
         if (descriptionAsSubtitle) {
-            description = (
+            description = renderHtml ? (
+                renderHtml(spec.viewSpec.layoutDescription)
+            ) : (
                 <div
                     className={b('description')}
                     dangerouslySetInnerHTML={{

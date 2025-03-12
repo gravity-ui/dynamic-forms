@@ -7,6 +7,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import type {StringIndependentInput, StringSpec} from '../../../../core';
 import {block} from '../../../utils';
 import {LazyLoader} from '../../LazyLoader';
+import {useRenderHtml} from '../../../../core/components/Form/hooks/useRenderHtml';
 
 import {loadIcon} from './utils';
 
@@ -18,12 +19,14 @@ export interface TextContentComponentProps {
     spec: StringSpec;
     value?: string;
     Layout?: React.FC<{spec: StringSpec; children: React.ReactElement}>;
+    renderHtml?: ReturnType<typeof useRenderHtml>;
 }
 
 export const TextContentComponent: React.FC<TextContentComponentProps> = ({
     spec,
     value,
     Layout,
+    renderHtml,
 }) => {
     const {textContentParams, layoutDescription} = spec.viewSpec;
 
@@ -40,7 +43,7 @@ export const TextContentComponent: React.FC<TextContentComponentProps> = ({
         <LazyLoader component={loadIcon(textContentParams?.icon)} />
     ) : undefined;
 
-    let content = <span dangerouslySetInnerHTML={{__html: text}} />;
+    let content = renderHtml ? renderHtml(text) : <span dangerouslySetInnerHTML={{__html: text}} />;
 
     if (textContentParams?.themeAlert) {
         const titleAlert =
@@ -111,6 +114,8 @@ export const TextContent: StringIndependentInput = ({
     meta,
     layoutProps,
 }) => {
+    const renderHtml = useRenderHtml();
+
     const WrappedLayout = React.useMemo(() => {
         if (Layout) {
             const Component: TextContentComponentProps['Layout'] = (props) => {
@@ -132,5 +137,12 @@ export const TextContent: StringIndependentInput = ({
         return undefined;
     }, [Layout, layoutProps, input, arrayInput, meta, name]);
 
-    return <TextContentComponent spec={spec} value={input.value} Layout={WrappedLayout} />;
+    return (
+        <TextContentComponent
+            spec={spec}
+            value={input.value}
+            Layout={WrappedLayout}
+            renderHtml={renderHtml}
+        />
+    );
 };

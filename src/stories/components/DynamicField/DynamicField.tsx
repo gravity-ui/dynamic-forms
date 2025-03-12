@@ -14,6 +14,7 @@ export interface DynamicFieldProps {
     spec: Spec;
     search?: string | ((spec: Spec, input: FieldValue, name: string) => boolean);
     parseJsonDefaultValue?: boolean;
+    renderHtml?: (text: string) => React.ReactNode;
 }
 
 export const DynamicField: React.FC<DynamicFieldProps> = ({
@@ -21,6 +22,7 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
     spec,
     search,
     parseJsonDefaultValue = true,
+    renderHtml,
 }) => {
     const config = React.useMemo(() => {
         const cfg = cloneDeep(dynamicConfig);
@@ -47,6 +49,7 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
             Monaco={MonacoEditor}
             search={search}
             generateRandomValue={generateRandomValue}
+            renderHtml={renderHtml}
         />
     );
 };

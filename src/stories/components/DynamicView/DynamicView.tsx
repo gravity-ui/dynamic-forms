@@ -11,9 +11,15 @@ export interface DynamicViewProps {
     value: FormValue;
     spec: Spec;
     showLayoutDescription?: boolean;
+    renderHtml?: (text: string) => React.ReactNode;
 }
 
-export const DynamicView: React.FC<DynamicViewProps> = ({value, spec, showLayoutDescription}) => (
+export const DynamicView: React.FC<DynamicViewProps> = ({
+    value,
+    spec,
+    showLayoutDescription,
+    renderHtml,
+}) => (
     <BaseDynamicView
         value={value}
         spec={prepareSpec(spec)}
@@ -21,5 +27,6 @@ export const DynamicView: React.FC<DynamicViewProps> = ({value, spec, showLayout
         Monaco={MonacoEditor}
         Link={DynLink}
         showLayoutDescription={showLayoutDescription}
+        renderHtml={renderHtml}
     />
 );

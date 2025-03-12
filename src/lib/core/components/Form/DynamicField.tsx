@@ -34,6 +34,7 @@ export interface DynamicFieldProps {
     destroyOnUnregister?: boolean;
     mutators?: DynamicFormMutators;
     shared?: Record<string, any>;
+    renderHtml?: (text: string) => React.ReactNode;
     storeSubscriber?: (store: FieldValue) => void;
     __mirror?: WonderMirror;
 }
@@ -49,6 +50,7 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
     destroyOnUnregister = true,
     mutators: externalMutators,
     shared: externalShared,
+    renderHtml,
     storeSubscriber,
     __mirror,
 }) => {
@@ -74,18 +76,20 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
             store,
             shared,
             mutatorsStore,
+            renderHtml,
             __mirror,
         }),
         [
-            tools,
-            shared,
             config,
             Monaco,
-            __mirror,
             generateRandomValue,
-            mutatorsStore,
+            tools,
             mutateDFState,
             store,
+            shared,
+            mutatorsStore,
+            renderHtml,
+            __mirror,
         ],
     );
 
