@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.2.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.1.0...v5.2.0) (2025-03-13)
+
+
+### Features
+
+* add store subscriber prop for dynamic field ([#284](https://github.com/gravity-ui/dynamic-forms/issues/284)) ([9e6c0e0](https://github.com/gravity-ui/dynamic-forms/commit/9e6c0e097d07d93dbcaca95feb9b82ea519859e8))
+* eslint add rules import type and order ([#281](https://github.com/gravity-ui/dynamic-forms/issues/281)) ([7792e63](https://github.com/gravity-ui/dynamic-forms/commit/7792e63f8b12a469e9423b6ac17b43ef4c85fb3a))
+
 ## [5.1.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.0.0...v5.1.0) (2025-02-14)
 
 
