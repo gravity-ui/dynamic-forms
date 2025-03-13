@@ -32,7 +32,7 @@
     "typecheck": "tsc --noEmit",
     "build": "gulp",
     "build-storybook": "storybook build",
-    "dev": "storybook dev -p 6006 -- --no-manager-cache",
+    "dev": "storybook dev -p 6006",
     "start": "storybook dev",
     "prepublishOnly": "npm run build",
     "playwright:install": "playwright install --with-deps",

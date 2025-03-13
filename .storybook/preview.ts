@@ -2,11 +2,6 @@ import {withTheme, withLang} from './decorators';
 
 export const decorators = [withTheme, withLang];
 
-export const parameters = {
-    bottomPanelHeight: 0,
-    rightPanelWidth: 0,
-};
-
 export const globalTypes = {
     theme: {
         defaultValue: 'light',
