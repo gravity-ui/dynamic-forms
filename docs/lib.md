@@ -20,6 +20,7 @@ This component serves as the primary entry point for drawing dynamic forms.
 | withoutInsertFFDebounce | `boolean`                                |          | Flag that disables the delay before inserting data into the final-form store                                                                              |
 | destroyOnUnregister     | `boolean`                                |          | If true, the value of a field will be destroyed when that field is unregistered. Defaults to true                                                         |
 | generateRandomValue     | `function`                               |          | Function that is necessary to generate a random value                                                                                                     |
+| storeSubscriber         | `(storeValue: FieldValue) => void`       |          | Subscriber function will be called when internal store of dynamic field is changed                                                                        |
 
 ### Controller
 
