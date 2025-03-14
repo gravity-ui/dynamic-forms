@@ -9,7 +9,7 @@ import type {FieldValue, Spec, StringSpec} from '../../../lib';
 import {DynamicField as BaseDynamicField, dynamicConfig, prepareSpec} from '../../../lib';
 import {SpecSelector} from '../InputPreview/SpecSelector';
 
-const RenderHtmlAsync = React.lazy(() => import('../Editor/RenderHtml'));
+const RenderHtmlAsync = React.lazy(() => import('../RenderHtml'));
 
 const renderHtml = (text: string) => (
     <React.Suspense fallback={<div>Loading...</div>}>

@@ -7,7 +7,7 @@ import {DynamicView as BaseDynamicView, dynamicViewConfig, prepareSpec} from '..
 
 import {DynLink} from './DynLink';
 
-const RenderHtmlAsync = React.lazy(() => import('../Editor/RenderHtml'));
+const RenderHtmlAsync = React.lazy(() => import('../RenderHtml'));
 
 const renderHtml = (text: string) => (
     <React.Suspense fallback={<div>Loading...</div>}>
