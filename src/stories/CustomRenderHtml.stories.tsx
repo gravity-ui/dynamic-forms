@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {StoryFn} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
-import {ArrayBase, ObjectSpec, SpecTypes} from '../lib';
+import type {ArrayBase, ObjectSpec} from '../lib';
+import {SpecTypes} from '../lib';
 
 import {Editor as EditorBase} from './components/Editor/Editor';
 
@@ -13,35 +14,83 @@ export default {
 
 const spec: ObjectSpec = {
     type: SpecTypes.Object,
+    required: true,
     properties: {
-        alert: {
-            type: SpecTypes.String,
-            viewSpec: {
-                type: 'text_content',
-                textContentParams: {
-                    text: '# Markdown\n a lightweight markup language designed to indicate formatting in plain text while preserving its human readability as much as possible, and suitable for machine conversion into advanced publishing languages ​​(HTML, Rich Text, and others). <br><h1>HTML</h1><br> a standardized hypertext markup language for viewing web pages in a browser.',
-                    themeAlert: 'info',
+        accordeon: {
+            type: SpecTypes.Object,
+            required: true,
+            properties: {
+                alert: {
+                    type: SpecTypes.String,
+                    viewSpec: {
+                        type: 'text_content',
+                        textContentParams: {
+                            text: '### Introduction to Web Technologies\n Markdown is **incredibly useful** for quick documentation. It allows you to: \n\n _Format text easily_\n\n -Create lists-\n\n -Add links <div class="important-note"> <h3>Important HTML Section</h3> <p>This section uses HTML for more complex formatting needs that Markdown doesnt support natively.</p> </div>',
+                            themeAlert: 'info',
+                            icon: '',
+                        },
+                    },
+                },
+                row: {
+                    type: SpecTypes.Boolean,
+                    viewSpec: {
+                        type: 'base',
+                        layout: 'row',
+                        layoutTitle: 'Row description md',
+                        layoutDescription: '### Description is made in markdown format',
+                    },
+                },
+                rowVerbose: {
+                    type: SpecTypes.String,
+                    viewSpec: {
+                        type: 'base',
+                        layout: 'row_verbose',
+                        layoutTitle: 'Row Verbose description html',
+                        placeholder: 'placeholder text',
+                        layoutDescription: '<code>Row Verbose description html</code>',
+                    },
                 },
             },
-        },
-        row: {
-            type: SpecTypes.Boolean,
             viewSpec: {
                 type: 'base',
-                layout: 'row',
-                layoutTitle: 'Age',
+                layout: 'accordeon',
+                layoutTitle: 'Accordeon',
+                layoutOpen: true,
+                layoutDescription: '### Description is made in markdown format',
+            },
+        },
+        card: {
+            type: SpecTypes.Object,
+            required: true,
+            properties: {
+                column: {
+                    type: SpecTypes.String,
+                    viewSpec: {
+                        type: 'base',
+                        layout: 'column',
+                        layoutTitle: 'Name',
+                        placeholder: 'placeholder text',
+                        layoutDescription:
+                            "<a href='https://github.com/gravity-ui/dynamic-forms' target='__blank'>Link html Dynamic Forms</a>",
+                    },
+                },
+            },
+            viewSpec: {
+                type: 'base',
+                layout: 'card_section',
+                layoutTitle: 'Card',
+                layoutOpen: true,
                 layoutDescription: '### Description is made in markdown format',
             },
         },
     },
     viewSpec: {
         type: 'base',
-        layout: 'accordeon',
-        layoutTitle: 'Candidate',
+        layout: 'transparent',
+        layoutTitle: '',
         layoutOpen: true,
-        layoutDescription: '### Description is made in markdown format',
+        layoutDescription: '',
     },
-    required: true,
 };
 
 const template = () => {

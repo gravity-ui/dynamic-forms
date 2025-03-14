@@ -14,6 +14,7 @@ import type {
     ViewLayoutProps,
 } from '../../../../core';
 import {isArrayItem, isArraySpec, isObjectSpec} from '../../../../core';
+import {useRenderHtml} from '../../../../core/components/Form/hooks/useRenderHtml';
 import {block} from '../../../utils';
 import {HTMLContent} from '../../HTMLContent';
 import {RemoveButton} from '../../RemoveButton';
@@ -31,7 +32,6 @@ interface SectionProps {
     withIndent?: boolean;
     ignoreDescription?: boolean;
     descriptionAsSubtitle?: boolean;
-    renderHtml?: (text: string) => React.ReactNode;
 }
 
 const SectionBase = <
@@ -46,9 +46,9 @@ const SectionBase = <
     ignoreDescription,
     descriptionAsSubtitle,
     children,
-    renderHtml,
     ...restProps
 }: (LayoutProps<D, undefined, SectionLayoutProps, S> | ViewLayoutProps<T, S>) & SectionProps) => {
+    const renderHtml = useRenderHtml();
     const input = (restProps as FieldRenderProps<D>).input as
         | FieldRenderProps<D>['input']
         | undefined;

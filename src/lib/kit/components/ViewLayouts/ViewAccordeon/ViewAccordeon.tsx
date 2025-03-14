@@ -5,6 +5,7 @@ import isBoolean from 'lodash/isBoolean';
 
 import type {ArrayValue, ObjectValue, Spec, ViewLayoutProps} from '../../../../core';
 import {useDynamicFormsCtx} from '../../../../core';
+import {useRenderHtml} from '../../../../core/components/View/hooks/useRenderHtml';
 import {isNotEmptyValue} from '../../../utils';
 import {SimpleVerticalAccordeon} from '../../SimpleVerticalAccordeon';
 
@@ -20,7 +21,9 @@ export const ViewAccordeon = <
     spec,
     children,
 }: T): JSX.Element | null => {
+    const renderHtml = useRenderHtml();
     const {showLayoutDescription} = useDynamicFormsCtx();
+
     const [open, setOpen] = React.useState(
         isBoolean(spec.viewSpec.layoutOpen) ? spec.viewSpec.layoutOpen : true,
     );
@@ -46,6 +49,7 @@ export const ViewAccordeon = <
             withBranchView
             viewLayout
             variantTitle={variantTitle}
+            renderHtml={renderHtml}
         >
             {children}
         </SimpleVerticalAccordeon>

@@ -23,6 +23,7 @@ export interface CardProps {
     alwaysOpen?: boolean;
     disableHeaderToggle?: boolean;
     checkEmptyBody?: boolean;
+    renderHtml?: (html: string) => React.ReactNode;
 }
 
 export const Card: React.FC<CardProps> = ({
@@ -36,6 +37,7 @@ export const Card: React.FC<CardProps> = ({
     disableHeaderToggle,
     checkEmptyBody,
     children,
+    renderHtml,
 }) => {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const titleRef = React.useRef<HTMLDivElement>(null);

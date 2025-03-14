@@ -7,26 +7,36 @@ import {DynamicView as BaseDynamicView, dynamicViewConfig, prepareSpec} from '..
 
 import {DynLink} from './DynLink';
 
+const RenderHtmlAsync = React.lazy(() => import('../Editor/RenderHtml'));
+
+const renderHtml = (text: string) => (
+    <React.Suspense fallback={<div>Loading...</div>}>
+        <RenderHtmlAsync text={text} />
+    </React.Suspense>
+);
+
 export interface DynamicViewProps {
     value: FormValue;
     spec: Spec;
     showLayoutDescription?: boolean;
-    renderHtml?: (text: string) => React.ReactNode;
+    withCustomRenderHtml?: boolean;
 }
 
 export const DynamicView: React.FC<DynamicViewProps> = ({
     value,
     spec,
     showLayoutDescription,
-    renderHtml,
-}) => (
-    <BaseDynamicView
-        value={value}
-        spec={prepareSpec(spec)}
-        config={dynamicViewConfig}
-        Monaco={MonacoEditor}
-        Link={DynLink}
-        showLayoutDescription={showLayoutDescription}
-        renderHtml={renderHtml}
-    />
-);
+    withCustomRenderHtml,
+}) => {
+    return (
+        <BaseDynamicView
+            value={value}
+            spec={prepareSpec(spec)}
+            config={dynamicViewConfig}
+            Monaco={MonacoEditor}
+            Link={DynLink}
+            showLayoutDescription={showLayoutDescription}
+            renderHtml={withCustomRenderHtml ? renderHtml : undefined}
+        />
+    );
+};

@@ -2,6 +2,7 @@ import React from 'react';
 
 import type {FieldValue, LayoutProps, Spec} from '../../../core';
 import {isArrayItem} from '../../../core';
+import {useRenderHtml} from '../../../core/components/Form/hooks/useRenderHtml';
 import {Card, ErrorWrapper} from '../../components';
 import {useErrorChecker} from '../../hooks';
 import {RemoveButton} from '../RemoveButton';
@@ -13,6 +14,8 @@ export const CardAccordeon = <T extends FieldValue, S extends Spec>({
     meta,
     children,
 }: LayoutProps<T, undefined, undefined, S>) => {
+    const renderHtml = useRenderHtml();
+
     const [open, setOpen] = React.useState(Boolean(spec.viewSpec?.layoutOpen));
 
     const onToggle = React.useCallback(() => setOpen((f) => !f), [setOpen]);
@@ -40,6 +43,7 @@ export const CardAccordeon = <T extends FieldValue, S extends Spec>({
             actions={removeButton}
             open={open}
             onToggle={onToggle}
+            renderHtml={renderHtml}
         >
             <ErrorWrapper name={name} meta={meta} withoutChildErrorStyles>
                 {children}

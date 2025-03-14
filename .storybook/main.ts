@@ -1,4 +1,4 @@
-import {StorybookConfig} from 'storybook-react-rsbuild';
+import type {StorybookConfig} from '@storybook/react-webpack5';
 
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 

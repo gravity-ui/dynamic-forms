@@ -11,8 +11,6 @@ import type {AnyObject, FormValue, MonacoInputBaseProps, Spec} from '../../../li
 import {MonacoInput, SpecTypes} from '../../../lib';
 import {cn} from '../../../lib/kit/utils/cn';
 
-import {renderHtml} from './renderHtml';
-
 import './Editor.scss';
 
 const b = cn('editor');
@@ -158,7 +156,7 @@ export const Editor: React.FC<EditorProps> = ({
                                         name="input"
                                         spec={spec}
                                         parseJsonDefaultValue={parseJson}
-                                        renderHtml={withCustomRenderHtml ? renderHtml : undefined}
+                                        withCustomRenderHtml={withCustomRenderHtml}
                                     />
                                 </div>
                             ) : null}
@@ -179,7 +177,7 @@ export const Editor: React.FC<EditorProps> = ({
                                             spec,
                                             showLayoutDescription,
                                         )}
-                                        renderHtml={withCustomRenderHtml ? renderHtml : undefined}
+                                        withCustomRenderHtml={withCustomRenderHtml}
                                     />
                                 </div>
                             ) : null}
