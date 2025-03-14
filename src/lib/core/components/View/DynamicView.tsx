@@ -48,7 +48,7 @@ export const DynamicView = ({
             shared,
             renderHtml,
         }),
-        [config, value, showLayoutDescription, Link, Monaco, shared, renderHtml],
+        [config, value, Link, Monaco, showLayoutDescription, shared, renderHtml],
     );
 
     if (isCorrectSpec(spec) && isCorrectViewConfig(config)) {

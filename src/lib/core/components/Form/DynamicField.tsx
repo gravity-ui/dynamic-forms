@@ -80,16 +80,16 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
             __mirror,
         }),
         [
+            tools,
+            shared,
             config,
             Monaco,
+            __mirror,
             generateRandomValue,
-            tools,
+            mutatorsStore,
             mutateDFState,
             store,
-            shared,
-            mutatorsStore,
             renderHtml,
-            __mirror,
         ],
     );
 
