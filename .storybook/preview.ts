@@ -2,6 +2,14 @@ import {withTheme, withLang} from './decorators';
 
 export const decorators = [withTheme, withLang];
 
+export const parameters = {
+    options: {
+        storySort: {
+            order: ['Docs', 'Array', 'Boolean', 'Other', 'Number', 'Object', 'String', '*'],
+        },
+    },
+};
+
 export const globalTypes = {
     theme: {
         defaultValue: 'light',
