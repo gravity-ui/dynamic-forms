@@ -14,6 +14,7 @@ import type {
     ViewLayoutProps,
 } from '../../../../core';
 import {isArrayItem, isArraySpec, isObjectSpec} from '../../../../core';
+import {useRenderHtml} from '../../../../core/components/Form/hooks/useRenderHtml';
 import {block} from '../../../utils';
 import {RemoveButton} from '../../RemoveButton';
 
@@ -46,6 +47,7 @@ const SectionBase = <
     children,
     ...restProps
 }: (LayoutProps<D, undefined, SectionLayoutProps, S> | ViewLayoutProps<T, S>) & SectionProps) => {
+    const renderHtml = useRenderHtml();
     const input = (restProps as FieldRenderProps<D>).input as
         | FieldRenderProps<D>['input']
         | undefined;
@@ -106,7 +108,9 @@ const SectionBase = <
     let description: React.ReactNode;
     if (spec.viewSpec.layoutDescription && !ignoreDescription) {
         if (descriptionAsSubtitle) {
-            description = (
+            description = renderHtml ? (
+                renderHtml(spec.viewSpec.layoutDescription)
+            ) : (
                 <div
                     className={b('description')}
                     dangerouslySetInnerHTML={{
@@ -122,7 +126,9 @@ const SectionBase = <
                             placement: COMMON_POPOVER_PLACEMENT,
                         }}
                     >
-                        {spec.viewSpec.layoutDescription}
+                        {renderHtml
+                            ? renderHtml(spec.viewSpec.layoutDescription)
+                            : spec.viewSpec.layoutDescription}
                     </HelpMark>
                 </Text>
             );

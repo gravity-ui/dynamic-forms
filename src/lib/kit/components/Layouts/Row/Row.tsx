@@ -5,6 +5,7 @@ import {Button, HelpMark, Icon, Text} from '@gravity-ui/uikit';
 
 import type {FieldValue, LayoutProps, Spec, StringSpec} from '../../../../core';
 import {isArrayItem, isArraySpec, isObjectSpec, withGenerateButton} from '../../../../core';
+import {useRenderHtml} from '../../../../core/components/Form/hooks/useRenderHtml';
 import {ErrorWrapper, GenerateRandomValueButton} from '../../../components';
 import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 import {block} from '../../../utils';
@@ -25,8 +26,29 @@ const RowBase = <T extends FieldValue, S extends Spec>({
     verboseDescription,
     children,
 }: LayoutProps<T, undefined, undefined, S> & RowProps) => {
+    const renderHtml = useRenderHtml();
+
     const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
     const generateButton = React.useMemo(() => withGenerateButton(spec), [spec]);
+
+    const verboseDescriptionContent = React.useMemo(() => {
+        if (verboseDescription && spec.viewSpec.layoutDescription) {
+            return (
+                <React.Fragment>
+                    {renderHtml ? (
+                        renderHtml(spec.viewSpec.layoutDescription)
+                    ) : (
+                        <div
+                            className={b('description')}
+                            dangerouslySetInnerHTML={{__html: spec.viewSpec.layoutDescription}}
+                        />
+                    )}
+                </React.Fragment>
+            );
+        }
+
+        return null;
+    }, [renderHtml, spec.viewSpec.layoutDescription, verboseDescription]);
 
     return (
         <div className={b()}>
@@ -43,7 +65,9 @@ const RowBase = <T extends FieldValue, S extends Spec>({
                                         placement: COMMON_POPOVER_PLACEMENT,
                                     }}
                                 >
-                                    {spec.viewSpec.layoutDescription}
+                                    {renderHtml
+                                        ? renderHtml(spec.viewSpec.layoutDescription)
+                                        : spec.viewSpec.layoutDescription}
                                 </HelpMark>
                             </Text>
                         </span>
@@ -81,12 +105,7 @@ const RowBase = <T extends FieldValue, S extends Spec>({
                         </Button>
                     ) : null}
                 </div>
-                {verboseDescription && spec.viewSpec.layoutDescription ? (
-                    <div
-                        className={b('description')}
-                        dangerouslySetInnerHTML={{__html: spec.viewSpec.layoutDescription}}
-                    />
-                ) : null}
+                {verboseDescriptionContent}
             </div>
         </div>
     );

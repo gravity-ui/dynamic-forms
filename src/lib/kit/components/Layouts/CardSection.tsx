@@ -2,6 +2,7 @@ import React from 'react';
 
 import type {FieldValue, LayoutProps, Spec} from '../../../core';
 import {isArrayItem} from '../../../core';
+import {useRenderHtml} from '../../../core/components/Form/hooks/useRenderHtml';
 import {Card, ErrorWrapper} from '../../components';
 import {RemoveButton} from '../RemoveButton';
 
@@ -12,6 +13,8 @@ export const CardSection = <T extends FieldValue, S extends Spec>({
     meta,
     children,
 }: LayoutProps<T, undefined, undefined, S>) => {
+    const renderHtml = useRenderHtml();
+
     const removeButton = React.useMemo(() => {
         if (!isArrayItem(name) && (spec.required || !input.value)) {
             return null;
@@ -27,6 +30,7 @@ export const CardSection = <T extends FieldValue, S extends Spec>({
             description={spec.viewSpec.layoutDescription}
             actions={removeButton}
             alwaysOpen
+            renderHtml={renderHtml}
         >
             <ErrorWrapper name={name} meta={meta} withoutChildErrorStyles>
                 {children}
