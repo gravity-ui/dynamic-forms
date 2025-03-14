@@ -1,20 +1,21 @@
 import React from 'react';
 
-/* eslint-disable import/no-extraneous-dependencies */
-import yfmTransform from '@diplodoc/transform';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import MarkdownIt from 'markdown-it';
 
-export const renderHtml = (text: string) => {
-    const result = yfmTransform(text, {
-        disableLiquid: true,
-        linkify: true,
-        allowHTML: true,
-    }).result.html;
+export const RenderHtml = ({text}: {text: string}) => {
+    const [html, setHtml] = React.useState('');
+
+    React.useEffect(() => {
+        const md = new MarkdownIt({html: true});
+        setHtml(md.render(text));
+    }, [text]);
 
     return (
-        <div
-            dangerouslySetInnerHTML={{
-                __html: result,
-            }}
-        />
+        <React.Fragment>
+            {html ? <div dangerouslySetInnerHTML={{__html: html}} /> : null}
+        </React.Fragment>
     );
 };
+
+export default RenderHtml;

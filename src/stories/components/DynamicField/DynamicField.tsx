@@ -9,12 +9,20 @@ import type {FieldValue, Spec, StringSpec} from '../../../lib';
 import {DynamicField as BaseDynamicField, dynamicConfig, prepareSpec} from '../../../lib';
 import {SpecSelector} from '../InputPreview/SpecSelector';
 
+const RenderHtmlAsync = React.lazy(() => import('../Editor/RenderHtml'));
+
+const renderHtml = (text: string) => (
+    <React.Suspense fallback={<div>Loading...</div>}>
+        <RenderHtmlAsync text={text} />
+    </React.Suspense>
+);
+
 export interface DynamicFieldProps {
     name: string;
     spec: Spec;
     search?: string | ((spec: Spec, input: FieldValue, name: string) => boolean);
     parseJsonDefaultValue?: boolean;
-    renderHtml?: (text: string) => React.ReactNode;
+    withCustomRenderHtml?: boolean;
 }
 
 export const DynamicField: React.FC<DynamicFieldProps> = ({
@@ -22,7 +30,7 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
     spec,
     search,
     parseJsonDefaultValue = true,
-    renderHtml,
+    withCustomRenderHtml,
 }) => {
     const config = React.useMemo(() => {
         const cfg = cloneDeep(dynamicConfig);
@@ -49,7 +57,7 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
             Monaco={MonacoEditor}
             search={search}
             generateRandomValue={generateRandomValue}
-            renderHtml={renderHtml}
+            renderHtml={withCustomRenderHtml ? renderHtml : undefined}
         />
     );
 };

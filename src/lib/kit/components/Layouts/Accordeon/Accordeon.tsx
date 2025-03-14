@@ -4,6 +4,7 @@ import type {TextProps} from '@gravity-ui/uikit';
 
 import type {ArrayLayoutProps, ObjectLayoutProps} from '../../../../core';
 import {isArrayItem} from '../../../../core';
+import {useRenderHtml} from '../../../../core/components/Form/hooks/useRenderHtml';
 import {ErrorWrapper} from '../../../components';
 import {useErrorChecker} from '../../../hooks';
 import {RemoveButton} from '../../RemoveButton';
@@ -25,6 +26,7 @@ export const Accordeon = <
     children,
 }: T): JSX.Element => {
     const {variantTitle} = spec.viewSpec.layoutProps || {};
+    const renderHtml = useRenderHtml();
 
     const [open, setOpen] = React.useState(Boolean(spec.viewSpec?.layoutOpen));
 
@@ -41,6 +43,16 @@ export const Accordeon = <
         return <RemoveButton name={name} onDrop={onDrop} />;
     }, [spec.required, input.value, onDrop, name]);
 
+    /* const note = React.useMemo(() => {
+        if (!spec.viewSpec.layoutDescription) {
+            return '';
+        }
+
+        return renderHtml
+            ? renderHtml(spec.viewSpec.layoutDescription)
+            : spec.viewSpec.layoutDescription;
+    }, [spec.viewSpec.layoutDescription, renderHtml]);
+ */
     useErrorChecker({name, meta, open, setOpen});
 
     return (
@@ -54,6 +66,7 @@ export const Accordeon = <
             hideInsteadOfDestroy
             withBranchView
             variantTitle={variantTitle}
+            renderHtml={renderHtml}
         >
             <ErrorWrapper name={name} meta={meta} withoutChildErrorStyles>
                 {children}

@@ -46,7 +46,9 @@ const RowBase = <T extends FieldValue, S extends Spec>({
                                         placement: COMMON_POPOVER_PLACEMENT,
                                     }}
                                 >
-                                    {spec.viewSpec.layoutDescription}
+                                    {renderHtml
+                                        ? renderHtml(spec.viewSpec.layoutDescription)
+                                        : spec.viewSpec.layoutDescription}
                                 </HelpMark>
                             </Text>
                         </span>
