@@ -20,17 +20,6 @@ const spec: ObjectSpec = {
             type: SpecTypes.Object,
             required: true,
             properties: {
-                alert: {
-                    type: SpecTypes.String,
-                    viewSpec: {
-                        type: 'text_content',
-                        textContentParams: {
-                            text: '### Introduction to Web Technologies\n Markdown is **incredibly useful** for quick documentation. It allows you to: \n\n _Format text easily_\n\n -Create lists-\n\n -Add links <div class="important-note"> <h3>Important HTML Section</h3> <p>This section uses HTML for more complex formatting needs that Markdown doesnt support natively.</p> </div>',
-                            themeAlert: 'info',
-                            icon: '',
-                        },
-                    },
-                },
                 row: {
                     type: SpecTypes.Boolean,
                     viewSpec: {
@@ -45,9 +34,20 @@ const spec: ObjectSpec = {
                     viewSpec: {
                         type: 'base',
                         layout: 'row_verbose',
-                        layoutTitle: 'Row Verbose description html',
+                        layoutTitle: 'Row Verbose',
                         placeholder: 'placeholder text',
-                        layoutDescription: '<code>Row Verbose description html</code>',
+                        layoutDescription: '`Row Verbose description md`',
+                    },
+                },
+                alert: {
+                    type: SpecTypes.String,
+                    viewSpec: {
+                        type: 'text_content',
+                        textContentParams: {
+                            text: '### Introduction to Web Technologies\n Markdown is **incredibly useful** for quick documentation. It allows you to: \n\n _Format text easily_\n\n -Create lists-\n\n -Add links <div class="important-note"> <h3>Important HTML Section</h3> <p>This section uses HTML for more complex formatting needs that Markdown doesnt support natively.</p> </div>',
+                            themeAlert: 'info',
+                            icon: '',
+                        },
                     },
                 },
             },
@@ -68,10 +68,10 @@ const spec: ObjectSpec = {
                     viewSpec: {
                         type: 'base',
                         layout: 'column',
-                        layoutTitle: 'Name',
+                        layoutTitle: 'column',
                         placeholder: 'placeholder text',
                         layoutDescription:
-                            "<a href='https://github.com/gravity-ui/dynamic-forms' target='__blank'>Link html Dynamic Forms</a>",
+                            '[Link html Dynamic Forms](https://github.com/gravity-ui/dynamic-forms)',
                     },
                 },
             },

@@ -21,6 +21,7 @@ This component serves as the primary entry point for drawing dynamic forms.
 | destroyOnUnregister     | `boolean`                                |          | If true, the value of a field will be destroyed when that field is unregistered. Defaults to true                                                         |
 | generateRandomValue     | `function`                               |          | Function that is necessary to generate a random value                                                                                                     |
 | storeSubscriber         | `(storeValue: FieldValue) => void`       |          | Subscriber function will be called when internal store of dynamic field is changed                                                                        |
+| renderHtml              | `function`                               |          | Function for custom rendering of HTML and markdown content in descriptions                                                                                |
 
 ### Controller
 
@@ -48,6 +49,7 @@ This component serves as the primary entry point for creating an overview of for
 | Link                  | `React.ComponentType<{value: FormValue; link: Spec['viewSpec']['link'];}>` |          | [Component](./spec.md#link) for converting values to links                                                                  |
 | Monaco                | `React.ComponentType<MonacoEditorProps>`                                   |          | [MonacoEditor](https://github.com/react-monaco-editor/react-monaco-editor) component for Monaco [Input](./config.md#inputs) |
 | showLayoutDescription | boolean                                                                    |          | enable to show viewSpec.layoutDescription hint                                                                              |
+| renderHtml            | `function`                                                                 |          | Function for custom rendering of HTML and markdown content in descriptions                                                  |
 
 ### ViewController
 

@@ -14,6 +14,7 @@ export const ViewAccordeonCard = <T extends ArrayViewLayoutProps | ObjectViewLay
     children,
 }: T): JSX.Element | null => {
     const renderHtml = useRenderHtml();
+
     const [open, setOpen] = React.useState(
         isBoolean(spec.viewSpec.layoutOpen) ? spec.viewSpec.layoutOpen : true,
     );

@@ -32,6 +32,25 @@ const RowBase = <T extends FieldValue, S extends Spec>({
     const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
     const generateButton = React.useMemo(() => withGenerateButton(spec), [spec]);
 
+    const verboseDescriptionContent = React.useMemo(() => {
+        if (verboseDescription && spec.viewSpec.layoutDescription) {
+            return (
+                <React.Fragment>
+                    {renderHtml ? (
+                        renderHtml(spec.viewSpec.layoutDescription)
+                    ) : (
+                        <div
+                            className={b('description')}
+                            dangerouslySetInnerHTML={{__html: spec.viewSpec.layoutDescription}}
+                        />
+                    )}
+                </React.Fragment>
+            );
+        }
+
+        return null;
+    }, [renderHtml, spec.viewSpec.layoutDescription, verboseDescription]);
+
     return (
         <div className={b()}>
             <div className={b('left')}>
@@ -85,16 +104,7 @@ const RowBase = <T extends FieldValue, S extends Spec>({
                         </Button>
                     ) : null}
                 </div>
-                {verboseDescription && spec.viewSpec.layoutDescription ? (
-                    renderHtml ? (
-                        renderHtml(spec.viewSpec.layoutDescription)
-                    ) : (
-                        <div
-                            className={b('description')}
-                            dangerouslySetInnerHTML={{__html: spec.viewSpec.layoutDescription}}
-                        />
-                    )
-                ) : null}
+                {verboseDescriptionContent}
             </div>
         </div>
     );

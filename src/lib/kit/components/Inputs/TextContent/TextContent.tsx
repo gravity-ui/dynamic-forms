@@ -5,9 +5,9 @@ import {isEmpty} from 'lodash';
 import cloneDeep from 'lodash/cloneDeep';
 
 import type {StringIndependentInput, StringSpec} from '../../../../core';
+import {useRenderHtml} from '../../../../core/components/Form/hooks/useRenderHtml';
 import {block} from '../../../utils';
 import {LazyLoader} from '../../LazyLoader';
-import {useRenderHtml} from '../../../../core/components/Form/hooks/useRenderHtml';
 
 import {loadIcon} from './utils';
 
