@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.2.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.2.0...v5.2.1) (2025-03-17)
+
+
+### Bug Fixes
+
+* **ErrorWrapper:** fix control border color ([#286](https://github.com/gravity-ui/dynamic-forms/issues/286)) ([a431e95](https://github.com/gravity-ui/dynamic-forms/commit/a431e957d27f5cd39323fa536eb28b2917530265))
+
 ## [5.2.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.1.0...v5.2.0) (2025-03-13)
 
 
