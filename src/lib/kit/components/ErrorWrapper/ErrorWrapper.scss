@@ -23,7 +23,7 @@
         .g-text-input_view_normal:not(.#{$ns}error-wrapper-ignore) .g-text-input__content,
         .yc-checkbox__indicator:not(.#{$ns}error-wrapper-ignore)::before,
         .g-checkbox__indicator:not(.#{$ns}error-wrapper-ignore)::before {
-            border-color: var(--g-color-text-danger);
+            border-color: var(--g-color-line-danger);
         }
     }
 
