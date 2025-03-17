@@ -3,42 +3,40 @@
 $block: '.#{$ns}section';
 
 #{$block} {
-    margin-bottom: $normalOffset;
+    margin-bottom: var(--df-spacing-inputs-section, $df-spacing-inputs-section);
 
     $block: &;
 
     &:last-child {
-        margin-bottom: 0;
+        margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
     }
 
     &__header {
-        margin-bottom: $normalOffset;
+        display: flex;
+        align-items: center;
+        margin-bottom: var(--df-section-header-margin-bottom, var(--g-spacing-5));
 
-        &_with-popover {
-            display: flex;
-            align-items: center;
+        &_size_s {
+            height: var(--df-section-header-size-s, 18px);
+        }
+
+        &_size_m {
+            height: var(--df-section-header-size-m, 20px);
         }
     }
 
     &__title {
-        max-width: 533px;
-        font-weight: 500;
-        margin: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        max-width: var(--df-section-title-max-width, 533px);
+    }
 
-        &_size_s {
-            font-size: 13px;
-        }
-
-        &_size_m {
-            font-size: 15px;
-        }
+    &__popover {
+        padding: var(--g-spacing-2);
+        overflow-wrap: break-word;
+        max-width: 300px;
     }
 
     &__note {
-        margin-left: 5px;
+        margin-left: var(--df-section-note-margin-left, var(--g-spacing-1));
 
         .g-help-popover {
             display: flex;
@@ -50,6 +48,10 @@ $block: '.#{$ns}section';
     }
 
     &__description {
-        margin-top: 4px;
+        margin-top: var(--df-section-description-margin-top, var(--g-spacing-1));
+    }
+
+    &__remove-button {
+        margin-left: var(--df-remove-button-margin-left, $df-remove-button-margin-left);
     }
 }

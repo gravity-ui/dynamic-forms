@@ -1,9 +1,9 @@
-import {LabelProps} from '@gravity-ui/uikit';
-import {ColorTextBaseProps} from '@gravity-ui/uikit/build/esm/components/Text/colorText/colorText';
+import type {AlertProps, LabelProps} from '@gravity-ui/uikit';
+import type {ColorTextBaseProps} from '@gravity-ui/uikit/build/esm/components/Text/colorText/colorText';
 
-import {ReadAsMethod, SpecTypes} from '../constants';
+import type {ReadAsMethod, SpecTypes} from '../constants';
 
-import {ArrayValue, ObjectValue} from './';
+import type {ArrayValue, ObjectValue} from './';
 
 export interface ArraySpec<
     LinkType = any,
@@ -43,6 +43,10 @@ export interface ArraySpec<
         };
         inputProps?: InputComponentProps;
         layoutProps?: LayoutComponentProps;
+        checkboxGroupParams?: {
+            placement?: 'horizontal' | 'vertical';
+            disabled?: Record<string, boolean>;
+        };
     };
 }
 
@@ -169,6 +173,9 @@ export interface StringSpec<
             text: string;
             icon?: string;
             iconColor?: ColorTextBaseProps['color'];
+            titleAlert?: string;
+            themeAlert?: AlertProps['theme'];
+            viewAlert?: AlertProps['view'];
         };
         fileInput?: {
             accept?: string;
@@ -178,6 +185,7 @@ export interface StringSpec<
         dateInput?: {
             outputFormat?: string;
             printFormat?: string;
+            timeZone?: string;
         };
         copy?: boolean;
         selectParams?: {

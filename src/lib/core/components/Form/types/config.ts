@@ -1,6 +1,6 @@
-import {FormValue, Spec} from '../../../types';
+import type {FormValue, Spec} from '../../../types';
 
-import {
+import type {
     ArrayConfig,
     BooleanConfig,
     FieldValue,

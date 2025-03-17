@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {FormValue, Spec, ViewLayoutProps} from '../../../../core';
+import type {FormValue, Spec, ViewLayoutProps} from '../../../../core';
 import {isNotEmptyValue} from '../../../utils';
 import {Group, Group2, Section, Section2} from '../../Layouts';
 

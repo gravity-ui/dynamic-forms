@@ -2,7 +2,7 @@
 
 .#{$ns}monaco-view-dialog {
     .g-dialog-footer {
-        padding: 10px 32px 32px;
+        padding: var(--df-monaco-view-dialog-footer-padding, var(--g-spacing-4));
     }
 
     &__container {
@@ -10,6 +10,6 @@
     }
 
     &__dialog-header {
-        height: 48px;
+        height: var(--df-monaco-view-dialog-header-height, 48px);
     }
 }

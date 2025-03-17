@@ -5,16 +5,15 @@ import {Button, Icon, Text} from '@gravity-ui/uikit';
 import isObjectLike from 'lodash/isObjectLike';
 import set from 'lodash/set';
 
-import {
-    Controller,
+import type {
     FieldObjectValue,
     FieldValue,
     ObjectIndependentInput,
     ObjectIndependentInputProps,
     ObjectValue,
     ValidateError,
-    transformArrIn,
 } from '../../../../core';
+import {Controller, transformArrIn} from '../../../../core';
 import {block, filterPropertiesForObjectInline} from '../../../utils';
 
 import './ObjectBase.scss';
@@ -82,7 +81,9 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
             : spec.properties;
 
         const delimiter = spec.viewSpec.delimiter;
-        const orderProperties = spec.viewSpec.order || Object.keys(specProperties);
+        const orderProperties = spec.viewSpec.order?.length
+            ? spec.viewSpec.order
+            : Object.keys(specProperties);
 
         return (
             <div className={b('content', {inline})}>

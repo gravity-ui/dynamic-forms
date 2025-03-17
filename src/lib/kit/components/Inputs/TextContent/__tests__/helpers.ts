@@ -1,4 +1,5 @@
-import {SpecTypes, StringSpec} from '../../../../../core';
+import type {StringSpec} from '../../../../../core';
+import {SpecTypes} from '../../../../../core';
 
 export const TEXT_CONTENT_SPEC: Record<string, StringSpec> = {
     defaultText: {
@@ -129,6 +130,69 @@ export const TEXT_CONTENT_SPEC: Record<string, StringSpec> = {
                 text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit',
                 themeLabel: 'info',
                 icon: 'CircleInfo',
+            },
+        },
+    },
+    defaultAlert: {
+        type: SpecTypes.String,
+        viewSpec: {
+            type: 'text_content',
+            textContentParams: {
+                text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit',
+                themeAlert: 'info',
+                titleAlert: 'Title Alert',
+            },
+        },
+    },
+    alertLayoutRow: {
+        type: SpecTypes.String,
+        viewSpec: {
+            type: 'text_content',
+            textContentParams: {
+                text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit',
+                themeAlert: 'info',
+                titleAlert: 'Title Alert',
+            },
+            layout: 'row',
+            layoutTitle: 'Text Content',
+            layoutDescription: 'Description',
+        },
+    },
+    alertLayoutRowVerbose: {
+        type: SpecTypes.String,
+        viewSpec: {
+            type: 'text_content',
+            textContentParams: {
+                text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit',
+                themeAlert: 'info',
+                titleAlert: 'Title Alert',
+            },
+            layout: 'row_verbose',
+            layoutTitle: 'Text Content',
+            layoutDescription: 'Description',
+        },
+    },
+    alertLayoutTransparent: {
+        type: SpecTypes.String,
+        viewSpec: {
+            type: 'text_content',
+            textContentParams: {
+                text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit',
+                themeAlert: 'info',
+                titleAlert: 'Title Alert',
+            },
+            layout: 'transparent',
+            layoutTitle: 'Text Content',
+            layoutDescription: 'Description',
+        },
+    },
+    alertWithoutTitle: {
+        type: SpecTypes.String,
+        viewSpec: {
+            type: 'text_content',
+            textContentParams: {
+                text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit',
+                themeAlert: 'info',
             },
         },
     },

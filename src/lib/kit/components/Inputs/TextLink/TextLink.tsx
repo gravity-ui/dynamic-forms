@@ -3,13 +3,8 @@ import React from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import set from 'lodash/set';
 
-import {
-    Controller,
-    FieldValue,
-    ObjectIndependentInput,
-    ValidateError,
-    isStringSpec,
-} from '../../../../core';
+import type {FieldValue, ObjectIndependentInput, ValidateError} from '../../../../core';
+import {Controller, isStringSpec} from '../../../../core';
 
 const TEXT_LINK_PROPERTY_NAME = 'text';
 

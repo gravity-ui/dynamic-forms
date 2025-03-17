@@ -1,21 +1,13 @@
 import cloneDeep from 'lodash/cloneDeep';
 import isArray from 'lodash/isArray';
+import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
 import isObject from 'lodash/isObject';
 import isObjectLike from 'lodash/isObjectLike';
 import isString from 'lodash/isString';
 
-import {
-    FormValue,
-    NumberSpec,
-    ObjectValue,
-    Spec,
-    SpecTypes,
-    StringSpec,
-    isArraySpec,
-    isObjectSpec,
-    isStringSpec,
-} from '../../core';
+import type {FormValue, NumberSpec, ObjectValue, Spec, StringSpec} from '../../core';
+import {SpecTypes, isArraySpec, isObjectSpec, isStringSpec} from '../../core';
 import {isFloat} from '../validators/helpers';
 
 import {divide} from './bigIntMath';
@@ -63,6 +55,7 @@ export const isNotEmptyValue = (value: FormValue | undefined, spec: Spec | undef
 export const prepareSpec = <Type extends Spec>(
     spec: Type,
     parseJsonDefaultValue?: boolean,
+    overridePatternError?: (pattern?: string) => string,
 ): Type => {
     if (isObjectLike(spec)) {
         const result: Record<string, any> = cloneDeep(spec);
@@ -104,13 +97,6 @@ export const prepareSpec = <Type extends Spec>(
             result.viewSpec.addButtonPosition = result.viewSpec.addButtonPosition.toLowerCase();
         }
 
-        if (isString(result.viewSpec?.themeLabel)) {
-            result.viewSpec.textContentParams = {
-                ...result.viewSpec.textContentParams,
-                themeLabel: result.viewSpec.themeLabel.toLowerCase(),
-            };
-        }
-
         if (isString(result.viewSpec?.oneOfParams?.toggler)) {
             result.viewSpec.oneOfParams.toggler = result.viewSpec.oneOfParams.toggler.toLowerCase();
         }
@@ -118,6 +104,16 @@ export const prepareSpec = <Type extends Spec>(
         if (isString(result.viewSpec?.textContentParams?.themeLabel)) {
             result.viewSpec.textContentParams.themeLabel =
                 result.viewSpec.textContentParams.themeLabel.toLowerCase();
+        }
+
+        if (isString(result.viewSpec?.textContentParams?.themeAlert)) {
+            result.viewSpec.textContentParams.themeAlert =
+                result.viewSpec.textContentParams.themeAlert.toLowerCase();
+        }
+
+        if (isString(result.viewSpec?.textContentParams?.viewAlert)) {
+            result.viewSpec.textContentParams.viewAlert =
+                result.viewSpec.textContentParams.viewAlert.toLowerCase();
         }
 
         if (isString(result.validator)) {
@@ -140,8 +136,12 @@ export const prepareSpec = <Type extends Spec>(
             }
         }
 
+        if (!isEmpty(result.pattern) && isEmpty(result.patternError) && overridePatternError) {
+            result.patternError = overridePatternError(result.pattern);
+        }
+
         if (result.items) {
-            result.items = prepareSpec(result.items, parseJsonDefaultValue);
+            result.items = prepareSpec(result.items, parseJsonDefaultValue, overridePatternError);
         }
 
         if (result.maximum === 0 && result.minimum === 0) {
@@ -163,7 +163,11 @@ export const prepareSpec = <Type extends Spec>(
 
         if (isObjectLike(result.properties)) {
             Object.keys(result.properties).forEach((key) => {
-                result.properties[key] = prepareSpec(result.properties[key], parseJsonDefaultValue);
+                result.properties[key] = prepareSpec(
+                    result.properties[key],
+                    parseJsonDefaultValue,
+                    overridePatternError,
+                );
             });
         }
 

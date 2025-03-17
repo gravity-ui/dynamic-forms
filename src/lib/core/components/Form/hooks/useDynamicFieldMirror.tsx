@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {DynamicFieldMirror, WonderMirror} from '../types';
+import type {DynamicFieldMirror, WonderMirror} from '../types';
 
 export const useDynamicFieldMirror = (params: DynamicFieldMirror, __mirror?: WonderMirror) => {
     if (__mirror?.field) {

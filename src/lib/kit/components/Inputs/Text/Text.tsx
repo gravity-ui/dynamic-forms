@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {PasswordInput} from '@gravity-ui/components';
-import {TextInput, TextInputProps as TextInputBaseProps} from '@gravity-ui/uikit';
+import type {TextInputProps as TextInputBaseProps} from '@gravity-ui/uikit';
+import {PasswordInput, TextInput} from '@gravity-ui/uikit';
 import isNil from 'lodash/isNil';
 
-import {FieldRenderProps, NumberInputProps, StringInputProps} from '../../../../core';
+import type {FieldRenderProps, NumberInputProps, StringInputProps} from '../../../../core';
 
 export interface TextProps
     extends Omit<
@@ -31,9 +31,7 @@ export const Text = <T extends NumberInputProps<TextProps> | StringInputProps<Te
     };
 
     if (spec.viewSpec.type === 'password') {
-        return (
-            <PasswordInput {...props} autoComplete="new-password" showCopyButton showRevealButton />
-        );
+        return <PasswordInput {...props} autoComplete="new-password" />;
     }
 
     return <TextInput {...props} type="text" />;

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {SECTION, VALUE} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {SECTION, VALUE} from './helpers';
 
 test.describe('Section', () => {
     test('section array spec', async ({mount, expectScreenshot}) => {

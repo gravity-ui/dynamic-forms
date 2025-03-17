@@ -1,8 +1,8 @@
-import React from 'react';
+import type React from 'react';
 
-import {Spec} from '../../../types';
+import type {Spec} from '../../../types';
 
-import {FieldRenderProps, FieldValue, LayoutType} from './';
+import type {FieldRenderProps, FieldValue, LayoutType} from './';
 
 export type InputProps<
     Value extends FieldValue,

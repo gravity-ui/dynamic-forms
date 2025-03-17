@@ -1,5 +1,178 @@
 # Changelog
 
+## [5.2.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.1.0...v5.2.0) (2025-03-13)
+
+
+### Features
+
+* add store subscriber prop for dynamic field ([#284](https://github.com/gravity-ui/dynamic-forms/issues/284)) ([9e6c0e0](https://github.com/gravity-ui/dynamic-forms/commit/9e6c0e097d07d93dbcaca95feb9b82ea519859e8))
+* eslint add rules import type and order ([#281](https://github.com/gravity-ui/dynamic-forms/issues/281)) ([7792e63](https://github.com/gravity-ui/dynamic-forms/commit/7792e63f8b12a469e9423b6ac17b43ef4c85fb3a))
+
+## [5.1.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.0.0...v5.1.0) (2025-02-14)
+
+
+### Features
+
+* Desing change ([#276](https://github.com/gravity-ui/dynamic-forms/issues/276)) ([537fd8d](https://github.com/gravity-ui/dynamic-forms/commit/537fd8d9dc552d031ce59097bd25f49730509735))
+
+## [5.0.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.17.0...v5.0.0) (2025-02-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* udpate uikit 7 ([#266](https://github.com/gravity-ui/dynamic-forms/issues/266))
+
+### chore
+
+* udpate uikit 7 ([#266](https://github.com/gravity-ui/dynamic-forms/issues/266)) ([e3addab](https://github.com/gravity-ui/dynamic-forms/commit/e3addab09b46f4558a8ca36c6f1909c8f1205048))
+
+## [4.17.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.16.1...v4.17.0) (2025-02-10)
+
+
+### Features
+
+* add layout props variant header for section and accordeon and a… ([#271](https://github.com/gravity-ui/dynamic-forms/issues/271)) ([78baa28](https://github.com/gravity-ui/dynamic-forms/commit/78baa2864744683d2b5fdb4feb28536aecf22831))
+
+
+### Bug Fixes
+
+* update actions preview build and preview deploy ([#272](https://github.com/gravity-ui/dynamic-forms/issues/272)) ([00a3bb4](https://github.com/gravity-ui/dynamic-forms/commit/00a3bb4bd996bf74c7fc42ad97b4c329e7545d53))
+
+## [4.16.1](https://github.com/gravity-ui/dynamic-forms/compare/v4.16.0...v4.16.1) (2025-02-07)
+
+
+### Bug Fixes
+
+* card one of view layout ([#273](https://github.com/gravity-ui/dynamic-forms/issues/273)) ([dcac2b1](https://github.com/gravity-ui/dynamic-forms/commit/dcac2b1744e1ed34a5f0590329a5ae8504417473))
+* hide stotybook actions ([#264](https://github.com/gravity-ui/dynamic-forms/issues/264)) ([824be18](https://github.com/gravity-ui/dynamic-forms/commit/824be18ac4882475e6f277372c0f47d63dcc1ffa))
+* playwright report ([#268](https://github.com/gravity-ui/dynamic-forms/issues/268)) ([ac75f76](https://github.com/gravity-ui/dynamic-forms/commit/ac75f765b3a7a8ef5f0258474aaed02d807dcdc8))
+* text content theme ([#267](https://github.com/gravity-ui/dynamic-forms/issues/267)) ([aa2963c](https://github.com/gravity-ui/dynamic-forms/commit/aa2963cd999413fbe41d57396fb26551cb351593))
+
+## [4.16.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.15.0...v4.16.0) (2025-01-22)
+
+
+### Features
+
+* added new view text content alert ([#265](https://github.com/gravity-ui/dynamic-forms/issues/265)) ([2c19763](https://github.com/gravity-ui/dynamic-forms/commit/2c197632e6b5d718f94ddf7e652f6352bc5e9a6f))
+* css api ([#254](https://github.com/gravity-ui/dynamic-forms/issues/254)) ([c5608e7](https://github.com/gravity-ui/dynamic-forms/commit/c5608e7eee86f61348dacd79e2c13665ef054b22))
+
+
+### Bug Fixes
+
+* playwright ci ([#263](https://github.com/gravity-ui/dynamic-forms/issues/263)) ([a47ec49](https://github.com/gravity-ui/dynamic-forms/commit/a47ec49cfe982ae38b5d878bd1ab40312f4c8d56))
+* upload s3 playwright tests ([#259](https://github.com/gravity-ui/dynamic-forms/issues/259)) ([33b8173](https://github.com/gravity-ui/dynamic-forms/commit/33b8173cf38f0c72d68bfb294cbe9831c3ae7d7b))
+
+## [4.15.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.14.3...v4.15.0) (2024-12-12)
+
+
+### Features
+
+* add column view ([#257](https://github.com/gravity-ui/dynamic-forms/issues/257)) ([0138f29](https://github.com/gravity-ui/dynamic-forms/commit/0138f29f1352d4e1fb5b62efa5e40c446a09412a))
+
+
+### Bug Fixes
+
+* Fix meta types ([#255](https://github.com/gravity-ui/dynamic-forms/issues/255)) ([e7a710c](https://github.com/gravity-ui/dynamic-forms/commit/e7a710ce90c48440c35624dd2c5b093adb9f39d5))
+
+## [4.14.3](https://github.com/gravity-ui/dynamic-forms/compare/v4.14.2...v4.14.3) (2024-11-29)
+
+
+### Bug Fixes
+
+* fix remove button for array item object ([#251](https://github.com/gravity-ui/dynamic-forms/issues/251)) ([f156e5b](https://github.com/gravity-ui/dynamic-forms/commit/f156e5b8ecd230da2de3de52422a3ec182c653bf))
+
+## [4.14.2](https://github.com/gravity-ui/dynamic-forms/compare/v4.14.1...v4.14.2) (2024-11-12)
+
+
+### Bug Fixes
+
+* Unify behavior of empty and undefined `viewSpec.order` in object form ([#246](https://github.com/gravity-ui/dynamic-forms/issues/246)) ([d67e322](https://github.com/gravity-ui/dynamic-forms/commit/d67e32296657b917f658f175db6eade1bb0ba992))
+
+## [4.14.1](https://github.com/gravity-ui/dynamic-forms/compare/v4.14.0...v4.14.1) (2024-11-08)
+
+
+### Bug Fixes
+
+* date picker components value parser ([#243](https://github.com/gravity-ui/dynamic-forms/issues/243)) ([395eb37](https://github.com/gravity-ui/dynamic-forms/commit/395eb370c0fbc1e586b90e23c3512a57b971800d))
+
+## [4.14.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.13.0...v4.14.0) (2024-10-17)
+
+
+### Features
+
+* add ability to use external values for shared context ([#240](https://github.com/gravity-ui/dynamic-forms/issues/240)) ([d1b69cb](https://github.com/gravity-ui/dynamic-forms/commit/d1b69cb8f98672423616b40f245d61120dbf21c4))
+
+## [4.13.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.12.0...v4.13.0) (2024-10-15)
+
+
+### Features
+
+* add shared store to context ([#238](https://github.com/gravity-ui/dynamic-forms/issues/238)) ([87854ca](https://github.com/gravity-ui/dynamic-forms/commit/87854caa484e13efe4ab6667455537670e805cf5))
+
+## [4.12.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.11.0...v4.12.0) (2024-09-16)
+
+
+### Features
+
+* add view for text-content ([#235](https://github.com/gravity-ui/dynamic-forms/issues/235)) ([a04374a](https://github.com/gravity-ui/dynamic-forms/commit/a04374a826c2186d8a92916933408b9d99d718a9))
+
+## [4.11.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.10.0...v4.11.0) (2024-08-22)
+
+
+### Features
+
+* add styles for long value ([#230](https://github.com/gravity-ui/dynamic-forms/issues/230)) ([d426f02](https://github.com/gravity-ui/dynamic-forms/commit/d426f02f9bb2eef7fdaf94f8071f042686164eae))
+
+## [4.10.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.9.0...v4.10.0) (2024-08-21)
+
+
+### Features
+
+* add styles for long value ([#228](https://github.com/gravity-ui/dynamic-forms/issues/228)) ([6d73640](https://github.com/gravity-ui/dynamic-forms/commit/6d736401f1077f3760e40179e600bd611d48bfaa))
+
+## [4.9.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.8.0...v4.9.0) (2024-08-20)
+
+
+### Features
+
+* add click handler prop for long value ([#226](https://github.com/gravity-ui/dynamic-forms/issues/226)) ([5495961](https://github.com/gravity-ui/dynamic-forms/commit/5495961dcb9646f63c12cac65c2367a341b9405d))
+
+## [4.8.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.7.3...v4.8.0) (2024-08-20)
+
+
+### Features
+
+* add ability to use custom patternError ([#224](https://github.com/gravity-ui/dynamic-forms/issues/224)) ([10768ff](https://github.com/gravity-ui/dynamic-forms/commit/10768ff195b492a029c96cfb0e903db7fe2b12dd))
+
+## [4.7.3](https://github.com/gravity-ui/dynamic-forms/compare/v4.7.2...v4.7.3) (2024-08-20)
+
+
+### Bug Fixes
+
+* add observer for long value component ([#221](https://github.com/gravity-ui/dynamic-forms/issues/221)) ([836ab26](https://github.com/gravity-ui/dynamic-forms/commit/836ab2674e8c109f63a71fa58438d5022745b488))
+
+## [4.7.2](https://github.com/gravity-ui/dynamic-forms/compare/v4.7.1...v4.7.2) (2024-08-19)
+
+
+### Bug Fixes
+
+* copy button and long value components fixes ([#219](https://github.com/gravity-ui/dynamic-forms/issues/219)) ([176200d](https://github.com/gravity-ui/dynamic-forms/commit/176200d80eab83132fdc6f46454d49197550a5bb))
+
+## [4.7.1](https://github.com/gravity-ui/dynamic-forms/compare/v4.7.0...v4.7.1) (2024-08-13)
+
+
+### Bug Fixes
+
+* version date-components and date-utils ([#217](https://github.com/gravity-ui/dynamic-forms/issues/217)) ([a76b204](https://github.com/gravity-ui/dynamic-forms/commit/a76b204fa48fbbd12801a8145d11d28127c82110))
+
+## [4.7.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.6.0...v4.7.0) (2024-08-12)
+
+
+### Features
+
+* **CheckboxGroup:** added new input CheckboxGroup ([#214](https://github.com/gravity-ui/dynamic-forms/issues/214)) ([075e48b](https://github.com/gravity-ui/dynamic-forms/commit/075e48b1e1a804e8d57d905d62a19a5c370a9b04))
+* **TimeRangeSelector:** added new input Time Range Selector ([#216](https://github.com/gravity-ui/dynamic-forms/issues/216)) ([2acde25](https://github.com/gravity-ui/dynamic-forms/commit/2acde25ced03057bd1bf03978fca49f35451ea23))
+
 ## [4.6.0](https://github.com/gravity-ui/dynamic-forms/compare/v4.5.0...v4.6.0) (2024-07-16)
 
 

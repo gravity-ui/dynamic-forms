@@ -2,7 +2,7 @@ import isArray from 'lodash/isArray';
 import isNumber from 'lodash/isNumber';
 import isString from 'lodash/isString';
 
-import {
+import type {
     ArraySpec,
     ArrayValue,
     BooleanSpec,
@@ -14,7 +14,7 @@ import {
 import {ErrorMessages} from '../validators';
 
 import {isFloat, isInt} from './helpers';
-import {ErrorMessagesType} from './types';
+import type {ErrorMessagesType} from './types';
 
 interface CommonValidatorParams {
     ignoreRequiredCheck?: boolean;

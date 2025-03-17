@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {HelpPopover} from '@gravity-ui/components';
 import {ChevronDown} from '@gravity-ui/icons';
-import {Button, Icon, Popover, Text} from '@gravity-ui/uikit';
+import type {TextProps} from '@gravity-ui/uikit';
+import {Button, HelpMark, Icon, Popover, Text} from '@gravity-ui/uikit';
 
 import {COMMON_POPOVER_PLACEMENT} from '../../constants/common';
 import {block} from '../../utils';
@@ -27,6 +27,7 @@ interface SimpleVerticalAccordeonProps {
     hideInsteadOfDestroy?: boolean;
     withBranchView?: boolean;
     viewLayout?: boolean;
+    variantTitle?: TextProps['variant'];
 }
 
 interface SimpleVerticalAccordeonState {
@@ -81,6 +82,7 @@ export class SimpleVerticalAccordeon extends React.Component<
             withBranchView,
             viewLayout,
             name,
+            variantTitle,
         } = this.props;
         const {open, hidden, isFirstRender} = this.state;
 
@@ -104,7 +106,7 @@ export class SimpleVerticalAccordeon extends React.Component<
         const titlePopoverDisabled =
             (this.titleRef.current?.offsetWidth || 0) <= TITLE_TEXT_MAX_WIDTH;
 
-        const currentTitleVariant = this.getCurrentTitleVariant();
+        const currentTitleVariant = variantTitle || this.getCurrentTitleVariant();
 
         return (
             Boolean(React.Children.count(children)) && (
@@ -114,6 +116,8 @@ export class SimpleVerticalAccordeon extends React.Component<
                             content={title}
                             disabled={titlePopoverDisabled}
                             placement={COMMON_POPOVER_PLACEMENT}
+                            className={b('popover')}
+                            hasArrow={true}
                         >
                             <Button
                                 view="flat"
@@ -197,7 +201,13 @@ export class SimpleVerticalAccordeon extends React.Component<
 
         return note ? (
             <Text className={b('tooltip')}>
-                <HelpPopover htmlContent={note} placement={['bottom', 'top']} />
+                <HelpMark
+                    popoverProps={{
+                        placement: COMMON_POPOVER_PLACEMENT,
+                    }}
+                >
+                    {note}
+                </HelpMark>
             </Text>
         ) : null;
     }

@@ -4,16 +4,8 @@ import {Select} from '@gravity-ui/uikit';
 import set from 'lodash/set';
 import {useField} from 'react-final-form';
 
-import {
-    Accordeon,
-    Controller,
-    FieldValue,
-    ObjectIndependentInput,
-    Row,
-    Spec,
-    SpecTypes,
-    ValidateError,
-} from '../../../lib';
+import type {FieldValue, ObjectIndependentInput, Spec, ValidateError} from '../../../lib';
+import {Accordeon, Controller, Row, SpecTypes} from '../../../lib';
 
 import {getOptionsSpec} from './utils';
 

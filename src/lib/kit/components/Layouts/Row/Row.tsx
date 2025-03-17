@@ -1,20 +1,12 @@
 import React from 'react';
 
-import {HelpPopover} from '@gravity-ui/components';
 import {TrashBin} from '@gravity-ui/icons';
-import {Button, Icon, Text} from '@gravity-ui/uikit';
+import {Button, HelpMark, Icon, Text} from '@gravity-ui/uikit';
 
-import {
-    FieldValue,
-    LayoutProps,
-    Spec,
-    StringSpec,
-    isArrayItem,
-    isArraySpec,
-    isObjectSpec,
-    withGenerateButton,
-} from '../../../../core';
+import type {FieldValue, LayoutProps, Spec, StringSpec} from '../../../../core';
+import {isArrayItem, isArraySpec, isObjectSpec, withGenerateButton} from '../../../../core';
 import {ErrorWrapper, GenerateRandomValueButton} from '../../../components';
+import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 import {block} from '../../../utils';
 
 import './Row.scss';
@@ -46,10 +38,13 @@ const RowBase = <T extends FieldValue, S extends Spec>({
                     {!verboseDescription && spec.viewSpec.layoutDescription ? (
                         <span className={b('note')}>
                             <Text className={b('note-inner')}>
-                                <HelpPopover
-                                    htmlContent={spec.viewSpec.layoutDescription}
-                                    placement={['bottom', 'top']}
-                                />
+                                <HelpMark
+                                    popoverProps={{
+                                        placement: COMMON_POPOVER_PLACEMENT,
+                                    }}
+                                >
+                                    {spec.viewSpec.layoutDescription}
+                                </HelpMark>
                             </Text>
                         </span>
                     ) : null}

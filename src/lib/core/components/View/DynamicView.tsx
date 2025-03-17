@@ -4,12 +4,12 @@ import {isValidElementType} from 'react-is';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
 import {isCorrectSpec} from '../../helpers';
-import {FormValue, Spec} from '../../types';
+import type {FormValue, Spec} from '../../types';
 
 import {ViewController} from './ViewController';
 import {isCorrectViewConfig} from './helpers';
-import {useCreateContext} from './hooks';
-import {DynamicViewConfig} from './types';
+import {useCreateContext, useViewSharedStore} from './hooks';
+import type {DynamicViewConfig} from './types';
 
 export interface DynamicViewProps {
     value: FormValue;
@@ -21,6 +21,7 @@ export interface DynamicViewProps {
     }>;
     Monaco?: React.ComponentType<MonacoEditorProps>;
     showLayoutDescription?: boolean;
+    shared?: Record<string, any>;
 }
 
 export const DynamicView = ({
@@ -30,8 +31,10 @@ export const DynamicView = ({
     Link,
     Monaco,
     showLayoutDescription,
+    shared: externalShared,
 }: DynamicViewProps) => {
     const DynamicFormsCtx = useCreateContext();
+    const shared = useViewSharedStore(externalShared);
 
     const context = React.useMemo(
         () => ({
@@ -40,8 +43,9 @@ export const DynamicView = ({
             showLayoutDescription,
             Link,
             Monaco: isValidElementType(Monaco) ? Monaco : undefined,
+            shared,
         }),
-        [config, value, Link, Monaco, showLayoutDescription],
+        [config, value, Link, Monaco, showLayoutDescription, shared],
     );
 
     if (isCorrectSpec(spec) && isCorrectViewConfig(config)) {

@@ -1,27 +1,46 @@
 $ns: 'df-';
 
-// Sizes
-$groupActionsHeight: 56px;
-$pageHeaderHeight: 64px;
-$pageBottomPadding: 40px;
-$ycMenuWidth: 295px;
-$sideMenuWidth: 256px;
-$scrollWidth: 20px;
-$bigOffset: 40px;
-$normalOffset: 20px;
-$smallOffset: $normalOffset * 0.5;
-$tinyOffset: 5px;
-$inlineOffset: 12px;
-$userSize: 42px;
-$userSizeSmall: 28px;
-$mainRightWidth: 295px;
-$priceBlockWidth: 224px;
-$tabsContentMarginTop: 15px;
+//Spasing use from @gravity-uikit
+/*
+@mixin variables {
+    --g-spacing-base: 4px;
 
-// Layers
-$primaryLayoutLayer: 100;
-$secondaryLayoutLayer: 50;
-$notificationLayer: 30000; // to be higher than modal overlay
+    --g-spacing-0: calc(var(--g-spacing-base) * 0); //0px
+    --g-spacing-half: calc(var(--g-spacing-base) * 0.5); //2px
+    --g-spacing-1: var(--g-spacing-base); // 4px
+    --g-spacing-2: calc(var(--g-spacing-base) * 2); // 8px
+    --g-spacing-3: calc(var(--g-spacing-base) * 3); // 12px
+    --g-spacing-4: calc(var(--g-spacing-base) * 4); // 16px
+    --g-spacing-5: calc(var(--g-spacing-base) * 5); // 20px
+    --g-spacing-6: calc(var(--g-spacing-base) * 6); // 24px
+    --g-spacing-7: calc(var(--g-spacing-base) * 7); // 28px
+    --g-spacing-8: calc(var(--g-spacing-base) * 8); // 32px
+    --g-spacing-9: calc(var(--g-spacing-base) * 9); // 36px
+    --g-spacing-10: calc(var(--g-spacing-base) * 10); // 40px
+}
+*/
+
+$negative-g-spacing-2: calc(-1 * var(--g-spacing-2));
+$negative-g-spacing-3: calc(-1 * var(--g-spacing-3));
+
+//Spacing variables
+$df-spacing-inputs: var(--g-spacing-4); // 16px
+$df-spacing-inputs-section: var(--g-spacing-5); // 20px
+$df-spacing-last-child: var(--g-spacing-0); // 0px
+$df-spacing-view: var(--g-spacing-5); // 20px
+
+//Remove button margin
+$df-remove-button-margin-left: var(--g-spacing-1); // 4px
+
+/* Border-radius */
+$df-border-radius-xs: 5px;
+
+// Tooltip container
+$df-popover-item-max-width: 100%;
+$df-popover-item-margin-bottom: 6px;
+
+// Checbox height
+$df-checkbox-height: 28px;
 
 // Fonts
 $defaultFontFamily: var(--g-text-body-font-family);

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {Text} from '@gravity-ui/uikit';
+import {Text, type TextProps} from '@gravity-ui/uikit';
+import once from 'lodash/once';
 
 import {block} from '../../utils';
 
@@ -8,37 +9,48 @@ import './LongValue.scss';
 
 const b = block('long-value');
 
-export interface LongValueProps {
+export interface LongValueProps extends TextProps {
     value?: string | number | boolean;
-    className?: string;
+    onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-export const LongValue: React.FC<LongValueProps> = ({value, className}) => {
-    const prevValue = React.useRef<typeof value | null>(null);
+export const LongValue: React.FC<LongValueProps> = ({
+    value,
+    onClick,
+    className: externalClassName,
+    ...restProps
+}) => {
     const ref = React.useRef<HTMLDivElement>(null);
     const [open, setOpen] = React.useState(false);
     const [long, setLong] = React.useState(false);
 
-    const handleClick = React.useCallback(() => setOpen((f) => !f), [setOpen]);
+    const handleClick = React.useCallback(
+        (e: React.MouseEvent<HTMLDivElement>) => {
+            onClick?.(e);
+            setOpen((f) => !f);
+        },
+        [setOpen, onClick],
+    );
 
-    const currentTextProperies = React.useMemo(() => {
-        let wordBreak: 'break-all' | undefined;
-        let whiteSpace: 'break-spaces' | undefined;
-
-        if (open) {
-            wordBreak = 'break-all';
-            whiteSpace = 'break-spaces';
-        }
-
-        return {wordBreak, whiteSpace};
-    }, [open]);
+    const className = React.useMemo(
+        () =>
+            b(
+                {
+                    open,
+                    long,
+                    ...(restProps.color ? {[restProps.color]: true} : {}),
+                },
+                externalClassName,
+            ),
+        [open, long, externalClassName, restProps.color],
+    );
 
     React.useEffect(() => {
         if (ref.current) {
-            if (value !== prevValue.current) {
-                const {offsetWidth, scrollWidth} = ref.current;
+            const {offsetWidth, scrollWidth} = ref.current;
 
-                if (offsetWidth < scrollWidth) {
+            const setFlags = once((offsetW: number, scrollW: number) => {
+                if (offsetW < scrollW) {
                     if (!long) {
                         setLong(true);
                     }
@@ -51,17 +63,42 @@ export const LongValue: React.FC<LongValueProps> = ({value, className}) => {
                         setOpen(false);
                     }
                 }
+            });
 
-                prevValue.current = value;
+            // element has been rendered, but is not displayed on the page
+            if (offsetWidth === 0 && scrollWidth === 0) {
+                const observer = new IntersectionObserver((entries) => {
+                    const entry = entries.find((e) => e.target === ref.current);
+
+                    if (entry && entry.isIntersecting) {
+                        const target = entry.target as HTMLDivElement;
+
+                        setFlags(target.offsetWidth, target.scrollWidth);
+                    }
+                });
+
+                observer.observe(ref.current);
+
+                return () => {
+                    observer.disconnect();
+                };
+            } else {
+                setFlags(offsetWidth, scrollWidth);
             }
         }
-    });
+
+        return;
+    }, [value]);
 
     return (
-        <div className={b('container')} ref={ref} onClick={long ? handleClick : undefined}>
-            <Text className={b({long}, className)} ellipsis={true} {...currentTextProperies}>
-                {value}
-            </Text>
-        </div>
+        <Text
+            as="div"
+            {...restProps}
+            ref={ref}
+            className={b({open, long}, className)}
+            onClick={long ? handleClick : undefined}
+        >
+            {value}
+        </Text>
     );
 };

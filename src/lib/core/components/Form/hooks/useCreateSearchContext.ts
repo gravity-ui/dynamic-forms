@@ -2,7 +2,7 @@ import React from 'react';
 
 import once from 'lodash/once';
 
-import {SearchContext} from '../types';
+import type {SearchContext} from '../types';
 
 const createContext = once(() => React.createContext({} as unknown as SearchContext));
 

@@ -1,6 +1,6 @@
-import {StringSpec} from '../../../types';
+import type {StringSpec} from '../../../types';
 
-import {
+import type {
     IndependentInputEntity,
     IndependentInputProps,
     IndependentInputType,

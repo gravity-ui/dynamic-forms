@@ -2,17 +2,17 @@
 
 .#{$ns}row {
     display: flex;
-    width: 500px;
-    max-width: 500px;
-    margin-bottom: 15px;
+    width: var(--df-row-width, 500px);
+    max-width: var(--df-row-max-width, 500px);
+    margin-bottom: var(--df-spacing-inputs, $df-spacing-inputs);
 
     &:last-child {
-        margin-bottom: 0;
+        margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
     }
 
     &__left {
-        width: 180px;
-        min-height: 28px;
+        width: var(--df-row-left-width, 180px);
+        min-height: var(--df-row-left-min-height, 28px);
         display: flex;
         margin-bottom: auto;
         flex-direction: column;
@@ -33,7 +33,7 @@
 
     &__title {
         word-break: break-word;
-        margin-right: 3px;
+        margin-right: var(--df-row-title-margin-right, var(--g-spacing-half));
 
         &_required {
             &::after {
@@ -44,12 +44,12 @@
     }
 
     &__note {
-        padding-right: 16px;
+        padding-right: var(--df-row-note-padding-right, var(--g-spacing-4));
         position: relative;
 
         &-inner {
             position: absolute;
-            margin-top: 1px;
+            margin-top: var(--df-row-note-inner-margin-top, var(--g-spacing-0));
 
             .g-help-popover {
                 display: flex;
@@ -66,7 +66,7 @@
         flex-direction: column;
         flex-grow: 1;
         width: 0;
-        margin-left: 15px;
+        margin-left: var(--df-row-right-margin-left, var(--g-spacing-4));
 
         &-inner {
             display: flex;
@@ -75,13 +75,13 @@
     }
 
     &__description {
-        margin-top: 10px;
+        margin-top: var(--df-row-description-margin-top, var(--g-spacing-2));
         color: var(--g-color-text-secondary);
         word-break: break-word;
     }
 
     &__remove-button {
-        margin-left: 5px;
+        margin-left: var(--df-remove-button-margin-left, $df-remove-button-margin-left);
     }
 
     &__required-mark {

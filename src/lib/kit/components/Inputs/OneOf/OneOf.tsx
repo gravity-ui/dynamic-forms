@@ -3,13 +3,13 @@ import React from 'react';
 import set from 'lodash/set';
 
 import {GroupIndent} from '../../';
-import {
-    Controller,
+import type {
     FieldValue,
     ObjectIndependentInput,
     ObjectIndependentInputProps,
     ValidateError,
 } from '../../../../core';
+import {Controller} from '../../../../core';
 import {useOneOf} from '../../../hooks';
 import {block} from '../../../utils';
 

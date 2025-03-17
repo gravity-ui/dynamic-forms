@@ -1,16 +1,16 @@
 import React from 'react';
 
 import {act, render} from '@testing-library/react';
-import {FormApi} from 'final-form';
+import type {FormApi} from 'final-form';
 import cloneDeep from 'lodash/cloneDeep';
 import noop from 'lodash/noop';
 import {Form, useForm} from 'react-final-form';
 
 import {ErrorMessages, dynamicConfig} from '../../../../../kit';
 import {SpecTypes} from '../../../../constants';
-import {ObjectSpec} from '../../../../types';
+import type {ObjectSpec} from '../../../../types';
 import {DynamicField} from '../../DynamicField';
-import {WonderMirror} from '../../types';
+import type {WonderMirror} from '../../types';
 
 const spec: ObjectSpec = {type: SpecTypes.Object, viewSpec: {type: ''}};
 const value = {name: {key: 'value'}};

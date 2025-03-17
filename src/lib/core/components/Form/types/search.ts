@@ -1,6 +1,6 @@
-import {Spec} from '../../../types';
+import type {Spec} from '../../../types';
 
-import {FieldValue} from './value';
+import type {FieldValue} from './value';
 
 export interface SearchContext {
     setField: (name: string, search: boolean) => void;

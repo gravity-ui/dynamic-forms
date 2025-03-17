@@ -1,25 +1,29 @@
 import React from 'react';
 
-import {HelpPopover} from '@gravity-ui/components';
-import {Popover, Text} from '@gravity-ui/uikit';
+import type {TextProps} from '@gravity-ui/uikit';
+import {HelpMark, Popover, Text} from '@gravity-ui/uikit';
 
 import {GroupIndent} from '../../';
 import {COMMON_POPOVER_PLACEMENT, COMMON_TITLE_MAX_WIDTH, ErrorWrapper} from '../../../';
-import {
+import type {
     FieldRenderProps,
     FieldValue,
     FormValue,
     LayoutProps,
     Spec,
     ViewLayoutProps,
-    isArraySpec,
-    isObjectSpec,
 } from '../../../../core';
+import {isArrayItem, isArraySpec, isObjectSpec} from '../../../../core';
 import {block} from '../../../utils';
+import {RemoveButton} from '../../RemoveButton';
 
 import './Section.scss';
 
 const b = block('section');
+
+interface SectionLayoutProps {
+    variantTitle?: TextProps['variant'];
+}
 
 interface SectionProps {
     titleSize: 's' | 'm';
@@ -28,7 +32,11 @@ interface SectionProps {
     descriptionAsSubtitle?: boolean;
 }
 
-const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>({
+const SectionBase = <
+    D extends FieldValue,
+    T extends FormValue,
+    S extends Spec<any, any, SectionLayoutProps>,
+>({
     name,
     spec,
     titleSize,
@@ -37,11 +45,51 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
     descriptionAsSubtitle,
     children,
     ...restProps
-}: (LayoutProps<D, undefined, undefined, S> | ViewLayoutProps<T, S>) & SectionProps) => {
+}: (LayoutProps<D, undefined, SectionLayoutProps, S> | ViewLayoutProps<T, S>) & SectionProps) => {
+    const input = (restProps as FieldRenderProps<D>).input as
+        | FieldRenderProps<D>['input']
+        | undefined;
     const meta = (restProps as FieldRenderProps<D>).meta as FieldRenderProps<D>['meta'] | undefined;
     const arrOrObjFlag = isArraySpec(spec) || isObjectSpec(spec);
     const titleRef = React.useRef<HTMLHeadingElement>(null);
     let content = children;
+
+    const {variantTitle: variantTitleProp} = spec.viewSpec.layoutProps || {};
+
+    const {sizeTitle, variantTitle} = React.useMemo(() => {
+        if (variantTitleProp) {
+            return {
+                sizeTitle: undefined,
+                variantTitle: variantTitleProp,
+            };
+        }
+
+        if (titleSize === 'm') {
+            return {
+                sizeTitle: titleSize,
+                variantTitle: 'body-2',
+            };
+        }
+
+        return {
+            sizeTitle: titleSize,
+            variantTitle: 'body-1',
+        };
+    }, [variantTitleProp, titleSize]);
+
+    const removeButton = React.useMemo(() => {
+        if (input?.value && input?.onDrop && isArrayItem(name)) {
+            return (
+                <RemoveButton
+                    name={name}
+                    onDrop={input.onDrop}
+                    switcherClassName={b('remove-button')}
+                />
+            );
+        }
+
+        return null;
+    }, [input?.value, input?.onDrop, name]);
 
     if (meta) {
         content = (
@@ -69,10 +117,13 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
         } else {
             description = (
                 <Text className={b('note')}>
-                    <HelpPopover
-                        htmlContent={spec.viewSpec.layoutDescription}
-                        placement={['bottom', 'top']}
-                    />
+                    <HelpMark
+                        popoverProps={{
+                            placement: COMMON_POPOVER_PLACEMENT,
+                        }}
+                    >
+                        {spec.viewSpec.layoutDescription}
+                    </HelpMark>
                 </Text>
             );
         }
@@ -88,18 +139,26 @@ const SectionBase = <D extends FieldValue, T extends FormValue, S extends Spec>(
                 <div
                     className={b('header', {
                         'with-popover': !descriptionAsSubtitle,
+                        size: sizeTitle,
                     })}
                 >
                     <Popover
+                        className={b('popover')}
                         content={layoutTitle}
                         placement={COMMON_POPOVER_PLACEMENT}
                         disabled={layoutTitlePopoverDisabled}
                     >
-                        <h2 className={b('title', {size: titleSize})} ref={titleRef}>
+                        <Text
+                            className={b('title')}
+                            variant={variantTitle as TextProps['variant']}
+                            ref={titleRef}
+                            ellipsis
+                        >
                             {layoutTitle}
-                        </h2>
+                        </Text>
                     </Popover>
                     {description}
+                    {removeButton}
                 </div>
             ) : null}
             <div className={b('content')}>{content}</div>

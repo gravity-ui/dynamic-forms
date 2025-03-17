@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {CHECKBOX, VALUE} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {CHECKBOX, VALUE} from './helpers';
 
 test.describe('Checkbox', () => {
     test('default', async ({mount, expectScreenshot}) => {

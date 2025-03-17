@@ -1,0 +1,19 @@
+import {Meta, Markdown} from '@storybook/addon-docs';
+
+import InputPropsMap from '../../docs/input-props-map.md?raw';
+
+<Meta title="Docs/Input props map" />
+
+export const replacements = [
+    ['../src', 'https://github.com/gravity-ui/dynamic-forms/blob/main/src/'],
+];
+
+export const applyReplacements = (text, replacements) => {
+    return replacements.reduce((result, [searchValue, replaceValue]) => {
+        return result.split(searchValue).join(replaceValue);
+    }, text);
+};
+
+export const content = applyReplacements(InputPropsMap, replacements);
+
+<Markdown>{content}</Markdown>

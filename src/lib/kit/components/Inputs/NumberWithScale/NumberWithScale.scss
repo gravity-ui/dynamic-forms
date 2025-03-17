@@ -6,7 +6,7 @@
     }
 
     &__select {
-        max-width: 102px;
-        margin-left: 5px;
+        max-width: var(--df-number-with-scale-select-max-width, 102px);
+        margin-left: var(--df-number-with-scale-select-margin-left, var(--g-spacing-1));
     }
 }

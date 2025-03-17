@@ -1,15 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 
-import {
-    ObjectSpec,
-    Spec,
-    SpecTypes,
-    isArraySpec,
-    isBooleanSpec,
-    isNumberSpec,
-    isObjectSpec,
-    isStringSpec,
-} from '../../../lib';
+import type {ObjectSpec, Spec, SpecTypes} from '../../../lib';
+import {isArraySpec, isBooleanSpec, isNumberSpec, isObjectSpec, isStringSpec} from '../../../lib';
 
 import {
     getArrayOptions,
@@ -65,6 +57,15 @@ export const transformCorrect = (spec: Spec) => {
             property: key,
             text: correctMeta[key],
         })) as unknown as Record<string, string>;
+    }
+
+    if (isArraySpec(_spec) && _spec.viewSpec.checkboxGroupParams?.disabled) {
+        const correctMeta = _spec.viewSpec.checkboxGroupParams.disabled;
+
+        _spec.viewSpec.checkboxGroupParams.disabled = Object.keys(correctMeta).map((key) => ({
+            property: key,
+            disabled: correctMeta[key],
+        })) as unknown as Record<string, boolean>;
     }
 
     if (isObjectSpec(_spec) && _spec.viewSpec.delimiter) {
@@ -164,6 +165,22 @@ export const transformIncorrect = (spec: Spec) => {
         );
     }
 
+    if (isArraySpec(_spec) && _spec.viewSpec.checkboxGroupParams?.disabled) {
+        const incorrectMeta = _spec.viewSpec.checkboxGroupParams.disabled as unknown as {
+            property: string;
+            disabled: boolean;
+        }[];
+
+        _spec.viewSpec.checkboxGroupParams.disabled = incorrectMeta.reduce(
+            (acc: Record<string, boolean>, {property, disabled}) => {
+                acc[property] = disabled;
+
+                return acc;
+            },
+            {},
+        );
+    }
+
     if (isObjectSpec(_spec) && _spec.viewSpec.delimiter) {
         const incorrectDelimiter = _spec.viewSpec.delimiter as unknown as {
             property: string;
@@ -185,8 +202,35 @@ export const transformIncorrect = (spec: Spec) => {
             parse: string;
         }[];
 
-        // @ts-ignore
+        // @ts-expect-error
         _spec.viewSpec.inputProps = incorrectInputProps.reduce(
+            (acc: Record<string, any>, {prop, parse}) => {
+                if (prop?.key && prop?.value) {
+                    if (parse) {
+                        try {
+                            const _value = JSON.parse(prop.value);
+
+                            acc[prop.key] = _value;
+                        } catch {}
+                    } else {
+                        acc[prop.key] = prop.value;
+                    }
+                }
+
+                return acc;
+            },
+            {},
+        );
+    }
+
+    if (_spec.viewSpec.layoutProps) {
+        const incorrectLayoutProps = _spec.viewSpec.layoutProps as unknown as {
+            prop?: {key?: string; value?: string};
+            parse: string;
+        }[];
+
+        // @ts-expect-error
+        _spec.viewSpec.layoutProps = incorrectLayoutProps.reduce(
             (acc: Record<string, any>, {prop, parse}) => {
                 if (prop?.key && prop?.value) {
                     if (parse) {

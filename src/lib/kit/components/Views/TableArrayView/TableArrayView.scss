@@ -2,19 +2,19 @@
 
 .#{$ns}table-array-view {
     &__table {
-        margin-bottom: 10px;
+        margin-bottom: var(--df-table-array-view-table-margin-bottom, var(--g-spacing-3));
     }
 
     &__cell {
-        max-width: 150px;
-        min-width: 150px;
+        max-width: var(--df-table-array-view-cell-min-width, 150px);
+        min-width: var(--df-table-array-view-cell-max-width, 150px);
 
         &_arr,
         &_obj {
             max-width: unset;
 
             & > .simple-vertical-accordeon {
-                margin-bottom: 0;
+                margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
             }
         }
 

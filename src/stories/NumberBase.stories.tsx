@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {StoryFn} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
-import {NumberSpec, SpecTypes, Text} from '../lib';
+import type {NumberSpec} from '../lib';
+import {SpecTypes, Text} from '../lib';
 
 import {InputPreview} from './components';
 

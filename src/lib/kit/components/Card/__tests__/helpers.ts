@@ -1,4 +1,5 @@
-import {ArraySpec, FormValue, ObjectSpec, SpecTypes} from '../../../../core';
+import type {ArraySpec, FormValue, ObjectSpec} from '../../../../core';
+import {SpecTypes} from '../../../../core';
 
 export const ACCORDEON_CARD: Record<string, ArraySpec | ObjectSpec> = {
     arraySpec: {

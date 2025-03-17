@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {StringSpec, StringViewProps} from '../../../../core';
-import {BaseView, DEFAULT_DATE_FORMAT} from '../../../components';
 import {dateTimeParse} from '@gravity-ui/date-utils';
 import isObject from 'lodash/isObject';
-import {DatePickerProps} from '@gravity-ui/date-components/dist/esm/components/DatePicker/DatePicker';
+
+import type {StringViewProps} from '../../../../core';
+import {BaseView, DEFAULT_DATE_FORMAT} from '../../../components';
 
 interface Timestamp {
     seconds: string;
@@ -12,18 +12,24 @@ interface Timestamp {
 }
 
 export const DateView: React.FC<StringViewProps> = ({value, spec, ...restProps}) => {
-    let formatedValue =
-        value && isObject(value) && (value as object as Timestamp).seconds
-            ? (value as any)?.seconds * 1000
-            : value;
+    const {
+        printFormat = DEFAULT_DATE_FORMAT,
+        outputFormat,
+        timeZone,
+    } = spec.viewSpec.dateInput || {};
 
-    const localSpec = (spec as StringSpec<any, DatePickerProps | undefined>)!.viewSpec;
+    let formatedValue: string | number | undefined = value;
 
-    const format =
-        localSpec.inputProps?.format || localSpec.dateInput?.printFormat || DEFAULT_DATE_FORMAT;
+    if (isObject(value) && (value as Timestamp).seconds) {
+        formatedValue = Number((value as unknown as Timestamp).seconds) * 1000;
+    }
 
-    if (formatedValue && format) {
-        formatedValue = dateTimeParse(formatedValue)?.format(format) || formatedValue;
+    if (formatedValue) {
+        const date = dateTimeParse(formatedValue, {format: outputFormat, timeZone});
+
+        if (date) {
+            formatedValue = date.format(printFormat);
+        }
     }
 
     return <BaseView spec={spec} value={String(formatedValue)} {...restProps} />;

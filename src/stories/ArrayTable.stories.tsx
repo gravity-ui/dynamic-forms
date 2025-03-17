@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {StoryFn} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
-import {ArraySpec, SpecTypes, TableArrayInput} from '../lib';
+import type {ArraySpec} from '../lib';
+import {SpecTypes, TableArrayInput} from '../lib';
 
 import {InputPreview} from './components';
 
@@ -62,7 +63,9 @@ const excludeOptions = [
     'viewSpec.itemPrefix',
     'viewSpec.addButtonPosition',
     'viewSpec.selectParams',
+    'viewSpec.checkboxGroupParams',
     'viewSpec.inputProps',
+    'viewSpec.layoutProps',
 ];
 
 const value = [

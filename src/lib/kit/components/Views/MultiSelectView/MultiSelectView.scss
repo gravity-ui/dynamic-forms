@@ -1,19 +1,21 @@
 @import '../../../styles/variables.scss';
 
 .#{$ns}multiselect-view {
-    &__tooltip {
+    &__popover {
+        padding: var(--g-spacing-2);
         overflow-wrap: break-word;
+        max-width: 300px;
     }
 
-    &__tooltip-container {
-        max-width: 100%;
+    &__item {
+        max-width: var(--df-popover-item-max-width, $df-popover-item-max-width);
         overflow: hidden;
         text-overflow: ellipsis;
         display: block;
-        margin-bottom: 6px;
+        margin-bottom: var(--df-popover-item-margin-bottom, $df-popover-item-margin-bottom);
 
         &:last-child {
-            margin-bottom: 0;
+            margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
         }
     }
 }

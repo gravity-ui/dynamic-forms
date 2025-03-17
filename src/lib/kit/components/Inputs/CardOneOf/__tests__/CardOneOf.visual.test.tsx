@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {CARD_ONEOF, VALUE} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {CARD_ONEOF, VALUE} from './helpers';
 
 test.describe('Card OneOf', () => {
     test('default', async ({mount, expectScreenshot}) => {
@@ -36,6 +36,20 @@ test.describe('Card OneOf', () => {
 
         await expectScreenshot();
     });
+
+    test('column layout', async ({mount, expectScreenshot}) => {
+        const specWithColumnLayout = {
+            ...CARD_ONEOF.default,
+            viewSpec: {
+                ...CARD_ONEOF.default.viewSpec,
+                layout: 'column',
+            },
+        } as const;
+
+        await mount(<DynamicForm spec={specWithColumnLayout} />);
+
+        await expectScreenshot();
+    });
 });
 
 test.describe('Card OneOf view', () => {
@@ -47,6 +61,20 @@ test.describe('Card OneOf view', () => {
 
     test('string', async ({mount, expectScreenshot}) => {
         await mount(<DynamicView spec={CARD_ONEOF.default} value={VALUE.string} />);
+
+        await expectScreenshot();
+    });
+
+    test('column layout', async ({mount, expectScreenshot}) => {
+        const specWithColumnLayout = {
+            ...CARD_ONEOF.default,
+            viewSpec: {
+                ...CARD_ONEOF.default.viewSpec,
+                layout: 'column',
+            },
+        } as const;
+
+        await mount(<DynamicView spec={specWithColumnLayout} value={VALUE.string} />);
 
         await expectScreenshot();
     });

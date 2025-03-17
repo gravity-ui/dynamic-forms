@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {Checkbox as CheckboxBase, CheckboxProps as CheckboxBaseProps} from '@gravity-ui/uikit';
+import type {CheckboxProps as CheckboxBaseProps} from '@gravity-ui/uikit';
+import {Checkbox as CheckboxBase} from '@gravity-ui/uikit';
 
-import {BooleanInput} from '../../../../core';
+import type {BooleanInput} from '../../../../core';
 import {block} from '../../../utils';
 
 import './Checkbox.scss';

@@ -1,4 +1,4 @@
-import {Spec} from '../../../types';
+import type {Spec} from '../../../types';
 
 export const getParentName = (name: string) => {
     const index = name.lastIndexOf('.');

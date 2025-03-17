@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {DATE_INPUT, VALUE} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {DATE_INPUT, VALUE} from './helpers';
 
 test.describe('DateInput', () => {
     test('default', async ({mount, expectScreenshot}) => {

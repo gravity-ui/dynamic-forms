@@ -1,4 +1,5 @@
-import {ArraySpec, FormValue, SpecTypes} from '../../../../../core';
+import type {ArraySpec, FormValue} from '../../../../../core';
+import {SpecTypes} from '../../../../../core';
 
 export const MULTI_SELECT: Record<string, ArraySpec> = {
     default: {

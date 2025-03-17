@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {FieldValue, LayoutProps, Spec} from '../../../core';
+import type {FieldValue, LayoutProps, Spec} from '../../../core';
+import {isArrayItem} from '../../../core';
 import {Card, ErrorWrapper} from '../../components';
 import {useErrorChecker} from '../../hooks';
 import {RemoveButton} from '../RemoveButton';
@@ -22,7 +23,7 @@ export const CardAccordeon = <T extends FieldValue, S extends Spec>({
     }, [input.onDrop, setOpen]);
 
     const removeButton = React.useMemo(() => {
-        if (spec.required || !input.value) {
+        if (!isArrayItem(name) && (spec.required || !input.value)) {
             return null;
         }
 

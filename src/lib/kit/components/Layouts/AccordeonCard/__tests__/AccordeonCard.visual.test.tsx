@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {ACCORDEON_CARD, VALUE} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {ACCORDEON_CARD, VALUE} from './helpers';
 
 test.describe('Accordeon Card Form', () => {
     test.describe('test array specs', () => {

@@ -1,4 +1,5 @@
-import {SpecTypes, StringSpec} from '../../../../../core';
+import type {StringSpec} from '../../../../../core';
+import {SpecTypes} from '../../../../../core';
 
 export const SELECT: Record<string, StringSpec> = {
     default: {

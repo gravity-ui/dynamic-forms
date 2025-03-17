@@ -1,0 +1,39 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}checkbox-group-view {
+    display: flex;
+
+    & > *:not(:last-child) {
+        margin-right: var(--df-checkbox-group-view-child-margin-right, var(--g-spacing-3));
+    }
+
+    &_vertical {
+        flex-direction: column;
+        align-items: flex-start;
+
+        & > *:not(:last-child) {
+            margin: var(
+                --df-checkbox-group-view-vertical-child-margin,
+                var(--g-spacing-0) var(--g-spacing-0) var(--g-spacing-2)
+            );
+        }
+    }
+
+    &__popover {
+        padding: var(--g-spacing-2);
+        overflow-wrap: break-word;
+        max-width: 300px;
+    }
+
+    &__item {
+        max-width: var(--df-popover-item-max-width, $df-popover-item-max-width);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        margin-bottom: var(--df-popover-item-margin-bottom, $df-popover-item-margin-bottom);
+
+        &:last-child {
+            margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
+        }
+    }
+}

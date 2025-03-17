@@ -3,7 +3,7 @@ import React from 'react';
 import {ChevronsExpandUpRight} from '@gravity-ui/icons';
 import {Button, Icon} from '@gravity-ui/uikit';
 
-import {StringViewProps} from '../../../../core';
+import type {StringViewProps} from '../../../../core';
 import {useMonaco} from '../../../../core/components/View/hooks';
 import {block} from '../../../utils';
 import {MonacoHeader} from '../../Inputs/MonacoInput/MonacoHeader';

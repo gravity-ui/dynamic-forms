@@ -3,16 +3,16 @@
 
 .#{$ns}view-transparent {
     display: flex;
-    margin-bottom: 20px;
+    margin-bottom: var(--df-spacing-view, $df-spacing-view);
 
     &:last-child {
-        margin-bottom: 0;
+        margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
     }
 
     @include with-copy-button();
 
     &__inner {
-        max-width: 100%;
-        width: 100%;
+        max-width: var(--df-view-transparent-inner-max-width, 100%);
+        width: var(--df-view-transparent-inner-width, 100%);
     }
 }

@@ -1,4 +1,4 @@
-import {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG} from '../constants';
+import type {OBJECT_ARRAY_CNT, OBJECT_ARRAY_FLAG} from '../constants';
 
 export interface FieldArrayValue extends Record<string, FieldValue> {
     [OBJECT_ARRAY_FLAG]: true;

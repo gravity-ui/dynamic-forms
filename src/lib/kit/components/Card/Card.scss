@@ -1,14 +1,14 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}card {
-    margin-bottom: 20px;
+    margin-bottom: var(--df-spacing-inputs-section, $df-spacing-inputs-section);
 
     &:last-child {
-        margin-bottom: 0;
+        margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
     }
 
     .#{$ns}row {
-        width: 100%;
+        width: var(--df-card-row-width, 100%);
         max-width: unset;
 
         .#{$ns}select,
@@ -20,7 +20,7 @@
 
     .#{$ns}monaco-input,
     .#{$ns}monaco-base-view {
-        width: 100%;
+        width: var(--df-card-monaco-input-width, 100%);
     }
 
     &_empty-body {
@@ -41,7 +41,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 20px;
+        padding: var(--df-card-header-padding, var(--g-spacing-5));
 
         &_interactive {
             cursor: pointer;
@@ -59,17 +59,23 @@
         align-items: center;
 
         & > * {
-            margin-left: 10px;
+            margin-left: var(--df-card-header-right-child-margin-left, var(--g-spacing-2));
         }
     }
 
     &__title {
-        display: flex;
-        max-width: 533px;
+        max-width: var(--df-card-title-max-width, 533px);
+        height: var(--df-card-title-height, var(--g-spacing-5));
+    }
+
+    &__popover {
+        padding: var(--g-spacing-2);
+        overflow-wrap: break-word;
+        max-width: 300px;
     }
 
     &__note {
-        margin-left: 5px;
+        margin-left: var(--df-card-note-margin-left, var(--g-spacing-1));
 
         .gc-help-popover {
             display: flex;
@@ -88,7 +94,10 @@
 
     &__body {
         display: none;
-        padding: 0 20px 20px;
+        padding: var(
+            --df-card-body-padding,
+            var(--g-spacing-0) var(--g-spacing-5) var(--g-spacing-5)
+        );
 
         &_open {
             display: block;

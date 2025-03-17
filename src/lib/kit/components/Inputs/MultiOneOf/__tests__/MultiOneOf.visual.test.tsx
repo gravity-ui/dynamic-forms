@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {MULTI_ONEOF, MULTI_ONEOF_FALT, VALUE} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {MULTI_ONEOF, MULTI_ONEOF_FALT, VALUE} from './helpers';
 
 test.describe('Multi OneOf', () => {
     test('default', async ({mount, expectScreenshot}) => {

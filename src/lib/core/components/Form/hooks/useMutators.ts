@@ -6,8 +6,8 @@ import isObjectLike from 'lodash/isObjectLike';
 import keys from 'lodash/keys';
 import set from 'lodash/set';
 
-import {FormValue} from '../../../types';
-import {
+import type {FormValue} from '../../../types';
+import type {
     BaseValidateError,
     DynamicFormMutators,
     DynamicFormMutatorsStore,

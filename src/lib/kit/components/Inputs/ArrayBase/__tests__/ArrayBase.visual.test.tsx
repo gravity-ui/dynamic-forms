@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {ARRAY_BASE, DynamicForm, VALUE} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {ARRAY_BASE, DynamicForm, VALUE} from './helpers';
 
 test.describe('Array Base', () => {
     test('default', async ({mount, expectScreenshot}) => {

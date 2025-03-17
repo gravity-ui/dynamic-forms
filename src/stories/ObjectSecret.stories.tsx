@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {StoryFn} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
-import {ObjectSpec, Secret as SecretBase, SpecTypes} from '../lib';
+import type {ObjectSpec} from '../lib';
+import {Secret as SecretBase, SpecTypes} from '../lib';
 
 import {InputPreview} from './components';
 
@@ -37,6 +38,7 @@ const excludeOptions = [
     'viewSpec.placeholder',
     'viewSpec.delimiter',
     'viewSpec.inputProps',
+    'viewSpec.layoutProps',
 ];
 
 const template = (spec: ObjectSpec = baseSpec) => {

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {FILE_INPUT, VALUE} from './helpers';
-
 import {test} from '~playwright/core';
 import {DynamicForm} from '~playwright/core/DynamicForm';
 import {DynamicView} from '~playwright/core/DynamicView';
+
+import {FILE_INPUT, VALUE} from './helpers';
 
 test.describe('File Input', () => {
     test('default', async ({mount, expectScreenshot}) => {

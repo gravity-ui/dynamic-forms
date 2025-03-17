@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Spec} from '../../types';
+import type {Spec} from '../../types';
 
 import {useComponents, useDynamicFormsCtx, useRender} from './hooks';
 

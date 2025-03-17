@@ -3,7 +3,7 @@ import React from 'react';
 import isBoolean from 'lodash/isBoolean';
 
 import {Card} from '../';
-import {ArrayViewLayoutProps, ObjectViewLayoutProps} from '../../../core';
+import type {ArrayViewLayoutProps, ObjectViewLayoutProps} from '../../../core';
 import {isNotEmptyValue} from '../../utils';
 
 export const ViewCardAccordeon = <T extends ArrayViewLayoutProps | ObjectViewLayoutProps>({

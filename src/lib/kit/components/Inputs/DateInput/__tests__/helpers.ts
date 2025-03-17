@@ -1,4 +1,5 @@
-import {FormValue, SpecTypes, StringSpec} from '../../../../../core';
+import type {FormValue, StringSpec} from '../../../../../core';
+import {SpecTypes} from '../../../../../core';
 
 export const DATE_INPUT: Record<string, StringSpec> = {
     default: {

@@ -1,4 +1,5 @@
-import {ArraySpec, BooleanSpec, NumberSpec, ObjectSpec, SpecTypes, StringSpec} from '../../../core';
+import type {ArraySpec, BooleanSpec, NumberSpec, ObjectSpec, StringSpec} from '../../../core';
+import {SpecTypes} from '../../../core';
 import {ErrorMessages} from '../messages';
 import {
     getArrayValidator,

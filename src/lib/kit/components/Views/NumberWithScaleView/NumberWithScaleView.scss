@@ -3,18 +3,20 @@
 .#{$ns}number-with-scale-view {
     display: flex;
 
-    &__tooltip {
+    &__popover {
+        padding: var(--g-spacing-2);
         overflow-wrap: break-word;
+        max-width: 300px;
     }
 
-    &__tooltip-container {
-        white-space: nowrap;
+    &__item {
+        max-width: var(--df-popover-item-max-width, $df-popover-item-max-width);
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 100%;
+        display: block;
     }
 
     &__size {
-        margin-left: 2px;
+        margin-left: var(--df-number-with-scale-view-size-margin-left, var(--g-spacing-half));
     }
 }

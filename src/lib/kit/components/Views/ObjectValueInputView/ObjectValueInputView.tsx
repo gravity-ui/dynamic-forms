@@ -2,7 +2,8 @@ import React from 'react';
 
 import cloneDeep from 'lodash/cloneDeep';
 
-import {ObjectIndependentView, ViewController} from '../../../../core';
+import type {ObjectIndependentView} from '../../../../core';
+import {ViewController} from '../../../../core';
 import {OBJECT_VALUE_PROPERTY_NAME} from '../../../constants/common';
 
 export const ObjectValueInputView: ObjectIndependentView = ({spec, name, Layout, ...restProps}) => {

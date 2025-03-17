@@ -1,10 +1,13 @@
-import React from 'react';
+import type React from 'react';
 
-import {FormValue, Spec} from '../../../';
+import type {FormValue, Spec} from '../../../';
 
-import {ViewLayoutType} from './';
+import type {ViewLayoutType} from './';
 
-export type ViewProps<Value extends FormValue, SpecType extends Spec> = {
+export type ViewProps<
+    Value extends FormValue,
+    SpecType extends Spec<undefined, undefined, Record<string, any> | undefined> = Spec,
+> = {
     spec: SpecType;
     name: string;
     value?: Value;

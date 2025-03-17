@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {FormValue, Spec, ViewLayoutProps} from '../../../../core';
+import type {FormValue, Spec, ViewLayoutProps} from '../../../../core';
 import {CopyButton} from '../../../../kit';
 import {block, isNotEmptyValue} from '../../../utils';
 

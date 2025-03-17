@@ -2,7 +2,8 @@ import React from 'react';
 
 import {ClipboardButton} from '@gravity-ui/uikit';
 
-import {FormValue, Spec, isNumberSpec, isStringSpec} from '../../../core';
+import type {FormValue, Spec} from '../../../core';
+import {isNumberSpec, isStringSpec} from '../../../core';
 import {block} from '../../utils';
 
 import './CopyButton.scss';
@@ -21,7 +22,11 @@ export interface CopyButtonProps {
 
 export const CopyButton: React.FC<CopyButtonProps> = ({spec, value}) => {
     if ((isStringSpec(spec) || isNumberSpec(spec)) && spec.viewSpec.copy) {
-        return <ClipboardButton className={b()} text={`${value}`} size="s" />;
+        return (
+            <div className={b()}>
+                <ClipboardButton className={b('button')} text={`${value}`} size="xs" />
+            </div>
+        );
     }
 
     return null;

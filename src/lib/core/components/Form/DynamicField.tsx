@@ -7,19 +7,20 @@ import {isValidElementType} from 'react-is';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
 import {isCorrectSpec} from '../../helpers';
-import {Spec, StringSpec} from '../../types';
+import type {Spec, StringSpec} from '../../types';
 
 import {Controller} from './Controller';
 import {
     useCreateContext,
     useCreateSearchContext,
     useDynamicFieldMirror,
+    useFormSharedStore,
     useIntegrationFF,
     useMutators,
     useSearchStore,
     useStore,
 } from './hooks';
-import {DynamicFormConfig, DynamicFormMutators, FieldValue, WonderMirror} from './types';
+import type {DynamicFormConfig, DynamicFormMutators, FieldValue, WonderMirror} from './types';
 import {getDefaultSearchFunction, isCorrectConfig} from './utils';
 
 export interface DynamicFieldProps {
@@ -32,6 +33,8 @@ export interface DynamicFieldProps {
     withoutInsertFFDebounce?: boolean;
     destroyOnUnregister?: boolean;
     mutators?: DynamicFormMutators;
+    shared?: Record<string, any>;
+    storeSubscriber?: (store: FieldValue) => void;
     __mirror?: WonderMirror;
 }
 
@@ -45,14 +48,22 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
     withoutInsertFFDebounce,
     destroyOnUnregister = true,
     mutators: externalMutators,
+    shared: externalShared,
+    storeSubscriber,
     __mirror,
 }) => {
     const DynamicFormsCtx = useCreateContext();
     const SearchContext = useCreateSearchContext();
     const {tools, store} = useStore(name);
-    const watcher = useIntegrationFF(store, withoutInsertFFDebounce, destroyOnUnregister);
+    const watcher = useIntegrationFF({
+        store,
+        withoutDebounce: withoutInsertFFDebounce,
+        destroyOnUnregister,
+        storeSubscriber,
+    });
     const {mutatorsStore, mutateDFState} = useMutators(externalMutators);
     const {store: searchStore, setField, removeField, isHiddenField} = useSearchStore();
+    const shared = useFormSharedStore(externalShared);
 
     const context = React.useMemo(
         () => ({
@@ -61,10 +72,21 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
             generateRandomValue,
             tools: {...tools, mutateDFState},
             store,
+            shared,
             mutatorsStore,
             __mirror,
         }),
-        [tools, config, Monaco, __mirror, generateRandomValue, mutatorsStore, mutateDFState, store],
+        [
+            tools,
+            shared,
+            config,
+            Monaco,
+            __mirror,
+            generateRandomValue,
+            mutatorsStore,
+            mutateDFState,
+            store,
+        ],
     );
 
     const searchContext = React.useMemo(

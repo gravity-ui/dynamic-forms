@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {StoryFn} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
-import {SpecTypes, StringSpec, TextContent} from '../lib';
+import type {StringSpec} from '../lib';
+import {SpecTypes, TextContent} from '../lib';
 
 import {InputPreview} from './components';
 
@@ -73,6 +74,18 @@ export const Label = template({
             text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit',
             themeLabel: 'info',
             icon: 'CircleInfo',
+        },
+    },
+});
+
+export const Alert = template({
+    ...baseSpec,
+    viewSpec: {
+        ...baseSpec.viewSpec,
+        textContentParams: {
+            text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit',
+            themeAlert: 'info',
+            titleAlert: 'Title alert',
         },
     },
 });

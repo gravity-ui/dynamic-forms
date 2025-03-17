@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {FieldRenderProps, FieldValue} from '../../core';
+import type {FieldRenderProps, FieldValue} from '../../core';
 
 export interface UseErrorCheckerParams {
     name: string;

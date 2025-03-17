@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {StoryFn} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
-import {ArrayBase, ObjectSpec, SpecTypes} from '../lib';
+import type {ArrayBase, ObjectSpec} from '../lib';
+import {SpecTypes} from '../lib';
 
 import {Editor as EditorBase} from './components/Editor/Editor';
 
@@ -77,6 +78,108 @@ const spec: ObjectSpec = {
                         age: {
                             type: SpecTypes.Number,
                             viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Age'},
+                        },
+                        non_working_days: {
+                            type: SpecTypes.Array,
+                            enum: [
+                                'monday',
+                                'tuesday',
+                                'wednesday',
+                                'thursday',
+                                'friday',
+                                'saturday',
+                                'sunday',
+                            ],
+                            description: {
+                                monday: 'Mon',
+                                tuesday: 'Tue',
+                                wednesday: 'Wed',
+                                thursday: 'Thu',
+                                friday: 'Fri',
+                                saturday: 'Sat',
+                                sunday: 'Sun',
+                            },
+                            viewSpec: {
+                                type: 'checkbox_group',
+                                layout: 'row',
+                                layoutTitle: 'Non-working days',
+                            },
+                        },
+                        working_hours: {
+                            type: SpecTypes.Object,
+                            properties: {
+                                start: {
+                                    type: SpecTypes.String,
+                                    enum: [
+                                        '00:00',
+                                        '01:00',
+                                        '02:00',
+                                        '03:00',
+                                        '04:00',
+                                        '05:00',
+                                        '06:00',
+                                        '07:00',
+                                        '08:00',
+                                        '09:00',
+                                        '10:00',
+                                        '11:00',
+                                        '12:00',
+                                        '13:00',
+                                        '14:00',
+                                        '15:00',
+                                        '16:00',
+                                        '17:00',
+                                        '18:00',
+                                        '19:00',
+                                        '20:00',
+                                        '21:00',
+                                        '22:00',
+                                    ],
+                                    viewSpec: {
+                                        type: 'select',
+                                        layout: 'row',
+                                        layoutTitle: 'The begining of the work day',
+                                    },
+                                },
+                                end: {
+                                    type: SpecTypes.String,
+                                    enum: [
+                                        '01:00',
+                                        '02:00',
+                                        '03:00',
+                                        '04:00',
+                                        '05:00',
+                                        '06:00',
+                                        '07:00',
+                                        '08:00',
+                                        '09:00',
+                                        '10:00',
+                                        '11:00',
+                                        '12:00',
+                                        '13:00',
+                                        '14:00',
+                                        '15:00',
+                                        '16:00',
+                                        '17:00',
+                                        '18:00',
+                                        '19:00',
+                                        '20:00',
+                                        '21:00',
+                                        '22:00',
+                                        '23:00',
+                                    ],
+                                    viewSpec: {
+                                        type: 'select',
+                                        layout: 'row',
+                                        layoutTitle: 'End of the working day',
+                                    },
+                                },
+                            },
+                            viewSpec: {
+                                type: 'time_range_selector',
+                                layoutTitle: 'Working hours',
+                                layoutDescription: 'transparent',
+                            },
                         },
                         birthday: {
                             type: SpecTypes.String,

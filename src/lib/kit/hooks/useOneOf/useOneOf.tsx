@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {Checkbox, RadioButton, Select} from '@gravity-ui/uikit';
+import {Checkbox, SegmentedRadioGroup, Select} from '@gravity-ui/uikit';
 import isObjectLike from 'lodash/isObjectLike';
 import some from 'lodash/some';
 
-import {ObjectIndependentInputProps} from '../../../core';
+import type {ObjectIndependentInputProps} from '../../../core';
 import {TogglerCard} from '../../components';
 import {block, objectKeys} from '../../utils';
 
@@ -43,7 +43,11 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
             }
         }
 
-        return (valueKeys || spec.viewSpec.order || Object.keys(specProperties))[0];
+        if (valueKeys) return valueKeys[0];
+
+        if (spec.viewSpec.order?.length) return spec.viewSpec.order[0];
+
+        return Object.keys(specProperties)[0];
     });
 
     const onOneOfChange = React.useCallback(
@@ -81,9 +85,14 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
         return undefined;
     }, [oneOfValue, specBooleanMap]);
 
+    const propertiesOrder = React.useMemo(
+        () => (spec.viewSpec.order?.length ? spec.viewSpec.order : Object.keys(specProperties)),
+        [spec.viewSpec.order, specProperties],
+    );
+
     const options = React.useMemo(
         () =>
-            (spec.viewSpec.order || Object.keys(specProperties)).map((value) => {
+            propertiesOrder.map((value) => {
                 const title =
                     spec.description?.[value] ||
                     specProperties[value]?.viewSpec.layoutTitle ||
@@ -96,7 +105,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
                     content: title,
                 };
             }),
-        [spec.description, spec.viewSpec.order, specProperties],
+        [propertiesOrder, spec.description, specProperties],
     );
 
     const togglerType = React.useMemo(() => {
@@ -177,7 +186,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
         }
 
         return (
-            <RadioButton
+            <SegmentedRadioGroup
                 value={oneOfValue}
                 onChange={(event) => onOneOfChange([event.target.value])}
                 width="auto"
@@ -185,15 +194,15 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
                 qa={name}
             >
                 {options.map((option) => (
-                    <RadioButton.Option
+                    <SegmentedRadioGroup.Option
                         key={option.value}
                         value={option.value}
                         title={option.title}
                     >
                         {option.title}
-                    </RadioButton.Option>
+                    </SegmentedRadioGroup.Option>
                 ))}
-            </RadioButton>
+            </SegmentedRadioGroup>
         );
     }, [
         togglerType,

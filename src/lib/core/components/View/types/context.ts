@@ -1,10 +1,10 @@
-import React from 'react';
+import type React from 'react';
 
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
-import {FormValue, Spec} from '../../../types';
+import type {FormValue, Spec} from '../../../types';
 
-import {DynamicViewConfig} from './';
+import type {DynamicViewConfig} from './';
 
 export interface DynamicViewContext {
     config: DynamicViewConfig;
@@ -15,4 +15,8 @@ export interface DynamicViewContext {
         link: Spec['viewSpec']['link'];
     }>;
     Monaco?: React.ComponentType<MonacoEditorProps>;
+    shared: {
+        store: Record<string, any>;
+        onChangeShared: (name: string, value: any) => void;
+    };
 }

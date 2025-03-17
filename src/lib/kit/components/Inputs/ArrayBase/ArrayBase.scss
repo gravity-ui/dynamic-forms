@@ -12,11 +12,11 @@
 
     &__items-wrapper {
         &_add-button-down {
-            margin-bottom: 15px;
+            margin-bottom: var(--df-spacing-inputs, $df-spacing-inputs);
         }
 
         &_items-primitive {
-            min-width: 100%;
+            min-width: var(--df-array-base-items-primitive-min-width, 100%);
 
             &:empty {
                 min-width: unset;
@@ -25,13 +25,15 @@
     }
 
     &__item-prefix {
-        margin-top: -7px;
-        margin-bottom: 8px;
+        margin: var(
+            --df-array-base-item-prefix-margin,
+            $negative-g-spacing-2 var(--g-spacing-0) var(--g-spacing-2)
+        );
     }
 
     &__add-button {
         &_right {
-            margin-left: 4px;
+            margin-left: var(--df-array-base-add-button-right-margin-left, var(--g-spacing-1));
         }
     }
 }

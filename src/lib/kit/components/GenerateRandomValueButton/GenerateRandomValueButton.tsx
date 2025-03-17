@@ -4,7 +4,7 @@ import {Button} from '@gravity-ui/uikit';
 import isFunction from 'lodash/isFunction';
 
 import {useGenerateRandomValue} from '../../../core/components/Form/hooks';
-import {StringSpec} from '../../../core/types';
+import type {StringSpec} from '../../../core/types';
 import i18n from '../../i18n';
 import {block} from '../../utils';
 

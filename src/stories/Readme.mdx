@@ -1,0 +1,60 @@
+import {Meta} from '@storybook/addon-docs';
+
+<Meta title="Readme" />
+
+# Readme
+
+The JSON Schema-based library for rendering forms and form values.
+
+## Install
+
+```shell
+npm install --save-dev @gravity-ui/dynamic-forms
+```
+
+## Usage
+
+```tsx
+import {DynamicField, Spec, dynamicConfig} from '@gravity-ui/dynamic-forms';
+
+// To embed in a final-form
+<DynamicField name={name} spec={spec} config={config} />;
+
+import {DynamicView, dynamicViewConfig} from '@gravity-ui/dynamic-forms';
+
+// To get an overview of the values
+<DynamicView value={value} spec={spec} config={dynamicViewConfig} />;
+```
+
+### I18N
+
+Certain components include text tokens (words and phrases) that are available in two languages: `en` (the default) and `ru`. To set the language, use the `configure` function:
+
+```js
+// index.js
+
+import {configure, Lang} from '@gravity-ui/dynamic-forms';
+
+configure({lang: Lang.Ru});
+```
+
+## DOCS
+
+    -   [Config](?path=/docs/docs-config--docs)
+    -   [Spec](?path=/docs/docs-spec--docs)
+    -   [Input props map](?path=/docs/docs-input-props-map--docs)
+    -   [Lib](?path=/docs/docs-lib--docs)
+    -   [How use dynamic forms](?path=/docs/docs-how-use-dynamic-forms--docs)
+    -   [Custom input](?path=/docs/docs-custom-input--docs)
+    -   [Validators](?path=/docs/docs-validators--docs)
+    -   [Mutators](?path=/docs/docs-mutators--docs)
+    -   [Styles](?path=/docs/docs-styles--docs)
+
+## Development
+
+To start the development server with storybook execute the following command:
+
+```shell
+npm ci
+npm run dev
+```

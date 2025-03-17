@@ -1,6 +1,6 @@
-import React from 'react';
+import type React from 'react';
 
-import {FieldValue, ValidateError} from './';
+import type {FieldValue, ValidateError} from './';
 
 export interface FieldRenderProps<Value extends FieldValue> {
     input: {
@@ -33,5 +33,6 @@ export interface FieldRenderProps<Value extends FieldValue> {
         valid: boolean;
         visited: boolean;
         submitFailed: boolean;
+        childErrors: Record<string, ValidateError>;
     };
 }

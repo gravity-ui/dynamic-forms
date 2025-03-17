@@ -1,16 +1,15 @@
 import {TEXT_COLORS} from '@gravity-ui/uikit';
 
-import {
+import type {
     ArraySpec,
     BooleanSpec,
     NumberSpec,
     ObjectSpec,
     ObjectValue,
     Spec,
-    SpecTypes,
     StringSpec,
-    dynamicConfig,
 } from '../../../lib';
+import {SpecTypes, dynamicConfig} from '../../../lib';
 
 const required: BooleanSpec = {
     type: SpecTypes.Boolean,
@@ -166,6 +165,44 @@ const selectParams: ObjectSpec = {
     },
 };
 
+const checkboxGroupParams: ObjectSpec = {
+    type: SpecTypes.Object,
+    properties: {
+        placement: {
+            type: SpecTypes.String,
+            enum: ['―', 'horizontal', 'vertical'],
+            viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Placement'},
+        },
+        disabled: {
+            type: SpecTypes.Array,
+            items: {
+                type: SpecTypes.Object,
+                properties: {
+                    property: {
+                        type: SpecTypes.String,
+                        viewSpec: {type: 'base', layout: 'table_item'},
+                    },
+                    disabled: {
+                        type: SpecTypes.Boolean,
+                        viewSpec: {type: 'base', layout: 'table_item'},
+                    },
+                },
+                viewSpec: {type: ''},
+            },
+            viewSpec: {
+                type: 'table',
+                layout: 'accordeon',
+                layoutTitle: 'Disabled',
+                table: [
+                    {label: 'Property', property: 'property'},
+                    {label: 'Disabled', property: 'disabled'},
+                ],
+            },
+        },
+    },
+    viewSpec: {type: 'base', layout: 'accordeon', layoutTitle: 'Checkbox Group Params'},
+};
+
 const getValidator = (map: Record<string, unknown>): StringSpec => ({
     type: SpecTypes.String,
     enum: ['―', ...Object.keys(map)],
@@ -311,6 +348,20 @@ const textContentParams: ObjectSpec = {
             type: SpecTypes.String,
             enum: ['―', ...TEXT_COLORS],
             viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Icon color'},
+        },
+        titleAlert: {
+            type: SpecTypes.String,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Title alert'},
+        },
+        themeAlert: {
+            type: SpecTypes.String,
+            enum: ['―', 'normal', 'info', 'danger', 'warning', 'success', 'utility'],
+            viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Theme alert'},
+        },
+        viewAlert: {
+            type: SpecTypes.String,
+            enum: ['―', 'filled', 'outlined'],
+            viewSpec: {type: 'select', layout: 'row', layoutTitle: 'View alert'},
         },
     },
     viewSpec: {
@@ -480,6 +531,26 @@ const fileInput: ObjectSpec = {
     },
 };
 
+const timeRangeSelectorParams: ObjectSpec = {
+    type: SpecTypes.Object,
+    properties: {
+        timeStep: {
+            type: SpecTypes.Number,
+            viewSpec: {
+                type: 'base',
+                layout: 'row',
+                layoutTitle: 'Time step',
+                layoutDescription: 'The step is set in minutes',
+            },
+        },
+    },
+    viewSpec: {
+        type: 'base',
+        layout: 'accordeon',
+        layoutTitle: 'Time Range Selector',
+    },
+};
+
 const dateInput: ObjectSpec = {
     type: SpecTypes.Object,
     properties: {
@@ -490,6 +561,10 @@ const dateInput: ObjectSpec = {
         printFormat: {
             type: SpecTypes.String,
             viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Print format'},
+        },
+        timeZone: {
+            type: SpecTypes.String,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Time zone'},
         },
     },
     viewSpec: {
@@ -502,6 +577,48 @@ const dateInput: ObjectSpec = {
 const copy: BooleanSpec = {
     type: SpecTypes.Boolean,
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Copy'},
+};
+
+const layoutProps: ArraySpec = {
+    type: SpecTypes.Array,
+    items: {
+        type: SpecTypes.Object,
+        required: true,
+        properties: {
+            prop: {
+                type: SpecTypes.Object,
+                required: true,
+                properties: {
+                    key: {
+                        type: SpecTypes.String,
+                        viewSpec: {type: 'base', layout: 'transparent', placeholder: 'property'},
+                    },
+                    value: {
+                        type: SpecTypes.String,
+                        viewSpec: {type: 'base', layout: 'transparent', placeholder: 'value'},
+                    },
+                },
+                viewSpec: {
+                    type: 'inline',
+                    layout: 'transparent',
+                    delimiter: {key: ':'},
+                },
+            },
+            parse: {
+                type: SpecTypes.Boolean,
+                viewSpec: {
+                    type: 'base',
+                    inputProps: {content: 'parse like JSON value'} as unknown as undefined,
+                },
+            },
+        },
+        viewSpec: {type: 'base', layout: 'transparent'},
+    },
+    viewSpec: {
+        type: 'base',
+        layout: 'row',
+        layoutTitle: 'Layout props',
+    },
 };
 
 const inputProps: ArraySpec = {
@@ -572,7 +689,9 @@ export const getArrayOptions = (): ObjectSpec => ({
                 addButtonPosition,
                 hidden,
                 selectParams,
+                checkboxGroupParams,
                 inputProps,
+                layoutProps,
             },
             [
                 'disabled',
@@ -588,7 +707,9 @@ export const getArrayOptions = (): ObjectSpec => ({
                 'addButtonPosition',
                 'hidden',
                 'selectParams',
+                'checkboxGroupParams',
                 'inputProps',
+                'layoutProps',
             ],
         ),
     },
@@ -708,6 +829,8 @@ export const getObjectOptions = (): ObjectSpec => ({
                 placeholder,
                 hidden,
                 delimiter,
+                timeRangeSelectorParams,
+                layoutProps,
             },
             [
                 'disabled',
@@ -721,6 +844,8 @@ export const getObjectOptions = (): ObjectSpec => ({
                 'placeholder',
                 'hidden',
                 'delimiter',
+                'timeRangeSelectorParams',
+                'layoutProps',
             ],
         ),
     },

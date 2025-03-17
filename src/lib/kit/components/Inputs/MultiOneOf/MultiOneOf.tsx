@@ -4,13 +4,13 @@ import {Select} from '@gravity-ui/uikit';
 import isObjectLike from 'lodash/isObjectLike';
 import set from 'lodash/set';
 
-import {
-    Controller,
+import type {
     FieldValue,
     ObjectIndependentInput,
     ObjectIndependentInputProps,
     ValidateError,
 } from '../../../../core';
+import {Controller} from '../../../../core';
 import {block} from '../../../utils';
 import {GroupIndent} from '../../GroupIndent';
 
@@ -59,9 +59,14 @@ export const MultiOneOf: React.FC<MultiOneOfProps> = (props) => {
         [spec.properties],
     );
 
+    const propertiesOrder = React.useMemo(
+        () => (spec.viewSpec.order?.length ? spec.viewSpec.order : Object.keys(specProperties)),
+        [spec.viewSpec.order, specProperties],
+    );
+
     const options = React.useMemo(
         () =>
-            (spec.viewSpec.order || Object.keys(specProperties)).map((value) => {
+            propertiesOrder.map((value) => {
                 const title =
                     spec.description?.[value] ||
                     specProperties[value]?.viewSpec.layoutTitle ||
@@ -74,7 +79,7 @@ export const MultiOneOf: React.FC<MultiOneOfProps> = (props) => {
                     content: title,
                 };
             }),
-        [spec.description, spec.viewSpec.order, specProperties],
+        [propertiesOrder, spec.description, specProperties],
     );
 
     const filterable = React.useMemo(() => (options.length || 0) > 9, [options.length]);

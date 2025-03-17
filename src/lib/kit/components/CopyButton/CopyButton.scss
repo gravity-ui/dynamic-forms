@@ -1,6 +1,17 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}copy-button {
+    width: 20px;
     display: none;
-    margin: 2px 0 0 5px;
+    position: relative;
+    margin: var(
+        --df-copy-button-margin,
+        var(--g-spacing-0) var(--g-spacing-0) var(--g-spacing-0) var(--g-spacing-1)
+    );
+
+    &__button {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 }

@@ -2,7 +2,7 @@ import isObjectLike from 'lodash/isObjectLike';
 import isString from 'lodash/isString';
 
 import {SpecTypes} from './constants';
-import {ArraySpec, BooleanSpec, NumberSpec, ObjectSpec, StringSpec} from './types';
+import type {ArraySpec, BooleanSpec, NumberSpec, ObjectSpec, StringSpec} from './types';
 
 export const isCorrectSpec = (candidate: any) =>
     isObjectLike(candidate) &&

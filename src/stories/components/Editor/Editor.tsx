@@ -1,20 +1,14 @@
 import React from 'react';
 
-import {Flex, RadioButton, Switch, Text, useTheme} from '@gravity-ui/uikit';
+import {Flex, SegmentedRadioGroup, Switch, Text, useTheme} from '@gravity-ui/uikit';
 import noop from 'lodash/noop';
 import {Form} from 'react-final-form';
 import MonacoEditor from 'react-monaco-editor';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
 import {DynamicField, DynamicView} from '../';
-import {
-    AnyObject,
-    FormValue,
-    MonacoInput,
-    MonacoInputBaseProps,
-    Spec,
-    SpecTypes,
-} from '../../../lib';
+import type {AnyObject, FormValue, MonacoInputBaseProps, Spec} from '../../../lib';
+import {MonacoInput, SpecTypes} from '../../../lib';
 import {cn} from '../../../lib/kit/utils/cn';
 
 import './Editor.scss';
@@ -136,17 +130,17 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
                 </div>
             </div>
             <div className={b('input')}>
-                <RadioButton
+                <SegmentedRadioGroup
                     value={toggler}
                     onChange={handleChangeTogglerInput}
                     className={b('toggler')}
                 >
                     {togglerItems.map((option) => (
-                        <RadioButton.Option key={option.value} value={option.value}>
+                        <SegmentedRadioGroup.Option key={option.value} value={option.value}>
                             {option.title}
-                        </RadioButton.Option>
+                        </SegmentedRadioGroup.Option>
                     ))}
-                </RadioButton>
+                </SegmentedRadioGroup>
                 <Form initialValues={{input: value}} onSubmit={noop}>
                     {(form) => (
                         <React.Fragment>
@@ -159,22 +153,26 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
                                     />
                                 </div>
                             ) : null}
-                            <div className={b('input-view', {hidden: toggler !== 'view'})}>
-                                <Flex gap={1} spacing={{mb: 6}}>
-                                    <Text variant="body-2">Enable showLayoutDescription props</Text>
-                                    <Switch
-                                        onChange={() => setShowLayoutDescription((v) => !v)}
-                                        className={b('switch')}
+                            {toggler === 'view' ? (
+                                <div className={b('input-view')}>
+                                    <Flex gap={1} spacing={{mb: 6}}>
+                                        <Text variant="body-2">
+                                            Enable showLayoutDescription props
+                                        </Text>
+                                        <Switch
+                                            onChange={() => setShowLayoutDescription((v) => !v)}
+                                            className={b('switch')}
+                                        />
+                                    </Flex>
+                                    <DynamicView
+                                        {...getViewProps(
+                                            form.values.input,
+                                            spec,
+                                            showLayoutDescription,
+                                        )}
                                     />
-                                </Flex>
-                                <DynamicView
-                                    {...getViewProps(
-                                        form.values.input,
-                                        spec,
-                                        showLayoutDescription,
-                                    )}
-                                />
-                            </div>
+                                </div>
+                            ) : null}
                             {toggler === 'json' ? (
                                 <div className={b('monaco')}>
                                     <MonacoInput {...getValuesEditorProps(form.values.input)} />

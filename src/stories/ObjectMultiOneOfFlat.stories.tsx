@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {StoryFn} from '@storybook/react';
+import type {StoryFn} from '@storybook/react';
 
-import {MultiOneOfFlat as MultiOneOfFlatBase, ObjectSpec, SpecTypes} from '../lib';
+import type {ObjectSpec} from '../lib';
+import {MultiOneOfFlat as MultiOneOfFlatBase, SpecTypes} from '../lib';
 
 import {InputPreview} from './components';
 
@@ -63,6 +64,7 @@ const excludeOptions = [
     'viewSpec.oneOfParams',
     'viewSpec.delimiter',
     'viewSpec.inputProps',
+    'viewSpec.layoutProps',
 ];
 
 const value = {

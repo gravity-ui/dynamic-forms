@@ -1,18 +1,31 @@
 import React from 'react';
 
-import {ArrayLayoutProps, ObjectLayoutProps} from '../../../../core';
+import type {TextProps} from '@gravity-ui/uikit';
+
+import type {ArrayLayoutProps, ObjectLayoutProps} from '../../../../core';
+import {isArrayItem} from '../../../../core';
 import {ErrorWrapper} from '../../../components';
 import {useErrorChecker} from '../../../hooks';
 import {RemoveButton} from '../../RemoveButton';
 import {SimpleVerticalAccordeon} from '../../SimpleVerticalAccordeon';
 
-export const Accordeon = <T extends ArrayLayoutProps | ObjectLayoutProps>({
+interface AccordeonLayoutProps {
+    variantTitle?: TextProps['variant'];
+}
+
+export const Accordeon = <
+    T extends
+        | ArrayLayoutProps<Record<string, any> | undefined, AccordeonLayoutProps | undefined>
+        | ObjectLayoutProps<Record<string, any> | undefined, AccordeonLayoutProps | undefined>,
+>({
     name,
     spec,
     input,
     meta,
     children,
 }: T): JSX.Element => {
+    const {variantTitle} = spec.viewSpec.layoutProps || {};
+
     const [open, setOpen] = React.useState(Boolean(spec.viewSpec?.layoutOpen));
 
     const onDrop = React.useCallback(() => {
@@ -21,7 +34,7 @@ export const Accordeon = <T extends ArrayLayoutProps | ObjectLayoutProps>({
     }, [input.onDrop, setOpen]);
 
     const removeButton = React.useMemo(() => {
-        if (spec.required || !input.value) {
+        if (!isArrayItem(name) && (spec.required || !input.value)) {
             return null;
         }
 
@@ -40,6 +53,7 @@ export const Accordeon = <T extends ArrayLayoutProps | ObjectLayoutProps>({
             headerActionsTemplate={removeButton}
             hideInsteadOfDestroy
             withBranchView
+            variantTitle={variantTitle}
         >
             <ErrorWrapper name={name} meta={meta} withoutChildErrorStyles>
                 {children}

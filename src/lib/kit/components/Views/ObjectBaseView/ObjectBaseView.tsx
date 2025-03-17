@@ -1,9 +1,10 @@
 import React from 'react';
 
-import isObjectLike from 'lodash/isObjectLike';
 import {Text} from '@gravity-ui/uikit';
+import isObjectLike from 'lodash/isObjectLike';
 
-import {ObjectIndependentView, ObjectIndependentViewProps, ViewController} from '../../../../core';
+import type {ObjectIndependentView, ObjectIndependentViewProps} from '../../../../core';
+import {ViewController} from '../../../../core';
 import {block, filterPropertiesForObjectInline} from '../../../utils';
 
 import './ObjectBaseView.scss';
@@ -31,7 +32,9 @@ export const ObjectBaseView: React.FC<ObjectBaseViewProps> = ({
             : spec.properties;
 
         const delimiter = spec.viewSpec.delimiter;
-        const orderProperties = spec.viewSpec.order || Object.keys(specProperties);
+        const orderProperties = spec.viewSpec.order?.length
+            ? spec.viewSpec.order
+            : Object.keys(specProperties);
 
         return (
             <div className={b('content', {inline})}>

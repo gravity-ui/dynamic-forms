@@ -1,4 +1,5 @@
-import {BooleanSpec, FormValue, SpecTypes} from '../../../../../core';
+import type {BooleanSpec, FormValue} from '../../../../../core';
+import {SpecTypes} from '../../../../../core';
 
 export const CHECKBOX: Record<string, BooleanSpec> = {
     default: {

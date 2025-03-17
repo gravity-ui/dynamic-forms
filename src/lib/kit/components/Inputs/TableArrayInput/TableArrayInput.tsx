@@ -1,27 +1,29 @@
 import React from 'react';
 
 import {Plus, TrashBin} from '@gravity-ui/icons';
-import {Button, Flex, Icon, Table} from '@gravity-ui/uikit';
-import {HelpPopover} from '@gravity-ui/components';
+import {Button, Flex, HelpMark, Icon, Table} from '@gravity-ui/uikit';
 import noop from 'lodash/noop';
 import set from 'lodash/set';
 
-import {
+import type {
     ArrayInput,
     ArrayValue,
-    Controller,
     FieldArrayValue,
     FieldObjectValue,
     FieldValue,
+    ValidateError,
+} from '../../../../core';
+import {
+    Controller,
     OBJECT_ARRAY_CNT,
     OBJECT_ARRAY_FLAG,
-    ValidateError,
     isArraySpec,
     isBooleanSpec,
     isObjectSpec,
     transformArrIn,
 } from '../../../../core';
 import {useSearchContext} from '../../../../core/components/Form/hooks';
+import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 import {block} from '../../../utils';
 
 import './TableArrayInput.scss';
@@ -108,7 +110,13 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                 : () => (
                       <Flex gap={0.5} alignItems="center">
                           {label}
-                          <HelpPopover htmlContent={description} placement={['bottom', 'top']} />
+                          <HelpMark
+                              popoverProps={{
+                                  placement: COMMON_POPOVER_PLACEMENT,
+                              }}
+                          >
+                              {description}
+                          </HelpMark>
                       </Flex>
                   ),
             template: (

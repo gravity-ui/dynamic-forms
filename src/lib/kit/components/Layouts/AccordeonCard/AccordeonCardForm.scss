@@ -2,6 +2,6 @@
 
 .#{$ns}accordeon-card-form {
     &__accordeon-card-body {
-        padding-right: 32px;
+        padding-right: var(--df-accordeon-card-form-body-padding-right, var(--g-spacing-8));
     }
 }

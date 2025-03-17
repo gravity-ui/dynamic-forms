@@ -1,0 +1,81 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}column {
+    margin-bottom: var(--df-spacing-inputs, $df-spacing-inputs);
+
+    &:last-child {
+        margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
+    }
+
+    &__first-row {
+        min-height: var(--df-column-first-row-min-height, 28px);
+        display: flex;
+        margin-bottom: auto;
+        flex-direction: column;
+        flex-shrink: 0;
+
+        &-inner {
+            display: inline;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        &::after {
+            content: '';
+            width: 100%;
+            flex-shrink: 1;
+        }
+    }
+
+    &__title {
+        word-break: break-word;
+        margin-right: var(--df-column-title-margin-right, var(--g-spacing-half));
+
+        &_required {
+            &::after {
+                content: '*';
+                color: var(--g-color-text-danger);
+            }
+        }
+    }
+
+    &__note {
+        position: relative;
+
+        &-inner {
+            position: absolute;
+            margin-top: var(--df-column-note-inner-margin-top, var(--g-spacing-0));
+
+            .g-help-popover {
+                display: flex;
+
+                & > span {
+                    display: flex;
+                }
+            }
+        }
+    }
+
+    &__second-row {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+
+        &-inner {
+            display: flex;
+            justify-content: space-around;
+        }
+    }
+
+    &__remove-button {
+        margin-left: var(--df-remove-button-margin-left, $df-remove-button-margin-left);
+    }
+
+    &__required-mark {
+        color: var(--g-color-text-danger);
+    }
+
+    &__error-wrapper {
+        min-width: 100%;
+    }
+}

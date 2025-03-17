@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {StringViewProps} from '../../../../core';
+import type {StringViewProps} from '../../../../core';
 import i18n from '../../../../kit/i18n';
 import {LongValue} from '../../../components';
 

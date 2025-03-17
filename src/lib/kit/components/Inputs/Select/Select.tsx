@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {Select as SelectBase, SelectProps as SelectBaseProps, Text} from '@gravity-ui/uikit';
+import type {SelectProps as SelectBaseProps} from '@gravity-ui/uikit';
+import {Select as SelectBase, Text} from '@gravity-ui/uikit';
 
-import {StringInput} from '../../../../core';
+import type {StringInput} from '../../../../core';
 import {block} from '../../../utils';
 
 import './Select.scss';

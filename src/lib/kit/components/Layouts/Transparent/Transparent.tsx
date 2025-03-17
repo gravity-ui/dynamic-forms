@@ -3,16 +3,8 @@ import React from 'react';
 import {TrashBin} from '@gravity-ui/icons';
 import {Button, Icon} from '@gravity-ui/uikit';
 
-import {
-    FieldValue,
-    LayoutProps,
-    Spec,
-    StringSpec,
-    isArrayItem,
-    isArraySpec,
-    isObjectSpec,
-    withGenerateButton,
-} from '../../../../core';
+import type {FieldValue, LayoutProps, Spec, StringSpec} from '../../../../core';
+import {isArrayItem, isArraySpec, isObjectSpec, withGenerateButton} from '../../../../core';
 import {ErrorWrapper, GenerateRandomValueButton} from '../../../components';
 import {block} from '../../../utils';
 

@@ -7,14 +7,22 @@ import isFunction from 'lodash/isFunction';
 import values from 'lodash/values';
 import {Field as FinalFormField, useForm} from 'react-final-form';
 
-import {AsyncValidateError, BaseValidateError, DynamicFieldStore, FieldValue} from '../types';
+import type {AsyncValidateError, BaseValidateError, DynamicFieldStore, FieldValue} from '../types';
 import {transformArrOut} from '../utils';
 
-export const useIntegrationFF = (
-    store: DynamicFieldStore,
-    withoutDebounce?: boolean,
-    destroyOnUnregister?: boolean,
-) => {
+interface UseIntegrationFFParams {
+    store: DynamicFieldStore;
+    withoutDebounce?: boolean;
+    destroyOnUnregister?: boolean;
+    storeSubscriber?: (store: FieldValue) => void;
+}
+
+export const useIntegrationFF = ({
+    store,
+    withoutDebounce,
+    destroyOnUnregister,
+    storeSubscriber,
+}: UseIntegrationFFParams) => {
     const form = useForm();
 
     const watcher = React.useMemo(() => {
@@ -52,6 +60,7 @@ export const useIntegrationFF = (
         const cb = (value: FieldValue) => {
             if (store.name) {
                 form.change(store.name, get(transformArrOut(value), store.name));
+                storeSubscriber?.(get(value, store.name));
             }
         };
 
@@ -60,7 +69,7 @@ export const useIntegrationFF = (
         }
 
         return debounce(cb, 100);
-    }, [form.change, store.name, withoutDebounce]);
+    }, [form.change, store.name, withoutDebounce, storeSubscriber]);
 
     React.useEffect(() => {
         change(store.values);

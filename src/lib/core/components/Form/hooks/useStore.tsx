@@ -7,7 +7,7 @@ import omit from 'lodash/omit';
 import set from 'lodash/set';
 import {useFormState} from 'react-final-form';
 
-import {DynamicFieldStore, FieldObjectValue, FieldValue, ValidateError} from '../types';
+import type {DynamicFieldStore, FieldObjectValue, FieldValue, ValidateError} from '../types';
 import {transformArrIn} from '../utils';
 
 export const useStore = (name: string) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {StringSpec} from '../../../../core';
+import type {StringSpec} from '../../../../core';
 import {divide, multiply} from '../../../utils';
 
 export const useInitial = (value: string, spec: StringSpec, deps: any[] = []) => {
