@@ -23,6 +23,7 @@ export interface AccordeonCardProps {
     titleSize?: 's' | 'm';
     alwaysOpen?: boolean;
     classNameBody?: string;
+    renderHtml?: (text: string) => React.ReactNode;
 }
 export const AccordeonCard: React.FC<AccordeonCardProps> = ({
     className,
@@ -37,6 +38,7 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
     alwaysOpen,
     children,
     classNameBody,
+    renderHtml,
 }) => {
     const accordeonRef = React.useRef<HTMLDivElement>(null);
     const bodyRef = React.useRef<HTMLDivElement>(null);
@@ -83,6 +85,25 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
         return 'subheader-1';
     }, [titleSize]);
 
+    const descriptionContent = React.useMemo(() => {
+        if (!description) {
+            return null;
+        }
+
+        return (
+            <React.Fragment>
+                {renderHtml ? (
+                    renderHtml(description)
+                ) : (
+                    <span
+                        className={b('header-content-description')}
+                        dangerouslySetInnerHTML={{__html: description}}
+                    />
+                )}
+            </React.Fragment>
+        );
+    }, [description, renderHtml]);
+
     return (
         <div ref={accordeonRef} className={b({empty: Boolean(emptyBody)}, className)}>
             <div
@@ -94,12 +115,7 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
             >
                 <div className={b('header-content')}>
                     <Text variant={currentHeaderVariant}>{header}</Text>
-                    {description ? (
-                        <span
-                            className={b('header-content-description')}
-                            dangerouslySetInnerHTML={{__html: description}}
-                        />
-                    ) : null}
+                    {descriptionContent}
                 </div>
                 {!emptyBody && !alwaysOpen ? (
                     <div className={b('header-toggle-btn')} onClick={preventEvent}>

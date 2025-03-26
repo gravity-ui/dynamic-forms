@@ -4,6 +4,7 @@ import isBoolean from 'lodash/isBoolean';
 
 import {Card} from '../';
 import type {ArrayViewLayoutProps, ObjectViewLayoutProps} from '../../../core';
+import {useRenderHtml} from '../../../core/components/View/hooks/useRenderHtml';
 import {isNotEmptyValue} from '../../utils';
 
 export const ViewCardAccordeon = <T extends ArrayViewLayoutProps | ObjectViewLayoutProps>({
@@ -12,6 +13,8 @@ export const ViewCardAccordeon = <T extends ArrayViewLayoutProps | ObjectViewLay
     spec,
     children,
 }: T): JSX.Element | null => {
+    const renderHtml = useRenderHtml();
+
     const [open, setOpen] = React.useState(
         isBoolean(spec.viewSpec.layoutOpen) ? spec.viewSpec.layoutOpen : true,
     );
@@ -29,6 +32,7 @@ export const ViewCardAccordeon = <T extends ArrayViewLayoutProps | ObjectViewLay
             open={open}
             onToggle={onToggle}
             checkEmptyBody
+            renderHtml={renderHtml}
         >
             {children}
         </Card>
