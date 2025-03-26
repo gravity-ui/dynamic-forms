@@ -1,0 +1,35 @@
+.array-base {
+    &_add-button-right {
+        display: flex;
+        align-items: flex-end;
+
+        .transparent {
+            align-items: flex-end;
+        }
+    }
+
+    &__items-wrapper {
+        &_add-button-down {
+            margin-bottom: 15px;
+        }
+
+        &_items-primitive {
+            min-width: 100%;
+
+            &:empty {
+                min-width: unset;
+            }
+        }
+    }
+
+    &__item-prefix {
+        margin-top: -7px;
+        margin-bottom: 8px;
+    }
+
+    &__add-button {
+        &_right {
+            margin-left: 4px;
+        }
+    }
+}

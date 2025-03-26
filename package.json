@@ -80,6 +80,7 @@
     "@types/react-is": "^17.0.3",
     "@types/uuid": "^9.0.4",
     "@vitejs/plugin-react": "^4.2.0",
+    "ajv": "^8.17.1",
     "css-loader": "^5.2.6",
     "eslint": "^8.49.0",
     "final-form": "^4.20.2",
