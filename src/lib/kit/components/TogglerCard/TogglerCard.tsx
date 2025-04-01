@@ -4,6 +4,7 @@ import {Card, HelpMark, Text} from '@gravity-ui/uikit';
 
 import {COMMON_POPOVER_PLACEMENT} from '../../constants/common';
 import {block} from '../../utils';
+import {HTMLContent} from '../HTMLContent';
 
 import './TogglerCard.scss';
 
@@ -45,7 +46,7 @@ export const TogglerCard: React.FC<TogglerCardProps> = ({
                             placement: COMMON_POPOVER_PLACEMENT,
                         }}
                     >
-                        {description}
+                        <HTMLContent html={description} />
                     </HelpMark>
                 ) : null}
             </div>

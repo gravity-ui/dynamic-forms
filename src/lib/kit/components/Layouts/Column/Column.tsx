@@ -8,6 +8,7 @@ import {isArrayItem, isArraySpec, isObjectSpec, withGenerateButton} from '../../
 import {ErrorWrapper, GenerateRandomValueButton} from '../../../components';
 import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 import {block} from '../../../utils';
+import {HTMLContent} from '../../HTMLContent';
 
 import './Column.scss';
 
@@ -40,7 +41,7 @@ const ColumnBase = <T extends FieldValue, S extends Spec>({
                                         placement: COMMON_POPOVER_PLACEMENT,
                                     }}
                                 >
-                                    {spec.viewSpec.layoutDescription}
+                                    <HTMLContent html={spec.viewSpec.layoutDescription} />
                                 </HelpMark>
                             </Text>
                         </span>

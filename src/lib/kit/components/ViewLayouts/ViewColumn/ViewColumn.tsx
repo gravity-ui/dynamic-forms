@@ -7,6 +7,7 @@ import {useDynamicFormsCtx} from '../../../../core';
 import {CopyButton} from '../../../../kit';
 import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 import {block, isNotEmptyValue} from '../../../utils';
+import {HTMLContent} from '../../HTMLContent';
 
 import './ViewColumn.scss';
 
@@ -36,7 +37,7 @@ export const ViewColumn = <T extends FormValue, S extends Spec>({
                             placement: COMMON_POPOVER_PLACEMENT,
                         }}
                     >
-                        {spec.viewSpec.layoutDescription}
+                        <HTMLContent html={spec.viewSpec.layoutDescription} />
                     </HelpMark>
                 ) : null}
             </div>

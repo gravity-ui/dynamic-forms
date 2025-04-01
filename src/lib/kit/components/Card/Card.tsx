@@ -6,6 +6,7 @@ import isString from 'lodash/isString';
 
 import {COMMON_POPOVER_PLACEMENT, COMMON_TITLE_MAX_WIDTH} from '../../constants/common';
 import {block} from '../../utils';
+import {HTMLContent} from '../HTMLContent';
 
 import './Card.scss';
 
@@ -95,7 +96,7 @@ export const Card: React.FC<CardProps> = ({
                                     placement: COMMON_POPOVER_PLACEMENT,
                                 }}
                             >
-                                {description}
+                                <HTMLContent html={description} />
                             </HelpMark>
                         </div>
                     ) : null}

@@ -15,6 +15,7 @@ import type {
 } from '../../../../core';
 import {isArrayItem, isArraySpec, isObjectSpec} from '../../../../core';
 import {block} from '../../../utils';
+import {HTMLContent} from '../../HTMLContent';
 import {RemoveButton} from '../../RemoveButton';
 
 import './Section.scss';
@@ -122,7 +123,7 @@ const SectionBase = <
                             placement: COMMON_POPOVER_PLACEMENT,
                         }}
                     >
-                        {spec.viewSpec.layoutDescription}
+                        <HTMLContent html={spec.viewSpec.layoutDescription} />
                     </HelpMark>
                 </Text>
             );
