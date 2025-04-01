@@ -95,7 +95,11 @@ export const Card: React.FC<CardProps> = ({
                                     placement: COMMON_POPOVER_PLACEMENT,
                                 }}
                             >
-                                {description}
+                                <span
+                                    dangerouslySetInnerHTML={{
+                                        __html: description,
+                                    }}
+                                />
                             </HelpMark>
                         </div>
                     ) : null}

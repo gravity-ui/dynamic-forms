@@ -36,7 +36,11 @@ export const ViewColumn = <T extends FormValue, S extends Spec>({
                             placement: COMMON_POPOVER_PLACEMENT,
                         }}
                     >
-                        {spec.viewSpec.layoutDescription}
+                        <span
+                            dangerouslySetInnerHTML={{
+                                __html: spec.viewSpec.layoutDescription,
+                            }}
+                        />
                     </HelpMark>
                 ) : null}
             </div>

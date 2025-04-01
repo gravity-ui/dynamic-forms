@@ -115,7 +115,11 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                                   placement: COMMON_POPOVER_PLACEMENT,
                               }}
                           >
-                              {description}
+                              <span
+                                  dangerouslySetInnerHTML={{
+                                      __html: description,
+                                  }}
+                              />
                           </HelpMark>
                       </Flex>
                   ),

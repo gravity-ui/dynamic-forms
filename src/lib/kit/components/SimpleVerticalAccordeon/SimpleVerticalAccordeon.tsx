@@ -206,7 +206,11 @@ export class SimpleVerticalAccordeon extends React.Component<
                         placement: COMMON_POPOVER_PLACEMENT,
                     }}
                 >
-                    {note}
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html: note,
+                        }}
+                    />
                 </HelpMark>
             </Text>
         ) : null;

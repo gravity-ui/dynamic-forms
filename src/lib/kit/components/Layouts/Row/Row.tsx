@@ -43,7 +43,11 @@ const RowBase = <T extends FieldValue, S extends Spec>({
                                         placement: COMMON_POPOVER_PLACEMENT,
                                     }}
                                 >
-                                    {spec.viewSpec.layoutDescription}
+                                    <span
+                                        dangerouslySetInnerHTML={{
+                                            __html: spec.viewSpec.layoutDescription,
+                                        }}
+                                    />
                                 </HelpMark>
                             </Text>
                         </span>

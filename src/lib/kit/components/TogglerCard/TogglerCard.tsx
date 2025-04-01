@@ -45,7 +45,11 @@ export const TogglerCard: React.FC<TogglerCardProps> = ({
                             placement: COMMON_POPOVER_PLACEMENT,
                         }}
                     >
-                        {description}
+                        <span
+                            dangerouslySetInnerHTML={{
+                                __html: description,
+                            }}
+                        />
                     </HelpMark>
                 ) : null}
             </div>

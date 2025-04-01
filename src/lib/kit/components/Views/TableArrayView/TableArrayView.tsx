@@ -53,7 +53,11 @@ export const TableArrayView: ArrayView = ({value = [], spec, name}) => {
                                       placement: COMMON_POPOVER_PLACEMENT,
                                   }}
                               >
-                                  {description}
+                                  <span
+                                      dangerouslySetInnerHTML={{
+                                          __html: description,
+                                      }}
+                                  />
                               </HelpMark>
                           </Flex>
                       )
