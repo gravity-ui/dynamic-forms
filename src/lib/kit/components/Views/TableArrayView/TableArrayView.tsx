@@ -12,6 +12,7 @@ import {
 } from '../../../../core';
 import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 import {block} from '../../../utils';
+import {HTMLContent} from '../../HTMLContent';
 
 import './TableArrayView.scss';
 
@@ -53,11 +54,7 @@ export const TableArrayView: ArrayView = ({value = [], spec, name}) => {
                                       placement: COMMON_POPOVER_PLACEMENT,
                                   }}
                               >
-                                  <span
-                                      dangerouslySetInnerHTML={{
-                                          __html: description,
-                                      }}
-                                  />
+                                  <HTMLContent html={description} />
                               </HelpMark>
                           </Flex>
                       )

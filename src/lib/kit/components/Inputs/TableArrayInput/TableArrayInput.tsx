@@ -25,6 +25,7 @@ import {
 import {useSearchContext} from '../../../../core/components/Form/hooks';
 import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 import {block} from '../../../utils';
+import {HTMLContent} from '../../HTMLContent';
 
 import './TableArrayInput.scss';
 
@@ -115,11 +116,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                                   placement: COMMON_POPOVER_PLACEMENT,
                               }}
                           >
-                              <span
-                                  dangerouslySetInnerHTML={{
-                                      __html: description,
-                                  }}
-                              />
+                              <HTMLContent html={description} />
                           </HelpMark>
                       </Flex>
                   ),

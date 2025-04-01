@@ -7,6 +7,7 @@ import {useDynamicFormsCtx} from '../../../../core';
 import {CopyButton} from '../../../../kit';
 import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 import {block, isNotEmptyValue} from '../../../utils';
+import {HTMLContent} from '../../HTMLContent';
 
 import './ViewRow.scss';
 
@@ -36,11 +37,7 @@ export const ViewRow = <T extends FormValue, S extends Spec>({
                             placement: COMMON_POPOVER_PLACEMENT,
                         }}
                     >
-                        <span
-                            dangerouslySetInnerHTML={{
-                                __html: spec.viewSpec.layoutDescription,
-                            }}
-                        />
+                        <HTMLContent html={spec.viewSpec.layoutDescription} />
                     </HelpMark>
                 ) : null}
                 <div className={b('dots')} />
