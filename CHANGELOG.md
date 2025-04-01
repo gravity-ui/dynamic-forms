@@ -1,5 +1,18 @@
 # Changelog
 
+## [5.3.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.2.0...v5.3.0) (2025-04-01)
+
+
+### Features
+
+* add unstable schema renderer ([#288](https://github.com/gravity-ui/dynamic-forms/issues/288)) ([b46696f](https://github.com/gravity-ui/dynamic-forms/commit/b46696f0b9a31e917b9c386d521e3e78e014fad3))
+
+
+### Bug Fixes
+
+* **ErrorWrapper:** fix control border color ([#286](https://github.com/gravity-ui/dynamic-forms/issues/286)) ([a431e95](https://github.com/gravity-ui/dynamic-forms/commit/a431e957d27f5cd39323fa536eb28b2917530265))
+* help mark dangerouslySetInnerHTML ([#289](https://github.com/gravity-ui/dynamic-forms/issues/289)) ([588c864](https://github.com/gravity-ui/dynamic-forms/commit/588c864cc487a6a04568aba2366bcf77ea897622))
+
 ## [5.2.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.1.0...v5.2.0) (2025-03-13)
 
 
