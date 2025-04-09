@@ -11,7 +11,7 @@ const config: StorybookConfig = {
                 actions: false,
                 backgrounds: false,
                 controls: false,
-                measure: false,
+                measure: true,
                 outline: false,
                 toolbars: true,
                 viewport: false,

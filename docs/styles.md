@@ -352,6 +352,15 @@ Variables for the Text Content component:
 | `--df-text-content-icon-margin-right` |     `4px`     | Right margin of the icon                           |
 | `--df-text-content-separator-margin`  |   `0px 4px`   | Margin of the separator (top, right, bottom, left) |
 
+### Radio Group
+
+Variables for the Text Content component:
+
+| Variable                               | Default Value | Description                      |
+| :------------------------------------- | :-----------: | :------------------------------- |
+| `--df-radio-group-height`              |    `28px`     | Height of the radio group        |
+| `--df-radio-group-vertical-margin-top` |     `8px`     | Top margin in vertical direction |
+
 ---
 
 ## Views

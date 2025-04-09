@@ -133,6 +133,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.generateRandomValueButton | `boolean`                |          | Shows a button that allows you to generate a random value depending on the passed [function generateRandomValue](./lib.md#dynamicfield)                                                 |
 | viewSpec.inputProps                | `object`                 |          | [InputProps](./input-props-map.md) Additional properties for internal input components                                                                                                  |
 | viewSpec.dateInput                 | `object`                 |          | [Parameters](#dateinput) additional options for the date picker                                                                                                                         |
+| viewSpec.radioGroupParams          | `object`                 |          | [Parameters](#radiogroupparams) additional options for the radio group                                                                                                                  |
 
 #### SizeParams
 
@@ -199,6 +200,13 @@ You can provide all props of [original component](https://preview.gravity-ui.com
 | :-------- | :-------------------------- | :------: | :----------------------------------------- |
 | placement | `'horizontal'` `'vertical'` |          | Placement checkbox, default `'horizontal'` |
 | disabled  | `Record<string, boolean>`   |          | Disabled checkbox for enum values          |
+
+#### RadioGroupParams
+
+| Property  | Type                        | Required | Description                                   |
+| :-------- | :-------------------------- | :------: | :-------------------------------------------- |
+| direction | `'horizontal'` `'vertical'` |          | Direction radio group, default `'horizontal'` |
+| disabled  | `Record<string, boolean>`   |          | Disabled radio group for enum values          |
 
 #### Link
 

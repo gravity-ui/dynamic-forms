@@ -39,6 +39,7 @@ const excludeOptions = [
     'viewSpec.selectParams',
     'viewSpec.generateRandomValueButton',
     'viewSpec.inputProps',
+    'viewSpec.radioGroupParams',
 ];
 
 const template = (spec: StringSpec = baseSpec) => {

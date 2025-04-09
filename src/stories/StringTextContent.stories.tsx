@@ -47,6 +47,7 @@ const excludeOptions = [
     'viewSpec.selectParams',
     'viewSpec.generateRandomValueButton',
     'viewSpec.inputProps',
+    'viewSpec.radioGroupParams',
 ];
 
 const value = 'value';

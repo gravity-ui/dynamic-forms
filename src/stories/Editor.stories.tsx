@@ -192,6 +192,20 @@ const spec: ObjectSpec = {
                                 },
                             },
                         },
+                        operating_system: {
+                            type: SpecTypes.String,
+                            enum: ['windows', 'linux', 'macOs'],
+                            description: {
+                                windows: 'Windows',
+                                linux: 'Linux',
+                                macOs: 'MacOs',
+                            },
+                            viewSpec: {
+                                type: 'radio_group',
+                                layout: 'row',
+                                layoutTitle: 'Operating System',
+                            },
+                        },
                         license: {
                             type: SpecTypes.Boolean,
                             viewSpec: {type: 'base', layout: 'row', layoutTitle: 'License'},

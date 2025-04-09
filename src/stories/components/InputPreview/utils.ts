@@ -68,6 +68,15 @@ export const transformCorrect = (spec: Spec) => {
         })) as unknown as Record<string, boolean>;
     }
 
+    if (isStringSpec(_spec) && _spec.viewSpec.radioGroupParams?.disabled) {
+        const correctMeta = _spec.viewSpec.radioGroupParams.disabled;
+
+        _spec.viewSpec.radioGroupParams.disabled = Object.keys(correctMeta).map((key) => ({
+            property: key,
+            disabled: correctMeta[key],
+        })) as unknown as Record<string, boolean>;
+    }
+
     if (isObjectSpec(_spec) && _spec.viewSpec.delimiter) {
         const correctDelimiter = _spec.viewSpec.delimiter;
 
@@ -172,6 +181,22 @@ export const transformIncorrect = (spec: Spec) => {
         }[];
 
         _spec.viewSpec.checkboxGroupParams.disabled = incorrectMeta.reduce(
+            (acc: Record<string, boolean>, {property, disabled}) => {
+                acc[property] = disabled;
+
+                return acc;
+            },
+            {},
+        );
+    }
+
+    if (isStringSpec(_spec) && _spec.viewSpec.radioGroupParams?.disabled) {
+        const incorrectMeta = _spec.viewSpec.radioGroupParams.disabled as unknown as {
+            property: string;
+            disabled: boolean;
+        }[];
+
+        _spec.viewSpec.radioGroupParams.disabled = incorrectMeta.reduce(
             (acc: Record<string, boolean>, {property, disabled}) => {
                 acc[property] = disabled;
 
