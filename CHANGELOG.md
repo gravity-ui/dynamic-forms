@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.4.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.3.0...v5.4.0) (2025-04-10)
+
+
+### Features
+
+* added new input Radio Group ([#292](https://github.com/gravity-ui/dynamic-forms/issues/292)) ([b7ad07c](https://github.com/gravity-ui/dynamic-forms/commit/b7ad07c6418e25a43c1241aff3f2dfde70ba8541))
+
 ## [5.3.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.2.0...v5.3.0) (2025-04-01)
 
 
