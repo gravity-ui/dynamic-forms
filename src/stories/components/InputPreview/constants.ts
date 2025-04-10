@@ -124,6 +124,48 @@ const description: ArraySpec = {
     },
 };
 
+const radioGroupParams: ObjectSpec = {
+    type: SpecTypes.Object,
+    properties: {
+        direction: {
+            type: SpecTypes.String,
+            enum: ['―', 'horizontal', 'vertical'],
+            viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Direction'},
+        },
+        disabled: {
+            type: SpecTypes.Array,
+            items: {
+                type: SpecTypes.Object,
+                properties: {
+                    property: {
+                        type: SpecTypes.String,
+                        viewSpec: {type: 'base', layout: 'table_item'},
+                    },
+                    disabled: {
+                        type: SpecTypes.Boolean,
+                        viewSpec: {type: 'base', layout: 'table_item'},
+                    },
+                },
+                viewSpec: {type: ''},
+            },
+            viewSpec: {
+                type: 'table',
+                layout: 'accordeon',
+                layoutTitle: 'Disabled',
+                table: [
+                    {label: 'Property', property: 'property'},
+                    {label: 'Disabled', property: 'disabled'},
+                ],
+            },
+        },
+    },
+    viewSpec: {
+        type: 'base',
+        layout: 'accordeon',
+        layoutTitle: 'Radio Group Params',
+    },
+};
+
 const selectParams: ObjectSpec = {
     type: SpecTypes.Object,
     properties: {
@@ -888,6 +930,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 copy,
                 hidden,
                 selectParams,
+                radioGroupParams,
                 generateRandomValueButton,
                 inputProps,
             },
@@ -907,6 +950,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 'copy',
                 'hidden',
                 'selectParams',
+                'radioGroupParams',
                 'generateRandomValueButton',
                 'inputProps',
             ],

@@ -192,6 +192,10 @@ export interface StringSpec<
             filterPlaceholder?: string;
             meta?: Record<string, string>;
         };
+        radioGroupParams?: {
+            direction?: 'horizontal' | 'vertical';
+            disabled?: Record<string, boolean>;
+        };
         inputProps?: InputComponentProps;
         layoutProps?: LayoutComponentProps;
         generateRandomValueButton?: boolean;

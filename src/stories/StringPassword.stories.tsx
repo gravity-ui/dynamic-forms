@@ -39,6 +39,7 @@ const excludeOptions = [
     'viewSpec.dateInput',
     'viewSpec.copy',
     'viewSpec.selectParams',
+    'viewSpec.radioGroupParams',
 ];
 
 const template = (spec: StringSpec = baseSpec) => {

@@ -1,0 +1,12 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}radio-group {
+    align-items: center;
+    height: var(--df-radio-group-height, 28px);
+
+    &_vertical {
+        align-items: flex-start;
+        margin-top: var(--df-radio-group-vertical-margin-top, var(--g-spacing-2));
+        height: auto;
+    }
+}

@@ -39,6 +39,7 @@ import {
     OneOfFlat,
     OneOfFlatView,
     OneOfView,
+    RadioGroup,
     Row,
     RowVerbose,
     Secret,
@@ -181,6 +182,7 @@ export const dynamicConfig: DynamicFormConfig = {
             number_with_scale: {Component: NumberWithScale},
             monaco_input: {Component: MonacoInput},
             text_content: {Component: TextContent, independent: true},
+            radio_group: {Component: RadioGroup},
         },
         layouts: {
             row: Row,
@@ -290,6 +292,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
             number_with_scale: {Component: NumberWithScaleView},
             monaco_input: {Component: MonacoView},
             text_content: {Component: TextContentView, independent: true},
+            radio_group: {Component: BaseView},
         },
         layouts: {
             row: ViewRow,
