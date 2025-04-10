@@ -4,7 +4,6 @@ import type {TextProps} from '@gravity-ui/uikit';
 
 import type {ArrayLayoutProps, ObjectLayoutProps} from '../../../../core';
 import {isArrayItem} from '../../../../core';
-import {useRenderHtml} from '../../../../core/components/Form/hooks/useRenderHtml';
 import {ErrorWrapper} from '../../../components';
 import {useErrorChecker} from '../../../hooks';
 import {RemoveButton} from '../../RemoveButton';
@@ -25,8 +24,6 @@ export const Accordeon = <
     meta,
     children,
 }: T): JSX.Element => {
-    const renderHtml = useRenderHtml();
-
     const {variantTitle} = spec.viewSpec.layoutProps || {};
 
     const [open, setOpen] = React.useState(Boolean(spec.viewSpec?.layoutOpen));
@@ -57,7 +54,6 @@ export const Accordeon = <
             hideInsteadOfDestroy
             withBranchView
             variantTitle={variantTitle}
-            renderHtml={renderHtml}
         >
             <ErrorWrapper name={name} meta={meta} withoutChildErrorStyles>
                 {children}

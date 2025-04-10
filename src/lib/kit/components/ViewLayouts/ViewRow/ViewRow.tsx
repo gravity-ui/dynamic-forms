@@ -4,7 +4,6 @@ import {HelpMark, Text} from '@gravity-ui/uikit';
 
 import type {FormValue, Spec, ViewLayoutProps} from '../../../../core';
 import {useDynamicFormsCtx} from '../../../../core';
-import {useRenderHtml} from '../../../../core/components/View/hooks/useRenderHtml';
 import {CopyButton} from '../../../../kit';
 import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 import {block, isNotEmptyValue} from '../../../utils';
@@ -19,7 +18,6 @@ export const ViewRow = <T extends FormValue, S extends Spec>({
     spec,
     children,
 }: ViewLayoutProps<T, S>) => {
-    const renderHtml = useRenderHtml();
     const {showLayoutDescription} = useDynamicFormsCtx();
 
     if (!isNotEmptyValue(value, spec)) {

@@ -29,7 +29,6 @@ interface SimpleVerticalAccordeonProps {
     withBranchView?: boolean;
     viewLayout?: boolean;
     variantTitle?: TextProps['variant'];
-    renderHtml?: (text: string) => React.ReactNode;
 }
 
 interface SimpleVerticalAccordeonState {
@@ -199,7 +198,7 @@ export class SimpleVerticalAccordeon extends React.Component<
     }
 
     private getTooltip() {
-        const {note, renderHtml} = this.props;
+        const {note} = this.props;
 
         return note ? (
             <Text className={b('tooltip')}>

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import type {FormValue, Spec, ViewLayoutProps} from '../../../core';
-import {useRenderHtml} from '../../../core/components/View/hooks/useRenderHtml';
 import {Card} from '../../components';
 import {isNotEmptyValue} from '../../utils';
 
@@ -11,20 +10,12 @@ export const ViewCardSection = <T extends FormValue, S extends Spec>({
     spec,
     children,
 }: ViewLayoutProps<T, S>) => {
-    const renderHtml = useRenderHtml();
-
     if (!isNotEmptyValue(value, spec)) {
         return null;
     }
 
     return (
-        <Card
-            name={name}
-            title={spec.viewSpec.layoutTitle}
-            alwaysOpen
-            checkEmptyBody
-            renderHtml={renderHtml}
-        >
+        <Card name={name} title={spec.viewSpec.layoutTitle} alwaysOpen checkEmptyBody>
             {children}
         </Card>
     );

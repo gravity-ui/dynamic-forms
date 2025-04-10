@@ -1,13 +1,10 @@
 import React from 'react';
 
 import type {StringIndependentView} from '../../../core';
-import {useRenderHtml} from '../../../core/components/View/hooks/useRenderHtml';
 import type {TextContentComponentProps} from '../Inputs';
 import {TextContentComponent} from '../Inputs';
 
 export const TextContentView: StringIndependentView = ({name, spec, Layout, value}) => {
-    const renderHtml = useRenderHtml();
-
     const WrappedLayout = React.useMemo(() => {
         if (Layout) {
             const Component: TextContentComponentProps['Layout'] = (props) => {
@@ -23,12 +20,5 @@ export const TextContentView: StringIndependentView = ({name, spec, Layout, valu
         return undefined;
     }, [Layout, name]);
 
-    return (
-        <TextContentComponent
-            spec={spec}
-            value={value}
-            Layout={WrappedLayout}
-            renderHtml={renderHtml}
-        />
-    );
+    return <TextContentComponent spec={spec} value={value} Layout={WrappedLayout} />;
 };

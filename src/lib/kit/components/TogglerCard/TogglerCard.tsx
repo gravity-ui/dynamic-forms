@@ -17,7 +17,6 @@ interface TogglerCardProps {
     onClick: () => void;
     disabled?: boolean;
     selected: boolean;
-    renderHtml?: (html: string) => React.ReactNode;
 }
 
 export const TogglerCard: React.FC<TogglerCardProps> = ({
@@ -27,7 +26,6 @@ export const TogglerCard: React.FC<TogglerCardProps> = ({
     onClick,
     disabled,
     selected,
-    renderHtml,
 }) => {
     return (
         <Card

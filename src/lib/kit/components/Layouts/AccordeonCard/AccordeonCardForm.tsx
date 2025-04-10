@@ -2,7 +2,6 @@ import React from 'react';
 
 import type {ArrayLayoutProps, ObjectLayoutProps} from '../../../../core';
 import {isArrayItem} from '../../../../core';
-import {useRenderHtml} from '../../../../core/components/Form/hooks/useRenderHtml';
 import {useErrorChecker} from '../../../hooks';
 import {block} from '../../../utils';
 import {AccordeonCard} from '../../AccordeonCard';
@@ -20,8 +19,6 @@ export const AccordeonCardForm = <T extends ArrayLayoutProps | ObjectLayoutProps
     children,
     meta,
 }: T): JSX.Element => {
-    const renderHtml = useRenderHtml();
-
     const [open, setOpen] = React.useState(Boolean(spec.viewSpec?.layoutOpen));
 
     const onDrop = React.useCallback(() => {
@@ -48,7 +45,6 @@ export const AccordeonCardForm = <T extends ArrayLayoutProps | ObjectLayoutProps
             open={open}
             onToggle={setOpen}
             headerActionsTemplate={removeButton}
-            renderHtml={renderHtml}
         >
             <ErrorWrapper name={name} meta={meta} withoutChildErrorStyles>
                 {children}

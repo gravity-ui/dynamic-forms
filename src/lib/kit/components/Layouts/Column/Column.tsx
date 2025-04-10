@@ -5,7 +5,6 @@ import {Button, HelpMark, Icon, Text} from '@gravity-ui/uikit';
 
 import type {FieldValue, LayoutProps, Spec, StringSpec} from '../../../../core';
 import {isArrayItem, isArraySpec, isObjectSpec, withGenerateButton} from '../../../../core';
-import {useRenderHtml} from '../../../../core/components/Form/hooks/useRenderHtml';
 import {ErrorWrapper, GenerateRandomValueButton} from '../../../components';
 import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 import {block} from '../../../utils';
@@ -26,7 +25,6 @@ const ColumnBase = <T extends FieldValue, S extends Spec>({
 }: LayoutProps<T, undefined, undefined, S> & ColumnProps) => {
     const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
     const generateButton = React.useMemo(() => withGenerateButton(spec), [spec]);
-    const renderHtml = useRenderHtml();
 
     return (
         <div className={b()}>
