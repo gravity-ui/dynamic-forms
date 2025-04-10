@@ -29,14 +29,6 @@ const RowBase = <T extends FieldValue, S extends Spec>({
     const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
     const generateButton = React.useMemo(() => withGenerateButton(spec), [spec]);
 
-    const verboseDescriptionContent = React.useMemo(() => {
-        if (verboseDescription && spec.viewSpec.layoutDescription) {
-            return <HTMLContent html={spec.viewSpec.layoutDescription} />;
-        }
-
-        return null;
-    }, [spec.viewSpec.layoutDescription, verboseDescription]);
-
     return (
         <div className={b()}>
             <div className={b('left')}>
@@ -90,7 +82,12 @@ const RowBase = <T extends FieldValue, S extends Spec>({
                         </Button>
                     ) : null}
                 </div>
-                {verboseDescriptionContent}
+                {verboseDescription && spec.viewSpec.layoutDescription ? (
+                    <HTMLContent
+                        className={b('description')}
+                        html={spec.viewSpec.layoutDescription}
+                    />
+                ) : null}
             </div>
         </div>
     );

@@ -84,14 +84,6 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
         return 'subheader-1';
     }, [titleSize]);
 
-    const descriptionContent = React.useMemo(() => {
-        if (!description) {
-            return null;
-        }
-
-        return <HTMLContent className={b('header-content-description')} html={description} />;
-    }, [description]);
-
     return (
         <div ref={accordeonRef} className={b({empty: Boolean(emptyBody)}, className)}>
             <div
@@ -103,7 +95,12 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
             >
                 <div className={b('header-content')}>
                     <Text variant={currentHeaderVariant}>{header}</Text>
-                    {descriptionContent}
+                    {description ? (
+                        <HTMLContent
+                            className={b('header-content-description')}
+                            html={description}
+                        />
+                    ) : null}
                 </div>
                 {!emptyBody && !alwaysOpen ? (
                     <div className={b('header-toggle-btn')} onClick={preventEvent}>
