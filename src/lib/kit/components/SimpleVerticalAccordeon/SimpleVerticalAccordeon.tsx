@@ -6,6 +6,7 @@ import {Button, HelpMark, Icon, Popover, Text} from '@gravity-ui/uikit';
 
 import {COMMON_POPOVER_PLACEMENT} from '../../constants/common';
 import {block} from '../../utils';
+import {HTMLContent} from '../HTMLContent';
 
 import './SimpleVerticalAccordeon.scss';
 
@@ -206,7 +207,7 @@ export class SimpleVerticalAccordeon extends React.Component<
                         placement: COMMON_POPOVER_PLACEMENT,
                     }}
                 >
-                    {note}
+                    <HTMLContent html={note} />
                 </HelpMark>
             </Text>
         ) : null;

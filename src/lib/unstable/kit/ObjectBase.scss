@@ -1,0 +1,27 @@
+// @import '../../../styles/variables.scss';
+
+.object-base {
+    &__content {
+        &_inline {
+            display: flex;
+
+            // & > .#{$ns}use-search {
+            //     width: 150px;
+            //     margin-bottom: 0;
+            //     margin-right: 8px;
+
+            //     &:last-child {
+            //         margin-right: 0;
+            //     }
+            // }
+        }
+    }
+
+    &__delimiter {
+        height: 28px;
+        display: flex;
+        margin-right: 8px;
+        align-items: center;
+        white-space: nowrap;
+    }
+}
