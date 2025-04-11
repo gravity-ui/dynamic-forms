@@ -27,7 +27,7 @@ export const useMutators = (externalMutators?: DynamicFormMutators) => {
                 const result = cloneDeep(a);
 
                 const getKeys = (parent: any): string[][] => {
-                    if (isObjectLike(parent)) {
+                    if (isObjectLike(parent) && !Array.isArray(parent)) {
                         return keys(parent).reduce((acc: string[][], parentKey) => {
                             const childKeys = getKeys(parent[parentKey]);
 
