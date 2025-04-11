@@ -15,6 +15,7 @@ export interface DynamicViewContext {
         link: Spec['viewSpec']['link'];
     }>;
     Monaco?: React.ComponentType<MonacoEditorProps>;
+    renderHtml?: (text: string) => React.ReactNode;
     shared: {
         store: Record<string, any>;
         onChangeShared: (name: string, value: any) => void;

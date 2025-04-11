@@ -107,14 +107,7 @@ const SectionBase = <
     let description: React.ReactNode;
     if (spec.viewSpec.layoutDescription && !ignoreDescription) {
         if (descriptionAsSubtitle) {
-            description = (
-                <div
-                    className={b('description')}
-                    dangerouslySetInnerHTML={{
-                        __html: spec.viewSpec.layoutDescription,
-                    }}
-                />
-            );
+            description = <HTMLContent html={spec.viewSpec.layoutDescription} />;
         } else {
             description = (
                 <Text className={b('note')}>
