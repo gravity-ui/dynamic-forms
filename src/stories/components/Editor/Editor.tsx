@@ -19,9 +19,15 @@ export interface EditorProps {
     spec: Spec;
     value?: FormValue;
     viewMode: 'story' | 'docs';
+    withCustomRenderHtml?: boolean;
 }
 
-export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMode}) => {
+export const Editor: React.FC<EditorProps> = ({
+    spec: externalSpec,
+    value,
+    viewMode,
+    withCustomRenderHtml,
+}) => {
     const [spec, setSpec] = React.useState(externalSpec);
     const [ready, setReady] = React.useState(true);
     const [showLayoutDescription, setShowLayoutDescription] = React.useState(false);
@@ -150,6 +156,7 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
                                         name="input"
                                         spec={spec}
                                         parseJsonDefaultValue={parseJson}
+                                        withCustomRenderHtml={withCustomRenderHtml}
                                     />
                                 </div>
                             ) : null}
@@ -170,6 +177,7 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
                                             spec,
                                             showLayoutDescription,
                                         )}
+                                        withCustomRenderHtml={withCustomRenderHtml}
                                     />
                                 </div>
                             ) : null}
