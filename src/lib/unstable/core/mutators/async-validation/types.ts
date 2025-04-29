@@ -1,12 +1,6 @@
 import type {MutableState, Tools} from 'final-form';
 
-import type {JsonSchema} from './schema';
-import type {SyncValidateError, Validator} from './validation';
-import type {FieldValue} from './values';
-
-/**
- * async-validation start
- */
+import type {FieldValue, JsonSchema, SyncValidateError, Validator} from '../../types';
 
 export interface ValidationWaiter {
     schema: JsonSchema;
@@ -62,7 +56,3 @@ export type SetValidationCacheFunction<
 ) => void;
 
 export type SetValidationCacheMutator = (params: SetValidationCacheParams) => void;
-
-/**
- * async-validation end
- */

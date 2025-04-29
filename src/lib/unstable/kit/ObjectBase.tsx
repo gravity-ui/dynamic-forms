@@ -7,7 +7,7 @@ import isObjectLike from 'lodash/isObjectLike';
 
 // import {block, filterPropertiesForObjectInline} from '../../../kit/utils';
 import {block} from '../../kit/utils';
-import {Entity} from '../core/components/Entity';
+import {Entity} from '../core';
 import type {IndependentView, IndependentViewProps, JsonSchemaObject} from '../core/types';
 
 import './ObjectBase.scss';

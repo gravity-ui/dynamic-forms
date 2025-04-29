@@ -1,3 +1,8 @@
 import {setValidationCache, setValidationWaiters} from './async-validation';
 
-export const mutators = {setValidationCache, setValidationWaiters};
+export * from './async-validation/types';
+
+export const schemaRendererMutators = {
+    setValidationCache,
+    setValidationWaiters,
+};

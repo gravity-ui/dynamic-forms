@@ -5,9 +5,8 @@ import {noop} from 'lodash';
 import {Form} from 'react-final-form';
 
 import {ObjectBase} from '../lib';
-import {SchemaRenderer} from '../lib/unstable/core/components/SchemaRenderer';
+import {SchemaRenderer, schemaRendererMutators} from '../lib/unstable/core';
 import {JsonSchemaType, SchemaRendererMode} from '../lib/unstable/core/constants';
-import {mutators} from '../lib/unstable/core/mutators';
 import type {
     JsonSchemaArray,
     JsonSchemaNumber,
@@ -459,7 +458,7 @@ const objectPatternProperties: JsonSchemaObject = {
         stringConst,
         stringEnum,
     },
-    title: 'patternProperties',
+    title: 'objectPatternProperties',
     default: {},
     patternProperties: {
         '^string': {
@@ -652,10 +651,12 @@ const baseSpec: JsonSchemaObject = {
 const value = {
     qwe: {
         test: {
-            // name: 'bocemb',
-            age: 13,
-            nameQ: 'jaja',
-            obj: {name: 'bocemb', age: 13},
+            jajaja: {
+                // name: 'bocemb',
+                age: 13,
+                nameQ: 'jaja',
+                obj: {name: 'bocemb', age: 13},
+            },
         },
     },
 };
@@ -681,10 +682,10 @@ const value = {
 
 const template = () => {
     const Template: StoryFn<typeof ObjectBase> = (__) => (
-        <Form initialValues={value} onSubmit={noop} mutators={{...mutators}}>
+        <Form initialValues={value} onSubmit={noop} mutators={{...schemaRendererMutators}}>
             {() => (
                 <SchemaRenderer
-                    name="qwe.test"
+                    name="qwe.test.jajaja"
                     schema={baseSpec}
                     config={config}
                     mode={SchemaRendererMode.Form}
