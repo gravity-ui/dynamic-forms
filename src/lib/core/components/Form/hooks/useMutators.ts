@@ -53,7 +53,7 @@ export const useMutators = (externalMutators?: DynamicFormMutators) => {
                 a: Record<string, {value: T}> = {},
                 b: Record<string, T>,
             ) => {
-                const result = cloneDeep(a);
+                const result = {...a};
 
                 Object.keys(b).forEach((key) => {
                     set(result, [key, 'value'], b[key]);
