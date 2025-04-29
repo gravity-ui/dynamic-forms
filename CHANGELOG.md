@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.4.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.4.0...v5.4.1) (2025-04-29)
+
+
+### Bug Fixes
+
+* prevent useMutators from using previous call arguments ([#296](https://github.com/gravity-ui/dynamic-forms/issues/296)) ([89289a3](https://github.com/gravity-ui/dynamic-forms/commit/89289a3f662c98ecc6fff49550b48db957257fa9))
+* **useMutators:** fix merging arrays with mutators ([#294](https://github.com/gravity-ui/dynamic-forms/issues/294)) ([b43c648](https://github.com/gravity-ui/dynamic-forms/commit/b43c6486e7a8f819e866dfc2c8fd1ac280adb645))
+
 ## [5.4.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.3.0...v5.4.0) (2025-04-10)
 
 
