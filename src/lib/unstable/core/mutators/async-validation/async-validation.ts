@@ -5,7 +5,7 @@ import type {
     SetValidationCacheFunction,
     SetValidationWaitersFunction,
     ValidationState,
-} from '../../types';
+} from './types';
 
 export const setValidationWaiters: SetValidationWaitersFunction = (
     [{name, waiters}],

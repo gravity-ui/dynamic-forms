@@ -20,7 +20,7 @@ import {Button, Icon} from '@gravity-ui/uikit';
 //     transformArrIn,
 // } from '../../../../core';
 import {block} from '../../kit/utils';
-import {Entity} from '../core/components/Entity';
+import {Entity} from '../core';
 import type {JsonSchemaArray, SimpleView} from '../core/types';
 
 import './ArrayBase.scss';
