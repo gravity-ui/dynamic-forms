@@ -18,20 +18,20 @@ const SchemaRendererComponent: React.FC<SchemaRendererProps> = ({
     config,
     errorMessages,
     mode,
-    name,
+    name: headName,
     schema,
 }) => {
-    const serviceFieldName = `DYNAMIC_FORMS_SERVICE_FIELD/${name}`;
+    const serviceFieldName = `DYNAMIC_FORMS_SERVICE_FIELD.${headName}`;
 
     const context: SchemaRendererContextType = React.useMemo(
         () => ({
             config,
             mode,
-            name,
+            headName,
             schema,
             serviceFieldName,
         }),
-        [config, mode, name, schema, serviceFieldName],
+        [config, mode, headName, schema, serviceFieldName],
     );
 
     return (
@@ -39,11 +39,11 @@ const SchemaRendererComponent: React.FC<SchemaRendererProps> = ({
             <SchemaRendererServiceField
                 config={config}
                 errorMessages={errorMessages}
-                name={name}
+                headName={headName}
                 mainSchema={schema}
                 serviceFieldName={serviceFieldName}
             />
-            <Entity name={name} schema={schema} />
+            <Entity name={headName} schema={schema} />
         </SchemaRendererContext.Provider>
     );
 };

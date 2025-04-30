@@ -20,12 +20,12 @@ export const parseFinalFormPath = (finalFormPath: string): string[] => {
 };
 
 export const getSchemaByFinalFormPath = (
-    finalFormPath: string,
+    finalFormPath: string | string[],
     finalFormHeadPath: string,
     mainSchema: JsonSchema,
 ): JsonSchema | undefined => {
     if (finalFormPath.length) {
-        return parseFinalFormPath(finalFormPath)
+        return (Array.isArray(finalFormPath) ? finalFormPath : parseFinalFormPath(finalFormPath))
             .slice(parseFinalFormPath(finalFormHeadPath).length)
             .reduce((acc: JsonSchema | undefined, segment) => {
                 const type = get(acc, 'type');
