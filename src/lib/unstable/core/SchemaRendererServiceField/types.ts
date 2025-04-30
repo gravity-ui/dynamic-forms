@@ -41,7 +41,7 @@ export interface GetAjvErrorMessageParams {
 export type GetValidateParams<Schema extends JsonSchema> = {
     config: SchemaRendererConfig;
     errorMessages?: ErrorMessages;
-    name: string;
+    headName: string;
     mainSchema: Schema;
     serviceFieldName: string;
     setValidationCache: SetValidationCacheMutator;

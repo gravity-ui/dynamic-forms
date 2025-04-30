@@ -3,13 +3,14 @@ import Ajv from 'ajv';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import isString from 'lodash/isString';
+import mapValues from 'lodash/mapValues';
 import omit from 'lodash/omit';
 import set from 'lodash/set';
 
-import {ARRAY_AND_OBJECT_ERRORS, EMPTY_OBJECT, JsonSchemaType} from '../constants';
-import type {ValidationState, ValidationWaiter} from '../mutators';
+import {ARRAY_AND_OBJECT_ERRORS, EMPTY_OBJECT, JsonSchemaType, OBJECT_ERROR} from '../constants';
+import type {ErrorsState, ValidationState, ValidationWaiter} from '../mutators';
 import type {FieldValue, JsonSchema, ObjectValue, SyncValidateError, Validator} from '../types';
-import {parseFinalFormPath} from '../utils';
+import {getSchemaByFinalFormPath, parseFinalFormPath} from '../utils';
 
 import type {
     EntityParametersError,
@@ -73,6 +74,10 @@ const parseSchemaPath = (schemaPath: string): string[] => {
 };
 
 const parseInstancePath = (instancePath: string): string[] => {
+    if (!instancePath.length) {
+        return [];
+    }
+
     return instancePath
         .slice('/'.length)
         .split('/')
@@ -85,7 +90,11 @@ const getSchemaBySchemaPath = (
 ): JsonSchema | undefined => {
     const pathArr = parseSchemaPath(schemaPath);
 
-    return pathArr.length ? get(mainSchema, pathArr) : mainSchema;
+    if (!pathArr.length) {
+        return mainSchema;
+    }
+
+    return get(mainSchema, pathArr);
 };
 
 const getSchemaByInstancePath = (
@@ -148,7 +157,7 @@ const getAjvErrorMessage = ({
 export const getValidate = <Schema extends JsonSchema>({
     config,
     errorMessages,
-    name,
+    headName,
     mainSchema,
     serviceFieldName,
     setValidationCache,
@@ -157,15 +166,17 @@ export const getValidate = <Schema extends JsonSchema>({
     const ajvValidate = getAjvValidate({config, mainSchema});
 
     return (_value, allValues, meta) => {
-        ajvValidate(get(allValues, name));
+        ajvValidate(get(allValues, headName));
 
         if (!ajvValidate.errors?.length) {
             return false;
         }
 
+        const result = {[ARRAY_AND_OBJECT_ERRORS]: {}};
+
         const waiters: Record<string, ValidationWaiter> = {};
-        const ajvErrors: {instancePath: string; error: SyncValidateError}[] = [];
-        const entityParametersErrors: {instancePath: string; error: SyncValidateError}[] = [];
+        const ajvErrors: {path: string[]; error: SyncValidateError}[] = [];
+        const entityParametersErrors: {path: string[]; error: SyncValidateError}[] = [];
 
         ajvValidate.errors.forEach((ajvOrEntityParametersError) => {
             if (ajvOrEntityParametersError.keyword === 'entityParameters') {
@@ -180,7 +191,10 @@ export const getValidate = <Schema extends JsonSchema>({
 
                 if (cacheItem?.result) {
                     entityParametersErrors.push({
-                        instancePath: entityParametersError.instancePath,
+                        path: [
+                            ...parseFinalFormPath(headName),
+                            ...parseInstancePath(entityParametersError.instancePath),
+                        ],
                         error: cacheItem.result,
                     });
                 } else if (!waiter || !isEqual(entityParametersError.params, waiter)) {
@@ -205,7 +219,10 @@ export const getValidate = <Schema extends JsonSchema>({
                         });
                     } else {
                         entityParametersErrors.push({
-                            instancePath: entityParametersError.instancePath,
+                            path: [
+                                ...parseFinalFormPath(headName),
+                                ...parseInstancePath(entityParametersError.instancePath),
+                            ],
                             error: errorOrPromise,
                         });
                     }
@@ -225,7 +242,10 @@ export const getValidate = <Schema extends JsonSchema>({
                 }
 
                 ajvErrors.push({
-                    instancePath,
+                    path: [
+                        ...parseFinalFormPath(headName),
+                        ...parseInstancePath(ajvError.instancePath),
+                    ],
                     error: getAjvErrorMessage({
                         ajvErrorMessage: ajvError.message,
                         errorMessages,
@@ -242,25 +262,36 @@ export const getValidate = <Schema extends JsonSchema>({
             setValidationWaiters({name: serviceFieldName, waiters});
         }
 
-        const result = {[ARRAY_AND_OBJECT_ERRORS]: {}};
+        const errorsState: ErrorsState | undefined = meta?.data;
+        const externalRegularErrors: {path: string[]; error: SyncValidateError}[] = Object.values(
+            mapValues(errorsState?.regularErrors, (value, key) => ({
+                path: parseFinalFormPath(key),
+                error: value,
+            })),
+        );
+        const externalPriorityErrors: {path: string[]; error: SyncValidateError}[] = Object.values(
+            mapValues(errorsState?.priorityErrors, (value, key) => ({
+                path: parseFinalFormPath(key),
+                error: value,
+            })),
+        );
 
-        [...ajvErrors, ...entityParametersErrors].forEach((item) => {
+        [
+            ...externalRegularErrors,
+            ...ajvErrors,
+            ...entityParametersErrors,
+            ...externalPriorityErrors,
+        ].forEach((item) => {
             if (item.error) {
-                const itemSchema = getSchemaByInstancePath(item.instancePath, mainSchema);
+                const itemSchema = getSchemaByFinalFormPath(item.path, headName, mainSchema);
 
                 if (itemSchema) {
-                    const arrayOrObjectSchema =
-                        itemSchema.type === JsonSchemaType.Array ||
-                        itemSchema.type === JsonSchemaType.Object;
-
-                    const path = [
-                        ...parseFinalFormPath(name),
-                        ...parseInstancePath(item.instancePath),
-                    ];
+                    const arraySchema = itemSchema.type === JsonSchemaType.Array;
+                    const objectSchema = itemSchema.type === JsonSchemaType.Object;
 
                     set(
-                        arrayOrObjectSchema ? result[ARRAY_AND_OBJECT_ERRORS] : result,
-                        path,
+                        arraySchema || objectSchema ? result[ARRAY_AND_OBJECT_ERRORS] : result,
+                        objectSchema ? [...item.path, OBJECT_ERROR] : item.path,
                         item.error,
                     );
                 }

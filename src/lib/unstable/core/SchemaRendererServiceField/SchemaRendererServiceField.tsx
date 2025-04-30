@@ -9,7 +9,7 @@ import {getValidate} from './utils';
 export interface SchemaRendererProps {
     config: SchemaRendererConfig;
     errorMessages?: ErrorMessages;
-    name: string;
+    headName: string;
     mainSchema: JsonSchema;
     serviceFieldName: string;
 }
@@ -17,7 +17,7 @@ export interface SchemaRendererProps {
 const SchemaRendererServiceFieldComponent: React.FC<SchemaRendererProps> = ({
     config,
     errorMessages,
-    name,
+    headName,
     mainSchema,
     serviceFieldName,
 }) => {
@@ -28,7 +28,7 @@ const SchemaRendererServiceFieldComponent: React.FC<SchemaRendererProps> = ({
             getValidate({
                 config,
                 errorMessages,
-                name,
+                headName,
                 mainSchema,
                 serviceFieldName,
                 setValidationCache,
@@ -37,7 +37,7 @@ const SchemaRendererServiceFieldComponent: React.FC<SchemaRendererProps> = ({
         [
             config,
             errorMessages,
-            name,
+            headName,
             mainSchema,
             serviceFieldName,
             setValidationCache,

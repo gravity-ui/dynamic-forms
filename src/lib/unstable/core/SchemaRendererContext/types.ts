@@ -4,7 +4,7 @@ import type {JsonSchema, SchemaRendererConfig} from '../types';
 export interface SchemaRendererContextType {
     config: SchemaRendererConfig;
     mode: SchemaRendererMode;
-    name: string;
+    headName: string;
     schema: JsonSchema;
     serviceFieldName: string;
 }

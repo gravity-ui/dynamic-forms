@@ -7,6 +7,7 @@ import {
 } from '@gravity-ui/uikit';
 import isNil from 'lodash/isNil';
 
+import {useSetErrors} from '../core';
 import type {JsonSchemaNumber, JsonSchemaString, SimpleViewProps} from '../core/types';
 
 export interface TextProps
@@ -24,6 +25,8 @@ const Component = <
     meta,
     schema,
 }: T) => {
+    const {setErrors, removeErrors} = useSetErrors();
+
     const props: TextInputBaseProps = {
         hasClear: true,
         // ...inputProps,
@@ -39,6 +42,33 @@ const Component = <
         error: meta.error,
         // errorMessage: meta.error,
     };
+
+    React.useEffect(() => {
+        if (input.name === 'qwe.test.jajaja.stringMaxLength') {
+            if (input.value === 'jajaja') {
+                setErrors({
+                    priorityErrors: {
+                        [input.name]: 'priorityError',
+                    },
+                });
+            } else {
+                // setErrors({
+                //     priorityErrors: {
+                //         [input.name]: undefined,
+                //     },
+                // });
+                removeErrors({
+                    removeFunctionOrNames: [input.name],
+                });
+                // removeErrors({
+                //     removeFunctionOrNames: (params) => ({
+                //         ...params,
+                //         priorityErrors: omit(params.priorityErrors, input.name),
+                //     }),
+                // });
+            }
+        }
+    }, [input.value]);
 
     // if (spec.viewSpec.type === 'password') {
     if (schema.entityParameters?.viewType === 'password') {
