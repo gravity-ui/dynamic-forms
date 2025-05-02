@@ -2,11 +2,10 @@ import type {SchemaToValueType} from './helpers';
 import type {JsonSchema} from './schema';
 import type {ObjectValue} from './values';
 
-export type SyncValidateError =
-    | boolean
-    | string
-    | Record<string, boolean | string | undefined>
-    | undefined;
+type ArrayError = SyncValidateError[];
+interface ObjectError extends Record<string, SyncValidateError> {}
+
+export type SyncValidateError = ArrayError | boolean | string | ObjectError | undefined;
 
 export type AsyncValidateError = Promise<SyncValidateError>;
 

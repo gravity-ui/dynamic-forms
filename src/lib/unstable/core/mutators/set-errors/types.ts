@@ -1,21 +1,23 @@
 import type {MutableState, Tools} from 'final-form';
 
+import type {SyncValidateError} from '../../types';
+
 export interface ErrorsState {
     priorityErrors?: {
-        [key: string]: string | undefined;
+        [key: string]: SyncValidateError;
     };
     regularErrors?: {
-        [key: string]: string | undefined;
+        [key: string]: SyncValidateError;
     };
 }
 
 export interface SetErrorsParams {
     priorityErrors?: {
-        [key: string]: string | undefined;
+        [key: string]: SyncValidateError;
     };
     serviceFieldName: string;
     regularErrors?: {
-        [key: string]: string | undefined;
+        [key: string]: SyncValidateError;
     };
 }
 
