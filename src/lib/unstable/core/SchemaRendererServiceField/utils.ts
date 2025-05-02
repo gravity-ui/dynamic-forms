@@ -1,13 +1,16 @@
 import type {ErrorObject, FuncKeywordDefinition, SchemaValidateFunction} from 'ajv';
 import Ajv from 'ajv';
 import get from 'lodash/get';
+import isBoolean from 'lodash/isBoolean';
 import isEqual from 'lodash/isEqual';
+import isObjectLike from 'lodash/isObjectLike';
 import isString from 'lodash/isString';
+import isUndefined from 'lodash/isUndefined';
 import mapValues from 'lodash/mapValues';
 import omit from 'lodash/omit';
 import set from 'lodash/set';
 
-import {ARRAY_AND_OBJECT_ERRORS, EMPTY_OBJECT, JsonSchemaType, OBJECT_ERROR} from '../constants';
+import {ARRAY_AND_OBJECT_ERRORS, EMPTY_OBJECT, JsonSchemaType} from '../constants';
 import type {ErrorsState, ValidationState, ValidationWaiter} from '../mutators';
 import type {FieldValue, JsonSchema, ObjectValue, SyncValidateError, Validator} from '../types';
 import {getSchemaByFinalFormPath, parseFinalFormPath} from '../utils';
@@ -19,13 +22,22 @@ import type {
     GetAjvValidateReturn,
     GetValidateParams,
     GetValidateReturn,
+    ProcessAjvErrorParams,
+    ProcessAjvValidateErrorsParams,
+    ProcessAjvValidateErrorsReturn,
+    ProcessEntityParametersErrorParams,
+    ProcessErrorItemsParams,
+    ProcessErrorItemsReturn,
+    ProcessErrorsStateParams,
+    ProcessErrorsStateReturn,
+    ValidateErrorItem,
 } from './types';
 
 export const getAjvValidate = ({
     config,
     mainSchema,
 }: GetAjvValidateParams): GetAjvValidateReturn => {
-    function entityParametersValidate(_: any, value: FieldValue, schema?: JsonSchema) {
+    function entityParametersValidate(_: unknown, value: FieldValue, schema?: JsonSchema) {
         if (schema) {
             const validatorType: string | undefined = get(schema, 'entityParameters.validatorType');
             const validator: Validator<JsonSchema> | undefined = get(
@@ -124,6 +136,62 @@ const getSchemaByInstancePath = (
     return mainSchema;
 };
 
+const getValuePaths = (value: unknown, path: string[] = []) => {
+    const result: string[][] = [];
+
+    const isObject = (v: unknown): v is Record<string, unknown> =>
+        v !== null && typeof v === 'object' && !Array.isArray(v);
+
+    if (Array.isArray(value)) {
+        value.forEach((_, index) => {
+            result.push(...getValuePaths(value[index], [...path, `${index}`]));
+        });
+    } else if (isObject(value)) {
+        Object.keys(value).forEach((key) => {
+            result.push(...getValuePaths(get(value, key), [...path, key]));
+        });
+    } else {
+        result.push(path);
+    }
+
+    return result;
+};
+
+const processEntityParametersError = ({
+    allValues,
+    error,
+    headName,
+    onAsyncError,
+    onError,
+    validationState,
+}: ProcessEntityParametersErrorParams) => {
+    const waiter = validationState?.waiters?.[error.instancePath];
+    const cache = validationState?.cache?.[error.instancePath];
+    const cacheItem = cache?.find((item) => isEqual(error.params, omit(item, 'result')));
+
+    if (cacheItem?.result) {
+        onError({
+            error: cacheItem.result,
+            path: [...parseFinalFormPath(headName), ...parseInstancePath(error.instancePath)],
+        });
+    } else if (!waiter || !isEqual(error.params, waiter)) {
+        const errorOrPromise = error.params.validator(error.params.value, allValues as ObjectValue);
+
+        if (errorOrPromise instanceof Promise) {
+            onAsyncError({
+                instancePath: error.instancePath,
+                params: error.params,
+                promise: errorOrPromise,
+            });
+        } else {
+            onError({
+                error: errorOrPromise,
+                path: [...parseFinalFormPath(headName), ...parseInstancePath(error.instancePath)],
+            });
+        }
+    }
+};
+
 const getAjvErrorMessage = ({
     ajvErrorMessage,
     errorMessages = EMPTY_OBJECT,
@@ -154,6 +222,152 @@ const getAjvErrorMessage = ({
     );
 };
 
+const processAjvError = <Schema extends JsonSchema>({
+    error,
+    errorMessages,
+    headName,
+    mainSchema,
+    onError,
+}: ProcessAjvErrorParams<Schema>) => {
+    let instancePath = error.instancePath;
+    let keyword = error.keyword;
+    let schemaPath = error.schemaPath;
+
+    if (keyword === 'required' || keyword === 'dependencies') {
+        instancePath += `/${error.params.missingProperty}`;
+    } else if (keyword === 'if') {
+        keyword = error.params.failingKeyword;
+        schemaPath = schemaPath.slice(0, -'if'.length) + error.params.failingKeyword;
+    }
+
+    onError({
+        path: [...parseFinalFormPath(headName), ...parseInstancePath(error.instancePath)],
+        error: getAjvErrorMessage({
+            ajvErrorMessage: error.message,
+            errorMessages,
+            instancePath,
+            keyword,
+            mainSchema,
+            schemaPath,
+        }),
+    });
+};
+
+const processAjvValidateErrors = <Schema extends JsonSchema>({
+    ajvValidateErrors,
+    allValues,
+    errorMessages,
+    headName,
+    mainSchema,
+    serviceFieldName,
+    setValidationCache,
+    validationState,
+}: ProcessAjvValidateErrorsParams<Schema>): ProcessAjvValidateErrorsReturn => {
+    const waiters: Record<string, ValidationWaiter> = {};
+    const ajvErrorItems: ValidateErrorItem[] = [];
+    const entityParametersErrorItems: ValidateErrorItem[] = [];
+
+    ajvValidateErrors.forEach((ajvOrEntityParametersError) => {
+        if (ajvOrEntityParametersError.keyword === 'entityParameters') {
+            processEntityParametersError({
+                allValues: allValues,
+                error: ajvOrEntityParametersError as EntityParametersError,
+                headName,
+                onAsyncError: (w) => {
+                    waiters[w.instancePath] = w.params;
+
+                    w.promise.then((result) => {
+                        setValidationCache({
+                            name: serviceFieldName,
+                            cache: {
+                                [w.instancePath]: {
+                                    ...w.params,
+                                    result,
+                                },
+                            },
+                        });
+                    });
+                },
+                onError: (err) => entityParametersErrorItems.push(err),
+                validationState,
+            });
+        } else {
+            processAjvError({
+                error: ajvOrEntityParametersError as ErrorObject,
+                errorMessages,
+                headName,
+                mainSchema,
+                onError: (err) => ajvErrorItems.push(err),
+            });
+        }
+    });
+
+    return {ajvErrorItems, entityParametersErrorItems, waiters};
+};
+
+const processErrorsState = ({errorsState}: ProcessErrorsStateParams): ProcessErrorsStateReturn => {
+    const getErrorItems = (errors: ErrorsState['priorityErrors'] | ErrorsState['regularErrors']) =>
+        Object.values(
+            mapValues(errors, (value, key) => ({
+                path: parseFinalFormPath(key),
+                error: value,
+            })),
+        );
+
+    return {
+        externalPriorityErrorItems: getErrorItems(errorsState?.priorityErrors),
+        externalRegularErrorItems: getErrorItems(errorsState?.regularErrors),
+    };
+};
+
+const processErrorItems = <Schema extends JsonSchema>({
+    errorItems,
+    headName,
+    mainSchema,
+}: ProcessErrorItemsParams<Schema>): ProcessErrorItemsReturn => {
+    const result: ProcessErrorItemsReturn = {
+        [ARRAY_AND_OBJECT_ERRORS]: {},
+    };
+
+    const setError = (path: string[], error: boolean | string | undefined) => {
+        const itemSchema = getSchemaByFinalFormPath(path, headName, mainSchema);
+
+        if (itemSchema) {
+            const arrayOrObjectSchema =
+                itemSchema.type === JsonSchemaType.Array ||
+                itemSchema.type === JsonSchemaType.Object;
+
+            if (arrayOrObjectSchema) {
+                result[ARRAY_AND_OBJECT_ERRORS][path.join('.')] = error;
+            } else {
+                set(result, path, error);
+            }
+        }
+    };
+
+    errorItems.forEach((item) => {
+        if (!item.error) {
+            return;
+        }
+
+        if (isObjectLike(item.error)) {
+            getValuePaths(item.error).forEach((path) => {
+                setError([...item.path, ...path], get(item.error, path));
+            });
+
+            return;
+        }
+
+        if (isBoolean(item.error) || isString(item.error) || isUndefined(item.error)) {
+            setError(item.path, item.error);
+
+            return;
+        }
+    });
+
+    return result;
+};
+
 export const getValidate = <Schema extends JsonSchema>({
     config,
     errorMessages,
@@ -168,134 +382,33 @@ export const getValidate = <Schema extends JsonSchema>({
     return (_value, allValues, meta) => {
         ajvValidate(get(allValues, headName));
 
-        if (!ajvValidate.errors?.length) {
-            return false;
-        }
-
-        const result = {[ARRAY_AND_OBJECT_ERRORS]: {}};
-
-        const waiters: Record<string, ValidationWaiter> = {};
-        const ajvErrors: {path: string[]; error: SyncValidateError}[] = [];
-        const entityParametersErrors: {path: string[]; error: SyncValidateError}[] = [];
-
-        ajvValidate.errors.forEach((ajvOrEntityParametersError) => {
-            if (ajvOrEntityParametersError.keyword === 'entityParameters') {
-                const entityParametersError = ajvOrEntityParametersError as EntityParametersError;
-                const validationState: ValidationState | undefined = meta?.data;
-
-                const waiter = validationState?.waiters?.[entityParametersError.instancePath];
-                const cache = validationState?.cache?.[entityParametersError.instancePath];
-                const cacheItem = cache?.find((item) =>
-                    isEqual(entityParametersError.params, omit(item, 'result')),
-                );
-
-                if (cacheItem?.result) {
-                    entityParametersErrors.push({
-                        path: [
-                            ...parseFinalFormPath(headName),
-                            ...parseInstancePath(entityParametersError.instancePath),
-                        ],
-                        error: cacheItem.result,
-                    });
-                } else if (!waiter || !isEqual(entityParametersError.params, waiter)) {
-                    const errorOrPromise = entityParametersError.params.validator(
-                        entityParametersError.params.value,
-                        allValues as ObjectValue,
-                    );
-
-                    if (errorOrPromise instanceof Promise) {
-                        waiters[entityParametersError.instancePath] = entityParametersError.params;
-
-                        errorOrPromise.then((result) => {
-                            setValidationCache({
-                                name: serviceFieldName,
-                                cache: {
-                                    [entityParametersError.instancePath]: {
-                                        ...entityParametersError.params,
-                                        result,
-                                    },
-                                },
-                            });
-                        });
-                    } else {
-                        entityParametersErrors.push({
-                            path: [
-                                ...parseFinalFormPath(headName),
-                                ...parseInstancePath(entityParametersError.instancePath),
-                            ],
-                            error: errorOrPromise,
-                        });
-                    }
-                }
-            } else {
-                const ajvError = ajvOrEntityParametersError as ErrorObject;
-
-                let instancePath = ajvError.instancePath;
-                let keyword = ajvError.keyword;
-                let schemaPath = ajvError.schemaPath;
-
-                if (keyword === 'required' || keyword === 'dependencies') {
-                    instancePath += `/${ajvError.params.missingProperty}`;
-                } else if (keyword === 'if') {
-                    keyword = ajvError.params.failingKeyword;
-                    schemaPath = schemaPath.slice(0, -'if'.length) + ajvError.params.failingKeyword;
-                }
-
-                ajvErrors.push({
-                    path: [
-                        ...parseFinalFormPath(headName),
-                        ...parseInstancePath(ajvError.instancePath),
-                    ],
-                    error: getAjvErrorMessage({
-                        ajvErrorMessage: ajvError.message,
-                        errorMessages,
-                        instancePath,
-                        keyword,
-                        mainSchema,
-                        schemaPath,
-                    }),
-                });
-            }
+        const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
+            ajvValidateErrors: ajvValidate.errors || [],
+            allValues: allValues as ObjectValue,
+            errorMessages,
+            headName,
+            mainSchema,
+            serviceFieldName,
+            setValidationCache,
+            validationState: meta?.data as ValidationState | undefined,
+        });
+        const {externalPriorityErrorItems, externalRegularErrorItems} = processErrorsState({
+            errorsState: meta?.data as ErrorsState | undefined,
         });
 
         if (Object.keys(waiters).length) {
             setValidationWaiters({name: serviceFieldName, waiters});
         }
 
-        const errorsState: ErrorsState | undefined = meta?.data;
-        const externalRegularErrors: {path: string[]; error: SyncValidateError}[] = Object.values(
-            mapValues(errorsState?.regularErrors, (value, key) => ({
-                path: parseFinalFormPath(key),
-                error: value,
-            })),
-        );
-        const externalPriorityErrors: {path: string[]; error: SyncValidateError}[] = Object.values(
-            mapValues(errorsState?.priorityErrors, (value, key) => ({
-                path: parseFinalFormPath(key),
-                error: value,
-            })),
-        );
-
-        [
-            ...externalRegularErrors,
-            ...ajvErrors,
-            ...entityParametersErrors,
-            ...externalPriorityErrors,
-        ].forEach((item) => {
-            if (item.error) {
-                const itemSchema = getSchemaByFinalFormPath(item.path, headName, mainSchema);
-
-                if (itemSchema) {
-                    const arraySchema = itemSchema.type === JsonSchemaType.Array;
-                    const objectSchema = itemSchema.type === JsonSchemaType.Object;
-
-                    set(
-                        arraySchema || objectSchema ? result[ARRAY_AND_OBJECT_ERRORS] : result,
-                        objectSchema ? [...item.path, OBJECT_ERROR] : item.path,
-                        item.error,
-                    );
-                }
-            }
+        const result = processErrorItems({
+            errorItems: [
+                ...externalRegularErrorItems,
+                ...ajvErrorItems,
+                ...entityParametersErrorItems,
+                ...externalPriorityErrorItems,
+            ],
+            headName,
+            mainSchema,
         });
 
         return result;

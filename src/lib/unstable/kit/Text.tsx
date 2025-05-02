@@ -49,6 +49,13 @@ const Component = <
                 setErrors({
                     priorityErrors: {
                         [input.name]: 'priorityError',
+                        'qwe.test.jajaja': {
+                            numberMaximum: 'priorityError',
+                            objectPropertyNames: {
+                                stringEnum: 'priorityError',
+                            },
+                        },
+                        'qwe.test.jajaja.objectPropertyNames': 'priorityError',
                     },
                 });
             } else {

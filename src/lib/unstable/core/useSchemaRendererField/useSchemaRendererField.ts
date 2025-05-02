@@ -4,8 +4,8 @@ import get from 'lodash/get';
 import {type FieldRenderProps, type UseFieldConfig, useField} from 'react-final-form';
 
 import {SchemaRendererContext} from '../SchemaRendererContext';
-import {ARRAY_AND_OBJECT_ERRORS, JsonSchemaType, OBJECT_ERROR} from '../constants';
-import {getSchemaByFinalFormPath, parseFinalFormPath} from '../utils';
+import {ARRAY_AND_OBJECT_ERRORS, JsonSchemaType} from '../constants';
+import {getSchemaByFinalFormPath} from '../utils';
 
 export const useSchemaRendererField = <
     FieldValue = any,
@@ -24,21 +24,15 @@ export const useSchemaRendererField = <
     const field = useField(name, config);
     const serviceField = useField(serviceFieldName, {subscription: {error: true}});
 
-    const {arraySchema, objectSchema} = React.useMemo(() => {
+    const arrayOrObjectSchema = React.useMemo(() => {
         const type = getSchemaByFinalFormPath(name, headName, mainSchema)?.type;
 
-        return {
-            arraySchema: type === JsonSchemaType.Array,
-            objectSchema: type === JsonSchemaType.Object,
-        };
+        return type === JsonSchemaType.Array || type === JsonSchemaType.Object;
     }, [headName, name, mainSchema]);
 
-    const error = get(
-        arraySchema || objectSchema
-            ? get(serviceField.meta.error, ARRAY_AND_OBJECT_ERRORS)
-            : serviceField.meta.error,
-        objectSchema ? [...parseFinalFormPath(name), OBJECT_ERROR] : name,
-    );
+    const error = arrayOrObjectSchema
+        ? get(serviceField.meta.error, [ARRAY_AND_OBJECT_ERRORS, name])
+        : get(serviceField.meta.error, name);
 
     return error ? {...field, meta: {...field.meta, error}} : field;
 };

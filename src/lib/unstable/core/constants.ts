@@ -14,5 +14,3 @@ export enum JsonSchemaType {
 export const EMPTY_OBJECT = {};
 
 export const ARRAY_AND_OBJECT_ERRORS = 'ARRAY_AND_OBJECT_ERRORS';
-
-export const OBJECT_ERROR = 'OBJECT_ERROR';
