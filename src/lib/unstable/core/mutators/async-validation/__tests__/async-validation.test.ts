@@ -1,6 +1,8 @@
-import type {InternalFormState, MutableState} from 'final-form';
-
-import {mockServiceFieldName, mockTools} from '../../../../__tests__/helpers.test';
+import {
+    createMockMutableState,
+    mockServiceFieldName,
+    mockTools,
+} from '../../../../__tests__/helpers.test';
 import {JsonSchemaType} from '../../../constants';
 import {setValidationCache, setValidationWaiters} from '../async-validation';
 import type {ValidationCache, ValidationWaiter} from '../types';
@@ -15,16 +17,6 @@ const createMockWaiterAndCache = (prefix = '') => {
     const cache: ValidationCache = {...waiter, result: `result${prefix}`};
 
     return {cache, fieldName, waiter};
-};
-
-const createMockMutableState = (fields: Record<string, any> = {}): MutableState<{}, {}> => {
-    const mockFormState = {} as InternalFormState;
-
-    return {
-        fields,
-        formState: mockFormState,
-        fieldSubscribers: {},
-    };
 };
 
 describe('async-validation', () => {

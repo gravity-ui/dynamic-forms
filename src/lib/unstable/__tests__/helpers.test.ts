@@ -1,4 +1,4 @@
-import type {Tools} from 'final-form';
+import type {InternalFormState, MutableState, Tools} from 'final-form';
 
 import {JsonSchemaType, SchemaRendererMode} from '../core/constants';
 import type {
@@ -198,6 +198,16 @@ export function createMockSchema<T extends JsonSchema>(
 
 export const mockTools = {} as Tools<{}, {}>;
 export const mockServiceFieldName = 'mockServiceFieldName';
+
+export const createMockMutableState = (fields: Record<string, any> = {}): MutableState<{}, {}> => {
+    const mockFormState = {} as InternalFormState;
+
+    return {
+        fields,
+        formState: mockFormState,
+        fieldSubscribers: {},
+    };
+};
 
 describe('helpers', () => {
     test('just empty test', () => {
