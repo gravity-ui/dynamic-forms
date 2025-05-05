@@ -178,6 +178,30 @@ export const mockSchemaRendererConfig: SchemaRendererConfig = {
     },
 };
 
+export const createMockArraySchema = (items: JsonSchema | JsonSchema[]): JsonSchema => ({
+    type: JsonSchemaType.Array,
+    items,
+});
+
+export const createMockBooleanSchema = (): JsonSchemaBoolean => ({
+    type: JsonSchemaType.Boolean,
+});
+
+export const createMockNumberSchema = (): JsonSchemaNumber => ({
+    type: JsonSchemaType.Number,
+});
+
+export const createMockStringSchema = (): JsonSchemaString => ({
+    type: JsonSchemaType.String,
+});
+
+export const createMockObjectSchema = (
+    properties: Record<string, JsonSchema>,
+): JsonSchemaObject => ({
+    type: JsonSchemaType.Object,
+    properties,
+});
+
 export function createMockSchema<T extends JsonSchema>(
     type: JsonSchemaType,
     viewType = 'base',
