@@ -1,3 +1,5 @@
+import type {Tools} from 'final-form';
+
 import {JsonSchemaType, SchemaRendererMode} from '../core/constants';
 import type {
     IndependentView,
@@ -193,6 +195,9 @@ export function createMockSchema<T extends JsonSchema>(
         },
     } as T;
 }
+
+export const mockTools = {} as Tools<{}, {}>;
+export const mockServiceFieldName = 'mockServiceFieldName';
 
 describe('helpers', () => {
     test('just empty test', () => {

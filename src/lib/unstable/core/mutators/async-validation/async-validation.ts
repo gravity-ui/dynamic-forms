@@ -8,10 +8,12 @@ import type {
 } from './types';
 
 export const setValidationWaiters: SetValidationWaitersFunction = (
-    [{name, waiters}],
+    [{serviceFieldName, waiters}],
     mutableState,
 ) => {
-    const validationState = mutableState.fields[name]?.data as ValidationState | undefined;
+    const validationState = mutableState.fields[serviceFieldName]?.data as
+        | ValidationState
+        | undefined;
 
     if (validationState && waiters) {
         Object.keys(waiters).forEach((waiterName) => {
@@ -29,8 +31,13 @@ export const setValidationWaiters: SetValidationWaitersFunction = (
     }
 };
 
-export const setValidationCache: SetValidationCacheFunction = ([{cache, name}], mutableState) => {
-    const validationState = mutableState.fields[name]?.data as ValidationState | undefined;
+export const setValidationCache: SetValidationCacheFunction = (
+    [{cache, serviceFieldName}],
+    mutableState,
+) => {
+    const validationState = mutableState.fields[serviceFieldName]?.data as
+        | ValidationState
+        | undefined;
 
     if (validationState && cache) {
         Object.keys(cache).forEach((cacheName) => {
