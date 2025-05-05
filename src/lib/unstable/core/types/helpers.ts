@@ -57,16 +57,16 @@ type ExtractViewProps<ViewConfig> = ViewConfig extends {
       }
           ? FormViewComponentProps extends {viewProps: infer ViewComponentProps}
               ? ViewComponentProps
-              : {}
-          : {}) &
+              : Record<string, any>
+          : Record<string, any>) &
           (OverviewComponentConfig extends {
               Component: React.ComponentType<infer OverivewViewComponentProps>;
           }
               ? OverivewViewComponentProps extends {viewProps: infer ViewComponentProps}
                   ? ViewComponentProps
-                  : {}
-              : {})
-    : {};
+                  : Record<string, any>
+              : Record<string, any>)
+    : Record<string, any>;
 
 export type ViewComponentPropsByConfig<Config extends SchemaRendererConfig[JsonSchemaType]> = {
     [Key in keyof Config['views']]: ExtractViewProps<Config['views'][Key]>;
@@ -75,8 +75,8 @@ export type ViewComponentPropsByConfig<Config extends SchemaRendererConfig[JsonS
 type ExtractWrapperProps<Wrapper> = Wrapper extends React.ComponentType<infer WrapperProps>
     ? WrapperProps extends {wrapperProps: infer WrapperComponentProps}
         ? WrapperComponentProps
-        : {}
-    : {};
+        : Record<string, any>
+    : Record<string, any>;
 
 export type WrapperComponentPropsByConfig<Config extends SchemaRendererConfig[JsonSchemaType]> = {
     [Key in keyof Config['wrappers']]: ExtractWrapperProps<Config['wrappers'][Key]>;
