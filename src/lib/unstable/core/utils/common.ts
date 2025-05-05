@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 
-import {JsonSchemaType} from './constants';
-import type {JsonSchema} from './types';
+import {JsonSchemaType} from '../constants';
+import type {JsonSchema} from '../types';
 
 export const parseFinalFormPath = (finalFormPath: string): string[] => {
     const result: string[] = [];
