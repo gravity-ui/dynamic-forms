@@ -278,13 +278,13 @@ const processAjvValidateErrors = <Schema extends JsonSchema>({
 
                     w.promise.then((result) => {
                         setValidationCache({
-                            name: serviceFieldName,
                             cache: {
                                 [w.instancePath]: {
                                     ...w.params,
                                     result,
                                 },
                             },
+                            serviceFieldName,
                         });
                     });
                 },
@@ -397,7 +397,7 @@ export const getValidate = <Schema extends JsonSchema>({
         });
 
         if (Object.keys(waiters).length) {
-            setValidationWaiters({name: serviceFieldName, waiters});
+            setValidationWaiters({serviceFieldName, waiters});
         }
 
         const result = processErrorItems({

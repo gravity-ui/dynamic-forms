@@ -22,7 +22,7 @@ export interface ValidationState {
 }
 
 export interface SetValidationWaitersParams {
-    name: string;
+    serviceFieldName: string;
     waiters: {
         [key: string]: ValidationWaiter;
     };
@@ -43,7 +43,7 @@ export interface SetValidationCacheParams {
     cache: {
         [key: string]: ValidationCache;
     };
-    name: string;
+    serviceFieldName: string;
 }
 
 export type SetValidationCacheFunction<
