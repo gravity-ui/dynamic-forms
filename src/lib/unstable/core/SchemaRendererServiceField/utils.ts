@@ -77,7 +77,17 @@ export const getAjvValidate = ({
     return ajvValidate;
 };
 
-const parseSchemaPath = (schemaPath: string): string[] => {
+/**
+ * Extracts the path to the property from a JSON Schema validation error.
+ * Assumes that the last segment in the `schemaPath` is the keyword
+ * that triggered the validation error (e.g., "minLength").
+ *
+ * @param schemaPath - A JSON Pointer string representing the schema path,
+ *   e.g., "#/properties/name/minLength"
+ * @returns An array of path segments leading to the property, excluding the keyword,
+ *   e.g., ['properties', 'name']
+ */
+export const parseSchemaPath = (schemaPath: string): string[] => {
     return decodeURIComponent(schemaPath)
         .slice('#/'.length)
         .split('/')
@@ -85,7 +95,7 @@ const parseSchemaPath = (schemaPath: string): string[] => {
         .slice(0, -1);
 };
 
-const parseInstancePath = (instancePath: string): string[] => {
+export const parseInstancePath = (instancePath: string): string[] => {
     if (!instancePath.length) {
         return [];
     }
@@ -96,7 +106,31 @@ const parseInstancePath = (instancePath: string): string[] => {
         .map((segment) => segment.replace(/~1/g, '/').replace(/~0/g, '~'));
 };
 
-const getSchemaBySchemaPath = (
+/**
+ * Retrieves the sub-schema from the main schema based on the given schema path.
+ * Assumes that the last segment in the `schemaPath` is a validation keyword
+ * (e.g., "minLength") and not part of the property path.
+ *
+ * @param schemaPath - A JSON Pointer-style string representing the schema path,
+ *   e.g., "#/properties/name/minLength".
+ * @param mainSchema - The root JSON schema object.
+ *
+ * @example
+ * const nameSchema = {
+ *   type: JsonSchemaType.String,
+ *   minLength: 5,
+ * };
+ * const objectSchema = {
+ *   type: JsonSchemaType.Object,
+ *   properties: {
+ *     name: nameSchema,
+ *   },
+ * };
+ * getSchemaFromPath("#/properties/name/minLength", objectSchema); // returns nameSchema
+ *
+ * @returns The sub-schema object corresponding to the property path.
+ */
+export const getSchemaBySchemaPath = (
     schemaPath: string,
     mainSchema: JsonSchema,
 ): JsonSchema | undefined => {
@@ -109,7 +143,7 @@ const getSchemaBySchemaPath = (
     return get(mainSchema, pathArr);
 };
 
-const getSchemaByInstancePath = (
+export const getSchemaByInstancePath = (
     instancePath: string,
     mainSchema: JsonSchema,
 ): JsonSchema | undefined => {
@@ -136,7 +170,7 @@ const getSchemaByInstancePath = (
     return mainSchema;
 };
 
-const getValuePaths = (value: unknown, path: string[] = []) => {
+export const getValuePaths = (value: unknown, path: string[] = []) => {
     const result: string[][] = [];
 
     const isObject = (v: unknown): v is Record<string, unknown> =>
@@ -150,7 +184,7 @@ const getValuePaths = (value: unknown, path: string[] = []) => {
         Object.keys(value).forEach((key) => {
             result.push(...getValuePaths(get(value, key), [...path, key]));
         });
-    } else {
+    } else if (path.length) {
         result.push(path);
     }
 
