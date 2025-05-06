@@ -10,6 +10,28 @@ export interface SchemaRendererProps {
     config: SchemaRendererConfig;
     errorMessages?: ErrorMessages;
     mode: SchemaRendererMode;
+    /**
+     * The `name` prop must be a non-empty string.
+     *
+     * In `final-form` and `react-final-form`, the `name` is used as a key to register
+     * the field within the form. If you pass an empty string (`name=""`), the field will
+     * not be registered, its value will not be tracked, and validation will not work.
+     *
+     * This can lead to:
+     * - the field being missing from the form `values`;
+     * - the `validate` function not being called;
+     * - no error or touched state updates;
+     * - inconsistent or broken form behavior.
+     *
+     * Always provide a unique, non-empty string for the field name.
+     *
+     * @example
+     * // Incorrect
+     * <SchemaRenderer name="" {...pros} />
+     *
+     * // Correct
+     * <SchemaRenderer name="params" {...pros} />
+     */
     name: string;
     schema: JsonSchema;
 }
