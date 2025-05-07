@@ -191,7 +191,7 @@ export const getValuePaths = (value: unknown, path: string[] = []) => {
     return result;
 };
 
-const processEntityParametersError = ({
+export const processEntityParametersError = ({
     allValues,
     error,
     headName,
@@ -226,7 +226,7 @@ const processEntityParametersError = ({
     }
 };
 
-const getAjvErrorMessage = ({
+export const getAjvErrorMessage = ({
     ajvErrorMessage,
     errorMessages = EMPTY_OBJECT,
     instancePath,
@@ -256,7 +256,7 @@ const getAjvErrorMessage = ({
     );
 };
 
-const processAjvError = <Schema extends JsonSchema>({
+export const processAjvError = <Schema extends JsonSchema>({
     error,
     errorMessages,
     headName,
@@ -275,7 +275,7 @@ const processAjvError = <Schema extends JsonSchema>({
     }
 
     onError({
-        path: [...parseFinalFormPath(headName), ...parseInstancePath(error.instancePath)],
+        path: [...parseFinalFormPath(headName), ...parseInstancePath(instancePath)],
         error: getAjvErrorMessage({
             ajvErrorMessage: error.message,
             errorMessages,

@@ -1,294 +1,336 @@
-import {
-    createMockMutableState,
-    mockServiceFieldName,
-    mockTools,
-} from '../../../../__tests__/helpers.test';
+import type {InternalFieldState, InternalFormState, MutableState, Tools} from 'final-form';
+
 import {JsonSchemaType} from '../../../constants';
 import {setValidationCache, setValidationWaiters} from '../async-validation';
 import type {ValidationCache, ValidationWaiter} from '../types';
 
-const createMockWaiterAndCache = (prefix = '') => {
-    const fieldName = `fieldName${prefix}`;
-    const waiter: ValidationWaiter = {
-        schema: {type: JsonSchemaType.String},
-        validator: jest.fn(),
-        value: `value${prefix}`,
-    };
-    const cache: ValidationCache = {...waiter, result: `result${prefix}`};
-
-    return {cache, fieldName, waiter};
-};
-
 describe('async-validation', () => {
     describe('setValidationWaiters', () => {
-        it('should not modify state if service field does not exist', () => {
-            const {fieldName, waiter} = createMockWaiterAndCache();
-            const mutableState = createMockMutableState();
+        const fieldName = 'fieldName';
+        const serviceFieldName = 'serviceFieldName';
+        const tools = {} as Tools<{}, {}>;
 
+        let serviceField: InternalFieldState<any>;
+        let field: InternalFieldState<any>;
+        let mutableState: MutableState<{}, {}>;
+        let waiter: ValidationWaiter;
+
+        beforeEach(() => {
+            serviceField = {data: {}} as InternalFieldState<any>;
+            field = {} as InternalFieldState<any>;
+            mutableState = {
+                fields: {},
+                formState: {} as InternalFormState,
+                fieldSubscribers: {},
+            };
+            waiter = {
+                schema: {type: JsonSchemaType.String},
+                validator: jest.fn(),
+                value: 'value',
+            };
+        });
+
+        it('should not modify state if service field does not exist', () => {
             setValidationWaiters(
-                [{serviceFieldName: mockServiceFieldName, waiters: {[fieldName]: waiter}}],
+                [{serviceFieldName, waiters: {[fieldName]: waiter}}],
                 mutableState,
-                mockTools,
+                tools,
             );
 
             expect(mutableState.fields).toEqual({});
         });
 
         it('should not modify state if waiters are not provided', () => {
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {data: {}},
-            });
+            mutableState.fields = {[serviceFieldName]: serviceField};
 
             setValidationWaiters(
-                [{serviceFieldName: mockServiceFieldName, waiters: undefined as any}],
+                [{serviceFieldName, waiters: undefined as any}],
                 mutableState,
-                mockTools,
+                tools,
             );
 
-            expect(mutableState.fields[mockServiceFieldName].data).toEqual({});
+            expect(mutableState.fields[serviceFieldName].data).toEqual({});
         });
 
         it('should add waiter to the validation state', () => {
-            const {fieldName, waiter} = createMockWaiterAndCache();
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {data: {}},
-                [fieldName]: {},
-            });
+            mutableState.fields = {
+                [serviceFieldName]: serviceField,
+                [fieldName]: field,
+            };
 
             setValidationWaiters(
-                [{serviceFieldName: mockServiceFieldName, waiters: {[fieldName]: waiter}}],
+                [{serviceFieldName, waiters: {[fieldName]: waiter}}],
                 mutableState,
-                mockTools,
+                tools,
             );
 
-            expect(mutableState.fields[mockServiceFieldName].data.waiters).toEqual({
+            expect(mutableState.fields[serviceFieldName].data.waiters).toEqual({
                 [fieldName]: waiter,
             });
             expect(mutableState.fields[fieldName].validating).toBe(true);
         });
 
         it('should add waiters to the validation state', () => {
-            const waiterAndCacheKit = createMockWaiterAndCache();
-            const waiterAndCacheKit2 = createMockWaiterAndCache('2');
+            const anotherFieldName = 'anotherFieldName';
+            const anotherField = {} as InternalFieldState<any>;
+            const anotherWaiter = {
+                schema: {type: JsonSchemaType.String},
+                validator: jest.fn(),
+                value: 'anotherValue',
+            };
 
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {data: {}},
-                [waiterAndCacheKit.fieldName]: {validating: false},
-                [waiterAndCacheKit2.fieldName]: {validating: false},
-            });
+            mutableState.fields = {
+                [serviceFieldName]: serviceField,
+                [fieldName]: {...field, validating: false},
+                [anotherFieldName]: {...anotherField, validating: false},
+            };
 
             setValidationWaiters(
                 [
                     {
-                        serviceFieldName: mockServiceFieldName,
+                        serviceFieldName,
                         waiters: {
-                            [waiterAndCacheKit.fieldName]: waiterAndCacheKit.waiter,
-                            [waiterAndCacheKit2.fieldName]: waiterAndCacheKit2.waiter,
+                            [fieldName]: waiter,
+                            [anotherFieldName]: anotherWaiter,
                         },
                     },
                 ],
                 mutableState,
-                mockTools,
+                tools,
             );
 
-            expect(mutableState.fields[mockServiceFieldName].data.waiters).toEqual({
-                [waiterAndCacheKit.fieldName]: waiterAndCacheKit.waiter,
-                [waiterAndCacheKit2.fieldName]: waiterAndCacheKit2.waiter,
+            expect(mutableState.fields[serviceFieldName].data.waiters).toEqual({
+                [fieldName]: waiter,
+                [anotherFieldName]: anotherWaiter,
             });
-            expect(mutableState.fields[waiterAndCacheKit.fieldName].validating).toBe(true);
-            expect(mutableState.fields[waiterAndCacheKit2.fieldName].validating).toBe(true);
+            expect(mutableState.fields[fieldName].validating).toBe(true);
+            expect(mutableState.fields[anotherFieldName].validating).toBe(true);
         });
 
         it('should merge waiters with existing waiters', () => {
-            const waiterAndCacheKit = createMockWaiterAndCache();
-            const existingWaiterAndCacheKit = createMockWaiterAndCache('existing');
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {
-                    data: {
-                        waiters: {
-                            [existingWaiterAndCacheKit.fieldName]: existingWaiterAndCacheKit.waiter,
-                        },
-                    },
+            const anotherFieldName = 'anotherFieldName';
+            const anotherWaiter = {
+                schema: {type: JsonSchemaType.String},
+                validator: jest.fn(),
+                value: 'anotherValue',
+            };
+
+            serviceField.data = {
+                waiters: {
+                    [anotherFieldName]: anotherWaiter,
                 },
-                [waiterAndCacheKit.fieldName]: {},
-            });
+            };
+            mutableState.fields = {
+                [serviceFieldName]: serviceField,
+                [fieldName]: field,
+            };
 
             setValidationWaiters(
-                [
-                    {
-                        serviceFieldName: mockServiceFieldName,
-                        waiters: {[waiterAndCacheKit.fieldName]: waiterAndCacheKit.waiter},
-                    },
-                ],
+                [{serviceFieldName, waiters: {[fieldName]: waiter}}],
                 mutableState,
-                mockTools,
+                tools,
             );
 
-            expect(mutableState.fields[mockServiceFieldName].data.waiters).toEqual({
-                [existingWaiterAndCacheKit.fieldName]: existingWaiterAndCacheKit.waiter,
-                [waiterAndCacheKit.fieldName]: waiterAndCacheKit.waiter,
+            expect(mutableState.fields[serviceFieldName].data.waiters).toEqual({
+                [anotherFieldName]: anotherWaiter,
+                [fieldName]: waiter,
             });
-            expect(mutableState.fields[waiterAndCacheKit.fieldName].validating).toBe(true);
+            expect(mutableState.fields[fieldName].validating).toBe(true);
         });
     });
 
     describe('setValidationCache', () => {
-        it('should not modify state if field does not exist', () => {
-            const {cache, fieldName} = createMockWaiterAndCache();
-            const mutableState = createMockMutableState();
+        const fieldName = 'fieldName';
+        const serviceFieldName = 'serviceFieldName';
+        const tools = {} as Tools<{}, {}>;
 
+        let serviceField: InternalFieldState<any>;
+        let field: InternalFieldState<any>;
+        let mutableState: MutableState<{}, {}>;
+        let waiter: ValidationWaiter;
+        let cache: ValidationCache;
+
+        beforeEach(() => {
+            serviceField = {
+                data: {},
+            } as InternalFieldState<any>;
+            field = {} as InternalFieldState<any>;
+            mutableState = {
+                fields: {},
+                formState: {} as InternalFormState,
+                fieldSubscribers: {},
+            };
+            waiter = {
+                schema: {type: JsonSchemaType.String},
+                validator: jest.fn(),
+                value: 'value',
+            };
+            cache = {
+                ...waiter,
+                result: 'result',
+            };
+        });
+
+        it('should not modify state if field does not exist', () => {
             setValidationCache(
-                [{serviceFieldName: mockServiceFieldName, cache: {[fieldName]: cache}}],
+                [{serviceFieldName, cache: {[fieldName]: cache}}],
                 mutableState,
-                mockTools,
+                tools,
             );
 
             expect(mutableState.fields).toEqual({});
         });
 
         it('should not modify state if cache is not provided', () => {
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {data: {}},
-            });
+            mutableState.fields = {[serviceFieldName]: serviceField};
 
-            setValidationCache(
-                [{serviceFieldName: mockServiceFieldName, cache: undefined as any}],
-                mutableState,
-                mockTools,
-            );
+            setValidationCache([{serviceFieldName, cache: undefined as any}], mutableState, tools);
 
-            expect(mutableState.fields[mockServiceFieldName].data).toEqual({});
+            expect(mutableState.fields[serviceFieldName].data).toEqual({});
         });
 
         it('should add cache to the validation state', () => {
-            const {cache, fieldName} = createMockWaiterAndCache();
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {data: {}},
-                [fieldName]: {},
-            });
+            mutableState.fields = {
+                [serviceFieldName]: serviceField,
+                [fieldName]: field,
+            };
 
             setValidationCache(
-                [{serviceFieldName: mockServiceFieldName, cache: {[fieldName]: cache}}],
+                [{serviceFieldName, cache: {[fieldName]: cache}}],
                 mutableState,
-                mockTools,
+                tools,
             );
 
-            expect(mutableState.fields[mockServiceFieldName].data.cache).toEqual({
+            expect(mutableState.fields[serviceFieldName].data.cache).toEqual({
                 [fieldName]: [cache],
             });
         });
 
         it('should append to existing cache', () => {
-            const fieldName = 'fieldName';
-            const existingWaiterAndCacheKit = createMockWaiterAndCache('existing');
-            const waiterAndCacheKit = createMockWaiterAndCache();
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {
-                    data: {
-                        cache: {
-                            [fieldName]: [existingWaiterAndCacheKit.cache],
-                        },
-                    },
+            const existingCache: ValidationCache = {
+                schema: {type: JsonSchemaType.String},
+                validator: jest.fn(),
+                value: 'existingValue',
+                result: 'existingResult',
+            };
+
+            serviceField.data = {
+                cache: {
+                    [fieldName]: [existingCache],
                 },
-                [fieldName]: {},
-            });
+            };
+            mutableState.fields = {
+                [serviceFieldName]: serviceField,
+                [fieldName]: field,
+            };
 
             setValidationCache(
-                [
-                    {
-                        serviceFieldName: mockServiceFieldName,
-                        cache: {[fieldName]: waiterAndCacheKit.cache},
-                    },
-                ],
+                [{serviceFieldName, cache: {[fieldName]: cache}}],
                 mutableState,
-                mockTools,
+                tools,
             );
 
-            expect(mutableState.fields[mockServiceFieldName].data.cache).toEqual({
-                [fieldName]: [existingWaiterAndCacheKit.cache, waiterAndCacheKit.cache],
+            expect(mutableState.fields[serviceFieldName].data.cache).toEqual({
+                [fieldName]: [existingCache, cache],
             });
         });
 
         it('should clear waiter and set validating to false when waiter matches cache', () => {
-            const fieldName = 'fieldName';
-            const {cache, waiter} = createMockWaiterAndCache();
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {data: {waiters: {[fieldName]: waiter}}},
-                [fieldName]: {validating: true},
-            });
+            serviceField.data = {
+                waiters: {
+                    [fieldName]: waiter,
+                },
+            };
+            mutableState.fields = {
+                [serviceFieldName]: serviceField,
+                [fieldName]: {...field, validating: true},
+            };
 
             setValidationCache(
-                [{serviceFieldName: mockServiceFieldName, cache: {[fieldName]: cache}}],
+                [{serviceFieldName, cache: {[fieldName]: cache}}],
                 mutableState,
-                mockTools,
+                tools,
             );
 
-            expect(mutableState.fields[mockServiceFieldName].data.waiters).toEqual({});
+            expect(mutableState.fields[serviceFieldName].data.waiters).toEqual({});
             expect(mutableState.fields[fieldName].validating).toBe(false);
         });
 
         it('should not clear waiter when waiter does not match cache', () => {
-            const fieldName = 'fieldName';
-            const {waiter} = createMockWaiterAndCache('1');
-            const {cache} = createMockWaiterAndCache('2');
+            const anotherCache: ValidationCache = {
+                schema: {type: JsonSchemaType.String},
+                validator: jest.fn(),
+                value: 'anotherValue',
+                result: 'anotherResult',
+            };
 
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {data: {waiters: {[fieldName]: waiter}}},
-                [fieldName]: {validating: true},
-            });
+            serviceField.data = {
+                waiters: {
+                    [fieldName]: waiter,
+                },
+            };
+            mutableState.fields = {
+                [serviceFieldName]: serviceField,
+                [fieldName]: {...field, validating: true},
+            };
 
             setValidationCache(
-                [{serviceFieldName: mockServiceFieldName, cache: {[fieldName]: cache}}],
+                [{serviceFieldName, cache: {[fieldName]: anotherCache}}],
                 mutableState,
-                mockTools,
+                tools,
             );
 
-            expect(mutableState.fields[mockServiceFieldName].data.waiters).toEqual({
+            expect(mutableState.fields[serviceFieldName].data.waiters).toEqual({
                 [fieldName]: waiter,
             });
             expect(mutableState.fields[fieldName].validating).toBe(true);
         });
 
         it('should handle multiple cache entries', () => {
-            const fieldName = 'fieldName';
-            const waiterAndCacheKit = createMockWaiterAndCache(fieldName);
+            const anotherFieldName = 'anotherFieldName';
+            const anotherField = {} as InternalFieldState<any>;
+            const anotherWaiter = {
+                schema: {type: JsonSchemaType.String},
+                validator: jest.fn(),
+                value: 'anotherValue',
+            };
+            const anotherCache = {
+                ...anotherWaiter,
+                result: 'anotherResult',
+            };
 
-            const fieldName2 = 'fieldName2';
-            const waiterAndCacheKit2 = createMockWaiterAndCache(fieldName2);
-
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {
-                    data: {
-                        waiters: {
-                            [fieldName]: waiterAndCacheKit.waiter,
-                            [fieldName2]: waiterAndCacheKit2.waiter,
-                        },
-                    },
+            serviceField.data = {
+                waiters: {
+                    [fieldName]: waiter,
+                    [anotherFieldName]: anotherWaiter,
                 },
-                [fieldName]: {validating: true},
-                [fieldName2]: {validating: true},
-            });
+            };
+            mutableState.fields = {
+                [serviceFieldName]: serviceField,
+                [fieldName]: {...field, validating: true},
+                [anotherFieldName]: {...anotherField, validating: true},
+            };
 
             setValidationCache(
                 [
                     {
-                        serviceFieldName: mockServiceFieldName,
+                        serviceFieldName,
                         cache: {
-                            [fieldName]: waiterAndCacheKit.cache,
-                            [fieldName2]: waiterAndCacheKit2.cache,
+                            [fieldName]: cache,
+                            [anotherFieldName]: anotherCache,
                         },
                     },
                 ],
                 mutableState,
-                mockTools,
+                tools,
             );
 
-            expect(mutableState.fields[mockServiceFieldName].data.waiters).toEqual({});
+            expect(mutableState.fields[serviceFieldName].data.waiters).toEqual({});
             expect(mutableState.fields[fieldName].validating).toBe(false);
-            expect(mutableState.fields[fieldName2].validating).toBe(false);
-            expect(mutableState.fields[mockServiceFieldName].data.cache).toEqual({
-                [fieldName]: [waiterAndCacheKit.cache],
-                [fieldName2]: [waiterAndCacheKit2.cache],
+            expect(mutableState.fields[anotherFieldName].validating).toBe(false);
+            expect(mutableState.fields[serviceFieldName].data.cache).toEqual({
+                [fieldName]: [cache],
+                [anotherFieldName]: [anotherCache],
             });
         });
     });

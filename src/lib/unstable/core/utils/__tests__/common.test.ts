@@ -1,12 +1,45 @@
-import {
-    createMockArraySchema,
-    createMockBooleanSchema,
-    createMockNumberSchema,
-    createMockObjectSchema,
-    createMockStringSchema,
-} from '../../../__tests__/helpers.test';
-import type {JsonSchema} from '../../types';
+import {JsonSchemaType} from '../../constants';
+import type {
+    JsonSchema,
+    JsonSchemaArray,
+    JsonSchemaNumber,
+    JsonSchemaObject,
+    JsonSchemaString,
+} from '../../types';
 import {getSchemaByFinalFormPath, parseFinalFormPath} from '../common';
+
+const nameSchema: JsonSchemaString = {type: JsonSchemaType.String};
+const surnameSchema: JsonSchemaString = {type: JsonSchemaType.String};
+const hobbySchema: JsonSchemaString = {type: JsonSchemaType.String};
+const hobbiesSchema: JsonSchemaArray = {type: JsonSchemaType.Array, items: hobbySchema};
+const personalDataSchema: JsonSchemaObject = {
+    type: JsonSchemaType.Object,
+    properties: {name: nameSchema, surname: surnameSchema, hobbies: hobbiesSchema},
+};
+const aboutSchema: JsonSchemaString = {type: JsonSchemaType.String};
+const friendsSchema: JsonSchemaArray = {
+    type: JsonSchemaType.Array,
+    items: personalDataSchema,
+};
+const stringTagSchema: JsonSchemaString = {type: JsonSchemaType.String};
+const numberTagSchema: JsonSchemaNumber = {type: JsonSchemaType.Number};
+const tagsSchema: JsonSchemaArray = {
+    type: JsonSchemaType.Array,
+    items: [stringTagSchema, numberTagSchema],
+};
+const labelSchema: JsonSchemaString = {type: JsonSchemaType.String};
+const labelsSchema: JsonSchemaArray = {type: JsonSchemaType.Array, items: labelSchema};
+
+const mainSchema: JsonSchemaObject = {
+    type: JsonSchemaType.Object,
+    properties: {
+        personalData: personalDataSchema,
+        about: aboutSchema,
+        friends: friendsSchema,
+        tags: tagsSchema,
+        labels: labelsSchema,
+    },
+};
 
 describe('core/utils/common', () => {
     describe('parseFinalFormPath', () => {
@@ -49,9 +82,8 @@ describe('core/utils/common', () => {
 
     describe('getSchemaByFinalFormPath', () => {
         it('should return the main schema when path is empty', () => {
-            const mainSchema = createMockObjectSchema({foo: createMockStringSchema()});
-            const path = '';
             const headPath = '';
+            const path = '';
 
             const result = getSchemaByFinalFormPath(path, headPath, mainSchema);
 
@@ -59,75 +91,53 @@ describe('core/utils/common', () => {
         });
 
         it('should navigate through object properties', () => {
-            const stringSchema = createMockStringSchema();
-            const objectSchema = createMockObjectSchema({bar: stringSchema});
-            const mainSchema = createMockObjectSchema({foo: objectSchema});
-            const path = 'foo.bar';
             const headPath = '';
+            const path = 'personalData.name';
 
             const result = getSchemaByFinalFormPath(path, headPath, mainSchema);
 
-            expect(result).toBe(stringSchema);
+            expect(result).toBe(nameSchema);
         });
 
         it('should navigate through array items (when items is a single schema)', () => {
-            const stringSchema = createMockStringSchema();
-            const arraySchema = createMockArraySchema(stringSchema);
-            const mainSchema = createMockObjectSchema({foo: arraySchema});
-            const path = 'foo[0]';
             const headPath = '';
+            const path = 'labels[0]';
 
             const result = getSchemaByFinalFormPath(path, headPath, mainSchema);
 
-            expect(result).toBe(stringSchema);
+            expect(result).toBe(labelSchema);
         });
 
         it('should navigate through array items (when items is an array of schemas)', () => {
-            const stringSchema = createMockStringSchema();
-            const numberSchema = createMockNumberSchema();
-            const booleanSchema = createMockBooleanSchema();
-            const arraySchema = createMockArraySchema([stringSchema, numberSchema, booleanSchema]);
-            const mainSchema = createMockObjectSchema({foo: arraySchema});
-            const path = 'foo[1]';
             const headPath = '';
+            const path = 'tags[1]';
 
             const result = getSchemaByFinalFormPath(path, headPath, mainSchema);
 
-            expect(result).toBe(numberSchema);
+            expect(result).toBe(numberTagSchema);
         });
 
         it('should handle complex nested paths', () => {
-            const booleanSchema = createMockBooleanSchema();
-            const objectSchema = createMockObjectSchema({qux: booleanSchema});
-            const arraySchema = createMockArraySchema(objectSchema);
-            const objectSchema2 = createMockObjectSchema({baz: arraySchema});
-            const arraySchema2 = createMockArraySchema(objectSchema2);
-            const mainSchema = createMockObjectSchema({foo: arraySchema2});
-            const path = 'foo[0].baz[0].qux';
             const headPath = '';
+            const path = 'friends[0].hobbies[0]';
 
             const result = getSchemaByFinalFormPath(path, headPath, mainSchema);
 
-            expect(result).toBe(booleanSchema);
+            expect(result).toBe(hobbySchema);
         });
 
         it('should handle finalFormHeadPath correctly', () => {
-            const stringSchema = createMockStringSchema();
-            const objectSchema = createMockObjectSchema({bar: stringSchema});
-            const mainSchema = createMockObjectSchema({foo: objectSchema});
-            const path = 'baz.foo.bar';
-            const headPath = 'baz';
+            const headPath = 'headPath';
+            const path = `${headPath}.personalData.name`;
 
             const result = getSchemaByFinalFormPath(path, headPath, mainSchema);
 
-            expect(result).toBe(stringSchema);
+            expect(result).toBe(nameSchema);
         });
 
         it('should return undefined for invalid path', () => {
-            const stringSchema = createMockStringSchema();
-            const mainSchema = createMockObjectSchema({foo: stringSchema});
-            const path = 'bar.baz';
             const headPath = 'foo';
+            const path = 'personalData.name';
 
             const result = getSchemaByFinalFormPath(path, headPath, mainSchema);
 
@@ -135,10 +145,8 @@ describe('core/utils/common', () => {
         });
 
         it('should handle array path with string schema', () => {
-            const stringSchema = createMockStringSchema();
-            const mainSchema = createMockObjectSchema({foo: stringSchema});
-            const path = 'foo[0]';
             const headPath = '';
+            const path = 'personalData[0]';
 
             const result = getSchemaByFinalFormPath(path, headPath, mainSchema);
 
@@ -146,20 +154,17 @@ describe('core/utils/common', () => {
         });
 
         it('should accept path as array of segments', () => {
-            const stringSchema = createMockStringSchema();
-            const objectSchema = createMockObjectSchema({bar: stringSchema});
-            const mainSchema = createMockObjectSchema({foo: objectSchema});
-            const path = ['foo', 'bar'];
             const headPath = '';
+            const path = ['personalData', 'name'];
 
             const result = getSchemaByFinalFormPath(path, headPath, mainSchema);
 
-            expect(result).toBe(stringSchema);
+            expect(result).toBe(nameSchema);
         });
 
         it('should handle undefined schema gracefully', () => {
-            const path = 'foo.bar';
             const headPath = '';
+            const path = 'personalData.name';
 
             const result = getSchemaByFinalFormPath(
                 path,
@@ -171,9 +176,11 @@ describe('core/utils/common', () => {
         });
 
         it('should handle schema without type gracefully', () => {
+            const headPath = '';
+            const path = 'personalData.name';
             const invalidSchema = {} as JsonSchema;
 
-            const result = getSchemaByFinalFormPath('foo', '', invalidSchema);
+            const result = getSchemaByFinalFormPath(path, headPath, invalidSchema);
 
             expect(result).toBeUndefined();
         });

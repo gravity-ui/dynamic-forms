@@ -20,9 +20,9 @@ interface EntityParameters<
         enumDescription?: {
             [key: string]: string;
         };
-        errorMessages?: ErrorMessages & {
-            dependencies?: Record<string, string>;
-            required?: Record<string, string>;
+        errorMessages?: Omit<ErrorMessages, 'dependencies' | 'required'> & {
+            dependencies?: string | Record<string, string>;
+            required?: string | Record<string, string>;
         }; // todo
         validatorType?: string;
         viewType?: ViewKey;

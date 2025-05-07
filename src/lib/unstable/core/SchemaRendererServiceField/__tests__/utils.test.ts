@@ -1,9 +1,10 @@
-import {
-    createMockArraySchema,
-    createMockNumberSchema,
-    createMockObjectSchema,
-    createMockStringSchema,
-} from '../../../__tests__/helpers.test';
+import {JsonSchemaType} from '../../constants';
+import type {
+    JsonSchemaArray,
+    JsonSchemaNumber,
+    JsonSchemaObject,
+    JsonSchemaString,
+} from '../../types';
 import {
     getSchemaByInstancePath,
     getSchemaBySchemaPath,
@@ -12,22 +13,32 @@ import {
     parseSchemaPath,
 } from '../utils';
 
-const nameSchema = createMockStringSchema();
-const streetSchema = createMockStringSchema();
-const citySchema = createMockStringSchema();
-const addressSchema = createMockObjectSchema({street: streetSchema, city: citySchema});
-const typeStringSchema = createMockStringSchema();
-const typeNumberSchema = createMockNumberSchema();
-const tagsSchema = createMockArraySchema([typeStringSchema, typeNumberSchema]);
-const labelsSchema = createMockArraySchema(typeStringSchema);
-const specialFieldSchema = createMockNumberSchema();
-const testSchema = createMockObjectSchema({
-    name: nameSchema,
-    address: addressSchema,
-    tags: tagsSchema,
-    labels: labelsSchema,
-    'special/field': specialFieldSchema,
-});
+const nameSchema: JsonSchemaString = {type: JsonSchemaType.String};
+const streetSchema: JsonSchemaString = {type: JsonSchemaType.String};
+const citySchema: JsonSchemaString = {type: JsonSchemaType.String};
+const addressSchema: JsonSchemaObject = {
+    type: JsonSchemaType.Object,
+    properties: {street: streetSchema, city: citySchema},
+};
+const stringTagSchema: JsonSchemaString = {type: JsonSchemaType.String};
+const numberTagSchema: JsonSchemaNumber = {type: JsonSchemaType.Number};
+const tagsSchema: JsonSchemaArray = {
+    type: JsonSchemaType.Array,
+    items: [stringTagSchema, numberTagSchema],
+};
+const labelSchema: JsonSchemaString = {type: JsonSchemaType.String};
+const labelsSchema: JsonSchemaArray = {type: JsonSchemaType.Array, items: labelSchema};
+const specialFieldSchema: JsonSchemaNumber = {type: JsonSchemaType.Number};
+const mainSchema: JsonSchemaObject = {
+    type: JsonSchemaType.Object,
+    properties: {
+        name: nameSchema,
+        address: addressSchema,
+        tags: tagsSchema,
+        labels: labelsSchema,
+        'special/field': specialFieldSchema,
+    },
+};
 
 describe('SchemaRendererServiceField/utils', () => {
     describe('parseSchemaPath', () => {
@@ -146,13 +157,13 @@ describe('SchemaRendererServiceField/utils', () => {
 
     describe('getSchemaBySchemaPath', () => {
         it('should return the main schema for empty path array', () => {
-            const result = getSchemaBySchemaPath('#/', testSchema);
+            const result = getSchemaBySchemaPath('#/', mainSchema);
 
-            expect(result).toBe(testSchema);
+            expect(result).toBe(mainSchema);
         });
 
         it('should return the schema for a simple path', () => {
-            const result = getSchemaBySchemaPath('#/properties/name/minLength', testSchema);
+            const result = getSchemaBySchemaPath('#/properties/name/minLength', mainSchema);
 
             expect(result).toBe(nameSchema);
         });
@@ -160,26 +171,26 @@ describe('SchemaRendererServiceField/utils', () => {
         it('should return the schema for a nested path', () => {
             const result = getSchemaBySchemaPath(
                 '#/properties/address/properties/street/minLength',
-                testSchema,
+                mainSchema,
             );
 
             expect(result).toBe(streetSchema);
         });
 
         it('should return the schema for a path with array indexes', () => {
-            const result = getSchemaBySchemaPath('#/properties/tags/items/1/maximum', testSchema);
+            const result = getSchemaBySchemaPath('#/properties/tags/items/1/maximum', mainSchema);
 
-            expect(result).toBe(typeNumberSchema);
+            expect(result).toBe(numberTagSchema);
         });
 
         it('should handle array with single schema for items', () => {
-            const result = getSchemaBySchemaPath('#/properties/labels/items/minLength', testSchema);
+            const result = getSchemaBySchemaPath('#/properties/labels/items/minLength', mainSchema);
 
-            expect(result).toBe(typeStringSchema);
+            expect(result).toBe(labelSchema);
         });
 
         it('should return undefined for a path that does not exist', () => {
-            const result = getSchemaBySchemaPath('#/properties/nonexistent/minLength', testSchema);
+            const result = getSchemaBySchemaPath('#/properties/nonexistent/minLength', mainSchema);
 
             expect(result).toBeUndefined();
         });
@@ -187,7 +198,7 @@ describe('SchemaRendererServiceField/utils', () => {
         it('should handle paths with special characters', () => {
             const result = getSchemaBySchemaPath(
                 '#/properties/special~1field/maxLength',
-                testSchema,
+                mainSchema,
             );
 
             expect(result).toBe(specialFieldSchema);
@@ -196,55 +207,55 @@ describe('SchemaRendererServiceField/utils', () => {
 
     describe('getSchemaByInstancePath', () => {
         it('should return the main schema for empty instance path', () => {
-            const result = getSchemaByInstancePath('', testSchema);
+            const result = getSchemaByInstancePath('', mainSchema);
 
-            expect(result).toBe(testSchema);
+            expect(result).toBe(mainSchema);
         });
 
         it('should return the schema for a simple object property path', () => {
-            const result = getSchemaByInstancePath('/name', testSchema);
+            const result = getSchemaByInstancePath('/name', mainSchema);
 
             expect(result).toBe(nameSchema);
         });
 
         it('should return the schema for a nested object property path', () => {
-            const result = getSchemaByInstancePath('/address/street', testSchema);
+            const result = getSchemaByInstancePath('/address/street', mainSchema);
 
             expect(result).toBe(streetSchema);
         });
 
         it('should return the schema for an array item path with specific index', () => {
-            const result = getSchemaByInstancePath('/tags/1', testSchema);
+            const result = getSchemaByInstancePath('/tags/1', mainSchema);
 
-            expect(result).toBe(typeNumberSchema);
+            expect(result).toBe(numberTagSchema);
         });
 
         it('should handle array with single schema for items', () => {
-            const result = getSchemaByInstancePath('/labels/0', testSchema);
+            const result = getSchemaByInstancePath('/labels/0', mainSchema);
 
-            expect(result).toBe(typeStringSchema);
+            expect(result).toBe(labelSchema);
         });
 
         it('should return undefined for a path that does not exist', () => {
-            const result = getSchemaByInstancePath('/nonexistent', testSchema);
+            const result = getSchemaByInstancePath('/nonexistent', mainSchema);
 
             expect(result).toBeUndefined();
         });
 
         it('should handle paths with special characters', () => {
-            const result = getSchemaByInstancePath('/special~1field', testSchema);
+            const result = getSchemaByInstancePath('/special~1field', mainSchema);
 
             expect(result).toBe(specialFieldSchema);
         });
 
         it('should return undefined for a path that starts valid but ends invalid', () => {
-            const result = getSchemaByInstancePath('/address/nonexistent', testSchema);
+            const result = getSchemaByInstancePath('/address/nonexistent', mainSchema);
 
             expect(result).toBeUndefined();
         });
 
         it('should return undefined when traversing non-object and non-array schemas', () => {
-            const result = getSchemaByInstancePath('/name/invalid', testSchema);
+            const result = getSchemaByInstancePath('/name/invalid', mainSchema);
 
             expect(result).toBeUndefined();
         });
@@ -253,26 +264,31 @@ describe('SchemaRendererServiceField/utils', () => {
     describe('getValuePaths', () => {
         it('should return a path for a primitive value', () => {
             const result = getValuePaths('test');
+
             expect(result).toEqual([]);
         });
 
         it('should return a path for a number value', () => {
             const result = getValuePaths(42);
+
             expect(result).toEqual([]);
         });
 
         it('should return a path for a boolean value', () => {
             const result = getValuePaths(true);
+
             expect(result).toEqual([]);
         });
 
         it('should return a path for null', () => {
             const result = getValuePaths(null);
+
             expect(result).toEqual([]);
         });
 
         it('should return a path for undefined', () => {
             const result = getValuePaths(undefined);
+
             expect(result).toEqual([]);
         });
 

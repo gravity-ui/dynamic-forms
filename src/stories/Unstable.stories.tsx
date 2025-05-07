@@ -400,8 +400,6 @@ const objectDependencies: JsonSchemaObject = {
         },
         errorMessages: {
             // dependencies: 'objectDependencies',
-            // todo
-            // @ts-expect-error
             dependencies: {
                 stringEnum: 'objectDependencies/stringEnum',
                 numberMinimum: 'objectDependencies/numberMinimum',
