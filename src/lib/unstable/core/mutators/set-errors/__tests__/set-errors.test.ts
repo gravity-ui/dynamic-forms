@@ -1,324 +1,307 @@
+import type {InternalFieldState, InternalFormState, MutableState, Tools} from 'final-form';
 import omit from 'lodash/omit';
 
-import {
-    createMockMutableState,
-    mockServiceFieldName,
-    mockTools,
-} from '../../../../__tests__/helpers.test';
 import {removeErrors, setErrors} from '../set-errors';
 import type {ErrorsState} from '../types';
 
-const createMockErrorsKit = (errorPrefix = '', fieldNamePrefix = '') => {
-    const fieldName = `fieldName${fieldNamePrefix}`;
-
-    const errorsState: ErrorsState = {
-        priorityErrors: {
-            [fieldName]: `priorityError${errorPrefix}`,
-        },
-        regularErrors: {
-            [fieldName]: `regularError${errorPrefix}`,
-        },
-    };
-
-    return {errorsState, fieldName};
-};
-
 describe('set-errors', () => {
     describe('setErrors', () => {
-        it('should not modify state if service field does not exist', () => {
-            const errorsKit = createMockErrorsKit();
-            const mutableState = createMockMutableState();
+        const fieldName = 'fieldName';
+        const serviceFieldName = 'serviceFieldName';
+        const priorityErrors: Exclude<ErrorsState['priorityErrors'], undefined> = {
+            [fieldName]: 'priorityError',
+        };
+        const regularErrors: Exclude<ErrorsState['regularErrors'], undefined> = {
+            [fieldName]: 'regularErrors',
+        };
+        const tools = {} as Tools<{}, {}>;
 
-            setErrors(
-                [{serviceFieldName: mockServiceFieldName, ...errorsKit.errorsState}],
-                mutableState,
-                mockTools,
-            );
+        let serviceField: InternalFieldState<any>;
+        let mutableState: MutableState<{}, {}>;
+
+        beforeEach(() => {
+            serviceField = {data: {}} as InternalFieldState<any>;
+            mutableState = {
+                fields: {},
+                formState: {} as InternalFormState,
+                fieldSubscribers: {},
+            };
+        });
+
+        it('should not modify state if service field does not exist', () => {
+            setErrors([{serviceFieldName, priorityErrors, regularErrors}], mutableState, tools);
 
             expect(mutableState.fields).toEqual({});
         });
 
         it('should not modify state if errors are not provided', () => {
-            const mutableState = createMockMutableState({[mockServiceFieldName]: {data: {}}});
+            mutableState.fields = {[serviceFieldName]: serviceField};
 
-            setErrors([{serviceFieldName: mockServiceFieldName}], mutableState, mockTools);
+            setErrors(
+                [{serviceFieldName, priorityErrors: undefined, regularErrors: undefined}],
+                mutableState,
+                tools,
+            );
 
-            expect(mutableState.fields[mockServiceFieldName].data).toEqual({});
+            expect(mutableState.fields[serviceFieldName].data).toEqual({});
         });
 
         it('should add priority errors to the errors state', () => {
-            const existingErrorsKit = createMockErrorsKit();
-            const errorsKit = createMockErrorsKit('2', '2');
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {data: existingErrorsKit.errorsState},
-            });
+            const anotherFieldName = 'anotherFieldName';
+            const existingErrorsState = {
+                priorityErrors: {[anotherFieldName]: 'anotherPriorityError'},
+                regularErrors: {[anotherFieldName]: 'anotherRegularError'},
+            };
 
-            setErrors(
-                [
-                    {
-                        serviceFieldName: mockServiceFieldName,
-                        priorityErrors: errorsKit.errorsState.priorityErrors,
-                    },
-                ],
-                mutableState,
-                mockTools,
-            );
+            serviceField.data = existingErrorsState;
+            mutableState.fields = {
+                [serviceFieldName]: serviceField,
+            };
 
-            expect(mutableState.fields[mockServiceFieldName].data.priorityErrors).toEqual({
-                ...existingErrorsKit.errorsState.priorityErrors,
-                ...errorsKit.errorsState.priorityErrors,
+            setErrors([{serviceFieldName, priorityErrors}], mutableState, tools);
+
+            expect(mutableState.fields[serviceFieldName].data.priorityErrors).toEqual({
+                ...existingErrorsState.priorityErrors,
+                ...priorityErrors,
             });
-            expect(mutableState.fields[mockServiceFieldName].data.regularErrors).toEqual(
-                existingErrorsKit.errorsState.regularErrors,
+            expect(mutableState.fields[serviceFieldName].data.regularErrors).toEqual(
+                existingErrorsState.regularErrors,
             );
         });
 
         it('should add regular errors to the errors state', () => {
-            const existingErrorsKit = createMockErrorsKit();
-            const errorsKit = createMockErrorsKit('2', '2');
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {data: existingErrorsKit.errorsState},
-            });
+            const anotherFieldName = 'anotherFieldName';
+            const existingErrorsState = {
+                priorityErrors: {[anotherFieldName]: 'anotherPriorityError'},
+                regularErrors: {[anotherFieldName]: 'anotherRegularError'},
+            };
 
-            setErrors(
-                [
-                    {
-                        serviceFieldName: mockServiceFieldName,
-                        regularErrors: errorsKit.errorsState.regularErrors,
-                    },
-                ],
-                mutableState,
-                mockTools,
-            );
+            serviceField.data = existingErrorsState;
+            mutableState.fields = {
+                [serviceFieldName]: serviceField,
+            };
 
-            expect(mutableState.fields[mockServiceFieldName].data.priorityErrors).toEqual(
-                existingErrorsKit.errorsState.priorityErrors,
+            setErrors([{serviceFieldName, regularErrors}], mutableState, tools);
+
+            expect(mutableState.fields[serviceFieldName].data.priorityErrors).toEqual(
+                existingErrorsState.priorityErrors,
             );
-            expect(mutableState.fields[mockServiceFieldName].data.regularErrors).toEqual({
-                ...existingErrorsKit.errorsState.regularErrors,
-                ...errorsKit.errorsState.regularErrors,
+            expect(mutableState.fields[serviceFieldName].data.regularErrors).toEqual({
+                ...existingErrorsState.regularErrors,
+                ...regularErrors,
             });
         });
 
         it('should add both priority and regular errors to the errors state', () => {
-            const existingErrorsKit = createMockErrorsKit();
-            const errorsKit = createMockErrorsKit('2', '2');
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {data: existingErrorsKit.errorsState},
-            });
+            const anotherFieldName = 'anotherFieldName';
+            const existingErrorsState = {
+                priorityErrors: {[anotherFieldName]: 'anotherPriorityError'},
+                regularErrors: {[anotherFieldName]: 'anotherRegularError'},
+            };
 
-            setErrors(
-                [
-                    {
-                        serviceFieldName: mockServiceFieldName,
-                        ...errorsKit.errorsState,
-                    },
-                ],
-                mutableState,
-                mockTools,
-            );
+            serviceField.data = existingErrorsState;
+            mutableState.fields = {
+                [serviceFieldName]: serviceField,
+            };
 
-            expect(mutableState.fields[mockServiceFieldName].data.priorityErrors).toEqual({
-                ...existingErrorsKit.errorsState.priorityErrors,
-                ...errorsKit.errorsState.priorityErrors,
+            setErrors([{serviceFieldName, priorityErrors, regularErrors}], mutableState, tools);
+
+            expect(mutableState.fields[serviceFieldName].data.priorityErrors).toEqual({
+                ...existingErrorsState.priorityErrors,
+                ...priorityErrors,
             });
-            expect(mutableState.fields[mockServiceFieldName].data.regularErrors).toEqual({
-                ...existingErrorsKit.errorsState.regularErrors,
-                ...errorsKit.errorsState.regularErrors,
+            expect(mutableState.fields[serviceFieldName].data.regularErrors).toEqual({
+                ...existingErrorsState.regularErrors,
+                ...regularErrors,
             });
         });
 
         it('should override existing errors with the same field name', () => {
-            const existingErrorsKit = createMockErrorsKit();
-            const errorsKit = createMockErrorsKit('2');
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {data: existingErrorsKit.errorsState},
-            });
+            const existingErrorsState = {
+                priorityErrors: {[fieldName]: 'anotherPriorityError'},
+                regularErrors: {[fieldName]: 'anotherRegularError'},
+            };
 
-            setErrors(
-                [
-                    {
-                        serviceFieldName: mockServiceFieldName,
-                        ...errorsKit.errorsState,
-                    },
-                ],
-                mutableState,
-                mockTools,
+            serviceField.data = existingErrorsState;
+            mutableState.fields = {
+                [serviceFieldName]: serviceField,
+            };
+
+            setErrors([{serviceFieldName, priorityErrors, regularErrors}], mutableState, tools);
+
+            expect(mutableState.fields[serviceFieldName].data.priorityErrors).toEqual(
+                priorityErrors,
             );
-
-            expect(mutableState.fields[mockServiceFieldName].data.priorityErrors).toEqual({
-                ...errorsKit.errorsState.priorityErrors,
-            });
-            expect(mutableState.fields[mockServiceFieldName].data.regularErrors).toEqual({
-                ...errorsKit.errorsState.regularErrors,
-            });
+            expect(mutableState.fields[serviceFieldName].data.regularErrors).toEqual(regularErrors);
         });
     });
 
     describe('removeErrors', () => {
+        const fieldName = 'fieldName';
+        const serviceFieldName = 'serviceFieldName';
+        const tools = {} as Tools<{}, {}>;
+
+        let serviceField: InternalFieldState<any>;
+        let mutableState: MutableState<{}, {}>;
+        let errorsState: ErrorsState;
+
+        beforeEach(() => {
+            serviceField = {data: {}} as InternalFieldState<any>;
+            mutableState = {
+                fields: {},
+                formState: {} as InternalFormState,
+                fieldSubscribers: {},
+            };
+            errorsState = {
+                priorityErrors: {[fieldName]: 'priorityError'},
+                regularErrors: {[fieldName]: 'regularError'},
+            };
+        });
+
         it('should not modify state if service field does not exist', () => {
-            const mutableState = createMockMutableState();
+            const anotherFieldName = 'anotherFieldName';
 
             removeErrors(
-                [
-                    {
-                        serviceFieldName: mockServiceFieldName,
-                        removeFunctionOrNames: ['fieldName', 'fieldName2'],
-                    },
-                ],
+                [{serviceFieldName, removeFunctionOrNames: [fieldName, anotherFieldName]}],
                 mutableState,
-                mockTools,
+                tools,
             );
 
             expect(mutableState.fields).toEqual({});
         });
 
         it('should not modify state if removeFunctionOrNames is not provided', () => {
-            const existingErrorsKit = createMockErrorsKit();
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {data: existingErrorsKit.errorsState},
-            });
+            serviceField.data = errorsState;
+            mutableState.fields = {
+                [serviceFieldName]: serviceField,
+            };
 
             removeErrors(
-                [{serviceFieldName: mockServiceFieldName}] as any,
+                [{serviceFieldName, removeFunctionOrNames: undefined as any}],
                 mutableState,
-                mockTools,
+                tools,
             );
 
-            expect(mutableState.fields[mockServiceFieldName].data).toEqual(
-                existingErrorsKit.errorsState,
-            );
+            expect(mutableState.fields[serviceFieldName].data).toEqual(errorsState);
         });
 
-        it('should not modify state if field names array is empty ', () => {
-            const existingErrorsKit = createMockErrorsKit();
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {data: existingErrorsKit.errorsState},
-            });
+        it('should not modify state if field names array is empty', () => {
+            serviceField.data = errorsState;
+            mutableState.fields = {
+                [serviceFieldName]: serviceField,
+            };
 
-            removeErrors(
-                [{serviceFieldName: mockServiceFieldName, removeFunctionOrNames: []}],
-                mutableState,
-                mockTools,
-            );
+            removeErrors([{serviceFieldName, removeFunctionOrNames: []}], mutableState, tools);
 
-            expect(mutableState.fields[mockServiceFieldName].data).toEqual(
-                existingErrorsKit.errorsState,
-            );
+            expect(mutableState.fields[serviceFieldName].data).toEqual(errorsState);
         });
 
         it('should remove errors by field names', () => {
-            const errorsKit1 = createMockErrorsKit('1', '1');
-            const errorsKit2 = createMockErrorsKit('2', '2');
-            const errorsKit3 = createMockErrorsKit('3', '3');
+            const anotherFieldName1 = 'anotherFieldName1';
+            const anotherPriorityErrors1 = {[anotherFieldName1]: 'anotherPriorityError1'};
+            const anotherRegularErrors1 = {[anotherFieldName1]: 'anotherRegularError1'};
+            const anotherFieldName2 = 'anotherFieldName2';
+            const anotherPriorityErrors2 = {[anotherFieldName2]: 'anotherPriorityError2'};
+            const anotherRegularErrors2 = {[anotherFieldName2]: 'anotherRegularError2'};
+            const anotherFieldName3 = 'anotherFieldName3';
+            const anotherPriorityErrors3 = {[anotherFieldName3]: 'anotherPriorityError3'};
+            const anotherRegularErrors3 = {[anotherFieldName3]: 'anotherRegularError3'};
 
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {
-                    data: {
-                        priorityErrors: {
-                            ...errorsKit1.errorsState.priorityErrors,
-                            ...errorsKit2.errorsState.priorityErrors,
-                            ...errorsKit3.errorsState.priorityErrors,
-                        },
-                        regularErrors: {
-                            ...errorsKit1.errorsState.regularErrors,
-                            ...errorsKit2.errorsState.regularErrors,
-                            ...errorsKit3.errorsState.regularErrors,
-                        },
-                    },
+            serviceField.data = {
+                priorityErrors: {
+                    ...anotherPriorityErrors1,
+                    ...anotherPriorityErrors2,
+                    ...anotherPriorityErrors3,
                 },
-            });
+                regularErrors: {
+                    ...anotherRegularErrors1,
+                    ...anotherRegularErrors2,
+                    ...anotherRegularErrors3,
+                },
+            };
+            mutableState.fields = {
+                [serviceFieldName]: serviceField,
+            };
 
             removeErrors(
-                [
-                    {
-                        serviceFieldName: mockServiceFieldName,
-                        removeFunctionOrNames: [errorsKit1.fieldName, errorsKit2.fieldName],
-                    },
-                ],
+                [{serviceFieldName, removeFunctionOrNames: [anotherFieldName1, anotherFieldName2]}],
                 mutableState,
-                mockTools,
+                tools,
             );
 
-            expect(mutableState.fields[mockServiceFieldName].data.priorityErrors).toEqual({
-                ...errorsKit3.errorsState.priorityErrors,
-            });
-            expect(mutableState.fields[mockServiceFieldName].data.regularErrors).toEqual({
-                ...errorsKit3.errorsState.regularErrors,
-            });
+            expect(mutableState.fields[serviceFieldName].data.priorityErrors).toEqual(
+                anotherPriorityErrors3,
+            );
+            expect(mutableState.fields[serviceFieldName].data.regularErrors).toEqual(
+                anotherRegularErrors3,
+            );
         });
 
         it('should remove errors using a custom function', () => {
-            const errorsKit1 = createMockErrorsKit('1', '1');
-            const errorsKit2 = createMockErrorsKit('2', '2');
-            const errorsKit3 = createMockErrorsKit('3', '3');
+            const anotherFieldName1 = 'anotherFieldName1';
+            const anotherPriorityErrors1 = {[anotherFieldName1]: 'anotherPriorityError1'};
+            const anotherRegularErrors1 = {[anotherFieldName1]: 'anotherRegularError1'};
+            const anotherFieldName2 = 'anotherFieldName2';
+            const anotherPriorityErrors2 = {[anotherFieldName2]: 'anotherPriorityError2'};
+            const anotherRegularErrors2 = {[anotherFieldName2]: 'anotherRegularError2'};
+            const anotherFieldName3 = 'anotherFieldName3';
+            const anotherPriorityErrors3 = {[anotherFieldName3]: 'anotherPriorityError3'};
+            const anotherRegularErrors3 = {[anotherFieldName3]: 'anotherRegularError3'};
 
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {
-                    data: {
-                        priorityErrors: {
-                            ...errorsKit1.errorsState.priorityErrors,
-                            ...errorsKit2.errorsState.priorityErrors,
-                            ...errorsKit3.errorsState.priorityErrors,
-                        },
-                        regularErrors: {
-                            ...errorsKit1.errorsState.regularErrors,
-                            ...errorsKit2.errorsState.regularErrors,
-                            ...errorsKit3.errorsState.regularErrors,
-                        },
-                    },
+            serviceField.data = {
+                priorityErrors: {
+                    ...anotherPriorityErrors1,
+                    ...anotherPriorityErrors2,
+                    ...anotherPriorityErrors3,
                 },
-            });
+                regularErrors: {
+                    ...anotherRegularErrors1,
+                    ...anotherRegularErrors2,
+                    ...anotherRegularErrors3,
+                },
+            };
+            mutableState.fields = {
+                [serviceFieldName]: serviceField,
+            };
 
             const customRemoveFunction = (state: ErrorsState): ErrorsState => {
                 return {
-                    priorityErrors: omit(state.priorityErrors, [errorsKit1.fieldName]),
-                    regularErrors: omit(state.regularErrors, [errorsKit2.fieldName]),
+                    priorityErrors: omit(state.priorityErrors, [anotherFieldName1]),
+                    regularErrors: omit(state.regularErrors, [anotherFieldName2]),
                 };
             };
 
             removeErrors(
-                [
-                    {
-                        serviceFieldName: mockServiceFieldName,
-                        removeFunctionOrNames: customRemoveFunction,
-                    },
-                ],
+                [{serviceFieldName, removeFunctionOrNames: customRemoveFunction}],
                 mutableState,
-                mockTools,
+                tools,
             );
 
-            expect(mutableState.fields[mockServiceFieldName].data.priorityErrors).toEqual({
-                ...errorsKit2.errorsState.priorityErrors,
-                ...errorsKit3.errorsState.priorityErrors,
+            expect(mutableState.fields[serviceFieldName].data.priorityErrors).toEqual({
+                ...anotherPriorityErrors2,
+                ...anotherPriorityErrors3,
             });
-            expect(mutableState.fields[mockServiceFieldName].data.regularErrors).toEqual({
-                ...errorsKit1.errorsState.regularErrors,
-                ...errorsKit3.errorsState.regularErrors,
+            expect(mutableState.fields[serviceFieldName].data.regularErrors).toEqual({
+                ...anotherRegularErrors1,
+                ...anotherRegularErrors3,
             });
         });
 
         it('should handle non-existent field names', () => {
-            const nonExistentFieldName = 'nonExistentFieldName';
-            const existingErrorsKit = createMockErrorsKit();
-            const mutableState = createMockMutableState({
-                [mockServiceFieldName]: {data: existingErrorsKit.errorsState},
-            });
+            const anotherFieldName = 'anotherFieldName';
+
+            serviceField.data = errorsState;
+            mutableState.fields = {
+                [serviceFieldName]: serviceField,
+            };
 
             removeErrors(
-                [
-                    {
-                        serviceFieldName: mockServiceFieldName,
-                        removeFunctionOrNames: [nonExistentFieldName],
-                    },
-                ],
+                [{serviceFieldName, removeFunctionOrNames: [anotherFieldName]}],
                 mutableState,
-                mockTools,
+                tools,
             );
 
-            expect(mutableState.fields[mockServiceFieldName].data).toEqual(
-                existingErrorsKit.errorsState,
-            );
+            expect(mutableState.fields[serviceFieldName].data).toEqual(errorsState);
         });
     });
 });
