@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.5.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.4.1...v5.5.0) (2025-05-07)
+
+
+### Features
+
+* add errors mutator to unstable ([#300](https://github.com/gravity-ui/dynamic-forms/issues/300)) ([11c8a81](https://github.com/gravity-ui/dynamic-forms/commit/11c8a81fd17c4f2854d6ebd1a77b86482cbe8f22))
+* unstable features ([#298](https://github.com/gravity-ui/dynamic-forms/issues/298)) ([0dd9996](https://github.com/gravity-ui/dynamic-forms/commit/0dd9996896e3b55014383ba5279cfe8c974da45b))
+* **unstable:** errors proccesing updates ([#301](https://github.com/gravity-ui/dynamic-forms/issues/301)) ([a1dc573](https://github.com/gravity-ui/dynamic-forms/commit/a1dc573e48c500abe852608895d79d2ec203335c))
+
 ## [5.4.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.4.0...v5.4.1) (2025-04-29)
 
 
