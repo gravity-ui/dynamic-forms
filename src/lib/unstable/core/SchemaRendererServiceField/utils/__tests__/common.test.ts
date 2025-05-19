@@ -1,17 +1,17 @@
-import {JsonSchemaType} from '../../constants';
+import {JsonSchemaType} from '../../../constants';
 import type {
     JsonSchemaArray,
     JsonSchemaNumber,
     JsonSchemaObject,
     JsonSchemaString,
-} from '../../types';
+} from '../../../types';
 import {
     getSchemaByInstancePath,
     getSchemaBySchemaPath,
     getValuePaths,
     parseInstancePath,
     parseSchemaPath,
-} from '../utils';
+} from '../common';
 
 const nameSchema: JsonSchemaString = {type: JsonSchemaType.String};
 const streetSchema: JsonSchemaString = {type: JsonSchemaType.String};
@@ -40,7 +40,7 @@ const mainSchema: JsonSchemaObject = {
     },
 };
 
-describe('SchemaRendererServiceField/utils', () => {
+describe('SchemaRendererServiceField/utils/common', () => {
     describe('parseSchemaPath', () => {
         it('should parse a simple schema path', () => {
             const result = parseSchemaPath('#/properties/name/minLength');
