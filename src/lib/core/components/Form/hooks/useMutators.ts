@@ -56,7 +56,7 @@ export const useMutators = (externalMutators?: DynamicFormMutators) => {
                 const result = {...a};
 
                 Object.keys(b).forEach((key) => {
-                    set(result, [key, 'value'], b[key]);
+                    set(result, [key], {value: b[key]});
                 });
 
                 return result;
