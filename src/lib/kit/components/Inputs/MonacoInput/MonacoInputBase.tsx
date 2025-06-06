@@ -34,7 +34,15 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
 
     const {monacoParams, disabled, layoutTitle} = spec.viewSpec;
 
-    const {language, fontSize} = monacoParams ?? {language: 'plaintext', fontSize: 11};
+    const {
+        language = 'plaintext',
+        fontSize = 11,
+        headerIconSize = 18,
+        headerIconIndent = 5,
+        headerTitleVariant = 'body-2',
+        headerDialogButtonSize = 'm',
+        headerDialogIconSize = 16,
+    } = monacoParams || {};
 
     const [monacoEditorDialog, setMonacoEditorDialog] = React.useState<boolean>(false);
 
@@ -45,14 +53,18 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
     const dialogButton = React.useMemo(() => {
         if (!withoutDialog) {
             return (
-                <Button onClick={() => setMonacoEditorDialog(true)} qa={`${name}-open-dialog`}>
-                    <Icon data={ChevronsExpandUpRight} size={16} />
+                <Button
+                    size={headerDialogButtonSize}
+                    onClick={() => setMonacoEditorDialog(true)}
+                    qa={`${name}-open-dialog`}
+                >
+                    <Icon data={ChevronsExpandUpRight} size={headerDialogIconSize} />
                 </Button>
             );
         }
 
         return;
-    }, [withoutDialog, setMonacoEditorDialog, name]);
+    }, [withoutDialog, setMonacoEditorDialog, name, headerDialogButtonSize, headerDialogIconSize]);
 
     React.useEffect(() => onChange(monacoValue), [monacoValue]);
 
@@ -65,7 +77,13 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
     return (
         <div className={b()}>
             <div className={b('container')} data-qa={name}>
-                <MonacoHeader language={language} editButton={dialogButton} />
+                <MonacoHeader
+                    language={language}
+                    dialogButton={dialogButton}
+                    headerIconSize={headerIconSize}
+                    headerIconIndent={headerIconIndent}
+                    headerTitleVariant={headerTitleVariant}
+                />
                 <div className={b('editor')}>
                     <MonacoEditor
                         language={language}
@@ -86,6 +104,9 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
                 onChange={onChange}
                 onClose={handleMonacoEditorDialogClose}
                 MonacoComponent={MonacoComponent}
+                headerIconSize={headerIconSize}
+                headerIconIndent={headerIconIndent}
+                headerTitleVariant={headerTitleVariant}
             />
         </div>
     );

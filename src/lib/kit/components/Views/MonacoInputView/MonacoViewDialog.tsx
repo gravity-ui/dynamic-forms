@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Dialog} from '@gravity-ui/uikit';
+import {Dialog, type TextProps} from '@gravity-ui/uikit';
 
 import {useMonaco} from '../../../../core/components/View/hooks';
 import i18n from '../../../i18n';
@@ -15,10 +15,13 @@ const b = block('monaco-view-dialog');
 interface MonacoViewDialogProps {
     visible: boolean;
     value: string;
-    language?: string;
+    language: string;
     title: string | undefined;
     fontSize: number | undefined;
     onClose: () => void;
+    headerIconSize: number;
+    headerIconIndent: number;
+    headerTitleVariant: TextProps['variant'];
 }
 
 export const MonacoViewDialog: React.FC<MonacoViewDialogProps> = ({
@@ -28,6 +31,9 @@ export const MonacoViewDialog: React.FC<MonacoViewDialogProps> = ({
     language,
     onClose,
     fontSize,
+    headerIconSize,
+    headerIconIndent,
+    headerTitleVariant,
 }) => {
     const MonacoEditor = useMonaco();
 
@@ -46,14 +52,15 @@ export const MonacoViewDialog: React.FC<MonacoViewDialogProps> = ({
             <Dialog.Header caption={title} className={b('dialog-header')} />
             <Dialog.Body>
                 <div className={b('container')}>
-                    <MonacoHeader language={language} />
-                    <MonacoEditor
+                    <MonacoHeader
                         language={language}
-                        height="600"
-                        width="900"
-                        value={value}
-                        options={options}
+                        headerIconSize={headerIconSize}
+                        headerIconIndent={headerIconIndent}
+                        headerTitleVariant={headerTitleVariant}
                     />
+                    <div className={b('editor')}>
+                        <MonacoEditor language={language} value={value} options={options} />
+                    </div>
                 </div>
             </Dialog.Body>
             <Dialog.Footer

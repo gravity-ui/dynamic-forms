@@ -1,4 +1,4 @@
-import type {AlertProps, LabelProps} from '@gravity-ui/uikit';
+import type {AlertProps, ButtonSize, LabelProps, TextProps} from '@gravity-ui/uikit';
 import type {ColorTextBaseProps} from '@gravity-ui/uikit/build/esm/components/Text/colorText/colorText';
 
 import type {ReadAsMethod, SpecTypes} from '../constants';
@@ -164,6 +164,11 @@ export interface StringSpec<
         monacoParams?: {
             language?: string;
             fontSize?: number;
+            headerIconSize?: number;
+            headerIconIndent?: number;
+            headerTitleVariant?: TextProps['variant'];
+            headerDialogButtonSize?: ButtonSize;
+            headerDialogIconSize?: number;
         };
         hideValues?: string[];
         placeholder?: string;

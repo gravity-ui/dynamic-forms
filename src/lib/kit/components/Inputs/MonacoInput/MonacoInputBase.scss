@@ -5,10 +5,11 @@
     height: var(--df-monaco-input-height, 354px);
 
     &__container {
-        height: 100%;
+        height: calc(100% - 2px);
         display: flex;
         flex-direction: column;
         border: 1px solid var(--g-color-line-generic);
+        box-sizing: content-box;
     }
 
     &__editor {

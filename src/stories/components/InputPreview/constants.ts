@@ -475,6 +475,46 @@ const monacoParams: ObjectSpec = {
             type: SpecTypes.Number,
             viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Font size'},
         },
+        headerIconSize: {
+            type: SpecTypes.Number,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Header icon size'},
+        },
+        headerIconIndent: {
+            type: SpecTypes.Number,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Header icon indent'},
+        },
+        headerTitleVariant: {
+            type: SpecTypes.String,
+            enum: [
+                'body-1',
+                'body-2',
+                'body-3',
+                'caption-1',
+                'caption-2',
+                'display-1',
+                'display-2',
+                'display-3',
+                'display-4',
+            ],
+            viewSpec: {
+                type: 'select',
+                layout: 'row',
+                layoutTitle: 'Header title variant',
+            },
+        },
+        headerDialogButtonSize: {
+            type: SpecTypes.String,
+            enum: ['xs', 's', 'm', 'l', 'xl'],
+            viewSpec: {
+                type: 'select',
+                layout: 'row',
+                layoutTitle: 'Header dialog button size',
+            },
+        },
+        headerDialogIconSize: {
+            type: SpecTypes.Number,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Header dialog icon size'},
+        },
     },
     viewSpec: {
         type: 'base',
