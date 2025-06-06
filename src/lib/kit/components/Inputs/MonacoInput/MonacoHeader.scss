@@ -7,4 +7,5 @@
     padding: var(--df-monaco-header-padding, var(--g-spacing-4));
     align-items: center;
     background-color: var(--g-color-base-float-hover);
+    box-sizing: border-box;
 }

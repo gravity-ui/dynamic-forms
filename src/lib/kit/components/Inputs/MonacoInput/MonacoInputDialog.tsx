@@ -58,14 +58,14 @@ export const MonacoInputDialog: React.FC<MonacoInputDialogProps> = ({
             <Dialog.Body>
                 <div className={b('container')} data-qa={`${name}-dialog`}>
                     <MonacoHeader language={language} />
-                    <MonacoEditor
-                        language={language}
-                        height="600"
-                        width="900"
-                        value={value}
-                        onChange={changeMonacoValue}
-                        options={options}
-                    />
+                    <div className={b('editor')}>
+                        <MonacoEditor
+                            language={language}
+                            value={value}
+                            onChange={changeMonacoValue}
+                            options={options}
+                        />
+                    </div>
                 </div>
             </Dialog.Body>
             <Dialog.Footer

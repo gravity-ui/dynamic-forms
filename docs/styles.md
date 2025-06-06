@@ -241,8 +241,11 @@ Variables for the Monaco Input component:
 | Variable                                         |  Default Value  | Description                                               |
 | :----------------------------------------------- | :-------------: | :-------------------------------------------------------- |
 | `--df-monaco-input-width`                        |     `550px`     | Width of the Monaco editor input                          |
+| `--df-monaco-input-height`                       |     `354px`     | Height of the Monaco editor input                         |
 | `--df-monaco-header-height`                      |     `52px`      | Height of the Monaco editor header                        |
 | `--df-monaco-header-padding`                     |     `16px`      | Padding inside the Monaco editor header                   |
+| `--df-monaco-input-dialog-width`                 |     `966px`     | Width of the Monaco input dialog                          |
+| `--df-monaco-input-dialog-height`                |     `804px`     | Height of the Monaco input dialog                         |
 | `--df-monaco-input-dialog-dialog-footer-padding` | `8px 32px 32px` | Padding for the Monaco dialog footer (top, sides, bottom) |
 | `--df-monaco-dialog-header-caption-min-height`   |     `24px`      | Minimum height for the Monaco dialog header caption       |
 
