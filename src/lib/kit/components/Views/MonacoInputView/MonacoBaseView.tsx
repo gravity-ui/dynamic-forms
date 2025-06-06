@@ -15,11 +15,19 @@ import './MonacoBaseView.scss';
 
 const b = block('monaco-base-view');
 
-const MonacoBaseView: React.FC<StringViewProps> = ({value, spec}) => {
+const MonacoBaseView: React.FC<StringViewProps> = ({value, spec, name}) => {
     const {monacoParams, layoutTitle} = spec.viewSpec;
     const MonacoEditor = useMonaco();
 
-    const {language, fontSize} = monacoParams ?? {language: 'plaintext', fontSize: 12};
+    const {
+        language = 'plaintext',
+        fontSize = 11,
+        headerIconSize = 18,
+        headerIconIndent = 5,
+        headerTitleVariant = 'body-2',
+        headerDialogButtonSize = 'm',
+        headerDialogIconSize = 16,
+    } = monacoParams || {};
 
     const options = useMonacoOptions(fontSize, true);
 
@@ -27,21 +35,36 @@ const MonacoBaseView: React.FC<StringViewProps> = ({value, spec}) => {
 
     const handleMonacoEditorDialogClose = React.useCallback(() => setMonacoEditorDialog(false), []);
 
+    const dialogButton = React.useMemo(() => {
+        return (
+            <Button
+                size={headerDialogButtonSize}
+                onClick={() => setMonacoEditorDialog(true)}
+                qa={`${name}-open-dialog`}
+            >
+                <Icon data={ChevronsExpandUpRight} size={headerDialogIconSize} />
+            </Button>
+        );
+    }, [setMonacoEditorDialog, name, headerDialogButtonSize, headerDialogIconSize]);
+
     if (!value || !MonacoEditor) {
         return null;
     }
 
     return (
         <div className={b()}>
-            <MonacoHeader
-                language={language}
-                editButton={
-                    <Button onClick={() => setMonacoEditorDialog(true)}>
-                        <Icon data={ChevronsExpandUpRight} size={16}></Icon>
-                    </Button>
-                }
-            />
-            <MonacoEditor language={language} value={value} height={'250'} options={options} />
+            <div className={b('container')} data-qa={name}>
+                <MonacoHeader
+                    language={language}
+                    dialogButton={dialogButton}
+                    headerIconSize={headerIconSize}
+                    headerIconIndent={headerIconIndent}
+                    headerTitleVariant={headerTitleVariant}
+                />
+                <div className={b('editor')}>
+                    <MonacoEditor language={language} value={value} options={options} />
+                </div>
+            </div>
             <MonacoViewDialog
                 title={layoutTitle}
                 fontSize={fontSize}
@@ -49,6 +72,9 @@ const MonacoBaseView: React.FC<StringViewProps> = ({value, spec}) => {
                 visible={monacoEditorDialog}
                 language={language}
                 onClose={handleMonacoEditorDialogClose}
+                headerIconSize={headerIconSize}
+                headerIconIndent={headerIconIndent}
+                headerTitleVariant={headerTitleVariant}
             />
         </div>
     );

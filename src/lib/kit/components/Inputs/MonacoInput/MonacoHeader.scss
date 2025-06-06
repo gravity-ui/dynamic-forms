@@ -8,4 +8,9 @@
     align-items: center;
     background-color: var(--g-color-base-float-hover);
     box-sizing: border-box;
+
+    &__title {
+        display: flex;
+        align-items: center;
+    }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Dialog} from '@gravity-ui/uikit';
+import {Dialog, type TextProps} from '@gravity-ui/uikit';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
 import {useMonaco} from '../../../../core/components/Form/hooks';
@@ -18,13 +18,16 @@ interface MonacoInputDialogProps {
     name: string;
     visible: boolean;
     value: string;
-    language?: string;
+    language: string;
     title: string | undefined;
     fontSize: number | undefined;
     onChange: (value: string) => void;
     onClose: () => void;
     changeMonacoValue: (value: string) => void;
     MonacoComponent?: React.ComponentType<MonacoEditorProps>;
+    headerIconSize: number;
+    headerIconIndent: number;
+    headerTitleVariant: TextProps['variant'];
 }
 
 export const MonacoInputDialog: React.FC<MonacoInputDialogProps> = ({
@@ -38,6 +41,9 @@ export const MonacoInputDialog: React.FC<MonacoInputDialogProps> = ({
     changeMonacoValue,
     fontSize,
     MonacoComponent,
+    headerIconSize,
+    headerIconIndent,
+    headerTitleVariant,
 }) => {
     const MonacoEditor = useMonaco() || MonacoComponent;
 
@@ -57,7 +63,12 @@ export const MonacoInputDialog: React.FC<MonacoInputDialogProps> = ({
             <Dialog.Header caption={title} className={b('dialog-header')} />
             <Dialog.Body>
                 <div className={b('container')} data-qa={`${name}-dialog`}>
-                    <MonacoHeader language={language} />
+                    <MonacoHeader
+                        language={language}
+                        headerIconSize={headerIconSize}
+                        headerIconIndent={headerIconIndent}
+                        headerTitleVariant={headerTitleVariant}
+                    />
                     <div className={b('editor')}>
                         <MonacoEditor
                             language={language}

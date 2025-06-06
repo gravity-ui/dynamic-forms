@@ -145,10 +145,15 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 
 #### MonacoParams
 
-| Property | Type     | Required | Description                  |
-| :------- | :------- | :------: | :--------------------------- |
-| language | `string` |   yes    | Syntax highlighting language |
-| fontSize | `string` |          | Font size                    |
+| Property               | Type     | Required | Description                  |
+| :--------------------- | :------- | :------: | :--------------------------- |
+| language               | `string` |   yes    | Syntax highlighting language |
+| fontSize               | `string` |          | Font size                    |
+| headerIconSize         | `number` |          | Size of the header icon      |
+| headerIconIndent       | `number` |          | Indent of the header icon    |
+| headerTitleVariant     | `string` |          | Variant of the header title  |
+| headerDialogButtonSize | `string` |          | Size of the dialog button    |
+| headerDialogIconSize   | `number` |          | Size of the dialog icon      |
 
 #### OneOfParams
 

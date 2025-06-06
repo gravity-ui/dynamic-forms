@@ -393,11 +393,14 @@ Variables for the Checkbox Group View component:
 
 Variables for the Monaco Input View component:
 
-| Variable                                 | Default Value | Description                    |
-| :--------------------------------------- | :-----------: | :----------------------------- |
-| `--df-monaco-base-view-width`            |    `550px`    | Width of the Monaco input view |
-| `--df-monaco-view-dialog-footer-padding` |    `16px`     | Padding of the dialog footer   |
-| `--df-monaco-view-dialog-header-height`  |    `48px`     | Height of the dialog header    |
+| Variable                                 | Default Value | Description                      |
+| :--------------------------------------- | :-----------: | :------------------------------- |
+| `--df-monaco-base-view-width`            |    `550px`    | Width of the Monaco input view   |
+| `--df-monaco-base-view-height`           |    `354px`    | Height of the Monaco base view   |
+| `--df-monaco-view-dialog-footer-padding` |    `16px`     | Padding of the dialog footer     |
+| `--df-monaco-view-dialog-header-height`  |    `48px`     | Height of the dialog header      |
+| `--df-monaco-view-dialog-width`          |    `966px`    | Width of the Monaco view dialog  |
+| `--df-monaco-view-dialog-height`         |    `804px`    | Height of the Monaco view dialog |
 
 ---
 
