@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.6.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.5.0...v5.6.0) (2025-06-06)
+
+
+### Features
+
+* add monaco styles configuration ([#312](https://github.com/gravity-ui/dynamic-forms/issues/312)) ([7e15b4e](https://github.com/gravity-ui/dynamic-forms/commit/7e15b4ed2eaf7f11ba474c25e046c8b60cb9287c))
+
 ## [5.5.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.4.1...v5.5.0) (2025-06-04)
 
 
