@@ -66,13 +66,14 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
         <div className={b()}>
             <div className={b('container')} data-qa={name}>
                 <MonacoHeader language={language} editButton={dialogButton} />
-                <MonacoEditor
-                    language={language}
-                    value={monacoValue}
-                    height="300"
-                    onChange={setMonacoValue}
-                    options={options}
-                />
+                <div className={b('editor')}>
+                    <MonacoEditor
+                        language={language}
+                        value={monacoValue}
+                        onChange={setMonacoValue}
+                        options={options}
+                    />
+                </div>
             </div>
             <MonacoInputDialog
                 name={name}
