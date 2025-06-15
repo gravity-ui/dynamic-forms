@@ -32,6 +32,7 @@ export interface ArraySpec<
             label: string;
             property: string;
             description?: string;
+            width?: number;
         }[];
         link?: LinkType;
         placeholder?: string;
