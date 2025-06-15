@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Flex, HelpMark, Table} from '@gravity-ui/uikit';
+import {Flex, HelpMark, Table, type TableColumnConfig} from '@gravity-ui/uikit';
 
 import type {ArrayView, FormValue, ObjectValue} from '../../../../core';
 import {
@@ -31,7 +31,7 @@ export const TableArrayView: ArrayView = ({value = [], spec, name}) => {
             return null;
         }
 
-        const idxColumn = {
+        const idxColumn: TableColumnConfig<ObjectValue> = {
             id: 'idx',
             name: '',
             sticky: 'left',
@@ -42,44 +42,61 @@ export const TableArrayView: ArrayView = ({value = [], spec, name}) => {
             ),
         };
 
-        const columns = table.map(({property, label, description}) => ({
-            id: property,
-            name:
-                description && showLayoutDescription
-                    ? () => (
-                          <Flex gap={0.5} alignItems="center">
-                              {label}
-                              <HelpMark
-                                  popoverProps={{
-                                      placement: COMMON_POPOVER_PLACEMENT,
-                                  }}
+        const columns: TableColumnConfig<ObjectValue>[] = table.map(
+            ({property, label, description, width}) => ({
+                id: property,
+                name:
+                    description && showLayoutDescription
+                        ? () => (
+                              <Flex
+                                  gap={0.5}
+                                  alignItems="center"
+                                  style={{minWidth: width, maxWidth: width}}
                               >
-                                  <HTMLContent html={description} />
-                              </HelpMark>
-                          </Flex>
-                      )
-                    : label,
-            template: (_: FormValue, idx: number) => {
-                const entitySpec = items?.properties?.[property];
+                                  <div className={b('column-title')}>{label}</div>
+                                  <HelpMark
+                                      popoverProps={{
+                                          placement: COMMON_POPOVER_PLACEMENT,
+                                      }}
+                                  >
+                                      <HTMLContent html={description} />
+                                  </HelpMark>
+                              </Flex>
+                          )
+                        : () => (
+                              <div
+                                  className={b('column-title')}
+                                  style={{minWidth: width, maxWidth: width}}
+                              >
+                                  {label}
+                              </div>
+                          ),
+                template: (_: FormValue, idx: number) => {
+                    const entitySpec = items?.properties?.[property];
 
-                if (!entitySpec) {
-                    return null;
-                }
+                    if (!entitySpec) {
+                        return null;
+                    }
 
-                return (
-                    <div
-                        className={b('cell', {
-                            bool: isBooleanSpec(entitySpec),
-                            arr: isArraySpec(entitySpec),
-                            obj: isObjectSpec(entitySpec),
-                        })}
-                        key={`${name}[${idx}].${property}`}
-                    >
-                        <ViewController spec={entitySpec} name={`${name}[${idx}].${property}`} />
-                    </div>
-                );
-            },
-        }));
+                    return (
+                        <div
+                            className={b(width ? 'cell-without-limit' : 'cell', {
+                                bool: isBooleanSpec(entitySpec),
+                                arr: isArraySpec(entitySpec),
+                                obj: isObjectSpec(entitySpec),
+                            })}
+                            style={{minWidth: width, maxWidth: width}}
+                            key={`${name}[${idx}].${property}`}
+                        >
+                            <ViewController
+                                spec={entitySpec}
+                                name={`${name}[${idx}].${property}`}
+                            />
+                        </div>
+                    );
+                },
+            }),
+        );
 
         return [idxColumn, ...columns];
     }, [name, spec, showLayoutDescription]);
