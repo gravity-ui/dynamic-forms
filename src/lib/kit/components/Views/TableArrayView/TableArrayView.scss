@@ -5,6 +5,11 @@
         margin-bottom: var(--df-table-array-view-table-margin-bottom, var(--g-spacing-3));
     }
 
+    &__column-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     &__cell {
         max-width: var(--df-table-array-view-cell-min-width, 150px);
         min-width: var(--df-table-array-view-cell-max-width, 150px);
@@ -21,6 +26,15 @@
         &_bool {
             max-width: 50px;
             min-width: 50px;
+        }
+    }
+
+    &__cell-without-limit {
+        &_arr,
+        &_obj {
+            & > .simple-vertical-accordeon {
+                margin-bottom: var(--df-spacing-last-child, $df-spacing-last-child);
+            }
         }
     }
 }

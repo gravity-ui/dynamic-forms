@@ -9,6 +9,11 @@
         }
     }
 
+    &__column-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     &__row {
         .g-table__cell {
             border-bottom: 0px transparent;
@@ -55,6 +60,20 @@
         &_bool {
             max-width: 50px;
             min-width: 50px;
+        }
+    }
+
+    &__cell-without-limit {
+        &_arr,
+        &_obj {
+            padding-left: var(--df-table-array-cell-obj-padding-left, var(--g-spacing-half));
+
+            & > .simple-vertical-accordeon {
+                margin-bottom: var(
+                    --df-table-array-cell-obj-simple-vertical-accordeon-margin-bottom,
+                    var(--g-spacing-0)
+                );
+            }
         }
     }
 

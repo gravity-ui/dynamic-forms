@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Plus, TrashBin} from '@gravity-ui/icons';
-import {Button, Flex, HelpMark, Icon, Table} from '@gravity-ui/uikit';
+import {Button, Flex, HelpMark, Icon, Table, type TableColumnConfig} from '@gravity-ui/uikit';
 import noop from 'lodash/noop';
 import set from 'lodash/set';
 
@@ -77,7 +77,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
             return null;
         }
 
-        const idxColumn = {
+        const idxColumn: TableColumnConfig<{key: string}> = {
             id: 'idx',
             name: '',
             sticky: 'left',
@@ -88,7 +88,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
             ),
         };
 
-        const removeColumn = {
+        const removeColumn: TableColumnConfig<{key: string}> = {
             id: 'remove',
             name: '',
             sticky: 'right',
@@ -104,65 +104,79 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
             ),
         };
 
-        const columns = table.map(({property, label, description}) => ({
-            id: property,
-            name: !description
-                ? label
-                : () => (
-                      <Flex gap={0.5} alignItems="center">
-                          {label}
-                          <HelpMark
-                              popoverProps={{
-                                  placement: COMMON_POPOVER_PLACEMENT,
-                              }}
+        const columns: TableColumnConfig<{key: string}>[] = table.map(
+            ({property, label, description, width}) => ({
+                id: property,
+                name: !description
+                    ? () => (
+                          <div
+                              className={b('column-title')}
+                              style={{minWidth: width, maxWidth: width}}
                           >
-                              <HTMLContent html={description} />
-                          </HelpMark>
-                      </Flex>
-                  ),
-            template: (
-                {
-                    key,
-                }: {
-                    key: string;
-                },
-                idx: number,
-            ) => {
-                const entitySpec = items?.properties?.[property];
-
-                if (!entitySpec) {
-                    return null;
-                }
-
-                const preparedEntitySpec = {
-                    ...entitySpec,
-                    viewSpec: {
-                        ...entitySpec.viewSpec,
-                        layoutTitle:
-                            table.map(({label}) => label).join(` ${idx + 1} `) + ` ${idx + 1}`,
+                              {label}
+                          </div>
+                      )
+                    : () => (
+                          <Flex
+                              gap={0.5}
+                              alignItems="center"
+                              style={{minWidth: width, maxWidth: width}}
+                          >
+                              <div className={b('column-title')}>{label}</div>
+                              <HelpMark
+                                  popoverProps={{
+                                      placement: COMMON_POPOVER_PLACEMENT,
+                                  }}
+                              >
+                                  <HTMLContent html={description} />
+                              </HelpMark>
+                          </Flex>
+                      ),
+                template: (
+                    {
+                        key,
+                    }: {
+                        key: string;
                     },
-                };
+                    idx: number,
+                ) => {
+                    const entitySpec = items?.properties?.[property];
 
-                return (
-                    <div
-                        className={b('cell', {
-                            bool: isBooleanSpec(preparedEntitySpec),
-                            arr: isArraySpec(preparedEntitySpec),
-                            obj: isObjectSpec(preparedEntitySpec),
-                        })}
-                        key={`${name}.<${key}>.${property}`}
-                    >
-                        <Controller
-                            value={(input.value?.[`<${key}>`] as FieldObjectValue)?.[property]}
-                            spec={preparedEntitySpec}
-                            name={`${name}.<${key}>.${property}`}
-                            parentOnChange={parentOnChange}
-                            parentOnUnmount={noop}
-                        />
-                    </div>
-                );
-            },
-        }));
+                    if (!entitySpec) {
+                        return null;
+                    }
+
+                    const preparedEntitySpec = {
+                        ...entitySpec,
+                        viewSpec: {
+                            ...entitySpec.viewSpec,
+                            layoutTitle:
+                                table.map(({label}) => label).join(` ${idx + 1} `) + ` ${idx + 1}`,
+                        },
+                    };
+
+                    return (
+                        <div
+                            className={b(width ? 'cell-without-limit' : 'cell', {
+                                bool: isBooleanSpec(preparedEntitySpec),
+                                arr: isArraySpec(preparedEntitySpec),
+                                obj: isObjectSpec(preparedEntitySpec),
+                            })}
+                            style={{minWidth: width, maxWidth: width}}
+                            key={`${name}.<${key}>.${property}`}
+                        >
+                            <Controller
+                                value={(input.value?.[`<${key}>`] as FieldObjectValue)?.[property]}
+                                spec={preparedEntitySpec}
+                                name={`${name}.<${key}>.${property}`}
+                                parentOnChange={parentOnChange}
+                                parentOnUnmount={noop}
+                            />
+                        </div>
+                    );
+                },
+            }),
+        );
 
         return [idxColumn, ...columns, removeColumn];
     }, [name, spec, onItemRemove, parentOnChange, input.parentOnUnmount, input.value]);
