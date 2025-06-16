@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.8.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.7.0...v5.8.0) (2025-06-16)
+
+
+### Features
+
+* add table column width ([#316](https://github.com/gravity-ui/dynamic-forms/issues/316)) ([38587ea](https://github.com/gravity-ui/dynamic-forms/commit/38587ea23606a0a782c43581da78b60508cc5f82))
+
 ## [5.7.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.6.0...v5.7.0) (2025-06-06)
 
 
