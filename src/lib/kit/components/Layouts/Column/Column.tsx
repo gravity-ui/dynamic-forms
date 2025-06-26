@@ -47,6 +47,9 @@ const ColumnBase = <T extends FieldValue, S extends Spec>({
                         </span>
                     ) : null}
                 </div>
+                {Boolean(spec.viewSpec.layoutAction) && (
+                    <div className={b('first-row-action')}>{spec.viewSpec.layoutAction}</div>
+                )}
             </div>
             <div className={b('second-row')}>
                 <div className={b('second-row-inner')}>

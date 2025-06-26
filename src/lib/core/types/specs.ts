@@ -25,6 +25,7 @@ export interface ArraySpec<
         layout?: string;
         layoutTitle?: string;
         layoutDescription?: string;
+        layoutAction?: string;
         layoutOpen?: boolean;
         itemLabel?: string;
         itemPrefix?: string;
@@ -66,6 +67,7 @@ export interface BooleanSpec<
         layout?: string;
         layoutTitle?: string;
         layoutDescription?: string;
+        layoutAction?: string;
         layoutOpen?: boolean;
         link?: LinkType;
         hidden?: boolean;
@@ -92,6 +94,7 @@ export interface NumberSpec<
         layout?: string;
         layoutTitle?: string;
         layoutDescription?: string;
+        layoutAction?: string;
         layoutOpen?: boolean;
         link?: LinkType;
         placeholder?: string;
@@ -119,6 +122,7 @@ export interface ObjectSpec<
         layout?: string;
         layoutTitle?: string;
         layoutDescription?: string;
+        layoutAction?: string;
         layoutOpen?: boolean;
         order?: string[];
         link?: LinkType;
@@ -155,6 +159,7 @@ export interface StringSpec<
         layout?: string;
         layoutTitle?: string;
         layoutDescription?: string;
+        layoutAction?: string;
         layoutOpen?: boolean;
         link?: LinkType;
         sizeParams?: {

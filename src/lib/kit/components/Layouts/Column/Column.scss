@@ -11,19 +11,19 @@
         min-height: var(--df-column-first-row-min-height, 28px);
         display: flex;
         margin-bottom: auto;
-        flex-direction: column;
+        flex-direction: row;
         flex-shrink: 0;
 
         &-inner {
-            display: inline;
+            flex-grow: 1;
             margin-top: auto;
             margin-bottom: auto;
         }
 
-        &::after {
-            content: '';
-            width: 100%;
-            flex-shrink: 1;
+        &-action {
+            padding-left: var(--g-spacing-2);
+            margin-top: auto;
+            margin-bottom: auto;
         }
     }
 

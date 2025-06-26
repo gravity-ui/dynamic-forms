@@ -49,6 +49,9 @@ const RowBase = <T extends FieldValue, S extends Spec>({
                             </Text>
                         </span>
                     ) : null}
+                    {Boolean(spec.viewSpec.layoutAction) && (
+                        <span className={b('left-action')}>{spec.viewSpec.layoutAction}</span>
+                    )}
                 </div>
             </div>
             <div className={b('right')}>

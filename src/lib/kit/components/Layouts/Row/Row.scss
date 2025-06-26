@@ -24,6 +24,10 @@
             margin-bottom: auto;
         }
 
+        &-action {
+            padding-left: var(--g-spacing-2);
+        }
+
         &::after {
             content: '';
             width: 100%;
