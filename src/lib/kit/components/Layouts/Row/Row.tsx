@@ -16,6 +16,7 @@ const b = block('row');
 
 interface RowProps {
     verboseDescription?: boolean;
+    action?: React.ReactNode;
 }
 
 const RowBase = <T extends FieldValue, S extends Spec>({
@@ -24,6 +25,7 @@ const RowBase = <T extends FieldValue, S extends Spec>({
     input,
     meta,
     verboseDescription,
+    action,
     children,
 }: LayoutProps<T, undefined, undefined, S> & RowProps) => {
     const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
@@ -49,6 +51,7 @@ const RowBase = <T extends FieldValue, S extends Spec>({
                             </Text>
                         </span>
                     ) : null}
+                    {Boolean(action) && <span className={b('left-action')}>{action}</span>}
                 </div>
             </div>
             <div className={b('right')}>
