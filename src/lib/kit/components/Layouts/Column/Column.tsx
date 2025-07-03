@@ -14,7 +14,9 @@ import './Column.scss';
 
 const b = block('column');
 
-interface ColumnProps {}
+interface ColumnProps {
+    action?: React.ReactNode;
+}
 
 const ColumnBase = <T extends FieldValue, S extends Spec>({
     name,
@@ -22,6 +24,7 @@ const ColumnBase = <T extends FieldValue, S extends Spec>({
     input,
     meta,
     children,
+    action,
 }: LayoutProps<T, undefined, undefined, S> & ColumnProps) => {
     const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
     const generateButton = React.useMemo(() => withGenerateButton(spec), [spec]);
@@ -47,6 +50,7 @@ const ColumnBase = <T extends FieldValue, S extends Spec>({
                         </span>
                     ) : null}
                 </div>
+                {Boolean(action) && <div className={b('first-row-action')}>{action}</div>}
             </div>
             <div className={b('second-row')}>
                 <div className={b('second-row-inner')}>
