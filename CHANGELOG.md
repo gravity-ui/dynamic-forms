@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.8.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.8.0...v5.8.1) (2025-07-09)
+
+
+### Bug Fixes
+
+* docs fix ([#321](https://github.com/gravity-ui/dynamic-forms/issues/321)) ([fdb7914](https://github.com/gravity-ui/dynamic-forms/commit/fdb7914b22c840668ef25001d9ec567f57c9371c))
+
 ## [5.8.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.7.0...v5.8.0) (2025-06-16)
 
 
