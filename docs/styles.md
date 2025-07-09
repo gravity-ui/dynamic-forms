@@ -11,7 +11,6 @@ Here is an example of SCSS variables:
 ```scss
 @mixin variables {
   --g-spacing-base: 4px;
-
   --g-spacing-0: calc(var(--g-spacing-base) * 0); // 0px
   --g-spacing-half: calc(var(--g-spacing-base) * 0.5); // 2px
   --g-spacing-1: var(--g-spacing-base); // 4px
