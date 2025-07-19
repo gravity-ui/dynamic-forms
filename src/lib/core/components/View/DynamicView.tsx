@@ -20,6 +20,7 @@ export interface DynamicViewProps {
         link: Spec['viewSpec']['link'];
     }>;
     Monaco?: React.ComponentType<MonacoEditorProps>;
+    renderHtml?: (text: string) => React.ReactNode;
     showLayoutDescription?: boolean;
     shared?: Record<string, any>;
 }
@@ -30,6 +31,7 @@ export const DynamicView = ({
     config,
     Link,
     Monaco,
+    renderHtml,
     showLayoutDescription,
     shared: externalShared,
 }: DynamicViewProps) => {
@@ -44,8 +46,9 @@ export const DynamicView = ({
             Link,
             Monaco: isValidElementType(Monaco) ? Monaco : undefined,
             shared,
+            renderHtml,
         }),
-        [config, value, Link, Monaco, showLayoutDescription, shared],
+        [config, value, Link, Monaco, showLayoutDescription, shared, renderHtml],
     );
 
     if (isCorrectSpec(spec) && isCorrectViewConfig(config)) {

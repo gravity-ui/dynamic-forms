@@ -86,9 +86,9 @@ const RowBase = <T extends FieldValue, S extends Spec>({
                     ) : null}
                 </div>
                 {verboseDescription && spec.viewSpec.layoutDescription ? (
-                    <div
+                    <HTMLContent
                         className={b('description')}
-                        dangerouslySetInnerHTML={{__html: spec.viewSpec.layoutDescription}}
+                        html={spec.viewSpec.layoutDescription}
                     />
                 ) : null}
             </div>

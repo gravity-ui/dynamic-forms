@@ -6,6 +6,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import type {StringIndependentInput, StringSpec} from '../../../../core';
 import {block} from '../../../utils';
+import {HTMLContent} from '../../HTMLContent';
 import {LazyLoader} from '../../LazyLoader';
 
 import {loadIcon} from './utils';
@@ -40,7 +41,7 @@ export const TextContentComponent: React.FC<TextContentComponentProps> = ({
         <LazyLoader component={loadIcon(textContentParams?.icon)} />
     ) : undefined;
 
-    let content = <span dangerouslySetInnerHTML={{__html: text}} />;
+    let content = <HTMLContent html={text} />;
 
     if (textContentParams?.themeAlert) {
         const titleAlert =
