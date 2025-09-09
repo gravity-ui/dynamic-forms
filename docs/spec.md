@@ -157,10 +157,10 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 
 #### OneOfParams
 
-| Property   | Type                                       | Required | Description                                    |
-| :--------- | :----------------------------------------- | :------: | :--------------------------------------------- |
-| toggler    | `'select'` `'radio'` `'card'` `'checkbox'` |          | Switch type                                    |
-| booleanMap | `Record<'true' 'false', string>`           |          | Special object for oneof toggler type checkbox |
+| Property   | Type                                                  | Required | Description                                    |
+| :--------- | :---------------------------------------------------- | :------: | :--------------------------------------------- |
+| toggler    | `'select'` `'radio'` `'card'` `'checkbox'` `'switch'` |          | Switch type                                    |
+| booleanMap | `Record<'true' 'false', string>`                      |          | Special object for oneof toggler type checkbox |
 
 #### FileInput
 

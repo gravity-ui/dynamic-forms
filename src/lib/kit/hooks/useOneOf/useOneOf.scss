@@ -36,4 +36,10 @@
         display: flex;
         align-items: center;
     }
+
+    &__switch {
+        height: var(--df-use-oneof-switch-height, $df-switch-height);
+        display: flex;
+        align-items: center;
+    }
 }

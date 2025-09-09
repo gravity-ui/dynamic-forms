@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Checkbox, SegmentedRadioGroup, Select} from '@gravity-ui/uikit';
+import {Checkbox, SegmentedRadioGroup, Select, Switch} from '@gravity-ui/uikit';
 import isObjectLike from 'lodash/isObjectLike';
 import some from 'lodash/some';
 
@@ -61,7 +61,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
         [setOneOfValue, input.onChange, oneOfValue],
     );
 
-    const onCheckboxChange = React.useCallback(
+    const onCheckedChange = React.useCallback(
         (checked: boolean) => {
             if (specBooleanMap) {
                 const value = String(checked) as 'true' | 'false';
@@ -73,7 +73,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
         [onOneOfChange, specBooleanMap],
     );
 
-    const checkboxValue = React.useMemo(() => {
+    const isChecked = React.useMemo(() => {
         if (specBooleanMap) {
             const keyBooleanMap = objectKeys(specBooleanMap).find(
                 (key) => specBooleanMap[key] === oneOfValue,
@@ -123,11 +123,12 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
         }
 
         if (
-            spec.viewSpec.oneOfParams?.toggler === 'checkbox' &&
+            (spec.viewSpec.oneOfParams?.toggler === 'checkbox' ||
+                spec.viewSpec.oneOfParams?.toggler === 'switch') &&
             options.length === 2 &&
             specBooleanMap
         ) {
-            return 'checkbox';
+            return spec.viewSpec.oneOfParams.toggler;
         }
 
         return 'radio';
@@ -176,8 +177,21 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
             return (
                 <div className={b('checkbox')}>
                     <Checkbox
-                        checked={checkboxValue}
-                        onUpdate={onCheckboxChange}
+                        checked={isChecked}
+                        onUpdate={onCheckedChange}
+                        disabled={spec.viewSpec.disabled}
+                        qa={name}
+                    />
+                </div>
+            );
+        }
+
+        if (togglerType === 'switch') {
+            return (
+                <div className={b('switch')}>
+                    <Switch
+                        checked={isChecked}
+                        onUpdate={onCheckedChange}
                         disabled={spec.viewSpec.disabled}
                         qa={name}
                     />
@@ -208,8 +222,8 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
         options,
         onOneOfChange,
         specProperties,
-        onCheckboxChange,
-        checkboxValue,
+        onCheckedChange,
+        isChecked,
     ]);
 
     const toggler = React.useMemo(() => {
