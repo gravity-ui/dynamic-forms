@@ -73,7 +73,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
         [onOneOfChange, specBooleanMap],
     );
 
-    const isChecked = React.useMemo(() => {
+    const checkedValue = React.useMemo(() => {
         if (specBooleanMap) {
             const keyBooleanMap = objectKeys(specBooleanMap).find(
                 (key) => specBooleanMap[key] === oneOfValue,
@@ -177,7 +177,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
             return (
                 <div className={b('checkbox')}>
                     <Checkbox
-                        checked={isChecked}
+                        checked={checkedValue}
                         onUpdate={onCheckedChange}
                         disabled={spec.viewSpec.disabled}
                         qa={name}
@@ -190,7 +190,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
             return (
                 <div className={b('switch')}>
                     <Switch
-                        checked={isChecked}
+                        checked={checkedValue}
                         onUpdate={onCheckedChange}
                         disabled={spec.viewSpec.disabled}
                         qa={name}
@@ -223,7 +223,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
         onOneOfChange,
         specProperties,
         onCheckedChange,
-        isChecked,
+        checkedValue,
     ]);
 
     const toggler = React.useMemo(() => {
