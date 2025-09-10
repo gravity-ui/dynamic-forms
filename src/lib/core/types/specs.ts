@@ -123,7 +123,7 @@ export interface ObjectSpec<
         order?: string[];
         link?: LinkType;
         oneOfParams?: {
-            toggler?: 'select' | 'radio' | 'card' | 'checkbox';
+            toggler?: 'select' | 'radio' | 'card' | 'checkbox' | 'switch';
             booleanMap?: Record<'true' | 'false', string>;
         };
         placeholder?: string;

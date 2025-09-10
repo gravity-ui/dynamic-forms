@@ -528,7 +528,7 @@ const oneOfParams: ObjectSpec = {
     properties: {
         toggler: {
             type: SpecTypes.String,
-            enum: ['―', 'radio', 'select', 'card', 'checkbox'],
+            enum: ['―', 'radio', 'select', 'card', 'checkbox', 'switch'],
             viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Switch type'},
         },
         booleanMap: {

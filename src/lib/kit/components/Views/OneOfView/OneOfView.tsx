@@ -31,7 +31,11 @@ const OneOfViewComponent: React.FC<OneOfViewProps> = (props) => {
     const valueKey = React.useMemo(() => Object.keys(value)[0], [value]);
 
     const valueName = React.useMemo(() => {
-        if (spec.viewSpec.oneOfParams?.toggler === 'checkbox' && specBooleanMap) {
+        if (
+            (spec.viewSpec.oneOfParams?.toggler === 'checkbox' ||
+                spec.viewSpec.oneOfParams?.toggler === 'switch') &&
+            specBooleanMap
+        ) {
             return objectKeys(specBooleanMap).find((key) => specBooleanMap[key] === valueKey);
         }
 

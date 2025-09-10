@@ -61,25 +61,7 @@ const baseSpec: ObjectSpec = {
     },
 };
 
-const excludeOptions = [
-    'viewSpec.type',
-    'viewSpec.placeholder',
-    'viewSpec.delimiter',
-    'viewSpec.inputProps',
-    'viewSpec.layoutProps',
-];
-
-const template = (spec: ObjectSpec = baseSpec) => {
-    const Template: StoryFn<typeof OneOfBase> = (__, {viewMode}) => (
-        <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
-    );
-
-    return Template;
-};
-
-export const OneOf = template();
-
-export const OneOfCheckbox = template({
+const baseToggleSpec: ObjectSpec = {
     ...baseSpec,
     properties: {
         internal: {
@@ -115,6 +97,43 @@ export const OneOfCheckbox = template({
         order: ['external', 'internal'],
         oneOfParams: {
             toggler: 'checkbox',
+            booleanMap: {
+                true: 'external',
+                false: 'internal',
+            },
+        },
+    },
+};
+
+const excludeOptions = [
+    'viewSpec.type',
+    'viewSpec.placeholder',
+    'viewSpec.delimiter',
+    'viewSpec.inputProps',
+    'viewSpec.layoutProps',
+];
+
+const template = (spec: ObjectSpec = baseSpec) => {
+    const Template: StoryFn<typeof OneOfBase> = (__, {viewMode}) => (
+        <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
+    );
+
+    return Template;
+};
+
+export const OneOf = template();
+
+export const OneOfCheckbox = template({
+    ...baseToggleSpec,
+});
+
+export const OneOfSwitch = template({
+    ...baseToggleSpec,
+    viewSpec: {
+        ...baseToggleSpec.viewSpec,
+        order: ['external', 'internal'],
+        oneOfParams: {
+            toggler: 'switch',
             booleanMap: {
                 true: 'external',
                 false: 'internal',
