@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.9.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.8.1...v5.9.0) (2025-09-10)
+
+
+### Features
+
+* add switch to oneOf ([#323](https://github.com/gravity-ui/dynamic-forms/issues/323)) ([237a88d](https://github.com/gravity-ui/dynamic-forms/commit/237a88dacfdd39bfe01a543a887b5d0c49a0bc77))
+
 ## [5.8.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.8.0...v5.8.1) (2025-07-09)
 
 
