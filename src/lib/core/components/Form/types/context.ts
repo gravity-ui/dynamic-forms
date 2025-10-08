@@ -31,5 +31,6 @@ export interface DynamicFormsContext {
         onChangeShared: (name: string, value: any) => void;
     };
     mutatorsStore: DynamicFormMutatorsStore;
+    renderHtml?: (text: string) => React.ReactNode;
     __mirror?: WonderMirror;
 }

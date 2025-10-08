@@ -5,6 +5,7 @@ import {Button, Icon, Text} from '@gravity-ui/uikit';
 import isString from 'lodash/isString';
 
 import {block} from '../../utils';
+import {HTMLContent} from '../HTMLContent';
 
 import './AccordeonCard.scss';
 
@@ -95,9 +96,9 @@ export const AccordeonCard: React.FC<AccordeonCardProps> = ({
                 <div className={b('header-content')}>
                     <Text variant={currentHeaderVariant}>{header}</Text>
                     {description ? (
-                        <span
+                        <HTMLContent
                             className={b('header-content-description')}
-                            dangerouslySetInnerHTML={{__html: description}}
+                            html={description}
                         />
                     ) : null}
                 </div>
