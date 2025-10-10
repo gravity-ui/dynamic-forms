@@ -239,7 +239,7 @@ export const getFieldInitials = <
     }
 
     if (isNil(value)) {
-        if (spec.defaultValue) {
+        if (!isNil(spec.defaultValue) || spec.defaultValue !== '') {
             value = transformArrIn(spec.defaultValue) as DirtyValue;
         }
         // if the spec with type array or object, and this spec has "required === true",
@@ -298,7 +298,7 @@ export const getFieldMethods = <
         let value = transformArrIn(_value);
 
         if (isNumberSpec(spec) && !error) {
-            value = (value ? Number(value) : undefined) as DirtyValue;
+            value = (isNil(value) || value === '' ? undefined : Number(value)) as DirtyValue;
         }
 
         let newChildErrors: Record<string, ValidateError> = {...state.childErrors};
