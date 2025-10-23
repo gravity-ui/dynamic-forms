@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.9.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.9.0...v5.9.1) (2025-10-23)
+
+
+### Bug Fixes
+
+* **utils:** imporve nullish-checking for number inputs ([#327](https://github.com/gravity-ui/dynamic-forms/issues/327)) ([537d5f6](https://github.com/gravity-ui/dynamic-forms/commit/537d5f68e6db46eb4cba165d58ad8d50c2d8ba9f))
+
 ## [5.9.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.8.1...v5.9.0) (2025-09-10)
 
 
