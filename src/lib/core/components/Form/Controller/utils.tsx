@@ -239,7 +239,7 @@ export const getFieldInitials = <
     }
 
     if (isNil(value)) {
-        if (!(isNil(spec.defaultValue) || spec.defaultValue === '')) {
+        if (!isNil(spec.defaultValue)) {
             value = transformArrIn(spec.defaultValue) as DirtyValue;
         }
         // if the spec with type array or object, and this spec has "required === true",
