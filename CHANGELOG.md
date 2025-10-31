@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.9.2](https://github.com/gravity-ui/dynamic-forms/compare/v5.9.1...v5.9.2) (2025-10-31)
+
+
+### Bug Fixes
+
+* **dyn-form-label:** add line-height for text content ([#330](https://github.com/gravity-ui/dynamic-forms/issues/330)) ([982d1e8](https://github.com/gravity-ui/dynamic-forms/commit/982d1e88b77d8b8857552f1c7c8be08a48bf3f2a))
+
 ## [5.9.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.9.0...v5.9.1) (2025-10-23)
 
 
