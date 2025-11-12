@@ -62,53 +62,25 @@ test.describe('Text Content', () => {
 
     test.describe('Label', () => {
         test('default', async ({mount, expectScreenshot}) => {
-            const component = await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.defaultLabel} />);
-
-            await component
-                .locator(
-                    '.g-text.g-text_variant_body-1.g-color-text.g-color-text_color_warning.df-text-content__icon',
-                )
-                .waitFor();
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.defaultLabel} />);
 
             await expectScreenshot();
         });
 
         test('layout row', async ({mount, expectScreenshot}) => {
-            const component = await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.labelLayoutRow} />);
-
-            await component
-                .locator(
-                    '.g-text.g-text_variant_body-1.g-color-text.g-color-text_color_warning.df-text-content__icon',
-                )
-                .waitFor();
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.labelLayoutRow} />);
 
             await expectScreenshot();
         });
 
         test('layout row verbose', async ({mount, expectScreenshot}) => {
-            const component = await mount(
-                <DynamicForm spec={TEXT_CONTENT_SPEC.labelLayoutRowVerbose} />,
-            );
-
-            await component
-                .locator(
-                    '.g-text.g-text_variant_body-1.g-color-text.g-color-text_color_warning.df-text-content__icon',
-                )
-                .waitFor();
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.labelLayoutRowVerbose} />);
 
             await expectScreenshot();
         });
 
         test('layout transparent', async ({mount, expectScreenshot}) => {
-            const component = await mount(
-                <DynamicForm spec={TEXT_CONTENT_SPEC.labelLayoutTransparent} />,
-            );
-
-            await component
-                .locator(
-                    '.g-text.g-text_variant_body-1.g-color-text.g-color-text_color_warning.df-text-content__icon',
-                )
-                .waitFor();
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.labelLayoutTransparent} />);
 
             await expectScreenshot();
         });
@@ -118,17 +90,8 @@ test.describe('Text Content', () => {
 
             await expectScreenshot();
         });
-
         test('default value', async ({mount, expectScreenshot}) => {
-            const component = await mount(
-                <DynamicForm spec={TEXT_CONTENT_SPEC.labelDefaultValue} />,
-            );
-
-            await component
-                .locator(
-                    '.g-text.g-text_variant_body-1.g-color-text.g-color-text_color_warning.df-text-content__icon',
-                )
-                .waitFor();
+            await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.labelDefaultValue} />);
 
             await expectScreenshot();
         });
