@@ -65,7 +65,7 @@ test.describe('Text Content', () => {
             const component = await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.defaultLabel} />);
 
             await component
-                .locator('.g-label__addon.g-label__addon_side_start.g-label__addon_type_icon')
+                .locator('.g-label__addon.g-label__addon_side_start.g-label__addon_type_icon svg')
                 .waitFor();
 
             await expectScreenshot();
@@ -75,7 +75,7 @@ test.describe('Text Content', () => {
             const component = await mount(<DynamicForm spec={TEXT_CONTENT_SPEC.labelLayoutRow} />);
 
             await component
-                .locator('.g-label__addon.g-label__addon_side_start.g-label__addon_type_icon')
+                .locator('.g-label__addon.g-label__addon_side_start.g-label__addon_type_icon svg')
                 .waitFor();
 
             await expectScreenshot();
@@ -87,7 +87,7 @@ test.describe('Text Content', () => {
             );
 
             await component
-                .locator('.g-label__addon.g-label__addon_side_start.g-label__addon_type_icon')
+                .locator('.g-label__addon.g-label__addon_side_start.g-label__addon_type_icon svg')
                 .waitFor();
 
             await expectScreenshot();
@@ -99,7 +99,7 @@ test.describe('Text Content', () => {
             );
 
             await component
-                .locator('.g-label__addon.g-label__addon_side_start.g-label__addon_type_icon')
+                .locator('.g-label__addon.g-label__addon_side_start.g-label__addon_type_icon svg')
                 .waitFor();
 
             await expectScreenshot();
@@ -117,7 +117,7 @@ test.describe('Text Content', () => {
             );
 
             await component
-                .locator('.g-label__addon.g-label__addon_side_start.g-label__addon_type_icon')
+                .locator('.g-label__addon.g-label__addon_side_start.g-label__addon_type_icon svg')
                 .waitFor();
 
             await expectScreenshot();
