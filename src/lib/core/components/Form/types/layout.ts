@@ -10,7 +10,7 @@ export type LayoutProps<
     LayoutComponentProps extends Record<string, any> | undefined = undefined,
     SpecType extends Spec<undefined, InputComponentProps, LayoutComponentProps> = Spec,
 > = {
-    children: React.ReactElement;
+    children: React.ReactNode;
     layoutProps?: LayoutComponentProps;
 } & Omit<InputProps<Value, InputComponentProps, LayoutComponentProps, SpecType>, 'inputProps'>;
 
@@ -21,7 +21,7 @@ export type LayoutType<
     SpecType extends Spec<undefined, InputComponentProps, LayoutComponentProps> = Spec,
 > = (
     props: LayoutProps<Value, InputComponentProps, LayoutComponentProps, SpecType>,
-) => React.ReactElement | null;
+) => React.ReactNode | Promise<React.ReactNode>;
 
 export type LayoutsMap<
     Value extends FieldValue,

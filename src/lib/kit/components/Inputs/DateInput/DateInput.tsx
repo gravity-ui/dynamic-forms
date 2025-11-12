@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 
 import type {DatePickerProps} from '@gravity-ui/date-components';
 import {DatePicker} from '@gravity-ui/date-components';
@@ -29,7 +29,7 @@ export const DateInput: React.FC<StringInputProps<DateProps>> = ({
         dateInput?.timeZone && isValidTimeZone(dateInput.timeZone) ? dateInput.timeZone : undefined;
     const outputFormat = dateInput?.outputFormat;
 
-    const onUpdate = useCallback(
+    const onUpdate = React.useCallback(
         (date: DateTime | null) => {
             if (!date) {
                 onChange(undefined as any);

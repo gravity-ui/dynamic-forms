@@ -23,7 +23,7 @@ export const Accordeon = <
     input,
     meta,
     children,
-}: T): JSX.Element => {
+}: T): React.JSX.Element => {
     const {variantTitle} = spec.viewSpec.layoutProps || {};
 
     const [open, setOpen] = React.useState(Boolean(spec.viewSpec?.layoutOpen));

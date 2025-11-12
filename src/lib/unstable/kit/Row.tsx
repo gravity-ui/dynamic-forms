@@ -1,15 +1,15 @@
-import React from 'react';
-
 // import {TrashBin} from '@gravity-ui/icons';
 // import {Button, Icon, Text} from '@gravity-ui/uikit';
+import React from 'react';
+
 import {HelpMark, Text} from '@gravity-ui/uikit';
 
-import // StringSpec,
+// import // StringSpec,
 // isArrayItem,
 // isArraySpec,
 // isObjectSpec,
 // withGenerateButton,
-'../../../';
+// from '../../../';
 // import {ErrorWrapper, GenerateRandomValueButton} from '../../../kit/components';
 import {COMMON_POPOVER_PLACEMENT} from '../../../lib/kit/constants/common';
 import {ErrorWrapper} from '../../kit/components';

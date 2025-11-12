@@ -6,9 +6,9 @@ import type {MountOptions} from '@playwright/experimental-ct-react';
 
 import type {MountFixture, PlaywrightFixture} from './types';
 
-export const mountFixture: PlaywrightFixture<MountFixture> = async ({mount: baseMount}, use) => {
+export const mountFixture: PlaywrightFixture<MountFixture> = async ({mount: baseMount}, run) => {
     const mount = async (
-        component: JSX.Element,
+        component: React.JSX.Element,
         options?: MountOptions<JsonObject> | undefined,
         style?: React.CSSProperties | undefined,
     ) => {
@@ -31,5 +31,5 @@ export const mountFixture: PlaywrightFixture<MountFixture> = async ({mount: base
         );
     };
 
-    await use(mount);
+    await run(mount);
 };
