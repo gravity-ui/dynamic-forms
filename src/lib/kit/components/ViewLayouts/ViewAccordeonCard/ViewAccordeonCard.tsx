@@ -11,7 +11,7 @@ export const ViewAccordeonCard = <T extends ArrayViewLayoutProps | ObjectViewLay
     name,
     spec,
     children,
-}: T): JSX.Element | null => {
+}: T): React.JSX.Element | null => {
     const [open, setOpen] = React.useState(
         isBoolean(spec.viewSpec.layoutOpen) ? spec.viewSpec.layoutOpen : true,
     );

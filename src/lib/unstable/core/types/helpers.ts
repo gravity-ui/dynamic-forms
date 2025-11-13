@@ -1,3 +1,5 @@
+import type React from 'react';
+
 import type {JsonSchemaType, SchemaRendererMode} from '../constants';
 
 import type {SchemaRendererConfig} from './config';

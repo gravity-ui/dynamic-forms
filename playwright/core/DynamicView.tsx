@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {DynamicView as DynamicViewBase} from '../../src/lib/core/components/View/DynamicView';
-import {Spec} from '../../src/lib/core/types/specs';
-import {FormValue} from '../../src/lib/core/types/value';
+import type {Spec} from '../../src/lib/core/types/specs';
+import type {FormValue} from '../../src/lib/core/types/value';
 import {dynamicViewConfig} from '../../src/lib/kit/constants/config';
 
 export const DynamicView = ({

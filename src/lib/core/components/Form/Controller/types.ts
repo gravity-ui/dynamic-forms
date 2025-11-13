@@ -1,3 +1,5 @@
+import type React from 'react';
+
 import type {FormValue, Spec} from '../../../types';
 import type {
     DynamicFormConfig,
@@ -123,7 +125,7 @@ export interface ControllerStore<
     config: DynamicFormConfig;
     tools: DynamicFormsContext['tools'];
     mutatorsStore: DynamicFormMutatorsStore;
-    render: (props: FieldRenderProps<DirtyValue>) => JSX.Element | null;
+    render: (props: FieldRenderProps<DirtyValue>) => React.JSX.Element | null;
     validate: (value?: Value) => ValidateError;
     parentOnChange:
         | ((

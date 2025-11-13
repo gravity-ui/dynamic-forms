@@ -1,5 +1,4 @@
 import type {AlertProps, ButtonSize, LabelProps, TextProps} from '@gravity-ui/uikit';
-import type {ColorTextBaseProps} from '@gravity-ui/uikit/build/esm/components/Text/colorText/colorText';
 
 import type {ReadAsMethod, SpecTypes} from '../constants';
 
@@ -178,7 +177,7 @@ export interface StringSpec<
             themeLabel?: LabelProps['theme'];
             text: string;
             icon?: string;
-            iconColor?: ColorTextBaseProps['color'];
+            iconColor?: TextProps['color'];
             titleAlert?: string;
             themeAlert?: AlertProps['theme'];
             viewAlert?: AlertProps['view'];

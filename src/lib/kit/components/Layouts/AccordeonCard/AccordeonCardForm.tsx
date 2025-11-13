@@ -18,7 +18,7 @@ export const AccordeonCardForm = <T extends ArrayLayoutProps | ObjectLayoutProps
     input,
     children,
     meta,
-}: T): JSX.Element => {
+}: T): React.JSX.Element => {
     const [open, setOpen] = React.useState(Boolean(spec.viewSpec?.layoutOpen));
 
     const onDrop = React.useCallback(() => {

@@ -3,7 +3,7 @@ import React from 'react';
 import {Text} from '@gravity-ui/uikit';
 
 export const filterTimeArray = (
-    times: {id: string; value: string; content: string | JSX.Element; key: string}[],
+    times: {id: string; value: string; content: string | React.JSX.Element; key: string}[],
     cutoff: string,
     direction: 'greater' | 'less',
 ) => {
