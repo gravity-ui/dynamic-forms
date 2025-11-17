@@ -1,5 +1,4 @@
 import React from 'react';
-
 export const useViewSharedStore = (shared?: Record<string, any>) => {
     const firstRender = React.useRef(true);
     const [store, setStore] = React.useState(shared || {});

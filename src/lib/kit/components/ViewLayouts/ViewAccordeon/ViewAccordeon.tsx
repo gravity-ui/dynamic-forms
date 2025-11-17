@@ -19,7 +19,7 @@ export const ViewAccordeon = <
     value,
     spec,
     children,
-}: T): JSX.Element | null => {
+}: T): React.JSX.Element | null => {
     const {showLayoutDescription} = useDynamicFormsCtx();
     const [open, setOpen] = React.useState(
         isBoolean(spec.viewSpec.layoutOpen) ? spec.viewSpec.layoutOpen : true,

@@ -1,3 +1,5 @@
+import type React from 'react';
+
 import type {FieldRenderProps} from 'react-final-form';
 
 import type {SchemaToValueType} from './helpers';

@@ -1,3 +1,4 @@
+import type {MountOptions} from '@playwright/experimental-ct-react';
 import type {
     Locator,
     PageScreenshotOptions,
@@ -7,7 +8,6 @@ import type {
     PlaywrightWorkerOptions,
     TestFixture,
 } from '@playwright/test';
-import type {MountOptions} from '@playwright/experimental-ct-react';
 
 type JsonPrimitive = string | number | boolean | null;
 type JsonValue = JsonPrimitive | JsonObject | JsonArray;
@@ -17,12 +17,12 @@ type JsonObject = {[Key in string]?: JsonValue};
 
 interface MountResult extends Locator {
     unmount(): Promise<void>;
-    update(component: JSX.Element): Promise<void>;
+    update(component: React.JSX.Element): Promise<void>;
 }
 
 interface ComponentFixtures {
     mount<HooksConfig extends JsonObject>(
-        component: JSX.Element,
+        component: React.JSX.Element,
         options?: MountOptions<HooksConfig>,
         style?: React.CSSProperties | undefined,
     ): Promise<MountResult>;

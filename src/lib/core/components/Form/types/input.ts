@@ -32,7 +32,7 @@ export type InputType<
     SpecType extends Spec<undefined, InputComponentProps, LayoutComponentProps> = Spec,
 > = (
     props: InputProps<Value, InputComponentProps, LayoutComponentProps, SpecType>,
-) => React.ReactElement | null;
+) => React.ReactNode | Promise<React.ReactNode>;
 
 export type IndependentInputType<
     Value extends FieldValue,
@@ -41,7 +41,7 @@ export type IndependentInputType<
     SpecType extends Spec<undefined, InputComponentProps, LayoutComponentProps> = Spec,
 > = (
     props: IndependentInputProps<Value, InputComponentProps, LayoutComponentProps, SpecType>,
-) => React.ReactElement | null;
+) => React.ReactNode | Promise<React.ReactNode>;
 
 export type InputEntity<
     Value extends FieldValue,

@@ -4,13 +4,13 @@ import isUndefined from 'lodash/isUndefined';
 
 export type LazyLoaderProps = {
     component: React.LazyExoticComponent<React.ComponentType<any>>;
-    initialFallback?: JSX.Element;
+    initialFallback?: React.JSX.Element;
 };
 
 export const LazyLoader = ({
     component,
     initialFallback = <React.Fragment></React.Fragment>,
-}: LazyLoaderProps): JSX.Element => {
+}: LazyLoaderProps): React.JSX.Element => {
     const fallback = React.useRef(() => initialFallback);
     const Component = component;
 

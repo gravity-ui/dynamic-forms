@@ -20,11 +20,11 @@ export type IndependentViewProps<Value extends FormValue, SpecType extends Spec>
 
 export type ViewType<Value extends FormValue, SpecType extends Spec> = (
     props: ViewProps<Value, SpecType>,
-) => React.ReactElement | null;
+) => React.ReactNode | Promise<React.ReactNode>;
 
 export type IndependentViewType<Value extends FormValue, SpecType extends Spec> = (
     props: IndependentViewProps<Value, SpecType>,
-) => React.ReactElement | null;
+) => React.ReactNode | Promise<React.ReactNode>;
 
 export type ViewEntity<Value extends FormValue, SpecType extends Spec> = {
     Component: ViewType<Value, SpecType>;

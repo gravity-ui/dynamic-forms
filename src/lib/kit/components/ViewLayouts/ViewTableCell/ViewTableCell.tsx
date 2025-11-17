@@ -12,7 +12,7 @@ export const ViewTableCell = <T extends FormValue, S extends Spec>({
     value,
     spec,
     children,
-}: ViewLayoutProps<T, S>): JSX.Element => {
+}: ViewLayoutProps<T, S>): React.JSX.Element => {
     const empty = isNotEmptyValue(value, spec);
 
     return (
