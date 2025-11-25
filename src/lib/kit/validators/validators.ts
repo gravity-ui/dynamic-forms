@@ -84,6 +84,8 @@ export interface GetNumberValidatorParams extends CommonValidatorParams {
     ignoreIntCheck?: boolean;
     ignoreDotEnd?: boolean;
     ignoreZeroStart?: boolean;
+    ignoreInvalidZeroFormat?: boolean;
+    ignoreZeroEnd?: boolean;
 }
 
 export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
@@ -97,6 +99,8 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
         ignoreIntCheck,
         ignoreDotEnd,
         ignoreZeroStart,
+        ignoreInvalidZeroFormat,
+        ignoreZeroEnd,
         customErrorMessages,
     } = params;
 
@@ -135,6 +139,22 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
                         stringValue[2] !== '.'))
             ) {
                 return errorMessages.ZERO_START;
+            }
+
+            if (
+                !ignoreInvalidZeroFormat &&
+                stringValue.trim().length > 1 &&
+                Number(stringValue.trim()) === 0
+            ) {
+                return errorMessages.INVALID_ZERO_FORMAT;
+            }
+
+            if (
+                !ignoreZeroEnd &&
+                !isInt(stringValue) &&
+                stringValue[stringValue.length - 1] === '0'
+            ) {
+                return errorMessages.ZERO_END;
             }
         }
 
