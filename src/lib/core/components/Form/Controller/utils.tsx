@@ -42,6 +42,14 @@ import type {
     UpdateStoreParams,
 } from './types';
 
+/*
+ * Stores original string representation of numbers
+ * used for correct intermediate representations of number
+ * to display in cases when they are otherwise changed by conversion
+ * e.g., 0.0 -> 0
+ */
+const originalNumberStringMap = new Map<string, string>();
+
 const isErrorMutatorCorrect = (errorMutator: {value: ValidateError} | typeof EMPTY_MUTATOR) =>
     errorMutator !== EMPTY_MUTATOR &&
     (isString(errorMutator.value) ||
@@ -144,6 +152,15 @@ export const getRender = <DirtyValue extends FieldValue, SpecType extends Spec>(
     Layout,
 }: GetRenderParams<DirtyValue, SpecType>) => {
     const render = (props: FieldRenderProps<DirtyValue>) => {
+        if (originalNumberStringMap.has(name)) {
+            const originalString = originalNumberStringMap.get(name);
+            if (Number(originalString) === Number(props.input.value)) {
+                props.input.value = originalString as DirtyValue;
+            } else {
+                originalNumberStringMap.delete(name);
+            }
+        }
+
         if (inputEntity && isCorrectSpec(spec) && isString(name)) {
             if (!spec.viewSpec.hidden) {
                 const {layoutProps, inputProps} = spec.viewSpec;
@@ -297,6 +314,12 @@ export const getFieldMethods = <
         const error = validate?.(transformArrOut(_value)) || errorMutator;
         let value = transformArrIn(_value);
 
+        if (typeof value === 'string' && /^[0-9]+.[0-9]*0+$/.test(value)) {
+            originalNumberStringMap.set(store.name, value);
+        } else {
+            originalNumberStringMap.delete(store.name);
+        }
+
         if (isNumberSpec(spec) && !error) {
             value = (isNil(value) || value === '' ? undefined : Number(value)) as DirtyValue;
         }
@@ -382,6 +405,8 @@ export const getFieldMethods = <
         childName,
     ) => {
         const {name, spec} = store;
+
+        originalNumberStringMap.delete(store.name);
 
         if (isArraySpec(spec) || isObjectSpec(spec)) {
             return onChange(store, {
