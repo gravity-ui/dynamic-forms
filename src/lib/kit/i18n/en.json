@@ -41,6 +41,8 @@
   "label_error-space-start": "Value must not start with a space",
   "label_error-zero-start": "Value must not start with a zero",
   "label_error-dot-end": "Value must not end with a dot",
+  "label_error-invalid-zero-format": "Invalid zero value format",
+  "label_error-zero-end": "Value must not end with a zero",
   "label_delete": "Delete",
   "button_cancel": "Close",
   "button-upload_file": "Upload file",

@@ -13,4 +13,6 @@ export interface ErrorMessagesType {
     SPACE_END: string;
     DOT_END: string;
     ZERO_START: string;
+    INVALID_ZERO_FORMAT: string;
+    ZERO_END: string;
 }
