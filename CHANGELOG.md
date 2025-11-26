@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.9.3](https://github.com/gravity-ui/dynamic-forms/compare/v5.9.2...v5.9.3) (2025-11-26)
+
+
+### Bug Fixes
+
+* fix float zero formatting ([#334](https://github.com/gravity-ui/dynamic-forms/issues/334)) ([d09d525](https://github.com/gravity-ui/dynamic-forms/commit/d09d525a1ebd4c77a4fcd717d0c3d2005b9e5f48))
+
 ## [5.9.2](https://github.com/gravity-ui/dynamic-forms/compare/v5.9.1...v5.9.2) (2025-10-31)
 
 
