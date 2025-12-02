@@ -40,6 +40,16 @@ test.describe('Array Base', () => {
         await expectScreenshot();
     });
 
+    test('error remove button', async ({mount, expectScreenshot}) => {
+        const component = await mount(<DynamicForm spec={ARRAY_BASE.errorRemoveButton} />);
+        const input = component.getByRole('textbox').first();
+
+        await input.focus();
+        await input.blur();
+
+        await expectScreenshot();
+    });
+
     test('description', async ({mount, expectScreenshot}) => {
         await mount(<DynamicForm spec={ARRAY_BASE.description} />);
 
