@@ -6,7 +6,7 @@
         align-items: flex-end;
 
         .#{$ns}transparent {
-            align-items: baseline;
+            align-items: flex-start;
         }
     }
 
