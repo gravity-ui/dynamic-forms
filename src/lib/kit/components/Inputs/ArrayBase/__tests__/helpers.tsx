@@ -102,6 +102,26 @@ export const ARRAY_BASE: Record<string, ArraySpec> = {
             itemLabel: 'Add element',
         },
     },
+    errorRemoveButton: {
+        type: SpecTypes.Array,
+        defaultValue: ['foo'],
+        items: {
+            type: SpecTypes.String,
+            pattern: 'bar',
+            viewSpec: {
+                type: 'base',
+                layout: 'row',
+                layoutTitle: 'Element',
+            },
+        },
+        viewSpec: {
+            type: 'base',
+            layout: 'accordeon',
+            layoutTitle: 'Elements',
+            layoutOpen: true,
+            itemLabel: 'Add element',
+        },
+    },
     description: {
         defaultValue: ['foo', 'bar', 'rab', 'oof'],
         type: SpecTypes.Array,
