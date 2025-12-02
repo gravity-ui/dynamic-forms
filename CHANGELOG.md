@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.9.4](https://github.com/gravity-ui/dynamic-forms/compare/v5.9.3...v5.9.4) (2025-12-02)
+
+
+### Bug Fixes
+
+* **ArrayBase:** align items first baseline ([#336](https://github.com/gravity-ui/dynamic-forms/issues/336)) ([20c932e](https://github.com/gravity-ui/dynamic-forms/commit/20c932ef048fa3676e96a78d7cf725a3bf88e851))
+
 ## [5.9.3](https://github.com/gravity-ui/dynamic-forms/compare/v5.9.2...v5.9.3) (2025-11-26)
 
 
