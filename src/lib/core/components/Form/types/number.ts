@@ -44,13 +44,14 @@ export type NumberLayoutProps<
     NumberSpec<undefined, InputComponentProps, LayoutComponentProps>
 >;
 
-export type NumberInput<InputComponentProps extends Record<string, any> | undefined = undefined> =
-    InputType<
-        number,
-        InputComponentProps,
-        undefined,
-        NumberSpec<undefined, InputComponentProps, undefined>
-    >;
+export type NumberInputType<
+    InputComponentProps extends Record<string, any> | undefined = undefined,
+> = InputType<
+    number,
+    InputComponentProps,
+    undefined,
+    NumberSpec<undefined, InputComponentProps, undefined>
+>;
 
 export type NumberIndependentInput<
     InputComponentProps extends Record<string, any> | undefined = undefined,
