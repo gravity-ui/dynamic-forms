@@ -4,7 +4,7 @@ import type {NumberInputProps as NumberInputBaseProps} from '@gravity-ui/uikit';
 import {NumberInput as CommonNumberInput} from '@gravity-ui/uikit';
 import isNil from 'lodash/isNil';
 
-import type {FieldRenderProps, NumberInputProps, StringInputProps} from '../../../../core';
+import type {FieldRenderProps, NumberInputProps} from '../../../../core';
 
 export interface NumberProps
     extends Omit<
@@ -12,9 +12,7 @@ export interface NumberProps
         'value' | 'onBlur' | 'onFocus' | 'onUpdate' | 'disabled' | 'placeholder' | 'qa'
     > {}
 
-export const NumberInput = <
-    T extends NumberInputProps<NumberProps> | StringInputProps<NumberProps>,
->({
+export const NumInput = <T extends NumberInputProps<NumberProps>>({
     name,
     input: {value, onBlur, onChange, onFocus},
     spec,
@@ -27,14 +25,14 @@ export const NumberInput = <
         defaultValue: isNil(inputProps?.defaultValue) ? null : Number(inputProps?.defaultValue),
         onBlur: onBlur,
         onFocus: onFocus,
-        onUpdate: onChange as FieldRenderProps<string | undefined>['input']['onChange'],
+        onUpdate: onChange as FieldRenderProps<number | undefined>['input']['onChange'],
         disabled: spec.viewSpec.disabled,
         placeholder: spec.viewSpec.placeholder,
         qa: name,
     };
 
     const handleUpdate = (value: number | null) => {
-        props.onUpdate(value !== null ? `${value}` : undefined);
+        props.onUpdate(value !== null ? value : undefined);
     };
 
     return <CommonNumberInput {...props} onUpdate={handleUpdate} allowDecimal />;

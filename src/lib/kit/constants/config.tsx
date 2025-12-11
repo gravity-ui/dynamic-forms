@@ -27,7 +27,7 @@ import {
     MultiOneOfView,
     MultiSelect,
     MultiSelectView,
-    NumberInput,
+    NumInput,
     NumberWithScale,
     NumberWithScaleView,
     ObjectBase,
@@ -127,7 +127,7 @@ export const dynamicConfig: DynamicFormConfig = {
     },
     number: {
         inputs: {
-            base: {Component: NumberInput},
+            base: {Component: NumInput},
         },
         layouts: {
             row: Row,
