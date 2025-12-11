@@ -12,12 +12,12 @@ export interface NumberProps
         'value' | 'onBlur' | 'onFocus' | 'onUpdate' | 'disabled' | 'placeholder' | 'qa'
     > {}
 
-export const NumInput = <T extends NumberInputProps<NumberProps>>({
+export const NumInput = ({
     name,
     input: {value, onBlur, onChange, onFocus},
     spec,
     inputProps,
-}: T) => {
+}: NumberInputProps<NumberProps>) => {
     const props = {
         hasClear: true,
         ...inputProps,
