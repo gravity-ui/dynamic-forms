@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.10.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.9.4...v5.10.0) (2025-12-11)
+
+
+### Features
+
+* used new component from gravity for number input ([#339](https://github.com/gravity-ui/dynamic-forms/issues/339)) ([4455dc6](https://github.com/gravity-ui/dynamic-forms/commit/4455dc6ce194f4abe38e63c90a34c2a25fc9b69b))
+
 ## [5.9.4](https://github.com/gravity-ui/dynamic-forms/compare/v5.9.3...v5.9.4) (2025-12-02)
 
 
