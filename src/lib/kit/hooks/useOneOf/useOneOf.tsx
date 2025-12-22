@@ -203,11 +203,16 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
             <SegmentedRadioGroup
                 value={oneOfValue}
                 onChange={(event) => onOneOfChange([event.target.value])}
+                width="auto"
                 disabled={spec.viewSpec.disabled}
                 qa={name}
             >
                 {options.map((option) => (
-                    <SegmentedRadioGroup.Option key={option.value} value={option.value}>
+                    <SegmentedRadioGroup.Option
+                        key={option.value}
+                        value={option.value}
+                        title={option.title}
+                    >
                         {option.title}
                     </SegmentedRadioGroup.Option>
                 ))}
