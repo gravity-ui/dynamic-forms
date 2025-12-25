@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.10.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.10.0...v5.10.1) (2025-12-25)
+
+
+### Bug Fixes
+
+* **MonacoInput:** fixed state state being saved on Dialog close ([#341](https://github.com/gravity-ui/dynamic-forms/issues/341)) ([ea42bde](https://github.com/gravity-ui/dynamic-forms/commit/ea42bdec20a41c2d8f1febd50a3136941a740152))
+
 ## [5.10.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.9.4...v5.10.0) (2025-12-11)
 
 
