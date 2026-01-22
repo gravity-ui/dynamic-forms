@@ -530,9 +530,10 @@ Variables for the Section layout:
 
 Variables for the Transparent layout:
 
-| Variable                                | Default Value | Description                  |
-| :-------------------------------------- | :-----------: | :--------------------------- |
-| `--df-transparent-array-item-max-width` |    `338px`    | Maximum width of array items |
+| Variable                                | Default Value | Description                     |
+| :-------------------------------------- | :-----------: | :------------------------------ |
+| `--df-transparent-array-item-max-width` |    `338px`    | Maximum width of array items    |
+| `--df-transparent-error-wrapper-width`  |    `auto`     | Transparent error wrapper width |
 
 ---
 
