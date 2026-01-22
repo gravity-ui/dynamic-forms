@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.11.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.10.1...v5.11.0) (2026-01-22)
+
+
+### Features
+
+* new css variable to control the width of the error wrapper with transparent layout ([#344](https://github.com/gravity-ui/dynamic-forms/issues/344)) ([5a6cdcb](https://github.com/gravity-ui/dynamic-forms/commit/5a6cdcb2ed98fa971e06d412185670d43ca0a558))
+
 ## [5.10.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.10.0...v5.10.1) (2025-12-25)
 
 
