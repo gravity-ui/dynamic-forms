@@ -191,11 +191,12 @@ Variables for customizing the Toggler Card component:
 
 Variables for the Array Base input component:
 
-| Variable                                       | Default Value  | Description                                     |
-| :--------------------------------------------- | :------------: | :---------------------------------------------- |
-| `--df-array-base-items-primitive-min-width`    |     `100%`     | Minimum width for primitive array items         |
-| `--df-array-base-item-prefix-margin`           | `-8px 0px 8px` | Margin for the item prefix (top, right, bottom) |
-| `--df-array-base-add-button-right-margin-left` |     `4px`      | Left margin for the "Add" button on the right   |
+| Variable                                               | Default Value  | Description                                                              |
+| :----------------------------------------------------- | :------------: | :----------------------------------------------------------------------- |
+| `--df-array-base-items-primitive-min-width`            |     `100%`     | Minimum width for primitive array items                                  |
+| `--df-array-base-item-prefix-margin`                   | `-8px 0px 8px` | Margin for the item prefix (top, right, bottom)                          |
+| `--df-array-base-add-button-right-margin-left`         |     `4px`      | Left margin for the "Add" button on the right                            |
+| `--df-array-base-add-button-right-error-margin-bottom` |     `18px`     | Bottom margin for the "Add" button on the right for last item error case |
 
 ---
 
