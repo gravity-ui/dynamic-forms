@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.12.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.11.0...v5.12.0) (2026-01-26)
+
+
+### Features
+
+* added bottom padding to the add button if the last element of the array has an error ([#346](https://github.com/gravity-ui/dynamic-forms/issues/346)) ([e9222fa](https://github.com/gravity-ui/dynamic-forms/commit/e9222fa90207968db09be3d45fef8dd973a988c2))
+
 ## [5.11.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.10.1...v5.11.0) (2026-01-22)
 
 
