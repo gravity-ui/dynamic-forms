@@ -36,4 +36,14 @@
             margin-left: var(--df-array-base-add-button-right-margin-left, var(--g-spacing-1));
         }
     }
+
+    &_add-button-right {
+        > div:last-child {
+            transition: margin-bottom 0.2s ease-in-out;
+        }
+    }
+
+    &_add-button-right_error {
+        margin-bottom: var(--df-array-base-add-button-right-error-margin-bottom, 18px);
+    }
 }

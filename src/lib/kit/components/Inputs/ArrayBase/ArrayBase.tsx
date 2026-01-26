@@ -28,7 +28,7 @@ import './ArrayBase.scss';
 
 const b = block('array-base');
 
-export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
+export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input, meta}) => {
     const keys = React.useMemo(
         () =>
             Object.keys(arrayInput.value || {})
@@ -150,6 +150,15 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
         ],
     );
 
+    const hasErrorInLastItem = React.useMemo(() => {
+        if (keys.length === 0) {
+            return false;
+        }
+        const lastKey = keys[keys.length - 1];
+        const lastItemName = `${name}.<${lastKey}>`;
+        return Boolean(meta.childErrors[lastItemName]);
+    }, [keys, name, meta.childErrors]);
+
     if (!itemSpecCorrect) {
         return null;
     }
@@ -165,7 +174,14 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input}) => {
             >
                 {items}
             </div>
-            <AddButton />
+            <div
+                className={b({
+                    'add-button-right_error':
+                        spec.viewSpec.addButtonPosition === 'right' && hasErrorInLastItem,
+                })}
+            >
+                <AddButton />
+            </div>
         </div>
     );
 };
