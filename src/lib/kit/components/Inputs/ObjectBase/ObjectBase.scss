@@ -17,6 +17,14 @@
                 }
             }
         }
+
+        &_inline-table-item {
+            & > .#{$ns}use-search {
+                width: auto;
+                min-width: 0;
+                flex: 1 1 0;
+            }
+        }
     }
 
     &__delimiter {

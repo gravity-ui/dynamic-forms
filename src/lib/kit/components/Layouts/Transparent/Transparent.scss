@@ -14,9 +14,10 @@
 
     &_without-max-width {
         max-width: unset;
+        width: 100%;
 
         & > .#{$ns}error-wrapper {
-            width: var(--df-transparent-error-wrapper-width, auto);
+            width: var(--df-transparent-error-wrapper-width, 100%);
         }
     }
 

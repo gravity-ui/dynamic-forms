@@ -22,6 +22,7 @@ export const Transparent = <T extends FieldValue, S extends Spec>({
     const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
     const generateButton = React.useMemo(() => withGenerateButton(spec), [spec]);
     const arrOrObjFlag = React.useMemo(() => isArraySpec(spec) || isObjectSpec(spec), [spec]);
+    const tableItemLayout = spec.viewSpec.layout === 'table_item';
 
     const removeButton = React.useMemo(() => {
         if (arrayItem) {
@@ -43,7 +44,7 @@ export const Transparent = <T extends FieldValue, S extends Spec>({
     return (
         <div
             className={b({
-                'array-item': arrayItem && !arrOrObjFlag,
+                'array-item': arrayItem && !arrOrObjFlag && !tableItemLayout,
                 'without-max-width': arrOrObjFlag,
             })}
         >
