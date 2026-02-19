@@ -84,9 +84,17 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
         const orderProperties = spec.viewSpec.order?.length
             ? spec.viewSpec.order
             : Object.keys(specProperties);
+        const hasTableItemLayout = orderProperties.some(
+            (property) => specProperties[property]?.viewSpec?.layout === 'table_item',
+        );
 
         return (
-            <div className={b('content', {inline})}>
+            <div
+                className={b('content', {
+                    inline,
+                    'inline-table-item': inline && hasTableItemLayout,
+                })}
+            >
                 {orderProperties.map((property: string) =>
                     specProperties[property] ? (
                         <React.Fragment key={`${name ? name + '.' : ''}${property}`}>
