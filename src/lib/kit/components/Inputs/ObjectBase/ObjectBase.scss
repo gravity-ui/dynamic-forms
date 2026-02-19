@@ -6,7 +6,8 @@
             display: flex;
 
             & > .#{$ns}use-search {
-                width: var(--df-object-base-inline-width, 150px);
+                flex: 1;
+                min-width: var(--df-object-base-inline-width, 150px);
                 margin: var(
                     --df-object-base-inline-margin,
                     var(--g-spacing-0) var(--g-spacing-2) var(--g-spacing-0) var(--g-spacing-0)
