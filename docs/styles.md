@@ -288,12 +288,12 @@ Variables for the Number with Scale input component:
 
 Variables for the Object Base component:
 
-| Variable                                  |   Default Value    | Description                                           |
-| :---------------------------------------- | :----------------: | :---------------------------------------------------- |
-| `--df-object-base-inline-width`           |      `150px`       | Width of inline input fields                          |
-| `--df-object-base-inline-margin`          | `0px 8px 0px 0px ` | Margin for inline elements (top, right, bottom, left) |
-| `--df-object-base-delimiter-height`       |       `28px`       | Height of the delimiter (e.g., colon or separator)    |
-| `--df-object-base-delimiter-margin-right` |       `8px`        | Right margin of the delimiter                         |
+| Variable                                  |   Default Value    | Description                                                                    |
+| :---------------------------------------- | :----------------: | :----------------------------------------------------------------------------- |
+| `--df-object-base-inline-width`           |      `150px`       | Minimum width of inline input fields (field stretches to full width with flex) |
+| `--df-object-base-inline-margin`          | `0px 8px 0px 0px ` | Margin for inline elements (top, right, bottom, left)                          |
+| `--df-object-base-delimiter-height`       |       `28px`       | Height of the delimiter (e.g., colon or separator)                             |
+| `--df-object-base-delimiter-margin-right` |       `8px`        | Right margin of the delimiter                                                  |
 
 ---
 
@@ -531,10 +531,10 @@ Variables for the Section layout:
 
 Variables for the Transparent layout:
 
-| Variable                                | Default Value | Description                     |
-| :-------------------------------------- | :-----------: | :------------------------------ |
-| `--df-transparent-array-item-max-width` |    `338px`    | Maximum width of array items    |
-| `--df-transparent-error-wrapper-width`  |    `auto`     | Transparent error wrapper width |
+| Variable                                | Default Value | Description                                                                                      |
+| :-------------------------------------- | :-----------: | :----------------------------------------------------------------------------------------------- |
+| `--df-transparent-array-item-max-width` |    `338px`    | Maximum width of array items                                                                     |
+| `--df-transparent-error-wrapper-width`  |    `auto`     | Width of the error wrapper (wrapper stretches to full width inside array items, e.g. table_item) |
 
 ---
 
