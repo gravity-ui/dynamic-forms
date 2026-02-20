@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.12.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.12.0...v5.12.1) (2026-02-20)
+
+
+### Bug Fixes
+
+* table_item content inside array does not stretch to full width - var 2 ([#351](https://github.com/gravity-ui/dynamic-forms/issues/351)) ([eb93118](https://github.com/gravity-ui/dynamic-forms/commit/eb931180861251f26da77e290aa45fb50716062a))
+
 ## [5.12.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.11.0...v5.12.0) (2026-01-26)
 
 
