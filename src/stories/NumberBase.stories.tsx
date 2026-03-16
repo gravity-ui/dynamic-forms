@@ -3,13 +3,13 @@ import React from 'react';
 import type {StoryFn} from '@storybook/react';
 
 import type {NumberSpec} from '../lib';
-import {SpecTypes, Text} from '../lib';
+import {NumInput, SpecTypes} from '../lib';
 
 import {InputPreview} from './components';
 
 export default {
     title: 'Number/Base',
-    component: Text,
+    component: NumInput,
 };
 
 const baseSpec: NumberSpec = {
@@ -20,7 +20,7 @@ const baseSpec: NumberSpec = {
 const excludeOptions = ['viewSpec.type'];
 
 const template = (spec: NumberSpec = baseSpec) => {
-    const Template: StoryFn<typeof Text> = (__, {viewMode}) => (
+    const Template: StoryFn<typeof NumInput> = (__, {viewMode}) => (
         <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
     );
 

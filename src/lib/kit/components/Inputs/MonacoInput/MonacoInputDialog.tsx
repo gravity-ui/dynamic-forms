@@ -50,7 +50,7 @@ export const MonacoInputDialog: React.FC<MonacoInputDialogProps> = ({
     const handleClose = React.useCallback(() => {
         onChange(value);
         onClose();
-    }, [onChange, onClose]);
+    }, [onChange, onClose, value]);
 
     const options = useMonacoOptions(fontSize, false);
 

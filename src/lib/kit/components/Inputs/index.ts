@@ -21,3 +21,4 @@ export * from './TextArea';
 export * from './TextContent';
 export * from './TextLink';
 export * from './TimeRangeSelector';
+export * from './Number';

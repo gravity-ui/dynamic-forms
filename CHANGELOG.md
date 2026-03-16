@@ -1,5 +1,54 @@
 # Changelog
 
+## [5.12.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.12.0...v5.12.1) (2026-02-20)
+
+
+### Bug Fixes
+
+* table_item content inside array does not stretch to full width - var 2 ([#351](https://github.com/gravity-ui/dynamic-forms/issues/351)) ([eb93118](https://github.com/gravity-ui/dynamic-forms/commit/eb931180861251f26da77e290aa45fb50716062a))
+
+## [5.12.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.11.0...v5.12.0) (2026-01-26)
+
+
+### Features
+
+* added bottom padding to the add button if the last element of the array has an error ([#346](https://github.com/gravity-ui/dynamic-forms/issues/346)) ([e9222fa](https://github.com/gravity-ui/dynamic-forms/commit/e9222fa90207968db09be3d45fef8dd973a988c2))
+
+## [5.11.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.10.1...v5.11.0) (2026-01-22)
+
+
+### Features
+
+* new css variable to control the width of the error wrapper with transparent layout ([#344](https://github.com/gravity-ui/dynamic-forms/issues/344)) ([5a6cdcb](https://github.com/gravity-ui/dynamic-forms/commit/5a6cdcb2ed98fa971e06d412185670d43ca0a558))
+
+## [5.10.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.10.0...v5.10.1) (2025-12-25)
+
+
+### Bug Fixes
+
+* **MonacoInput:** fixed state state being saved on Dialog close ([#341](https://github.com/gravity-ui/dynamic-forms/issues/341)) ([ea42bde](https://github.com/gravity-ui/dynamic-forms/commit/ea42bdec20a41c2d8f1febd50a3136941a740152))
+
+## [5.10.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.9.4...v5.10.0) (2025-12-11)
+
+
+### Features
+
+* used new component from gravity for number input ([#339](https://github.com/gravity-ui/dynamic-forms/issues/339)) ([4455dc6](https://github.com/gravity-ui/dynamic-forms/commit/4455dc6ce194f4abe38e63c90a34c2a25fc9b69b))
+
+## [5.9.4](https://github.com/gravity-ui/dynamic-forms/compare/v5.9.3...v5.9.4) (2025-12-02)
+
+
+### Bug Fixes
+
+* **ArrayBase:** align items first baseline ([#336](https://github.com/gravity-ui/dynamic-forms/issues/336)) ([20c932e](https://github.com/gravity-ui/dynamic-forms/commit/20c932ef048fa3676e96a78d7cf725a3bf88e851))
+
+## [5.9.3](https://github.com/gravity-ui/dynamic-forms/compare/v5.9.2...v5.9.3) (2025-11-26)
+
+
+### Bug Fixes
+
+* fix float zero formatting ([#334](https://github.com/gravity-ui/dynamic-forms/issues/334)) ([d09d525](https://github.com/gravity-ui/dynamic-forms/commit/d09d525a1ebd4c77a4fcd717d0c3d2005b9e5f48))
+
 ## [5.9.2](https://github.com/gravity-ui/dynamic-forms/compare/v5.9.1...v5.9.2) (2025-10-31)
 
 

@@ -30,6 +30,8 @@ const getErrorMessages = (): ErrorMessagesType => ({
     SPACE_END: i18n('label_error-space-end'),
     DOT_END: i18n('label_error-dot-end'),
     ZERO_START: i18n('label_error-zero-start'),
+    INVALID_ZERO_FORMAT: i18n('label_error-invalid-zero-format'),
+    ZERO_END: i18n('label_error-zero-end'),
 });
 
 export let ErrorMessages: ErrorMessagesType = getErrorMessages();
