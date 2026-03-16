@@ -253,6 +253,10 @@ export const getFieldInitials = <
         }
     }
 
+    if (isNumberSpec(spec)) {
+        value = (isNil(value) || value === '' ? undefined : Number(value)) as DirtyValue;
+    }
+
     let errorMutator: {value: BaseValidateError} | typeof EMPTY_MUTATOR = get(
         mutatorsStore.errors,
         name,
