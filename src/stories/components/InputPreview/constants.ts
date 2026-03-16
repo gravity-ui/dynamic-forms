@@ -16,6 +16,23 @@ const required: BooleanSpec = {
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Required'},
 };
 
+const viewColor: ObjectSpec = {
+    type: SpecTypes.Object,
+    properties: {
+        true: {
+            type: SpecTypes.String,
+            enum: ['―', ...TEXT_COLORS],
+            viewSpec: {type: 'select', layout: 'transparent', placeholder: 'True value color'},
+        },
+        false: {
+            type: SpecTypes.String,
+            enum: ['―', ...TEXT_COLORS],
+            viewSpec: {type: 'select', layout: 'transparent', placeholder: 'False value color'},
+        },
+    },
+    viewSpec: {type: 'base', layout: 'row', layoutTitle: 'View color'},
+};
+
 const maxLength: NumberSpec = {
     type: SpecTypes.Number,
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Max length'},
@@ -827,6 +844,7 @@ export const getBooleanOptions = (): ObjectSpec => ({
                 layoutOpen,
                 hidden,
                 inputProps,
+                viewColor,
             },
             [
                 'disabled',
@@ -837,6 +855,7 @@ export const getBooleanOptions = (): ObjectSpec => ({
                 'layoutOpen',
                 'hidden',
                 'inputProps',
+                'viewColor',
             ],
         ),
     },
