@@ -70,6 +70,10 @@ export interface BooleanSpec<
         hidden?: boolean;
         inputProps?: InputComponentProps;
         layoutProps?: LayoutComponentProps;
+        viewColor?: {
+            true: TextProps['color'];
+            false: TextProps['color'];
+        };
     };
 }
 
