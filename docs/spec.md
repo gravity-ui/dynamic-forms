@@ -53,6 +53,8 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.link              | `any`       |          | A field containing information for forming a [link](#link) for a value                                                                                                                  |
 | viewSpec.hidden            | `boolean`   |          | Hide field and view                                                                                                                                                                     |
 | viewSpec.inputProps        | `object`    |          | [InputProps](./input-props-map.md) Additional properties for internal input components                                                                                                  |
+| viewSpec.viewColor         | `object`    |          | Color map for values, use the keys `"true"` and `"false"` specifying the value from the https://github.com/gravity-ui/uikit/tree/main/src/components/Text#color.                        |
+|                            |
 
 ### NumberSpec
 

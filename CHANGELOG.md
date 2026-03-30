@@ -1,5 +1,26 @@
 # Changelog
 
+## [5.13.2](https://github.com/gravity-ui/dynamic-forms/compare/v5.13.1...v5.13.2) (2026-03-30)
+
+
+### Bug Fixes
+
+* radio group diraction case ([#358](https://github.com/gravity-ui/dynamic-forms/issues/358)) ([ba38814](https://github.com/gravity-ui/dynamic-forms/commit/ba38814f771716518cc3c83b68e3ffd2ff66cdbe))
+
+## [5.13.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.13.0...v5.13.1) (2026-03-17)
+
+
+### Bug Fixes
+
+* initial number input ([#356](https://github.com/gravity-ui/dynamic-forms/issues/356)) ([1349233](https://github.com/gravity-ui/dynamic-forms/commit/1349233657aba894c335866d6821928fc59dd9fc))
+
+## [5.13.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.12.1...v5.13.0) (2026-03-16)
+
+
+### Features
+
+* add colorful view for bool values ([#354](https://github.com/gravity-ui/dynamic-forms/issues/354)) ([55d7e94](https://github.com/gravity-ui/dynamic-forms/commit/55d7e9485566d5d7cec90b2c31965d3d9b4f5981))
+
 ## [5.12.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.12.0...v5.12.1) (2026-02-20)
 
 
