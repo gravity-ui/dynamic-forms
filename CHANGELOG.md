@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.13.2](https://github.com/gravity-ui/dynamic-forms/compare/v5.13.1...v5.13.2) (2026-03-30)
+
+
+### Bug Fixes
+
+* radio group diraction case ([#358](https://github.com/gravity-ui/dynamic-forms/issues/358)) ([ba38814](https://github.com/gravity-ui/dynamic-forms/commit/ba38814f771716518cc3c83b68e3ffd2ff66cdbe))
+
 ## [5.13.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.13.0...v5.13.1) (2026-03-17)
 
 
