@@ -97,6 +97,11 @@ export const prepareSpec = <Type extends Spec>(
             result.viewSpec.addButtonPosition = result.viewSpec.addButtonPosition.toLowerCase();
         }
 
+        if (isString(result.viewSpec?.radioGroupParams?.direction)) {
+            result.viewSpec.radioGroupParams.direction =
+                result.viewSpec.radioGroupParams.direction.toLowerCase();
+        }
+
         if (isString(result.viewSpec?.oneOfParams?.toggler)) {
             result.viewSpec.oneOfParams.toggler = result.viewSpec.oneOfParams.toggler.toLowerCase();
         }
