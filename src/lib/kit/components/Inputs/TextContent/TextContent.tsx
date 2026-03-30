@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {Alert, Label, Text} from '@gravity-ui/uikit';
-import {isEmpty} from 'lodash';
 import cloneDeep from 'lodash/cloneDeep';
+import isEmpty from 'lodash/isEmpty';
 
 import type {StringIndependentInput, StringSpec} from '../../../../core';
 import {block} from '../../../utils';
