@@ -12,6 +12,7 @@ export * from './ObjectBase';
 export * from './ObjectValueInput';
 export * from './OneOf';
 export * from './RadioGroup';
+export * from './RangeInputPicker';
 export * from './Secret';
 export * from './Select';
 export * from './Switch';

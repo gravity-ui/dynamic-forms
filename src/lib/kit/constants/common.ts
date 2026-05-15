@@ -8,3 +8,6 @@ export const OBJECT_VALUE_PROPERTY_NAME = 'value';
 
 export const START_TIME = 'start';
 export const END_TIME = 'end';
+
+export const FROM = 'from';
+export const TO = 'to';

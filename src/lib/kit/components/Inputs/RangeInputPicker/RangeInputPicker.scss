@@ -1,0 +1,29 @@
+@import '../../../styles/variables';
+
+.#{$ns}range-input-picker {
+    display: flex;
+    flex-direction: column;
+    gap: var(--g-spacing-3);
+    width: 100%;
+
+    &__slider {
+        padding: 0 var(--g-spacing-2);
+    }
+
+    &__inputs {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--g-spacing-2);
+    }
+
+    &__input {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    &__separator {
+        flex: 0 0 auto;
+        color: var(--g-color-text-secondary);
+    }
+}

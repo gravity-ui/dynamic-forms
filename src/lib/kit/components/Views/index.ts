@@ -10,6 +10,7 @@ export * from './NumberWithScaleView';
 export * from './ObjectBaseView';
 export * from './ObjectValueInputView';
 export * from './OneOfView';
+export * from './RangeInputPickerView';
 export * from './TableArrayView';
 export * from './TextAreaView';
 export * from './TextContentView';
