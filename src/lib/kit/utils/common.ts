@@ -182,6 +182,25 @@ export const prepareSpec = <Type extends Spec>(
     return spec;
 };
 
+export const clampRangeInputPickerValue = (value: number, min: number, max: number) =>
+    Math.min(Math.max(value, min), max);
+
+export const resolveRangeInputPickerBound = (
+    inputBound: number | undefined,
+    specBound: number | undefined,
+    fallback: number,
+) => {
+    if (!isNil(inputBound)) {
+        return inputBound;
+    }
+
+    if (!isNil(specBound)) {
+        return specBound;
+    }
+
+    return fallback;
+};
+
 export const isCorrectSizeParams = (spec: StringSpec) => {
     const {sizeParams} = spec.viewSpec;
 

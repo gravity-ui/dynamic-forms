@@ -41,6 +41,10 @@ import {
     OneOfFlatView,
     OneOfView,
     RadioGroup,
+    RangeInputPicker,
+    RangeInputPickerNumber,
+    RangeInputPickerNumberView,
+    RangeInputPickerView,
     Row,
     RowVerbose,
     Secret,
@@ -128,6 +132,7 @@ export const dynamicConfig: DynamicFormConfig = {
     number: {
         inputs: {
             base: {Component: NumInput},
+            range_input_picker: {Component: RangeInputPickerNumber},
         },
         layouts: {
             row: Row,
@@ -153,6 +158,7 @@ export const dynamicConfig: DynamicFormConfig = {
             multi_oneof_flat: {Component: MultiOneOfFlat, independent: true},
             inline: {Component: ObjectInline, independent: true},
             time_range_selector: {Component: TimeRangeSelector, independent: true},
+            range_input_picker: {Component: RangeInputPicker},
         },
         layouts: {
             row: Row,
@@ -244,6 +250,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
     number: {
         views: {
             base: {Component: BaseView},
+            range_input_picker: {Component: RangeInputPickerNumberView},
         },
         layouts: {
             row: ViewRow,
@@ -266,6 +273,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
             multi_oneof_flat: {Component: MultiOneOfFlatView, independent: true},
             inline: {Component: ObjectInlineView, independent: true},
             time_range_selector: {Component: TimeRangeSelectorView, independent: true},
+            range_input_picker: {Component: RangeInputPickerView},
         },
         layouts: {
             row: ViewRow,
