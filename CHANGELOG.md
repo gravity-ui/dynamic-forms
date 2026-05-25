@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.14.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.13.2...v5.14.0) (2026-05-25)
+
+
+### Features
+
+* add RangeInputPicker component with number input and view support ([#360](https://github.com/gravity-ui/dynamic-forms/issues/360)) ([0feb76e](https://github.com/gravity-ui/dynamic-forms/commit/0feb76eb1739c2a98140d19157e76d38729d7c4b))
+
 ## [5.13.2](https://github.com/gravity-ui/dynamic-forms/compare/v5.13.1...v5.13.2) (2026-03-30)
 
 
