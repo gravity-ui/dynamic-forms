@@ -3,18 +3,14 @@ import React from 'react';
 import {Text} from '@gravity-ui/uikit';
 import isNil from 'lodash/isNil';
 
-import type {ObjectIndependentView} from '../../../../core';
+import type {ObjectView} from '../../../../core';
+import {RANGE_INPUT_PICKER_DEFAULT_SEPARATOR} from '../../../constants/common';
 import type {RangeInputPickerInputProps} from '../../Inputs/RangeInputPicker';
 
-export const RangeInputPickerView: ObjectIndependentView = ({
-    value,
-    spec,
-    name,
-    Layout,
-    ...restProps
-}) => {
+export const RangeInputPickerView: ObjectView = ({value, spec}) => {
     const separator =
-        (spec.viewSpec.inputProps as RangeInputPickerInputProps | undefined)?.separator ?? '–';
+        (spec.viewSpec.inputProps as RangeInputPickerInputProps | undefined)?.separator ??
+        RANGE_INPUT_PICKER_DEFAULT_SEPARATOR;
     const from = value?.from;
     const to = value?.to;
 
@@ -34,15 +30,5 @@ export const RangeInputPickerView: ObjectIndependentView = ({
         return `${from} ${separator} ${to}`;
     })();
 
-    const content = <Text>{formatted}</Text>;
-
-    if (Layout) {
-        return (
-            <Layout spec={spec} name={name} value={value} {...restProps}>
-                {content}
-            </Layout>
-        );
-    }
-
-    return <React.Fragment>{content}</React.Fragment>;
+    return <Text>{formatted}</Text>;
 };

@@ -4,34 +4,19 @@ import {NumberInput, Slider} from '@gravity-ui/uikit';
 import isNil from 'lodash/isNil';
 
 import type {FieldRenderProps, NumberInputProps} from '../../../../core';
-import {block} from '../../../utils';
+import {
+    RANGE_INPUT_PICKER_DEFAULT_MARKS,
+    RANGE_INPUT_PICKER_DEFAULT_MAX,
+    RANGE_INPUT_PICKER_DEFAULT_MIN,
+    RANGE_INPUT_PICKER_DEFAULT_STEP,
+} from '../../../constants/common';
+import {block, clampRangeInputPickerValue, resolveRangeInputPickerBound} from '../../../utils';
 
 import type {RangeInputPickerInputProps} from './types';
 
 import './RangeInputPicker.scss';
 
 const b = block('range-input-picker');
-
-const DEFAULT_MIN = 0;
-const DEFAULT_MAX = 100;
-
-const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
-
-const resolveBound = (
-    inputBound: number | undefined,
-    specBound: number | undefined,
-    fallback: number,
-) => {
-    if (!isNil(inputBound)) {
-        return inputBound;
-    }
-
-    if (!isNil(specBound)) {
-        return specBound;
-    }
-
-    return fallback;
-};
 
 export const RangeInputPickerNumber = ({
     name,
@@ -43,10 +28,18 @@ export const RangeInputPickerNumber = ({
     const showSlider = inputProps?.showSlider ?? true;
     const showInputs = inputProps?.showInputs ?? true;
 
-    const sliderMin = resolveBound(sliderParams?.min, spec.minimum, DEFAULT_MIN);
-    const sliderMax = resolveBound(sliderParams?.max, spec.maximum, DEFAULT_MAX);
-    const sliderStep = sliderParams?.step ?? 1;
-    const sliderMarks = sliderParams?.marks ?? 2;
+    const sliderMin = resolveRangeInputPickerBound(
+        sliderParams?.min,
+        spec.minimum,
+        RANGE_INPUT_PICKER_DEFAULT_MIN,
+    );
+    const sliderMax = resolveRangeInputPickerBound(
+        sliderParams?.max,
+        spec.maximum,
+        RANGE_INPUT_PICKER_DEFAULT_MAX,
+    );
+    const sliderStep = sliderParams?.step ?? RANGE_INPUT_PICKER_DEFAULT_STEP;
+    const sliderMarks = sliderParams?.marks ?? RANGE_INPUT_PICKER_DEFAULT_MARKS;
 
     const numericValue = isNil(value) ? undefined : Number(value);
     const sliderValue = isNil(numericValue) ? sliderMin : numericValue;
@@ -74,7 +67,7 @@ export const RangeInputPickerNumber = ({
                 return;
             }
 
-            onChangeAllowUndefined(clamp(next, sliderMin, sliderMax));
+            onChangeAllowUndefined(clampRangeInputPickerValue(next, sliderMin, sliderMax));
         },
         [onChangeAllowUndefined, sliderMin, sliderMax],
     );

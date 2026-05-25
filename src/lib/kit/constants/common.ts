@@ -11,3 +11,9 @@ export const END_TIME = 'end';
 
 export const FROM = 'from';
 export const TO = 'to';
+
+export const RANGE_INPUT_PICKER_DEFAULT_MIN = 0;
+export const RANGE_INPUT_PICKER_DEFAULT_MAX = 100;
+export const RANGE_INPUT_PICKER_DEFAULT_STEP = 1;
+export const RANGE_INPUT_PICKER_DEFAULT_MARKS = 2;
+export const RANGE_INPUT_PICKER_DEFAULT_SEPARATOR = '–';

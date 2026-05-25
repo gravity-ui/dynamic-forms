@@ -4,15 +4,18 @@ import {NumberInput, Slider} from '@gravity-ui/uikit';
 import isNil from 'lodash/isNil';
 import set from 'lodash/set';
 
-import type {
-    FieldValue,
-    NumberSpec,
-    ObjectIndependentInputProps,
-    ValidateError,
-} from '../../../../core';
+import type {FieldValue, NumberSpec, ObjectInputProps, ValidateError} from '../../../../core';
 import {isNumberSpec} from '../../../../core';
-import {FROM, TO} from '../../../constants/common';
-import {block} from '../../../utils';
+import {
+    FROM,
+    RANGE_INPUT_PICKER_DEFAULT_MARKS,
+    RANGE_INPUT_PICKER_DEFAULT_MAX,
+    RANGE_INPUT_PICKER_DEFAULT_MIN,
+    RANGE_INPUT_PICKER_DEFAULT_SEPARATOR,
+    RANGE_INPUT_PICKER_DEFAULT_STEP,
+    TO,
+} from '../../../constants/common';
+import {block, clampRangeInputPickerValue, resolveRangeInputPickerBound} from '../../../utils';
 
 import type {RangeInputPickerInputProps, RangeInputPickerValue} from './types';
 
@@ -20,31 +23,8 @@ import './RangeInputPicker.scss';
 
 const b = block('range-input-picker');
 
-const DEFAULT_MIN = 0;
-const DEFAULT_MAX = 100;
-
-const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
-
-const resolveBound = (
-    inputBound: number | undefined,
-    specBound: number | undefined,
-    fallback: number,
-) => {
-    if (!isNil(inputBound)) {
-        return inputBound;
-    }
-
-    if (!isNil(specBound)) {
-        return specBound;
-    }
-
-    return fallback;
-};
-
-export const RangeInputPicker = (
-    props: ObjectIndependentInputProps<RangeInputPickerInputProps>,
-) => {
-    const {spec, input, name, Layout} = props;
+export const RangeInputPicker = (props: ObjectInputProps<RangeInputPickerInputProps>) => {
+    const {spec, input, name} = props;
     const {disabled, inputProps} = spec.viewSpec;
     const sliderParams = inputProps?.sliderParams;
     const showSlider = inputProps?.showSlider ?? true;
@@ -60,10 +40,18 @@ export const RangeInputPicker = (
         [spec.properties],
     );
 
-    const sliderMin = resolveBound(sliderParams?.min, fromSpec?.minimum, DEFAULT_MIN);
-    const sliderMax = resolveBound(sliderParams?.max, toSpec?.maximum, DEFAULT_MAX);
-    const sliderStep = sliderParams?.step ?? 1;
-    const sliderMarks = sliderParams?.marks ?? 2;
+    const sliderMin = resolveRangeInputPickerBound(
+        sliderParams?.min,
+        fromSpec?.minimum,
+        RANGE_INPUT_PICKER_DEFAULT_MIN,
+    );
+    const sliderMax = resolveRangeInputPickerBound(
+        sliderParams?.max,
+        toSpec?.maximum,
+        RANGE_INPUT_PICKER_DEFAULT_MAX,
+    );
+    const sliderStep = sliderParams?.step ?? RANGE_INPUT_PICKER_DEFAULT_STEP;
+    const sliderMarks = sliderParams?.marks ?? RANGE_INPUT_PICKER_DEFAULT_MARKS;
 
     const value = (input.value as RangeInputPickerValue | undefined) ?? {};
     const fromValue = isNil(value.from) ? undefined : Number(value.from);
@@ -104,7 +92,11 @@ export const RangeInputPicker = (
             const safe =
                 next === null
                     ? undefined
-                    : clamp(next, sliderMin, isNil(toValue) ? sliderMax : toValue);
+                    : clampRangeInputPickerValue(
+                          next,
+                          sliderMin,
+                          isNil(toValue) ? sliderMax : toValue,
+                      );
 
             parentOnChange(`${name}.${FROM}`, safe);
         },
@@ -116,14 +108,18 @@ export const RangeInputPicker = (
             const safe =
                 next === null
                     ? undefined
-                    : clamp(next, isNil(fromValue) ? sliderMin : fromValue, sliderMax);
+                    : clampRangeInputPickerValue(
+                          next,
+                          isNil(fromValue) ? sliderMin : fromValue,
+                          sliderMax,
+                      );
 
             parentOnChange(`${name}.${TO}`, safe);
         },
         [name, parentOnChange, sliderMin, sliderMax, fromValue],
     );
 
-    const content = (
+    return (
         <div className={b()}>
             {showSlider ? (
                 <div className={b('slider')}>
@@ -159,7 +155,9 @@ export const RangeInputPicker = (
                         allowDecimal
                         qa={`${name}-from`}
                     />
-                    <span className={b('separator')}>{inputProps?.separator ?? '–'}</span>
+                    <span className={b('separator')}>
+                        {inputProps?.separator ?? RANGE_INPUT_PICKER_DEFAULT_SEPARATOR}
+                    </span>
                     <NumberInput
                         className={b('input')}
                         value={isNil(toValue) ? null : toValue}
@@ -179,10 +177,4 @@ export const RangeInputPicker = (
             ) : null}
         </div>
     );
-
-    if (Layout) {
-        return <Layout {...props}>{content}</Layout>;
-    }
-
-    return <React.Fragment>{content}</React.Fragment>;
 };
