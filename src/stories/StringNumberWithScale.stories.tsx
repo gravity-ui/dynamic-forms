@@ -14,7 +14,7 @@ export default {
 
 const baseSpec: StringSpec = {
     type: SpecTypes.String,
-    validator: 'number',
+    validator: 'number_with_scale',
     viewSpec: {
         type: 'number_with_scale',
         layout: 'row',

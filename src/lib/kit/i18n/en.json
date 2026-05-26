@@ -37,6 +37,8 @@
   ],
   "label_error-min-number": "Value must be an integer no less than {{count}}",
   "label_error-max-number": "Value must not be greater than {{count}}",
+  "label_error-min-number-with-scale": "Value must be no less than {{count}} {{scale}}",
+  "label_error-max-number-with-scale": "Value must not be greater than {{count}} {{scale}}",
   "label_error-space-end": "Value must not end with a space",
   "label_error-space-start": "Value must not start with a space",
   "label_error-zero-start": "Value must not start with a zero",
