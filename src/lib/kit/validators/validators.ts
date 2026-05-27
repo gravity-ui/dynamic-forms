@@ -13,7 +13,7 @@ import type {
 } from '../../core';
 import {ErrorMessages} from '../validators';
 
-import {isFloat, isInt} from './helpers';
+import {getScaledLimit, isFloat, isInt} from './helpers';
 import type {ErrorMessagesType} from './types';
 
 interface CommonValidatorParams {
@@ -178,6 +178,119 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
 
         if (isString(spec.format) && stringValue.length) {
             if (!ignoreIntCheck && spec.format === 'int64' && !isInt(stringValue)) {
+                return errorMessages.INT;
+            }
+        }
+
+        return false;
+    };
+};
+
+export interface GetNumberWithScaleValidatorParams extends GetNumberValidatorParams {}
+
+interface NumberWithScaleSpec extends StringSpec {
+    minimum?: number;
+    maximum?: number;
+    format?: 'float' | 'int64';
+}
+
+export const getNumberWithScaleValidator = (params: GetNumberWithScaleValidatorParams = {}) => {
+    const {
+        ignoreRequiredCheck,
+        ignoreSpaceStartCheck,
+        ignoreSpaceEndCheck,
+        ignoreNumberCheck,
+        ignoreMaximumCheck,
+        ignoreMinimumCheck,
+        ignoreIntCheck,
+        ignoreDotEnd,
+        ignoreZeroStart,
+        ignoreInvalidZeroFormat,
+        ignoreZeroEnd,
+        customErrorMessages,
+    } = params;
+
+    // eslint-disable-next-line complexity
+    return (spec: StringSpec, value = '') => {
+        const errorMessages = {...ErrorMessages, ...customErrorMessages};
+        const numericSpec = spec as NumberWithScaleSpec;
+
+        const stringValue = String(value);
+
+        if (!ignoreRequiredCheck && spec.required && !stringValue.length) {
+            return errorMessages.REQUIRED;
+        }
+
+        if (stringValue.length) {
+            if (!ignoreSpaceStartCheck && !stringValue[0].trim()) {
+                return errorMessages.SPACE_START;
+            }
+
+            if (!ignoreSpaceEndCheck && !stringValue[stringValue.length - 1].trim()) {
+                return errorMessages.SPACE_END;
+            }
+
+            if (!ignoreDotEnd && stringValue[stringValue.length - 1] === '.') {
+                return errorMessages.DOT_END;
+            }
+
+            if (!ignoreNumberCheck && !isFloat(stringValue)) {
+                return errorMessages.NUMBER;
+            }
+
+            if (
+                !ignoreZeroStart &&
+                ((stringValue.length > 1 && stringValue[0] === '0' && stringValue[1] !== '.') ||
+                    (stringValue.length > 2 &&
+                        stringValue.substring(0, 2) === '-0' &&
+                        stringValue[2] !== '.'))
+            ) {
+                return errorMessages.ZERO_START;
+            }
+
+            if (
+                !ignoreInvalidZeroFormat &&
+                stringValue.trim().length > 1 &&
+                Number(stringValue.trim()) === 0
+            ) {
+                return errorMessages.INVALID_ZERO_FORMAT;
+            }
+
+            if (
+                !ignoreZeroEnd &&
+                !isInt(stringValue) &&
+                stringValue[stringValue.length - 1] === '0'
+            ) {
+                return errorMessages.ZERO_END;
+            }
+        }
+
+        if (
+            !ignoreMaximumCheck &&
+            isNumber(numericSpec.maximum) &&
+            stringValue.length &&
+            Number(stringValue) > numericSpec.maximum
+        ) {
+            const scaled = getScaledLimit(spec, numericSpec.maximum);
+            return scaled
+                ? errorMessages.maxNumberWithScale(scaled.count, scaled.scaleTitle)
+                : errorMessages.maxNumber(numericSpec.maximum);
+        }
+
+        if (
+            !ignoreMinimumCheck &&
+            isNumber(numericSpec.minimum) &&
+            stringValue.length &&
+            numericSpec.minimum > Number(stringValue)
+        ) {
+            const scaled = getScaledLimit(spec, numericSpec.minimum);
+            return scaled
+                ? errorMessages.minNumberWithScale(scaled.count, scaled.scaleTitle)
+                : errorMessages.minNumber(numericSpec.minimum);
+        }
+
+        if (isString(numericSpec.format) && stringValue.length) {
+            if (!ignoreIntCheck && numericSpec.format === 'int64' && !isInt(stringValue)) {
                 return errorMessages.INT;
             }
         }

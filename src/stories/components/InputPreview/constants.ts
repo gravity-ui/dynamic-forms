@@ -452,7 +452,7 @@ const sizeParams: ObjectSpec = {
                         viewSpec: {type: 'base', layout: 'table_item'},
                     },
                     factor: {
-                        type: SpecTypes.Number,
+                        type: SpecTypes.String,
                         viewSpec: {type: 'base', layout: 'table_item'},
                     },
                     title: {
