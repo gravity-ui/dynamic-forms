@@ -5,7 +5,7 @@ import {Select} from '@gravity-ui/uikit';
 
 // import {ArrayInput, FieldArrayValue, transformArrIn, transformArrOut} from '../../../../core';
 import {block} from '../../kit/utils';
-import type {JsonSchemaArray, SimpleView} from '../core/types';
+import type {Control, JsonSchemaArray} from '../core/types';
 
 import './MultiSelect.scss';
 
@@ -26,7 +26,7 @@ export interface MultiSelectProps
 
 const b = block('multi-select');
 
-export const MultiSelect: SimpleView<JsonSchemaArray> = ({input, schema}) => {
+export const MultiSelect: Control<JsonSchemaArray> = ({input, schema}) => {
     const {name, value, onBlur, onChange, onFocus} = input;
 
     const filterable = React.useMemo(() => (schema.enum?.length || 0) > 9, [schema.enum?.length]);

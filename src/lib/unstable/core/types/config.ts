@@ -1,8 +1,9 @@
-import type {JsonSchemaType, SchemaRendererMode} from '../constants';
+import type {JsonSchemaType} from '../constants';
 
-import type {IndependentView, SimpleView, Wrapper} from './components';
+import type {Control, View, Wrapper} from './components';
 import type {
     JsonSchema,
+    JsonSchemaAny,
     JsonSchemaArray,
     JsonSchemaBoolean,
     JsonSchemaNumber,
@@ -11,27 +12,12 @@ import type {
 } from './schema';
 import type {Validator} from './validation';
 
-export interface SimpleViewComponentConfig<Schema extends JsonSchema> {
-    Component: SimpleView<Schema> | null;
-    independent?: false;
-}
-
-export interface IndependentViewComponentConfig<Schema extends JsonSchema> {
-    Component: IndependentView<Schema>;
-    independent: true;
-}
-
-export type ViewComponentConfig<Schema extends JsonSchema> =
-    | SimpleViewComponentConfig<Schema>
-    | IndependentViewComponentConfig<Schema>;
-
-export interface ViewConfig<Schema extends JsonSchema> {
-    [SchemaRendererMode.Form]: ViewComponentConfig<Schema>;
-    [SchemaRendererMode.Overview]: ViewComponentConfig<Schema>;
+export interface ControlsConfig<Schema extends JsonSchema> {
+    [key: string]: {Component?: Control<Schema>; independent?: boolean} | undefined;
 }
 
 export interface ViewsConfig<Schema extends JsonSchema> {
-    [key: string]: ViewConfig<Schema> | undefined;
+    [key: string]: {Component?: View<Schema>; independent?: boolean} | undefined;
 }
 
 export interface WrappersConfig<Schema extends JsonSchema> {
@@ -43,12 +29,14 @@ export interface ValidatorsConfig<Schema extends JsonSchema> {
 }
 
 export interface TypeConfig<Schema extends JsonSchema> {
+    controls: ControlsConfig<Schema>;
     views: ViewsConfig<Schema>;
     wrappers: WrappersConfig<Schema>;
     validators: ValidatorsConfig<Schema>;
 }
 
 export interface SchemaRendererConfig {
+    [JsonSchemaType.Any]: TypeConfig<JsonSchemaAny>;
     [JsonSchemaType.Array]: TypeConfig<JsonSchemaArray>;
     [JsonSchemaType.Boolean]: TypeConfig<JsonSchemaBoolean>;
     [JsonSchemaType.Number]: TypeConfig<JsonSchemaNumber>;

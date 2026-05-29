@@ -1,8 +1,7 @@
 import type React from 'react';
 
-import type {JsonSchemaType, SchemaRendererMode} from '../constants';
+import type {JsonSchemaType} from '../constants';
 
-import type {SchemaRendererConfig} from './config';
 import type {
     JsonSchema,
     JsonSchemaArray,
@@ -35,51 +34,24 @@ export type SchemaToSchemaType<Schema extends JsonSchema> = Schema extends JsonS
     ? JsonSchemaType.Object
     : Schema extends JsonSchemaString
     ? JsonSchemaType.String
-    : JsonSchemaType;
+    : JsonSchemaType.Any;
 
-export type SchemaTypeToSchema<SchemaType extends JsonSchemaType> =
-    SchemaType extends JsonSchemaType.Array
-        ? JsonSchemaArray
-        : SchemaType extends JsonSchemaType.Boolean
-        ? JsonSchemaBoolean
-        : SchemaType extends JsonSchemaType.Number
-        ? JsonSchemaNumber
-        : SchemaType extends JsonSchemaType.Object
-        ? JsonSchemaObject
-        : SchemaType extends JsonSchemaType.String
-        ? JsonSchemaString
-        : JsonSchema;
-
-type ExtractViewProps<ViewConfig> = ViewConfig extends {
-    [SchemaRendererMode.Form]: infer FormComponentConfig;
-    [SchemaRendererMode.Overview]: infer OverviewComponentConfig;
+export type ExtractControlProps<Control> = Control extends {
+    Component: React.ComponentType<infer ControlProps>;
 }
-    ? (FormComponentConfig extends {
-          Component: React.ComponentType<infer FormViewComponentProps>;
-      }
-          ? FormViewComponentProps extends {viewProps: infer ViewComponentProps}
-              ? ViewComponentProps
-              : Record<string, any>
-          : Record<string, any>) &
-          (OverviewComponentConfig extends {
-              Component: React.ComponentType<infer OverivewViewComponentProps>;
-          }
-              ? OverivewViewComponentProps extends {viewProps: infer ViewComponentProps}
-                  ? ViewComponentProps
-                  : Record<string, any>
-              : Record<string, any>)
+    ? ControlProps extends {controlProps: infer ControlComponentProps}
+        ? ControlComponentProps
+        : Record<string, any>
     : Record<string, any>;
 
-export type ViewComponentPropsByConfig<Config extends SchemaRendererConfig[JsonSchemaType]> = {
-    [Key in keyof Config['views']]: ExtractViewProps<Config['views'][Key]>;
-};
+export type ExtractViewProps<View> = View extends {Component: React.ComponentType<infer ViewProps>}
+    ? ViewProps extends {viewProps: infer ViewComponentProps}
+        ? ViewComponentProps
+        : Record<string, any>
+    : Record<string, any>;
 
-type ExtractWrapperProps<Wrapper> = Wrapper extends React.ComponentType<infer WrapperProps>
+export type ExtractWrapperProps<Wrapper> = Wrapper extends React.ComponentType<infer WrapperProps>
     ? WrapperProps extends {wrapperProps: infer WrapperComponentProps}
         ? WrapperComponentProps
         : Record<string, any>
     : Record<string, any>;
-
-export type WrapperComponentPropsByConfig<Config extends SchemaRendererConfig[JsonSchemaType]> = {
-    [Key in keyof Config['wrappers']]: ExtractWrapperProps<Config['wrappers'][Key]>;
-};

@@ -1,70 +1,144 @@
 import React from 'react';
 
-import {SchemaRendererContext} from '../SchemaRendererContext';
+import {useField} from 'react-final-form';
+
+import {JsonSchemaType, SchemaRendererMode} from '../constants';
 import type {JsonSchema} from '../types';
-import {useSchemaRendererField} from '../useSchemaRendererField';
+import {useEntityState} from '../useSchemaRenderer';
 
 import {getRenderKit} from './utils';
 
 export interface EntityProps {
     name: string;
-    schema: JsonSchema;
+    schema?: JsonSchema;
 }
 
-const EntityComponent: React.FC<EntityProps> = ({name, schema}) => {
-    const {config, mode} = React.useContext(SchemaRendererContext);
-
-    const renderKit = React.useMemo(
-        () => getRenderKit({config, mode, schema}),
-        [config, mode, schema],
-    );
+const EntityComponent: React.FC<EntityProps> = ({name, schema: schemaProps = {}}) => {
+    const {config, error, mode} = useEntityState(name);
 
     const options = React.useMemo(
         () => ({
-            data: {schema},
-            defaultValue: schema.default,
+            data: {schema: schemaProps},
+            defaultValue: schemaProps.default,
             subscription: {
-                error: true,
+                data: true,
+                error:
+                    schemaProps.type !== JsonSchemaType.Array &&
+                    schemaProps.type !== JsonSchemaType.Object,
                 submitFailed: true,
                 touched: true,
                 validating: true,
                 value: true,
             },
         }),
-        [schema],
+        [schemaProps],
     );
 
-    const field = useSchemaRendererField(name, options);
+    const field = useField(name, options);
 
-    if (!renderKit.View) {
-        return null;
-    }
+    const schema = React.useMemo(
+        () => field.meta.data?.schema || schemaProps,
+        [field.meta.data?.schema, schemaProps],
+    );
+
+    const meta = React.useMemo(() => {
+        if (schema.type === JsonSchemaType.Array || schema.type === JsonSchemaType.Object) {
+            return {
+                ...field.meta,
+                error,
+            };
+        }
+
+        return field.meta;
+    }, [field.meta, error, schema?.type]);
+
+    const renderKit = React.useMemo(() => getRenderKit({config, schema}), [config, schema]);
 
     let content = null;
 
-    if (renderKit.independent) {
-        content = (
-            <renderKit.View
-                {...field}
-                schema={schema}
-                Wrapper={renderKit.Wrapper}
-                viewProps={renderKit.viewProps}
-                wrapperProps={renderKit.wrapperProps}
-            />
-        );
-    } else {
-        content = <renderKit.View {...field} schema={schema} viewProps={renderKit.viewProps} />;
+    if (mode === SchemaRendererMode.Form) {
+        const formKit = renderKit[SchemaRendererMode.Form];
 
-        if (renderKit.Wrapper) {
-            content = (
-                <renderKit.Wrapper {...field} schema={schema} wrapperProps={renderKit.wrapperProps}>
-                    {content}
-                </renderKit.Wrapper>
-            );
+        if (formKit.Component) {
+            if (formKit.independent) {
+                content = (
+                    <formKit.Component
+                        input={field.input}
+                        meta={meta}
+                        schema={schema}
+                        controlProps={formKit.props}
+                        Wrapper={formKit.Wrapper}
+                        wrapperProps={formKit.wrapperProps}
+                    />
+                );
+            } else {
+                content = (
+                    <formKit.Component
+                        input={field.input}
+                        meta={meta}
+                        schema={schema}
+                        controlProps={formKit.props}
+                    />
+                );
+
+                if (formKit.Wrapper) {
+                    content = (
+                        <formKit.Wrapper
+                            input={field.input}
+                            meta={meta}
+                            schema={schema}
+                            wrapperProps={formKit.wrapperProps}
+                        >
+                            {content}
+                        </formKit.Wrapper>
+                    );
+                }
+            }
         }
     }
 
-    return <div>{content}</div>;
+    if (mode === SchemaRendererMode.Overview) {
+        const overviewKit = renderKit[SchemaRendererMode.Overview];
+
+        if (overviewKit.Component) {
+            if (overviewKit.independent) {
+                content = (
+                    <overviewKit.Component
+                        input={field.input}
+                        meta={meta}
+                        schema={schema}
+                        viewProps={overviewKit.props}
+                        Wrapper={overviewKit.Wrapper}
+                        wrapperProps={overviewKit.wrapperProps}
+                    />
+                );
+            } else {
+                content = (
+                    <overviewKit.Component
+                        input={field.input}
+                        meta={meta}
+                        schema={schema}
+                        viewProps={overviewKit.props}
+                    />
+                );
+
+                if (overviewKit.Wrapper) {
+                    content = (
+                        <overviewKit.Wrapper
+                            input={field.input}
+                            meta={meta}
+                            schema={schema}
+                            wrapperProps={overviewKit.wrapperProps}
+                        >
+                            {content}
+                        </overviewKit.Wrapper>
+                    );
+                }
+            }
+        }
+    }
+
+    return content ? <div>{content}</div> : null;
 };
 
 export const Entity = React.memo(EntityComponent);
