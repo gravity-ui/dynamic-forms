@@ -29,7 +29,7 @@ const RowBase = <Schema extends JsonSchema>({
     input,
     meta,
     verboseDescription,
-    // wrapperProps,
+    wrapperProps,
     children,
 }: WrapperProps<Schema, {qtest: boolean}> & RowProps) => {
     // const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
@@ -41,7 +41,7 @@ const RowBase = <Schema extends JsonSchema>({
                 <div className={b('left-inner')}>
                     <Text
                         className={b('title', {
-                            required: schema.entityParameters?.wrapperProps?.required,
+                            required: wrapperProps?.required,
                         })}
                     >
                         {schema.title}

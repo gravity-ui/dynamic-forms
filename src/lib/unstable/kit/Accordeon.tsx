@@ -12,8 +12,9 @@ export const Accordeon = <Schema extends JsonSchema>({
     input,
     meta,
     children,
+    wrapperProps,
 }: WrapperProps<Schema>): React.ReactNode => {
-    const [open, setOpen] = React.useState(Boolean(schema.entityParameters?.wrapperProps?.open));
+    const [open, setOpen] = React.useState(Boolean(wrapperProps?.open));
 
     // const onDrop = React.useCallback(() => {
     //     setOpen(false);

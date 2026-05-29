@@ -1,1 +1,1 @@
-export * from './Entity';
+export {Entity, type EntityProps} from './Entity';
