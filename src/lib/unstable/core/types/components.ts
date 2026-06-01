@@ -5,45 +5,54 @@ import type {FieldRenderProps} from 'react-final-form';
 import type {SchemaToValueType} from './helpers';
 import type {JsonSchema} from './schema';
 
-export interface SimpleViewProps<
+export interface ControlProps<
+    Schema extends JsonSchema,
+    ControlComponentProps extends Record<string, any> = {},
+    WrapperComponentProps extends Record<string, any> = {},
+> extends FieldRenderProps<SchemaToValueType<Schema> | null | undefined> {
+    schema: Schema;
+    controlProps: Partial<ControlComponentProps>;
+    Wrapper?: Wrapper<Schema, WrapperComponentProps>;
+    wrapperProps?: Partial<WrapperComponentProps>;
+}
+
+export type Control<
+    Schema extends JsonSchema,
+    ControlComponentProps extends Record<string, any> = {},
+    WrapperComponentProps extends Record<string, any> = {},
+> = React.ComponentType<ControlProps<Schema, ControlComponentProps, WrapperComponentProps>>;
+
+export interface ViewProps<
     Schema extends JsonSchema,
     ViewComponentProps extends Record<string, any> = {},
+    WrapperComponentProps extends Record<string, any> = {},
 > extends FieldRenderProps<SchemaToValueType<Schema> | null | undefined> {
     schema: Schema;
     viewProps: Partial<ViewComponentProps>;
+    Wrapper?: Wrapper<Schema, WrapperComponentProps>;
+    wrapperProps?: Partial<WrapperComponentProps>;
 }
 
-export type SimpleView<
+export type View<
     Schema extends JsonSchema,
     ViewComponentProps extends Record<string, any> = {},
-> = React.ComponentType<SimpleViewProps<Schema, ViewComponentProps>>;
+    WrapperComponentProps extends Record<string, any> = {},
+> = React.ComponentType<ViewProps<Schema, ViewComponentProps, WrapperComponentProps>>;
 
 export interface WrapperProps<
     Schema extends JsonSchema,
     WrapperComponentProps extends Record<string, any> = {},
 > extends FieldRenderProps<SchemaToValueType<Schema> | null | undefined> {
     schema: Schema;
-    wrapperProps: Partial<WrapperComponentProps>;
+    wrapperProps: {
+        open?: boolean;
+        hidden?: boolean;
+        copy?: boolean;
+        required?: boolean;
+    } & Partial<WrapperComponentProps>;
 }
 
 export type Wrapper<
     Schema extends JsonSchema,
     WrapperComponentProps extends Record<string, any> = {},
 > = React.ComponentType<WrapperProps<Schema, WrapperComponentProps>>;
-
-export interface IndependentViewProps<
-    Schema extends JsonSchema,
-    ComponentProps extends Record<string, any> = {},
-    WrapperComponentProps extends Record<string, any> = {},
-> extends SimpleViewProps<Schema, ComponentProps> {
-    Wrapper?: Wrapper<Schema, WrapperComponentProps>;
-    wrapperProps: Partial<WrapperComponentProps>;
-}
-
-export type IndependentView<
-    Schema extends JsonSchema,
-    ComponentProps extends Record<string, any> = {},
-    WrapperComponentProps extends Record<string, any> = {},
-> = React.ComponentType<IndependentViewProps<Schema, ComponentProps, WrapperComponentProps>>;
-
-export type View<Schema extends JsonSchema> = SimpleView<Schema> | IndependentView<Schema>;

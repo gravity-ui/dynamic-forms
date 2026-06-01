@@ -1,37 +1,43 @@
 import React from 'react';
 
-import {Plus} from '@gravity-ui/icons';
-// import {Button, Icon, Text} from '@gravity-ui/uikit';
-import {Button, Icon} from '@gravity-ui/uikit';
+import {Text} from '@gravity-ui/uikit';
+// import {Button, Icon} from '@gravity-ui/uikit';
 import isObjectLike from 'lodash/isObjectLike';
 
 // import {block, filterPropertiesForObjectInline} from '../../../kit/utils';
 import {block} from '../../kit/utils';
 import {Entity} from '../core';
-import type {IndependentView, IndependentViewProps, JsonSchemaObject} from '../core/types';
+import type {Control, ControlProps, JsonSchemaObject} from '../core/types';
 
 import './ObjectBase.scss';
 
 const b = block('object-base');
 
-export interface ObjectBaseProps extends IndependentViewProps<JsonSchemaObject> {
+export interface ObjectBaseProps extends ControlProps<JsonSchemaObject> {
     inline?: boolean;
 }
 
-export const ObjectBase: React.FC<ObjectBaseProps> = ({inline, schema, input, meta, Wrapper}) => {
-    const addBtn = React.useMemo(
-        () => (
-            <Button
-                onClick={() => input.onChange(schema.default || {})}
-                disabled={schema.readOnly}
-                qa={`${name}-init-obj`}
-            >
-                <Icon data={Plus} size={14} />
-                {schema.title || null}
-            </Button>
-        ),
-        [schema.default, schema.title, input.onChange],
-    );
+export const ObjectBase: React.FC<ObjectBaseProps> = ({
+    inline,
+    schema,
+    input,
+    meta,
+    Wrapper,
+    wrapperProps,
+}) => {
+    // const addBtn = React.useMemo(
+    //     () => (
+    //         <Button
+    //             onClick={() => input.onChange(schema.default || {})}
+    //             disabled={schema.readOnly}
+    //             qa={`${name}-init-obj`}
+    //         >
+    //             <Icon data={Plus} size={14} />
+    //             {schema.title || null}
+    //         </Button>
+    //     ),
+    //     [schema.default, schema.title, input.onChange],
+    // );
 
     const content = React.useMemo(() => {
         if (
@@ -42,9 +48,9 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({inline, schema, input, me
             return null;
         }
 
-        if (!inline && !input.value) {
-            return addBtn;
-        }
+        // if (!inline && !input.value) {
+        //     return addBtn;
+        // }
 
         // todo
         // const specProperties = inline
@@ -80,9 +86,9 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({inline, schema, input, me
         schema.properties,
         // spec.viewSpec.delimiter,
         // spec.viewSpec.order,
-        input.value,
+        // input.value,
         inline,
-        addBtn,
+        // addBtn,
         input.name,
     ]);
 
@@ -92,12 +98,13 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({inline, schema, input, me
 
     return (
         // @ts-expect-error
-        <Wrapper schema={schema} input={input} meta={meta}>
+        <Wrapper schema={schema} input={input} meta={meta} wrapperProps={wrapperProps}>
             {content}
+            {meta.touched && meta.error ? <Text color="danger">{meta.error}</Text> : null}
         </Wrapper>
     );
 };
 
-export const ObjectInline: IndependentView<JsonSchemaObject> = (props) => {
+export const ObjectInline: Control<JsonSchemaObject> = (props) => {
     return <ObjectBase {...props} inline />;
 };
