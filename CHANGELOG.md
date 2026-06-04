@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.15.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.14.0...v5.15.0) (2026-06-04)
+
+
+### Features
+
+* **unstable:** wake up schema renderer ([#363](https://github.com/gravity-ui/dynamic-forms/issues/363)) ([2b5e0a9](https://github.com/gravity-ui/dynamic-forms/commit/2b5e0a94f05ae328254ffa9a11733e07ad16d038))
+
+
+### Bug Fixes
+
+* fix display icon and copy button ([#366](https://github.com/gravity-ui/dynamic-forms/issues/366)) ([2577706](https://github.com/gravity-ui/dynamic-forms/commit/25777069466f20cb6103f78d6064a9e0976d6796))
+
 ## [5.14.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.13.2...v5.14.0) (2026-05-25)
 
 
