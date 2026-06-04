@@ -12,9 +12,13 @@
         line-height: var(--_--height);
     }
 
-    &__icon {
+    &__icon,
+    &__alert-icon {
         display: flex;
         align-items: center;
+    }
+
+    &__icon {
         margin-right: var(--df-text-content-icon-margin-right, var(--g-spacing-1));
     }
 

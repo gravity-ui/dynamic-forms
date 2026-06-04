@@ -36,9 +36,12 @@ export const TextContentComponent: React.FC<TextContentComponentProps> = ({
         return null;
     }
 
-    const iconLib = textContentParams?.icon ? (
-        <LazyLoader component={loadIcon(textContentParams?.icon)} />
-    ) : undefined;
+    const iconName = textContentParams?.icon;
+    const hasIconParam = typeof iconName === 'string';
+    const iconLib = iconName ? <LazyLoader component={loadIcon(iconName)} /> : undefined;
+
+    const alertIcon =
+        hasIconParam && iconLib ? <span className={b('alert-icon')}>{iconLib}</span> : null;
 
     let content = <span dangerouslySetInnerHTML={{__html: text}} />;
 
@@ -50,7 +53,7 @@ export const TextContentComponent: React.FC<TextContentComponentProps> = ({
 
         content = (
             <Alert
-                icon={iconLib}
+                {...(hasIconParam ? {icon: alertIcon} : {})}
                 message={content}
                 // If the title is an empty line, then you need to explicitly write undefined, otherwise there will be an additional indent
                 title={titleAlert}
