@@ -8,7 +8,7 @@ import type {StringIndependentInput, StringSpec} from '../../../../core';
 import {block} from '../../../utils';
 import {LazyLoader} from '../../LazyLoader';
 
-import {loadIcon} from './utils';
+import {isAlertView, loadIcon} from './utils';
 
 import './TextContent.scss';
 
@@ -32,16 +32,28 @@ export const TextContentComponent: React.FC<TextContentComponentProps> = ({
         [layoutDescription, textContentParams?.text],
     );
 
+    const iconName = textContentParams?.icon;
+    const alertView = textContentParams?.viewAlert;
+    const hasIconParam = typeof iconName === 'string';
+
+    const IconComponent = React.useMemo(
+        () => (iconName ? loadIcon(iconName) : undefined),
+        [iconName],
+    );
+
+    const iconLib = React.useMemo(
+        () => (IconComponent ? <LazyLoader component={IconComponent} /> : null),
+        [IconComponent],
+    );
+
+    const alertIcon = React.useMemo(
+        () => (iconLib ? <span className={b('alert-icon')}>{iconLib}</span> : null),
+        [iconLib],
+    );
+
     if (!text) {
         return null;
     }
-
-    const iconName = textContentParams?.icon;
-    const hasIconParam = typeof iconName === 'string';
-    const iconLib = iconName ? <LazyLoader component={loadIcon(iconName)} /> : undefined;
-
-    const alertIcon =
-        hasIconParam && iconLib ? <span className={b('alert-icon')}>{iconLib}</span> : null;
 
     let content = <span dangerouslySetInnerHTML={{__html: text}} />;
 
@@ -53,12 +65,12 @@ export const TextContentComponent: React.FC<TextContentComponentProps> = ({
 
         content = (
             <Alert
-                {...(hasIconParam ? {icon: alertIcon} : {})}
+                {...(alertIcon || hasIconParam ? {icon: alertIcon} : {})}
                 message={content}
                 // If the title is an empty line, then you need to explicitly write undefined, otherwise there will be an additional indent
                 title={titleAlert}
                 theme={textContentParams?.themeAlert}
-                view={textContentParams?.viewAlert}
+                view={isAlertView(alertView) ? alertView : undefined}
             />
         );
     } else if (textContentParams?.themeLabel) {
