@@ -11,10 +11,11 @@ The `@gravity-ui/dynamic-forms` library provides a basic set of validators and m
 1. [Validation of Arrays](#1-validation-of-arrays)
 2. [Validation of Boolean Values](#2-validation-of-boolean-values)
 3. [Validation of Numbers](#3-validation-of-numbers)
-4. [Validation of Objects](#4-validation-of-objects)
-5. [Validation of Strings](#5-validation-of-strings)
-6. [Adding Custom Validation](#6-adding-custom-validation)
-7. [Conclusion](#conclusion)
+4. [Validation of Numbers with Scale](#4-validation-of-numbers-with-scale)
+5. [Validation of Objects](#5-validation-of-objects)
+6. [Validation of Strings](#6-validation-of-strings)
+7. [Adding Custom Validation](#7-adding-custom-validation)
+8. [Conclusion](#conclusion)
 
 ---
 
@@ -271,7 +272,126 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
         -   No dot at the end.
         -   No leading zeros.
 
-## 4. Validation of Objects
+---
+
+## 4. Validation of Numbers with Scale
+
+Some numeric fields are stored in a single base unit but entered by users in a more convenient, scaled unit. A typical example is a duration stored in milliseconds but displayed and entered in seconds, minutes, hours, or days. These fields use the `number_with_scale` view and the matching `number_with_scale` validator.
+
+The validator performs all the same checks as the [number validator](#3-validation-of-numbers) (required field, spaces, numeric correctness, leading/trailing zeros, dot at the end, integer check, `maximum`/`minimum`). The key difference is in how the `maximum` and `minimum` errors are reported: instead of always showing the raw limit in the base unit, the validator picks the most human-readable scale for that limit and reports it together with the scale title.
+
+For example, with a limit of `3600000` milliseconds, the error message will read `Value must not be greater than 1 hours` rather than `Value must not be greater than 3600000`. If a readable scale cannot be derived (for instance when `sizeParams` is not provided), the validator falls back to the plain numeric message used by the number validator.
+
+### Example Usage in Specification:
+
+The `sizeParams` block describes the available scales. Each scale entry has a `factor` (how many base units it represents, as a string to support very large values) and a `title` (the label shown in the UI and in error messages). `defaultType` is the base unit the value is stored in, and `viewType` is the scale initially shown to the user.
+
+```json
+{
+    "type": "string",
+    "validator": "number_with_scale",
+    "maximum": 3600000,
+    "minimum": 1000,
+    "viewSpec": {
+        "type": "number_with_scale",
+        "layout": "row",
+        "layoutTitle": "Size",
+        "placeholder": "placeholder text",
+        "sizeParams": {
+            "scale": {
+                "msec": {"factor": "1", "title": "msec"},
+                "sec": {"factor": "1000", "title": "sec"},
+                "min": {"factor": "60000", "title": "min"},
+                "hours": {"factor": "3600000", "title": "hours"},
+                "days": {"factor": "86400000", "title": "days"}
+            },
+            "defaultType": "msec",
+            "viewType": "hours"
+        }
+    }
+}
+```
+
+### Implementation of the Number with Scale Validator
+
+```ts
+export interface GetNumberWithScaleValidatorParams extends GetNumberValidatorParams {}
+
+interface NumberWithScaleSpec extends StringSpec {
+    minimum?: number;
+    maximum?: number;
+    format?: 'float' | 'int64';
+}
+
+export const getNumberWithScaleValidator = (params: GetNumberWithScaleValidatorParams = {}) => {
+    const {
+        ignoreRequiredCheck,
+        ignoreSpaceStartCheck,
+        ignoreSpaceEndCheck,
+        ignoreNumberCheck,
+        ignoreMaximumCheck,
+        ignoreMinimumCheck,
+        ignoreIntCheck,
+        ignoreDotEnd,
+        ignoreZeroStart,
+        ignoreInvalidZeroFormat,
+        ignoreZeroEnd,
+        customErrorMessages,
+    } = params;
+
+    return (spec: StringSpec, value = '') => {
+        const errorMessages = {...ErrorMessages, ...customErrorMessages};
+        const numericSpec = spec as NumberWithScaleSpec;
+
+        const stringValue = String(value);
+
+        // ... the same required / space / number / zero checks as getNumberValidator ...
+
+        if (
+            !ignoreMaximumCheck &&
+            isNumber(numericSpec.maximum) &&
+            stringValue.length &&
+            Number(stringValue) > numericSpec.maximum
+        ) {
+            const scaled = getScaledLimit(spec, numericSpec.maximum);
+            return scaled
+                ? errorMessages.maxNumberWithScale(scaled.count, scaled.scaleTitle)
+                : errorMessages.maxNumber(numericSpec.maximum);
+        }
+
+        if (
+            !ignoreMinimumCheck &&
+            isNumber(numericSpec.minimum) &&
+            stringValue.length &&
+            numericSpec.minimum > Number(stringValue)
+        ) {
+            const scaled = getScaledLimit(spec, numericSpec.minimum);
+            return scaled
+                ? errorMessages.minNumberWithScale(scaled.count, scaled.scaleTitle)
+                : errorMessages.minNumber(numericSpec.minimum);
+        }
+
+        if (isString(numericSpec.format) && stringValue.length) {
+            if (!ignoreIntCheck && numericSpec.format === 'int64' && !isInt(stringValue)) {
+                return errorMessages.INT;
+            }
+        }
+
+        return false;
+    };
+};
+```
+
+**Explanation:**
+
+    -   **Inherited checks**: The validator accepts the same `GetNumberValidatorParams` and runs the same checks as the [number validator](#3-validation-of-numbers).
+    -   **`getScaledLimit(spec, limit)`**: Reads `spec.viewSpec.sizeParams`, finds the largest scale in which the limit is still "readable" (its integer part is at least `1`), converts the limit into that scale, and returns `{count, scaleTitle}`.
+    -   **Scaled error messages**: When a scaled limit is available, the validator reports `maxNumberWithScale` / `minNumberWithScale` (for example, `Value must not be greater than 1 hours`). Otherwise it falls back to `maxNumber` / `minNumber` with the raw value.
+    -   The validator returns an error string if validation fails, or `false` if everything is correct.
+
+---
+
+## 5. Validation of Objects
 
 For objects, you can specify that they are required using the `required` field. This means the object must have at least one property with a value.
 
@@ -347,7 +467,7 @@ export const getObjectValidator = (params: GetObjectValidatorParams = {}) => {
 
 ---
 
-## 5. Validation of Strings
+## 6. Validation of Strings
 
 For strings, multiple validation options are available:
 
@@ -458,7 +578,7 @@ export const getStringValidator = (params: GetStringValidatorParams = {}) => {
 
 ---
 
-## 6. Adding Custom Validation
+## 7. Adding Custom Validation
 
 Sometimes, the standard validators may not be sufficient for your specific requirements. In such cases, you can add your own custom validation. There are two ways to do this:
 

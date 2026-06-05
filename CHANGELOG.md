@@ -1,5 +1,19 @@
 # Changelog
 
+## [5.17.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.16.0...v5.17.0) (2026-06-05)
+
+
+### Features
+
+* add color picker ([#368](https://github.com/gravity-ui/dynamic-forms/issues/368)) ([28e309e](https://github.com/gravity-ui/dynamic-forms/commit/28e309e235e1901ad981ce4746c2d331ef611d45))
+
+## [5.16.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.15.0...v5.16.0) (2026-06-05)
+
+
+### Features
+
+* number with scale error messages ([#362](https://github.com/gravity-ui/dynamic-forms/issues/362)) ([4bec5b7](https://github.com/gravity-ui/dynamic-forms/commit/4bec5b7efbc33a3b6f32e00a079362645b3f9a83))
+
 ## [5.15.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.14.0...v5.15.0) (2026-06-04)
 
 
