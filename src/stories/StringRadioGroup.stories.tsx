@@ -47,6 +47,7 @@ const excludeOptions = [
     'viewSpec.textContentParams',
     'viewSpec.fileInput',
     'viewSpec.dateInput',
+    'viewSpec.colorPicker',
     'viewSpec.generateRandomValueButton',
     'viewSpec.placeholder',
     'viewSpec.selectParams',

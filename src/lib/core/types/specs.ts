@@ -196,6 +196,13 @@ export interface StringSpec<
             printFormat?: string;
             timeZone?: string;
         };
+        colorPicker?: {
+            size?: 's' | 'm' | 'l' | 'xl';
+            popupPlacement?: string | string[];
+            defaultOpen?: boolean;
+            withAlpha?: boolean;
+            compact?: boolean;
+        };
         copy?: boolean;
         selectParams?: {
             filterPlaceholder?: string;

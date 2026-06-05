@@ -32,6 +32,7 @@ const excludeOptions = [
     'viewSpec.monacoParams',
     'viewSpec.textContentParams',
     'viewSpec.dateInput',
+    'viewSpec.colorPicker',
     'viewSpec.placeholder',
     'viewSpec.layoutOpen',
     'viewSpec.selectParams',

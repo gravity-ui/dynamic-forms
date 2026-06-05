@@ -3,25 +3,25 @@ import React from 'react';
 import type {StoryFn} from '@storybook/react';
 
 import type {StringSpec} from '../lib';
-import {SpecTypes, Text} from '../lib';
+import {ColorPicker as ColorPickerBase, SpecTypes} from '../lib';
 
 import {InputPreview} from './components';
 
 export default {
-    title: 'String/Password',
-    component: Text,
+    title: 'String/ColorPicker',
+    component: ColorPickerBase,
 };
 
 const baseSpec: StringSpec = {
     type: SpecTypes.String,
-    pattern: '^[-_a-zA-Z0-9/.]+$',
-    patternError: 'Pattern error',
+    defaultValue: '#5282ff',
     viewSpec: {
-        type: 'password',
+        type: 'color_picker',
         layout: 'row',
-        layoutTitle: 'Password',
-        placeholder: 'placeholder text',
-        generateRandomValueButton: true,
+        layoutTitle: 'Color Picker',
+        colorPicker: {
+            size: 'm',
+        },
     },
 };
 
@@ -37,18 +37,24 @@ const excludeOptions = [
     'viewSpec.textContentParams',
     'viewSpec.fileInput',
     'viewSpec.dateInput',
-    'viewSpec.colorPicker',
-    'viewSpec.copy',
+    'viewSpec.placeholder',
+    'viewSpec.layoutOpen',
     'viewSpec.selectParams',
     'viewSpec.radioGroupParams',
+    'viewSpec.generateRandomValueButton',
 ];
 
 const template = (spec: StringSpec = baseSpec) => {
-    const Template: StoryFn<typeof Text> = (__, {viewMode}) => (
-        <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
+    const Template: StoryFn<typeof ColorPickerBase> = (__, {viewMode}) => (
+        <InputPreview
+            spec={spec}
+            value={spec.defaultValue}
+            excludeOptions={excludeOptions}
+            viewMode={viewMode}
+        />
     );
 
     return Template;
 };
 
-export const Password = template();
+export const ColorPicker = template();

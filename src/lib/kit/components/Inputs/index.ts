@@ -4,6 +4,7 @@ export * from './Checkbox';
 export * from './CheckboxGroup';
 export * from './FileInput';
 export * from './DateInput';
+export * from './ColorPicker';
 export * from './MonacoInput';
 export * from './MultiOneOf';
 export * from './MultiSelect';

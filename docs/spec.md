@@ -131,6 +131,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | viewSpec.copy                      | `boolean`                |          | For `true`, will add a copy value button                                                                                                                                                |
 | viewSpec.hidden                    | `boolean`                |          | Hide field and view                                                                                                                                                                     |
 | viewSpec.textContentParams         | `object`                 |          | [Parameters](#textcontentparams) that must be passed to text content                                                                                                                    |
+| viewSpec.colorPicker               | `object`                 |          | [Parameters](#colorpicker) additional options for the color picker                                                                                                                      |
 | viewSpec.selectParams              | `object`                 |          | [Parameters](#selectparams) additional options for the selector                                                                                                                         |
 | viewSpec.generateRandomValueButton | `boolean`                |          | Shows a button that allows you to generate a random value depending on the passed [function generateRandomValue](./lib.md#dynamicfield)                                                 |
 | viewSpec.inputProps                | `object`                 |          | [InputProps](./input-props-map.md) Additional properties for internal input components                                                                                                  |
@@ -181,6 +182,18 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | timeZone     | `string`                                             |          | Sets the time zone. [Learn more about time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) |
 
 You can provide all props of [original component](https://preview.gravity-ui.com/date-components/?path=/docs/components-datepicker--docs) through [viewSpec.inputProps](./input-props-map.md).
+
+#### ColorPicker
+
+| Property       | Type                     | Required | Description                                                                                   |
+| :------------- | :----------------------- | :------: | :-------------------------------------------------------------------------------------------- |
+| size           | `'s'` `'m'` `'l'` `'xl'` |          | Color picker size                                                                             |
+| popupPlacement | `string` \| `string[]`   |          | Popup placement. Uses the same values as `PopupPlacement` from `@gravity-ui/uikit`            |
+| defaultOpen    | `boolean`                |          | Opens the color picker popup at the first render when the component is uncontrolled by `open` |
+| withAlpha      | `boolean`                |          | Allows selecting the alpha channel                                                            |
+| compact        | `boolean`                |          | Shows a compact color picker trigger                                                          |
+
+You can provide all props of [original component](https://github.com/gravity-ui/uikit/tree/main/src/components/lab/ColorPicker) through [viewSpec.inputProps](./input-props-map.md).
 
 #### TextContentParams
 

@@ -673,6 +673,38 @@ const dateInput: ObjectSpec = {
     },
 };
 
+const colorPicker: ObjectSpec = {
+    type: SpecTypes.Object,
+    properties: {
+        size: {
+            type: SpecTypes.String,
+            enum: ['―', 's', 'm', 'l', 'xl'],
+            viewSpec: {type: 'select', layout: 'row', layoutTitle: 'Size'},
+        },
+        popupPlacement: {
+            type: SpecTypes.String,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Popup placement'},
+        },
+        defaultOpen: {
+            type: SpecTypes.Boolean,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Default open'},
+        },
+        withAlpha: {
+            type: SpecTypes.Boolean,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'With alpha'},
+        },
+        compact: {
+            type: SpecTypes.Boolean,
+            viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Compact'},
+        },
+    },
+    viewSpec: {
+        type: 'base',
+        layout: 'accordeon',
+        layoutTitle: 'Color Picker',
+    },
+};
+
 const copy: BooleanSpec = {
     type: SpecTypes.Boolean,
     viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Copy'},
@@ -986,6 +1018,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 placeholder,
                 fileInput,
                 dateInput,
+                colorPicker,
                 copy,
                 hidden,
                 selectParams,
@@ -1006,6 +1039,7 @@ export const getStringOptions = (): ObjectSpec => ({
                 'placeholder',
                 'fileInput',
                 'dateInput',
+                'colorPicker',
                 'copy',
                 'hidden',
                 'selectParams',

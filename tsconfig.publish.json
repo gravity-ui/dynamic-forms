@@ -8,6 +8,9 @@
     "jsx": "react",
     "resolveJsonModule": true,
     "baseUrl": ".",
+    "paths": {
+      "@gravity-ui/uikit/unstable": ["node_modules/@gravity-ui/uikit/build/esm/unstable"]
+    },
     "declaration": true,
     "allowJs": true,
     "importHelpers": true
