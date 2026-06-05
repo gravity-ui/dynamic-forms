@@ -26,6 +26,12 @@ const getErrorMessages = (): ErrorMessagesType => ({
     maxNumber(count: number | bigint) {
         return i18n('label_error-max-number', {count});
     },
+    minNumberWithScale(count: number | bigint | string, scale: string) {
+        return i18n('label_error-min-number-with-scale', {count, scale});
+    },
+    maxNumberWithScale(count: number | bigint | string, scale: string) {
+        return i18n('label_error-max-number-with-scale', {count, scale});
+    },
     SPACE_START: i18n('label_error-space-start'),
     SPACE_END: i18n('label_error-space-end'),
     DOT_END: i18n('label_error-dot-end'),

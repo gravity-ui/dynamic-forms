@@ -1,10 +1,18 @@
-import type {ArraySpec, BooleanSpec, NumberSpec, ObjectSpec, StringSpec} from '../../../core';
+import type {
+    ArraySpec,
+    BooleanSpec,
+    NumberSpec,
+    NumberWithScaleSpec,
+    ObjectSpec,
+    StringSpec,
+} from '../../../core';
 import {SpecTypes} from '../../../core';
 import {ErrorMessages} from '../messages';
 import {
     getArrayValidator,
     getBooleanValidator,
     getNumberValidator,
+    getNumberWithScaleValidator,
     getObjectValidator,
     getStringValidator,
 } from '../validators';
@@ -125,6 +133,86 @@ describe('kit/validators/validators', () => {
         expect(validator(spec, '12')).toBe(false);
 
         expect(getNumberValidator({ignoreZeroStart: true})(spec, '007')).toBe(false);
+        expect(validator(spec, '007')).toBe(ErrorMessages.ZERO_START);
+        expect(validator(spec, '7')).toBe(false);
+    });
+
+    test('getNumberWithScaleValidator', () => {
+        const validator = getNumberWithScaleValidator();
+        const spec: NumberWithScaleSpec = {
+            type: SpecTypes.String,
+            viewSpec: {
+                type: 'number_with_scale',
+                sizeParams: {
+                    scale: {
+                        msec: {factor: '1', title: 'msec'},
+                        sec: {factor: '1000', title: 'sec'},
+                        min: {factor: '60000', title: 'min'},
+                        hours: {factor: '3600000', title: 'hours'},
+                        days: {factor: '86400000', title: 'days'},
+                    },
+                    defaultType: 'msec',
+                },
+            },
+        };
+
+        expect(validator(spec, undefined)).toBe(false);
+        expect(validator(spec, '')).toBe(false);
+
+        spec.format = 'int64';
+
+        expect(getNumberWithScaleValidator({ignoreIntCheck: true})(spec, '1.01')).toBe(false);
+        expect(validator(spec, '1.01')).toBe(ErrorMessages.INT);
+        expect(validator(spec, '1')).toBe(false);
+
+        spec.format = undefined;
+        spec.maximum = 3600000;
+
+        expect(getNumberWithScaleValidator({ignoreMaximumCheck: true})(spec, '3600001')).toBe(
+            false,
+        );
+        expect(validator(spec, '3600001')).toBe(ErrorMessages.maxNumberWithScale('1', 'hours'));
+        expect(validator(spec, '3600000')).toBe(false);
+
+        spec.maximum = undefined;
+        spec.minimum = 1000;
+
+        expect(getNumberWithScaleValidator({ignoreMinimumCheck: true})(spec, '999')).toBe(false);
+        expect(validator(spec, '999')).toBe(ErrorMessages.minNumberWithScale('1', 'sec'));
+        expect(validator(spec, '1000')).toBe(false);
+
+        spec.minimum = undefined;
+        spec.viewSpec.sizeParams = undefined;
+        spec.maximum = 500;
+
+        expect(validator(spec, '600')).toBe(ErrorMessages.maxNumber(spec.maximum));
+
+        spec.maximum = undefined;
+        spec.required = true;
+
+        expect(getNumberWithScaleValidator({ignoreRequiredCheck: true})(spec, undefined)).toBe(
+            false,
+        );
+        expect(validator(spec, undefined)).toBe(ErrorMessages.REQUIRED);
+        expect(validator(spec, '0')).toBe(false);
+
+        spec.required = undefined;
+
+        expect(getNumberWithScaleValidator({ignoreSpaceStartCheck: true})(spec, ' 10')).toBe(
+            ErrorMessages.NUMBER,
+        );
+        expect(validator(spec, ' 1')).toBe(ErrorMessages.SPACE_START);
+        expect(validator(spec, '11')).toBe(false);
+
+        expect(getNumberWithScaleValidator({ignoreDotEnd: true})(spec, '10.')).toBe(false);
+        expect(validator(spec, '1.')).toBe(ErrorMessages.DOT_END);
+        expect(validator(spec, '11.1')).toBe(false);
+
+        expect(getNumberWithScaleValidator({ignoreNumberCheck: true})(spec, '1q2')).toBe(false);
+        expect(validator(spec, '1q2')).toBe(ErrorMessages.NUMBER);
+        expect(validator(spec, '12')).toBe(false);
+
+        expect(getNumberWithScaleValidator({ignoreZeroStart: true})(spec, '007')).toBe(false);
         expect(validator(spec, '007')).toBe(ErrorMessages.ZERO_START);
         expect(validator(spec, '7')).toBe(false);
     });

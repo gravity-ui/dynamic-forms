@@ -84,6 +84,7 @@ import {
     getArrayValidator,
     getBooleanValidator,
     getNumberValidator,
+    getNumberWithScaleValidator,
     getObjectValidator,
     getStringValidator,
 } from '../validators';
@@ -209,6 +210,7 @@ export const dynamicConfig: DynamicFormConfig = {
         validators: {
             base: getStringValidator(),
             number: getNumberValidator() as unknown as ValidatorType<string, StringSpec>,
+            number_with_scale: getNumberWithScaleValidator(),
         },
     },
 };

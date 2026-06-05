@@ -7,13 +7,14 @@ import type {
     ArrayValue,
     BooleanSpec,
     NumberSpec,
+    NumberWithScaleSpec,
     ObjectSpec,
     ObjectValue,
     StringSpec,
 } from '../../core';
 import {ErrorMessages} from '../validators';
 
-import {isFloat, isInt} from './helpers';
+import {getScaledLimit, isFloat, isInt} from './helpers';
 import type {ErrorMessagesType} from './types';
 
 interface CommonValidatorParams {
@@ -174,6 +175,112 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
             spec.minimum > Number(stringValue)
         ) {
             return errorMessages.minNumber(spec.minimum);
+        }
+
+        if (isString(spec.format) && stringValue.length) {
+            if (!ignoreIntCheck && spec.format === 'int64' && !isInt(stringValue)) {
+                return errorMessages.INT;
+            }
+        }
+
+        return false;
+    };
+};
+
+export interface GetNumberWithScaleValidatorParams extends GetNumberValidatorParams {}
+
+export const getNumberWithScaleValidator = (params: GetNumberWithScaleValidatorParams = {}) => {
+    const {
+        ignoreRequiredCheck,
+        ignoreSpaceStartCheck,
+        ignoreSpaceEndCheck,
+        ignoreNumberCheck,
+        ignoreMaximumCheck,
+        ignoreMinimumCheck,
+        ignoreIntCheck,
+        ignoreDotEnd,
+        ignoreZeroStart,
+        ignoreInvalidZeroFormat,
+        ignoreZeroEnd,
+        customErrorMessages,
+    } = params;
+
+    // eslint-disable-next-line complexity
+    return (spec: NumberWithScaleSpec, value = '') => {
+        const errorMessages = {...ErrorMessages, ...customErrorMessages};
+
+        const stringValue = String(value);
+
+        if (!ignoreRequiredCheck && spec.required && !stringValue.length) {
+            return errorMessages.REQUIRED;
+        }
+
+        if (stringValue.length) {
+            if (!ignoreSpaceStartCheck && !stringValue[0].trim()) {
+                return errorMessages.SPACE_START;
+            }
+
+            if (!ignoreSpaceEndCheck && !stringValue[stringValue.length - 1].trim()) {
+                return errorMessages.SPACE_END;
+            }
+
+            if (!ignoreDotEnd && stringValue[stringValue.length - 1] === '.') {
+                return errorMessages.DOT_END;
+            }
+
+            if (!ignoreNumberCheck && !isFloat(stringValue)) {
+                return errorMessages.NUMBER;
+            }
+
+            if (
+                !ignoreZeroStart &&
+                ((stringValue.length > 1 && stringValue[0] === '0' && stringValue[1] !== '.') ||
+                    (stringValue.length > 2 &&
+                        stringValue.substring(0, 2) === '-0' &&
+                        stringValue[2] !== '.'))
+            ) {
+                return errorMessages.ZERO_START;
+            }
+
+            if (
+                !ignoreInvalidZeroFormat &&
+                stringValue.trim().length > 1 &&
+                Number(stringValue.trim()) === 0
+            ) {
+                return errorMessages.INVALID_ZERO_FORMAT;
+            }
+
+            if (
+                !ignoreZeroEnd &&
+                !isInt(stringValue) &&
+                stringValue[stringValue.length - 1] === '0'
+            ) {
+                return errorMessages.ZERO_END;
+            }
+        }
+
+        if (
+            !ignoreMaximumCheck &&
+            isNumber(spec.maximum) &&
+            stringValue.length &&
+            Number(stringValue) > spec.maximum
+        ) {
+            const scaled = getScaledLimit(spec, spec.maximum);
+            return scaled
+                ? errorMessages.maxNumberWithScale(scaled.count, scaled.scaleTitle)
+                : errorMessages.maxNumber(spec.maximum);
+        }
+
+        if (
+            !ignoreMinimumCheck &&
+            isNumber(spec.minimum) &&
+            stringValue.length &&
+            spec.minimum > Number(stringValue)
+        ) {
+            const scaled = getScaledLimit(spec, spec.minimum);
+            return scaled
+                ? errorMessages.minNumberWithScale(scaled.count, scaled.scaleTitle)
+                : errorMessages.minNumber(spec.minimum);
         }
 
         if (isString(spec.format) && stringValue.length) {
