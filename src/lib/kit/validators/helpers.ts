@@ -14,13 +14,6 @@ export const isFloat = (value: string) => {
     return regex.test(value);
 };
 
-/**
- * Scales value given in defaultFactor to scaleFactor
- * @param value
- * @param scaleFactor
- * @param defaultFactor
- * @returns value in scaleFactor
- */
 const scaleValue = (value: number, scaleFactor: string, defaultFactor: string): string | null => {
     if (defaultFactor === scaleFactor) {
         return String(value);
@@ -41,11 +34,6 @@ const scaleValue = (value: number, scaleFactor: string, defaultFactor: string): 
     }
 };
 
-/**
- * Checks if the number is > 1
- * @param numStr - number in a string form
- * @returns true if the number is > 1, false otherwise
- */
 const isReadable = (numStr: string | null): boolean => {
     if (numStr === null) {
         return false;
@@ -61,12 +49,6 @@ const isReadable = (numStr: string | null): boolean => {
     }
 };
 
-/**
- * Returns the biggest readable scale for the given limit
- * @param sizeParams - sizeParams of NumberWithScale
- * @param value - value in defaultFactor scale, which is referenced to deduce appropriate scale
- * @returns the biggest readable scale for the given limit
- */
 const getMostAppropriateScale = (
     sizeParams: NonNullable<StringSpec['viewSpec']['sizeParams']>,
     value: number,

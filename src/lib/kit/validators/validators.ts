@@ -7,6 +7,7 @@ import type {
     ArrayValue,
     BooleanSpec,
     NumberSpec,
+    NumberWithScaleSpec,
     ObjectSpec,
     ObjectValue,
     StringSpec,
@@ -188,12 +189,6 @@ export const getNumberValidator = (params: GetNumberValidatorParams = {}) => {
 
 export interface GetNumberWithScaleValidatorParams extends GetNumberValidatorParams {}
 
-interface NumberWithScaleSpec extends StringSpec {
-    minimum?: number;
-    maximum?: number;
-    format?: 'float' | 'int64';
-}
-
 export const getNumberWithScaleValidator = (params: GetNumberWithScaleValidatorParams = {}) => {
     const {
         ignoreRequiredCheck,
@@ -211,9 +206,8 @@ export const getNumberWithScaleValidator = (params: GetNumberWithScaleValidatorP
     } = params;
 
     // eslint-disable-next-line complexity
-    return (spec: StringSpec, value = '') => {
+    return (spec: NumberWithScaleSpec, value = '') => {
         const errorMessages = {...ErrorMessages, ...customErrorMessages};
-        const numericSpec = spec as NumberWithScaleSpec;
 
         const stringValue = String(value);
 
@@ -267,30 +261,30 @@ export const getNumberWithScaleValidator = (params: GetNumberWithScaleValidatorP
 
         if (
             !ignoreMaximumCheck &&
-            isNumber(numericSpec.maximum) &&
+            isNumber(spec.maximum) &&
             stringValue.length &&
-            Number(stringValue) > numericSpec.maximum
+            Number(stringValue) > spec.maximum
         ) {
-            const scaled = getScaledLimit(spec, numericSpec.maximum);
+            const scaled = getScaledLimit(spec, spec.maximum);
             return scaled
                 ? errorMessages.maxNumberWithScale(scaled.count, scaled.scaleTitle)
-                : errorMessages.maxNumber(numericSpec.maximum);
+                : errorMessages.maxNumber(spec.maximum);
         }
 
         if (
             !ignoreMinimumCheck &&
-            isNumber(numericSpec.minimum) &&
+            isNumber(spec.minimum) &&
             stringValue.length &&
-            numericSpec.minimum > Number(stringValue)
+            spec.minimum > Number(stringValue)
         ) {
-            const scaled = getScaledLimit(spec, numericSpec.minimum);
+            const scaled = getScaledLimit(spec, spec.minimum);
             return scaled
                 ? errorMessages.minNumberWithScale(scaled.count, scaled.scaleTitle)
-                : errorMessages.minNumber(numericSpec.minimum);
+                : errorMessages.minNumber(spec.minimum);
         }
 
-        if (isString(numericSpec.format) && stringValue.length) {
-            if (!ignoreIntCheck && numericSpec.format === 'int64' && !isInt(stringValue)) {
+        if (isString(spec.format) && stringValue.length) {
+            if (!ignoreIntCheck && spec.format === 'int64' && !isInt(stringValue)) {
                 return errorMessages.INT;
             }
         }

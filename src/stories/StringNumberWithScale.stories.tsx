@@ -2,7 +2,7 @@ import React from 'react';
 
 import type {StoryFn} from '@storybook/react';
 
-import type {StringSpec} from '../lib';
+import type {NumberWithScaleSpec} from '../lib';
 import {NumberWithScale as NumberWithScaleBase, SpecTypes} from '../lib';
 
 import {InputPreview} from './components';
@@ -12,9 +12,11 @@ export default {
     component: NumberWithScaleBase,
 };
 
-const baseSpec: StringSpec = {
+const baseSpec: NumberWithScaleSpec = {
     type: SpecTypes.String,
     validator: 'number_with_scale',
+    minimum: 1000,
+    maximum: 3600000,
     viewSpec: {
         type: 'number_with_scale',
         layout: 'row',

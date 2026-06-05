@@ -211,6 +211,12 @@ export interface StringSpec<
     };
 }
 
+export interface NumberWithScaleSpec extends StringSpec {
+    minimum?: number;
+    maximum?: number;
+    format?: 'float' | 'int64';
+}
+
 export type Spec<
     LinkType = any,
     InputComponentProps extends Record<string, any> | undefined = undefined,
