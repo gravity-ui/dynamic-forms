@@ -54,7 +54,7 @@ const excludeOptions = [
     'viewSpec.radioGroupParams',
 ];
 
-const template = (spec: StringSpec = baseSpec) => {
+const template = (spec: NumberWithScaleSpec = baseSpec) => {
     const Template: StoryFn<typeof NumberWithScaleBase> = (__, {viewMode}) => (
         <InputPreview spec={spec} excludeOptions={excludeOptions} viewMode={viewMode} />
     );
