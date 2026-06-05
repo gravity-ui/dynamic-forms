@@ -23,13 +23,8 @@ export const ColorPicker: StringInput<ColorPickerProps> = ({input, spec, inputPr
         [inputProps, onBlur, onFocus],
     );
 
-    const colorPickerProps = spec.viewSpec.colorPicker as React.ComponentProps<
-        typeof ColorPickerBase
-    >;
-
     return (
         <ColorPickerBase
-            {...colorPickerProps}
             {...inputProps}
             value={value || ''}
             onUpdate={onChange}

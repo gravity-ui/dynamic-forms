@@ -19,9 +19,6 @@ const baseSpec: StringSpec = {
         type: 'color_picker',
         layout: 'row',
         layoutTitle: 'Color Picker',
-        colorPicker: {
-            size: 'm',
-        },
     },
 };
 

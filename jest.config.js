@@ -3,9 +3,9 @@ module.exports = {
     moduleFileExtensions: ['js', 'json', 'ts', 'tsx'],
     rootDir: '.',
     transform: {
-        '\\.(ts|tsx)$': ['@swc/jest'],
+        '\\.(js|jsx|ts|tsx)$': ['@swc/jest'],
     },
-    transformIgnorePatterns: ['node_modules/(?!(@gravity-ui|tinygesture))'],
+    transformIgnorePatterns: ['node_modules/(?!(@gravity-ui|tinygesture|@uiw|colors-named))'],
     coverageDirectory: './coverage',
     collectCoverageFrom: ['src/**/*.{ts,tsx}', '!**/__stories__/**/*', '!**/*/*.stories.{ts,tsx}'],
     testEnvironment: 'jsdom',

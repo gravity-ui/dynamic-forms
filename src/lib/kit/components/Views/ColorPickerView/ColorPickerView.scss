@@ -1,0 +1,15 @@
+@import '../../../styles/variables.scss';
+
+.#{$ns}color-picker-view {
+    display: flex;
+    align-items: center;
+    gap: var(--g-spacing-2);
+
+    &__preview {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+        border: 1px solid var(--g-color-line-generic);
+        border-radius: var(--g-border-radius-xs);
+    }
+}
