@@ -10,6 +10,9 @@
     "baseUrl": ".",
     "declaration": true,
     "allowJs": true,
-    "importHelpers": true
+    "importHelpers": true,
+    "paths": {
+      "@gravity-ui/uikit/unstable": ["node_modules/@gravity-ui/uikit/build/esm/unstable"]
+    }
   }
 }
