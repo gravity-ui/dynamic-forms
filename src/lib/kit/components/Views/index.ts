@@ -3,6 +3,7 @@ export * from './BaseView';
 export * from './CheckboxGroupView';
 export * from './CardOneOfView';
 export * from './FileInputView';
+export * from './ColorPickerView';
 export * from './MonacoInputView';
 export * from './MultiOneOfView';
 export * from './MultiSelectView';
