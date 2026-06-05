@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.17.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.17.0...v5.17.1) (2026-06-05)
+
+
+### Bug Fixes
+
+* resolve @gravity-ui/uikit/unstable in publish build ([#370](https://github.com/gravity-ui/dynamic-forms/issues/370)) ([5cc05af](https://github.com/gravity-ui/dynamic-forms/commit/5cc05af08a7e451c93d5c5ccbfc2a5732c2af6f0))
+
 ## [5.17.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.16.0...v5.17.0) (2026-06-05)
 
 
