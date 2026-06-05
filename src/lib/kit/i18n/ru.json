@@ -37,6 +37,8 @@
   ],
   "label_error-min-number": "Значение должно быть числом не меньше {{count}}",
   "label_error-max-number": "Значение должно быть числом не больше {{count}}",
+  "label_error-min-number-with-scale": "Значение должно быть не меньше {{count}} {{scale}}",
+  "label_error-max-number-with-scale": "Значение должно быть не больше {{count}} {{scale}}",
   "label_error-space-end": "Значение не должно заканчиваться пробелом",
   "label_error-space-start": "Значение не должно начинаться с пробела",
   "label_error-zero-start": "Значение не должно начинаться с нуля",
