@@ -5,7 +5,7 @@ import type {FieldValue, JsonSchema, SyncValidateError, Validator} from '../../.
 export interface AsyncValidationWaiter {
     schema: JsonSchema;
     validator: Validator<JsonSchema>;
-    value: FieldValue | null | undefined;
+    value: FieldValue;
 }
 
 export interface AsyncValidationCache extends AsyncValidationWaiter {

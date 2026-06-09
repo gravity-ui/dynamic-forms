@@ -11,7 +11,7 @@ import type {EntityParametersError, ValidateErrorItem} from '../types';
 import {processAjvError} from './process-ajv-error';
 import {processEntityParametersError} from './process-entity-parameters-error';
 
-interface ProcessAjvValidateErrorsParams<Schema extends JsonSchema> {
+export interface ProcessAjvValidateErrorsParams<Schema extends JsonSchema> {
     ajvValidateErrors: (ErrorObject | EntityParametersError)[];
     allValues: ObjectValue;
     errorMessages: ErrorMessages;

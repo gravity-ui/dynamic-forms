@@ -20,7 +20,8 @@ export const setSchemaMutators: SetSchemaMutatorsFunction = (
     const data = field?.data as SchemaMutatorsState | undefined;
 
     if (field && data?.schema && Object.keys(mutatorsParams).length) {
-        const mutatedSchema = {...data.schema};
+        // const mutatedSchema = {...data.schema}; // ? TODO: check if this is needed
+        const mutatedSchema = data.schema;
         const mutators = [...(data.mutators || []), ...mutatorsParams];
 
         mutatorsParams.forEach(({name, schema}) => {
@@ -63,7 +64,8 @@ export const removeSchemaMutators: RemoveSchemaMutatorsFunction = (
         Object.keys(mutatorsToRemove).length
     ) {
         const originalSchema = data.originalSchema;
-        const mutatedSchema = {...data.schema};
+        // const mutatedSchema = {...data.schema}; // ? TODO: check if this is needed
+        const mutatedSchema = data.schema;
         const mutators = (data.mutators || []).filter((m) => {
             if (
                 mutatorsToRemove.some(

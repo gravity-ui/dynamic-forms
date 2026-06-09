@@ -7,7 +7,7 @@ import type {ValidateErrorItem} from '../types';
 
 import {getSchemaByInstancePath, getSchemaBySchemaPath, parseInstancePath} from './common';
 
-interface ProcessAjvErrorParams<Schema extends JsonSchema> {
+export interface ProcessAjvErrorParams<Schema extends JsonSchema> {
     error: ErrorObject;
     errorMessages: ErrorMessages;
     schema: Schema;
@@ -24,16 +24,33 @@ export const processAjvError = <Schema extends JsonSchema>({
     let keyword = error.keyword;
     let schemaPath = error.schemaPath;
 
-    if (keyword === 'required' || keyword === 'dependencies') {
+    if (
+        keyword === 'anyOf' ||
+        (keyword === 'if' &&
+            (error.params.failingKeyword === 'then' || error.params.failingKeyword === 'else')) ||
+        keyword === 'false schema'
+    ) {
+        return;
+    }
+
+    if (error.propertyName) {
+        instancePath += `/${error.propertyName}`;
+    }
+
+    if (keyword === 'required') {
         instancePath += `/${error.params.missingProperty}`;
+    } else if (keyword === 'dependencies') {
+        instancePath += `/${error.params.missingProperty}`;
+        schemaPath =
+            schemaPath.slice(0, -'dependencies'.length) +
+            `properties/${error.params.missingProperty}/dependencies`;
     } else if (keyword === 'if') {
         keyword = error.params.failingKeyword;
         schemaPath = schemaPath.slice(0, -'if'.length) + error.params.failingKeyword;
     }
 
-    const propertyName = instancePath.split('/').pop() as string;
-
     const getErrorMessageBySchema = (schema: JsonSchema | undefined) => {
+        const propertyName = instancePath.split('/').pop() as string;
         const errorOrMap: Record<string, string> | string | undefined = get(
             schema,
             `entityParameters.errorMessages.${keyword}`,
@@ -49,6 +66,9 @@ export const processAjvError = <Schema extends JsonSchema>({
         path: parseInstancePath(instancePath),
         error:
             getErrorMessageBySchema(getSchemaBySchemaPath(schemaPath, schema)) ||
+            getErrorMessageBySchema(
+                getSchemaBySchemaPath(schemaPath.slice(0, -`/${keyword}`.length), schema),
+            ) ||
             getErrorMessageBySchema(getSchemaByInstancePath(instancePath, schema)) ||
             errorMessages[keyword as keyof typeof errorMessages] ||
             error.message,

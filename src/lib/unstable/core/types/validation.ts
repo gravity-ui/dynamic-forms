@@ -22,21 +22,19 @@ export type AsyncValidator<Schema extends JsonSchema> = (
 export type Validator<Schema extends JsonSchema> = SyncValidator<Schema> | AsyncValidator<Schema>;
 
 export interface ErrorMessages {
+    additionalItems?: string;
     additionalProperties?: string;
     anyOf?: string;
     const?: string;
     contains?: string;
     dependencies?: string;
-    else?: string;
     enum?: string;
     exclusiveMaximum?: string;
     exclusiveMinimum?: string;
-    maxContains?: string;
     maxItems?: string;
     maxLength?: string;
     maxProperties?: string;
     maximum?: string;
-    minContains?: string;
     minItems?: string;
     minLength?: string;
     minProperties?: string;
@@ -47,7 +45,6 @@ export interface ErrorMessages {
     pattern?: string;
     propertyNames?: string;
     required?: string;
-    then?: string;
     type?: string;
     uniqueItems?: string;
 }
