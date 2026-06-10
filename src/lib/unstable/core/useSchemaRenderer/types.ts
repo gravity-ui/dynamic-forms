@@ -21,7 +21,7 @@ export type EntityParametersError = ErrorObject<
     {
         schema: JsonSchema;
         validator: Validator<JsonSchema>;
-        value: FieldValue | null | undefined;
+        value: FieldValue;
     }
 >;
 

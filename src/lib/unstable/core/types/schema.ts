@@ -23,13 +23,6 @@ interface EntityParameters<
     >,
 > {
     entityParameters?: {
-        enumDescription?: {
-            [key: string]: string;
-        };
-        errorMessages?: Omit<ErrorMessages, 'dependencies' | 'required'> & {
-            dependencies?: string | Record<string, string>;
-            required?: string | Record<string, string>;
-        }; // todo
         controlType?: ControlKey;
         controlProps?: ExtractControlProps<Config['controls'][ControlKey]>;
         controlWrapperType?: WrapperKey;
@@ -39,6 +32,13 @@ interface EntityParameters<
         viewWrapperType?: WrapperKey;
         viewWrapperProps?: ExtractWrapperProps<Config['wrappers'][WrapperKey]>;
         validatorType?: string;
+        enumDescription?: {
+            [key: string]: string;
+        };
+        errorMessages?: Omit<ErrorMessages, 'dependencies' | 'required'> & {
+            dependencies?: string | Record<string, string>;
+            required?: string | Record<string, string>;
+        };
     };
 }
 
@@ -62,122 +62,12 @@ interface JsonSchemaBase<
      * URI or JSON Pointer to another schema; when resolved, the current schema is replaced by the referenced one.
      *
      * @example
-     * { $ref: '#/$defs/positiveInt' }
+     * { $ref: '#/definitions/positiveInt' }
      *
      * @example
      * { $ref: 'https://example.com/schemas/address' }
      */
     $ref?: string;
-
-    /**
-     * URI of the JSON Schema dialect (draft) this schema conforms to.
-     *
-     * @example
-     * { $schema: 'https://json-schema.org/draft/2020-12/schema', type: JsonSchemaType.Object }
-     */
-    $schema?: string;
-
-    /**
-     * Free-form note for schema authors; not surfaced to end users by the renderer.
-     *
-     * @example
-     * { type: JsonSchemaType.String, $comment: 'TODO: tighten validation once backend lands' }
-     */
-    $comment?: string;
-
-    /**
-     * Map of named, reusable sub-schemas referenced via `$ref` (draft-07 keyword; prefer `$defs` in newer drafts).
-     *
-     * @example
-     * { definitions: { positiveInt: { type: JsonSchemaType.Number, minimum: 1 } } }
-     */
-    definitions?: {[key: string]: JsonSchema};
-
-    /**
-     * Map of named, reusable sub-schemas referenced via `$ref` (draft 2019-09+; replaces `definitions`).
-     *
-     * @example
-     * { $defs: { name: { type: JsonSchemaType.String, minLength: 1 } } }
-     */
-    $defs?: {[key: string]: JsonSchema};
-
-    /**
-     * Short, human-readable label for the field; typically rendered as the form-control label.
-     *
-     * @example
-     * { type: JsonSchemaType.String, title: 'First name' }
-     */
-    title?: string;
-
-    /**
-     * Longer, human-readable explanation of the field; typically rendered as helper text below the control.
-     *
-     * @example
-     * { type: JsonSchemaType.String, description: 'As shown on your government-issued ID' }
-     */
-    description?: string;
-
-    /**
-     * Default value used when the field has not been supplied a value.
-     *
-     * @example
-     * { type: JsonSchemaType.String, default: 'guest' }
-     *
-     * @example
-     * { type: JsonSchemaType.Number, default: 0 }
-     */
-    default?: Value;
-
-    /**
-     * Sample values illustrating typical inputs; used for documentation and tooling, not for validation.
-     *
-     * @example
-     * { type: JsonSchemaType.String, examples: ['alice@example.com', 'bob@example.com'] }
-     */
-    examples?: Value[];
-
-    /**
-     * Marks the field as read-only; the renderer displays the value but disables editing.
-     *
-     * @example
-     * { type: JsonSchemaType.String, readOnly: true }
-     */
-    readOnly?: boolean;
-
-    /**
-     * Marks the field as write-only; the value is accepted on submission but never echoed back (e.g. passwords).
-     *
-     * @example
-     * { type: JsonSchemaType.String, writeOnly: true }
-     */
-    writeOnly?: boolean;
-
-    /**
-     * Indicates the field is deprecated; the renderer may warn or hide it accordingly.
-     *
-     * @example
-     * { type: JsonSchemaType.String, deprecated: true }
-     */
-    deprecated?: boolean;
-
-    /**
-     * Restricts the value to exactly one of the listed entries.
-     *
-     * @example
-     * { type: JsonSchemaType.String, enum: ['draft', 'published', 'archived'] }
-     *
-     * @example
-     * { type: JsonSchemaType.Number, enum: [1, 2, 3] }
-     */
-    enum?: Value[];
-
-    /**
-     * Restricts the value to exactly this single constant.
-     *
-     * @example
-     * { type: JsonSchemaType.String, const: 'v1' }
-     */
-    const?: Value;
 
     /**
      * The value must satisfy every sub-schema in this list (logical AND).
@@ -196,20 +86,66 @@ interface JsonSchemaBase<
     anyOf?: Schema[];
 
     /**
-     * The value must satisfy exactly one sub-schema in this list (logical XOR).
+     * Restricts the value to exactly this single constant.
      *
      * @example
-     * { type: JsonSchemaType.String, oneOf: [{ type: JsonSchemaType.String, maxLength: 5 }, { type: JsonSchemaType.String, minLength: 10 }] }
+     * { type: JsonSchemaType.String, const: 'v1' }
      */
-    oneOf?: Schema[];
+    const?: Value;
 
     /**
-     * The value must NOT satisfy this sub-schema (logical NOT).
+     * Default value used when the field has not been supplied a value.
      *
      * @example
-     * { type: JsonSchemaType.String, not: { type: JsonSchemaType.String, const: 'forbidden' } }
+     * { type: JsonSchemaType.String, default: 'guest' }
+     *
+     * @example
+     * { type: JsonSchemaType.Number, default: 0 }
      */
-    not?: Schema;
+    default?: Value;
+
+    /**
+     * Map of named, reusable sub-schemas referenced via `$ref` (draft-07 keyword).
+     *
+     * @example
+     * { definitions: { positiveInt: { type: JsonSchemaType.Number, minimum: 1 } } }
+     */
+    definitions?: {[key: string]: JsonSchema};
+
+    /**
+     * Longer, human-readable explanation of the field; typically rendered as helper text below the control.
+     *
+     * @example
+     * { type: JsonSchemaType.String, description: 'As shown on your government-issued ID' }
+     */
+    description?: string;
+
+    /**
+     * Sub-schema applied when the `if` condition is not satisfied.
+     *
+     * @example
+     * { type: JsonSchemaType.String, if: { type: JsonSchemaType.String, const: 'ja' }, else: { type: JsonSchemaType.String, minLength: 10 } }
+     */
+    else?: Schema;
+
+    /**
+     * Restricts the value to exactly one of the listed entries.
+     *
+     * @example
+     * { type: JsonSchemaType.String, enum: ['draft', 'published', 'archived'] }
+     *
+     * @example
+     * { type: JsonSchemaType.Number, enum: [1, 2, 3] }
+     */
+    enum?: Value[];
+
+    /**
+     * Sample values illustrating typical inputs; used for documentation and tooling, not for validation.
+     *
+     * @example
+     * { type: JsonSchemaType.String, examples: ['alice@example.com', 'bob@example.com'] }
+     */
+    examples?: Value[];
 
     /**
      * Conditional sub-schema; when the value satisfies it, `then` is applied, otherwise `else`.
@@ -220,6 +156,30 @@ interface JsonSchemaBase<
     if?: Schema;
 
     /**
+     * The value must NOT satisfy this sub-schema (logical NOT).
+     *
+     * @example
+     * { type: JsonSchemaType.String, not: { type: JsonSchemaType.String, const: 'forbidden' } }
+     */
+    not?: Schema;
+
+    /**
+     * The value must satisfy exactly one sub-schema in this list (logical XOR).
+     *
+     * @example
+     * { type: JsonSchemaType.String, oneOf: [{ type: JsonSchemaType.String, maxLength: 5 }, { type: JsonSchemaType.String, minLength: 10 }] }
+     */
+    oneOf?: Schema[];
+
+    /**
+     * Marks the field as read-only; the renderer displays the value but disables editing.
+     *
+     * @example
+     * { type: JsonSchemaType.String, readOnly: true }
+     */
+    readOnly?: boolean;
+
+    /**
      * Sub-schema applied when the `if` condition is satisfied.
      *
      * @example
@@ -228,12 +188,20 @@ interface JsonSchemaBase<
     then?: Schema;
 
     /**
-     * Sub-schema applied when the `if` condition is not satisfied.
+     * Short, human-readable label for the field; typically rendered as the form-control label.
      *
      * @example
-     * { type: JsonSchemaType.String, if: { type: JsonSchemaType.String, const: 'ja' }, else: { type: JsonSchemaType.String, minLength: 10 } }
+     * { type: JsonSchemaType.String, title: 'First name' }
      */
-    else?: Schema;
+    title?: string;
+
+    /**
+     * Marks the field as write-only; the value is accepted on submission but never echoed back (e.g. passwords).
+     *
+     * @example
+     * { type: JsonSchemaType.String, writeOnly: true }
+     */
+    writeOnly?: boolean;
 }
 
 /**
@@ -250,28 +218,83 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = SchemaRende
     type?: undefined;
 
     /**
-     * Shortest allowed length (in characters) when the value is a string; ignored for non-string values.
+     * Schema applied to array items beyond the positional tuple defined by `items`; ignored for non-array values.
+     * When `true`, any additional items are allowed; when `false`, none are.
      *
      * @example
-     * { minLength: 5 }
+     * { items: [{ type: JsonSchemaType.String }], additionalItems: false }
+     *
+     * @example
+     * { items: [{ type: JsonSchemaType.String }], additionalItems: { type: JsonSchemaType.Number } }
      */
-    minLength?: number;
+    additionalItems?: JsonSchema | boolean;
 
     /**
-     * Longest allowed length (in characters) when the value is a string; ignored for non-string values.
+     * Schema applied to object properties not listed in `properties` and not matched by `patternProperties`.
+     * When `true`, any additional properties are allowed; when `false`, none are.
      *
      * @example
-     * { maxLength: 100 }
+     * { properties: { name: { type: JsonSchemaType.String } }, additionalProperties: false }
+     *
+     * @example
+     * { properties: { name: { type: JsonSchemaType.String } }, additionalProperties: { type: JsonSchemaType.Number } }
      */
-    maxLength?: number;
+    additionalProperties?: JsonSchema | boolean;
 
     /**
-     * Regular expression the value must match when it is a string; ignored for non-string values.
+     * Sub-schema that at least one array item must satisfy; ignored for non-array values.
+     * When `true`, any item satisfies the constraint; when `false`, no item can satisfy it.
      *
      * @example
-     * { pattern: '^[A-Z][a-z]+$' }
+     * { contains: true }
+     *
+     * @example
+     * { contains: { type: JsonSchemaType.Number, minimum: 5 } }
      */
-    pattern?: string;
+    contains?: JsonSchema | boolean;
+
+    /**
+     * Encoding used by the string value (e.g. `base64`).
+     *
+     * @example
+     * { contentEncoding: 'base64', contentMediaType: 'image/png' }
+     */
+    contentEncoding?: string;
+
+    /**
+     * MIME type of the parsed string content; pairs with `contentEncoding`.
+     *
+     * @example
+     * { contentMediaType: 'application/json' }
+     */
+    contentMediaType?: string;
+
+    /**
+     * Property-level dependencies: when a key is present, either the listed property names must also be present, or the given sub-schema must hold for the whole object (draft-07 keyword).
+     *
+     * @example
+     * { dependencies: { credit_card: ['billing_address'] } }
+     *
+     * @example
+     * { dependencies: { credit_card: { type: JsonSchemaType.Object, required: ['billing_address'] } } }
+     */
+    dependencies?: {[key: string]: string[] | JsonSchema};
+
+    /**
+     * Strict upper bound for numeric values (value must be less than this); ignored for non-numeric values.
+     *
+     * @example
+     * { exclusiveMaximum: 100 }
+     */
+    exclusiveMaximum?: number;
+
+    /**
+     * Strict lower bound for numeric values (value must be greater than this); ignored for non-numeric values.
+     *
+     * @example
+     * { exclusiveMinimum: 0 }
+     */
+    exclusiveMinimum?: number;
 
     /**
      * Semantic format the value must conform to when it is a string (e.g. `email`, `date`, `uri`).
@@ -285,70 +308,6 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = SchemaRende
     format?: string;
 
     /**
-     * Encoding used by the string value (e.g. `base64`); enables the parsed content to be validated by `contentSchema`.
-     *
-     * @example
-     * { contentEncoding: 'base64', contentMediaType: 'image/png' }
-     */
-    contentEncoding?: string;
-
-    /**
-     * MIME type of the parsed string content; pairs with `contentEncoding` and `contentSchema`.
-     *
-     * @example
-     * { contentMediaType: 'application/json' }
-     */
-    contentMediaType?: string;
-
-    /**
-     * Sub-schema validating the parsed content of a string described by `contentMediaType` / `contentEncoding`.
-     *
-     * @example
-     * { contentMediaType: 'application/json', contentSchema: { type: JsonSchemaType.Object } }
-     */
-    contentSchema?: JsonSchema;
-
-    /**
-     * Smallest allowed numeric value (inclusive); ignored for non-numeric values.
-     *
-     * @example
-     * { minimum: 0 }
-     */
-    minimum?: number;
-
-    /**
-     * Largest allowed numeric value (inclusive); ignored for non-numeric values.
-     *
-     * @example
-     * { maximum: 100 }
-     */
-    maximum?: number;
-
-    /**
-     * Strict lower bound for numeric values (value must be greater than this); ignored for non-numeric values.
-     *
-     * @example
-     * { exclusiveMinimum: 0 }
-     */
-    exclusiveMinimum?: number;
-
-    /**
-     * Strict upper bound for numeric values (value must be less than this); ignored for non-numeric values.
-     *
-     * @example
-     * { exclusiveMaximum: 100 }
-     */
-    exclusiveMaximum?: number;
-
-    /**
-     * Numeric values must be an exact multiple of this number (supports fractional steppers); ignored for non-numeric values.
-     *
-     * @example
-     * { multipleOf: 0.25 }
-     */
-    multipleOf?: number;
-
-    /**
      * Schema (or positional tuple of schemas) that every array item must satisfy; ignored for non-array values.
      *
      * @example
@@ -360,60 +319,12 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = SchemaRende
     items?: JsonSchema | JsonSchema[];
 
     /**
-     * Schema applied to array items beyond the positional tuple defined by `items`; ignored for non-array values.
+     * Largest allowed numeric value (inclusive); ignored for non-numeric values.
      *
      * @example
-     * { items: [{ type: JsonSchemaType.String }], additionalItems: { type: JsonSchemaType.Number } }
+     * { maximum: 100 }
      */
-    additionalItems?: JsonSchema;
-
-    /**
-     * Positional tuple of schemas validating the first N array items (draft 2020-12 replacement for tuple `items`).
-     *
-     * @example
-     * { prefixItems: [{ type: JsonSchemaType.String }, { type: JsonSchemaType.Number }] }
-     */
-    prefixItems?: JsonSchema[];
-
-    /**
-     * Schema applied to array items not validated by `items` or `prefixItems` (draft 2019-09+).
-     *
-     * @example
-     * { prefixItems: [{ type: JsonSchemaType.String }], unevaluatedItems: { type: JsonSchemaType.Number } }
-     */
-    unevaluatedItems?: JsonSchema;
-
-    /**
-     * Sub-schema that at least one array item must satisfy; ignored for non-array values.
-     *
-     * @example
-     * { contains: { type: JsonSchemaType.Number, minimum: 5 } }
-     */
-    contains?: JsonSchema;
-
-    /**
-     * Minimum number of array items that must satisfy `contains`.
-     *
-     * @example
-     * { contains: { type: JsonSchemaType.Number }, minContains: 2 }
-     */
-    minContains?: number;
-
-    /**
-     * Maximum number of array items that may satisfy `contains`.
-     *
-     * @example
-     * { contains: { type: JsonSchemaType.Number }, maxContains: 3 }
-     */
-    maxContains?: number;
-
-    /**
-     * Minimum number of items the array must contain; ignored for non-array values.
-     *
-     * @example
-     * { minItems: 1 }
-     */
-    minItems?: number;
+    maximum?: number;
 
     /**
      * Maximum number of items the array may contain; ignored for non-array values.
@@ -424,20 +335,68 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = SchemaRende
     maxItems?: number;
 
     /**
-     * When true, every array item must be unique; ignored for non-array values.
+     * Longest allowed length (in characters) when the value is a string; ignored for non-string values.
      *
      * @example
-     * { uniqueItems: true }
+     * { maxLength: 100 }
      */
-    uniqueItems?: boolean;
+    maxLength?: number;
 
     /**
-     * Map of property name to schema; defines the validated sub-schema for each named property of an object value.
+     * Maximum number of properties the object may declare; ignored for non-object values.
      *
      * @example
-     * { properties: { name: { type: JsonSchemaType.String } } }
+     * { maxProperties: 5 }
      */
-    properties?: {[key: string]: JsonSchema};
+    maxProperties?: number;
+
+    /**
+     * Smallest allowed numeric value (inclusive); ignored for non-numeric values.
+     *
+     * @example
+     * { minimum: 0 }
+     */
+    minimum?: number;
+
+    /**
+     * Minimum number of items the array must contain; ignored for non-array values.
+     *
+     * @example
+     * { minItems: 1 }
+     */
+    minItems?: number;
+
+    /**
+     * Shortest allowed length (in characters) when the value is a string; ignored for non-string values.
+     *
+     * @example
+     * { minLength: 5 }
+     */
+    minLength?: number;
+
+    /**
+     * Minimum number of properties the object must declare; ignored for non-object values.
+     *
+     * @example
+     * { minProperties: 1 }
+     */
+    minProperties?: number;
+
+    /**
+     * Numeric values must be an exact multiple of this number (supports fractional steppers); ignored for non-numeric values.
+     *
+     * @example
+     * { multipleOf: 0.25 }
+     */
+    multipleOf?: number;
+
+    /**
+     * Regular expression the value must match when it is a string; ignored for non-string values.
+     *
+     * @example
+     * { pattern: '^[A-Z][a-z]+$' }
+     */
+    pattern?: string;
 
     /**
      * Map of regular expression to schema; properties whose name matches a pattern must satisfy the corresponding schema.
@@ -448,20 +407,12 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = SchemaRende
     patternProperties?: {[key: string]: JsonSchema};
 
     /**
-     * Schema applied to object properties not listed in `properties` and not matched by `patternProperties`.
+     * Map of property name to schema; defines the validated sub-schema for each named property of an object value.
      *
      * @example
-     * { properties: { name: { type: JsonSchemaType.String } }, additionalProperties: { type: JsonSchemaType.Number } }
+     * { properties: { name: { type: JsonSchemaType.String } } }
      */
-    additionalProperties?: JsonSchema;
-
-    /**
-     * Schema applied to object properties not already validated by `properties`, `patternProperties`, or `additionalProperties` (draft 2019-09+).
-     *
-     * @example
-     * { properties: { name: { type: JsonSchemaType.String } }, unevaluatedProperties: { type: JsonSchemaType.Number } }
-     */
-    unevaluatedProperties?: JsonSchema;
+    properties?: {[key: string]: JsonSchema};
 
     /**
      * Schema each property name must satisfy (typically a `type: string` schema constraining length or pattern).
@@ -480,47 +431,12 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = SchemaRende
     required?: string[];
 
     /**
-     * Minimum number of properties the object must declare; ignored for non-object values.
+     * When true, every array item must be unique; ignored for non-array values.
      *
      * @example
-     * { minProperties: 1 }
+     * { uniqueItems: true }
      */
-    minProperties?: number;
-
-    /**
-     * Maximum number of properties the object may declare; ignored for non-object values.
-     *
-     * @example
-     * { maxProperties: 5 }
-     */
-    maxProperties?: number;
-
-    /**
-     * Property-level dependencies: when a key is present, either the listed property names must also be present, or the given sub-schema must hold for the whole object (draft-07 keyword).
-     *
-     * @example
-     * { dependencies: { credit_card: ['billing_address'] } }
-     *
-     * @example
-     * { dependencies: { credit_card: { type: JsonSchemaType.Object, required: ['billing_address'] } } }
-     */
-    dependencies?: {[key: string]: string[] | JsonSchema};
-
-    /**
-     * When the keyed property is present, the listed property names are also required (draft 2019-09+; replaces the array form of `dependencies`).
-     *
-     * @example
-     * { dependentRequired: { credit_card: ['billing_address'] } }
-     */
-    dependentRequired?: {[key: string]: string[]};
-
-    /**
-     * When the keyed property is present, the additional sub-schema must hold for the whole object (draft 2019-09+; replaces the schema form of `dependencies`).
-     *
-     * @example
-     * { dependentSchemas: { credit_card: { type: JsonSchemaType.Object, required: ['billing_address'] } } }
-     */
-    dependentSchemas?: {[key: string]: JsonSchema};
+    uniqueItems?: boolean;
 }
 
 /**
@@ -534,7 +450,31 @@ export interface JsonSchemaArray<Config extends SchemaRendererConfig = SchemaRen
      * @example
      * { type: JsonSchemaType.Array, items: { type: JsonSchemaType.String } }
      */
-    type: JsonSchemaType.Array;
+    type?: JsonSchemaType.Array;
+
+    /**
+     * Schema applied to array items beyond the positional tuple defined by `items`.
+     * When `true`, any additional items are allowed; when `false`, none are.
+     *
+     * @example
+     * { type: JsonSchemaType.Array, items: [{ type: JsonSchemaType.String }], additionalItems: false }
+     *
+     * @example
+     * { type: JsonSchemaType.Array, items: [{ type: JsonSchemaType.String }], additionalItems: { type: JsonSchemaType.Number } }
+     */
+    additionalItems?: JsonSchema | boolean;
+
+    /**
+     * Sub-schema that at least one array item must satisfy.
+     * When `true`, any item satisfies the constraint; when `false`, no item can satisfy it.
+     *
+     * @example
+     * { type: JsonSchemaType.Array, contains: true }
+     *
+     * @example
+     * { type: JsonSchemaType.Array, contains: { type: JsonSchemaType.Number, minimum: 5 } }
+     */
+    contains?: JsonSchema | boolean;
 
     /**
      * Schema (or positional tuple of schemas) that every array item must satisfy.
@@ -548,52 +488,12 @@ export interface JsonSchemaArray<Config extends SchemaRendererConfig = SchemaRen
     items?: JsonSchema | JsonSchema[];
 
     /**
-     * Schema applied to array items beyond the positional tuple defined by `items`.
+     * Maximum number of items the array may contain.
      *
      * @example
-     * { type: JsonSchemaType.Array, items: [{ type: JsonSchemaType.String }], additionalItems: { type: JsonSchemaType.Number } }
+     * { type: JsonSchemaType.Array, maxItems: 10 }
      */
-    additionalItems?: JsonSchema;
-
-    /**
-     * Positional tuple of schemas validating the first N array items (draft 2020-12 replacement for tuple `items`).
-     *
-     * @example
-     * { type: JsonSchemaType.Array, prefixItems: [{ type: JsonSchemaType.String }, { type: JsonSchemaType.Number }] }
-     */
-    prefixItems?: JsonSchema[];
-
-    /**
-     * Schema applied to array items not already validated by `items` or `prefixItems` (draft 2019-09+).
-     *
-     * @example
-     * { type: JsonSchemaType.Array, prefixItems: [{ type: JsonSchemaType.String }], unevaluatedItems: { type: JsonSchemaType.Number } }
-     */
-    unevaluatedItems?: JsonSchema;
-
-    /**
-     * Sub-schema that at least one array item must satisfy.
-     *
-     * @example
-     * { type: JsonSchemaType.Array, contains: { type: JsonSchemaType.Number, minimum: 5 } }
-     */
-    contains?: JsonSchema;
-
-    /**
-     * Minimum number of array items that must satisfy `contains`.
-     *
-     * @example
-     * { type: JsonSchemaType.Array, contains: { type: JsonSchemaType.Number }, minContains: 2 }
-     */
-    minContains?: number;
-
-    /**
-     * Maximum number of array items that may satisfy `contains`.
-     *
-     * @example
-     * { type: JsonSchemaType.Array, contains: { type: JsonSchemaType.Number }, maxContains: 3 }
-     */
-    maxContains?: number;
+    maxItems?: number;
 
     /**
      * Minimum number of items the array must contain.
@@ -602,14 +502,6 @@ export interface JsonSchemaArray<Config extends SchemaRendererConfig = SchemaRen
      * { type: JsonSchemaType.Array, minItems: 1 }
      */
     minItems?: number;
-
-    /**
-     * Maximum number of items the array may contain.
-     *
-     * @example
-     * { type: JsonSchemaType.Array, maxItems: 10 }
-     */
-    maxItems?: number;
 
     /**
      * When true, every array item must be unique.
@@ -631,7 +523,7 @@ export interface JsonSchemaBoolean<Config extends SchemaRendererConfig = SchemaR
      * @example
      * { type: JsonSchemaType.Boolean, default: false }
      */
-    type: JsonSchemaType.Boolean;
+    type?: JsonSchemaType.Boolean;
 }
 
 /**
@@ -645,23 +537,15 @@ export interface JsonSchemaNumber<Config extends SchemaRendererConfig = SchemaRe
      * @example
      * { type: JsonSchemaType.Number, minimum: 0, maximum: 100 }
      */
-    type: JsonSchemaType.Number;
+    type?: JsonSchemaType.Number;
 
     /**
-     * Smallest allowed value (inclusive).
+     * Strict upper bound (value must be less than this).
      *
      * @example
-     * { type: JsonSchemaType.Number, minimum: 0 }
+     * { type: JsonSchemaType.Number, exclusiveMaximum: 100 }
      */
-    minimum?: number;
-
-    /**
-     * Largest allowed value (inclusive).
-     *
-     * @example
-     * { type: JsonSchemaType.Number, maximum: 100 }
-     */
-    maximum?: number;
+    exclusiveMaximum?: number;
 
     /**
      * Strict lower bound (value must be greater than this).
@@ -672,12 +556,20 @@ export interface JsonSchemaNumber<Config extends SchemaRendererConfig = SchemaRe
     exclusiveMinimum?: number;
 
     /**
-     * Strict upper bound (value must be less than this).
+     * Largest allowed value (inclusive).
      *
      * @example
-     * { type: JsonSchemaType.Number, exclusiveMaximum: 100 }
+     * { type: JsonSchemaType.Number, maximum: 100 }
      */
-    exclusiveMaximum?: number;
+    maximum?: number;
+
+    /**
+     * Smallest allowed value (inclusive).
+     *
+     * @example
+     * { type: JsonSchemaType.Number, minimum: 0 }
+     */
+    minimum?: number;
 
     /**
      * Value must be an exact multiple of this number (supports fractional steppers like `0.25`).
@@ -702,15 +594,46 @@ export interface JsonSchemaObject<Config extends SchemaRendererConfig = SchemaRe
      * @example
      * { type: JsonSchemaType.Object, properties: { name: { type: JsonSchemaType.String } } }
      */
-    type: JsonSchemaType.Object;
+    type?: JsonSchemaType.Object;
 
     /**
-     * Map of property name to schema; defines the validated sub-schema for each named property.
+     * Schema applied to properties not listed in `properties` and not matched by `patternProperties`.
+     * When `true`, any additional properties are allowed; when `false`, none are.
      *
      * @example
-     * { type: JsonSchemaType.Object, properties: { name: { type: JsonSchemaType.String }, age: { type: JsonSchemaType.Number } } }
+     * { type: JsonSchemaType.Object, properties: { name: { type: JsonSchemaType.String } }, additionalProperties: false }
+     *
+     * @example
+     * { type: JsonSchemaType.Object, properties: { name: { type: JsonSchemaType.String } }, additionalProperties: { type: JsonSchemaType.Number } }
      */
-    properties?: {[key: string]: JsonSchema};
+    additionalProperties?: JsonSchema | boolean;
+
+    /**
+     * Property-level dependencies: when a key is present, either the listed property names must also be present, or the given sub-schema must hold for the whole object (draft-07 keyword).
+     *
+     * @example
+     * { type: JsonSchemaType.Object, dependencies: { credit_card: ['billing_address'] } }
+     *
+     * @example
+     * { type: JsonSchemaType.Object, dependencies: { credit_card: { type: JsonSchemaType.Object, required: ['billing_address'] } } }
+     */
+    dependencies?: {[key: string]: string[] | JsonSchemaObject};
+
+    /**
+     * Maximum number of properties the object may declare.
+     *
+     * @example
+     * { type: JsonSchemaType.Object, maxProperties: 5 }
+     */
+    maxProperties?: number;
+
+    /**
+     * Minimum number of properties the object must declare.
+     *
+     * @example
+     * { type: JsonSchemaType.Object, minProperties: 1 }
+     */
+    minProperties?: number;
 
     /**
      * Map of regular expression to schema; properties whose name matches a pattern must satisfy the corresponding schema.
@@ -721,20 +644,12 @@ export interface JsonSchemaObject<Config extends SchemaRendererConfig = SchemaRe
     patternProperties?: {[key: string]: JsonSchema};
 
     /**
-     * Schema applied to properties not listed in `properties` and not matched by `patternProperties`.
+     * Map of property name to schema; defines the validated sub-schema for each named property.
      *
      * @example
-     * { type: JsonSchemaType.Object, properties: { name: { type: JsonSchemaType.String } }, additionalProperties: { type: JsonSchemaType.Number } }
+     * { type: JsonSchemaType.Object, properties: { name: { type: JsonSchemaType.String }, age: { type: JsonSchemaType.Number } } }
      */
-    additionalProperties?: JsonSchema;
-
-    /**
-     * Schema applied to properties not already validated by `properties`, `patternProperties`, or `additionalProperties` (draft 2019-09+).
-     *
-     * @example
-     * { type: JsonSchemaType.Object, properties: { name: { type: JsonSchemaType.String } }, unevaluatedProperties: { type: JsonSchemaType.Number } }
-     */
-    unevaluatedProperties?: JsonSchema;
+    properties?: {[key: string]: JsonSchema};
 
     /**
      * Schema each property name must satisfy (typically a `type: string` schema constraining length or pattern).
@@ -751,49 +666,6 @@ export interface JsonSchemaObject<Config extends SchemaRendererConfig = SchemaRe
      * { type: JsonSchemaType.Object, properties: { name: { type: JsonSchemaType.String } }, required: ['name'] }
      */
     required?: string[];
-
-    /**
-     * Minimum number of properties the object must declare.
-     *
-     * @example
-     * { type: JsonSchemaType.Object, minProperties: 1 }
-     */
-    minProperties?: number;
-
-    /**
-     * Maximum number of properties the object may declare.
-     *
-     * @example
-     * { type: JsonSchemaType.Object, maxProperties: 5 }
-     */
-    maxProperties?: number;
-
-    /**
-     * Property-level dependencies: when a key is present, either the listed property names must also be present, or the given sub-schema must hold for the whole object (draft-07 keyword).
-     *
-     * @example
-     * { type: JsonSchemaType.Object, dependencies: { credit_card: ['billing_address'] } }
-     *
-     * @example
-     * { type: JsonSchemaType.Object, dependencies: { credit_card: { type: JsonSchemaType.Object, required: ['billing_address'] } } }
-     */
-    dependencies?: {[key: string]: string[] | JsonSchema};
-
-    /**
-     * When the keyed property is present, the listed property names are also required (draft 2019-09+; replaces the array form of `dependencies`).
-     *
-     * @example
-     * { type: JsonSchemaType.Object, dependentRequired: { credit_card: ['billing_address'] } }
-     */
-    dependentRequired?: {[key: string]: string[]};
-
-    /**
-     * When the keyed property is present, the additional sub-schema must hold for the whole object (draft 2019-09+; replaces the schema form of `dependencies`).
-     *
-     * @example
-     * { type: JsonSchemaType.Object, dependentSchemas: { credit_card: { type: JsonSchemaType.Object, required: ['billing_address'] } } }
-     */
-    dependentSchemas?: {[key: string]: JsonSchema};
 }
 
 /**
@@ -807,15 +679,7 @@ export interface JsonSchemaString<Config extends SchemaRendererConfig = SchemaRe
      * @example
      * { type: JsonSchemaType.String, minLength: 1 }
      */
-    type: JsonSchemaType.String;
-
-    /**
-     * Shortest allowed length (in characters) of the string value.
-     *
-     * @example
-     * { type: JsonSchemaType.String, minLength: 5 }
-     */
-    minLength?: number;
+    type?: JsonSchemaType.String;
 
     /**
      * Longest allowed length (in characters) of the string value.
@@ -824,6 +688,14 @@ export interface JsonSchemaString<Config extends SchemaRendererConfig = SchemaRe
      * { type: JsonSchemaType.String, maxLength: 100 }
      */
     maxLength?: number;
+
+    /**
+     * Shortest allowed length (in characters) of the string value.
+     *
+     * @example
+     * { type: JsonSchemaType.String, minLength: 5 }
+     */
+    minLength?: number;
 
     /**
      * Regular expression the string value must match.
@@ -835,41 +707,6 @@ export interface JsonSchemaString<Config extends SchemaRendererConfig = SchemaRe
      * { type: JsonSchemaType.String, pattern: '[0-9]' }
      */
     pattern?: string;
-
-    /**
-     * Semantic format the string value must conform to (e.g. `email`, `date`, `uri`); enforcement depends on the configured validator.
-     *
-     * @example
-     * { type: JsonSchemaType.String, format: 'email' }
-     *
-     * @example
-     * { type: JsonSchemaType.String, format: 'date-time' }
-     */
-    format?: string;
-
-    /**
-     * Encoding used by the string value (e.g. `base64`); enables the parsed content to be validated by `contentSchema`.
-     *
-     * @example
-     * { type: JsonSchemaType.String, contentEncoding: 'base64', contentMediaType: 'image/png' }
-     */
-    contentEncoding?: string;
-
-    /**
-     * MIME type of the parsed string content; pairs with `contentEncoding` and `contentSchema`.
-     *
-     * @example
-     * { type: JsonSchemaType.String, contentMediaType: 'application/json' }
-     */
-    contentMediaType?: string;
-
-    /**
-     * Sub-schema validating the parsed content of a string described by `contentMediaType` / `contentEncoding`.
-     *
-     * @example
-     * { type: JsonSchemaType.String, contentMediaType: 'application/json', contentSchema: { type: JsonSchemaType.Object } }
-     */
-    contentSchema?: JsonSchema;
 }
 
 /**

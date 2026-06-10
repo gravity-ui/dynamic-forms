@@ -32,7 +32,7 @@ import {type GetAjvValidateReturn, getAjvValidate} from './get-ajv-validate';
 import {processAjvValidateErrors} from './process-ajv-validate-errors';
 import {processErrorsState} from './process-errors-state';
 
-type GetValidateParams = {
+export type GetValidateParams = {
     config: SchemaRendererConfig;
     errorMessages: ErrorMessages;
     name: string;
@@ -54,7 +54,7 @@ export const getValidate = ({
     let schema: JsonSchema;
     let ajvValidate: GetAjvValidateReturn;
 
-    return (value, allValues, meta) => {
+    return (value, allValues, meta): SyncValidateError => {
         const data = meta?.data as SchemaRendererState | undefined;
 
         if (!data?.schema) {
@@ -136,6 +136,14 @@ export const getValidate = ({
                 headName: name,
                 arrayAndObjectErrors: result.arrayAndObjectErrors,
             });
+        }
+
+        if (
+            (!result.error ||
+                (isObjectLike(result.error) && Object.keys(result.error).length === 0)) &&
+            Object.keys(result.arrayAndObjectErrors).length
+        ) {
+            return true;
         }
 
         return result.error;

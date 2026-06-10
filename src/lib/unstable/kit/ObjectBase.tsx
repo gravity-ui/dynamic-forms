@@ -100,7 +100,7 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
         // @ts-expect-error
         <Wrapper schema={schema} input={input} meta={meta} wrapperProps={wrapperProps}>
             {content}
-            {meta.touched && meta.error ? <Text color="danger">{meta.error}</Text> : null}
+            {meta.error ? <Text color="danger">{meta.error}</Text> : null}
         </Wrapper>
     );
 };

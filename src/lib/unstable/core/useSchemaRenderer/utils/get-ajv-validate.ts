@@ -50,7 +50,6 @@ export const getAjvValidate = ({config, schema}: GetAjvValidateParams): GetAjvVa
     const ajv = new Ajv({
         allErrors: true,
         allowMatchingProperties: true,
-        coerceTypes: true,
         keywords: [
             {
                 errors: true,

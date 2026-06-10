@@ -15,7 +15,7 @@ import type {
     JsonSchemaObject,
     JsonSchemaString,
 } from '../lib/unstable/core/types';
-import type {untypedConfig} from '../lib/unstable/kit/config';
+// import type {untypedConfig} from '../lib/unstable/kit/config';
 import {config} from '../lib/unstable/kit/config';
 
 export default {
@@ -23,7 +23,9 @@ export default {
     component: ObjectBase,
 };
 
-const stringMaxLength: JsonSchemaString<typeof untypedConfig> = {
+type MyJsonSchemaString = JsonSchemaString; // <typeof untypedConfig>
+
+const stringMaxLength: MyJsonSchemaString = {
     type: JsonSchemaType.String,
     maxLength: 1,
     default: 'jaja',
@@ -56,7 +58,7 @@ const stringMaxLength: JsonSchemaString<typeof untypedConfig> = {
     },
 };
 
-const stringMinLength: JsonSchemaString = {
+const stringMinLength: MyJsonSchemaString = {
     type: JsonSchemaType.String,
     minLength: 10,
     default: 'jaja',
@@ -205,7 +207,7 @@ const stringThen: JsonSchemaString = {
         controlType: 'base',
         controlWrapperType: 'row',
         errorMessages: {
-            then: 'stringThen',
+            // then: 'stringThen',
         },
     },
 };
@@ -229,7 +231,7 @@ const stringElse: JsonSchemaString = {
         controlType: 'base',
         controlWrapperType: 'row',
         errorMessages: {
-            else: 'stringElse',
+            // else: 'stringElse',
         },
     },
 };
@@ -383,7 +385,8 @@ const objectAdditionalProperties: JsonSchemaObject = {
     },
 };
 
-const objectDependencies: JsonSchemaObject<typeof untypedConfig> = {
+const objectDependencies: JsonSchemaObject = {
+    // <typeof untypedConfig>
     type: JsonSchemaType.Object,
     properties: {
         stringConst,
@@ -709,6 +712,23 @@ const baseSpec2: JsonSchemaObject = {
         s: baseSpec,
         ss: baseSpec,
         sss: baseSpec,
+        ssss: baseSpec,
+        sssss: baseSpec,
+        ssssss: baseSpec,
+        sssssss: baseSpec,
+        ssssssss: baseSpec,
+        sssssssss: baseSpec,
+        ssssssssss: baseSpec,
+        sssssssssss: baseSpec,
+        ssssssssssss: baseSpec,
+        sssssssssssss: baseSpec,
+        ssssssssssssss: baseSpec,
+        sssssssssssssss: baseSpec,
+        ssssssssssssssss: baseSpec,
+        sssssssssssssssss: baseSpec,
+        ssssssssssssssssss: baseSpec,
+        sssssssssssssssssss: baseSpec,
+        ssssssssssssssssssss: baseSpec,
     },
     title: 'Candidate',
     entityParameters: {
@@ -733,6 +753,23 @@ const value = {
                 s: {},
                 ss: {},
                 sss: {},
+                ssss: {},
+                sssss: {},
+                ssssss: {},
+                sssssss: {},
+                ssssssss: {},
+                sssssssss: {},
+                ssssssssss: {},
+                sssssssssss: {},
+                ssssssssssss: {},
+                sssssssssssss: {},
+                ssssssssssssss: {},
+                sssssssssssssss: {},
+                ssssssssssssssss: {},
+                sssssssssssssssss: {},
+                ssssssssssssssssss: {},
+                sssssssssssssssssss: {},
+                ssssssssssssssssssss: {},
             },
         },
     },
