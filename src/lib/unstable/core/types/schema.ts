@@ -1,40 +1,35 @@
-import type {JsonSchemaType} from '../constants';
+import type {EntityType, JsonSchemaType} from '../constants';
 
 import type {SchemaRendererConfig} from './config';
 import type {
     ExtractControlProps,
     ExtractViewProps,
     ExtractWrapperProps,
-    SchemaToSchemaType,
+    ObjectKeys,
 } from './helpers';
 import type {ErrorMessages} from './validation';
 import type {ArrayValue, FieldValue, ObjectValue} from './values';
 
 interface EntityParameters<
-    Config extends SchemaRendererConfig[JsonSchemaType] = SchemaRendererConfig[JsonSchemaType],
-    ControlKey extends Exclude<keyof Config['controls'], number> = Exclude<
-        keyof Config['controls'],
-        number
-    >,
-    ViewKey extends Exclude<keyof Config['views'], number> = Exclude<keyof Config['views'], number>,
-    WrapperKey extends Exclude<keyof Config['wrappers'], number> = Exclude<
-        keyof Config['wrappers'],
-        number
-    >,
+    Type extends EntityType,
+    TypeConfig extends SchemaRendererConfig[Type],
+    Control extends ObjectKeys<TypeConfig['controls']> = ObjectKeys<TypeConfig['controls']>,
+    View extends ObjectKeys<TypeConfig['views']> = ObjectKeys<TypeConfig['views']>,
+    Wrapper extends ObjectKeys<TypeConfig['wrappers']> = ObjectKeys<TypeConfig['wrappers']>,
+    Validator extends ObjectKeys<TypeConfig['validators']> = ObjectKeys<TypeConfig['validators']>,
 > {
     entityParameters?: {
-        controlType?: ControlKey;
-        controlProps?: ExtractControlProps<Config['controls'][ControlKey]>;
-        controlWrapperType?: WrapperKey;
-        controlWrapperProps?: ExtractWrapperProps<Config['wrappers'][WrapperKey]>;
-        viewType?: ViewKey;
-        viewProps?: ExtractViewProps<Config['views'][ViewKey]>;
-        viewWrapperType?: WrapperKey;
-        viewWrapperProps?: ExtractWrapperProps<Config['wrappers'][WrapperKey]>;
-        validatorType?: string;
-        enumDescription?: {
-            [key: string]: string;
-        };
+        type?: Type;
+        controlType?: Control;
+        controlProps?: ExtractControlProps<TypeConfig['controls'][Control]>;
+        controlWrapperType?: Wrapper;
+        controlWrapperProps?: ExtractWrapperProps<TypeConfig['wrappers'][Wrapper]>;
+        viewType?: View;
+        viewProps?: ExtractViewProps<TypeConfig['views'][View]>;
+        viewWrapperType?: Wrapper;
+        viewWrapperProps?: ExtractWrapperProps<TypeConfig['wrappers'][Wrapper]>;
+        validatorType?: Validator;
+        enumDescription?: {[key: string]: string};
         errorMessages?: Omit<ErrorMessages, 'dependencies' | 'required'> & {
             dependencies?: string | Record<string, string>;
             required?: string | Record<string, string>;
@@ -45,16 +40,12 @@ interface EntityParameters<
 /**
  * Common JSON Schema keywords inherited by every concrete schema variant.
  */
-interface JsonSchemaBase<
-    Schema extends JsonSchema,
-    Value extends FieldValue,
-    Config extends SchemaRendererConfig = SchemaRendererConfig,
-> extends EntityParameters<Config[SchemaToSchemaType<Schema>]> {
+interface JsonSchemaBase<Schema extends JsonSchema<any>, Value extends FieldValue> {
     /**
      * Unique URI identifier for the schema; serves as the base URI when resolving relative `$ref`s in nested sub-schemas.
      *
      * @example
-     * { $id: 'https://example.com/schemas/person', type: JsonSchemaType.Object }
+     * { $id: 'https://example.com/schemas/person' }
      */
     $id?: string;
 
@@ -207,15 +198,16 @@ interface JsonSchemaBase<
 /**
  * Schema variant without an explicit `type` keyword. Matches values of any JSON type and accepts every keyword from the typed variants.
  */
-export interface JsonSchemaAny<Config extends SchemaRendererConfig = SchemaRendererConfig>
-    extends JsonSchemaBase<JsonSchema, FieldValue, Config> {
+export interface JsonSchemaAny<Config extends SchemaRendererConfig = any>
+    extends JsonSchemaBase<JsonSchema<Config>, FieldValue>,
+        EntityParameters<EntityType.Any, Config[EntityType.Any]> {
     /**
      * Distinguishes this variant from typed schemas: when `type` is omitted, the schema matches values of any JSON type.
      *
      * @example
      * { enum: ['yes', 1, true] }
      */
-    type?: undefined;
+    type?: JsonSchemaType | JsonSchemaType[];
 
     /**
      * Schema applied to array items beyond the positional tuple defined by `items`; ignored for non-array values.
@@ -227,7 +219,7 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = SchemaRende
      * @example
      * { items: [{ type: JsonSchemaType.String }], additionalItems: { type: JsonSchemaType.Number } }
      */
-    additionalItems?: JsonSchema | boolean;
+    additionalItems?: JsonSchema<Config> | boolean;
 
     /**
      * Schema applied to object properties not listed in `properties` and not matched by `patternProperties`.
@@ -239,7 +231,7 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = SchemaRende
      * @example
      * { properties: { name: { type: JsonSchemaType.String } }, additionalProperties: { type: JsonSchemaType.Number } }
      */
-    additionalProperties?: JsonSchema | boolean;
+    additionalProperties?: JsonSchema<Config> | boolean;
 
     /**
      * Sub-schema that at least one array item must satisfy; ignored for non-array values.
@@ -251,7 +243,7 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = SchemaRende
      * @example
      * { contains: { type: JsonSchemaType.Number, minimum: 5 } }
      */
-    contains?: JsonSchema | boolean;
+    contains?: JsonSchema<Config> | boolean;
 
     /**
      * Encoding used by the string value (e.g. `base64`).
@@ -278,7 +270,7 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = SchemaRende
      * @example
      * { dependencies: { credit_card: { type: JsonSchemaType.Object, required: ['billing_address'] } } }
      */
-    dependencies?: {[key: string]: string[] | JsonSchema};
+    dependencies?: {[key: string]: string[] | JsonSchema<Config>};
 
     /**
      * Strict upper bound for numeric values (value must be less than this); ignored for non-numeric values.
@@ -316,7 +308,7 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = SchemaRende
      * @example
      * { items: [{ type: JsonSchemaType.String }, { type: JsonSchemaType.Number }] }
      */
-    items?: JsonSchema | JsonSchema[];
+    items?: JsonSchema<Config> | JsonSchema<Config>[];
 
     /**
      * Largest allowed numeric value (inclusive); ignored for non-numeric values.
@@ -404,7 +396,7 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = SchemaRende
      * @example
      * { patternProperties: { '^x-': { type: JsonSchemaType.String } } }
      */
-    patternProperties?: {[key: string]: JsonSchema};
+    patternProperties?: {[key: string]: JsonSchema<Config>};
 
     /**
      * Map of property name to schema; defines the validated sub-schema for each named property of an object value.
@@ -412,7 +404,7 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = SchemaRende
      * @example
      * { properties: { name: { type: JsonSchemaType.String } } }
      */
-    properties?: {[key: string]: JsonSchema};
+    properties?: {[key: string]: JsonSchema<Config>};
 
     /**
      * Schema each property name must satisfy (typically a `type: string` schema constraining length or pattern).
@@ -420,7 +412,7 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = SchemaRende
      * @example
      * { propertyNames: { type: JsonSchemaType.String, pattern: '^[a-z][a-zA-Z0-9]*$' } }
      */
-    propertyNames?: JsonSchema;
+    propertyNames?: JsonSchema<Config>;
 
     /**
      * Names of properties that must be present on the object value.
@@ -442,15 +434,19 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = SchemaRende
 /**
  * Schema for array values (`type: JsonSchemaType.Array`).
  */
-export interface JsonSchemaArray<Config extends SchemaRendererConfig = SchemaRendererConfig>
-    extends JsonSchemaBase<JsonSchemaArray, ArrayValue, Config> {
+export interface JsonSchemaArray<Config extends SchemaRendererConfig = any>
+    extends JsonSchemaBase<JsonSchemaArray<Config>, ArrayValue>,
+        EntityParameters<EntityType.Array, Config[EntityType.Array]> {
     /**
      * Marks this schema as describing an array value.
      *
      * @example
      * { type: JsonSchemaType.Array, items: { type: JsonSchemaType.String } }
      */
-    type?: JsonSchemaType.Array;
+    type?:
+        | JsonSchemaType.Array
+        | JsonSchemaType.Null
+        | (JsonSchemaType.Array | JsonSchemaType.Null)[];
 
     /**
      * Schema applied to array items beyond the positional tuple defined by `items`.
@@ -462,7 +458,7 @@ export interface JsonSchemaArray<Config extends SchemaRendererConfig = SchemaRen
      * @example
      * { type: JsonSchemaType.Array, items: [{ type: JsonSchemaType.String }], additionalItems: { type: JsonSchemaType.Number } }
      */
-    additionalItems?: JsonSchema | boolean;
+    additionalItems?: JsonSchema<Config> | boolean;
 
     /**
      * Sub-schema that at least one array item must satisfy.
@@ -474,7 +470,7 @@ export interface JsonSchemaArray<Config extends SchemaRendererConfig = SchemaRen
      * @example
      * { type: JsonSchemaType.Array, contains: { type: JsonSchemaType.Number, minimum: 5 } }
      */
-    contains?: JsonSchema | boolean;
+    contains?: JsonSchema<Config> | boolean;
 
     /**
      * Schema (or positional tuple of schemas) that every array item must satisfy.
@@ -485,7 +481,7 @@ export interface JsonSchemaArray<Config extends SchemaRendererConfig = SchemaRen
      * @example
      * { type: JsonSchemaType.Array, items: [{ type: JsonSchemaType.String }, { type: JsonSchemaType.Number }] }
      */
-    items?: JsonSchema | JsonSchema[];
+    items?: JsonSchema<Config> | JsonSchema<Config>[];
 
     /**
      * Maximum number of items the array may contain.
@@ -515,29 +511,38 @@ export interface JsonSchemaArray<Config extends SchemaRendererConfig = SchemaRen
 /**
  * Schema for boolean values (`type: JsonSchemaType.Boolean`).
  */
-export interface JsonSchemaBoolean<Config extends SchemaRendererConfig = SchemaRendererConfig>
-    extends JsonSchemaBase<JsonSchemaBoolean, boolean, Config> {
+export interface JsonSchemaBoolean<Config extends SchemaRendererConfig = any>
+    extends JsonSchemaBase<JsonSchemaBoolean<Config>, boolean>,
+        EntityParameters<EntityType.Boolean, Config[EntityType.Boolean]> {
     /**
      * Marks this schema as describing a boolean value.
      *
      * @example
      * { type: JsonSchemaType.Boolean, default: false }
      */
-    type?: JsonSchemaType.Boolean;
+    type?:
+        | JsonSchemaType.Boolean
+        | JsonSchemaType.Null
+        | (JsonSchemaType.Boolean | JsonSchemaType.Null)[];
 }
 
 /**
  * Schema for numeric values (`type: JsonSchemaType.Number`).
  */
-export interface JsonSchemaNumber<Config extends SchemaRendererConfig = SchemaRendererConfig>
-    extends JsonSchemaBase<JsonSchemaNumber, number, Config> {
+export interface JsonSchemaNumber<Config extends SchemaRendererConfig = any>
+    extends JsonSchemaBase<JsonSchemaNumber<Config>, number>,
+        EntityParameters<EntityType.Number, Config[EntityType.Number]> {
     /**
      * Marks this schema as describing a numeric value.
      *
      * @example
      * { type: JsonSchemaType.Number, minimum: 0, maximum: 100 }
      */
-    type?: JsonSchemaType.Number;
+    type?:
+        | JsonSchemaType.Number
+        | JsonSchemaType.Integer
+        | JsonSchemaType.Null
+        | (JsonSchemaType.Number | JsonSchemaType.Integer | JsonSchemaType.Null)[];
 
     /**
      * Strict upper bound (value must be less than this).
@@ -586,15 +591,19 @@ export interface JsonSchemaNumber<Config extends SchemaRendererConfig = SchemaRe
 /**
  * Schema for object values (`type: JsonSchemaType.Object`).
  */
-export interface JsonSchemaObject<Config extends SchemaRendererConfig = SchemaRendererConfig>
-    extends JsonSchemaBase<JsonSchemaObject, ObjectValue, Config> {
+export interface JsonSchemaObject<Config extends SchemaRendererConfig = any>
+    extends JsonSchemaBase<JsonSchemaObject<Config>, ObjectValue>,
+        EntityParameters<EntityType.Object, Config[EntityType.Object]> {
     /**
      * Marks this schema as describing an object value.
      *
      * @example
      * { type: JsonSchemaType.Object, properties: { name: { type: JsonSchemaType.String } } }
      */
-    type?: JsonSchemaType.Object;
+    type?:
+        | JsonSchemaType.Object
+        | JsonSchemaType.Null
+        | (JsonSchemaType.Object | JsonSchemaType.Null)[];
 
     /**
      * Schema applied to properties not listed in `properties` and not matched by `patternProperties`.
@@ -606,7 +615,7 @@ export interface JsonSchemaObject<Config extends SchemaRendererConfig = SchemaRe
      * @example
      * { type: JsonSchemaType.Object, properties: { name: { type: JsonSchemaType.String } }, additionalProperties: { type: JsonSchemaType.Number } }
      */
-    additionalProperties?: JsonSchema | boolean;
+    additionalProperties?: JsonSchema<Config> | boolean;
 
     /**
      * Property-level dependencies: when a key is present, either the listed property names must also be present, or the given sub-schema must hold for the whole object (draft-07 keyword).
@@ -617,7 +626,7 @@ export interface JsonSchemaObject<Config extends SchemaRendererConfig = SchemaRe
      * @example
      * { type: JsonSchemaType.Object, dependencies: { credit_card: { type: JsonSchemaType.Object, required: ['billing_address'] } } }
      */
-    dependencies?: {[key: string]: string[] | JsonSchemaObject};
+    dependencies?: {[key: string]: string[] | JsonSchemaObject<Config>};
 
     /**
      * Maximum number of properties the object may declare.
@@ -641,7 +650,7 @@ export interface JsonSchemaObject<Config extends SchemaRendererConfig = SchemaRe
      * @example
      * { type: JsonSchemaType.Object, patternProperties: { '^x-': { type: JsonSchemaType.String } } }
      */
-    patternProperties?: {[key: string]: JsonSchema};
+    patternProperties?: {[key: string]: JsonSchema<Config>};
 
     /**
      * Map of property name to schema; defines the validated sub-schema for each named property.
@@ -649,7 +658,7 @@ export interface JsonSchemaObject<Config extends SchemaRendererConfig = SchemaRe
      * @example
      * { type: JsonSchemaType.Object, properties: { name: { type: JsonSchemaType.String }, age: { type: JsonSchemaType.Number } } }
      */
-    properties?: {[key: string]: JsonSchema};
+    properties?: {[key: string]: JsonSchema<Config>};
 
     /**
      * Schema each property name must satisfy (typically a `type: string` schema constraining length or pattern).
@@ -657,7 +666,7 @@ export interface JsonSchemaObject<Config extends SchemaRendererConfig = SchemaRe
      * @example
      * { type: JsonSchemaType.Object, propertyNames: { type: JsonSchemaType.String, pattern: '^[a-z][a-zA-Z0-9]*$' } }
      */
-    propertyNames?: JsonSchema;
+    propertyNames?: JsonSchema<Config>;
 
     /**
      * Names of properties that must be present on the object value.
@@ -671,15 +680,19 @@ export interface JsonSchemaObject<Config extends SchemaRendererConfig = SchemaRe
 /**
  * Schema for string values (`type: JsonSchemaType.String`).
  */
-export interface JsonSchemaString<Config extends SchemaRendererConfig = SchemaRendererConfig>
-    extends JsonSchemaBase<JsonSchemaString, string, Config> {
+export interface JsonSchemaString<Config extends SchemaRendererConfig = any>
+    extends JsonSchemaBase<JsonSchemaString<Config>, string>,
+        EntityParameters<EntityType.String, Config[EntityType.String]> {
     /**
      * Marks this schema as describing a string value.
      *
      * @example
      * { type: JsonSchemaType.String, minLength: 1 }
      */
-    type?: JsonSchemaType.String;
+    type?:
+        | JsonSchemaType.String
+        | JsonSchemaType.Null
+        | (JsonSchemaType.String | JsonSchemaType.Null)[];
 
     /**
      * Longest allowed length (in characters) of the string value.
@@ -718,10 +731,10 @@ export interface JsonSchemaString<Config extends SchemaRendererConfig = SchemaRe
  * @example
  * const schema: JsonSchema = { type: JsonSchemaType.Object, properties: { id: { type: JsonSchemaType.Number } } };
  */
-export type JsonSchema =
-    | JsonSchemaAny
-    | JsonSchemaArray
-    | JsonSchemaBoolean
-    | JsonSchemaNumber
-    | JsonSchemaObject
-    | JsonSchemaString;
+export type JsonSchema<Config extends SchemaRendererConfig = any> =
+    | JsonSchemaAny<Config>
+    | JsonSchemaArray<Config>
+    | JsonSchemaBoolean<Config>
+    | JsonSchemaNumber<Config>
+    | JsonSchemaObject<Config>
+    | JsonSchemaString<Config>;

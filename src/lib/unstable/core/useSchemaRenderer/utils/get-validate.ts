@@ -1,12 +1,9 @@
 import {type FieldValidator} from 'final-form';
 import get from 'lodash/get';
 import isBoolean from 'lodash/isBoolean';
-import isEqual from 'lodash/isEqual';
 import isObjectLike from 'lodash/isObjectLike';
 import isString from 'lodash/isString';
-import set from 'lodash/set';
 
-import {JsonSchemaType} from '../../constants';
 import type {
     ErrorMessages,
     FieldValue,
@@ -15,19 +12,10 @@ import type {
     SchemaRendererConfig,
     SyncValidateError,
 } from '../../types';
-import type {
-    SetArrayObjectErrorsMutator,
-    SetAsyncValidationCacheMutator,
-    SetAsyncValidationWaitersMutator,
-} from '../mutators';
+import type {SetAsyncValidationCacheMutator, SetAsyncValidationWaitersMutator} from '../mutators';
 import type {SchemaRendererState} from '../types';
 
-import {
-    formatFinalFormPath,
-    getSchemaByFinalFormPath,
-    getValuePaths,
-    parseFinalFormName,
-} from './common';
+import {formatFinalFormPath, getValuePaths} from './common';
 import {type GetAjvValidateReturn, getAjvValidate} from './get-ajv-validate';
 import {processAjvValidateErrors} from './process-ajv-validate-errors';
 import {processErrorsState} from './process-errors-state';
@@ -36,9 +24,9 @@ export type GetValidateParams = {
     config: SchemaRendererConfig;
     errorMessages: ErrorMessages;
     name: string;
-    setArrayObjectErrors?: SetArrayObjectErrorsMutator;
     setAsyncValidationCache?: SetAsyncValidationCacheMutator;
     setAsyncValidationWaiters?: SetAsyncValidationWaitersMutator;
+    setErrors: (errors: Record<string, SyncValidateError>) => void;
 };
 
 type GetValidateReturn = FieldValidator<FieldValue>;
@@ -47,9 +35,9 @@ export const getValidate = ({
     config,
     errorMessages,
     name,
-    setArrayObjectErrors,
     setAsyncValidationCache,
     setAsyncValidationWaiters,
+    setErrors,
 }: GetValidateParams): GetValidateReturn => {
     let schema: JsonSchema;
     let ajvValidate: GetAjvValidateReturn;
@@ -86,10 +74,7 @@ export const getValidate = ({
             setAsyncValidationWaiters?.({headName: name, waiters});
         }
 
-        const result: {
-            error: SyncValidateError;
-            arrayAndObjectErrors: Record<string, SyncValidateError>;
-        } = {error: false, arrayAndObjectErrors: {}};
+        const result: {errors: Record<string, SyncValidateError>} = {errors: {}};
 
         [
             ...externalRegularErrorItems,
@@ -101,51 +86,26 @@ export const getValidate = ({
                 return;
             }
 
-            const setError = (path: string[], error: SyncValidateError) => {
-                const itemSchema = getSchemaByFinalFormPath(path, '', schema);
-
-                if (
-                    itemSchema?.type === JsonSchemaType.Array ||
-                    itemSchema?.type === JsonSchemaType.Object
-                ) {
-                    result.arrayAndObjectErrors[
-                        formatFinalFormPath([...parseFinalFormName(name), ...path])
-                    ] = error;
-                } else {
-                    set(result, ['error', ...path], error);
-                }
-            };
-
             if (isObjectLike(item.error)) {
                 getValuePaths(item.error).forEach((childPath) => {
-                    setError([...item.path, ...childPath], get(item.error, childPath));
+                    result.errors[formatFinalFormPath([name, ...item.path, ...childPath])] = get(
+                        item.error,
+                        childPath,
+                    );
                 });
 
                 return;
             }
 
             if (isBoolean(item.error) || isString(item.error)) {
-                setError(item.path, item.error);
+                result.errors[formatFinalFormPath([name, ...item.path])] = item.error;
 
                 return;
             }
         });
 
-        if (!isEqual(result.arrayAndObjectErrors, data.arrayAndObjectErrors)) {
-            setArrayObjectErrors?.({
-                headName: name,
-                arrayAndObjectErrors: result.arrayAndObjectErrors,
-            });
-        }
+        setErrors(result.errors);
 
-        if (
-            (!result.error ||
-                (isObjectLike(result.error) && Object.keys(result.error).length === 0)) &&
-            Object.keys(result.arrayAndObjectErrors).length
-        ) {
-            return true;
-        }
-
-        return result.error;
+        return Object.keys(result.errors).length ? 'error' : false;
     };
 };

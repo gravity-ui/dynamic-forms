@@ -112,23 +112,19 @@ describe('validate booleans', () => {
         });
 
         test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
             expect(validate(validValue, {schema})).toBe(false);
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            expect(setErrors).toHaveBeenCalledWith({});
         });
 
         test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
-            expect(validate(invalidValue, {schema})).toEqual(AJV_MESSAGES.minimum(5));
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            const errors = {[FIELD_NAME]: AJV_MESSAGES.minimum(5)};
+
+            expect(validate(invalidValue, {schema})).toEqual('error');
+            expect(setErrors).toHaveBeenCalledWith(errors);
         });
     });
 
@@ -312,23 +308,19 @@ describe('validate booleans', () => {
         });
 
         test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
             expect(validate(validValue, {schema})).toBe(false);
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            expect(setErrors).toHaveBeenCalledWith({});
         });
 
         test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
-            expect(validate(invalidValue, {schema})).toEqual(AJV_MESSAGES.maximum(1));
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            const errors = {[FIELD_NAME]: AJV_MESSAGES.maximum(1)};
+
+            expect(validate(invalidValue, {schema})).toEqual('error');
+            expect(setErrors).toHaveBeenCalledWith(errors);
         });
     });
 
@@ -416,23 +408,19 @@ describe('validate booleans', () => {
         test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
 
         test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
             expect(validate(validValue, {schema})).toBe(false);
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            expect(setErrors).toHaveBeenCalledWith({});
         });
 
         test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
-            expect(validate(invalidValue, {schema})).toEqual(AJV_MESSAGES.const);
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            const errors = {[FIELD_NAME]: AJV_MESSAGES.const};
+
+            expect(validate(invalidValue, {schema})).toEqual('error');
+            expect(setErrors).toHaveBeenCalledWith(errors);
         });
     });
 
@@ -573,23 +561,19 @@ describe('validate booleans', () => {
         });
 
         test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
             expect(validate(validValue, {schema})).toBe(false);
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            expect(setErrors).toHaveBeenCalledWith({});
         });
 
         test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
-            expect(validate(invalidValue, {schema})).toEqual(AJV_MESSAGES.enum);
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            const errors = {[FIELD_NAME]: AJV_MESSAGES.enum};
+
+            expect(validate(invalidValue, {schema})).toEqual('error');
+            expect(setErrors).toHaveBeenCalledWith(errors);
         });
     });
 
@@ -677,23 +661,19 @@ describe('validate booleans', () => {
         test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
 
         test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
             expect(validate(validValue, {schema})).toBe(false);
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            expect(setErrors).toHaveBeenCalledWith({});
         });
 
         test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
-            expect(validate(invalidValue, {schema})).toEqual(AJV_MESSAGES.enum);
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            const errors = {[FIELD_NAME]: AJV_MESSAGES.enum};
+
+            expect(validate(invalidValue, {schema})).toEqual('error');
+            expect(setErrors).toHaveBeenCalledWith(errors);
         });
     });
 
@@ -800,23 +780,19 @@ describe('validate booleans', () => {
         });
 
         test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
             expect(validate(validValue, {schema})).toBe(false);
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            expect(setErrors).toHaveBeenCalledWith({});
         });
 
         test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
-            expect(validate(invalidValue, {schema})).toEqual(AJV_MESSAGES.not);
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            const errors = {[FIELD_NAME]: AJV_MESSAGES.not};
+
+            expect(validate(invalidValue, {schema})).toEqual('error');
+            expect(setErrors).toHaveBeenCalledWith(errors);
         });
     });
 
@@ -1032,23 +1008,19 @@ describe('validate booleans', () => {
         });
 
         test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
             expect(validate(validValue, {schema})).toBe(false);
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            expect(setErrors).toHaveBeenCalledWith({});
         });
 
         test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
-            expect(validate(invalidValue, {schema})).toEqual(AJV_MESSAGES.oneOf);
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            const errors = {[FIELD_NAME]: AJV_MESSAGES.oneOf};
+
+            expect(validate(invalidValue, {schema})).toEqual('error');
+            expect(setErrors).toHaveBeenCalledWith(errors);
         });
     });
 
@@ -1189,23 +1161,19 @@ describe('validate booleans', () => {
         });
 
         test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
             expect(validate(validValue, {schema})).toBe(false);
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            expect(setErrors).toHaveBeenCalledWith({});
         });
 
         test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
-            expect(validate(invalidValue, {schema})).toEqual(AJV_MESSAGES.enum);
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            const errors = {[FIELD_NAME]: AJV_MESSAGES.enum};
+
+            expect(validate(invalidValue, {schema})).toEqual('error');
+            expect(setErrors).toHaveBeenCalledWith(errors);
         });
     });
 });

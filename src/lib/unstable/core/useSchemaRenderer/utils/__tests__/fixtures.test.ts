@@ -1,6 +1,6 @@
 import type {FieldState} from 'final-form';
 
-import {JsonSchemaType} from '../../../constants';
+import {EntityType} from '../../../constants';
 import type {
     ErrorMessages,
     FieldValue,
@@ -104,7 +104,7 @@ export const customAsyncValidatorWithError = () =>
     Promise.resolve(CUSTOM_ASYNC_VALIDATOR_WITH_ERROR_MESSAGE);
 
 export const SCHEMA_RENDERER_CONFIG: SchemaRendererConfig = {
-    [JsonSchemaType.Any]: {
+    [EntityType.Any]: {
         controls: {},
         views: {},
         wrappers: {},
@@ -113,7 +113,7 @@ export const SCHEMA_RENDERER_CONFIG: SchemaRendererConfig = {
             [CUSTOM_ASYNC_VALIDATOR_WITH_ERROR_TYPE]: customAsyncValidatorWithError,
         },
     },
-    [JsonSchemaType.Array]: {
+    [EntityType.Array]: {
         controls: {},
         views: {},
         wrappers: {},
@@ -122,7 +122,7 @@ export const SCHEMA_RENDERER_CONFIG: SchemaRendererConfig = {
             [CUSTOM_ASYNC_VALIDATOR_WITH_ERROR_TYPE]: customAsyncValidatorWithError,
         },
     },
-    [JsonSchemaType.Boolean]: {
+    [EntityType.Boolean]: {
         controls: {},
         views: {},
         wrappers: {},
@@ -131,7 +131,7 @@ export const SCHEMA_RENDERER_CONFIG: SchemaRendererConfig = {
             [CUSTOM_ASYNC_VALIDATOR_WITH_ERROR_TYPE]: customAsyncValidatorWithError,
         },
     },
-    [JsonSchemaType.Number]: {
+    [EntityType.Number]: {
         controls: {},
         views: {},
         wrappers: {},
@@ -140,7 +140,7 @@ export const SCHEMA_RENDERER_CONFIG: SchemaRendererConfig = {
             [CUSTOM_ASYNC_VALIDATOR_WITH_ERROR_TYPE]: customAsyncValidatorWithError,
         },
     },
-    [JsonSchemaType.Object]: {
+    [EntityType.Object]: {
         controls: {},
         views: {},
         wrappers: {},
@@ -149,7 +149,7 @@ export const SCHEMA_RENDERER_CONFIG: SchemaRendererConfig = {
             [CUSTOM_ASYNC_VALIDATOR_WITH_ERROR_TYPE]: customAsyncValidatorWithError,
         },
     },
-    [JsonSchemaType.String]: {
+    [EntityType.String]: {
         controls: {},
         views: {},
         wrappers: {},
@@ -165,18 +165,18 @@ export const createValidate = (params?: Partial<GetValidateParams>) => {
         config = SCHEMA_RENDERER_CONFIG,
         errorMessages = {},
         name = FIELD_NAME,
-        setArrayObjectErrors = jest.fn(),
         setAsyncValidationCache = jest.fn(),
         setAsyncValidationWaiters = jest.fn(),
+        setErrors = jest.fn(),
     } = params || {};
 
     const originalValidate = getValidate({
         config,
         errorMessages,
         name,
-        setArrayObjectErrors,
         setAsyncValidationCache,
         setAsyncValidationWaiters,
+        setErrors,
     });
 
     const validate = (
@@ -188,9 +188,9 @@ export const createValidate = (params?: Partial<GetValidateParams>) => {
     return {
         originalValidate,
         validate,
-        setArrayObjectErrors,
         setAsyncValidationCache,
         setAsyncValidationWaiters,
+        setErrors,
     };
 };
 

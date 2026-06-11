@@ -9,12 +9,7 @@ import type {
     Validator,
 } from '../types';
 
-import type {
-    ArrayObjectErrorsState,
-    AsyncValidationState,
-    ExternalErrorsState,
-    SchemaMutatorsState,
-} from './mutators';
+import type {AsyncValidationState, ExternalErrorsState, SchemaMutatorsState} from './mutators';
 
 export type EntityParametersError = ErrorObject<
     'entityParameters',
@@ -30,13 +25,13 @@ export interface ValidateErrorItem {
     path: string[];
 }
 
-export interface EntityState extends ArrayObjectErrorsState {
+export interface EntityState {
     config?: SchemaRendererConfig;
     mode?: SchemaRendererMode;
+    errorsRef?: React.RefObject<Record<string, SyncValidateError>>;
 }
 
 export interface SchemaRendererState
-    extends ArrayObjectErrorsState,
-        AsyncValidationState,
+    extends AsyncValidationState,
         ExternalErrorsState,
         SchemaMutatorsState {}
