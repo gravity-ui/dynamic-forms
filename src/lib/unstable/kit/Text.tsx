@@ -24,7 +24,7 @@ const Component = <
     schema,
 }: T) => {
     // const {setErrors, removeErrors} = useSetErrors();
-    const {setSchemaMutators} = useSchemaRendererMutators();
+    const {setSchemaMutators} = useSchemaRendererMutators(); // setExternalErrors
 
     const props: TextInputBaseProps = {
         hasClear: true,
@@ -220,10 +220,22 @@ const Component = <
                         name: 'qwe.test.jajaja.stringPattern',
                         schema: {
                             title: `${input.value}`,
+                            entityParameters: {
+                                validatorType: '',
+                                errorMessages: {
+                                    pattern: `${input.value}`.length - 1 + ' pattern',
+                                },
+                            },
                         },
                     },
                 ],
             });
+            // setExternalErrors?.({
+            //     headName: 'qwe.test.jajaja',
+            //     priorityErrors: {
+            //         'qwe.test.jajaja.stringEnum': `${input.value}`,
+            //     },
+            // });
         }
     }, [input.value]);
 

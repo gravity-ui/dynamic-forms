@@ -1,4 +1,4 @@
-import {JsonSchemaType} from '../../../constants';
+import {EntityType} from '../../../constants';
 import type {JsonSchema} from '../../../types';
 
 import {
@@ -10,8 +10,10 @@ import {
 describe('getAjvValidate', () => {
     test('returns an entity parameters error when validator exists', () => {
         const schema: JsonSchema = {
-            type: JsonSchemaType.String,
-            entityParameters: {validatorType: CUSTOM_VALIDATOR_WITH_ERROR_TYPE},
+            entityParameters: {
+                type: EntityType.String,
+                validatorType: CUSTOM_VALIDATOR_WITH_ERROR_TYPE,
+            },
         };
         const ajvValidate = createAjvValidate({schema});
         const value = 'jajaja';
@@ -27,8 +29,10 @@ describe('getAjvValidate', () => {
                     validator: customValidatorWithError,
                     value,
                     schema: {
-                        type: JsonSchemaType.String,
-                        entityParameters: {validatorType: CUSTOM_VALIDATOR_WITH_ERROR_TYPE},
+                        entityParameters: {
+                            type: EntityType.String,
+                            validatorType: CUSTOM_VALIDATOR_WITH_ERROR_TYPE,
+                        },
                     },
                 },
                 message: '',
@@ -38,8 +42,22 @@ describe('getAjvValidate', () => {
 
     test('returns no errors when validator does not exist', () => {
         const schema: JsonSchema = {
-            type: JsonSchemaType.String,
-            entityParameters: {validatorType: 'unknown-validator'},
+            entityParameters: {type: EntityType.String, validatorType: 'unknown-validator'},
+        };
+        const ajvValidate = createAjvValidate({schema});
+        const value = 'jajaja';
+
+        ajvValidate(value);
+
+        expect(ajvValidate.errors).toBe(null);
+    });
+
+    test('returns no errors when type does not exist', () => {
+        const schema: JsonSchema = {
+            entityParameters: {
+                type: undefined as unknown as EntityType.Any,
+                validatorType: 'unknown-validator',
+            },
         };
         const ajvValidate = createAjvValidate({schema});
         const value = 'jajaja';

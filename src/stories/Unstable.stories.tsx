@@ -7,15 +7,16 @@ import {Form} from 'react-final-form';
 
 import {ObjectBase} from '../lib';
 import {SchemaRenderer, schemaRendererMutators} from '../lib/unstable/core';
-import {JsonSchemaType, SchemaRendererMode} from '../lib/unstable/core/constants';
+import {EntityType, JsonSchemaType, SchemaRendererMode} from '../lib/unstable/core/constants';
 import type {
-    JsonSchemaAny,
+    JsonSchema,
+    // JsonSchemaAny,
     JsonSchemaArray,
     JsonSchemaNumber,
     JsonSchemaObject,
     JsonSchemaString,
 } from '../lib/unstable/core/types';
-// import type {untypedConfig} from '../lib/unstable/kit/config';
+import {type untypedConfig} from '../lib/unstable/kit/config';
 import {config} from '../lib/unstable/kit/config';
 
 export default {
@@ -23,21 +24,22 @@ export default {
     component: ObjectBase,
 };
 
-type MyJsonSchemaString = JsonSchemaString; // <typeof untypedConfig>
+// type MyJsonSchemaString<typeof untypedConfig> = JsonSchemaString<typeof untypedConfig>;
 
-const stringMaxLength: MyJsonSchemaString = {
+const stringMaxLength: JsonSchemaString<typeof untypedConfig> = {
     type: JsonSchemaType.String,
     maxLength: 1,
     default: 'jaja',
     title: 'stringMaxLength',
     entityParameters: {
-        controlType: 'base',
+        type: EntityType.String,
+        controlType: 'baseString',
         controlProps: {
             // name: true,
         },
-        validatorType: 'base',
+        validatorType: 'baseString',
         // controlType: 'base',
-        controlWrapperType: 'row',
+        controlWrapperType: 'rowString',
         errorMessages: {
             maxLength: 'stringMaxLength',
         },
@@ -58,16 +60,17 @@ const stringMaxLength: MyJsonSchemaString = {
     },
 };
 
-const stringMinLength: MyJsonSchemaString = {
+const stringMinLength: JsonSchemaString<typeof untypedConfig> = {
     type: JsonSchemaType.String,
     minLength: 10,
     default: 'jaja',
     title: 'stringMinLength',
     entityParameters: {
-        validatorType: 'async',
-        controlType: 'base',
+        type: EntityType.String,
+        // validatorType: 'async',
+        controlType: 'baseString',
         controlProps: {},
-        controlWrapperType: 'row',
+        controlWrapperType: 'rowString',
         controlWrapperProps: {},
         errorMessages: {
             minLength: 'stringMinLength',
@@ -75,14 +78,15 @@ const stringMinLength: MyJsonSchemaString = {
     },
 };
 
-const stringPattern: JsonSchemaString = {
+const stringPattern: JsonSchemaString<typeof untypedConfig> = {
     type: JsonSchemaType.String,
     pattern: '[0-9]',
     default: 'jaja',
     title: 'stringPattern',
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
+        type: EntityType.String,
+        controlType: 'baseString',
+        controlWrapperType: 'rowString',
         controlWrapperProps: {},
         errorMessages: {
             pattern: 'stringPattern',
@@ -90,7 +94,7 @@ const stringPattern: JsonSchemaString = {
     },
 };
 
-const stringAllOf: JsonSchemaString = {
+const stringAllOf: JsonSchemaString<typeof untypedConfig> = {
     type: JsonSchemaType.String,
     default: 'jaja',
     title: 'stringAllOf',
@@ -115,8 +119,9 @@ const stringAllOf: JsonSchemaString = {
         },
     ],
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
+        type: EntityType.String,
+        controlType: 'baseString',
+        controlWrapperType: 'rowString',
         errorMessages: {
             minLength: 'stringAllOf/minLength from item',
             const: 'stringAllOf/const from item',
@@ -124,7 +129,7 @@ const stringAllOf: JsonSchemaString = {
     },
 };
 
-const stringAnyOf: JsonSchemaString = {
+const stringAnyOf: JsonSchemaString<typeof untypedConfig> = {
     type: JsonSchemaType.String,
     default: 'jaja',
     title: 'stringAnyOf',
@@ -149,8 +154,9 @@ const stringAnyOf: JsonSchemaString = {
         },
     ],
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
+        type: EntityType.String,
+        controlType: 'baseString',
+        controlWrapperType: 'rowString',
         errorMessages: {
             minLength: 'stringAnyOf/minLength from item',
             const: 'stringAnyOf/const from item',
@@ -159,36 +165,38 @@ const stringAnyOf: JsonSchemaString = {
     },
 };
 
-const stringConst: JsonSchemaString = {
+const stringConst: JsonSchemaString<typeof untypedConfig> = {
     type: JsonSchemaType.String,
     const: 'jajajaja',
     default: 'jaja',
     title: 'stringConst',
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
+        type: EntityType.String,
+        controlType: 'baseString',
+        controlWrapperType: 'rowString',
         errorMessages: {
             const: 'stringConst',
         },
     },
 };
 
-const stringEnum: JsonSchemaString = {
+const stringEnum: JsonSchemaString<typeof untypedConfig> = {
     type: JsonSchemaType.String,
     enum: ['jajaja', 'bobobo'],
     default: 'jaja',
     title: 'stringEnum',
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
+        type: EntityType.String,
+        controlType: 'baseString',
+        controlWrapperType: 'rowString',
         errorMessages: {
             enum: 'stringEnum',
         },
-        validatorType: 'ccc',
+        validatorType: 'cccString',
     },
 };
 
-const stringThen: JsonSchemaString = {
+const stringThen: JsonSchemaString<typeof untypedConfig> = {
     type: JsonSchemaType.String,
     default: 'jaja',
     title: 'stringThen',
@@ -204,15 +212,16 @@ const stringThen: JsonSchemaString = {
         minLength: 5,
     },
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
+        type: EntityType.String,
+        controlType: 'baseString',
+        controlWrapperType: 'rowString',
         errorMessages: {
             // then: 'stringThen',
         },
     },
 };
 
-const stringElse: JsonSchemaString = {
+const stringElse: JsonSchemaString<typeof untypedConfig> = {
     type: JsonSchemaType.String,
     default: 'jaja',
     title: 'stringElse',
@@ -228,15 +237,16 @@ const stringElse: JsonSchemaString = {
         type: JsonSchemaType.String,
     },
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
+        type: EntityType.String,
+        controlType: 'baseString',
+        controlWrapperType: 'rowString',
         errorMessages: {
             // else: 'stringElse',
         },
     },
 };
 
-const stringNot: JsonSchemaString = {
+const stringNot: JsonSchemaString<typeof untypedConfig> = {
     type: JsonSchemaType.String,
     default: 'jaja',
     title: 'stringNot',
@@ -245,15 +255,16 @@ const stringNot: JsonSchemaString = {
         const: 'jaja',
     },
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
+        type: EntityType.String,
+        controlType: 'baseString',
+        controlWrapperType: 'rowString',
         errorMessages: {
             not: 'stringNot',
         },
     },
 };
 
-const stringOneOf: JsonSchemaString = {
+const stringOneOf: JsonSchemaString<typeof untypedConfig> = {
     type: JsonSchemaType.String,
     default: 'jaja',
     title: 'stringOneOf',
@@ -278,8 +289,9 @@ const stringOneOf: JsonSchemaString = {
         },
     ],
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
+        type: EntityType.String,
+        controlType: 'baseString',
+        controlWrapperType: 'rowString',
         errorMessages: {
             minLength: 'stringOneOf from item',
             const: 'stringOneOf from item',
@@ -288,77 +300,82 @@ const stringOneOf: JsonSchemaString = {
     },
 };
 
-const numberExclusiveMaximum: JsonSchemaNumber = {
+const numberExclusiveMaximum: JsonSchemaNumber<typeof untypedConfig> = {
     type: JsonSchemaType.Number,
     exclusiveMaximum: 2,
     default: 2,
     title: 'numberExclusiveMaximum',
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
+        type: EntityType.Number,
+        controlType: 'baseNumber',
+        controlWrapperType: 'rowNumber',
         errorMessages: {
             exclusiveMaximum: 'numberExclusiveMaximum',
         },
     },
 };
 
-const numberExclusiveMinimum: JsonSchemaNumber = {
+const numberExclusiveMinimum: JsonSchemaNumber<typeof untypedConfig> = {
     type: JsonSchemaType.Number,
     exclusiveMinimum: 2,
     default: 2,
     title: 'numberExclusiveMinimum',
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
+        type: EntityType.Number,
+        controlType: 'baseNumber',
+        controlWrapperType: 'rowNumber',
         errorMessages: {
             exclusiveMinimum: 'numberExclusiveMinimum',
         },
     },
 };
 
-const numberMaximum: JsonSchemaNumber = {
+const numberMaximum: JsonSchemaNumber<typeof untypedConfig> = {
     type: JsonSchemaType.Number,
     maximum: 2,
     default: 3,
     title: 'numberMaximum',
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
+        type: EntityType.Number,
+        controlType: 'baseNumber',
+        controlWrapperType: 'rowNumber',
         errorMessages: {
             maximum: 'numberMaximum',
         },
     },
 };
 
-const numberMinimum: JsonSchemaNumber = {
+const numberMinimum: JsonSchemaNumber<typeof untypedConfig> = {
     type: JsonSchemaType.Number,
     minimum: 3,
     default: 2,
     title: 'numberMinimum',
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
+        type: EntityType.Number,
+        controlType: 'baseNumber',
+        controlWrapperType: 'rowNumber',
         errorMessages: {
             minimum: 'numberMinimum',
         },
     },
 };
 
-const numberMultipleOf: JsonSchemaNumber = {
+const numberMultipleOf: JsonSchemaNumber<typeof untypedConfig> = {
     type: JsonSchemaType.Number,
     multipleOf: 3,
     default: 2,
     title: 'numberMultipleOf',
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
+        type: EntityType.Number,
+        controlType: 'baseNumber',
+        controlWrapperType: 'rowNumber',
         errorMessages: {
             multipleOf: 'numberMultipleOf',
         },
     },
 };
 
-const objectAdditionalProperties: JsonSchemaObject = {
+const objectAdditionalProperties: JsonSchemaObject<typeof untypedConfig> = {
     type: JsonSchemaType.Object,
     properties: {
         stringConst,
@@ -374,8 +391,9 @@ const objectAdditionalProperties: JsonSchemaObject = {
         },
     },
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'accordeon',
+        type: EntityType.Object,
+        controlType: 'baseObject',
+        controlWrapperType: 'accordeonObject',
         controlWrapperProps: {
             open: true,
         },
@@ -385,7 +403,7 @@ const objectAdditionalProperties: JsonSchemaObject = {
     },
 };
 
-const objectDependencies: JsonSchemaObject = {
+const objectDependencies: JsonSchemaObject<typeof untypedConfig> = {
     // <typeof untypedConfig>
     type: JsonSchemaType.Object,
     properties: {
@@ -414,8 +432,9 @@ const objectDependencies: JsonSchemaObject = {
         // },
     },
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'accordeon',
+        type: EntityType.Object,
+        controlType: 'baseObject',
+        controlWrapperType: 'accordeonObject',
         controlWrapperProps: {
             open: true,
         },
@@ -429,7 +448,7 @@ const objectDependencies: JsonSchemaObject = {
     },
 };
 
-const objectMaxProperties: JsonSchemaObject = {
+const objectMaxProperties: JsonSchemaObject<typeof untypedConfig> = {
     type: JsonSchemaType.Object,
     properties: {
         stringConst,
@@ -439,8 +458,9 @@ const objectMaxProperties: JsonSchemaObject = {
     maxProperties: 1,
     default: {},
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'accordeon',
+        type: EntityType.Object,
+        controlType: 'baseObject',
+        controlWrapperType: 'accordeonObject',
         controlWrapperProps: {
             open: true,
         },
@@ -450,7 +470,7 @@ const objectMaxProperties: JsonSchemaObject = {
     },
 };
 
-const objectMinProperties: JsonSchemaObject = {
+const objectMinProperties: JsonSchemaObject<typeof untypedConfig> = {
     type: JsonSchemaType.Object,
     properties: {
         stringConst,
@@ -460,8 +480,9 @@ const objectMinProperties: JsonSchemaObject = {
     minProperties: 3,
     default: {},
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'accordeon',
+        type: EntityType.Object,
+        controlType: 'baseObject',
+        controlWrapperType: 'accordeonObject',
         controlWrapperProps: {
             open: true,
         },
@@ -471,7 +492,7 @@ const objectMinProperties: JsonSchemaObject = {
     },
 };
 
-const objectPatternProperties: JsonSchemaObject = {
+const objectPatternProperties: JsonSchemaObject<typeof untypedConfig> = {
     type: JsonSchemaType.Object,
     properties: {
         stringConst,
@@ -486,15 +507,16 @@ const objectPatternProperties: JsonSchemaObject = {
         },
     },
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'accordeon',
+        type: EntityType.Object,
+        controlType: 'baseObject',
+        controlWrapperType: 'accordeonObject',
         controlWrapperProps: {
             open: true,
         },
     },
 };
 
-const objectPropertyNames: JsonSchemaObject = {
+const objectPropertyNames: JsonSchemaObject<typeof untypedConfig> = {
     type: JsonSchemaType.Object,
     properties: {
         stringConst,
@@ -507,8 +529,9 @@ const objectPropertyNames: JsonSchemaObject = {
         maxLength: 5,
     },
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'accordeon',
+        type: EntityType.Object,
+        controlType: 'baseObject',
+        controlWrapperType: 'accordeonObject',
         controlWrapperProps: {
             open: true,
         },
@@ -518,14 +541,14 @@ const objectPropertyNames: JsonSchemaObject = {
     },
 };
 
-const arrayContains: JsonSchemaArray = {
+const arrayContains: JsonSchemaArray<typeof untypedConfig> = {
     type: JsonSchemaType.Array,
     items: {
         type: JsonSchemaType.String,
         title: 'item',
         entityParameters: {
-            controlType: 'base',
-            controlWrapperType: 'row',
+            controlType: 'baseString',
+            controlWrapperType: 'rowString',
         },
     },
     // contains: true,
@@ -536,26 +559,28 @@ const arrayContains: JsonSchemaArray = {
     title: 'arrayContains',
     default: [],
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
-        controlWrapperProps: {
-            open: true,
-        },
+        type: EntityType.Array,
+        controlType: 'baseArray',
+        // controlWrapperType: 'row',
+        // controlWrapperProps: {
+        //     open: true,
+        // },
         errorMessages: {
             contains: 'arrayContains',
         },
     },
 };
 
-const arrayMaxItems: JsonSchemaArray = {
+const arrayMaxItems: JsonSchemaArray<typeof untypedConfig> = {
     type: JsonSchemaType.Array,
     items: {
         type: JsonSchemaType.String,
         title: 'item',
         minLength: 2,
         entityParameters: {
-            controlType: 'base',
-            controlWrapperType: 'row',
+            type: EntityType.String,
+            controlType: 'baseString',
+            controlWrapperType: 'rowString',
             errorMessages: {
                 minLength: 'stringMinLength',
             },
@@ -565,8 +590,9 @@ const arrayMaxItems: JsonSchemaArray = {
     title: 'arrayMaxItems',
     default: ['1', '2'],
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
+        type: EntityType.Array,
+        controlType: 'baseArray',
+        controlWrapperType: 'rowArray',
         controlWrapperProps: {
             open: true,
         },
@@ -576,22 +602,24 @@ const arrayMaxItems: JsonSchemaArray = {
     },
 };
 
-const arrayMinItems: JsonSchemaArray = {
+const arrayMinItems: JsonSchemaArray<typeof untypedConfig> = {
     type: JsonSchemaType.Array,
     items: {
         type: JsonSchemaType.String,
         title: 'item',
         entityParameters: {
-            controlType: 'base',
-            controlWrapperType: 'row',
+            type: EntityType.String,
+            controlType: 'baseString',
+            controlWrapperType: 'rowString',
         },
     },
     minItems: 3,
     title: 'arrayMinItems',
     default: ['1', '2'],
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
+        type: EntityType.Array,
+        controlType: 'baseArray',
+        controlWrapperType: 'rowArray',
         controlWrapperProps: {
             open: true,
         },
@@ -601,22 +629,24 @@ const arrayMinItems: JsonSchemaArray = {
     },
 };
 
-const arrayUniqueItems: JsonSchemaArray = {
+const arrayUniqueItems: JsonSchemaArray<typeof untypedConfig> = {
     type: JsonSchemaType.Array,
     items: {
         type: JsonSchemaType.String,
         title: 'item',
         entityParameters: {
-            controlType: 'base',
-            controlWrapperType: 'row',
+            type: EntityType.String,
+            controlType: 'baseString',
+            controlWrapperType: 'rowString',
         },
     },
     uniqueItems: true,
     title: 'arrayUniqueItems',
     default: ['1', '1'],
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
+        type: EntityType.Array,
+        controlType: 'baseArray',
+        controlWrapperType: 'rowArray',
         controlWrapperProps: {
             open: true,
         },
@@ -626,17 +656,27 @@ const arrayUniqueItems: JsonSchemaArray = {
     },
 };
 
-const anySpec: JsonSchemaAny = {
+const anySpec: JsonSchema<typeof untypedConfig> = {
     title: 'anySpec',
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'row',
-        validatorType: 'ccc',
+        type: EntityType.Any,
+        controlType: 'baseAny',
+        // controlWrapperType: 'rowAny',
+        // validatorType: 'cccAny',
     },
-    oneOf: [stringEnum, arrayUniqueItems],
+    oneOf: [stringEnum, stringConst],
+    items: [stringEnum, arrayUniqueItems],
+    properties: {
+        stringEnum,
+        arrayUniqueItems,
+    },
+    required: ['stringEnum', 'arrayUniqueItems'],
+    additionalProperties: false,
+    additionalItems: false,
+    uniqueItems: true,
 };
 
-const baseSpec: JsonSchemaObject = {
+const baseSpec: JsonSchemaObject<typeof untypedConfig> = {
     type: JsonSchemaType.Object,
     properties: {
         anySpec,
@@ -666,11 +706,20 @@ const baseSpec: JsonSchemaObject = {
         objectMinProperties,
         objectPatternProperties,
         objectPropertyNames,
+        test: {
+            type: JsonSchemaType.String,
+            title: 'test',
+            entityParameters: {
+                controlType: 'baseString',
+                controlWrapperType: 'rowString',
+            },
+        },
     },
     title: 'Candidate',
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'accordeon',
+        type: EntityType.Object,
+        controlType: 'baseObject',
+        controlWrapperType: 'accordeonObject',
         controlWrapperProps: {
             open: true,
         },
@@ -678,7 +727,7 @@ const baseSpec: JsonSchemaObject = {
     const: {},
 };
 
-const baseSpec2: JsonSchemaObject = {
+const baseSpec2: JsonSchemaObject<typeof untypedConfig> = {
     type: JsonSchemaType.Object,
     properties: {
         anySpec,
@@ -729,11 +778,30 @@ const baseSpec2: JsonSchemaObject = {
         ssssssssssssssssss: baseSpec,
         sssssssssssssssssss: baseSpec,
         ssssssssssssssssssss: baseSpec,
+        test: {
+            title: 'test',
+            properties: {
+                test: {
+                    title: 'test',
+                    entityParameters: {
+                        type: EntityType.String,
+                        controlType: 'baseString',
+                    },
+                },
+            },
+            entityParameters: {
+                type: EntityType.Object,
+                controlType: 'baseObject',
+                // controlWrapperType: 'row',
+                // controlProps: {qq: true},
+            },
+        },
     },
     title: 'Candidate',
     entityParameters: {
-        controlType: 'base',
-        controlWrapperType: 'accordeon',
+        type: EntityType.Object,
+        controlType: 'baseObject',
+        controlWrapperType: 'accordeonObject',
         controlWrapperProps: {
             open: true,
         },

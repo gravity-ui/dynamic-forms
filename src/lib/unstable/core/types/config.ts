@@ -1,4 +1,4 @@
-import type {JsonSchemaType} from '../constants';
+import type {EntityType} from '../constants';
 
 import type {Control, View, Wrapper} from './components';
 import type {
@@ -36,10 +36,10 @@ export interface TypeConfig<Schema extends JsonSchema> {
 }
 
 export interface SchemaRendererConfig {
-    [JsonSchemaType.Any]: TypeConfig<JsonSchemaAny>;
-    [JsonSchemaType.Array]: TypeConfig<JsonSchemaArray>;
-    [JsonSchemaType.Boolean]: TypeConfig<JsonSchemaBoolean>;
-    [JsonSchemaType.Number]: TypeConfig<JsonSchemaNumber>;
-    [JsonSchemaType.Object]: TypeConfig<JsonSchemaObject>;
-    [JsonSchemaType.String]: TypeConfig<JsonSchemaString>;
+    [EntityType.Any]: TypeConfig<JsonSchemaAny>;
+    [EntityType.Array]: TypeConfig<JsonSchemaArray>;
+    [EntityType.Boolean]: TypeConfig<JsonSchemaBoolean>;
+    [EntityType.Number]: TypeConfig<JsonSchemaNumber>;
+    [EntityType.Object]: TypeConfig<JsonSchemaObject>;
+    [EntityType.String]: TypeConfig<JsonSchemaString>;
 }

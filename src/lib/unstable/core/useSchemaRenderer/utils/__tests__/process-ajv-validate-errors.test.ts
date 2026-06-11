@@ -1,6 +1,6 @@
 import type {ErrorObject} from 'ajv';
 
-import {JsonSchemaType} from '../../../constants';
+import {EntityType, JsonSchemaType} from '../../../constants';
 import type {JsonSchema} from '../../../types';
 import type {EntityParametersError} from '../../types';
 
@@ -45,8 +45,10 @@ describe('processAjvValidateErrors', () => {
 
     test('processes entity parameters sync errors', () => {
         const schema: JsonSchema = {
-            type: JsonSchemaType.String,
-            entityParameters: {validatorType: CUSTOM_VALIDATOR_WITH_ERROR_TYPE},
+            entityParameters: {
+                type: EntityType.String,
+                validatorType: CUSTOM_VALIDATOR_WITH_ERROR_TYPE,
+            },
         };
         const ajvValidateErrors: (ErrorObject | EntityParametersError)[] = [
             {

@@ -14,9 +14,7 @@ import {
 
 describe('validate booleans', () => {
     describe('type', () => {
-        const schema: JsonSchemaBoolean = {
-            type: JsonSchemaType.Boolean,
-        };
+        const schema: JsonSchemaBoolean = {type: JsonSchemaType.Boolean};
 
         const validValue = true;
         const invalidValue = 'a';
@@ -105,23 +103,19 @@ describe('validate booleans', () => {
         test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
 
         test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
             expect(validate(validValue, {schema})).toBe(false);
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            expect(setErrors).toHaveBeenCalledWith({});
         });
 
         test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setArrayObjectErrors} = createValidate();
+            const {validate, setErrors} = createValidate();
 
-            expect(validate(invalidValue, {schema})).toEqual(AJV_MESSAGES.typeBoolean);
-            expect(setArrayObjectErrors).toHaveBeenCalledWith({
-                headName: FIELD_NAME,
-                arrayAndObjectErrors: {},
-            });
+            const errors = {[FIELD_NAME]: AJV_MESSAGES.typeBoolean};
+
+            expect(validate(invalidValue, {schema})).toEqual('error');
+            expect(setErrors).toHaveBeenCalledWith(errors);
         });
     });
 });

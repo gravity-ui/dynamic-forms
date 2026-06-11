@@ -1,7 +1,5 @@
 import type React from 'react';
 
-import type {JsonSchemaType} from '../constants';
-
 import type {
     JsonSchema,
     JsonSchemaArray,
@@ -12,29 +10,19 @@ import type {
 } from './schema';
 import type {ArrayValue, FieldValue, ObjectValue} from './values';
 
-export type SchemaToValueType<Schema extends JsonSchema> = Schema extends JsonSchemaArray
+export type ObjectKeys<T extends Record<string, unknown>> = Exclude<keyof T, number | symbol>;
+
+export type SchemaToValueType<Schema extends JsonSchema<any>> = Schema extends JsonSchemaArray<any>
     ? ArrayValue
-    : Schema extends JsonSchemaBoolean
+    : Schema extends JsonSchemaBoolean<any>
     ? boolean
-    : Schema extends JsonSchemaNumber
+    : Schema extends JsonSchemaNumber<any>
     ? number
-    : Schema extends JsonSchemaObject
+    : Schema extends JsonSchemaObject<any>
     ? ObjectValue
-    : Schema extends JsonSchemaString
+    : Schema extends JsonSchemaString<any>
     ? string
     : FieldValue;
-
-export type SchemaToSchemaType<Schema extends JsonSchema> = Schema extends JsonSchemaArray
-    ? JsonSchemaType.Array
-    : Schema extends JsonSchemaBoolean
-    ? JsonSchemaType.Boolean
-    : Schema extends JsonSchemaNumber
-    ? JsonSchemaType.Number
-    : Schema extends JsonSchemaObject
-    ? JsonSchemaType.Object
-    : Schema extends JsonSchemaString
-    ? JsonSchemaType.String
-    : JsonSchemaType.Any;
 
 export type ExtractControlProps<Control> = Control extends {
     Component: React.ComponentType<infer ControlProps>;

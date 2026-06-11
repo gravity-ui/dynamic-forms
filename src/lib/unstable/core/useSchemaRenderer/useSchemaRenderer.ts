@@ -5,7 +5,13 @@ import cloneDeep from 'lodash/cloneDeep';
 import {useForm} from 'react-final-form';
 
 import {EMPTY_OBJECT, type SchemaRendererMode} from '../constants';
-import type {ErrorMessages, FieldValue, JsonSchema, SchemaRendererConfig} from '../types';
+import type {
+    ErrorMessages,
+    FieldValue,
+    JsonSchema,
+    SchemaRendererConfig,
+    SyncValidateError,
+} from '../types';
 
 import {ENTITY_SERVICE_FIELD} from './constants';
 import {useSchemaRendererMutators} from './hooks';
@@ -50,11 +56,40 @@ export const useSchemaRenderer = ({
     schema: originalSchema,
 }: UseSchemaRendererParams) => {
     const form = useForm();
-    const {setArrayObjectErrors, setAsyncValidationCache, setAsyncValidationWaiters} =
+    const {setAsyncValidationCache, setAsyncValidationWaiters, triggerFields} =
         useSchemaRendererMutators();
 
+    const errorsRef = React.useRef<Record<string, SyncValidateError>>({});
     const schemaRef = React.useRef<JsonSchema | undefined>(undefined);
     const [schema, setSchema] = React.useState<JsonSchema | undefined>(undefined);
+    const [fieldsToTrigger, setFieldsToTrigger] = React.useState<string[]>([]);
+
+    const setErrors = React.useCallback(
+        (errors: Record<string, SyncValidateError>) => {
+            const formState = form.getState();
+            const fieldsToTrigger: string[] = Object.keys({
+                ...errorsRef.current,
+                ...errors,
+            }).filter((key) => {
+                if (errorsRef.current[key] !== errors[key]) {
+                    const field = form.getFieldState(key);
+
+                    if (field?.touched || formState.submitFailed) {
+                        return true;
+                    }
+                }
+
+                return false;
+            });
+
+            errorsRef.current = errors;
+
+            if (fieldsToTrigger.length) {
+                setFieldsToTrigger(fieldsToTrigger);
+            }
+        },
+        [form],
+    );
 
     const validate = React.useMemo(
         () =>
@@ -62,17 +97,17 @@ export const useSchemaRenderer = ({
                 config,
                 errorMessages,
                 name,
-                setArrayObjectErrors,
                 setAsyncValidationCache,
                 setAsyncValidationWaiters,
+                setErrors,
             }),
         [
             config,
             errorMessages,
             name,
-            setArrayObjectErrors,
             setAsyncValidationCache,
             setAsyncValidationWaiters,
+            setErrors,
         ],
     );
 
@@ -104,18 +139,24 @@ export const useSchemaRenderer = ({
         );
 
         return () => unsubscribe();
-    }, [connectValidate, name, originalSchema, validate]);
+    }, [connectValidate, form, name, originalSchema, validate]);
 
     React.useEffect(() => {
         const unsubscribe = form.registerField(
             ENTITY_SERVICE_FIELD,
             () => {},
             {},
-            {data: {config, mode}},
+            {data: {config, mode, errorsRef}},
         );
 
         return () => unsubscribe();
-    }, [config, mode]);
+    }, [config, form, mode]);
+
+    React.useEffect(() => {
+        if (fieldsToTrigger.length) {
+            triggerFields?.({fields: fieldsToTrigger});
+        }
+    }, [fieldsToTrigger, triggerFields]);
 
     return returnValue;
 };

@@ -110,11 +110,9 @@ export const getSchemaPath = (
  *
  * @example
  * const nameSchema = {
- *   type: JsonSchemaType.String,
  *   minLength: 5,
  * };
  * const objectSchema = {
- *   type: JsonSchemaType.Object,
  *   properties: {
  *     name: nameSchema,
  *   },

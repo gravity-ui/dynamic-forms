@@ -4,6 +4,16 @@ export enum SchemaRendererMode {
 }
 
 export enum JsonSchemaType {
+    Array = 'array',
+    Boolean = 'boolean',
+    Integer = 'integer',
+    Null = 'null',
+    Number = 'number',
+    Object = 'object',
+    String = 'string',
+}
+
+export enum EntityType {
     Any = 'any',
     Array = 'array',
     Boolean = 'boolean',
