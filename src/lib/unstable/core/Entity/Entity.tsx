@@ -5,6 +5,7 @@ import {useField} from 'react-final-form';
 import {SchemaRendererMode} from '../constants';
 import type {JsonSchema} from '../types';
 import {useEntityState} from '../useSchemaRenderer';
+import {getSchemaBySchemaPath, smartMerge} from '../utils';
 
 import {getRenderKit} from './utils';
 
@@ -14,7 +15,7 @@ export interface EntityProps {
 }
 
 const EntityComponent: React.FC<EntityProps> = ({name, schema: schemaProps = {}}) => {
-    const {config, error, mode} = useEntityState(name);
+    const {config, error, mode, rootSchema} = useEntityState(name);
 
     const options = React.useMemo(
         () => ({
@@ -33,10 +34,19 @@ const EntityComponent: React.FC<EntityProps> = ({name, schema: schemaProps = {}}
 
     const field = useField(name, options);
 
-    const schema = React.useMemo(
-        () => field.meta.data?.schema || schemaProps,
-        [field.meta.data?.schema, schemaProps],
-    );
+    const schema = React.useMemo(() => {
+        let schema = field.meta.data?.schema || schemaProps;
+
+        if (schema.$ref && rootSchema) {
+            const schemaByRef = getSchemaBySchemaPath(schema.$ref, rootSchema);
+
+            if (schemaByRef) {
+                schema = smartMerge(schema, schemaByRef);
+            }
+        }
+
+        return schema;
+    }, [field.meta.data?.schema, rootSchema, schemaProps]);
 
     const meta = React.useMemo(() => ({...field.meta, error}), [field.meta, error]);
 

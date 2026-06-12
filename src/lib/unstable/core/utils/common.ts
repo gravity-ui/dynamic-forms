@@ -1,6 +1,7 @@
 import get from 'lodash/get';
+import set from 'lodash/set';
 
-import type {JsonSchema} from '../../types';
+import type {JsonSchema} from '../types';
 
 /**
  * Parses an AJV `schemaPath` (JSON Pointer) into an array of path segments
@@ -178,6 +179,38 @@ export const getValuePaths = (value: unknown, path: string[] = []) => {
     } else if (path.length) {
         result.push(path);
     }
+
+    return result;
+};
+
+export const smartSet = (object: object, path: string[], value: unknown) => {
+    const valuePaths = getValuePaths(value);
+
+    if (valuePaths.length) {
+        set(object, path, {...get(object, path)});
+
+        valuePaths.forEach((valuePath) => {
+            set(object, [...path, ...valuePath], get(value, valuePath));
+        });
+    }
+
+    return object;
+};
+
+export const smartMerge = (first: object, second: object, deep = false) => {
+    let result = {};
+
+    if (deep) {
+        getValuePaths(first).forEach((path) => {
+            set(result, path, get(first, path));
+        });
+    } else {
+        result = {...first};
+    }
+
+    getValuePaths(second).forEach((path) => {
+        set(result, path, get(second, path));
+    });
 
     return result;
 };

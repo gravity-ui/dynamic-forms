@@ -27,8 +27,9 @@ export interface ValidateErrorItem {
 
 export interface EntityState {
     config?: SchemaRendererConfig;
-    mode?: SchemaRendererMode;
     errorsRef?: React.RefObject<Record<string, SyncValidateError>>;
+    mode?: SchemaRendererMode;
+    schema?: SchemaMutatorsState['schema'];
 }
 
 export interface SchemaRendererState

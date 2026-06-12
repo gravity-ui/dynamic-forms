@@ -12,10 +12,10 @@ import type {
     SchemaRendererConfig,
     SyncValidateError,
 } from '../../types';
+import {formatFinalFormPath, getValuePaths} from '../../utils';
 import type {SetAsyncValidationCacheMutator, SetAsyncValidationWaitersMutator} from '../mutators';
 import type {SchemaRendererState} from '../types';
 
-import {formatFinalFormPath, getValuePaths} from './common';
 import {type GetAjvValidateReturn, getAjvValidate} from './get-ajv-validate';
 import {processAjvValidateErrors} from './process-ajv-validate-errors';
 import {processErrorsState} from './process-errors-state';
