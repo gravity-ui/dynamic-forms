@@ -24,7 +24,7 @@ const Component = <
     schema,
 }: T) => {
     // const {setErrors, removeErrors} = useSetErrors();
-    const {setSchemaMutators} = useSchemaRendererMutators(); // setExternalErrors
+    const {setSchemaMutators, removeSchemaMutators} = useSchemaRendererMutators(); // setExternalErrors
 
     const props: TextInputBaseProps = {
         hasClear: true,
@@ -189,47 +189,79 @@ const Component = <
             //     // });
             // }
 
-            setSchemaMutators?.({
-                headName: 'qwe.test.jajaja',
-                // mutators: {
-                //     [input.name]: {
-                //         title: 'Aaaaaaaa',
-                //     },
-                //     'qwe.test.jajaja.stringPattern': {
-                //         title: 'OOOOOOO',
-                //     },
-                //     'qwe.test.jajaja.numberMinimum': {
-                //         minimum: 0,
-                //     },
-                // },
-                mutators: [
-                    {
-                        name: input.name,
-                        schema: {
-                            title: `${input.value}`,
-                            maxLength: `${input.value}`.length - 1,
-                            entityParameters: {
-                                validatorType: '',
-                                errorMessages: {
-                                    maxLength: `${input.value}`.length - 1 + ' maxLength',
+            if (input.value === '1') {
+                removeSchemaMutators?.({
+                    headName: 'qwe.test.jajaja',
+                    mutatorsToRemove: [
+                        {
+                            name: 'qwe.test.jajaja.stringPattern',
+                            schema: true,
+                        },
+                        {
+                            name: 'qwe.test.jajaja',
+                            schema: {
+                                definitions: {
+                                    jajaja: {
+                                        title: `jajaja`,
+                                    },
                                 },
                             },
                         },
-                    },
-                    {
-                        name: 'qwe.test.jajaja.stringPattern',
-                        schema: {
-                            title: `${input.value}`,
-                            entityParameters: {
-                                validatorType: '',
-                                errorMessages: {
-                                    pattern: `${input.value}`.length - 1 + ' pattern',
+                    ],
+                });
+            } else {
+                setSchemaMutators?.({
+                    headName: 'qwe.test.jajaja',
+                    // mutators: {
+                    //     [input.name]: {
+                    //         title: 'Aaaaaaaa',
+                    //     },
+                    //     'qwe.test.jajaja.stringPattern': {
+                    //         title: 'OOOOOOO',
+                    //     },
+                    //     'qwe.test.jajaja.numberMinimum': {
+                    //         minimum: 0,
+                    //     },
+                    // },
+                    mutators: [
+                        {
+                            name: input.name,
+                            schema: {
+                                title: `${input.value}`,
+                                maxLength: `${input.value}`.length - 1,
+                                entityParameters: {
+                                    validatorType: '',
+                                    errorMessages: {
+                                        maxLength: `${input.value}`.length - 1 + ' maxLength',
+                                    },
                                 },
                             },
                         },
-                    },
-                ],
-            });
+                        {
+                            name: 'qwe.test.jajaja.stringPattern',
+                            schema: {
+                                title: `${input.value}`,
+                                entityParameters: {
+                                    validatorType: '',
+                                    errorMessages: {
+                                        pattern: `${input.value}`.length - 1 + ' pattern',
+                                    },
+                                },
+                            },
+                        },
+                        {
+                            name: 'qwe.test.jajaja',
+                            schema: {
+                                definitions: {
+                                    jajaja: {
+                                        title: `${input.value}`,
+                                    },
+                                },
+                            },
+                        },
+                    ],
+                });
+            }
             // setExternalErrors?.({
             //     headName: 'qwe.test.jajaja',
             //     priorityErrors: {

@@ -1,7 +1,8 @@
 import React from 'react';
 
-import type {FieldSubscriber, FieldValidator} from 'final-form';
+import type {FieldValidator} from 'final-form';
 import cloneDeep from 'lodash/cloneDeep';
+import noop from 'lodash/noop';
 import {useForm} from 'react-final-form';
 
 import {EMPTY_OBJECT, type SchemaRendererMode} from '../constants';
@@ -15,7 +16,6 @@ import type {
 
 import {ENTITY_SERVICE_FIELD} from './constants';
 import {useSchemaRendererMutators} from './hooks';
-import type {SchemaRendererState} from './types';
 import {getValidate} from './utils';
 
 export interface UseSchemaRendererParams {
@@ -120,34 +120,24 @@ export const useSchemaRenderer = ({
     }, [connectValidate, schema, validate]);
 
     React.useEffect(() => {
-        const subscriber: FieldSubscriber<any> = (fieldState) => {
-            const data = fieldState.data as SchemaRendererState;
+        schemaRef.current = cloneDeep(originalSchema);
 
-            if (data.schema !== schemaRef.current) {
-                schemaRef.current = data.schema;
-                setSchema(data.schema);
-            }
-        };
-        const data = {originalSchema, schema: cloneDeep(originalSchema)};
+        setSchema(schemaRef.current);
+    }, [originalSchema]);
+
+    React.useEffect(() => {
+        const data = {originalSchema, schema: schemaRef.current};
         const getValidator = connectValidate ? () => validate : undefined;
 
-        const unsubscribe = form.registerField(
-            name,
-            subscriber,
-            {data: true},
-            {data, getValidator},
-        );
+        const unsubscribe = form.registerField(name, noop, EMPTY_OBJECT, {data, getValidator});
 
         return () => unsubscribe();
     }, [connectValidate, form, name, originalSchema, validate]);
 
     React.useEffect(() => {
-        const unsubscribe = form.registerField(
-            ENTITY_SERVICE_FIELD,
-            () => {},
-            {},
-            {data: {config, mode, errorsRef}},
-        );
+        const unsubscribe = form.registerField(ENTITY_SERVICE_FIELD, noop, EMPTY_OBJECT, {
+            data: {config, errorsRef, mode, schema: schemaRef.current},
+        });
 
         return () => unsubscribe();
     }, [config, form, mode]);

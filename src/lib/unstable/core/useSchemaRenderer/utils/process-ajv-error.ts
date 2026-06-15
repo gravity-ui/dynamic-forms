@@ -3,9 +3,8 @@ import get from 'lodash/get';
 import isString from 'lodash/isString';
 
 import type {ErrorMessages, JsonSchema} from '../../types';
+import {getSchemaByInstancePath, getSchemaBySchemaPath, parseInstancePath} from '../../utils';
 import type {ValidateErrorItem} from '../types';
-
-import {getSchemaByInstancePath, getSchemaBySchemaPath, parseInstancePath} from './common';
 
 export interface ProcessAjvErrorParams<Schema extends JsonSchema> {
     error: ErrorObject;

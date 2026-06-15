@@ -677,8 +677,43 @@ const anySpec: JsonSchema<typeof untypedConfig> = {
 };
 
 const baseSpec: JsonSchemaObject<typeof untypedConfig> = {
+    definitions: {
+        jajaja: {
+            type: JsonSchemaType.String,
+            title: 'jajaja',
+            minLength: 10,
+            entityParameters: {
+                type: EntityType.String,
+                controlType: 'baseString',
+            },
+        },
+    },
     type: JsonSchemaType.Object,
     properties: {
+        test: {
+            type: [JsonSchemaType.Object, JsonSchemaType.Null],
+            title: 'test',
+            properties: {
+                test: {
+                    type: JsonSchemaType.String,
+                    $ref: '#/definitions/jajaja',
+                    title: 'test',
+                    minLength: 5,
+                    maxLength: 2,
+                    entityParameters: {
+                        type: EntityType.String,
+                        controlType: 'baseString',
+                        controlWrapperType: 'rowString',
+                    },
+                },
+            },
+            entityParameters: {
+                type: EntityType.Object,
+                controlType: 'baseObject',
+                // controlWrapperType: 'row',
+                // controlProps: {qq: true},
+            },
+        },
         anySpec,
         arrayContains,
         arrayMaxItems,
@@ -706,14 +741,14 @@ const baseSpec: JsonSchemaObject<typeof untypedConfig> = {
         objectMinProperties,
         objectPatternProperties,
         objectPropertyNames,
-        test: {
-            type: JsonSchemaType.String,
-            title: 'test',
-            entityParameters: {
-                controlType: 'baseString',
-                controlWrapperType: 'rowString',
-            },
-        },
+        // test: {
+        //     type: JsonSchemaType.String,
+        //     title: 'test',
+        //     entityParameters: {
+        //         controlType: 'baseString',
+        //         controlWrapperType: 'rowString',
+        //     },
+        // },
     },
     title: 'Candidate',
     entityParameters: {
@@ -728,8 +763,43 @@ const baseSpec: JsonSchemaObject<typeof untypedConfig> = {
 };
 
 const baseSpec2: JsonSchemaObject<typeof untypedConfig> = {
+    definitions: {
+        jajaja: {
+            type: JsonSchemaType.String,
+            title: 'jajaja',
+            minLength: 10,
+            entityParameters: {
+                type: EntityType.String,
+                controlType: 'baseString',
+            },
+        },
+    },
     type: JsonSchemaType.Object,
     properties: {
+        test: {
+            type: [JsonSchemaType.Object, JsonSchemaType.Null],
+            title: 'test',
+            properties: {
+                test: {
+                    type: JsonSchemaType.String,
+                    $ref: '#/definitions/jajaja',
+                    title: 'test',
+                    minLength: 5,
+                    maxLength: 2,
+                    entityParameters: {
+                        type: EntityType.String,
+                        controlType: 'baseString',
+                        controlWrapperType: 'rowString',
+                    },
+                },
+            },
+            entityParameters: {
+                type: EntityType.Object,
+                controlType: 'baseObject',
+                // controlWrapperType: 'row',
+                // controlProps: {qq: true},
+            },
+        },
         anySpec,
         arrayContains,
         arrayMaxItems,
@@ -778,24 +848,24 @@ const baseSpec2: JsonSchemaObject<typeof untypedConfig> = {
         ssssssssssssssssss: baseSpec,
         sssssssssssssssssss: baseSpec,
         ssssssssssssssssssss: baseSpec,
-        test: {
-            title: 'test',
-            properties: {
-                test: {
-                    title: 'test',
-                    entityParameters: {
-                        type: EntityType.String,
-                        controlType: 'baseString',
-                    },
-                },
-            },
-            entityParameters: {
-                type: EntityType.Object,
-                controlType: 'baseObject',
-                // controlWrapperType: 'row',
-                // controlProps: {qq: true},
-            },
-        },
+        // test: {
+        //     title: 'test',
+        //     properties: {
+        //         test: {
+        //             title: 'test',
+        //             entityParameters: {
+        //                 type: EntityType.String,
+        //                 controlType: 'baseString',
+        //             },
+        //         },
+        //     },
+        //     entityParameters: {
+        //         type: EntityType.Object,
+        //         controlType: 'baseObject',
+        //         // controlWrapperType: 'row',
+        //         // controlProps: {qq: true},
+        //     },
+        // },
     },
     title: 'Candidate',
     entityParameters: {
