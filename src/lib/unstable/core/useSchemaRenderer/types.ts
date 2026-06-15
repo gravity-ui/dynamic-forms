@@ -25,9 +25,10 @@ export interface ValidateErrorItem {
     path: string[];
 }
 
-export interface EntityState {
+export interface EntitiesState {
     config?: SchemaRendererConfig;
     errorsRef?: React.RefObject<Record<string, SyncValidateError>>;
+    headName?: string;
     mode?: SchemaRendererMode;
     schema?: SchemaMutatorsState['schema'];
 }

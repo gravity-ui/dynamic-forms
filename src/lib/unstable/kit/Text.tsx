@@ -43,7 +43,10 @@ const Component = <
     };
 
     React.useEffect(() => {
-        if (input.name === 'qwe.test.jajaja.stringMaxLength') {
+        if (
+            input.name === 'qwe.test.jajaja.stringMaxLength' ||
+            input.name === 'qwe.test.bocembocembocem.stringMaxLength'
+        ) {
             // if (input.value === '1') {
             //     setExternalErrors?.({
             //         headName: 'qwe.test.jajaja',
@@ -191,7 +194,6 @@ const Component = <
 
             if (input.value === '1') {
                 removeSchemaMutators?.({
-                    headName: 'qwe.test.jajaja',
                     mutatorsToRemove: [
                         {
                             name: 'qwe.test.jajaja.stringPattern',
@@ -211,7 +213,6 @@ const Component = <
                 });
             } else {
                 setSchemaMutators?.({
-                    headName: 'qwe.test.jajaja',
                     // mutators: {
                     //     [input.name]: {
                     //         title: 'Aaaaaaaa',

@@ -116,8 +116,16 @@ export const useSchemaRenderer = ({
             return {schema};
         }
 
-        return {schema, validate};
-    }, [connectValidate, schema, validate]);
+        return {
+            schema,
+            validate: (value?: FieldValue) => {
+                const allValues = form.getState().values;
+                const meta = form.getFieldState(name);
+
+                return validate(value, allValues, meta);
+            },
+        };
+    }, [connectValidate, form, name, schema, validate]);
 
     React.useEffect(() => {
         schemaRef.current = cloneDeep(originalSchema);
@@ -135,12 +143,16 @@ export const useSchemaRenderer = ({
     }, [connectValidate, form, name, originalSchema, validate]);
 
     React.useEffect(() => {
-        const unsubscribe = form.registerField(ENTITY_SERVICE_FIELD, noop, EMPTY_OBJECT, {
-            data: {config, errorsRef, mode, schema: schemaRef.current},
-        });
+        const data = {config, errorsRef, headName: name, mode, schema: schemaRef.current};
+        const unsubscribe = form.registerField(
+            `${ENTITY_SERVICE_FIELD}.${name}`,
+            noop,
+            EMPTY_OBJECT,
+            {data},
+        );
 
         return () => unsubscribe();
-    }, [config, form, mode]);
+    }, [config, form, mode, name]);
 
     React.useEffect(() => {
         if (fieldsToTrigger.length) {

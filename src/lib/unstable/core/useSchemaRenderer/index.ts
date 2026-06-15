@@ -1,4 +1,4 @@
-export {useEntityState, useSchemaRendererMutators} from './hooks';
+export {useEntitiesState, useSchemaRendererMutators} from './hooks';
 export {schemaRendererMutators} from './mutators';
 export {
     type UseSchemaRendererParams,

@@ -1,2 +1,2 @@
-export {useEntityState} from './useEntityState';
+export {useEntitiesState} from './useEntitiesState';
 export {useSchemaRendererMutators} from './useSchemaRendererMutators';

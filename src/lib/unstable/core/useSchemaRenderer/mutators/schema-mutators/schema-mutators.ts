@@ -3,8 +3,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 
-import type {JsonSchema} from '../../../types';
+import type {EntityState} from '../../../Entity';
 import {getSchemaPath, getValuePaths, parseSchemaPath, smartSet} from '../../../utils';
+import {guessHeadName} from '../../utils';
 
 import type {
     RemoveSchemaMutatorsFunction,
@@ -14,122 +15,121 @@ import type {
 } from './types';
 
 const applyMutators = ({
-    headName,
     mutableState,
     mutators,
-    rootSchema,
 }: {
-    headName: string;
     mutableState: MutableState<object, object>;
     mutators: SetSchemaMutatorsParams['mutators'];
-    rootSchema: JsonSchema;
 }) => {
-    mutators.forEach(({name, schema}) => {
-        const schemaPath = getSchemaPath(name, headName, rootSchema);
+    const registeredFields = Object.keys(mutableState.fields);
 
-        if (schemaPath) {
-            smartSet(rootSchema, schemaPath, schema);
+    mutators.forEach((m) => {
+        const headName = guessHeadName(registeredFields, m.name);
 
-            const schemaField = mutableState.fields[name];
+        if (headName) {
+            const headField = mutableState.fields[headName];
+            const data = headField?.data as SchemaMutatorsState | undefined;
+            const mutatedSchema = data?.schema;
 
-            if (schemaField) {
-                schemaField.data = {
-                    ...schemaField.data,
-                    schema: get(rootSchema, schemaPath),
-                };
-            }
+            if (mutatedSchema) {
+                const schemaPath = getSchemaPath(m.name, headName, mutatedSchema);
 
-            const mutatedPaths = getValuePaths(schema).map((path) => [...schemaPath, ...path]);
+                if (schemaPath) {
+                    smartSet(mutatedSchema, schemaPath, m.schema);
 
-            Object.values(mutableState.fields).forEach((field) => {
-                const data = field?.data as SchemaMutatorsState | undefined;
+                    const schemaField = mutableState.fields[m.name];
 
-                if (data?.schema?.$ref) {
-                    const refPath = parseSchemaPath(data.schema.$ref);
-                    const mutationAffectRefSchema = mutatedPaths.some((mutatedPath) =>
-                        refPath.every((subpath, index) => mutatedPath[index] === subpath),
-                    );
-                    const fieldSchemaPath = getSchemaPath(field.name, headName, rootSchema);
-
-                    if (mutationAffectRefSchema && fieldSchemaPath) {
-                        field.data = {
-                            ...field.data,
-                            schema: {...get(rootSchema, fieldSchemaPath)},
+                    if (schemaField) {
+                        schemaField.data = {
+                            ...schemaField.data,
+                            schema: get(mutatedSchema, schemaPath),
                         };
                     }
+
+                    headField.data.mutators = [...(data?.mutators || []), m];
+                    headField.data.schema = mutatedSchema;
+
+                    const mutatedPaths = getValuePaths(m.schema).map((path) => [
+                        ...schemaPath,
+                        ...path,
+                    ]);
+
+                    Object.values(mutableState.fields).forEach((field) => {
+                        const data = field?.data as EntityState | undefined;
+
+                        if (data?.schema?.$ref && data?.headName === headName) {
+                            const refPath = parseSchemaPath(data.schema.$ref);
+                            const mutationAffectRefSchema = mutatedPaths.some((mutatedPath) =>
+                                refPath.every((subpath, index) => mutatedPath[index] === subpath),
+                            );
+                            const fieldSchemaPath = getSchemaPath(
+                                field.name,
+                                headName,
+                                mutatedSchema,
+                            );
+
+                            if (mutationAffectRefSchema && fieldSchemaPath) {
+                                field.data = {
+                                    ...field.data,
+                                    schema: {...get(mutatedSchema, fieldSchemaPath)},
+                                };
+                            }
+                        }
+                    });
                 }
-            });
+            }
         }
     });
 };
 
-export const setSchemaMutators: SetSchemaMutatorsFunction = (
-    [{headName, mutators: mutatorsParams}],
-    mutableState,
-) => {
-    const field = mutableState.fields[headName];
-    const data = field?.data as SchemaMutatorsState | undefined;
-
-    if (field && data?.schema && Object.keys(mutatorsParams).length) {
-        // const mutatedSchema = {...data.schema}; // ? TODO: check if this is needed
-        const mutatedSchema = data.schema;
-        const mutators = [...(data.mutators || []), ...mutatorsParams];
-
-        applyMutators({headName, mutableState, mutators, rootSchema: mutatedSchema});
-
-        // field.data = {
-        //     ...field.data,
-        //     mutators,
-        //     schema: mutatedSchema,
-        // }; ? TODO: check if this is needed
-        field.data.mutators = mutators;
-        field.data.schema = mutatedSchema;
-    }
+export const setSchemaMutators: SetSchemaMutatorsFunction = ([{mutators}], mutableState) => {
+    applyMutators({mutableState, mutators});
 };
 
 export const removeSchemaMutators: RemoveSchemaMutatorsFunction = (
-    [{headName, mutatorsToRemove}],
+    [{mutatorsToRemove}],
     mutableState,
 ) => {
-    const field = mutableState.fields[headName];
-    const data = field?.data as SchemaMutatorsState | undefined;
+    const registeredFields = Object.keys(mutableState.fields);
 
-    if (
-        field &&
-        data?.schema &&
-        data?.originalSchema &&
-        data.mutators &&
-        Object.keys(mutatorsToRemove).length
-    ) {
-        const originalSchema = data.originalSchema;
-        // const mutatedSchema = {...data.schema}; // ? TODO: check if this is needed
-        const mutatedSchema = data.schema;
-        const mutators = (data.mutators || []).filter(
-            (m) =>
-                !mutatorsToRemove.some(
-                    ({name, schema}) =>
-                        name === m.name && (isEqual(m.schema, schema) || schema === true),
-                ),
-        );
+    [...new Set(mutatorsToRemove.map((m) => guessHeadName(registeredFields, m.name)))].forEach(
+        (name) => {
+            if (name) {
+                const headField = mutableState.fields[name];
+                const data = headField?.data as SchemaMutatorsState | undefined;
+                const originalSchema = data?.originalSchema;
+                const mutators = data?.mutators || [];
 
-        applyMutators({
-            headName,
-            mutableState,
-            mutators: mutatorsToRemove.map((m) => {
-                const schemaPath = getSchemaPath(m.name, headName, originalSchema);
+                if (headField && originalSchema) {
+                    applyMutators({
+                        mutableState,
+                        mutators: mutators.map((m) => {
+                            const schemaPath = getSchemaPath(m.name, name, originalSchema);
 
-                return {...m, schema: schemaPath ? cloneDeep(get(originalSchema, schemaPath)) : {}};
-            }),
-            rootSchema: mutatedSchema,
-        });
-        applyMutators({headName, mutableState, mutators, rootSchema: mutatedSchema});
+                            return {
+                                ...m,
+                                schema: schemaPath
+                                    ? cloneDeep(get(originalSchema, schemaPath))
+                                    : {},
+                            };
+                        }),
+                    });
 
-        // field.data = {
-        //     ...field.data,
-        //     mutators,
-        //     schema: mutatedSchema,
-        // }; ? TODO: check if this is needed
-        field.data.mutators = mutators;
-        field.data.schema = mutatedSchema;
-    }
+                    headField.data.mutators = [];
+
+                    applyMutators({
+                        mutableState,
+                        mutators: mutators.filter(
+                            (m) =>
+                                !mutatorsToRemove.some(
+                                    ({name, schema}) =>
+                                        name === m.name &&
+                                        (isEqual(m.schema, schema) || schema === true),
+                                ),
+                        ),
+                    });
+                }
+            }
+        },
+    );
 };
