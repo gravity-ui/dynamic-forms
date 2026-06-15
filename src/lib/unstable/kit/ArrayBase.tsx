@@ -149,7 +149,7 @@ export const ArrayBase: Control<JsonSchemaArray> = ({input, schema, meta}) => {
         <div className={b()}>
             <div className={b('items-wrapper')}>{items}</div>
             <AddButton />
-            {meta.touched && meta.error ? <Text color="danger">{meta.error}</Text> : null}
+            {meta.error ? <Text color="danger">{meta.error}</Text> : null}
         </div>
     );
 };

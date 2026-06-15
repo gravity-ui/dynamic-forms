@@ -1,23 +1,26 @@
 import get from 'lodash/get';
+import set from 'lodash/set';
 
-import type {JsonSchema} from '../../types';
+import type {JsonSchema} from '../types';
 
 /**
- * Extracts the path to the property from a JSON Schema validation error.
- * Assumes that the last segment in the `schemaPath` is the keyword
- * that triggered the validation error (e.g., "minLength").
+ * Parses an AJV `schemaPath` (JSON Pointer) into an array of path segments
+ * suitable for lodash `get`.
  *
- * @param schemaPath - A JSON Pointer string representing the schema path,
- *   e.g., "#/properties/name/minLength"
- * @returns An array of path segments leading to the property, excluding the keyword,
- *   e.g., ['properties', 'name']
+ * Strips the `#/` prefix, decodes URI-encoded characters, splits on `/`,
+ * and unescapes JSON Pointer tokens (`~1` → `/`, `~0` → `~`).
+ *
+ * Returns all segments unchanged; stripping a trailing validation keyword
+ * (e.g. `minLength`) before lookup is the caller's responsibility.
+ *
+ * @param schemaPath - JSON Pointer string, e.g. `"#/properties/name/minLength"`.
+ * @returns Path segments, e.g. `['properties', 'name', 'minLength']`.
  */
 export const parseSchemaPath = (schemaPath: string): string[] => {
     return decodeURIComponent(schemaPath)
-        .slice('#/'.length)
         .split('/')
-        .map((segment) => segment.replace(/~1/g, '/').replace(/~0/g, '~'))
-        .slice(0, -1);
+        .slice(1)
+        .map((segment) => segment.replace(/~1/g, '/').replace(/~0/g, '~'));
 };
 
 export const parseInstancePath = (instancePath: string): string[] => {
@@ -96,28 +99,28 @@ export const getSchemaPath = (
 };
 
 /**
- * Retrieves the sub-schema from the main schema based on the given schema path.
- * Assumes that the last segment in the `schemaPath` is a validation keyword
- * (e.g., "minLength") and not part of the property path.
+ * Resolves a sub-schema from the root schema by an AJV `schemaPath`.
  *
- * @param schemaPath - A JSON Pointer-style string representing the schema path,
- *   e.g., "#/properties/name/minLength".
+ * Parses `schemaPath` via `parseSchemaPath` and looks up the node with lodash `get`.
+ * The path must point to a schema object, not to a validation keyword — callers
+ * should strip the trailing keyword first (see `processAjvError`).
+ *
+ * @param schemaPath - JSON Pointer string pointing to a schema node,
+ *   e.g. `"#/properties/name"`.
  * @param schema - The root JSON schema object.
  *
  * @example
  * const nameSchema = {
- *   type: JsonSchemaType.String,
  *   minLength: 5,
  * };
  * const objectSchema = {
- *   type: JsonSchemaType.Object,
  *   properties: {
  *     name: nameSchema,
  *   },
  * };
- * getSchemaFromPath("#/properties/name/minLength", objectSchema); // returns nameSchema
+ * getSchemaBySchemaPath("#/properties/name", objectSchema); // returns nameSchema
  *
- * @returns The sub-schema object corresponding to the property path.
+ * @returns The sub-schema at the given path, or the root schema when the path is empty.
  */
 export const getSchemaBySchemaPath = (
     schemaPath: string,
@@ -136,7 +139,7 @@ export const getSchemaByInstancePath = (
     instancePath: string,
     schema: JsonSchema,
 ): JsonSchema | undefined => {
-    const schemaPath = getSchemaPath(instancePath, '', schema);
+    const schemaPath = getSchemaPath(parseInstancePath(instancePath), '', schema);
 
     if (schemaPath) {
         return schemaPath.length ? get(schema, schemaPath) : schema;
@@ -176,6 +179,38 @@ export const getValuePaths = (value: unknown, path: string[] = []) => {
     } else if (path.length) {
         result.push(path);
     }
+
+    return result;
+};
+
+export const smartSet = (object: object, path: string[], value: unknown) => {
+    const valuePaths = getValuePaths(value);
+
+    if (valuePaths.length) {
+        set(object, path, {...get(object, path)});
+
+        valuePaths.forEach((valuePath) => {
+            set(object, [...path, ...valuePath], get(value, valuePath));
+        });
+    }
+
+    return object;
+};
+
+export const smartMerge = (first: object, second: object, deep = false) => {
+    let result = {};
+
+    if (deep) {
+        getValuePaths(first).forEach((path) => {
+            set(result, path, get(first, path));
+        });
+    } else {
+        result = {...first};
+    }
+
+    getValuePaths(second).forEach((path) => {
+        set(result, path, get(second, path));
+    });
 
     return result;
 };

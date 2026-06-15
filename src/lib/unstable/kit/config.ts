@@ -1,4 +1,4 @@
-import {JsonSchemaType} from '../core/constants';
+import {EntityType} from '../core/constants';
 import type {AsyncValidator, SchemaRendererConfig, SyncValidator} from '../core/types';
 import type {
     JsonSchemaArray,
@@ -17,33 +17,33 @@ import {Row} from './Row';
 import {Text} from './Text';
 
 export const untypedConfig = {
-    [JsonSchemaType.Any]: {
+    [EntityType.Any]: {
         controls: {
-            base: {Component: AnyInput},
+            baseAny: {Component: AnyInput},
         },
         views: {},
         wrappers: {},
         validators: {},
     },
-    [JsonSchemaType.Array]: {
-        controls: {select: {Component: MultiSelect}, base: {Component: ArrayBase}},
+    [EntityType.Array]: {
+        controls: {selectArray: {Component: MultiSelect}, baseArray: {Component: ArrayBase}},
         views: {},
-        wrappers: {accordeon: Accordeon, row: Row},
-        validators: {base: (() => false) as SyncValidator<JsonSchemaArray>},
+        wrappers: {accordeonArray: Accordeon, rowArray: Row},
+        validators: {baseArray: (() => false) as SyncValidator<JsonSchemaArray>},
     },
-    [JsonSchemaType.Boolean]: {
+    [EntityType.Boolean]: {
         controls: {},
         views: {},
         wrappers: {},
-        validators: {base: (() => false) as SyncValidator<JsonSchemaBoolean>},
+        validators: {baseBoolean: (() => false) as SyncValidator<JsonSchemaBoolean>},
     },
-    [JsonSchemaType.Number]: {
-        controls: {base: {Component: Text}},
+    [EntityType.Number]: {
+        controls: {baseNumber: {Component: Text}},
         views: {},
-        wrappers: {row: Row},
+        wrappers: {rowNumber: Row},
         validators: {
-            base: () => false,
-            async: (() =>
+            baseNumber: () => false,
+            asyncNumber: (() =>
                 new Promise((resolve) => {
                     setTimeout(() => {
                         resolve('bocembocembocem');
@@ -51,25 +51,25 @@ export const untypedConfig = {
                 })) as AsyncValidator<JsonSchemaNumber>,
         },
     },
-    [JsonSchemaType.Object]: {
-        controls: {base: {Component: ObjectBase, independent: true}},
+    [EntityType.Object]: {
+        controls: {baseObject: {Component: ObjectBase, independent: true}},
         views: {},
-        wrappers: {accordeon: Accordeon},
-        validators: {base: (() => false) as SyncValidator<JsonSchemaObject>},
+        wrappers: {accordeonObject: Accordeon},
+        validators: {baseObject: (() => false) as SyncValidator<JsonSchemaObject>},
     },
-    [JsonSchemaType.String]: {
-        controls: {base: {Component: Text}},
+    [EntityType.String]: {
+        controls: {baseString: {Component: Text}},
         views: {},
-        wrappers: {row: Row},
+        wrappers: {rowString: Row},
         validators: {
-            base: (() => 'jajaja') as SyncValidator<JsonSchemaString>,
+            baseString: (() => 'jajaja') as SyncValidator<JsonSchemaString>,
             // async: (() =>
             //     new Promise((resolve) => {
             //         setTimeout(() => {
             //             resolve('bocembocembocem');
             //         }, 2000);
             //     })) as AsyncValidator<JsonSchemaString>,
-            ccc: (() => 'ccc') as SyncValidator<JsonSchemaString>,
+            cccString: (() => 'ccc') as SyncValidator<JsonSchemaString>,
         },
     },
 } as const;

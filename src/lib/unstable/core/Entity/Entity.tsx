@@ -2,9 +2,10 @@ import React from 'react';
 
 import {useField} from 'react-final-form';
 
-import {JsonSchemaType, SchemaRendererMode} from '../constants';
+import {SchemaRendererMode} from '../constants';
 import type {JsonSchema} from '../types';
 import {useEntityState} from '../useSchemaRenderer';
+import {getSchemaBySchemaPath, smartMerge} from '../utils';
 
 import {getRenderKit} from './utils';
 
@@ -14,7 +15,7 @@ export interface EntityProps {
 }
 
 const EntityComponent: React.FC<EntityProps> = ({name, schema: schemaProps = {}}) => {
-    const {config, error, mode} = useEntityState(name);
+    const {config, error, mode, rootSchema} = useEntityState(name);
 
     const options = React.useMemo(
         () => ({
@@ -22,9 +23,6 @@ const EntityComponent: React.FC<EntityProps> = ({name, schema: schemaProps = {}}
             defaultValue: schemaProps.default,
             subscription: {
                 data: true,
-                error:
-                    schemaProps.type !== JsonSchemaType.Array &&
-                    schemaProps.type !== JsonSchemaType.Object,
                 submitFailed: true,
                 touched: true,
                 validating: true,
@@ -36,21 +34,21 @@ const EntityComponent: React.FC<EntityProps> = ({name, schema: schemaProps = {}}
 
     const field = useField(name, options);
 
-    const schema = React.useMemo(
-        () => field.meta.data?.schema || schemaProps,
-        [field.meta.data?.schema, schemaProps],
-    );
+    const schema = React.useMemo(() => {
+        let schema = field.meta.data?.schema || schemaProps;
 
-    const meta = React.useMemo(() => {
-        if (schema.type === JsonSchemaType.Array || schema.type === JsonSchemaType.Object) {
-            return {
-                ...field.meta,
-                error,
-            };
+        if (schema.$ref && rootSchema) {
+            const schemaByRef = getSchemaBySchemaPath(schema.$ref, rootSchema);
+
+            if (schemaByRef) {
+                schema = smartMerge(schema, schemaByRef);
+            }
         }
 
-        return field.meta;
-    }, [field.meta, error, schema?.type]);
+        return schema;
+    }, [field.meta.data?.schema, rootSchema, schemaProps]);
+
+    const meta = React.useMemo(() => ({...field.meta, error}), [field.meta, error]);
 
     const renderKit = React.useMemo(() => getRenderKit({config, schema}), [config, schema]);
 

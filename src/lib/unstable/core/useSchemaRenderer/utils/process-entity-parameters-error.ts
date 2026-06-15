@@ -2,12 +2,11 @@ import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 
 import type {AsyncValidateError, ObjectValue} from '../../types';
+import {parseInstancePath} from '../../utils';
 import type {AsyncValidationState} from '../mutators';
 import type {EntityParametersError, ValidateErrorItem} from '../types';
 
-import {parseInstancePath} from './common';
-
-interface ProcessEntityParametersErrorParams {
+export interface ProcessEntityParametersErrorParams {
     allValues: ObjectValue;
     error: EntityParametersError;
     onAsyncError: (waiter: {

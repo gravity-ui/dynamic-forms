@@ -7,9 +7,8 @@ import type {
 } from 'ajv';
 import get from 'lodash/get';
 
-import type {JsonSchemaType} from '../../constants';
+import type {EntityType} from '../../constants';
 import type {FieldValue, JsonSchema, SchemaRendererConfig, Validator} from '../../types';
-import {getSchemaType} from '../../utils';
 import type {EntityParametersError} from '../types';
 
 export interface GetAjvValidateParams {
@@ -24,11 +23,11 @@ export interface GetAjvValidateReturn extends ValidateFunction {
 export const getAjvValidate = ({config, schema}: GetAjvValidateParams): GetAjvValidateReturn => {
     function entityParametersValidate(_: unknown, value: FieldValue, schema?: JsonSchema) {
         if (schema && schema.entityParameters) {
-            const schemaType: JsonSchemaType = getSchemaType(schema);
+            const entityType: EntityType | undefined = get(schema, 'entityParameters.type');
             const validatorType: string | undefined = schema.entityParameters.validatorType;
             const validator: Validator<JsonSchema> | undefined = get(
                 config,
-                `${schemaType}.validators.${validatorType}`,
+                `${entityType}.validators.${validatorType}`,
             );
 
             if (validator) {
@@ -50,7 +49,6 @@ export const getAjvValidate = ({config, schema}: GetAjvValidateParams): GetAjvVa
     const ajv = new Ajv({
         allErrors: true,
         allowMatchingProperties: true,
-        coerceTypes: true,
         keywords: [
             {
                 errors: true,

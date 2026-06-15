@@ -1,9 +1,8 @@
 import mapValues from 'lodash/mapValues';
 
+import {parseFinalFormName} from '../../utils';
 import type {ExternalErrorsState} from '../mutators';
 import type {ValidateErrorItem} from '../types';
-
-import {parseFinalFormName} from './common';
 
 interface ProcessErrorsStateParams {
     errorsState: ExternalErrorsState | undefined;
