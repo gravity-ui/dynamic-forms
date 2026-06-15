@@ -22,3 +22,8 @@ export type GetRenderKitReturn<Schema extends JsonSchema> = {
         wrapperProps: Record<string, any>;
     };
 };
+
+export interface EntityState {
+    headName?: string;
+    schema?: JsonSchema;
+}

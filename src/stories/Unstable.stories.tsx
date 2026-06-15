@@ -909,6 +909,87 @@ const value = {
                 sssssssssssssssssss: {},
                 ssssssssssssssssssss: {},
             },
+            bocem: {
+                // name: 'bocemb',
+                age: 13,
+                nameQ: 'jaja',
+                obj: {name: 'bocemb', age: 13},
+                baseSpec: {},
+                s: {},
+                ss: {},
+                sss: {},
+                ssss: {},
+                sssss: {},
+                ssssss: {},
+                sssssss: {},
+                ssssssss: {},
+                sssssssss: {},
+                ssssssssss: {},
+                sssssssssss: {},
+                ssssssssssss: {},
+                sssssssssssss: {},
+                ssssssssssssss: {},
+                sssssssssssssss: {},
+                ssssssssssssssss: {},
+                sssssssssssssssss: {},
+                ssssssssssssssssss: {},
+                sssssssssssssssssss: {},
+                ssssssssssssssssssss: {},
+            },
+            bocembocem: {
+                // name: 'bocemb',
+                age: 13,
+                nameQ: 'jaja',
+                obj: {name: 'bocemb', age: 13},
+                baseSpec: {},
+                s: {},
+                ss: {},
+                sss: {},
+                ssss: {},
+                sssss: {},
+                ssssss: {},
+                sssssss: {},
+                ssssssss: {},
+                sssssssss: {},
+                ssssssssss: {},
+                sssssssssss: {},
+                ssssssssssss: {},
+                sssssssssssss: {},
+                ssssssssssssss: {},
+                sssssssssssssss: {},
+                ssssssssssssssss: {},
+                sssssssssssssssss: {},
+                ssssssssssssssssss: {},
+                sssssssssssssssssss: {},
+                ssssssssssssssssssss: {},
+            },
+            bocembocembocem: {
+                // name: 'bocemb',
+                age: 13,
+                nameQ: 'jaja',
+                obj: {name: 'bocemb', age: 13},
+                baseSpec: {},
+                s: {},
+                ss: {},
+                sss: {},
+                ssss: {},
+                sssss: {},
+                ssssss: {},
+                sssssss: {},
+                ssssssss: {},
+                sssssssss: {},
+                ssssssssss: {},
+                sssssssssss: {},
+                ssssssssssss: {},
+                sssssssssssss: {},
+                ssssssssssssss: {},
+                sssssssssssssss: {},
+                ssssssssssssssss: {},
+                sssssssssssssssss: {},
+                ssssssssssssssssss: {},
+                sssssssssssssssssss: {},
+                ssssssssssssssssssss: {},
+            },
         },
     },
 };
@@ -940,6 +1021,24 @@ const template = () => {
                     <SchemaRenderer
                         name="qwe.test.jajaja"
                         schema={baseSpec2}
+                        config={config}
+                        mode={SchemaRendererMode.Form}
+                    />
+                    <SchemaRenderer
+                        name="qwe.test.bocem"
+                        schema={baseSpec}
+                        config={config}
+                        mode={SchemaRendererMode.Form}
+                    />
+                    <SchemaRenderer
+                        name="qwe.test.bocembocem"
+                        schema={baseSpec}
+                        config={config}
+                        mode={SchemaRendererMode.Form}
+                    />
+                    <SchemaRenderer
+                        name="qwe.test.bocembocembocem"
+                        schema={baseSpec}
                         config={config}
                         mode={SchemaRendererMode.Form}
                     />

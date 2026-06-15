@@ -9,7 +9,6 @@ export interface SchemaMutatorsState {
 }
 
 export interface SetSchemaMutatorsParams {
-    headName: string;
     mutators: {name: string; schema: JsonSchema}[];
 }
 
@@ -25,7 +24,6 @@ export type SetSchemaMutatorsFunction<
 export type SetSchemaMutatorsMutator = (params: SetSchemaMutatorsParams) => void;
 
 export interface RemoveSchemaMutatorsParams {
-    headName: string;
     mutatorsToRemove: {name: string; schema: JsonSchema | true}[];
 }
 

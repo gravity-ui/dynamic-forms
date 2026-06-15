@@ -12,7 +12,6 @@ export interface ExternalErrorsState {
 }
 
 export interface SetExternalErrorsParams {
-    headName: string;
     priorityErrors?: {
         [key: string]: SyncValidateError;
     };
@@ -33,8 +32,9 @@ export type SetExternalErrorsFunction<
 export type SetExternalErrorsMutator = (params: SetExternalErrorsParams) => void;
 
 export interface RemoveExternalErrorsParams {
-    headName: string;
-    removeFunctionOrNames: string[] | ((state: ExternalErrorsState) => ExternalErrorsState);
+    removeFunctionOrNames:
+        | string[]
+        | ((headName: string, state: ExternalErrorsState) => ExternalErrorsState);
 }
 
 export type RemoveExternalErrorsFunction<

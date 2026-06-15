@@ -4,9 +4,10 @@ import {useField} from 'react-final-form';
 
 import {SchemaRendererMode} from '../constants';
 import type {JsonSchema} from '../types';
-import {useEntityState} from '../useSchemaRenderer';
+import {useEntitiesState} from '../useSchemaRenderer';
 import {getSchemaBySchemaPath, smartMerge} from '../utils';
 
+import type {EntityState} from './types';
 import {getRenderKit} from './utils';
 
 export interface EntityProps {
@@ -15,11 +16,13 @@ export interface EntityProps {
 }
 
 const EntityComponent: React.FC<EntityProps> = ({name, schema: schemaProps = {}}) => {
-    const {config, error, mode, rootSchema} = useEntityState(name);
+    const {config, error, headName, mode, rootSchema} = useEntitiesState(name);
 
-    const options = React.useMemo(
-        () => ({
-            data: {schema: schemaProps},
+    const options = React.useMemo(() => {
+        const data: EntityState = {headName, schema: schemaProps};
+
+        return {
+            data,
             defaultValue: schemaProps.default,
             subscription: {
                 data: true,
@@ -28,9 +31,8 @@ const EntityComponent: React.FC<EntityProps> = ({name, schema: schemaProps = {}}
                 validating: true,
                 value: true,
             },
-        }),
-        [schemaProps],
-    );
+        };
+    }, [headName, schemaProps]);
 
     const field = useField(name, options);
 
