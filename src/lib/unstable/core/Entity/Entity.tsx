@@ -138,7 +138,7 @@ const EntityComponent: React.FC<EntityProps> = ({name, schema: schemaProps = {}}
         }
     }
 
-    return content ? <div>{content}</div> : null;
+    return content;
 };
 
 export const Entity = React.memo(EntityComponent);

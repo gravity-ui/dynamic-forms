@@ -23,7 +23,7 @@ export type GetRenderKitReturn<Schema extends JsonSchema> = {
     };
 };
 
-export interface EntityState {
+export interface EntityState<Schema extends JsonSchema = JsonSchema> {
     headName?: string;
-    schema?: JsonSchema;
+    schema?: Schema;
 }

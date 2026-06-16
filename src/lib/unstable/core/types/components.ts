@@ -50,6 +50,7 @@ export interface WrapperProps<
         copy?: boolean;
         required?: boolean;
     } & Partial<WrapperComponentProps>;
+    children: React.ReactNode;
 }
 
 export type Wrapper<

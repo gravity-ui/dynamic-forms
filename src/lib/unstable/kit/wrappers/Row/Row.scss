@@ -1,0 +1,37 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}row {
+    margin-bottom: spacing(4);
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &__left {
+        display: inline;
+        width: 180px;
+        min-height: 28px;
+        padding-top: 5.5px;
+    }
+
+    &__title {
+        min-height: 18px;
+        margin-right: spacing(1);
+
+        &_required {
+            &::after {
+                content: '*';
+                margin-left: spacing(1);
+                color: var(--g-color-text-danger);
+            }
+        }
+    }
+
+    &__right {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        gap: spacing(0.5);
+    }
+}
