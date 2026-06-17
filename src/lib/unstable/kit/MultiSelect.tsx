@@ -42,8 +42,8 @@ export const MultiSelect: Control<JsonSchemaArray> = ({input, schema}) => {
             schema.items?.enum?.map((id) => ({
                 id,
                 value: id,
-                text: schema.entityParameters?.enumDescription?.[id] || id,
-                content: schema.entityParameters?.enumDescription?.[id] || id,
+                text: id,
+                content: id,
                 key: id,
             })),
         [

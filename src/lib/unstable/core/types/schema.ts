@@ -10,6 +10,105 @@ import type {
 import type {ErrorMessages} from './validation';
 import type {ArrayValue, FieldValue, ObjectValue} from './values';
 
+type ControlEntityParameters<
+    TypeConfig extends SchemaRendererConfig[EntityType],
+    Control extends ObjectKeys<TypeConfig['controls']> = ObjectKeys<TypeConfig['controls']>,
+> = [Control] extends [never]
+    ? {}
+    : {
+          [C in Control]: {
+              /**
+               * Identifier of a control registered in `config[entityType].controls`. Selects
+               * which React component renders the field in form mode. When omitted, the
+               * renderer falls back to the default control for this entity type.
+               */
+              controlType?: C;
+              /**
+               * Extra props forwarded to the selected control. Typed to the `controlProps`
+               * shape declared by the chosen control component.
+               */
+              controlProps?: ExtractControlProps<TypeConfig['controls'][C]>;
+          };
+      }[Control];
+
+type ControlWrapperEntityParameters<
+    TypeConfig extends SchemaRendererConfig[EntityType],
+    Wrapper extends ObjectKeys<TypeConfig['wrappers']> = ObjectKeys<TypeConfig['wrappers']>,
+> = [Wrapper] extends [never]
+    ? {}
+    : {
+          [W in Wrapper]: {
+              /**
+               * Identifier of a wrapper registered in `config[entityType].wrappers`. The
+               * wrapper component is rendered around the control in form mode (e.g. to add
+               * a label, layout, or visibility logic).
+               */
+              controlWrapperType?: W;
+              /**
+               * Extra props forwarded to the selected control wrapper. Typed to the
+               * `wrapperProps` shape declared by the chosen wrapper component.
+               */
+              controlWrapperProps?: ExtractWrapperProps<TypeConfig['wrappers'][W]>;
+          };
+      }[Wrapper];
+
+type ViewEntityParameters<
+    TypeConfig extends SchemaRendererConfig[EntityType],
+    View extends ObjectKeys<TypeConfig['views']> = ObjectKeys<TypeConfig['views']>,
+> = [View] extends [never]
+    ? {}
+    : {
+          [V in View]: {
+              /**
+               * Identifier of a view registered in `config[entityType].views`. Selects which
+               * React component renders the field in overview (read-only) mode. When omitted,
+               * the renderer falls back to the default view for this entity type.
+               */
+              viewType?: V;
+              /**
+               * Extra props forwarded to the selected view. Typed to the `viewProps` shape
+               * declared by the chosen view component.
+               */
+              viewProps?: ExtractViewProps<TypeConfig['views'][V]>;
+          };
+      }[View];
+
+type ViewWrapperEntityParameters<
+    TypeConfig extends SchemaRendererConfig[EntityType],
+    Wrapper extends ObjectKeys<TypeConfig['wrappers']> = ObjectKeys<TypeConfig['wrappers']>,
+> = [Wrapper] extends [never]
+    ? {}
+    : {
+          [W in Wrapper]: {
+              /**
+               * Identifier of a wrapper registered in `config[entityType].wrappers`. The
+               * wrapper component is rendered around the view in overview mode.
+               */
+              viewWrapperType?: W;
+              /**
+               * Extra props forwarded to the selected view wrapper. Typed to the
+               * `wrapperProps` shape declared by the chosen wrapper component.
+               */
+              viewWrapperProps?: ExtractWrapperProps<TypeConfig['wrappers'][W]>;
+          };
+      }[Wrapper];
+
+type ValidatorEntityParameters<Validator extends string> = [Validator] extends [never]
+    ? {}
+    : {
+          [V in Validator]: {
+              /**
+               * Identifier of a custom validator registered in `config[entityType].validators`.
+               * Runs in addition to (or instead of, depending on the renderer policy) the
+               * JSON Schema validation derived from the schema keywords.
+               *
+               * TODO(verify): confirm whether the custom validator replaces or complements
+               * JSON Schema validation and adjust this comment.
+               */
+              validatorType?: V;
+          };
+      }[Validator];
+
 /**
  * Renderer-specific configuration carried on each schema node. Not part of the
  * JSON Schema specification — these keywords are ignored by JSON Schema
@@ -41,71 +140,6 @@ interface EntityParameters<
          * via different `EntityType` registrations).
          */
         type?: Type;
-        /**
-         * Identifier of a control registered in `config[entityType].controls`. Selects
-         * which React component renders the field in form mode. When omitted, the
-         * renderer falls back to the default control for this entity type.
-         */
-        controlType?: Control;
-        /**
-         * Extra props forwarded to the selected control. Typed to the `controlProps`
-         * shape declared by the chosen control component.
-         */
-        controlProps?: ExtractControlProps<TypeConfig['controls'][Control]>;
-        /**
-         * Identifier of a wrapper registered in `config[entityType].wrappers`. The
-         * wrapper component is rendered around the control in form mode (e.g. to add
-         * a label, layout, or visibility logic).
-         */
-        controlWrapperType?: Wrapper;
-        /**
-         * Extra props forwarded to the selected control wrapper. Typed to the
-         * `wrapperProps` shape declared by the chosen wrapper component.
-         */
-        controlWrapperProps?: ExtractWrapperProps<TypeConfig['wrappers'][Wrapper]>;
-        /**
-         * Identifier of a view registered in `config[entityType].views`. Selects which
-         * React component renders the field in overview (read-only) mode. When omitted,
-         * the renderer falls back to the default view for this entity type.
-         */
-        viewType?: View;
-        /**
-         * Extra props forwarded to the selected view. Typed to the `viewProps` shape
-         * declared by the chosen view component.
-         */
-        viewProps?: ExtractViewProps<TypeConfig['views'][View]>;
-        /**
-         * Identifier of a wrapper registered in `config[entityType].wrappers`. The
-         * wrapper component is rendered around the view in overview mode.
-         */
-        viewWrapperType?: Wrapper;
-        /**
-         * Extra props forwarded to the selected view wrapper. Typed to the
-         * `wrapperProps` shape declared by the chosen wrapper component.
-         */
-        viewWrapperProps?: ExtractWrapperProps<TypeConfig['wrappers'][Wrapper]>;
-        /**
-         * Identifier of a custom validator registered in `config[entityType].validators`.
-         * Runs in addition to (or instead of, depending on the renderer policy) the
-         * JSON Schema validation derived from the schema keywords.
-         *
-         * TODO(verify): confirm whether the custom validator replaces or complements
-         * JSON Schema validation and adjust this comment.
-         */
-        validatorType?: Validator;
-        /**
-         * Map of enum value (as a string key) to a human-readable label. The renderer
-         * uses these labels in selects / radio groups instead of showing raw enum values.
-         *
-         * @example
-         * {
-         *   enum: ['draft', 'published'],
-         *   entityParameters: {
-         *     enumDescription: {draft: 'Draft', published: 'Published'},
-         *   },
-         * }
-         */
-        enumDescription?: {[key: string]: string};
         /**
          * Custom error messages shown by the renderer when validation fails. Keys
          * correspond to JSON Schema validation keywords (`minLength`, `pattern`, `enum`,
@@ -143,7 +177,11 @@ interface EntityParameters<
             dependencies?: string | Record<string, string>;
             required?: string | Record<string, string>;
         };
-    };
+    } & ControlEntityParameters<TypeConfig, Control> &
+        ControlWrapperEntityParameters<TypeConfig, Wrapper> &
+        ViewEntityParameters<TypeConfig, View> &
+        ViewWrapperEntityParameters<TypeConfig, Wrapper> &
+        ValidatorEntityParameters<Validator>;
 }
 
 /**
