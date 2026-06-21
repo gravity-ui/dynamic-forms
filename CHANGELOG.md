@@ -1,5 +1,21 @@
 # Changelog
 
+## [5.18.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.17.1...v5.18.0) (2026-06-21)
+
+
+### Features
+
+* **unstable:** add controls ([#378](https://github.com/gravity-ui/dynamic-forms/issues/378)) ([66d9cae](https://github.com/gravity-ui/dynamic-forms/commit/66d9cae4d43966f66c82b554213b2086b63d4de7))
+* **unstable:** add the ability to use multiple schema-renderer compo… ([#377](https://github.com/gravity-ui/dynamic-forms/issues/377)) ([eae01d9](https://github.com/gravity-ui/dynamic-forms/commit/eae01d9051ff339e19b35787549dd6f8c8a92066))
+* **unstable:** support schema defenitions ([#376](https://github.com/gravity-ui/dynamic-forms/issues/376)) ([ebad0b8](https://github.com/gravity-ui/dynamic-forms/commit/ebad0b8651950ca08b33822bac4ba3edb9048c09))
+* **unstable:** update errors handling logis, add tests for validate … ([#374](https://github.com/gravity-ui/dynamic-forms/issues/374)) ([2b5eb19](https://github.com/gravity-ui/dynamic-forms/commit/2b5eb197ad61316544fc443104870420b943e90d))
+
+
+### Bug Fixes
+
+* enhance ColorPicker documentation with stability notes and usage DATAUI-2028 ([#372](https://github.com/gravity-ui/dynamic-forms/issues/372)) ([09a00c4](https://github.com/gravity-ui/dynamic-forms/commit/09a00c46a58be1e4fcfcd3bcea2b0688505197bd))
+* import single tool from lodash insead of full lib ([#325](https://github.com/gravity-ui/dynamic-forms/issues/325)) ([eb84123](https://github.com/gravity-ui/dynamic-forms/commit/eb8412346d5cb83ad4d7dfee0ce3493f83342b7d))
+
 ## [5.17.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.17.0...v5.17.1) (2026-06-05)
 
 
