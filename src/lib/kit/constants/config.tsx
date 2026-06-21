@@ -12,6 +12,8 @@ import {
     Checkbox,
     CheckboxGroup,
     CheckboxGroupView,
+    ColorPicker,
+    ColorPickerView,
     Column,
     DateInput,
     DateView,
@@ -41,6 +43,10 @@ import {
     OneOfFlatView,
     OneOfView,
     RadioGroup,
+    RangeInputPicker,
+    RangeInputPickerNumber,
+    RangeInputPickerNumberView,
+    RangeInputPickerView,
     Row,
     RowVerbose,
     Secret,
@@ -78,6 +84,7 @@ import {
     getArrayValidator,
     getBooleanValidator,
     getNumberValidator,
+    getNumberWithScaleValidator,
     getObjectValidator,
     getStringValidator,
 } from '../validators';
@@ -128,6 +135,7 @@ export const dynamicConfig: DynamicFormConfig = {
     number: {
         inputs: {
             base: {Component: NumInput},
+            range_input_picker: {Component: RangeInputPickerNumber},
         },
         layouts: {
             row: Row,
@@ -153,6 +161,7 @@ export const dynamicConfig: DynamicFormConfig = {
             multi_oneof_flat: {Component: MultiOneOfFlat, independent: true},
             inline: {Component: ObjectInline, independent: true},
             time_range_selector: {Component: TimeRangeSelector, independent: true},
+            range_input_picker: {Component: RangeInputPicker},
         },
         layouts: {
             row: Row,
@@ -180,6 +189,7 @@ export const dynamicConfig: DynamicFormConfig = {
             base: {Component: Text},
             file_input: {Component: FileInput},
             date_input: {Component: DateInput},
+            color_picker: {Component: ColorPicker},
             number_with_scale: {Component: NumberWithScale},
             monaco_input: {Component: MonacoInput},
             text_content: {Component: TextContent, independent: true},
@@ -200,6 +210,7 @@ export const dynamicConfig: DynamicFormConfig = {
         validators: {
             base: getStringValidator(),
             number: getNumberValidator() as unknown as ValidatorType<string, StringSpec>,
+            number_with_scale: getNumberWithScaleValidator(),
         },
     },
 };
@@ -244,6 +255,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
     number: {
         views: {
             base: {Component: BaseView},
+            range_input_picker: {Component: RangeInputPickerNumberView},
         },
         layouts: {
             row: ViewRow,
@@ -266,6 +278,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
             multi_oneof_flat: {Component: MultiOneOfFlatView, independent: true},
             inline: {Component: ObjectInlineView, independent: true},
             time_range_selector: {Component: TimeRangeSelectorView, independent: true},
+            range_input_picker: {Component: RangeInputPickerView},
         },
         layouts: {
             row: ViewRow,
@@ -289,6 +302,7 @@ export const dynamicViewConfig: DynamicViewConfig = {
             select: {Component: BaseView},
             base: {Component: BaseView},
             date_input: {Component: DateView},
+            color_picker: {Component: ColorPickerView},
             file_input: {Component: FileInputView},
             number_with_scale: {Component: NumberWithScaleView},
             monaco_input: {Component: MonacoView},

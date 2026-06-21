@@ -9,6 +9,8 @@ export interface ErrorMessagesType {
     maxLengthArr: (count: number | bigint) => string;
     minNumber: (count: number | bigint) => string;
     maxNumber: (count: number | bigint) => string;
+    minNumberWithScale: (count: number | bigint | string, scale: string) => string;
+    maxNumberWithScale: (count: number | bigint | string, scale: string) => string;
     SPACE_START: string;
     SPACE_END: string;
     DOT_END: string;

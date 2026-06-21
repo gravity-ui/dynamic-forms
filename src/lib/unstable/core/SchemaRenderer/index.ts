@@ -1,1 +1,1 @@
-export * from './SchemaRenderer';
+export {SchemaRenderer, type SchemaRendererProps} from './SchemaRenderer';

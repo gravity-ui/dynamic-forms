@@ -1,5 +1,45 @@
 # Changelog
 
+## [5.17.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.17.0...v5.17.1) (2026-06-05)
+
+
+### Bug Fixes
+
+* resolve @gravity-ui/uikit/unstable in publish build ([#370](https://github.com/gravity-ui/dynamic-forms/issues/370)) ([5cc05af](https://github.com/gravity-ui/dynamic-forms/commit/5cc05af08a7e451c93d5c5ccbfc2a5732c2af6f0))
+
+## [5.17.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.16.0...v5.17.0) (2026-06-05)
+
+
+### Features
+
+* add color picker ([#368](https://github.com/gravity-ui/dynamic-forms/issues/368)) ([28e309e](https://github.com/gravity-ui/dynamic-forms/commit/28e309e235e1901ad981ce4746c2d331ef611d45))
+
+## [5.16.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.15.0...v5.16.0) (2026-06-05)
+
+
+### Features
+
+* number with scale error messages ([#362](https://github.com/gravity-ui/dynamic-forms/issues/362)) ([4bec5b7](https://github.com/gravity-ui/dynamic-forms/commit/4bec5b7efbc33a3b6f32e00a079362645b3f9a83))
+
+## [5.15.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.14.0...v5.15.0) (2026-06-04)
+
+
+### Features
+
+* **unstable:** wake up schema renderer ([#363](https://github.com/gravity-ui/dynamic-forms/issues/363)) ([2b5e0a9](https://github.com/gravity-ui/dynamic-forms/commit/2b5e0a94f05ae328254ffa9a11733e07ad16d038))
+
+
+### Bug Fixes
+
+* fix display icon and copy button ([#366](https://github.com/gravity-ui/dynamic-forms/issues/366)) ([2577706](https://github.com/gravity-ui/dynamic-forms/commit/25777069466f20cb6103f78d6064a9e0976d6796))
+
+## [5.14.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.13.2...v5.14.0) (2026-05-25)
+
+
+### Features
+
+* add RangeInputPicker component with number input and view support ([#360](https://github.com/gravity-ui/dynamic-forms/issues/360)) ([0feb76e](https://github.com/gravity-ui/dynamic-forms/commit/0feb76eb1739c2a98140d19157e76d38729d7c4b))
+
 ## [5.13.2](https://github.com/gravity-ui/dynamic-forms/compare/v5.13.1...v5.13.2) (2026-03-30)
 
 

@@ -1,30 +1,29 @@
 import type {SchemaRendererMode} from '../constants';
-import type {
-    IndependentView,
-    JsonSchema,
-    SchemaRendererConfig,
-    SimpleView,
-    Wrapper,
-} from '../types';
+import type {Control, JsonSchema, SchemaRendererConfig, View, Wrapper} from '../types';
 
 export type GetRenderKitParams<Schema extends JsonSchema> = {
-    config: SchemaRendererConfig;
-    mode: SchemaRendererMode;
+    config?: SchemaRendererConfig;
     schema: Schema;
 };
 
-export type GetRenderKitReturn<Schema extends JsonSchema> =
-    | {
-          View: SimpleView<Schema> | undefined;
-          Wrapper: Wrapper<Schema> | undefined;
-          independent: false | undefined;
-          viewProps: Record<string, any>;
-          wrapperProps: Record<string, any>;
-      }
-    | {
-          View: IndependentView<Schema>;
-          Wrapper: Wrapper<Schema> | undefined;
-          independent: true;
-          viewProps: Record<string, any>;
-          wrapperProps: Record<string, any>;
-      };
+export type GetRenderKitReturn<Schema extends JsonSchema> = {
+    [SchemaRendererMode.Form]: {
+        Component: Control<Schema> | undefined;
+        props: Record<string, any>;
+        independent: boolean | undefined;
+        Wrapper: Wrapper<Schema> | undefined;
+        wrapperProps: Record<string, any>;
+    };
+    [SchemaRendererMode.Overview]: {
+        Component: View<Schema> | undefined;
+        props: Record<string, any>;
+        independent: boolean | undefined;
+        Wrapper: Wrapper<Schema> | undefined;
+        wrapperProps: Record<string, any>;
+    };
+};
+
+export interface EntityState<Schema extends JsonSchema = JsonSchema> {
+    headName?: string;
+    schema?: Schema;
+}

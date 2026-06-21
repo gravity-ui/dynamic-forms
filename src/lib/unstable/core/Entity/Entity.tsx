@@ -1,70 +1,144 @@
 import React from 'react';
 
-import {SchemaRendererContext} from '../SchemaRendererContext';
-import type {JsonSchema} from '../types';
-import {useSchemaRendererField} from '../useSchemaRendererField';
+import {useField} from 'react-final-form';
 
+import {SchemaRendererMode} from '../constants';
+import type {JsonSchema} from '../types';
+import {useEntitiesState} from '../useSchemaRenderer';
+import {getSchemaBySchemaPath, smartMerge} from '../utils';
+
+import type {EntityState} from './types';
 import {getRenderKit} from './utils';
 
 export interface EntityProps {
     name: string;
-    schema: JsonSchema;
+    schema?: JsonSchema;
 }
 
-const EntityComponent: React.FC<EntityProps> = ({name, schema}) => {
-    const {config, mode} = React.useContext(SchemaRendererContext);
+const EntityComponent: React.FC<EntityProps> = ({name, schema: schemaProps = {}}) => {
+    const {config, error, headName, mode, rootSchema} = useEntitiesState(name);
 
-    const renderKit = React.useMemo(
-        () => getRenderKit({config, mode, schema}),
-        [config, mode, schema],
-    );
+    const options = React.useMemo(() => {
+        const data: EntityState = {headName, schema: schemaProps};
 
-    const options = React.useMemo(
-        () => ({
-            data: {schema},
-            defaultValue: schema.default,
+        return {
+            data,
+            defaultValue: schemaProps.default,
             subscription: {
-                error: true,
+                data: true,
                 submitFailed: true,
                 touched: true,
                 validating: true,
                 value: true,
             },
-        }),
-        [schema],
-    );
+        };
+    }, [headName, schemaProps]);
 
-    const field = useSchemaRendererField(name, options);
+    const field = useField(name, options);
 
-    if (!renderKit.View) {
-        return null;
-    }
+    const schema = React.useMemo(() => {
+        let schema = field.meta.data?.schema || schemaProps;
+
+        if (schema.$ref && rootSchema) {
+            const schemaByRef = getSchemaBySchemaPath(schema.$ref, rootSchema);
+
+            if (schemaByRef) {
+                schema = smartMerge(schema, schemaByRef);
+            }
+        }
+
+        return schema;
+    }, [field.meta.data?.schema, rootSchema, schemaProps]);
+
+    const meta = React.useMemo(() => ({...field.meta, error}), [field.meta, error]);
+
+    const renderKit = React.useMemo(() => getRenderKit({config, schema}), [config, schema]);
 
     let content = null;
 
-    if (renderKit.independent) {
-        content = (
-            <renderKit.View
-                {...field}
-                schema={schema}
-                Wrapper={renderKit.Wrapper}
-                viewProps={renderKit.viewProps}
-                wrapperProps={renderKit.wrapperProps}
-            />
-        );
-    } else {
-        content = <renderKit.View {...field} schema={schema} viewProps={renderKit.viewProps} />;
+    if (mode === SchemaRendererMode.Form) {
+        const formKit = renderKit[SchemaRendererMode.Form];
 
-        if (renderKit.Wrapper) {
-            content = (
-                <renderKit.Wrapper {...field} schema={schema} wrapperProps={renderKit.wrapperProps}>
-                    {content}
-                </renderKit.Wrapper>
-            );
+        if (formKit.Component) {
+            if (formKit.independent) {
+                content = (
+                    <formKit.Component
+                        input={field.input}
+                        meta={meta}
+                        schema={schema}
+                        controlProps={formKit.props}
+                        Wrapper={formKit.Wrapper}
+                        wrapperProps={formKit.wrapperProps}
+                    />
+                );
+            } else {
+                content = (
+                    <formKit.Component
+                        input={field.input}
+                        meta={meta}
+                        schema={schema}
+                        controlProps={formKit.props}
+                    />
+                );
+
+                if (formKit.Wrapper) {
+                    content = (
+                        <formKit.Wrapper
+                            input={field.input}
+                            meta={meta}
+                            schema={schema}
+                            wrapperProps={formKit.wrapperProps}
+                        >
+                            {content}
+                        </formKit.Wrapper>
+                    );
+                }
+            }
         }
     }
 
-    return <div>{content}</div>;
+    if (mode === SchemaRendererMode.Overview) {
+        const overviewKit = renderKit[SchemaRendererMode.Overview];
+
+        if (overviewKit.Component) {
+            if (overviewKit.independent) {
+                content = (
+                    <overviewKit.Component
+                        input={field.input}
+                        meta={meta}
+                        schema={schema}
+                        viewProps={overviewKit.props}
+                        Wrapper={overviewKit.Wrapper}
+                        wrapperProps={overviewKit.wrapperProps}
+                    />
+                );
+            } else {
+                content = (
+                    <overviewKit.Component
+                        input={field.input}
+                        meta={meta}
+                        schema={schema}
+                        viewProps={overviewKit.props}
+                    />
+                );
+
+                if (overviewKit.Wrapper) {
+                    content = (
+                        <overviewKit.Wrapper
+                            input={field.input}
+                            meta={meta}
+                            schema={schema}
+                            wrapperProps={overviewKit.wrapperProps}
+                        >
+                            {content}
+                        </overviewKit.Wrapper>
+                    );
+                }
+            }
+        }
+    }
+
+    return content;
 };
 
 export const Entity = React.memo(EntityComponent);

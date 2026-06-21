@@ -6,11 +6,20 @@ export enum SchemaRendererMode {
 export enum JsonSchemaType {
     Array = 'array',
     Boolean = 'boolean',
+    Integer = 'integer',
+    Null = 'null',
+    Number = 'number',
+    Object = 'object',
+    String = 'string',
+}
+
+export enum EntityType {
+    Any = 'any',
+    Array = 'array',
+    Boolean = 'boolean',
     Number = 'number',
     Object = 'object',
     String = 'string',
 }
 
 export const EMPTY_OBJECT = {};
-
-export const ARRAY_AND_OBJECT_ERRORS = 'ARRAY_AND_OBJECT_ERRORS';

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Plus} from '@gravity-ui/icons';
-import {Button, Icon} from '@gravity-ui/uikit';
+import {Button, Icon, Text} from '@gravity-ui/uikit';
 
 // import {
 //     ArrayInput,
@@ -21,13 +21,13 @@ import {Button, Icon} from '@gravity-ui/uikit';
 // } from '../../../../core';
 import {block} from '../../kit/utils';
 import {Entity} from '../core';
-import type {JsonSchemaArray, SimpleView} from '../core/types';
+import type {Control, JsonSchemaArray} from '../core/types';
 
 import './ArrayBase.scss';
 
 const b = block('array-base');
 
-export const ArrayBase: SimpleView<JsonSchemaArray> = ({input, schema}) => {
+export const ArrayBase: Control<JsonSchemaArray> = ({input, schema, meta}) => {
     // const keys = React.useMemo(
     //     () =>
     //         Object.keys(arrayInput.value || {})
@@ -49,7 +49,7 @@ export const ArrayBase: SimpleView<JsonSchemaArray> = ({input, schema}) => {
 
             // @ts-expect-error
             itemSpec.title = itemSpec.title ? `${itemSpec.title} ${idx + 1}` : `${idx + 1}`;
-            // @ts-expect-error
+
             return itemSpec;
         },
         [schema.items],
@@ -149,6 +149,7 @@ export const ArrayBase: SimpleView<JsonSchemaArray> = ({input, schema}) => {
         <div className={b()}>
             <div className={b('items-wrapper')}>{items}</div>
             <AddButton />
+            {meta.error ? <Text color="danger">{meta.error}</Text> : null}
         </div>
     );
 };

@@ -7,8 +7,8 @@ import {
 } from '@gravity-ui/uikit';
 import isNil from 'lodash/isNil';
 
-import {useSetErrors} from '../core';
-import type {JsonSchemaNumber, JsonSchemaString, SimpleViewProps} from '../core/types';
+import {useSchemaRendererMutators} from '../core';
+import type {ControlProps, JsonSchemaNumber, JsonSchemaString} from '../core/types';
 
 export interface TextProps
     extends Omit<
@@ -17,15 +17,14 @@ export interface TextProps
     > {}
 
 const Component = <
-    T extends
-        | SimpleViewProps<JsonSchemaNumber, TextProps>
-        | SimpleViewProps<JsonSchemaString, TextProps>,
+    T extends ControlProps<JsonSchemaNumber, TextProps> | ControlProps<JsonSchemaString, TextProps>,
 >({
     input,
     meta,
     schema,
 }: T) => {
-    const {setErrors, removeErrors} = useSetErrors();
+    // const {setErrors, removeErrors} = useSetErrors();
+    const {setSchemaMutators, removeSchemaMutators} = useSchemaRendererMutators(); // setExternalErrors
 
     const props: TextInputBaseProps = {
         hasClear: true,
@@ -44,36 +43,232 @@ const Component = <
     };
 
     React.useEffect(() => {
-        if (input.name === 'qwe.test.jajaja.stringMaxLength') {
-            if (input.value === 'jajaja') {
-                setErrors({
-                    priorityErrors: {
-                        [input.name]: 'priorityError',
-                        'qwe.test.jajaja': {
-                            numberMaximum: 'priorityError',
-                            objectPropertyNames: {
-                                stringEnum: 'priorityError',
+        if (
+            input.name === 'qwe.test.jajaja.stringMaxLength' ||
+            input.name === 'qwe.test.bocembocembocem.stringMaxLength'
+        ) {
+            // if (input.value === '1') {
+            //     setExternalErrors?.({
+            //         headName: 'qwe.test.jajaja',
+            //         priorityErrors: {
+            //             [input.name]: 'bbbbbbbbbbb priority',
+            //             'qwe.test.jajaja': {
+            //                 numberMaximum: 'bbbbbbbbbbb priority',
+            //                 objectPropertyNames: {
+            //                     stringEnum: 'bbbbbbbbbbb priority',
+            //                 },
+            //             },
+            //             'qwe.test.jajaja.objectPropertyNames': 'bbbbbbbbbbb priority',
+            //         },
+            //     });
+            //     setSchemaMutators?.({
+            //         headName: 'qwe.test.jajaja',
+            //         // mutators: {
+            //         //     [input.name]: {
+            //         //         title: 'Aaaaaaaa',
+            //         //     },
+            //         //     'qwe.test.jajaja.stringPattern': {
+            //         //         title: 'OOOOOOO',
+            //         //     },
+            //         //     'qwe.test.jajaja.numberMinimum': {
+            //         //         minimum: 0,
+            //         //     },
+            //         // },
+            //         mutators: [
+            //             {
+            //                 name: input.name,
+            //                 schema: {
+            //                     title: 'QWEQWEQWEQWE',
+            //                 },
+            //             },
+            //             {
+            //                 name: 'qwe.test.jajaja.stringPattern',
+            //                 schema: {
+            //                     title: 'QWEQWEQWEQWE',
+            //                 },
+            //             },
+
+            //             {
+            //                 name: 'qwe.test.jajaja.numberMaximum',
+            //                 schema: {
+            //                     maximum: 10,
+            //                 },
+            //             },
+            //         ],
+            //     });
+            // } else if (input.value === '2') {
+            //     setExternalErrors?.({
+            //         headName: 'qwe.test.jajaja',
+            //         priorityErrors: {
+            //             [input.name]: 'priorityError',
+            //             'qwe.test.jajaja': {
+            //                 numberMaximum: 'priorityError',
+            //                 objectPropertyNames: {
+            //                     stringEnum: 'priorityError',
+            //                 },
+            //             },
+            //             'qwe.test.jajaja.objectPropertyNames': 'priorityError',
+            //         },
+            //     });
+            //     setSchemaMutators?.({
+            //         headName: 'qwe.test.jajaja',
+            //         // mutators: {
+            //         //     [input.name]: {
+            //         //         title: 'Aaaaaaaa',
+            //         //     },
+            //         //     'qwe.test.jajaja.stringPattern': {
+            //         //         title: 'OOOOOOO',
+            //         //     },
+            //         //     'qwe.test.jajaja.numberMinimum': {
+            //         //         minimum: 0,
+            //         //     },
+            //         // },
+            //         mutators: [
+            //             {
+            //                 name: input.name,
+            //                 schema: {
+            //                     title: 'Aaaaaaaa',
+            //                 },
+            //             },
+            //             {
+            //                 name: 'qwe.test.jajaja.stringPattern',
+            //                 schema: {
+            //                     title: 'OOOOOOO',
+            //                 },
+            //             },
+
+            //             {
+            //                 name: 'qwe.test.jajaja.numberMinimum',
+            //                 schema: {
+            //                     minimum: 0,
+            //                 },
+            //             },
+            //         ],
+            //     });
+            // } else if (input.value === '3') {
+            //     setExternalErrors?.({
+            //         headName: 'qwe.test.jajaja',
+            //         priorityErrors: {
+            //             [input.name]: 'EXTERNAL_ERROR',
+            //         },
+            //     });
+            //     removeSchemaMutators?.({
+            //         headName: 'qwe.test.jajaja',
+            //         // mutatorsToRemove: {
+            //         //     'qwe.test.jajaja.numberMinimum': {
+            //         //         minimum: 0,
+            //         //     },
+            //         //     'qwe.test.jajaja.stringPattern': true,
+            //         // },
+            //         mutatorsToRemove: [
+            //             {
+            //                 name: input.name,
+            //                 schema: true,
+            //             },
+            //             {
+            //                 name: 'qwe.test.jajaja.numberMinimum',
+            //                 schema: {
+            //                     minimum: 0,
+            //                 },
+            //             },
+            //             {
+            //                 name: 'qwe.test.jajaja.stringPattern',
+            //                 schema: {
+            //                     title: 'OOOOOOO',
+            //                 },
+            //             },
+            //         ],
+            //     });
+            //     // removeExternalErrors?.({
+            //     //     headName: 'qwe.test.jajaja',
+            //     //     removeFunctionOrNames: [input.name],
+            //     // });
+            //     // removeExternalErrors?.({
+            //     //     headName: 'qwe.test.jajaja',
+            //     //     removeFunctionOrNames: (params) => ({
+            //     //         ...params,
+            //     //         priorityErrors: omit(params.priorityErrors, input.name),
+            //     //     }),
+            //     // });
+            // }
+
+            if (input.value === '1') {
+                removeSchemaMutators?.({
+                    mutatorsToRemove: [
+                        {
+                            name: 'qwe.test.jajaja.stringPattern',
+                            schema: true,
+                        },
+                        {
+                            name: 'qwe.test.jajaja',
+                            schema: {
+                                definitions: {
+                                    jajaja: {
+                                        title: `jajaja`,
+                                    },
+                                },
                             },
                         },
-                        'qwe.test.jajaja.objectPropertyNames': 'priorityError',
-                    },
+                    ],
                 });
             } else {
-                // setErrors({
-                //     priorityErrors: {
-                //         [input.name]: undefined,
-                //     },
-                // });
-                removeErrors({
-                    removeFunctionOrNames: [input.name],
+                setSchemaMutators?.({
+                    // mutators: {
+                    //     [input.name]: {
+                    //         title: 'Aaaaaaaa',
+                    //     },
+                    //     'qwe.test.jajaja.stringPattern': {
+                    //         title: 'OOOOOOO',
+                    //     },
+                    //     'qwe.test.jajaja.numberMinimum': {
+                    //         minimum: 0,
+                    //     },
+                    // },
+                    mutators: [
+                        {
+                            name: input.name,
+                            schema: {
+                                title: `${input.value}`,
+                                maxLength: `${input.value}`.length - 1,
+                                entityParameters: {
+                                    validatorType: '',
+                                    errorMessages: {
+                                        maxLength: `${input.value}`.length - 1 + ' maxLength',
+                                    },
+                                },
+                            },
+                        },
+                        {
+                            name: 'qwe.test.jajaja.stringPattern',
+                            schema: {
+                                title: `${input.value}`,
+                                entityParameters: {
+                                    validatorType: '',
+                                    errorMessages: {
+                                        pattern: `${input.value}`.length - 1 + ' pattern',
+                                    },
+                                },
+                            },
+                        },
+                        {
+                            name: 'qwe.test.jajaja',
+                            schema: {
+                                definitions: {
+                                    jajaja: {
+                                        title: `${input.value}`,
+                                    },
+                                },
+                            },
+                        },
+                    ],
                 });
-                // removeErrors({
-                //     removeFunctionOrNames: (params) => ({
-                //         ...params,
-                //         priorityErrors: omit(params.priorityErrors, input.name),
-                //     }),
-                // });
             }
+            // setExternalErrors?.({
+            //     headName: 'qwe.test.jajaja',
+            //     priorityErrors: {
+            //         'qwe.test.jajaja.stringEnum': `${input.value}`,
+            //     },
+            // });
         }
     }, [input.value]);
 
