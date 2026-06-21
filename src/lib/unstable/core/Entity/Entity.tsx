@@ -11,19 +11,48 @@ import type {EntityState} from './types';
 import {getRenderKit} from './utils';
 
 export interface EntityProps {
+    modeOverride?: SchemaRendererMode;
     name: string;
     schema?: JsonSchema;
+    schemaOverride?: JsonSchema;
 }
 
-const EntityComponent: React.FC<EntityProps> = ({name, schema: schemaProps = {}}) => {
-    const {config, error, headName, mode, rootSchema} = useEntitiesState(name);
+const EntityComponent: React.FC<EntityProps> = ({
+    modeOverride,
+    name,
+    schema: schemaProps = {},
+    schemaOverride,
+}) => {
+    const {config, error, headName, mode: modeState, rootSchema} = useEntitiesState(name);
+
+    const getAccumulatedSchema = React.useCallback(
+        (schema: JsonSchema, root?: JsonSchema, override?: JsonSchema) => {
+            let accumulatedSchema = schema;
+
+            if (override) {
+                accumulatedSchema = smartMerge(accumulatedSchema, override);
+            }
+
+            if (accumulatedSchema.$ref && root) {
+                const schemaByRef = getSchemaBySchemaPath(accumulatedSchema.$ref, root);
+
+                if (schemaByRef) {
+                    accumulatedSchema = smartMerge(accumulatedSchema, schemaByRef);
+                }
+            }
+
+            return accumulatedSchema;
+        },
+        [],
+    );
 
     const options = React.useMemo(() => {
         const data: EntityState = {headName, schema: schemaProps};
+        const accumulatedSchema = getAccumulatedSchema(schemaProps, rootSchema, schemaOverride);
 
         return {
             data,
-            defaultValue: schemaProps.default,
+            defaultValue: accumulatedSchema.default,
             subscription: {
                 data: true,
                 submitFailed: true,
@@ -32,25 +61,18 @@ const EntityComponent: React.FC<EntityProps> = ({name, schema: schemaProps = {}}
                 value: true,
             },
         };
-    }, [headName, schemaProps]);
+    }, [headName, getAccumulatedSchema, rootSchema, schemaOverride, schemaProps]);
 
     const field = useField(name, options);
 
-    const schema = React.useMemo(() => {
-        let schema = field.meta.data?.schema || schemaProps;
-
-        if (schema.$ref && rootSchema) {
-            const schemaByRef = getSchemaBySchemaPath(schema.$ref, rootSchema);
-
-            if (schemaByRef) {
-                schema = smartMerge(schema, schemaByRef);
-            }
-        }
-
-        return schema;
-    }, [field.meta.data?.schema, rootSchema, schemaProps]);
-
     const meta = React.useMemo(() => ({...field.meta, error}), [field.meta, error]);
+
+    const schema = React.useMemo(
+        () => getAccumulatedSchema(field.meta.data?.schema, rootSchema, schemaOverride),
+        [field.meta.data?.schema, schemaOverride, getAccumulatedSchema, rootSchema],
+    );
+
+    const mode = modeOverride || field.meta.data?.mode || modeState;
 
     const renderKit = React.useMemo(() => getRenderKit({config, schema}), [config, schema]);
 
