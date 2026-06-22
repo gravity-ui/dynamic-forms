@@ -1143,6 +1143,9 @@ const schema: JsonSchemaObject<typeof untypedConfig> = {
                 type: EntityType.String,
                 controlType: 'color_picker',
                 controlWrapperType: 'row',
+                controlProps: {
+                    withAlpha: true,
+                },
             },
         },
         date_input: {

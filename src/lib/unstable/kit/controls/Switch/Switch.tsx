@@ -24,11 +24,10 @@ const Component: Control<JsonSchemaBoolean, SwitchProps> = ({
 }) => {
     return (
         <ControlError errorMessage={meta.error} validationState={getValidationState(meta)}>
-            <div>
+            <div className={b()}>
                 <SwitchBase
                     disabled={schema.readOnly}
                     {...controlProps}
-                    className={b()}
                     checked={input.value ?? false}
                     onFocus={input.onFocus}
                     onBlur={input.onBlur}

@@ -25,5 +25,6 @@ export type GetRenderKitReturn<Schema extends JsonSchema> = {
 
 export interface EntityState<Schema extends JsonSchema = JsonSchema> {
     headName?: string;
+    mode?: SchemaRendererMode;
     schema?: Schema;
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {Flex, Text} from '@gravity-ui/uikit';
-import _ from 'lodash';
 
 import {block} from '../../utils';
 
