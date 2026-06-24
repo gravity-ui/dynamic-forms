@@ -49,6 +49,7 @@
     "@gravity-ui/date-utils": "^2.5.5",
     "@gravity-ui/i18n": "^1.2.0",
     "@gravity-ui/icons": "^2.12.0",
+    "ajv": "^8.20.0",
     "lodash": "^4.17.20"
   },
   "devDependencies": {
@@ -80,7 +81,6 @@
     "@types/react-is": "^17.0.3",
     "@types/uuid": "^9.0.4",
     "@vitejs/plugin-react": "^4.2.0",
-    "ajv": "^8.20.0",
     "css-loader": "^5.2.6",
     "eslint": "^8.49.0",
     "final-form": "^4.20.2",
@@ -133,5 +133,27 @@
     "*.md": [
       "prettier --write"
     ]
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./build/esm/index.d.ts",
+        "default": "./build/esm/index.js"
+      },
+      "require": {
+        "types": "./build/cjs/index.d.ts",
+        "default": "./build/cjs/index.js"
+      }
+    },
+    "./unstable": {
+      "import": {
+        "types": "./build/esm/unstable.d.ts",
+        "default": "./build/esm/unstable.js"
+      },
+      "require": {
+        "types": "./build/cjs/unstable.d.ts",
+        "default": "./build/cjs/unstable.js"
+      }
+    }
   }
 }
