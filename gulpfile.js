@@ -27,7 +27,6 @@ function compileTs(modules = false) {
         '!src/**/__stories__/**/*',
         '!src/**/__tests__/**/*',
         '!src/**/__snapshots__/**/*',
-        '!src/lib/unstable/**/*',
     ])
         .pipe(
             replace(/import '.+\.scss';/g, (match) =>
@@ -53,12 +52,7 @@ task('copy-i18n', () => {
 });
 
 task('styles-components', () => {
-    return src([
-        'src/**/*.scss',
-        '!src/**/__stories__/**/*',
-        '!src/stories/**/*',
-        '!src/lib/unstable/**/*',
-    ])
+    return src(['src/**/*.scss', '!src/**/__stories__/**/*', '!src/stories/**/*'])
         .pipe(sass().on('error', sass.logError))
         .pipe(dest(path.resolve(BUILD_DIR, 'esm')))
         .pipe(dest(path.resolve(BUILD_DIR, 'cjs')));
