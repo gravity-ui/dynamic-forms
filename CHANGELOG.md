@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.19.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.18.0...v5.19.0) (2026-06-24)
+
+
+### Features
+
+* **unstable:** add entity overrides ([#379](https://github.com/gravity-ui/dynamic-forms/issues/379)) ([2f33240](https://github.com/gravity-ui/dynamic-forms/commit/2f33240836a32ae4cd7c310755a4bd31ccac3f72))
+
 ## [5.18.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.17.1...v5.18.0) (2026-06-21)
 
 
