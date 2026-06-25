@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.19.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.19.0...v5.19.1) (2026-06-25)
+
+
+### Bug Fixes
+
+* unstable build ([#382](https://github.com/gravity-ui/dynamic-forms/issues/382)) ([abb60fd](https://github.com/gravity-ui/dynamic-forms/commit/abb60fd24b0705643d68577f163667103bfa9fa6))
+
 ## [5.19.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.18.0...v5.19.0) (2026-06-24)
 
 
