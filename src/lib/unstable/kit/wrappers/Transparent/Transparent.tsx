@@ -12,7 +12,7 @@ const b = block('transparent');
 
 const Component: Wrapper<JsonSchema> = ({children, input}) => {
     return (
-        <Flex className={b()} gap={2}>
+        <Flex width="100%" className={b()} gap={2}>
             {children}
             <ArrayRemoveButton name={input.name} />
         </Flex>

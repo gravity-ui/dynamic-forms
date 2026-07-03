@@ -1,0 +1,51 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}array-table {
+    &__row {
+        width: 100%;
+        display: grid;
+        align-items: start;
+        grid-template-columns: 18px repeat(var(--columns-count), 1fr);
+        gap: spacing(3);
+        padding: spacing(2) 0;
+        border-bottom: 1px solid var(--g-color-line-generic);
+
+        &_head {
+            align-items: center;
+        }
+
+        &_with-remove-button {
+            grid-template-columns: 18px repeat(var(--columns-count), 1fr) 24px;
+        }
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    &__cell {
+        width: 100%;
+        min-height: 28px;
+        display: flex;
+        align-items: center;
+    }
+
+    &__index {
+        margin: 0 auto;
+    }
+
+    &__column-title {
+        display: flex;
+        align-items: center;
+        gap: 0 spacing(0.5);
+        flex-wrap: wrap;
+    }
+
+    &__column-title-word {
+        display: flex;
+        align-items: center;
+        gap: 0 spacing(1);
+        flex-wrap: wrap;
+    }
+}

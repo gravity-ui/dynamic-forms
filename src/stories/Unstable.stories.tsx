@@ -1070,6 +1070,49 @@ const schema: JsonSchemaObject<typeof untypedConfig> = {
                 controlWrapperType: 'row',
             },
         },
+        array_table: {
+            default: [
+                {name: 'John', surname: 'Doe', age: 30},
+                {name: 'Jane', surname: 'Smith', age: 25},
+            ],
+            type: JsonSchemaType.Array,
+            title: 'array_table',
+            description: 'array table description',
+            items: {
+                properties: {
+                    name: {
+                        title: 'name',
+                        description: 'name description',
+                        entityParameters: {
+                            type: EntityType.String,
+                            controlType: 'base',
+                            controlWrapperType: 'transparent',
+                        },
+                    },
+                    surname: {
+                        title: 'surname',
+                        entityParameters: {
+                            type: EntityType.String,
+                            controlType: 'base',
+                            controlWrapperType: 'transparent',
+                        },
+                    },
+                    age: {
+                        title: 'age',
+                        entityParameters: {
+                            type: EntityType.Number,
+                            controlType: 'base',
+                            controlWrapperType: 'transparent',
+                        },
+                    },
+                },
+            },
+            entityParameters: {
+                type: EntityType.Array,
+                controlType: 'array_table',
+                controlWrapperType: 'row',
+            },
+        },
         number: {
             type: JsonSchemaType.Number,
             title: 'number',
@@ -1122,6 +1165,55 @@ const schema: JsonSchemaObject<typeof untypedConfig> = {
                 type: EntityType.String,
                 controlType: 'textarea',
                 controlWrapperType: 'row',
+            },
+        },
+        alert: {
+            type: JsonSchemaType.String,
+            title: 'alert',
+            description: 'alert description',
+            entityParameters: {
+                type: EntityType.String,
+                controlType: 'alert',
+                controlWrapperType: 'row',
+                controlProps: {
+                    iconName: 'CircleExclamationFill',
+                    iconProps: {
+                        size: 18,
+                        color: 'positive',
+                    },
+                    message: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit',
+                    title: 'Alert title',
+                    theme: 'info',
+                },
+            },
+        },
+        label: {
+            default: 'label value',
+            type: JsonSchemaType.String,
+            title: 'label',
+            description: 'label description',
+            entityParameters: {
+                type: EntityType.String,
+                controlType: 'label',
+                controlWrapperType: 'row',
+                controlProps: {
+                    iconName: 'TriangleExclamation',
+                    title: 'Label title',
+                    theme: 'clear',
+                },
+            },
+        },
+        text_content: {
+            type: JsonSchemaType.String,
+            title: 'text_content',
+            description: 'text content description',
+            entityParameters: {
+                type: EntityType.String,
+                controlType: 'text_content',
+                controlWrapperType: 'row',
+                controlProps: {
+                    iconName: 'TriangleExclamation',
+                },
             },
         },
         password: {
@@ -1275,6 +1367,40 @@ const schema: JsonSchemaObject<typeof untypedConfig> = {
                 controlWrapperType: 'row',
             },
         },
+        object_value: {
+            type: JsonSchemaType.Object,
+            title: 'object_value',
+            description: 'object value description',
+            properties: {
+                value: {
+                    type: JsonSchemaType.String,
+                    title: 'Value',
+                    entityParameters: {
+                        type: EntityType.String,
+                        controlType: 'base',
+                        controlWrapperType: 'transparent',
+                    },
+                },
+            },
+            entityParameters: {
+                type: EntityType.Object,
+                controlType: 'dot_value',
+                controlWrapperType: 'row',
+            },
+        },
+        file: {
+            type: JsonSchemaType.String,
+            title: 'File Input',
+            entityParameters: {
+                type: EntityType.String,
+                controlType: 'file',
+                controlWrapperType: 'row',
+                controlProps: {
+                    accept: ['.json', '.txt'],
+                    readAsMethod: 'readAsText',
+                },
+            },
+        },
     },
     entityParameters: {
         type: EntityType.Object,
@@ -1289,6 +1415,8 @@ const value = {
         number: 123,
         string: 'test',
         boolean: true,
+        object_value: {value: 'test'},
+        text_content: 'value',
     },
 };
 
