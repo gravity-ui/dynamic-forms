@@ -1,10 +1,15 @@
 import {EntityType, type SchemaRendererConfig} from '../../core';
 import {
+    Alert,
     ArrayBase,
+    ArrayTable,
     Checkbox,
     CheckboxGroup,
     ColorPicker,
     DateInput,
+    DotValue,
+    FileInput,
+    Label,
     MultiSelect,
     NumberBase,
     ObjectBase,
@@ -16,6 +21,7 @@ import {
     StringBase,
     Switch,
     TextArea,
+    TextContent,
 } from '../controls';
 import {Row, Transparent} from '../wrappers';
 
@@ -31,6 +37,7 @@ export const untypedConfig = {
             base: {Component: ArrayBase},
             checkbox_group: {Component: CheckboxGroup},
             select: {Component: MultiSelect},
+            array_table: {Component: ArrayTable},
         },
         views: {},
         wrappers: {row: Row, transparent: Transparent},
@@ -54,6 +61,7 @@ export const untypedConfig = {
     [EntityType.Object]: {
         controls: {
             base: {Component: ObjectBase},
+            dot_value: {Component: DotValue},
             range_slider: {Component: RangeSlider},
         },
         views: {},
@@ -64,10 +72,14 @@ export const untypedConfig = {
         controls: {
             base: {Component: StringBase},
             color_picker: {Component: ColorPicker},
+            file: {Component: FileInput},
             password: {Component: Password},
             radio_group: {Component: RadioGroup},
             select: {Component: Select},
             textarea: {Component: TextArea},
+            text_content: {Component: TextContent},
+            label: {Component: Label},
+            alert: {Component: Alert},
         },
         views: {},
         wrappers: {row: Row, transparent: Transparent},

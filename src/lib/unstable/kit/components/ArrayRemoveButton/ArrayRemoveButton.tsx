@@ -13,6 +13,8 @@ export interface ArrayRemoveButtonProps {
 export const ArrayRemoveButton: React.FC<ArrayRemoveButtonProps> = ({name}) => {
     const form = useForm();
 
+    const [ready, setReady] = React.useState(false);
+
     const arrayItem = isArrayItem(name);
     const tupleItem = isTupleItem(name, form);
 
@@ -29,7 +31,11 @@ export const ArrayRemoveButton: React.FC<ArrayRemoveButtonProps> = ({name}) => {
         }
     }, [form, name]);
 
-    if (arrayItem && !tupleItem) {
+    React.useLayoutEffect(() => {
+        setReady(true);
+    }, []);
+
+    if (ready && arrayItem && !tupleItem) {
         return (
             <Button view="flat-secondary" onClick={removeItem} qa={`${name}-remove-item`}>
                 <Icon data={TrashBin} size={16} />

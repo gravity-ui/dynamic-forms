@@ -1,0 +1,16 @@
+@import '../../styles/variables.scss';
+
+.#{$ns}text-content {
+    border: none;
+    box-shadow: none;
+
+    &.g-label {
+        &:not(:has(.g-label__addon_side_start)) .g-label__text {
+            margin-left: 0;
+        }
+
+        .g-label__separator {
+            margin-left: 0;
+        }
+    }
+}
