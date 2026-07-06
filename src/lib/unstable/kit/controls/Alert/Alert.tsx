@@ -2,21 +2,21 @@ import React from 'react';
 
 import * as icons from '@gravity-ui/icons';
 import {
-    Alert as GravityAlert,
-    type AlertProps as GravityAlertProps,
     Icon,
     type IconProps,
+    Alert as UIKitAlert,
+    type AlertProps as UIKitAlertProps,
 } from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaString} from '../../../core';
 
-export interface AlertProps extends GravityAlertProps {
+export interface AlertProps extends UIKitAlertProps {
     iconName?: keyof typeof icons;
     iconProps?: Partial<IconProps>;
 }
 
 const Component: Control<JsonSchemaString, AlertProps> = ({controlProps, schema}) => {
-    const {iconName, iconProps, message: messageProp, ...controlRestProps} = controlProps;
+    const {iconName, iconProps, message, ...controlRestProps} = controlProps;
 
     const icon = React.useMemo(
         () =>
@@ -26,13 +26,13 @@ const Component: Control<JsonSchemaString, AlertProps> = ({controlProps, schema}
         [iconName, iconProps],
     );
 
-    const message = React.useMemo(() => {
-        if (messageProp) {
-            if (typeof messageProp === 'string') {
-                return <span dangerouslySetInnerHTML={{__html: messageProp}} />;
+    const msg = React.useMemo(() => {
+        if (message) {
+            if (typeof message === 'string') {
+                return <span dangerouslySetInnerHTML={{__html: message}} />;
             }
 
-            return messageProp;
+            return message;
         }
 
         if (schema.description) {
@@ -40,9 +40,9 @@ const Component: Control<JsonSchemaString, AlertProps> = ({controlProps, schema}
         }
 
         return undefined;
-    }, [messageProp, schema.description]);
+    }, [message, schema.description]);
 
-    return <GravityAlert icon={icon} message={message} {...controlRestProps} />;
+    return <UIKitAlert icon={icon} message={msg} {...controlRestProps} />;
 };
 
 export const Alert = React.memo(Component);

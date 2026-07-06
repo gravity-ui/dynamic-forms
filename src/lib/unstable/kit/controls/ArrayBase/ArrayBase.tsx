@@ -19,6 +19,8 @@ const Component: Control<JsonSchemaArray, ArrayBaseProps> = ({
     meta,
     schema,
 }) => {
+    const {name, onBlur, onChange, onFocus, value} = input;
+
     const addButton = React.useMemo(() => {
         const itemsSchema = schema.items;
 
@@ -26,13 +28,17 @@ const Component: Control<JsonSchemaArray, ArrayBaseProps> = ({
             return null;
         }
 
-        const onClick = () => input.onChange([...(input.value || []), itemsSchema?.default]);
+        const onClick = () => {
+            onFocus();
+            onChange([...(value || []), itemsSchema?.default]);
+            onBlur();
+        };
 
         return (
             <Button
                 onClick={onClick}
                 disabled={controlProps.disabled || schema.readOnly}
-                qa={`${input.name}-add-button`}
+                qa={`${name}-add-button`}
             >
                 <Icon data={Plus} size={14} />
                 {controlProps.addButtonText || null}
@@ -41,11 +47,13 @@ const Component: Control<JsonSchemaArray, ArrayBaseProps> = ({
     }, [
         controlProps.addButtonText,
         controlProps.disabled,
-        input.onChange,
-        input.value,
-        schema.default,
+        name,
+        onBlur,
+        onChange,
+        onFocus,
         schema.items,
         schema.readOnly,
+        value,
     ]);
 
     const items = React.useMemo(() => {
@@ -53,24 +61,25 @@ const Component: Control<JsonSchemaArray, ArrayBaseProps> = ({
 
         if (Array.isArray(itemsSchema)) {
             return itemsSchema.map((item, index) => (
-                <Entity name={`${input.name}[${index}]`} schema={item} key={index} />
+                <Entity name={`${name}[${index}]`} schema={item} key={index} />
             ));
         }
 
-        return new Array(input.value?.length)
+        return new Array(value?.length)
             .fill(null)
             .map((_, index) => (
-                <Entity name={`${input.name}[${index}]`} schema={itemsSchema} key={index} />
+                <Entity name={`${name}[${index}]`} schema={itemsSchema} key={index} />
             ));
-    }, [input.name, input.value?.length, schema.items]);
+    }, [name, schema.items, value?.length]);
 
     return (
-        <ControlError errorMessage={meta.error} validationState={getValidationState(meta)}>
-            <Flex direction="column" gap={2}>
+        <Flex width="100%" direction="column">
+            <Flex direction="column" gap={4}>
                 <Flex direction="column">{items}</Flex>
                 {addButton}
             </Flex>
-        </ControlError>
+            <ControlError errorMessage={meta.error} validationState={getValidationState(meta)} />
+        </Flex>
     );
 };
 

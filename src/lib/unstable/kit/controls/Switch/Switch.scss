@@ -4,4 +4,22 @@
     min-height: 28px;
     display: flex;
     align-items: center;
+
+    &_error {
+        .g-switch {
+            .g-switch__indicator {
+                &:hover {
+                    &::before {
+                        border: 1px solid var(--g-color-text-danger);
+                        box-sizing: border-box;
+                    }
+                }
+
+                &::before {
+                    border: 1px solid var(--g-color-text-danger);
+                    box-sizing: border-box;
+                }
+            }
+        }
+    }
 }

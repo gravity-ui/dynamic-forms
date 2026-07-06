@@ -2,4 +2,22 @@
 
 .#{$ns}radio-group {
     padding-top: 7.5px;
+
+    &_error {
+        .g-radio-group {
+            .g-radio_checked {
+                .g-radio__indicator {
+                    &:hover {
+                        &::before {
+                            border: 1px solid var(--g-color-text-danger);
+                        }
+                    }
+
+                    &::before {
+                        border: 1px solid var(--g-color-text-danger);
+                    }
+                }
+            }
+        }
+    }
 }

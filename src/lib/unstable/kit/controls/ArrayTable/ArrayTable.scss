@@ -6,7 +6,7 @@
         width: 100%;
         display: grid;
         align-items: start;
-        grid-template-columns: 18px repeat(var(--columns-count), 1fr);
+        grid-template-columns: 28px repeat(var(--columns-count), 1fr);
         gap: spacing(3);
         padding: spacing(2) 0;
         border-bottom: 1px solid var(--g-color-line-generic);
@@ -16,7 +16,7 @@
         }
 
         &_with-remove-button {
-            grid-template-columns: 18px repeat(var(--columns-count), 1fr) 24px;
+            grid-template-columns: 28px repeat(var(--columns-count), 1fr) 28px;
         }
 
         &:last-child {

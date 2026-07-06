@@ -21,7 +21,7 @@ const Component: Wrapper<JsonSchema, RowProps> = ({children, input, schema, wrap
         }
 
         return (
-            <HelpMark>
+            <HelpMark className={b('help-mark')}>
                 <HTMLContent html={schema.description} />
             </HelpMark>
         );

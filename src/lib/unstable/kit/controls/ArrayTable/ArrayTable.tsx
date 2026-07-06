@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {Plus, TrashBin} from '@gravity-ui/icons';
+import {Plus} from '@gravity-ui/icons';
 import {Button, Flex, HelpMark, Icon, Text} from '@gravity-ui/uikit';
 
 import {type Control, Entity, type JsonSchema, type JsonSchemaArray} from '../../../core';
-import {ControlError} from '../../components';
+import {ArrayRemoveButton, ControlError} from '../../components';
 import {block, getValidationState} from '../../utils';
 
 import './ArrayTable.scss';
@@ -23,6 +23,8 @@ const Component: Control<JsonSchemaArray, ArrayTableProps> = ({
     meta,
     schema,
 }) => {
+    const {name, onBlur, onChange, onFocus, value} = input;
+
     const addButton = React.useMemo(() => {
         const itemsSchema = schema.items;
 
@@ -30,13 +32,17 @@ const Component: Control<JsonSchemaArray, ArrayTableProps> = ({
             return null;
         }
 
-        const onClick = () => input.onChange([...(input.value || []), itemsSchema?.default]);
+        const onClick = () => {
+            onFocus();
+            onChange([...(value || []), itemsSchema?.default]);
+            onBlur();
+        };
 
         return (
             <Button
                 onClick={onClick}
                 disabled={controlProps.disabled || schema.readOnly}
-                qa={`${input.name}-add-button`}
+                qa={`${name}-add-button`}
             >
                 <Icon data={Plus} size={14} />
                 {controlProps.addButtonText || null}
@@ -45,11 +51,13 @@ const Component: Control<JsonSchemaArray, ArrayTableProps> = ({
     }, [
         controlProps.addButtonText,
         controlProps.disabled,
-        input.onChange,
-        input.value,
-        schema.default,
+        name,
+        onBlur,
+        onChange,
+        onFocus,
         schema.items,
         schema.readOnly,
+        value,
     ]);
 
     const columns = React.useMemo(() => {
@@ -78,7 +86,7 @@ const Component: Control<JsonSchemaArray, ArrayTableProps> = ({
     }, [controlProps.order, schema.items]);
 
     const {head, rows} = React.useMemo(() => {
-        let rowsCount = input.value?.length;
+        let rowsCount = value?.length;
         let withRemoveButton = true;
 
         if (Array.isArray(schema.items)) {
@@ -127,7 +135,7 @@ const Component: Control<JsonSchemaArray, ArrayTableProps> = ({
                 {columns.map((column, cIndex) => (
                     <div className={b('cell')} key={cIndex}>
                         <Entity
-                            name={`${input.name}[${rIndex}]${
+                            name={`${name}[${rIndex}]${
                                 column.name === undefined ? '' : `.${column.name}`
                             }`}
                             schema={column.schema}
@@ -136,33 +144,17 @@ const Component: Control<JsonSchemaArray, ArrayTableProps> = ({
                 ))}
                 {withRemoveButton ? (
                     <div className={b('cell')}>
-                        <Button
-                            className={b('delete-button')}
-                            view="flat-secondary"
-                            size="s"
-                            onClick={() =>
-                                input.onChange(input.value?.filter((__, i) => i !== rIndex))
-                            }
-                        >
-                            <Icon data={TrashBin} size={16} />
-                        </Button>
+                        <ArrayRemoveButton name={`${name}[${rIndex}]`} />
                     </div>
                 ) : null}
             </div>
         ));
 
         return {head, rows};
-    }, [
-        columns,
-        controlProps.order,
-        input.name,
-        input.onChange,
-        input.value?.length,
-        schema.items,
-    ]);
+    }, [columns, name, schema.items, value?.length]);
 
     return (
-        <ControlError errorMessage={meta.error} validationState={getValidationState(meta)}>
+        <Flex direction="column">
             <Flex direction="column" gap={2}>
                 <Flex direction="column" gap={2}>
                     {head}
@@ -170,7 +162,8 @@ const Component: Control<JsonSchemaArray, ArrayTableProps> = ({
                 </Flex>
                 {addButton}
             </Flex>
-        </ControlError>
+            <ControlError errorMessage={meta.error} validationState={getValidationState(meta)} />
+        </Flex>
     );
 };
 

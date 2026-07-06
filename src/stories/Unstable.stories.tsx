@@ -1018,6 +1018,89 @@ export default {
 const schema: JsonSchemaObject<typeof untypedConfig> = {
     type: JsonSchemaType.Object,
     properties: {
+        one_of_nested: {
+            type: JsonSchemaType.Object,
+            title: 'one_of_nested',
+            description: 'one of nested description',
+            properties: {
+                foo: {
+                    type: JsonSchemaType.Object,
+                    title: 'foo',
+                    properties: {
+                        foo: {
+                            type: JsonSchemaType.String,
+                            title: 'foo',
+                            entityParameters: {
+                                type: EntityType.String,
+                                controlType: 'base',
+                                controlWrapperType: 'row',
+                            },
+                        },
+                        bar: {
+                            type: JsonSchemaType.Number,
+                            title: 'bar',
+                            entityParameters: {
+                                type: EntityType.Number,
+                                controlType: 'base',
+                                controlWrapperType: 'row',
+                            },
+                        },
+                        rab: {
+                            type: JsonSchemaType.Boolean,
+                            title: 'rab',
+                            entityParameters: {
+                                type: EntityType.Boolean,
+                                controlType: 'base',
+                                controlWrapperType: 'row',
+                            },
+                        },
+                    },
+                    entityParameters: {
+                        type: EntityType.Object,
+                        controlType: 'base',
+                        controlWrapperType: 'section',
+                    },
+                },
+                bar: {
+                    type: JsonSchemaType.Number,
+                    title: 'bar',
+                    entityParameters: {
+                        type: EntityType.Number,
+                        controlType: 'base',
+                        controlWrapperType: 'row',
+                    },
+                },
+                rab: {
+                    type: JsonSchemaType.Boolean,
+                    title: 'rab',
+                    entityParameters: {
+                        type: EntityType.Boolean,
+                        controlType: 'base',
+                        controlWrapperType: 'row',
+                    },
+                },
+            },
+            entityParameters: {
+                type: EntityType.Object,
+                controlType: 'one_of_nested',
+                controlWrapperType: 'transparent',
+                controlProps: {
+                    booleanToKey: {
+                        true: 'foo',
+                        false: 'bar',
+                    },
+                    toggler: {
+                        title: 'toggler',
+                        entityParameters: {
+                            type: EntityType.Boolean,
+                            controlType: 'switch',
+                            controlWrapperType: 'row',
+                        },
+                    },
+                    withIndent: true,
+                },
+            },
+        },
         array: {
             type: JsonSchemaType.Array,
             title: 'array',
@@ -1106,11 +1189,23 @@ const schema: JsonSchemaObject<typeof untypedConfig> = {
                         },
                     },
                 },
+                title: 'item title',
+                entityParameters: {
+                    type: EntityType.Object,
+                    controlType: 'base',
+                    controlWrapperType: 'accordeon',
+                    controlWrapperProps: {
+                        withIndent: true,
+                    },
+                },
             },
             entityParameters: {
                 type: EntityType.Array,
                 controlType: 'array_table',
-                controlWrapperType: 'row',
+                controlWrapperType: 'accordeon',
+                controlWrapperProps: {
+                    withIndent: true,
+                },
             },
         },
         number: {
@@ -1270,6 +1365,25 @@ const schema: JsonSchemaObject<typeof untypedConfig> = {
                 },
             },
         },
+        segmented_radio_group: {
+            type: JsonSchemaType.String,
+            enum: ['foo', 'bar', 'rab'],
+            default: 'foo',
+            title: 'segmented_radio_group',
+            description: 'segmented radio group description',
+            entityParameters: {
+                type: EntityType.String,
+                controlType: 'segmented_radio_group',
+                controlWrapperType: 'row',
+                controlProps: {
+                    enumDescriptions: {
+                        foo: 'Option 1',
+                        bar: 'Option 2',
+                        rab: 'Option 3',
+                    },
+                },
+            },
+        },
         select: {
             type: JsonSchemaType.String,
             enum: ['draft', 'published', 'archived'],
@@ -1402,9 +1516,17 @@ const schema: JsonSchemaObject<typeof untypedConfig> = {
             },
         },
     },
+    title: 'Main object',
+    description: 'Main object description',
     entityParameters: {
         type: EntityType.Object,
         controlType: 'base',
+        controlWrapperType: 'section',
+        controlWrapperProps: {
+            descriptionType: 'bottom',
+            withIndent: true,
+            variant: 'subheader-2',
+        },
     },
 };
 

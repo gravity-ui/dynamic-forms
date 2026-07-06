@@ -8,11 +8,13 @@ import {type Control, Entity, type JsonSchemaObject} from '../../../core';
 export interface DotValueProps {}
 
 const Component: Control<JsonSchemaObject, DotValueProps> = ({input, schema}) => {
+    const {name, onBlur, onChange, onFocus, value} = input;
+
     const childKey = 'value';
 
     React.useLayoutEffect(() => {
-        if (input.value) {
-            const childValue = get(input.value, childKey);
+        if (value) {
+            const childValue = get(value, childKey);
 
             if (
                 childValue === null ||
@@ -20,14 +22,16 @@ const Component: Control<JsonSchemaObject, DotValueProps> = ({input, schema}) =>
                 childValue === '' ||
                 (isString(childValue) && childValue.endsWith('_UNSPECIFIED'))
             ) {
-                input.onChange(undefined);
+                onFocus();
+                onChange(undefined);
+                onBlur();
             }
         }
-    }, [input.value]);
+    }, [value]);
 
     return (
         <Entity
-            name={`${input.name ? input.name + '.' : ''}${childKey}`}
+            name={`${name ? name + '.' : ''}${childKey}`}
             schema={schema.properties?.[childKey]}
         />
     );

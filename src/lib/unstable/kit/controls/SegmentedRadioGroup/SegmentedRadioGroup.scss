@@ -1,20 +1,16 @@
 @import '../../styles/variables.scss';
 
-.#{$ns}checkbox {
-    min-height: 28px;
-    display: flex;
-    align-items: center;
-
+.#{$ns}segmented-radio-group {
     &_error {
-        .g-control-label {
-            .g-checkbox__indicator {
+        &.g-segmented-radio-group {
+            .g-segmented-radio-group__option_checked {
                 &:hover {
-                    &::before {
+                    &::after {
                         border: 1px solid var(--g-color-text-danger);
                     }
                 }
 
-                &::before {
+                &::after {
                     border: 1px solid var(--g-color-text-danger);
                 }
             }

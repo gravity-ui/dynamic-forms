@@ -2,8 +2,10 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}row {
-    width: 100%;
     margin-bottom: spacing(4);
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: spacing(2);
 
     &:last-child {
         margin-bottom: 0;
@@ -13,7 +15,7 @@
         display: inline;
         width: 180px;
         min-height: 28px;
-        padding-top: 5.5px;
+        padding-top: 4.5px;
     }
 
     &__title {
@@ -27,6 +29,10 @@
                 color: var(--g-color-text-danger);
             }
         }
+    }
+
+    &__help-mark {
+        margin-top: 1.5px;
     }
 
     &__right {

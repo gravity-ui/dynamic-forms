@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Slider as SliderBase, type SliderProps as SliderBaseProps} from '@gravity-ui/uikit';
+import {Slider as UIKitSlider, type SliderProps as UIKitSliderProps} from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaNumber} from '../../../core';
 import {block, getValidationState} from '../../utils';
@@ -11,7 +11,7 @@ const b = block('slider');
 
 export interface SliderProps
     extends Omit<
-        SliderBaseProps,
+        UIKitSliderProps,
         | 'value'
         | 'onFocus'
         | 'onBlur'
@@ -23,7 +23,9 @@ export interface SliderProps
     > {}
 
 const Component: Control<JsonSchemaNumber, SliderProps> = ({controlProps, input, meta, schema}) => {
-    const value = isNaN(Number(input.value)) ? undefined : Number(input.value);
+    const {name, onBlur, onChange, onFocus, value: inputValue} = input;
+
+    const value = isNaN(Number(inputValue)) ? undefined : Number(inputValue);
 
     const onUpdate = React.useCallback(
         (next: number | [number, number]) => {
@@ -31,13 +33,13 @@ const Component: Control<JsonSchemaNumber, SliderProps> = ({controlProps, input,
                 return;
             }
 
-            input.onChange(next);
+            onChange(next);
         },
-        [input.onChange],
+        [onChange],
     );
 
     return (
-        <SliderBase
+        <UIKitSlider
             className={b()}
             min={schema.minimum}
             max={schema.maximum}
@@ -47,12 +49,12 @@ const Component: Control<JsonSchemaNumber, SliderProps> = ({controlProps, input,
             tooltipDisplay="on"
             {...controlProps}
             value={value}
-            onFocus={input.onFocus}
-            onBlur={input.onBlur}
+            onFocus={onFocus}
+            onBlur={onBlur}
             onUpdate={onUpdate}
             errorMessage={meta.error}
             validationState={getValidationState(meta)}
-            qa={`${input.name}`}
+            qa={name}
         />
     );
 };

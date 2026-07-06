@@ -1,15 +1,20 @@
 import React from 'react';
 
+import {Flex} from '@gravity-ui/uikit';
 import {
-    unstable_ColorPicker as ColorPickerBase,
-    type unstable_ColorPickerProps as ColorPickerBaseProps,
+    unstable_ColorPicker as UIKitColorPicker,
+    type unstable_ColorPickerProps as UIKitColorPickerProps,
 } from '@gravity-ui/uikit/unstable';
 
 import type {Control, JsonSchemaString} from '../../../core';
 import {ControlError} from '../../components';
-import {getValidationState} from '../../utils';
+import {block, getValidationState} from '../../utils';
 
-export interface ColorPickerProps extends Omit<ColorPickerBaseProps, 'value' | 'onUpdate'> {}
+import './ColorPicker.scss';
+
+const b = block('color-picker');
+
+export interface ColorPickerProps extends Omit<UIKitColorPickerProps, 'value' | 'onUpdate'> {}
 
 const Component: Control<JsonSchemaString, ColorPickerProps> = ({
     controlProps,
@@ -17,6 +22,7 @@ const Component: Control<JsonSchemaString, ColorPickerProps> = ({
     meta,
     schema,
 }) => {
+    const {name, onBlur, onChange, onFocus, value} = input;
     const {onOpenChange: onOpenChangeProps, ...restControlProps} = controlProps;
 
     const onOpenChange = React.useCallback(
@@ -24,24 +30,26 @@ const Component: Control<JsonSchemaString, ColorPickerProps> = ({
             onOpenChangeProps?.(open);
 
             if (open) {
-                input.onFocus();
+                onFocus();
             } else {
-                input.onBlur();
+                onBlur();
             }
         },
-        [input.onBlur, input.onFocus, onOpenChangeProps],
+        [onBlur, onFocus, onOpenChangeProps],
     );
 
     return (
-        <ControlError errorMessage={meta.error} validationState={getValidationState(meta)}>
-            <ColorPickerBase
+        <Flex className={b({error: getValidationState(meta)})} direction="column">
+            <UIKitColorPicker
                 disabled={schema.readOnly}
                 {...restControlProps}
-                value={input.value ?? ''}
-                onUpdate={input.onChange}
+                value={value ?? ''}
+                onUpdate={onChange}
                 onOpenChange={onOpenChange}
+                data-qa={name}
             />
-        </ControlError>
+            <ControlError errorMessage={meta.error} validationState={getValidationState(meta)} />
+        </Flex>
     );
 };
 
