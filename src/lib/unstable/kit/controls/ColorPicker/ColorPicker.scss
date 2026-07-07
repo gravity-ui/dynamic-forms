@@ -1,10 +1,14 @@
 @import '../../styles/variables.scss';
 
-.#{$ns}date-input {
+.#{$ns}color-picker {
     width: 100%;
 
+    .g-color-picker__picker-wrapper {
+        width: 100%;
+    }
+
     &_error {
-        .g-date-date-picker {
+        .g-color-picker__picker-wrapper {
             .g-text-input__content {
                 border: 1px solid var(--g-color-text-danger);
             }

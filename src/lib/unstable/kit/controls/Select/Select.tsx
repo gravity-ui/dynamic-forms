@@ -2,10 +2,10 @@ import React from 'react';
 
 import {
     Flex,
-    Select as SelectBase,
-    type SelectProps as SelectBaseProps,
-    type SelectOption,
     Text,
+    Select as UIKitSelect,
+    type SelectOption as UIKitSelectOption,
+    type SelectProps as UIKitSelectProps,
 } from '@gravity-ui/uikit';
 import isString from 'lodash/isString';
 
@@ -14,7 +14,7 @@ import {getValidationState} from '../../utils';
 
 export interface SelectProps
     extends Omit<
-        SelectBaseProps,
+        UIKitSelectProps,
         | 'value'
         | 'onFocus'
         | 'onBlur'
@@ -26,18 +26,19 @@ export interface SelectProps
     > {
     enumDescriptions?: Record<string, string>;
     optionsMeta?: Record<string, string>;
-    options?: SelectBaseProps['options'];
+    options?: UIKitSelectProps['options'];
 }
 
 const Component: Control<JsonSchemaString, SelectProps> = ({controlProps, input, meta, schema}) => {
+    const {name, onBlur, onChange, onFocus, value: inputValue} = input;
     const {enumDescriptions, optionsMeta, ...restControlProps} = controlProps;
 
     const value = React.useMemo(
-        () => (isString(input.value) ? [input.value] : undefined),
-        [input.value],
+        () => (isString(inputValue) ? [inputValue] : undefined),
+        [inputValue],
     );
 
-    const onUpdate = React.useCallback((v: string[]) => input.onChange(v[0]), [input.onChange]);
+    const onUpdate = React.useCallback((v: string[]) => onChange(v[0]), [onChange]);
 
     const options = React.useMemo(
         () =>
@@ -60,8 +61,8 @@ const Component: Control<JsonSchemaString, SelectProps> = ({controlProps, input,
         [enumDescriptions, optionsMeta, schema.enum],
     );
 
-    const renderOption: SelectBaseProps['renderOption'] = React.useCallback(
-        (option: SelectOption) => (
+    const renderOption: UIKitSelectProps['renderOption'] = React.useCallback(
+        (option: UIKitSelectOption) => (
             <React.Fragment key={option.value}>
                 {option.content || option.text || option.value}
             </React.Fragment>
@@ -69,13 +70,13 @@ const Component: Control<JsonSchemaString, SelectProps> = ({controlProps, input,
         [],
     );
 
-    const getOptionHeight: SelectBaseProps['getOptionHeight'] = React.useCallback(
-        (option: SelectOption) => (option.data?.optionMeta ? 44 : 28),
+    const getOptionHeight: UIKitSelectProps['getOptionHeight'] = React.useCallback(
+        (option: UIKitSelectOption) => (option.data?.optionMeta ? 44 : 28),
         [],
     );
 
     return (
-        <SelectBase
+        <UIKitSelect
             width="max"
             options={options}
             filterable={(schema.enum?.length || 0) > 9}
@@ -84,13 +85,13 @@ const Component: Control<JsonSchemaString, SelectProps> = ({controlProps, input,
             disabled={schema.readOnly}
             {...restControlProps}
             value={value}
-            onFocus={input.onFocus as SelectBaseProps['onFocus']}
-            onBlur={input.onBlur as SelectBaseProps['onBlur']}
+            onFocus={onFocus as UIKitSelectProps['onFocus']}
+            onBlur={onBlur as UIKitSelectProps['onBlur']}
             onUpdate={onUpdate}
             errorMessage={meta.error}
             validationState={getValidationState(meta)}
             placeholder={schema.examples?.[0]}
-            qa={input.name}
+            qa={name}
         />
     );
 };

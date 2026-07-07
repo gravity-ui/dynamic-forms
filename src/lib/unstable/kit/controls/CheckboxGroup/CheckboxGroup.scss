@@ -2,4 +2,22 @@
 
 .#{$ns}checkbox-group {
     padding-top: 7.5px;
+
+    &__checkbox {
+        &_error {
+            &.g-control-label {
+                .g-checkbox__indicator {
+                    &:hover {
+                        &::before {
+                            border: 1px solid var(--g-color-text-danger);
+                        }
+                    }
+
+                    &::before {
+                        border: 1px solid var(--g-color-text-danger);
+                    }
+                }
+            }
+        }
+    }
 }

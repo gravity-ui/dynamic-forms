@@ -2,10 +2,10 @@ import React from 'react';
 
 import * as icons from '@gravity-ui/icons';
 import {
-    Label as GravityLabel,
-    type LabelProps as GravityLabelProps,
     Icon,
     type IconProps,
+    Label as UIKitLabel,
+    type LabelProps as UIKitLabelProps,
 } from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaString} from '../../../core';
@@ -15,7 +15,7 @@ import './TextContent.scss';
 
 const b = block('text-content');
 
-export interface TextContentProps extends Omit<GravityLabelProps, 'theme'> {
+export interface TextContentProps extends Omit<UIKitLabelProps, 'theme'> {
     iconName?: keyof typeof icons;
     iconProps?: Partial<IconProps>;
 }
@@ -48,7 +48,7 @@ const Component: Control<JsonSchemaString, TextContentProps> = ({controlProps, i
     }, [titleProp, schema.description]);
 
     return (
-        <GravityLabel
+        <UIKitLabel
             size="m"
             value={input.value}
             icon={icon}
@@ -57,7 +57,7 @@ const Component: Control<JsonSchemaString, TextContentProps> = ({controlProps, i
             theme="clear"
         >
             {content}
-        </GravityLabel>
+        </UIKitLabel>
     );
 };
 

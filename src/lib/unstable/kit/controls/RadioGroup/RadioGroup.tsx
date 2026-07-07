@@ -2,9 +2,9 @@ import React from 'react';
 
 import {
     Flex,
-    RadioGroup as RadioGroupBase,
-    type RadioGroupProps as RadioGroupBaseProps,
-    type RadioGroupOption,
+    RadioGroup as UIKitRadioGroup,
+    type RadioGroupOption as UIKitRadioGroupOption,
+    type RadioGroupProps as UIKitRadioGroupProps,
 } from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaString} from '../../../core';
@@ -17,7 +17,7 @@ const b = block('radio-group');
 
 export interface RadioGroupProps
     extends Omit<
-        RadioGroupBaseProps,
+        UIKitRadioGroupProps,
         'value' | 'onFocus' | 'onBlur' | 'onChange' | 'onUpdate' | 'qa'
     > {
     enumDescriptions?: Record<string, string>;
@@ -30,9 +30,10 @@ const Component: Control<JsonSchemaString, RadioGroupProps> = ({
     meta,
     schema,
 }) => {
+    const {name, onBlur, onChange, onFocus, value} = input;
     const {enumDescriptions, optionsDisabled, ...restControlProps} = controlProps;
 
-    const options: RadioGroupOption[] | undefined = React.useMemo(
+    const options: UIKitRadioGroupOption[] | undefined = React.useMemo(
         () =>
             schema.enum?.map((value) => ({
                 value,
@@ -43,20 +44,21 @@ const Component: Control<JsonSchemaString, RadioGroupProps> = ({
     );
 
     return (
-        <ControlError errorMessage={meta.error} validationState={getValidationState(meta)}>
-            <Flex className={b()} alignItems="center">
-                <RadioGroupBase
+        <Flex direction="column">
+            <Flex className={b({error: getValidationState(meta)})} alignItems="center">
+                <UIKitRadioGroup
                     options={options}
                     disabled={schema.readOnly}
                     {...restControlProps}
-                    value={input.value}
-                    onFocus={input.onFocus}
-                    onBlur={input.onBlur}
-                    onUpdate={input.onChange}
-                    qa={input.name}
+                    value={value}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                    onUpdate={onChange}
+                    qa={name}
                 />
             </Flex>
-        </ControlError>
+            <ControlError errorMessage={meta.error} validationState={getValidationState(meta)} />
+        </Flex>
     );
 };
 

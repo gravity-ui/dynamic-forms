@@ -1,0 +1,48 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}accordeon {
+    margin-bottom: spacing(4);
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    .g-disclosure__trigger {
+        padding-left: 6.5px;
+    }
+
+    &_without-default-summary {
+        .g-disclosure__trigger {
+            padding-left: 0;
+
+            .g-arrow-toggle {
+                display: none;
+            }
+        }
+    }
+
+    &__toggler {
+        padding-left: 6px;
+    }
+
+    &__content {
+        margin-top: spacing(4);
+
+        &_with-indent {
+            position: relative;
+            padding-left: spacing(7);
+
+            &:before {
+                content: '';
+                display: block;
+                width: 1px;
+                height: calc(100% + spacing(2));
+                background-color: var(--g-color-line-generic);
+                position: absolute;
+                left: calc(spacing(3) + 1.5px);
+                bottom: 0;
+            }
+        }
+    }
+}

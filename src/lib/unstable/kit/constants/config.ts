@@ -13,9 +13,11 @@ import {
     MultiSelect,
     NumberBase,
     ObjectBase,
+    OneOfNested,
     Password,
     RadioGroup,
     RangeSlider,
+    SegmentedRadioGroup,
     Select,
     Slider,
     StringBase,
@@ -23,13 +25,18 @@ import {
     TextArea,
     TextContent,
 } from '../controls';
-import {Row, Transparent} from '../wrappers';
+import {Accordeon, Row, Section, Transparent} from '../wrappers';
 
 export const untypedConfig = {
     [EntityType.Any]: {
         controls: {date_input: {Component: DateInput}},
         views: {},
-        wrappers: {row: Row, transparent: Transparent},
+        wrappers: {
+            row: Row,
+            section: Section,
+            transparent: Transparent,
+            accordeon: Accordeon,
+        },
         validators: {},
     },
     [EntityType.Array]: {
@@ -40,13 +47,22 @@ export const untypedConfig = {
             array_table: {Component: ArrayTable},
         },
         views: {},
-        wrappers: {row: Row, transparent: Transparent},
+        wrappers: {
+            row: Row,
+            section: Section,
+            transparent: Transparent,
+            accordeon: Accordeon,
+        },
         validators: {},
     },
     [EntityType.Boolean]: {
         controls: {base: {Component: Checkbox}, switch: {Component: Switch}},
         views: {},
-        wrappers: {row: Row, transparent: Transparent},
+        wrappers: {
+            row: Row,
+            section: Section,
+            transparent: Transparent,
+        },
         validators: {},
     },
     [EntityType.Number]: {
@@ -55,7 +71,12 @@ export const untypedConfig = {
             slider: {Component: Slider},
         },
         views: {},
-        wrappers: {row: Row, transparent: Transparent},
+        wrappers: {
+            row: Row,
+            section: Section,
+            transparent: Transparent,
+            accordeon: Accordeon,
+        },
         validators: {},
     },
     [EntityType.Object]: {
@@ -63,9 +84,15 @@ export const untypedConfig = {
             base: {Component: ObjectBase},
             dot_value: {Component: DotValue},
             range_slider: {Component: RangeSlider},
+            one_of_nested: {Component: OneOfNested, independent: true},
         },
         views: {},
-        wrappers: {row: Row, transparent: Transparent},
+        wrappers: {
+            row: Row,
+            section: Section,
+            transparent: Transparent,
+            accordeon: Accordeon,
+        },
         validators: {},
     },
     [EntityType.String]: {
@@ -75,6 +102,7 @@ export const untypedConfig = {
             file: {Component: FileInput},
             password: {Component: Password},
             radio_group: {Component: RadioGroup},
+            segmented_radio_group: {Component: SegmentedRadioGroup},
             select: {Component: Select},
             textarea: {Component: TextArea},
             text_content: {Component: TextContent},
@@ -82,7 +110,12 @@ export const untypedConfig = {
             alert: {Component: Alert},
         },
         views: {},
-        wrappers: {row: Row, transparent: Transparent},
+        wrappers: {
+            row: Row,
+            section: Section,
+            transparent: Transparent,
+            accordeon: Accordeon,
+        },
         validators: {},
     },
 } as const;

@@ -1,7 +1,10 @@
 import React from 'react';
 
-import type {CheckboxProps as CheckboxBaseProps} from '@gravity-ui/uikit';
-import {Checkbox as CheckboxBase} from '@gravity-ui/uikit';
+import {
+    Flex,
+    Checkbox as UIKitCheckbox,
+    type CheckboxProps as UIKitCheckboxProps,
+} from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaBoolean} from '../../../core';
 import {ControlError} from '../../components';
@@ -13,7 +16,7 @@ const b = block('checkbox');
 
 export interface CheckboxProps
     extends Omit<
-        CheckboxBaseProps,
+        UIKitCheckboxProps,
         'checked' | 'onFocus' | 'onBlur' | 'onChange' | 'onUpdate' | 'qa'
     > {}
 
@@ -23,21 +26,33 @@ const Component: Control<JsonSchemaBoolean, CheckboxProps> = ({
     meta,
     schema,
 }) => {
+    const {name, onBlur, onChange, onFocus, value} = input;
+
+    const onUpdate = React.useCallback(
+        (value: boolean) => {
+            onFocus();
+            onChange(value);
+            onBlur();
+        },
+        [onBlur, onChange, onFocus],
+    );
+
     return (
-        <ControlError errorMessage={meta.error} validationState={getValidationState(meta)}>
-            <div className={b()}>
-                <CheckboxBase
+        <Flex direction="column">
+            <div className={b({error: getValidationState(meta)})}>
+                <UIKitCheckbox
                     disabled={schema.readOnly}
                     {...controlProps}
                     className={b()}
-                    checked={input.value ?? false}
-                    onFocus={input.onFocus}
-                    onBlur={input.onBlur}
-                    onUpdate={input.onChange}
-                    qa={input.name}
+                    checked={value ?? false}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                    onUpdate={onUpdate}
+                    qa={name}
                 />
             </div>
-        </ControlError>
+            <ControlError errorMessage={meta.error} validationState={getValidationState(meta)} />
+        </Flex>
     );
 };
 

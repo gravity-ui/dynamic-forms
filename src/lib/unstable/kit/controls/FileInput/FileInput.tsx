@@ -24,6 +24,7 @@ const Component: Control<JsonSchemaString, FileInputProps> = ({
     meta,
     schema,
 }) => {
+    const {onBlur, onChange, onFocus} = input;
     const {readAsMethod = 'readAsBinaryString', ...restControlProps} = controlProps;
 
     const counterRef = React.useRef(0);
@@ -36,13 +37,13 @@ const Component: Control<JsonSchemaString, FileInputProps> = ({
                 title: '',
                 icon: <Xmark width={14} height={14} />,
                 onClick: () => {
-                    input.onChange(undefined);
+                    onChange(undefined);
                     setFile(null);
                 },
                 tooltipExtraProps: {disabled: true},
             },
         ],
-        [input.onChange],
+        [onChange],
     );
 
     const onUpdate = React.useCallback(
@@ -58,9 +59,9 @@ const Component: Control<JsonSchemaString, FileInputProps> = ({
 
                 reader.addEventListener('load', () => {
                     if (counter === counterRef.current) {
-                        input.onFocus();
-                        input.onChange(reader.result);
-                        input.onBlur();
+                        onFocus();
+                        onChange(reader.result);
+                        onBlur();
                         setFile(files[0]);
                     }
                 });
@@ -68,7 +69,7 @@ const Component: Control<JsonSchemaString, FileInputProps> = ({
                 reader[readAsMethod](files[0]);
             }
         },
-        [input.onBlur, input.onChange, input.onFocus, readAsMethod],
+        [onBlur, onChange, onFocus, readAsMethod],
     );
 
     if (file) {

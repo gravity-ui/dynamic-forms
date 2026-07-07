@@ -2,21 +2,22 @@ import React from 'react';
 
 import * as icons from '@gravity-ui/icons';
 import {
-    Label as GravityLabel,
-    type LabelProps as GravityLabelProps,
     Icon,
     type IconProps,
+    Label as UIKitLabel,
+    type LabelProps as UIKitLabelProps,
 } from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaString} from '../../../core';
 
-export interface LabelProps extends GravityLabelProps {
+export interface LabelProps extends UIKitLabelProps {
     iconName?: keyof typeof icons;
     iconProps?: Partial<IconProps>;
 }
 
 const Component: Control<JsonSchemaString, LabelProps> = ({controlProps, input, schema}) => {
-    const {iconName, iconProps, title: titleProp, ...controlRestProps} = controlProps;
+    const {value} = input;
+    const {iconName, iconProps, title, ...controlRestProps} = controlProps;
 
     const icon = React.useMemo(
         () =>
@@ -27,12 +28,12 @@ const Component: Control<JsonSchemaString, LabelProps> = ({controlProps, input, 
     );
 
     const content = React.useMemo(() => {
-        if (titleProp) {
-            if (typeof titleProp === 'string') {
-                return <span dangerouslySetInnerHTML={{__html: titleProp}} />;
+        if (title) {
+            if (typeof title === 'string') {
+                return <span dangerouslySetInnerHTML={{__html: title}} />;
             }
 
-            return titleProp;
+            return title;
         }
 
         if (schema.description) {
@@ -40,12 +41,12 @@ const Component: Control<JsonSchemaString, LabelProps> = ({controlProps, input, 
         }
 
         return undefined;
-    }, [titleProp, schema.description]);
+    }, [title, schema.description]);
 
     return (
-        <GravityLabel size="m" value={input.value} icon={icon} {...controlRestProps}>
+        <UIKitLabel size="m" value={value} icon={icon} {...controlRestProps}>
             {content}
-        </GravityLabel>
+        </UIKitLabel>
     );
 };
 

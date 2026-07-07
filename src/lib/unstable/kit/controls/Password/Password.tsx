@@ -25,20 +25,22 @@ const Component: Control<JsonSchemaString, PasswordProps> = ({
     meta,
     schema,
 }) => {
+    const {name, onBlur, onChange, onFocus, value} = input;
+
     return (
         <PasswordInput
             autoComplete="new-password"
             hasClear
             disabled={schema.readOnly}
             {...controlProps}
-            value={input.value ?? ''}
-            onFocus={input.onFocus}
-            onBlur={input.onBlur}
-            onUpdate={input.onChange}
+            value={value ?? ''}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            onUpdate={onChange}
             errorMessage={meta.error}
             validationState={getValidationState(meta)}
             placeholder={schema.examples?.[0]}
-            qa={input.name}
+            qa={name}
         />
     );
 };

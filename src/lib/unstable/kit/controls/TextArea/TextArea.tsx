@@ -1,13 +1,16 @@
 import React from 'react';
 
-import {TextArea as TextAreaBase, type TextAreaProps as TextAreaBaseProps} from '@gravity-ui/uikit';
+import {
+    TextArea as UIKitTextArea,
+    type TextAreaProps as UIKitTextAreaProps,
+} from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaString} from '../../../core';
 import {getValidationState} from '../../utils';
 
 export interface TextAreaProps
     extends Omit<
-        TextAreaBaseProps,
+        UIKitTextAreaProps,
         | 'value'
         | 'onFocus'
         | 'onBlur'
@@ -26,7 +29,7 @@ const Component: Control<JsonSchemaString, TextAreaProps> = ({
     schema,
 }) => {
     return (
-        <TextAreaBase
+        <UIKitTextArea
             maxRows={20}
             minRows={0}
             hasClear

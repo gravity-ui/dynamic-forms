@@ -26,6 +26,8 @@ const Component: Control<JsonSchemaNumber, NumberBaseProps> = ({
     meta,
     schema,
 }) => {
+    const {name, onBlur, onChange, onFocus, value} = input;
+
     return (
         <NumberInput
             allowDecimal
@@ -33,15 +35,15 @@ const Component: Control<JsonSchemaNumber, NumberBaseProps> = ({
             hasClear
             disabled={schema.readOnly}
             {...controlProps}
-            value={input.value}
+            value={value}
             defaultValue={schema.default}
-            onBlur={input.onBlur}
-            onFocus={input.onFocus}
-            onUpdate={input.onChange}
+            onBlur={onBlur}
+            onFocus={onFocus}
+            onUpdate={onChange}
             errorMessage={meta.error}
             validationState={getValidationState(meta)}
             placeholder={`${schema.examples?.[0] || ''}`}
-            qa={input.name}
+            qa={name}
         />
     );
 };
