@@ -1,0 +1,12 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}wrapper-container {
+    width: fit-content;
+    flex: 0 0 auto;
+
+    &:has([data-stretch='max']) {
+        width: 100%;
+        flex: 1 0 0;
+    }
+}

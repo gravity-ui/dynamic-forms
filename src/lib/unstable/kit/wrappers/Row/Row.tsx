@@ -3,8 +3,8 @@ import React from 'react';
 import {Flex, HelpMark, Text} from '@gravity-ui/uikit';
 
 import type {JsonSchema, Wrapper} from '../../../core';
-import {ArrayRemoveButton, HTMLContent} from '../../components';
-import {block} from '../../utils';
+import {ArrayRemoveButton, ControlError, HTMLContent, WrapperContainer} from '../../components';
+import {block, getValidationState} from '../../utils';
 
 import './Row.scss';
 
@@ -14,7 +14,13 @@ export interface RowProps {
     descriptionType?: 'tooltip' | 'bottom';
 }
 
-const Component: Wrapper<JsonSchema, RowProps> = ({children, input, schema, wrapperProps}) => {
+const Component: Wrapper<JsonSchema, RowProps> = ({
+    children,
+    input,
+    meta,
+    schema,
+    wrapperProps,
+}) => {
     const tooltip = React.useMemo(() => {
         if (!schema.description || wrapperProps.descriptionType === 'bottom') {
             return null;
@@ -36,7 +42,7 @@ const Component: Wrapper<JsonSchema, RowProps> = ({children, input, schema, wrap
     }, [schema.description, wrapperProps.descriptionType]);
 
     return (
-        <Flex className={b()} alignItems="flex-start" gap={2}>
+        <WrapperContainer className={b()} direction="row" alignItems="flex-start" gap={2}>
             <div className={b('left')}>
                 <Text
                     className={b('title', {required: wrapperProps.required})}
@@ -46,14 +52,18 @@ const Component: Wrapper<JsonSchema, RowProps> = ({children, input, schema, wrap
                 </Text>
                 {tooltip}
             </div>
-            <div className={b('right')}>
-                <Flex gap={2}>
+            <Flex className={b('right')} direction="column" gap={0.5} grow={1}>
+                <Flex grow={1} gap={2}>
                     {children}
                     <ArrayRemoveButton name={input.name} />
                 </Flex>
                 {bottomDescription}
-            </div>
-        </Flex>
+                <ControlError
+                    errorMessage={meta.error}
+                    validationState={getValidationState(meta)}
+                />
+            </Flex>
+        </WrapperContainer>
     );
 };
 

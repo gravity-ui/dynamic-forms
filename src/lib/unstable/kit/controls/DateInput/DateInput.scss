@@ -1,8 +1,6 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}date-input {
-    width: 100%;
-
     &_error {
         .g-date-date-picker {
             .g-text-input__content {

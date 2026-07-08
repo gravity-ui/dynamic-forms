@@ -19,7 +19,7 @@
             grid-template-columns: 28px repeat(var(--columns-count), 1fr) 28px;
         }
 
-        &:last-child {
+        &:last-of-type {
             border-bottom: none;
         }
     }

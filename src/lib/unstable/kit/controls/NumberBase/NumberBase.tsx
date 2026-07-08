@@ -1,19 +1,20 @@
 import React from 'react';
 
-import {PasswordInput, type PasswordInputProps} from '@gravity-ui/uikit';
+import {NumberInput, type NumberInputProps} from '@gravity-ui/uikit';
 
-import type {Control, JsonSchemaString} from '../../../core';
+import {type Control, type JsonSchemaNumber} from '../../../core';
 import {ControlContainer} from '../../components';
 import {block, getBooleanValidationState, getValidationState} from '../../utils';
 
-import './Password.scss';
+import './NumberBase.scss';
 
-const b = block('password');
+const b = block('number-base');
 
-export interface PasswordProps
+export interface NumberBaseProps
     extends Omit<
-        PasswordInputProps,
+        NumberInputProps,
         | 'value'
+        | 'defaultValue'
         | 'onFocus'
         | 'onBlur'
         | 'onChange'
@@ -23,7 +24,7 @@ export interface PasswordProps
         | 'qa'
     > {}
 
-const Component: Control<JsonSchemaString, PasswordProps> = ({
+const Component: Control<JsonSchemaNumber, NumberBaseProps> = ({
     controlProps,
     input,
     meta,
@@ -33,15 +34,16 @@ const Component: Control<JsonSchemaString, PasswordProps> = ({
 
     return (
         <ControlContainer stretch="max" className={b({error: getBooleanValidationState(meta)})}>
-            <PasswordInput
-                autoComplete="new-password"
-                placeholder={schema.examples?.[0]}
-                disabled={schema.readOnly}
+            <NumberInput
+                allowDecimal
                 hasClear
+                placeholder={`${schema.examples?.[0] || ''}`}
+                disabled={schema.readOnly}
                 {...controlProps}
-                value={value ?? ''}
-                onFocus={onFocus}
+                value={value}
+                defaultValue={schema.default}
                 onBlur={onBlur}
+                onFocus={onFocus}
                 onUpdate={onChange}
                 errorMessage={undefined}
                 validationState={getValidationState(meta)}
@@ -51,4 +53,4 @@ const Component: Control<JsonSchemaString, PasswordProps> = ({
     );
 };
 
-export const Password = React.memo(Component);
+export const NumberBase = React.memo(Component);

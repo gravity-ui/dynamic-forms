@@ -1,0 +1,16 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}object-inline {
+    .#{$ns}object-inline__items {
+        & > * {
+            margin-bottom: 0;
+        }
+    }
+
+    &__delimiter {
+        min-height: 28px;
+        display: flex;
+        align-items: center;
+    }
+}

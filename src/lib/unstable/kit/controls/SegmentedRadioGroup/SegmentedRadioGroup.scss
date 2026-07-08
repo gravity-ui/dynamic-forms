@@ -2,7 +2,7 @@
 
 .#{$ns}segmented-radio-group {
     &_error {
-        &.g-segmented-radio-group {
+        .g-segmented-radio-group {
             .g-segmented-radio-group__option_checked {
                 &:hover {
                     &::after {

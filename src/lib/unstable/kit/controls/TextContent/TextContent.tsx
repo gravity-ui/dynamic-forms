@@ -9,6 +9,7 @@ import {
 } from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaString} from '../../../core';
+import {ControlContainer} from '../../components';
 import {block} from '../../utils';
 
 import './TextContent.scss';
@@ -48,16 +49,18 @@ const Component: Control<JsonSchemaString, TextContentProps> = ({controlProps, i
     }, [titleProp, schema.description]);
 
     return (
-        <UIKitLabel
-            size="m"
-            value={input.value}
-            icon={icon}
-            {...controlRestProps}
-            className={b(null, controlRestProps.className)}
-            theme="clear"
-        >
-            {content}
-        </UIKitLabel>
+        <ControlContainer stretch="fit">
+            <UIKitLabel
+                size="m"
+                value={input.value}
+                icon={icon}
+                {...controlRestProps}
+                className={b(null, controlRestProps.className)}
+                theme="clear"
+            >
+                {content}
+            </UIKitLabel>
+        </ControlContainer>
     );
 };
 

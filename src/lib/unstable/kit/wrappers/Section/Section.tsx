@@ -3,8 +3,8 @@ import React from 'react';
 import {Flex, HelpMark, Text, type TextProps} from '@gravity-ui/uikit';
 
 import type {JsonSchema, Wrapper} from '../../../core';
-import {ArrayRemoveButton, HTMLContent} from '../../components';
-import {block} from '../../utils';
+import {ArrayRemoveButton, ControlError, HTMLContent, WrapperContainer} from '../../components';
+import {block, getValidationState} from '../../utils';
 
 import './Section.scss';
 
@@ -15,7 +15,13 @@ export interface SectionProps extends TextProps {
     withIndent?: boolean;
 }
 
-const Component: Wrapper<JsonSchema, SectionProps> = ({children, input, schema, wrapperProps}) => {
+const Component: Wrapper<JsonSchema, SectionProps> = ({
+    children,
+    input,
+    meta,
+    schema,
+    wrapperProps,
+}) => {
     const {descriptionType = 'tooltip', withIndent = false, ...restWrapperProps} = wrapperProps;
 
     const tooltip = React.useMemo(() => {
@@ -39,19 +45,22 @@ const Component: Wrapper<JsonSchema, SectionProps> = ({children, input, schema, 
     }, [schema.description, descriptionType]);
 
     return (
-        <Flex direction="column" gap={4} className={b()}>
-            <Flex direction="column" gap={2}>
-                <Flex className={b('header')} gap={2} alignItems="center">
-                    <Text variant="subheader-1" {...restWrapperProps}>
-                        {schema.title}
-                    </Text>
-                    {tooltip}
-                    <ArrayRemoveButton name={input.name} />
+        <WrapperContainer className={b()} gap={0.5}>
+            <Flex direction="column" gap={4}>
+                <Flex direction="column" gap={2}>
+                    <Flex className={b('header')} gap={2} alignItems="center">
+                        <Text variant="subheader-1" {...restWrapperProps}>
+                            {schema.title}
+                        </Text>
+                        {tooltip}
+                        <ArrayRemoveButton name={input.name} />
+                    </Flex>
+                    {bottomDescription}
                 </Flex>
-                {bottomDescription}
+                <div className={b('content', {'with-indent': withIndent})}>{children}</div>
             </Flex>
-            <div className={b('content', {'with-indent': withIndent})}>{children}</div>
-        </Flex>
+            <ControlError errorMessage={meta.error} validationState={getValidationState(meta)} />
+        </WrapperContainer>
     );
 };
 

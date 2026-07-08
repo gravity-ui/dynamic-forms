@@ -1,20 +1,23 @@
 import React from 'react';
 
 import {
-    Flex,
     SegmentedRadioGroup as UIKitSegmentedRadioGroup,
     type SegmentedRadioGroupProps as UIKitSegmentedRadioGroupProps,
 } from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaString} from '../../../core';
-import {ControlError} from '../../components';
-import {block, getValidationState} from '../../utils';
+import {ControlContainer} from '../../components';
+import {block, getBooleanValidationState} from '../../utils';
 
 import './SegmentedRadioGroup.scss';
 
 const b = block('segmented-radio-group');
 
-export interface SegmentedRadioGroupProps extends UIKitSegmentedRadioGroupProps {
+export interface SegmentedRadioGroupProps
+    extends Omit<
+        UIKitSegmentedRadioGroupProps,
+        'value' | 'onFocus' | 'onBlur' | 'onChange' | 'onUpdate' | 'qa'
+    > {
     enumDescriptions?: Record<string, string>;
     optionsDisabled?: Record<string, boolean>;
 }
@@ -48,9 +51,8 @@ const Component: Control<JsonSchemaString, SegmentedRadioGroupProps> = ({
     );
 
     return (
-        <Flex width="100%" direction="column">
+        <ControlContainer stretch="max" className={b({error: getBooleanValidationState(meta)})}>
             <UIKitSegmentedRadioGroup
-                className={b({error: getValidationState(meta)})}
                 width="max"
                 disabled={schema.readOnly}
                 options={options}
@@ -61,8 +63,7 @@ const Component: Control<JsonSchemaString, SegmentedRadioGroupProps> = ({
                 onUpdate={onUpdate}
                 qa={name}
             />
-            <ControlError errorMessage={meta.error} validationState={getValidationState(meta)} />
-        </Flex>
+        </ControlContainer>
     );
 };
 

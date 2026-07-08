@@ -3,16 +3,21 @@ import React from 'react';
 import {Slider as UIKitSlider, type SliderProps as UIKitSliderProps} from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaObject} from '../../../core';
-import {block, getValidationState} from '../../utils';
-
-import './RangeSlider.scss';
-
-const b = block('range-slider');
+import {ControlContainer} from '../../components';
+import {getValidationState} from '../../utils';
 
 export interface RangeSliderProps
     extends Omit<
         UIKitSliderProps,
-        'value' | 'onFocus' | 'onBlur' | 'onChange' | 'onUpdate' | 'qa'
+        | 'defaultValue'
+        | 'value'
+        | 'onFocus'
+        | 'onBlur'
+        | 'onChange'
+        | 'onUpdate'
+        | 'errorMessage'
+        | 'validationState'
+        | 'qa'
     > {
     propertyKeys?: [string, string];
 }
@@ -58,24 +63,25 @@ const Component: Control<JsonSchemaObject, RangeSliderProps> = ({
     );
 
     return (
-        <UIKitSlider
-            className={b()}
-            min={min}
-            max={max}
-            step={1}
-            marks={2}
-            disabled={schema.readOnly}
-            tooltipDisplay="on"
-            {...restControlProps}
-            defaultValue={defaultValue}
-            value={value}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            onUpdate={onUpdate}
-            errorMessage={meta.error}
-            validationState={getValidationState(meta)}
-            qa={name}
-        />
+        <ControlContainer stretch="max">
+            <UIKitSlider
+                min={min}
+                max={max}
+                step={1}
+                marks={2}
+                disabled={schema.readOnly}
+                tooltipDisplay="on"
+                {...restControlProps}
+                defaultValue={defaultValue}
+                value={value}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                onUpdate={onUpdate}
+                errorMessage={undefined}
+                validationState={getValidationState(meta)}
+                qa={name}
+            />
+        </ControlContainer>
     );
 };
 

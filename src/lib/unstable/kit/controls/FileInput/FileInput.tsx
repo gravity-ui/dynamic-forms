@@ -8,13 +8,11 @@ import {
 } from '@gravity-ui/uikit/unstable';
 
 import type {Control, JsonSchemaString} from '../../../core';
-import {block, getValidationState} from '../../utils';
+import {ControlContainer} from '../../components';
+import {getValidationState} from '../../utils';
 
-import './FileInput.scss';
-
-const b = block('file-input');
-
-export interface FileInputProps extends Omit<FileDropZoneProps, 'multiple'> {
+export interface FileInputProps
+    extends Omit<FileDropZoneProps, 'multiple' | 'onUpdate' | 'errorMessage' | 'validationState'> {
     readAsMethod?: 'readAsBinaryString' | 'readAsDataURL' | 'readAsText';
 }
 
@@ -73,21 +71,25 @@ const Component: Control<JsonSchemaString, FileInputProps> = ({
     );
 
     if (file) {
-        return <FilePreview file={file} actions={actions} />;
+        return (
+            <ControlContainer stretch="fit">
+                <FilePreview file={file} actions={actions} />
+            </ControlContainer>
+        );
     }
 
     return (
-        <div className={b()}>
+        <ControlContainer stretch="max">
             <FileDropZone
                 disabled={schema.readOnly}
                 accept={[]}
                 {...restControlProps}
                 onUpdate={onUpdate}
-                errorMessage={meta.error}
+                errorMessage={undefined}
                 validationState={getValidationState(meta)}
                 multiple={false}
             />
-        </div>
+        </ControlContainer>
     );
 };
 

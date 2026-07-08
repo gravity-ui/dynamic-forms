@@ -11,6 +11,10 @@ export const getValidationState = (meta: FieldMetaState<any>): 'invalid' | undef
     return undefined;
 };
 
+export const getBooleanValidationState = (meta: FieldMetaState<any>): boolean => {
+    return getValidationState(meta) === 'invalid';
+};
+
 export const getArrayItemParentName = (name: string) => name.slice(0, name.lastIndexOf('['));
 
 export const getArrayItemIndex = (name: string) => name.slice(name.lastIndexOf('[') + 1, -1);

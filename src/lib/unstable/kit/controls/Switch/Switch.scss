@@ -2,8 +2,6 @@
 
 .#{$ns}switch {
     min-height: 28px;
-    display: flex;
-    align-items: center;
 
     &_error {
         .g-switch {

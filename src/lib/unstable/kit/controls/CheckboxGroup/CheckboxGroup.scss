@@ -1,11 +1,11 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}checkbox-group {
-    padding-top: 7.5px;
-
     &__checkbox {
+        min-height: 28px;
+
         &_error {
-            &.g-control-label {
+            .g-control-label {
                 .g-checkbox__indicator {
                     &:hover {
                         &::before {

@@ -3,8 +3,8 @@ import React from 'react';
 import {Checkbox, Flex} from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaArray} from '../../../core';
-import {ControlError} from '../../components';
-import {block, getValidationState} from '../../utils';
+import {ControlContainer} from '../../components';
+import {block, getBooleanValidationState} from '../../utils';
 
 import './CheckboxGroup.scss';
 
@@ -62,13 +62,20 @@ const Component: Control<JsonSchemaArray, CheckboxGroupProps> = ({
     );
 
     return (
-        <Flex direction="column">
-            <Flex className={b()} direction={direction} gap={2}>
-                {options?.map(({value: optionValue, text}) => (
+        <ControlContainer
+            stretch="fit"
+            direction={direction}
+            gap={direction === 'row' ? 2 : undefined}
+        >
+            {options?.map(({value: optionValue, text}) => (
+                <Flex
+                    className={b('checkbox', {
+                        error: value.includes(optionValue) && getBooleanValidationState(meta),
+                    })}
+                    alignItems="center"
+                    key={optionValue}
+                >
                     <Checkbox
-                        className={b('checkbox', {
-                            error: value.includes(optionValue) && getValidationState(meta),
-                        })}
                         checked={value.includes(optionValue)}
                         onFocus={onFocus}
                         onBlur={onBlur}
@@ -76,12 +83,10 @@ const Component: Control<JsonSchemaArray, CheckboxGroupProps> = ({
                         content={text}
                         disabled={disabled || optionsDisabled?.[optionValue] || schema.readOnly}
                         qa={`${name}-${optionValue}`}
-                        key={optionValue}
                     />
-                ))}
-            </Flex>
-            <ControlError errorMessage={meta.error} validationState={getValidationState(meta)} />
-        </Flex>
+                </Flex>
+            ))}
+        </ControlContainer>
     );
 };
 

@@ -1,0 +1,10 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}text-area {
+    &_error {
+        .g-text-area__content {
+            outline: none;
+        }
+    }
+}

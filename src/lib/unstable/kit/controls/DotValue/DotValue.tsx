@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import isString from 'lodash/isString';
 
 import {type Control, Entity, type JsonSchemaObject} from '../../../core';
+import {ControlContainer} from '../../components';
 
 export interface DotValueProps {}
 
@@ -30,10 +31,12 @@ const Component: Control<JsonSchemaObject, DotValueProps> = ({input, schema}) =>
     }, [value]);
 
     return (
-        <Entity
-            name={`${name ? name + '.' : ''}${childKey}`}
-            schema={schema.properties?.[childKey]}
-        />
+        <ControlContainer stretch="by-child">
+            <Entity
+                name={`${name ? name + '.' : ''}${childKey}`}
+                schema={schema.properties?.[childKey]}
+            />
+        </ControlContainer>
     );
 };
 

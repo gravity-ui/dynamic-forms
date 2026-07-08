@@ -9,6 +9,7 @@ import {
 } from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaString} from '../../../core';
+import {ControlContainer} from '../../components';
 
 export interface AlertProps extends UIKitAlertProps {
     iconName?: keyof typeof icons;
@@ -42,7 +43,11 @@ const Component: Control<JsonSchemaString, AlertProps> = ({controlProps, schema}
         return undefined;
     }, [message, schema.description]);
 
-    return <UIKitAlert icon={icon} message={msg} {...controlRestProps} />;
+    return (
+        <ControlContainer stretch="fit">
+            <UIKitAlert icon={icon} message={msg} {...controlRestProps} />
+        </ControlContainer>
+    );
 };
 
 export const Alert = React.memo(Component);

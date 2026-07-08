@@ -1,0 +1,22 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}few-of-nested {
+    &__content {
+        &_with-indent {
+            position: relative;
+            padding-left: spacing(7);
+
+            &:before {
+                content: '';
+                display: block;
+                width: 1px;
+                height: calc(100% + spacing(2));
+                background-color: var(--g-color-line-generic);
+                position: absolute;
+                left: calc(spacing(3) + 1.5px);
+                bottom: 0;
+            }
+        }
+    }
+}
