@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.20.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.19.1...v5.20.0) (2026-07-08)
+
+
+### Features
+
+* **unstable:** add controls(array-table, file, text-content) ([#384](https://github.com/gravity-ui/dynamic-forms/issues/384)) ([887d2ff](https://github.com/gravity-ui/dynamic-forms/commit/887d2ff74644ff53da3eb94295ed3611c027b4f2))
+* **unstable:** add few of nested, object inline, some styles ([#387](https://github.com/gravity-ui/dynamic-forms/issues/387)) ([6c42721](https://github.com/gravity-ui/dynamic-forms/commit/6c4272186cb0ebee5b15932f21f2ee9420180eaa))
+* **unstable:** add new controls + wrappers ([#386](https://github.com/gravity-ui/dynamic-forms/issues/386)) ([8670ef5](https://github.com/gravity-ui/dynamic-forms/commit/8670ef56fb7b14d46f053a24c3497e17ff0e9acf))
+
 ## [5.19.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.19.0...v5.19.1) (2026-06-25)
 
 
