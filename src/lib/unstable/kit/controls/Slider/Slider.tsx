@@ -3,11 +3,8 @@ import React from 'react';
 import {Slider as UIKitSlider, type SliderProps as UIKitSliderProps} from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaNumber} from '../../../core';
-import {block, getValidationState} from '../../utils';
-
-import './Slider.scss';
-
-const b = block('slider');
+import {ControlContainer} from '../../components';
+import {getValidationState} from '../../utils';
 
 export interface SliderProps
     extends Omit<
@@ -39,23 +36,24 @@ const Component: Control<JsonSchemaNumber, SliderProps> = ({controlProps, input,
     );
 
     return (
-        <UIKitSlider
-            className={b()}
-            min={schema.minimum}
-            max={schema.maximum}
-            step={1}
-            marks={2}
-            disabled={schema.readOnly}
-            tooltipDisplay="on"
-            {...controlProps}
-            value={value}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            onUpdate={onUpdate}
-            errorMessage={meta.error}
-            validationState={getValidationState(meta)}
-            qa={name}
-        />
+        <ControlContainer stretch="max">
+            <UIKitSlider
+                min={schema.minimum}
+                max={schema.maximum}
+                step={1}
+                marks={2}
+                disabled={schema.readOnly}
+                tooltipDisplay="on"
+                {...controlProps}
+                value={value}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                onUpdate={onUpdate}
+                errorMessage={undefined}
+                validationState={getValidationState(meta)}
+                qa={name}
+            />
+        </ControlContainer>
     );
 };
 

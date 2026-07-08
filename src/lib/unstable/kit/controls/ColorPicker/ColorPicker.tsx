@@ -1,14 +1,13 @@
 import React from 'react';
 
-import {Flex} from '@gravity-ui/uikit';
 import {
     unstable_ColorPicker as UIKitColorPicker,
     type unstable_ColorPickerProps as UIKitColorPickerProps,
 } from '@gravity-ui/uikit/unstable';
 
 import type {Control, JsonSchemaString} from '../../../core';
-import {ControlError} from '../../components';
-import {block, getValidationState} from '../../utils';
+import {ControlContainer} from '../../components';
+import {block, getBooleanValidationState} from '../../utils';
 
 import './ColorPicker.scss';
 
@@ -39,7 +38,7 @@ const Component: Control<JsonSchemaString, ColorPickerProps> = ({
     );
 
     return (
-        <Flex className={b({error: getValidationState(meta)})} direction="column">
+        <ControlContainer stretch="max" className={b({error: getBooleanValidationState(meta)})}>
             <UIKitColorPicker
                 disabled={schema.readOnly}
                 {...restControlProps}
@@ -48,8 +47,7 @@ const Component: Control<JsonSchemaString, ColorPickerProps> = ({
                 onOpenChange={onOpenChange}
                 data-qa={name}
             />
-            <ControlError errorMessage={meta.error} validationState={getValidationState(meta)} />
-        </Flex>
+        </ControlContainer>
     );
 };
 

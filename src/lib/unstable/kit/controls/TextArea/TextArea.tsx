@@ -6,7 +6,12 @@ import {
 } from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaString} from '../../../core';
-import {getValidationState} from '../../utils';
+import {ControlContainer} from '../../components';
+import {block, getBooleanValidationState, getValidationState} from '../../utils';
+
+import './TextArea.scss';
+
+const b = block('text-area');
 
 export interface TextAreaProps
     extends Omit<
@@ -18,7 +23,6 @@ export interface TextAreaProps
         | 'onUpdate'
         | 'errorMessage'
         | 'validationState'
-        | 'placeholder'
         | 'qa'
     > {}
 
@@ -29,21 +33,23 @@ const Component: Control<JsonSchemaString, TextAreaProps> = ({
     schema,
 }) => {
     return (
-        <UIKitTextArea
-            maxRows={20}
-            minRows={0}
-            hasClear
-            disabled={schema.readOnly}
-            {...controlProps}
-            value={input.value ?? ''}
-            onFocus={input.onFocus}
-            onBlur={input.onBlur}
-            onUpdate={input.onChange}
-            errorMessage={meta.error}
-            validationState={getValidationState(meta)}
-            placeholder={schema.examples?.[0]}
-            qa={input.name}
-        />
+        <ControlContainer stretch="max" className={b({error: getBooleanValidationState(meta)})}>
+            <UIKitTextArea
+                maxRows={20}
+                minRows={0}
+                placeholder={schema.examples?.[0]}
+                disabled={schema.readOnly}
+                hasClear
+                {...controlProps}
+                value={input.value ?? ''}
+                onFocus={input.onFocus}
+                onBlur={input.onBlur}
+                onUpdate={input.onChange}
+                errorMessage={undefined}
+                validationState={getValidationState(meta)}
+                qa={input.name}
+            />
+        </ControlContainer>
     );
 };
 

@@ -1,0 +1,10 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}string-base {
+    &_error {
+        .g-text-input__content {
+            outline: none;
+        }
+    }
+}

@@ -1,7 +1,14 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}radio-group {
-    padding-top: 7.5px;
+    &_direction_horizontal {
+        min-height: 28px;
+        padding-top: 1px;
+    }
+
+    &_direction_vertical {
+        padding-top: 7px;
+    }
 
     &_error {
         .g-radio-group {

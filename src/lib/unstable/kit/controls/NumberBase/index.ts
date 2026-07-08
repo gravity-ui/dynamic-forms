@@ -1,1 +1,1 @@
-export {NumberBase, type NumberBaseProps} from './Number';
+export {NumberBase, type NumberBaseProps} from './NumberBase';

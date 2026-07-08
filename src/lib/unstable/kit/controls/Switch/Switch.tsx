@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {Flex, Switch as UIKitSwitch, type SwitchProps as UIKitSwitchProps} from '@gravity-ui/uikit';
+import {Switch as UIKitSwitch, type SwitchProps as UIKitSwitchProps} from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaBoolean} from '../../../core';
-import {ControlError} from '../../components';
-import {block, getValidationState} from '../../utils';
+import {ControlContainer} from '../../components';
+import {block, getBooleanValidationState} from '../../utils';
 
 import './Switch.scss';
 
@@ -34,20 +34,21 @@ const Component: Control<JsonSchemaBoolean, SwitchProps> = ({
     );
 
     return (
-        <Flex direction="column">
-            <div className={b({error: getValidationState(meta)})}>
-                <UIKitSwitch
-                    disabled={schema.readOnly}
-                    {...controlProps}
-                    checked={value ?? false}
-                    onFocus={onFocus}
-                    onBlur={onBlur}
-                    onUpdate={onUpdate}
-                    qa={name}
-                />
-            </div>
-            <ControlError errorMessage={meta.error} validationState={getValidationState(meta)} />
-        </Flex>
+        <ControlContainer
+            stretch="fit"
+            className={b({error: getBooleanValidationState(meta)})}
+            justifyContent="center"
+        >
+            <UIKitSwitch
+                disabled={schema.readOnly}
+                {...controlProps}
+                checked={value ?? false}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                onUpdate={onUpdate}
+                qa={name}
+            />
+        </ControlContainer>
     );
 };
 

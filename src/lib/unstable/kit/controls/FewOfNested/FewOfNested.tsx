@@ -1,9 +1,10 @@
 import React from 'react';
 
+import isString from 'lodash/isString';
+
 import {
     type Control,
     Entity,
-    EntityType,
     type JsonSchema,
     type JsonSchemaObject,
     SchemaRendererMode,
@@ -13,18 +14,17 @@ import {
 import {ControlContainer} from '../../components';
 import {block} from '../../utils';
 
-import './OneOfNested.scss';
+import './FewOfNested.scss';
 
 const b = block('one-of-nested');
 
-export interface OneOfNestedProps {
+export interface FewOfNestedProps {
     toggler: JsonSchema;
-    booleanToKey?: {true: string; false: string};
     withIndent?: boolean;
     togglerArrayRemoveButton?: boolean;
 }
 
-const Component: Control<JsonSchemaObject, OneOfNestedProps> = ({
+const Component: Control<JsonSchemaObject, FewOfNestedProps> = ({
     controlProps,
     input,
     meta,
@@ -34,7 +34,6 @@ const Component: Control<JsonSchemaObject, OneOfNestedProps> = ({
 }) => {
     const {name, value} = input;
     const {
-        booleanToKey,
         togglerArrayRemoveButton = false,
         toggler: togglerSchema = {},
         withIndent = false,
@@ -42,9 +41,17 @@ const Component: Control<JsonSchemaObject, OneOfNestedProps> = ({
 
     const {config} = useEntitiesState(name);
 
-    const [togglerValue, setTogglerValue] = React.useState<string>(
-        Object.keys(value || schema.properties || {})[0] || '',
-    );
+    const [togglerValues, setTogglerValues] = React.useState<string[]>(() => {
+        if (value && Object.keys(value).length) {
+            return Object.keys(value);
+        }
+
+        if (schema.properties && Object.keys(schema.properties).length) {
+            return [Object.keys(schema.properties)[0]];
+        }
+
+        return [];
+    });
 
     const toggler = React.useMemo(() => {
         let result: React.ReactNode = null;
@@ -52,15 +59,11 @@ const Component: Control<JsonSchemaObject, OneOfNestedProps> = ({
         const togglerInput = {
             ...input,
             name: togglerArrayRemoveButton ? name : `${name}._____toggler`,
-            value:
-                (togglerSchema.entityParameters?.type === EntityType.Boolean &&
-                    booleanToKey &&
-                    booleanToKey.true === togglerValue) ??
-                togglerValue,
+            value: togglerValues,
             onChange: (value: unknown) => {
-                const nextValue = `${value}`;
-
-                setTogglerValue(booleanToKey?.[nextValue as 'true' | 'false'] || nextValue);
+                if (Array.isArray(value)) {
+                    setTogglerValues(value.filter(isString));
+                }
             },
         };
         const togglerMeta = {
@@ -106,16 +109,7 @@ const Component: Control<JsonSchemaObject, OneOfNestedProps> = ({
         }
 
         return result;
-    }, [
-        booleanToKey,
-        config,
-        name,
-        input,
-        meta,
-        togglerArrayRemoveButton,
-        togglerSchema,
-        togglerValue,
-    ]);
+    }, [config, name, input, meta, togglerArrayRemoveButton, togglerSchema, togglerValues]);
 
     const wrapperInput = React.useMemo(() => {
         if (!togglerArrayRemoveButton) {
@@ -131,12 +125,17 @@ const Component: Control<JsonSchemaObject, OneOfNestedProps> = ({
     let content = (
         <ControlContainer stretch="by-child">
             {toggler}
-            <div className={b('content', {'with-indent': withIndent})}>
-                <Entity
-                    name={`${name}.${togglerValue}`}
-                    schema={schema.properties?.[togglerValue]}
-                />
-            </div>
+            {togglerValues.length ? (
+                <div className={b('content', {'with-indent': withIndent})}>
+                    {togglerValues.map((togglerValue) => (
+                        <Entity
+                            key={togglerValue}
+                            name={`${name}.${togglerValue}`}
+                            schema={schema.properties?.[togglerValue]}
+                        />
+                    ))}
+                </div>
+            ) : null}
         </ControlContainer>
     );
 
@@ -156,4 +155,4 @@ const Component: Control<JsonSchemaObject, OneOfNestedProps> = ({
     return content;
 };
 
-export const OneOfNested = React.memo(Component);
+export const FewOfNested = React.memo(Component);

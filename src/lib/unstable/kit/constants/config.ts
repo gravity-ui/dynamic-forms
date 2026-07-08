@@ -8,11 +8,13 @@ import {
     ColorPicker,
     DateInput,
     DotValue,
+    FewOfNested,
     FileInput,
     Label,
     MultiSelect,
     NumberBase,
     ObjectBase,
+    ObjectInline,
     OneOfNested,
     Password,
     RadioGroup,
@@ -82,9 +84,11 @@ export const untypedConfig = {
     [EntityType.Object]: {
         controls: {
             base: {Component: ObjectBase},
+            inline: {Component: ObjectInline},
             dot_value: {Component: DotValue},
             range_slider: {Component: RangeSlider},
             one_of_nested: {Component: OneOfNested, independent: true},
+            few_of_nested: {Component: FewOfNested, independent: true},
         },
         views: {},
         wrappers: {

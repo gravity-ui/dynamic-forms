@@ -9,6 +9,7 @@ import {
 } from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaString} from '../../../core';
+import {ControlContainer} from '../../components';
 
 export interface LabelProps extends UIKitLabelProps {
     iconName?: keyof typeof icons;
@@ -44,9 +45,11 @@ const Component: Control<JsonSchemaString, LabelProps> = ({controlProps, input, 
     }, [title, schema.description]);
 
     return (
-        <UIKitLabel size="m" value={value} icon={icon} {...controlRestProps}>
-            {content}
-        </UIKitLabel>
+        <ControlContainer stretch="fit">
+            <UIKitLabel size="m" value={value} icon={icon} {...controlRestProps}>
+                {content}
+            </UIKitLabel>
+        </ControlContainer>
     );
 };
 

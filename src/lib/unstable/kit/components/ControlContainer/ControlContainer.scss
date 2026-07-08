@@ -1,0 +1,27 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}control-container {
+    display: flex;
+    flex-direction: column;
+
+    &_stretch_max {
+        width: 100%;
+        flex: 1 0 0;
+    }
+
+    &_stretch_fit {
+        width: fit-content;
+        flex: 0 0 auto;
+    }
+
+    &_stretch_by-child {
+        width: fit-content;
+        flex: 0 0 auto;
+
+        &:has([data-stretch='max']) {
+            width: 100%;
+            flex: 1 0 0;
+        }
+    }
+}

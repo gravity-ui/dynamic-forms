@@ -1,15 +1,14 @@
 import React from 'react';
 
 import {
-    Flex,
     RadioGroup as UIKitRadioGroup,
     type RadioGroupOption as UIKitRadioGroupOption,
     type RadioGroupProps as UIKitRadioGroupProps,
 } from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaString} from '../../../core';
-import {ControlError} from '../../components';
-import {block, getValidationState} from '../../utils';
+import {ControlContainer} from '../../components';
+import {block, getBooleanValidationState} from '../../utils';
 
 import './RadioGroup.scss';
 
@@ -31,7 +30,12 @@ const Component: Control<JsonSchemaString, RadioGroupProps> = ({
     schema,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
-    const {enumDescriptions, optionsDisabled, ...restControlProps} = controlProps;
+    const {
+        enumDescriptions,
+        optionsDisabled,
+        direction = 'horizontal',
+        ...restControlProps
+    } = controlProps;
 
     const options: UIKitRadioGroupOption[] | undefined = React.useMemo(
         () =>
@@ -44,21 +48,23 @@ const Component: Control<JsonSchemaString, RadioGroupProps> = ({
     );
 
     return (
-        <Flex direction="column">
-            <Flex className={b({error: getValidationState(meta)})} alignItems="center">
-                <UIKitRadioGroup
-                    options={options}
-                    disabled={schema.readOnly}
-                    {...restControlProps}
-                    value={value}
-                    onFocus={onFocus}
-                    onBlur={onBlur}
-                    onUpdate={onChange}
-                    qa={name}
-                />
-            </Flex>
-            <ControlError errorMessage={meta.error} validationState={getValidationState(meta)} />
-        </Flex>
+        <ControlContainer
+            stretch="fit"
+            className={b({error: getBooleanValidationState(meta), direction})}
+            justifyContent="center"
+        >
+            <UIKitRadioGroup
+                options={options}
+                disabled={schema.readOnly}
+                {...restControlProps}
+                value={value}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                onUpdate={onChange}
+                direction={direction}
+                qa={name}
+            />
+        </ControlContainer>
     );
 };
 

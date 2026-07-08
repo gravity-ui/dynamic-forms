@@ -14,8 +14,8 @@ import {
 } from '@gravity-ui/uikit';
 
 import type {JsonSchema, Wrapper} from '../../../core';
-import {ArrayRemoveButton, HTMLContent} from '../../components';
-import {block} from '../../utils';
+import {ArrayRemoveButton, ControlError, HTMLContent, WrapperContainer} from '../../components';
+import {block, getValidationState} from '../../utils';
 
 import './Accordeon.scss';
 
@@ -31,6 +31,7 @@ export interface AccordeonProps extends DisclosureProps {
 const Component: Wrapper<JsonSchema, AccordeonProps> = ({
     children,
     input,
+    meta,
     schema,
     wrapperProps,
 }) => {
@@ -84,14 +85,17 @@ const Component: Wrapper<JsonSchema, AccordeonProps> = ({
     ]);
 
     return (
-        <Disclosure
-            summary={summary}
-            defaultExpanded
-            {...restWrapperProps}
-            className={b({'without-default-summary': !withDefaultSummary}, wrapperProps.className)}
-        >
-            <div className={b('content', {'with-indent': withIndent})}>{children}</div>
-        </Disclosure>
+        <WrapperContainer className={b({'without-default-summary': !withDefaultSummary})}>
+            <Disclosure summary={summary} defaultExpanded {...restWrapperProps}>
+                <Flex direction="column" gap={0.5} grow={1}>
+                    <div className={b('content', {'with-indent': withIndent})}>{children}</div>
+                    <ControlError
+                        errorMessage={meta.error}
+                        validationState={getValidationState(meta)}
+                    />
+                </Flex>
+            </Disclosure>
+        </WrapperContainer>
     );
 };
 

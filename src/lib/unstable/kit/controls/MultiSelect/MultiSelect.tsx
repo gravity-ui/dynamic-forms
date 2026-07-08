@@ -10,12 +10,21 @@ import {
 import isString from 'lodash/isString';
 
 import type {Control, JsonSchemaArray} from '../../../core';
+import {ControlContainer} from '../../components';
 import {getValidationState} from '../../utils';
 
 export interface MultiSelectProps
     extends Omit<
         UIKitSelectProps,
-        'value' | 'onFocus' | 'onBlur' | 'onChange' | 'onUpdate' | 'multiple' | 'qa'
+        | 'value'
+        | 'onFocus'
+        | 'onBlur'
+        | 'onChange'
+        | 'onUpdate'
+        | 'multiple'
+        | 'errorMessage'
+        | 'validationState'
+        | 'qa'
     > {
     enumDescriptions?: Record<string, string>;
     optionsMeta?: Record<string, string>;
@@ -76,24 +85,26 @@ const Component: Control<JsonSchemaArray, MultiSelectProps> = ({
     );
 
     return (
-        <UIKitSelect
-            width="max"
-            options={options}
-            filterable={(enumValues?.length || 0) > 9}
-            renderOption={renderOption}
-            getOptionHeight={getOptionHeight}
-            disabled={schema.readOnly}
-            {...restControlProps}
-            value={value}
-            onFocus={onFocus as UIKitSelectProps['onFocus']}
-            onBlur={onBlur as UIKitSelectProps['onBlur']}
-            onUpdate={onChange}
-            errorMessage={meta.error}
-            validationState={getValidationState(meta)}
-            placeholder={`${schema.examples?.[0]?.[0]}`}
-            multiple
-            qa={name}
-        />
+        <ControlContainer stretch="max">
+            <UIKitSelect
+                width="max"
+                options={options}
+                filterable={(enumValues?.length || 0) > 9}
+                renderOption={renderOption}
+                getOptionHeight={getOptionHeight}
+                placeholder={`${schema.examples?.[0]?.[0]}`}
+                disabled={schema.readOnly}
+                {...restControlProps}
+                value={value}
+                onFocus={onFocus as UIKitSelectProps['onFocus']}
+                onBlur={onBlur as UIKitSelectProps['onBlur']}
+                onUpdate={onChange}
+                errorMessage={undefined}
+                validationState={getValidationState(meta)}
+                multiple
+                qa={name}
+            />
+        </ControlContainer>
     );
 };
 

@@ -10,6 +10,7 @@ import {
 import isString from 'lodash/isString';
 
 import type {Control, JsonSchemaString} from '../../../core';
+import {ControlContainer} from '../../components';
 import {getValidationState} from '../../utils';
 
 export interface SelectProps
@@ -20,8 +21,9 @@ export interface SelectProps
         | 'onBlur'
         | 'onChange'
         | 'onUpdate'
-        | 'onOpenChange'
         | 'multiple'
+        | 'errorMessage'
+        | 'validationState'
         | 'qa'
     > {
     enumDescriptions?: Record<string, string>;
@@ -76,23 +78,25 @@ const Component: Control<JsonSchemaString, SelectProps> = ({controlProps, input,
     );
 
     return (
-        <UIKitSelect
-            width="max"
-            options={options}
-            filterable={(schema.enum?.length || 0) > 9}
-            renderOption={renderOption}
-            getOptionHeight={getOptionHeight}
-            disabled={schema.readOnly}
-            {...restControlProps}
-            value={value}
-            onFocus={onFocus as UIKitSelectProps['onFocus']}
-            onBlur={onBlur as UIKitSelectProps['onBlur']}
-            onUpdate={onUpdate}
-            errorMessage={meta.error}
-            validationState={getValidationState(meta)}
-            placeholder={schema.examples?.[0]}
-            qa={name}
-        />
+        <ControlContainer stretch="max">
+            <UIKitSelect
+                width="max"
+                options={options}
+                filterable={(schema.enum?.length || 0) > 9}
+                renderOption={renderOption}
+                getOptionHeight={getOptionHeight}
+                placeholder={schema.examples?.[0]}
+                disabled={schema.readOnly}
+                {...restControlProps}
+                value={value}
+                onFocus={onFocus as UIKitSelectProps['onFocus']}
+                onBlur={onBlur as UIKitSelectProps['onBlur']}
+                onUpdate={onUpdate}
+                errorMessage={undefined}
+                validationState={getValidationState(meta)}
+                qa={name}
+            />
+        </ControlContainer>
     );
 };
 

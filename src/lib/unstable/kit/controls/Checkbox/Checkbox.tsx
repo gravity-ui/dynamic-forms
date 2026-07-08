@@ -1,14 +1,13 @@
 import React from 'react';
 
 import {
-    Flex,
     Checkbox as UIKitCheckbox,
     type CheckboxProps as UIKitCheckboxProps,
 } from '@gravity-ui/uikit';
 
 import type {Control, JsonSchemaBoolean} from '../../../core';
-import {ControlError} from '../../components';
-import {block, getValidationState} from '../../utils';
+import {ControlContainer} from '../../components';
+import {block, getBooleanValidationState} from '../../utils';
 
 import './Checkbox.scss';
 
@@ -38,21 +37,17 @@ const Component: Control<JsonSchemaBoolean, CheckboxProps> = ({
     );
 
     return (
-        <Flex direction="column">
-            <div className={b({error: getValidationState(meta)})}>
-                <UIKitCheckbox
-                    disabled={schema.readOnly}
-                    {...controlProps}
-                    className={b()}
-                    checked={value ?? false}
-                    onFocus={onFocus}
-                    onBlur={onBlur}
-                    onUpdate={onUpdate}
-                    qa={name}
-                />
-            </div>
-            <ControlError errorMessage={meta.error} validationState={getValidationState(meta)} />
-        </Flex>
+        <ControlContainer stretch="fit" className={b({error: getBooleanValidationState(meta)})}>
+            <UIKitCheckbox
+                disabled={schema.readOnly}
+                {...controlProps}
+                checked={value ?? false}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                onUpdate={onUpdate}
+                qa={name}
+            />
+        </ControlContainer>
     );
 };
 

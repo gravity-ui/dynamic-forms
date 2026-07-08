@@ -1,11 +1,11 @@
 import React from 'react';
 
 import {Plus} from '@gravity-ui/icons';
-import {Button, Flex, HelpMark, Icon, Text} from '@gravity-ui/uikit';
+import {Button, HelpMark, Icon, Text} from '@gravity-ui/uikit';
 
 import {type Control, Entity, type JsonSchema, type JsonSchemaArray} from '../../../core';
-import {ArrayRemoveButton, ControlError} from '../../components';
-import {block, getValidationState} from '../../utils';
+import {ArrayRemoveButton, ControlContainer} from '../../components';
+import {block} from '../../utils';
 
 import './ArrayTable.scss';
 
@@ -17,12 +17,7 @@ export interface ArrayTableProps {
     disabled?: boolean;
 }
 
-const Component: Control<JsonSchemaArray, ArrayTableProps> = ({
-    controlProps,
-    input,
-    meta,
-    schema,
-}) => {
+const Component: Control<JsonSchemaArray, ArrayTableProps> = ({controlProps, input, schema}) => {
     const {name, onBlur, onChange, onFocus, value} = input;
 
     const addButton = React.useMemo(() => {
@@ -154,16 +149,11 @@ const Component: Control<JsonSchemaArray, ArrayTableProps> = ({
     }, [columns, name, schema.items, value?.length]);
 
     return (
-        <Flex direction="column">
-            <Flex direction="column" gap={2}>
-                <Flex direction="column" gap={2}>
-                    {head}
-                    {rows}
-                </Flex>
-                {addButton}
-            </Flex>
-            <ControlError errorMessage={meta.error} validationState={getValidationState(meta)} />
-        </Flex>
+        <ControlContainer stretch="by-child" gap={2}>
+            {head}
+            {rows}
+            {addButton}
+        </ControlContainer>
     );
 };
 

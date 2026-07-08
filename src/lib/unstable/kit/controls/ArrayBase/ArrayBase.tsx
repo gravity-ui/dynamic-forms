@@ -4,8 +4,7 @@ import {Plus} from '@gravity-ui/icons';
 import {Button, Flex, Icon} from '@gravity-ui/uikit';
 
 import {type Control, Entity, type JsonSchemaArray} from '../../../core';
-import {ControlError} from '../../components';
-import {getValidationState} from '../../utils';
+import {ControlContainer} from '../../components';
 
 export interface ArrayBaseProps {
     addButtonText?: string;
@@ -13,12 +12,7 @@ export interface ArrayBaseProps {
     disabled?: boolean;
 }
 
-const Component: Control<JsonSchemaArray, ArrayBaseProps> = ({
-    controlProps,
-    input,
-    meta,
-    schema,
-}) => {
+const Component: Control<JsonSchemaArray, ArrayBaseProps> = ({controlProps, input, schema}) => {
     const {name, onBlur, onChange, onFocus, value} = input;
 
     const addButton = React.useMemo(() => {
@@ -73,13 +67,10 @@ const Component: Control<JsonSchemaArray, ArrayBaseProps> = ({
     }, [name, schema.items, value?.length]);
 
     return (
-        <Flex width="100%" direction="column">
-            <Flex direction="column" gap={4}>
-                <Flex direction="column">{items}</Flex>
-                {addButton}
-            </Flex>
-            <ControlError errorMessage={meta.error} validationState={getValidationState(meta)} />
-        </Flex>
+        <ControlContainer stretch="by-child" gap={4}>
+            <Flex direction="column">{items}</Flex>
+            {addButton}
+        </ControlContainer>
     );
 };
 
