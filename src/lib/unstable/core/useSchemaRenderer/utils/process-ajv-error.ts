@@ -23,6 +23,10 @@ export const processAjvError = <Schema extends JsonSchema>({
     let keyword = error.keyword;
     let schemaPath = error.schemaPath;
 
+    if (schemaPath.endsWith(`stringNumber`)) {
+        schemaPath = schemaPath.slice(0, -`stringNumber`.length) + keyword;
+    }
+
     if (
         keyword === 'anyOf' ||
         (keyword === 'if' &&
@@ -64,10 +68,13 @@ export const processAjvError = <Schema extends JsonSchema>({
     onError({
         path: parseInstancePath(instancePath),
         error:
+            // case when keyword in schema path is the schema
             getErrorMessageBySchema(getSchemaBySchemaPath(schemaPath, schema)) ||
-            getErrorMessageBySchema(
-                getSchemaBySchemaPath(schemaPath.slice(0, -`/${keyword}`.length), schema),
-            ) ||
+            // case when keyword in schema path is not the schema
+            (schemaPath.endsWith(`/${keyword}`) &&
+                getErrorMessageBySchema(
+                    getSchemaBySchemaPath(schemaPath.slice(0, -`/${keyword}`.length), schema),
+                )) ||
             getErrorMessageBySchema(getSchemaByInstancePath(instancePath, schema)) ||
             errorMessages[keyword as keyof typeof errorMessages] ||
             error.message,

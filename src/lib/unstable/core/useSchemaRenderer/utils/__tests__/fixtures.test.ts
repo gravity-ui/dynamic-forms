@@ -92,6 +92,7 @@ export const AJV_MESSAGES = {
     then: 'must match "then" schema',
     typeArray: 'must be array',
     typeBoolean: 'must be boolean',
+    typeInteger: 'must be integer',
     typeNumber: 'must be number',
     typeObject: 'must be object',
     typeString: 'must be string',

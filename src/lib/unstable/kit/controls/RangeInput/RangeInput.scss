@@ -1,0 +1,10 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}range-input {
+    &__delimiter {
+        min-height: 28px;
+        display: flex;
+        align-items: center;
+    }
+}

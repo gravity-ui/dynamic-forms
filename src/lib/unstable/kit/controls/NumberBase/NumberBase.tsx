@@ -35,10 +35,13 @@ const Component: Control<JsonSchemaNumber, NumberBaseProps> = ({
     return (
         <ControlContainer stretch="max" className={b({error: getBooleanValidationState(meta)})}>
             <NumberInput
-                allowDecimal
-                hasClear
+                min={schema.minimum}
+                max={schema.maximum}
+                step={schema.multipleOf || 1}
                 placeholder={`${schema.examples?.[0] || ''}`}
                 disabled={schema.readOnly}
+                allowDecimal
+                hasClear
                 {...controlProps}
                 value={value}
                 defaultValue={schema.default}

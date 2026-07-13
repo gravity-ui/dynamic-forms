@@ -8,6 +8,7 @@ import {getSchemaPath, getValuePaths, parseSchemaPath, smartSet} from '../../../
 import {guessHeadName} from '../../utils';
 
 import type {
+    RemoveAndSetSchemaMutatorsFunction,
     RemoveSchemaMutatorsFunction,
     SchemaMutatorsState,
     SetSchemaMutatorsFunction,
@@ -132,4 +133,9 @@ export const removeSchemaMutators: RemoveSchemaMutatorsFunction = (
             }
         },
     );
+};
+
+export const removeAndSetSchemaMutators: RemoveAndSetSchemaMutatorsFunction = (...args) => {
+    removeSchemaMutators(...args);
+    setSchemaMutators(...args);
 };

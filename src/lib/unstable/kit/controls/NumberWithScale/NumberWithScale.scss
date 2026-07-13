@@ -1,0 +1,14 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}number-with-scale {
+    &_error {
+        .g-text-input__content {
+            outline: none;
+        }
+    }
+
+    &__input {
+        flex: 1;
+    }
+}
