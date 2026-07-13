@@ -37,3 +37,18 @@ export type RemoveSchemaMutatorsFunction<
 ) => void;
 
 export type RemoveSchemaMutatorsMutator = (params: RemoveSchemaMutatorsParams) => void;
+
+export interface RemoveAndSetSchemaMutatorsParams
+    extends RemoveSchemaMutatorsParams,
+        SetSchemaMutatorsParams {}
+
+export type RemoveAndSetSchemaMutatorsFunction<
+    FormValues = object,
+    InitialFormValues = Partial<FormValues>,
+> = (
+    args: [RemoveAndSetSchemaMutatorsParams],
+    state: MutableState<FormValues, InitialFormValues>,
+    tools: Tools<FormValues, InitialFormValues>,
+) => void;
+
+export type RemoveAndSetSchemaMutatorsMutator = (params: RemoveAndSetSchemaMutatorsParams) => void;

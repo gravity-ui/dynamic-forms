@@ -127,13 +127,13 @@ export const useSchemaRenderer = ({
         };
     }, [connectValidate, form, name, schema, validate]);
 
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         schemaRef.current = cloneDeep(originalSchema);
 
         setSchema(schemaRef.current);
     }, [originalSchema]);
 
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         const data = {originalSchema, schema: schemaRef.current};
         const getValidator = connectValidate ? () => validate : undefined;
 
@@ -142,7 +142,7 @@ export const useSchemaRenderer = ({
         return () => unsubscribe();
     }, [connectValidate, form, name, originalSchema, validate]);
 
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         const data = {config, errorsRef, headName: name, mode, schema: schemaRef.current};
         const unsubscribe = form.registerField(
             `${ENTITY_SERVICE_FIELD}.${name}`,
@@ -154,7 +154,7 @@ export const useSchemaRenderer = ({
         return () => unsubscribe();
     }, [config, form, mode, name]);
 
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         if (fieldsToTrigger.length) {
             triggerFields?.({fields: fieldsToTrigger});
         }

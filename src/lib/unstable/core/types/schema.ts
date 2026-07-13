@@ -828,6 +828,19 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = any>
      */
     required?: string[];
 
+    stringNumber?: {
+        type?:
+            | JsonSchemaType.Number
+            | JsonSchemaType.Integer
+            | JsonSchemaType.Null
+            | (JsonSchemaType.Number | JsonSchemaType.Integer | JsonSchemaType.Null)[];
+        exclusiveMaximum?: string;
+        exclusiveMinimum?: string;
+        maximum?: string;
+        minimum?: string;
+        multipleOf?: string;
+    };
+
     /**
      * When `true`, every array item must be unique; ignored for non-array values.
      *
@@ -1303,6 +1316,19 @@ export interface JsonSchemaString<Config extends SchemaRendererConfig = any>
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.6.3.3
      */
     pattern?: string;
+
+    stringNumber?: {
+        type?:
+            | JsonSchemaType.Number
+            | JsonSchemaType.Integer
+            | JsonSchemaType.Null
+            | (JsonSchemaType.Number | JsonSchemaType.Integer | JsonSchemaType.Null)[];
+        exclusiveMaximum?: string;
+        exclusiveMinimum?: string;
+        maximum?: string;
+        minimum?: string;
+        multipleOf?: string;
+    };
 }
 
 /**

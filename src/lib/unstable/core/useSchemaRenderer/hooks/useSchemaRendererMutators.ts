@@ -1,6 +1,7 @@
 import {useForm} from 'react-final-form';
 
 import type {
+    RemoveAndSetSchemaMutatorsMutator,
     RemoveExternalErrorsMutator,
     RemoveSchemaMutatorsMutator,
     SetAsyncValidationCacheMutator,
@@ -12,6 +13,7 @@ import type {
 
 export const useSchemaRendererMutators = () => {
     const {
+        removeAndSetSchemaMutators,
         removeExternalErrors,
         removeSchemaMutators,
         setAsyncValidationCache,
@@ -20,6 +22,7 @@ export const useSchemaRendererMutators = () => {
         setSchemaMutators,
         triggerFields,
     } = useForm().mutators as {
+        removeAndSetSchemaMutators: RemoveAndSetSchemaMutatorsMutator | undefined;
         removeExternalErrors: RemoveExternalErrorsMutator | undefined;
         removeSchemaMutators: RemoveSchemaMutatorsMutator | undefined;
         setAsyncValidationCache: SetAsyncValidationCacheMutator | undefined;
@@ -30,6 +33,7 @@ export const useSchemaRendererMutators = () => {
     };
 
     return {
+        removeAndSetSchemaMutators,
         removeExternalErrors,
         removeSchemaMutators,
         setAsyncValidationCache,

@@ -317,6 +317,700 @@ describe('validate strings', () => {
         });
     });
 
+    describe('stringNumber/exclusiveMaximum', () => {
+        const schema: JsonSchemaString = {
+            type: JsonSchemaType.String,
+            stringNumber: {
+                exclusiveMaximum: '10',
+            },
+        };
+
+        const validValue = '9';
+        const invalidValue = '10';
+
+        const ajvError = {
+            keyword: 'exclusiveMaximum',
+            instancePath: '',
+            schemaPath: '#/stringNumber',
+            params: {comparisons: '<', limit: '10'},
+            message: AJV_MESSAGES.exclusiveMaximum(10),
+        };
+        const ajvErrors = [ajvError];
+
+        test('ajv: a valid value produces no errors', () => {
+            const validate = createAjvValidate({schema});
+
+            validate(validValue);
+
+            expect(validate.errors).toBe(null);
+        });
+
+        test('ajv: an invalid value produces an error', () => {
+            const validate = createAjvValidate({schema});
+
+            validate(invalidValue);
+
+            expect(validate.errors).toEqual(ajvErrors);
+        });
+
+        test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
+            const {processAjvValidateErrors} = createProcessAjvValidateErrors();
+
+            const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
+                ajvValidateErrors: ajvErrors,
+                errorMessages: {},
+                schema,
+            });
+
+            expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.exclusiveMaximum(10)}]);
+            expect(entityParametersErrorItems).toEqual([]);
+            expect(waiters).toEqual({});
+        });
+
+        test('processAjvError: with no custom messages the ajv text is used', () => {
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({error: ajvError, errorMessages: {}, schema});
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: AJV_MESSAGES.exclusiveMaximum(10),
+            });
+        });
+
+        test('processAjvError: a global error message takes precedence over the ajv text', () => {
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: GLOBAL_ERROR_MESSAGES.exclusiveMaximum,
+            });
+        });
+
+        test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
+            const schemaWithMessage: JsonSchemaString = {
+                ...schema,
+                entityParameters: {
+                    errorMessages: {exclusiveMaximum: SCHEMA_ERROR_MESSAGES.exclusiveMaximum},
+                },
+            };
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({
+                error: ajvError,
+                errorMessages: GLOBAL_ERROR_MESSAGES,
+                schema: schemaWithMessage,
+            });
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: SCHEMA_ERROR_MESSAGES.exclusiveMaximum,
+            });
+        });
+
+        // stringNumber/maximum has no schema, so we can't test this case
+        test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
+
+        test('validate: a valid value is not flagged as an error', () => {
+            const {validate, setErrors} = createValidate();
+
+            expect(validate(validValue, {schema})).toBe(false);
+            expect(setErrors).toHaveBeenCalledWith({});
+        });
+
+        test('validate: an invalid value is flagged as an error', () => {
+            const {validate, setErrors} = createValidate();
+
+            const errors = {[FIELD_NAME]: AJV_MESSAGES.exclusiveMaximum(10)};
+
+            expect(validate(invalidValue, {schema})).toEqual('error');
+            expect(setErrors).toHaveBeenCalledWith(errors);
+        });
+    });
+
+    describe('stringNumber/exclusiveMinimum', () => {
+        const schema: JsonSchemaString = {
+            type: JsonSchemaType.String,
+            stringNumber: {
+                exclusiveMinimum: '8',
+            },
+        };
+
+        const validValue = '9';
+        const invalidValue = '8';
+
+        const ajvError = {
+            keyword: 'exclusiveMinimum',
+            instancePath: '',
+            schemaPath: '#/stringNumber',
+            params: {comparisons: '>', limit: '8'},
+            message: AJV_MESSAGES.exclusiveMinimum(8),
+        };
+        const ajvErrors = [ajvError];
+
+        test('ajv: a valid value produces no errors', () => {
+            const validate = createAjvValidate({schema});
+
+            validate(validValue);
+
+            expect(validate.errors).toBe(null);
+        });
+
+        test('ajv: an invalid value produces an error', () => {
+            const validate = createAjvValidate({schema});
+
+            validate(invalidValue);
+
+            expect(validate.errors).toEqual(ajvErrors);
+        });
+
+        test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
+            const {processAjvValidateErrors} = createProcessAjvValidateErrors();
+
+            const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
+                ajvValidateErrors: ajvErrors,
+                errorMessages: {},
+                schema,
+            });
+
+            expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.exclusiveMinimum(8)}]);
+            expect(entityParametersErrorItems).toEqual([]);
+            expect(waiters).toEqual({});
+        });
+
+        test('processAjvError: with no custom messages the ajv text is used', () => {
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({error: ajvError, errorMessages: {}, schema});
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: AJV_MESSAGES.exclusiveMinimum(8),
+            });
+        });
+
+        test('processAjvError: a global error message takes precedence over the ajv text', () => {
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: GLOBAL_ERROR_MESSAGES.exclusiveMinimum,
+            });
+        });
+
+        test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
+            const schemaWithMessage: JsonSchemaString = {
+                ...schema,
+                entityParameters: {
+                    errorMessages: {exclusiveMinimum: SCHEMA_ERROR_MESSAGES.exclusiveMinimum},
+                },
+            };
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({
+                error: ajvError,
+                errorMessages: GLOBAL_ERROR_MESSAGES,
+                schema: schemaWithMessage,
+            });
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: SCHEMA_ERROR_MESSAGES.exclusiveMinimum,
+            });
+        });
+
+        // stringNumber/maximum has no schema, so we can't test this case
+        test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
+
+        test('validate: a valid value is not flagged as an error', () => {
+            const {validate, setErrors} = createValidate();
+
+            expect(validate(validValue, {schema})).toBe(false);
+            expect(setErrors).toHaveBeenCalledWith({});
+        });
+
+        test('validate: an invalid value is flagged as an error', () => {
+            const {validate, setErrors} = createValidate();
+
+            const errors = {[FIELD_NAME]: AJV_MESSAGES.exclusiveMinimum(8)};
+
+            expect(validate(invalidValue, {schema})).toEqual('error');
+            expect(setErrors).toHaveBeenCalledWith(errors);
+        });
+    });
+
+    describe('stringNumber/maximum', () => {
+        const schema: JsonSchemaString = {
+            type: JsonSchemaType.String,
+            stringNumber: {
+                maximum: '10',
+            },
+        };
+
+        const validValue = '9';
+        const invalidValue = '11';
+
+        const ajvError = {
+            keyword: 'maximum',
+            instancePath: '',
+            schemaPath: '#/stringNumber',
+            params: {comparisons: '<=', limit: '10'},
+            message: AJV_MESSAGES.maximum(10),
+        };
+        const ajvErrors = [ajvError];
+
+        test('ajv: a valid value produces no errors', () => {
+            const validate = createAjvValidate({schema});
+
+            validate(validValue);
+
+            expect(validate.errors).toBe(null);
+        });
+
+        test('ajv: an invalid value produces an error', () => {
+            const validate = createAjvValidate({schema});
+
+            validate(invalidValue);
+
+            expect(validate.errors).toEqual(ajvErrors);
+        });
+
+        test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
+            const {processAjvValidateErrors} = createProcessAjvValidateErrors();
+
+            const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
+                ajvValidateErrors: ajvErrors,
+                errorMessages: {},
+                schema,
+            });
+
+            expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.maximum(10)}]);
+            expect(entityParametersErrorItems).toEqual([]);
+            expect(waiters).toEqual({});
+        });
+
+        test('processAjvError: with no custom messages the ajv text is used', () => {
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({error: ajvError, errorMessages: {}, schema});
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: AJV_MESSAGES.maximum(10),
+            });
+        });
+
+        test('processAjvError: a global error message takes precedence over the ajv text', () => {
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: GLOBAL_ERROR_MESSAGES.maximum,
+            });
+        });
+
+        test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
+            const schemaWithMessage: JsonSchemaString = {
+                ...schema,
+                entityParameters: {errorMessages: {maximum: SCHEMA_ERROR_MESSAGES.maximum}},
+            };
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({
+                error: ajvError,
+                errorMessages: GLOBAL_ERROR_MESSAGES,
+                schema: schemaWithMessage,
+            });
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: SCHEMA_ERROR_MESSAGES.maximum,
+            });
+        });
+
+        // stringNumber/maximum has no schema, so we can't test this case
+        test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
+
+        test('validate: a valid value is not flagged as an error', () => {
+            const {validate, setErrors} = createValidate();
+
+            expect(validate(validValue, {schema})).toBe(false);
+            expect(setErrors).toHaveBeenCalledWith({});
+        });
+
+        test('validate: an invalid value is flagged as an error', () => {
+            const {validate, setErrors} = createValidate();
+
+            const errors = {[FIELD_NAME]: AJV_MESSAGES.maximum(10)};
+
+            expect(validate(invalidValue, {schema})).toEqual('error');
+            expect(setErrors).toHaveBeenCalledWith(errors);
+        });
+    });
+
+    describe('stringNumber/minimum', () => {
+        const schema: JsonSchemaString = {
+            type: JsonSchemaType.String,
+            stringNumber: {
+                minimum: '8',
+            },
+        };
+
+        const validValue = '8';
+        const invalidValue = '7';
+
+        const ajvError = {
+            keyword: 'minimum',
+            instancePath: '',
+            schemaPath: '#/stringNumber',
+            params: {comparisons: '>=', limit: '8'},
+            message: AJV_MESSAGES.minimum(8),
+        };
+        const ajvErrors = [ajvError];
+
+        test('ajv: a valid value produces no errors', () => {
+            const validate = createAjvValidate({schema});
+
+            validate(validValue);
+
+            expect(validate.errors).toBe(null);
+        });
+
+        test('ajv: an invalid value produces an error', () => {
+            const validate = createAjvValidate({schema});
+
+            validate(invalidValue);
+
+            expect(validate.errors).toEqual(ajvErrors);
+        });
+
+        test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
+            const {processAjvValidateErrors} = createProcessAjvValidateErrors();
+
+            const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
+                ajvValidateErrors: ajvErrors,
+                errorMessages: {},
+                schema,
+            });
+
+            expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.minimum(8)}]);
+            expect(entityParametersErrorItems).toEqual([]);
+            expect(waiters).toEqual({});
+        });
+
+        test('processAjvError: with no custom messages the ajv text is used', () => {
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({error: ajvError, errorMessages: {}, schema});
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: AJV_MESSAGES.minimum(8),
+            });
+        });
+
+        test('processAjvError: a global error message takes precedence over the ajv text', () => {
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: GLOBAL_ERROR_MESSAGES.minimum,
+            });
+        });
+
+        test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
+            const schemaWithMessage: JsonSchemaString = {
+                ...schema,
+                entityParameters: {errorMessages: {minimum: SCHEMA_ERROR_MESSAGES.minimum}},
+            };
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({
+                error: ajvError,
+                errorMessages: GLOBAL_ERROR_MESSAGES,
+                schema: schemaWithMessage,
+            });
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: SCHEMA_ERROR_MESSAGES.minimum,
+            });
+        });
+
+        // stringNumber/maximum has no schema, so we can't test this case
+        test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
+
+        test('validate: a valid value is not flagged as an error', () => {
+            const {validate, setErrors} = createValidate();
+
+            expect(validate(validValue, {schema})).toBe(false);
+            expect(setErrors).toHaveBeenCalledWith({});
+        });
+
+        test('validate: an invalid value is flagged as an error', () => {
+            const {validate, setErrors} = createValidate();
+
+            const errors = {[FIELD_NAME]: AJV_MESSAGES.minimum(8)};
+
+            expect(validate(invalidValue, {schema})).toEqual('error');
+            expect(setErrors).toHaveBeenCalledWith(errors);
+        });
+    });
+
+    describe('stringNumber/multipleOf', () => {
+        const schema: JsonSchemaString = {
+            type: JsonSchemaType.String,
+            stringNumber: {
+                multipleOf: '2',
+            },
+        };
+
+        const validValue = '8';
+        const invalidValue = '7';
+
+        const ajvError = {
+            keyword: 'multipleOf',
+            instancePath: '',
+            schemaPath: '#/stringNumber',
+            params: {multipleOf: '2'},
+            message: AJV_MESSAGES.multipleOf(2),
+        };
+        const ajvErrors = [ajvError];
+
+        test('ajv: a valid value produces no errors', () => {
+            const validate = createAjvValidate({schema});
+
+            validate(validValue);
+
+            expect(validate.errors).toBe(null);
+        });
+
+        test('ajv: an invalid value produces an error', () => {
+            const validate = createAjvValidate({schema});
+
+            validate(invalidValue);
+
+            expect(validate.errors).toEqual(ajvErrors);
+        });
+
+        test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
+            const {processAjvValidateErrors} = createProcessAjvValidateErrors();
+
+            const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
+                ajvValidateErrors: ajvErrors,
+                errorMessages: {},
+                schema,
+            });
+
+            expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.multipleOf(2)}]);
+            expect(entityParametersErrorItems).toEqual([]);
+            expect(waiters).toEqual({});
+        });
+
+        test('processAjvError: with no custom messages the ajv text is used', () => {
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({error: ajvError, errorMessages: {}, schema});
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: AJV_MESSAGES.multipleOf(2),
+            });
+        });
+
+        test('processAjvError: a global error message takes precedence over the ajv text', () => {
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: GLOBAL_ERROR_MESSAGES.multipleOf,
+            });
+        });
+
+        test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
+            const schemaWithMessage: JsonSchemaString = {
+                ...schema,
+                entityParameters: {errorMessages: {multipleOf: SCHEMA_ERROR_MESSAGES.multipleOf}},
+            };
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({
+                error: ajvError,
+                errorMessages: GLOBAL_ERROR_MESSAGES,
+                schema: schemaWithMessage,
+            });
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: SCHEMA_ERROR_MESSAGES.multipleOf,
+            });
+        });
+
+        // stringNumber/maximum has no schema, so we can't test this case
+        test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
+
+        test('validate: a valid value is not flagged as an error', () => {
+            const {validate, setErrors} = createValidate();
+
+            expect(validate(validValue, {schema})).toBe(false);
+            expect(setErrors).toHaveBeenCalledWith({});
+        });
+
+        test('validate: an invalid value is flagged as an error', () => {
+            const {validate, setErrors} = createValidate();
+
+            const errors = {[FIELD_NAME]: AJV_MESSAGES.multipleOf(2)};
+
+            expect(validate(invalidValue, {schema})).toEqual('error');
+            expect(setErrors).toHaveBeenCalledWith(errors);
+        });
+    });
+
+    describe('stringNumber/type', () => {
+        const schema: JsonSchemaString = {
+            type: JsonSchemaType.String,
+            stringNumber: {
+                type: JsonSchemaType.Number,
+            },
+        };
+
+        const validValue = '8.1';
+        const invalidValue = 'a';
+
+        const ajvError = {
+            keyword: 'type',
+            instancePath: '',
+            schemaPath: '#/stringNumber',
+            params: {type: JsonSchemaType.Number},
+            message: AJV_MESSAGES.typeNumber,
+        };
+        const ajvErrors = [ajvError];
+
+        test('ajv: a valid value produces no errors', () => {
+            const validate = createAjvValidate({schema});
+
+            validate(validValue);
+
+            expect(validate.errors).toBe(null);
+        });
+
+        test('ajv: an invalid value produces an error', () => {
+            const validate = createAjvValidate({schema});
+
+            validate(invalidValue);
+
+            expect(validate.errors).toEqual(ajvErrors);
+        });
+
+        test('ajv: an invalid value produces an error (int)', () => {
+            const intSchema: JsonSchemaString = {
+                type: JsonSchemaType.String,
+                stringNumber: {
+                    type: JsonSchemaType.Integer,
+                },
+            };
+            const intInvalidValue = '8.1';
+            const intAjvError = {
+                keyword: 'type',
+                instancePath: '',
+                schemaPath: '#/stringNumber',
+                params: {type: JsonSchemaType.Integer},
+                message: AJV_MESSAGES.typeInteger,
+            };
+            const intAjvErrors = [intAjvError];
+
+            const validate = createAjvValidate({schema: intSchema});
+
+            validate(intInvalidValue);
+
+            expect(validate.errors).toEqual(intAjvErrors);
+        });
+
+        test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
+            const {processAjvValidateErrors} = createProcessAjvValidateErrors();
+
+            const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
+                ajvValidateErrors: ajvErrors,
+                errorMessages: {},
+                schema,
+            });
+
+            expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.typeNumber}]);
+            expect(entityParametersErrorItems).toEqual([]);
+            expect(waiters).toEqual({});
+        });
+
+        test('processAjvError: with no custom messages the ajv text is used', () => {
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({error: ajvError, errorMessages: {}, schema});
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: AJV_MESSAGES.typeNumber,
+            });
+        });
+
+        test('processAjvError: a global error message takes precedence over the ajv text', () => {
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: GLOBAL_ERROR_MESSAGES.type,
+            });
+        });
+
+        test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
+            const schemaWithMessage: JsonSchemaString = {
+                ...schema,
+                entityParameters: {errorMessages: {type: SCHEMA_ERROR_MESSAGES.type}},
+            };
+            const {processAjvError, onError} = createProcessAjvError();
+
+            processAjvError({
+                error: ajvError,
+                errorMessages: GLOBAL_ERROR_MESSAGES,
+                schema: schemaWithMessage,
+            });
+
+            expect(onError).toHaveBeenCalledWith({
+                path: [],
+                error: SCHEMA_ERROR_MESSAGES.type,
+            });
+        });
+
+        // stringNumber/maximum has no schema, so we can't test this case
+        test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
+
+        test('validate: a valid value is not flagged as an error', () => {
+            const {validate, setErrors} = createValidate();
+
+            expect(validate(validValue, {schema})).toBe(false);
+            expect(setErrors).toHaveBeenCalledWith({});
+        });
+
+        test('validate: an invalid value is flagged as an error', () => {
+            const {validate, setErrors} = createValidate();
+
+            const errors = {[FIELD_NAME]: AJV_MESSAGES.typeNumber};
+
+            expect(validate(invalidValue, {schema})).toEqual('error');
+            expect(setErrors).toHaveBeenCalledWith(errors);
+        });
+    });
+
     describe('type', () => {
         const schema: JsonSchemaString = {
             type: JsonSchemaType.String,

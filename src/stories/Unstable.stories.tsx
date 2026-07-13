@@ -1018,6 +1018,83 @@ export default {
 const schema: JsonSchemaObject<typeof untypedConfig> = {
     type: JsonSchemaType.Object,
     properties: {
+        string_number_with_scale: {
+            default: '1000',
+            type: JsonSchemaType.String,
+            title: 'string_number_with_scale',
+            stringNumber: {
+                type: JsonSchemaType.Number,
+                maximum: '3000',
+                minimum: '500',
+                multipleOf: '100',
+            },
+            entityParameters: {
+                type: EntityType.String,
+                controlType: 'string_number_with_scale',
+                controlWrapperType: 'row',
+                controlProps: {
+                    scale: {
+                        km: {title: 'km', factor: '1000'},
+                        m: {title: 'm', factor: '1'},
+                        cm: {title: 'cm', factor: '0.01'},
+                    },
+                    defaultType: 'm',
+                    viewType: 'km',
+                },
+            },
+        },
+        number_with_scale: {
+            default: 1000,
+            type: JsonSchemaType.Number,
+            maximum: 3000,
+            minimum: 500,
+            multipleOf: 100,
+            title: 'number_with_scale',
+            entityParameters: {
+                type: EntityType.Number,
+                controlType: 'number_with_scale',
+                controlWrapperType: 'row',
+                controlProps: {
+                    scale: {
+                        km: {title: 'km', factor: 1000},
+                        m: {title: 'm', factor: 1},
+                        cm: {title: 'cm', factor: 0.01},
+                    },
+                    defaultType: 'm',
+                    viewType: 'km',
+                },
+            },
+        },
+        range_input: {
+            type: JsonSchemaType.Object,
+            title: 'range_input',
+            description: 'range input description',
+            properties: {
+                from: {
+                    type: JsonSchemaType.Number,
+                    title: 'from',
+                    entityParameters: {
+                        type: EntityType.Number,
+                        controlType: 'base',
+                        controlWrapperType: 'transparent',
+                    },
+                },
+                to: {
+                    type: JsonSchemaType.Number,
+                    title: 'to',
+                    entityParameters: {
+                        type: EntityType.Number,
+                        controlType: 'base',
+                        controlWrapperType: 'transparent',
+                    },
+                },
+            },
+            entityParameters: {
+                type: EntityType.Object,
+                controlType: 'range_input',
+                controlWrapperType: 'row',
+            },
+        },
         object_inline: {
             type: JsonSchemaType.Object,
             title: 'object_inline',
