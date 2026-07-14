@@ -11,6 +11,7 @@ import {
     FewOfNested,
     FileInput,
     Label,
+    Monaco,
     MultiSelect,
     NumberBase,
     NumberWithScale,
@@ -118,6 +119,7 @@ export const untypedConfig = {
             label: {Component: Label},
             alert: {Component: Alert},
             string_number_with_scale: {Component: StringNumberWithScale},
+            monaco: {Component: Monaco},
         },
         views: {},
         wrappers: {

@@ -1,6 +1,7 @@
 import {useForm} from 'react-final-form';
 
 import type {
+    RemoveAndSetExternalErrorsMutator,
     RemoveAndSetSchemaMutatorsMutator,
     RemoveExternalErrorsMutator,
     RemoveSchemaMutatorsMutator,
@@ -8,11 +9,15 @@ import type {
     SetAsyncValidationWaitersMutator,
     SetExternalErrorsMutator,
     SetSchemaMutatorsMutator,
+    SetUserContextMutator,
     TriggerFieldsMutator,
 } from '../mutators';
 
-export const useSchemaRendererMutators = () => {
+export const useSchemaRendererMutators = <
+    Context extends Record<string, unknown> = Record<string, unknown>,
+>() => {
     const {
+        removeAndSetExternalErrors,
         removeAndSetSchemaMutators,
         removeExternalErrors,
         removeSchemaMutators,
@@ -20,8 +25,10 @@ export const useSchemaRendererMutators = () => {
         setAsyncValidationWaiters,
         setExternalErrors,
         setSchemaMutators,
+        setUserContext,
         triggerFields,
     } = useForm().mutators as {
+        removeAndSetExternalErrors: RemoveAndSetExternalErrorsMutator | undefined;
         removeAndSetSchemaMutators: RemoveAndSetSchemaMutatorsMutator | undefined;
         removeExternalErrors: RemoveExternalErrorsMutator | undefined;
         removeSchemaMutators: RemoveSchemaMutatorsMutator | undefined;
@@ -29,10 +36,12 @@ export const useSchemaRendererMutators = () => {
         setAsyncValidationWaiters: SetAsyncValidationWaitersMutator | undefined;
         setExternalErrors: SetExternalErrorsMutator | undefined;
         setSchemaMutators: SetSchemaMutatorsMutator | undefined;
+        setUserContext: SetUserContextMutator<Context> | undefined;
         triggerFields: TriggerFieldsMutator | undefined;
     };
 
     return {
+        removeAndSetExternalErrors,
         removeAndSetSchemaMutators,
         removeExternalErrors,
         removeSchemaMutators,
@@ -40,6 +49,7 @@ export const useSchemaRendererMutators = () => {
         setAsyncValidationWaiters,
         setExternalErrors,
         setSchemaMutators,
+        setUserContext,
         triggerFields,
     };
 };

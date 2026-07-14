@@ -3,7 +3,11 @@ import omit from 'lodash/omit';
 import {ENTITY_SERVICE_FIELD} from '../../constants';
 import {guessHeadName} from '../../utils';
 
-import type {RemoveExternalErrorsFunction, SetExternalErrorsFunction} from './types';
+import type {
+    RemoveAndSetExternalErrorsFunction,
+    RemoveExternalErrorsFunction,
+    SetExternalErrorsFunction,
+} from './types';
 
 export const setExternalErrors: SetExternalErrorsFunction = (
     [{priorityErrors, regularErrors}],
@@ -91,4 +95,13 @@ export const removeExternalErrors: RemoveExternalErrorsFunction = (
             }
         });
     }
+};
+
+export const removeAndSetExternalErrors: RemoveAndSetExternalErrorsFunction = (
+    [{priorityErrors, removeFunctionOrNames, regularErrors}],
+    mutableState,
+    tools,
+) => {
+    removeExternalErrors([{removeFunctionOrNames}], mutableState, tools);
+    setExternalErrors([{priorityErrors, regularErrors}], mutableState, tools);
 };

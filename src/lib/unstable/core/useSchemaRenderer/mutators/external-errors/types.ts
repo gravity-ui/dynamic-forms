@@ -47,3 +47,18 @@ export type RemoveExternalErrorsFunction<
 ) => void;
 
 export type RemoveExternalErrorsMutator = (params: RemoveExternalErrorsParams) => void;
+
+export interface RemoveAndSetExternalErrorsParams
+    extends RemoveExternalErrorsParams,
+        SetExternalErrorsParams {}
+
+export type RemoveAndSetExternalErrorsFunction<
+    FormValues = object,
+    InitialFormValues = Partial<FormValues>,
+> = (
+    args: [RemoveAndSetExternalErrorsParams],
+    state: MutableState<FormValues, InitialFormValues>,
+    tools: Tools<FormValues, InitialFormValues>,
+) => void;
+
+export type RemoveAndSetExternalErrorsMutator = (params: RemoveAndSetExternalErrorsParams) => void;

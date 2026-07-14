@@ -33,7 +33,7 @@ const Component: Control<JsonSchemaObject, RangeInputProps> = ({controlProps, in
     const fromName = `${name}.${fromKey}`;
     const toName = `${name}.${toKey}`;
 
-    React.useLayoutEffect(() => {
+    React.useEffect(() => {
         const mutatorsToRemove: {name: string; schema: JsonSchema}[] = [];
         const mutators: {name: string; schema: JsonSchema}[] = [];
 
@@ -77,7 +77,7 @@ const Component: Control<JsonSchemaObject, RangeInputProps> = ({controlProps, in
         }
 
         prevValueRef.current = inputValue;
-    }, [inputValue]);
+    }, [inputValue?.[fromKey], inputValue?.[toKey]]);
 
     return (
         <ControlContainer stretch="max">

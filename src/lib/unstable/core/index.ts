@@ -9,4 +9,5 @@ export {
     type UseSchemaRendererReturn,
     useSchemaRenderer,
     useSchemaRendererMutators,
+    useUserContext,
 } from './useSchemaRenderer';

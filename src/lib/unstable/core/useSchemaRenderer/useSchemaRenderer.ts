@@ -14,8 +14,9 @@ import type {
     SyncValidateError,
 } from '../types';
 
-import {ENTITY_SERVICE_FIELD} from './constants';
+import {ENTITY_SERVICE_FIELD, USER_CONTEXT_SERVICE_FIELD} from './constants';
 import {useSchemaRendererMutators} from './hooks';
+import type {UserContextState} from './mutators';
 import {getValidate} from './utils';
 
 export interface UseSchemaRendererParams {
@@ -40,6 +41,7 @@ export interface UseSchemaRendererParams {
      */
     name: string;
     schema: JsonSchema;
+    userContext?: Omit<UserContextState, 'headName'>;
 }
 
 export type UseSchemaRendererReturn = {
@@ -54,6 +56,7 @@ export const useSchemaRenderer = ({
     mode,
     name,
     schema: originalSchema,
+    userContext,
 }: UseSchemaRendererParams) => {
     const form = useForm();
     const {setAsyncValidationCache, setAsyncValidationWaiters, triggerFields} =
@@ -153,6 +156,18 @@ export const useSchemaRenderer = ({
 
         return () => unsubscribe();
     }, [config, form, mode, name]);
+
+    React.useLayoutEffect(() => {
+        const data = {...userContext, headName: name};
+        const unsubscribe = form.registerField(
+            `${USER_CONTEXT_SERVICE_FIELD}.${name}`,
+            noop,
+            EMPTY_OBJECT,
+            {data},
+        );
+
+        return () => unsubscribe();
+    }, [form, name, userContext]);
 
     React.useLayoutEffect(() => {
         if (fieldsToTrigger.length) {

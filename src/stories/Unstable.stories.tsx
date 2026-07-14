@@ -4,6 +4,7 @@ import {Button} from '@gravity-ui/uikit';
 import type {StoryFn} from '@storybook/react';
 import {noop} from 'lodash';
 import {Form} from 'react-final-form';
+import MonacoEditor from 'react-monaco-editor';
 
 import {ObjectBase} from '../lib';
 import {SchemaRenderer, schemaRendererMutators} from '../lib/unstable/core';
@@ -1018,6 +1019,43 @@ export default {
 const schema: JsonSchemaObject<typeof untypedConfig> = {
     type: JsonSchemaType.Object,
     properties: {
+        monaco: {
+            default: JSON.stringify(
+                {
+                    extends: '@gravity-ui/tsconfig/tsconfig.json',
+                    include: ['src/**/*.ts', 'src/**/*.tsx'],
+                    exclude: ['src/stories'],
+                    compilerOptions: {
+                        outDir: 'build/esm',
+                        module: 'esnext',
+                        jsx: 'react',
+                        resolveJsonModule: true,
+                        baseUrl: '.',
+                        declaration: true,
+                        allowJs: true,
+                        importHelpers: true,
+                        paths: {
+                            '@gravity-ui/dynamic-forms/unstable': ['./src/unstable.ts'],
+                            '@gravity-ui/uikit/unstable': [
+                                'node_modules/@gravity-ui/uikit/build/esm/unstable',
+                            ],
+                        },
+                    },
+                },
+                null,
+                2,
+            ),
+            type: JsonSchemaType.String,
+            title: 'monaco',
+            entityParameters: {
+                type: EntityType.String,
+                controlType: 'monaco',
+                controlWrapperType: 'row',
+                controlProps: {
+                    language: 'json',
+                },
+            },
+        },
         string_number_with_scale: {
             default: '1000',
             type: JsonSchemaType.String,
@@ -1810,6 +1848,8 @@ const value = {
     },
 };
 
+const userContext = {MonacoEditor};
+
 const template = () => {
     const Template: StoryFn<typeof ObjectBase> = (__) => (
         <Form initialValues={value} onSubmit={noop} mutators={{...schemaRendererMutators}}>
@@ -1820,6 +1860,7 @@ const template = () => {
                         schema={schema}
                         config={config}
                         mode={SchemaRendererMode.Form}
+                        userContext={userContext}
                     />
 
                     {/* <SchemaRenderer
