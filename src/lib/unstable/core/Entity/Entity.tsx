@@ -81,38 +81,38 @@ const EntityComponent: React.FC<EntityProps> = ({
     if (mode === SchemaRendererMode.Form) {
         const formKit = renderKit[SchemaRendererMode.Form];
 
-        if (formKit.Component) {
+        if (formKit.Control) {
             if (formKit.independent) {
                 content = (
-                    <formKit.Component
+                    <formKit.Control
                         input={field.input}
                         meta={meta}
                         schema={schema}
-                        controlProps={formKit.props}
-                        Wrapper={formKit.Wrapper}
-                        wrapperProps={formKit.wrapperProps}
+                        controlProps={formKit.controlProps}
+                        ControlWrapper={formKit.ControlWrapper}
+                        controlWrapperProps={formKit.controlWrapperProps}
                     />
                 );
             } else {
                 content = (
-                    <formKit.Component
+                    <formKit.Control
                         input={field.input}
                         meta={meta}
                         schema={schema}
-                        controlProps={formKit.props}
+                        controlProps={formKit.controlProps}
                     />
                 );
 
-                if (formKit.Wrapper) {
+                if (formKit.ControlWrapper) {
                     content = (
-                        <formKit.Wrapper
+                        <formKit.ControlWrapper
                             input={field.input}
                             meta={meta}
                             schema={schema}
-                            wrapperProps={formKit.wrapperProps}
+                            controlWrapperProps={formKit.controlWrapperProps}
                         >
                             {content}
-                        </formKit.Wrapper>
+                        </formKit.ControlWrapper>
                     );
                 }
             }
@@ -122,38 +122,38 @@ const EntityComponent: React.FC<EntityProps> = ({
     if (mode === SchemaRendererMode.Overview) {
         const overviewKit = renderKit[SchemaRendererMode.Overview];
 
-        if (overviewKit.Component) {
+        if (overviewKit.View) {
             if (overviewKit.independent) {
                 content = (
-                    <overviewKit.Component
+                    <overviewKit.View
                         input={field.input}
                         meta={meta}
                         schema={schema}
-                        viewProps={overviewKit.props}
-                        Wrapper={overviewKit.Wrapper}
-                        wrapperProps={overviewKit.wrapperProps}
+                        viewProps={overviewKit.viewProps}
+                        ViewWrapper={overviewKit.ViewWrapper}
+                        viewWrapperProps={overviewKit.viewWrapperProps}
                     />
                 );
             } else {
                 content = (
-                    <overviewKit.Component
+                    <overviewKit.View
                         input={field.input}
                         meta={meta}
                         schema={schema}
-                        viewProps={overviewKit.props}
+                        viewProps={overviewKit.viewProps}
                     />
                 );
 
-                if (overviewKit.Wrapper) {
+                if (overviewKit.ViewWrapper) {
                     content = (
-                        <overviewKit.Wrapper
+                        <overviewKit.ViewWrapper
                             input={field.input}
                             meta={meta}
                             schema={schema}
-                            wrapperProps={overviewKit.wrapperProps}
+                            viewWrapperProps={overviewKit.viewWrapperProps}
                         >
                             {content}
-                        </overviewKit.Wrapper>
+                        </overviewKit.ViewWrapper>
                     );
                 }
             }

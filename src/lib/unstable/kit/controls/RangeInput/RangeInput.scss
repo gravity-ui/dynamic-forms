@@ -2,6 +2,12 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}range-input {
+    .#{$ns}range-input__items {
+        & > * {
+            margin-bottom: 0;
+        }
+    }
+
     &__delimiter {
         min-height: 28px;
         display: flex;

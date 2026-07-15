@@ -3,8 +3,9 @@ import type {EntityType, JsonSchemaType} from '../constants';
 import type {SchemaRendererConfig} from './config';
 import type {
     ExtractControlProps,
+    ExtractControlWrapperProps,
     ExtractViewProps,
-    ExtractWrapperProps,
+    ExtractViewWrapperProps,
     ObjectKeys,
 } from './helpers';
 import type {ErrorMessages} from './validation';
@@ -33,11 +34,13 @@ type ControlEntityParameters<
 
 type ControlWrapperEntityParameters<
     TypeConfig extends SchemaRendererConfig[EntityType],
-    Wrapper extends ObjectKeys<TypeConfig['wrappers']> = ObjectKeys<TypeConfig['wrappers']>,
-> = [Wrapper] extends [never]
+    ControlWrapper extends ObjectKeys<TypeConfig['controlWrappers']> = ObjectKeys<
+        TypeConfig['controlWrappers']
+    >,
+> = [ControlWrapper] extends [never]
     ? {}
     : {
-          [W in Wrapper]: {
+          [W in ControlWrapper]: {
               /**
                * Identifier of a wrapper registered in `config[entityType].wrappers`. The
                * wrapper component is rendered around the control in form mode (e.g. to add
@@ -48,9 +51,9 @@ type ControlWrapperEntityParameters<
                * Extra props forwarded to the selected control wrapper. Typed to the
                * `wrapperProps` shape declared by the chosen wrapper component.
                */
-              controlWrapperProps?: ExtractWrapperProps<TypeConfig['wrappers'][W]>;
+              controlWrapperProps?: ExtractControlWrapperProps<TypeConfig['controlWrappers'][W]>;
           };
-      }[Wrapper];
+      }[ControlWrapper];
 
 type ViewEntityParameters<
     TypeConfig extends SchemaRendererConfig[EntityType],
@@ -75,11 +78,13 @@ type ViewEntityParameters<
 
 type ViewWrapperEntityParameters<
     TypeConfig extends SchemaRendererConfig[EntityType],
-    Wrapper extends ObjectKeys<TypeConfig['wrappers']> = ObjectKeys<TypeConfig['wrappers']>,
-> = [Wrapper] extends [never]
+    ViewWrapper extends ObjectKeys<TypeConfig['viewWrappers']> = ObjectKeys<
+        TypeConfig['viewWrappers']
+    >,
+> = [ViewWrapper] extends [never]
     ? {}
     : {
-          [W in Wrapper]: {
+          [W in ViewWrapper]: {
               /**
                * Identifier of a wrapper registered in `config[entityType].wrappers`. The
                * wrapper component is rendered around the view in overview mode.
@@ -89,9 +94,9 @@ type ViewWrapperEntityParameters<
                * Extra props forwarded to the selected view wrapper. Typed to the
                * `wrapperProps` shape declared by the chosen wrapper component.
                */
-              viewWrapperProps?: ExtractWrapperProps<TypeConfig['wrappers'][W]>;
+              viewWrapperProps?: ExtractViewWrapperProps<TypeConfig['viewWrappers'][W]>;
           };
-      }[Wrapper];
+      }[ViewWrapper];
 
 type ValidatorEntityParameters<Validator extends string> = [Validator] extends [never]
     ? {}
@@ -124,8 +129,13 @@ interface EntityParameters<
     Type extends EntityType,
     TypeConfig extends SchemaRendererConfig[Type],
     Control extends ObjectKeys<TypeConfig['controls']> = ObjectKeys<TypeConfig['controls']>,
+    ControlWrapper extends ObjectKeys<TypeConfig['controlWrappers']> = ObjectKeys<
+        TypeConfig['controlWrappers']
+    >,
     View extends ObjectKeys<TypeConfig['views']> = ObjectKeys<TypeConfig['views']>,
-    Wrapper extends ObjectKeys<TypeConfig['wrappers']> = ObjectKeys<TypeConfig['wrappers']>,
+    ViewWrapper extends ObjectKeys<TypeConfig['viewWrappers']> = ObjectKeys<
+        TypeConfig['viewWrappers']
+    >,
     Validator extends ObjectKeys<TypeConfig['validators']> = ObjectKeys<TypeConfig['validators']>,
 > {
     /**
@@ -178,9 +188,9 @@ interface EntityParameters<
             required?: string | Record<string, string>;
         };
     } & ControlEntityParameters<TypeConfig, Control> &
-        ControlWrapperEntityParameters<TypeConfig, Wrapper> &
+        ControlWrapperEntityParameters<TypeConfig, ControlWrapper> &
         ViewEntityParameters<TypeConfig, View> &
-        ViewWrapperEntityParameters<TypeConfig, Wrapper> &
+        ViewWrapperEntityParameters<TypeConfig, ViewWrapper> &
         ValidatorEntityParameters<Validator>;
 }
 

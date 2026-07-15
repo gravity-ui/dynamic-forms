@@ -24,7 +24,7 @@ export type SchemaToValueType<Schema extends JsonSchema<any>> = Schema extends J
     ? string
     : FieldValue;
 
-export type ExtractControlProps<Control> = Control extends {
+export type ExtractControlProps<ControlConfig> = ControlConfig extends {
     Component: React.ComponentType<infer ControlProps>;
 }
     ? ControlProps extends {controlProps: infer ControlComponentProps}
@@ -32,14 +32,26 @@ export type ExtractControlProps<Control> = Control extends {
         : Record<string, any>
     : Record<string, any>;
 
-export type ExtractViewProps<View> = View extends {Component: React.ComponentType<infer ViewProps>}
+export type ExtractViewProps<ViewConfig> = ViewConfig extends {
+    Component: React.ComponentType<infer ViewProps>;
+}
     ? ViewProps extends {viewProps: infer ViewComponentProps}
         ? ViewComponentProps
         : Record<string, any>
     : Record<string, any>;
 
-export type ExtractWrapperProps<Wrapper> = Wrapper extends React.ComponentType<infer WrapperProps>
-    ? WrapperProps extends {wrapperProps: infer WrapperComponentProps}
-        ? WrapperComponentProps
+export type ExtractControlWrapperProps<ControlWrapperConfig> = ControlWrapperConfig extends {
+    Component: React.ComponentType<infer ControlWrapperProps>;
+}
+    ? ControlWrapperProps extends {controlWrapperProps: infer ControlWrapperComponentProps}
+        ? ControlWrapperComponentProps
+        : Record<string, any>
+    : Record<string, any>;
+
+export type ExtractViewWrapperProps<ViewWrapperConfig> = ViewWrapperConfig extends {
+    Component: React.ComponentType<infer ViewWrapperProps>;
+}
+    ? ViewWrapperProps extends {viewWrapperProps: infer ViewWrapperComponentProps}
+        ? ViewWrapperComponentProps
         : Record<string, any>
     : Record<string, any>;

@@ -13,7 +13,7 @@ import {
     type TextProps,
 } from '@gravity-ui/uikit';
 
-import type {JsonSchema, Wrapper} from '../../../core';
+import type {ControlWrapper, JsonSchema} from '../../../core';
 import {ArrayRemoveButton, ControlError, HTMLContent, WrapperContainer} from '../../components';
 import {block, getValidationState} from '../../utils';
 
@@ -28,20 +28,20 @@ export interface AccordeonProps extends DisclosureProps {
     withIndent?: boolean;
 }
 
-const Component: Wrapper<JsonSchema, AccordeonProps> = ({
+const Component: ControlWrapper<JsonSchema, AccordeonProps> = ({
     children,
     input,
     meta,
     schema,
-    wrapperProps,
+    controlWrapperProps,
 }) => {
     const {
         withIndent = false,
         withDefaultSummary = false,
         titleProps,
         togglerProps,
-        ...restWrapperProps
-    } = wrapperProps;
+        ...restControlWrapperProps
+    } = controlWrapperProps;
 
     const summary = React.useMemo(() => {
         const stopPropagation = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -86,7 +86,7 @@ const Component: Wrapper<JsonSchema, AccordeonProps> = ({
 
     return (
         <WrapperContainer className={b({'without-default-summary': !withDefaultSummary})}>
-            <Disclosure summary={summary} defaultExpanded {...restWrapperProps}>
+            <Disclosure summary={summary} defaultExpanded {...restControlWrapperProps}>
                 <Flex direction="column" gap={0.5} grow={1}>
                     <div className={b('content', {'with-indent': withIndent})}>{children}</div>
                     <ControlError

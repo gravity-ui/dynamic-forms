@@ -1,0 +1,32 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}column-row {
+    margin-bottom: spacing(4);
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &__top {
+        display: inline;
+        padding-top: 4.5px;
+    }
+
+    &__title {
+        min-height: 18px;
+        margin-right: spacing(1);
+
+        &_required {
+            &::after {
+                content: '*';
+                margin-left: spacing(1);
+                color: var(--g-color-text-danger);
+            }
+        }
+    }
+
+    &__help-mark {
+        margin-top: 1.5px;
+    }
+}

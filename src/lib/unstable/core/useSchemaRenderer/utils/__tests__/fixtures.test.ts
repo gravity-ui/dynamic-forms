@@ -107,8 +107,9 @@ export const customAsyncValidatorWithError = () =>
 export const SCHEMA_RENDERER_CONFIG: SchemaRendererConfig = {
     [EntityType.Any]: {
         controls: {},
+        controlWrappers: {},
         views: {},
-        wrappers: {},
+        viewWrappers: {},
         validators: {
             [CUSTOM_VALIDATOR_WITH_ERROR_TYPE]: customValidatorWithError,
             [CUSTOM_ASYNC_VALIDATOR_WITH_ERROR_TYPE]: customAsyncValidatorWithError,
@@ -116,8 +117,9 @@ export const SCHEMA_RENDERER_CONFIG: SchemaRendererConfig = {
     },
     [EntityType.Array]: {
         controls: {},
+        controlWrappers: {},
         views: {},
-        wrappers: {},
+        viewWrappers: {},
         validators: {
             [CUSTOM_VALIDATOR_WITH_ERROR_TYPE]: customValidatorWithError,
             [CUSTOM_ASYNC_VALIDATOR_WITH_ERROR_TYPE]: customAsyncValidatorWithError,
@@ -125,8 +127,9 @@ export const SCHEMA_RENDERER_CONFIG: SchemaRendererConfig = {
     },
     [EntityType.Boolean]: {
         controls: {},
+        controlWrappers: {},
         views: {},
-        wrappers: {},
+        viewWrappers: {},
         validators: {
             [CUSTOM_VALIDATOR_WITH_ERROR_TYPE]: customValidatorWithError,
             [CUSTOM_ASYNC_VALIDATOR_WITH_ERROR_TYPE]: customAsyncValidatorWithError,
@@ -134,8 +137,9 @@ export const SCHEMA_RENDERER_CONFIG: SchemaRendererConfig = {
     },
     [EntityType.Number]: {
         controls: {},
+        controlWrappers: {},
         views: {},
-        wrappers: {},
+        viewWrappers: {},
         validators: {
             [CUSTOM_VALIDATOR_WITH_ERROR_TYPE]: customValidatorWithError,
             [CUSTOM_ASYNC_VALIDATOR_WITH_ERROR_TYPE]: customAsyncValidatorWithError,
@@ -143,8 +147,9 @@ export const SCHEMA_RENDERER_CONFIG: SchemaRendererConfig = {
     },
     [EntityType.Object]: {
         controls: {},
+        controlWrappers: {},
         views: {},
-        wrappers: {},
+        viewWrappers: {},
         validators: {
             [CUSTOM_VALIDATOR_WITH_ERROR_TYPE]: customValidatorWithError,
             [CUSTOM_ASYNC_VALIDATOR_WITH_ERROR_TYPE]: customAsyncValidatorWithError,
@@ -152,8 +157,9 @@ export const SCHEMA_RENDERER_CONFIG: SchemaRendererConfig = {
     },
     [EntityType.String]: {
         controls: {},
+        controlWrappers: {},
         views: {},
-        wrappers: {},
+        viewWrappers: {},
         validators: {
             [CUSTOM_VALIDATOR_WITH_ERROR_TYPE]: customValidatorWithError,
             [CUSTOM_ASYNC_VALIDATOR_WITH_ERROR_TYPE]: customAsyncValidatorWithError,

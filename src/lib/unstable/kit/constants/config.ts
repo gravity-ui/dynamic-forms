@@ -1,4 +1,5 @@
 import {EntityType, type SchemaRendererConfig} from '../../core';
+import {Accordeon, ColumnRow, Row, Section, Transparent} from '../control-wrappers';
 import {
     Alert,
     ArrayBase,
@@ -31,18 +32,19 @@ import {
     TextArea,
     TextContent,
 } from '../controls';
-import {Accordeon, Row, Section, Transparent} from '../wrappers';
 
 export const untypedConfig = {
     [EntityType.Any]: {
         controls: {date_input: {Component: DateInput}},
-        views: {},
-        wrappers: {
-            row: Row,
-            section: Section,
-            transparent: Transparent,
-            accordeon: Accordeon,
+        controlWrappers: {
+            columnRow: {Component: ColumnRow},
+            row: {Component: Row},
+            section: {Component: Section},
+            transparent: {Component: Transparent},
+            accordeon: {Component: Accordeon},
         },
+        views: {},
+        viewWrappers: {},
         validators: {},
     },
     [EntityType.Array]: {
@@ -52,23 +54,27 @@ export const untypedConfig = {
             select: {Component: MultiSelect},
             array_table: {Component: ArrayTable},
         },
-        views: {},
-        wrappers: {
-            row: Row,
-            section: Section,
-            transparent: Transparent,
-            accordeon: Accordeon,
+        controlWrappers: {
+            columnRow: {Component: ColumnRow},
+            row: {Component: Row},
+            section: {Component: Section},
+            transparent: {Component: Transparent},
+            accordeon: {Component: Accordeon},
         },
+        views: {},
+        viewWrappers: {},
         validators: {},
     },
     [EntityType.Boolean]: {
         controls: {base: {Component: Checkbox}, switch: {Component: Switch}},
-        views: {},
-        wrappers: {
-            row: Row,
-            section: Section,
-            transparent: Transparent,
+        controlWrappers: {
+            columnRow: {Component: ColumnRow},
+            row: {Component: Row},
+            section: {Component: Section},
+            transparent: {Component: Transparent},
         },
+        views: {},
+        viewWrappers: {},
         validators: {},
     },
     [EntityType.Number]: {
@@ -77,13 +83,15 @@ export const untypedConfig = {
             slider: {Component: Slider},
             number_with_scale: {Component: NumberWithScale},
         },
-        views: {},
-        wrappers: {
-            row: Row,
-            section: Section,
-            transparent: Transparent,
-            accordeon: Accordeon,
+        controlWrappers: {
+            columnRow: {Component: ColumnRow},
+            row: {Component: Row},
+            section: {Component: Section},
+            transparent: {Component: Transparent},
+            accordeon: {Component: Accordeon},
         },
+        views: {},
+        viewWrappers: {},
         validators: {},
     },
     [EntityType.Object]: {
@@ -96,13 +104,15 @@ export const untypedConfig = {
             one_of_nested: {Component: OneOfNested, independent: true},
             few_of_nested: {Component: FewOfNested, independent: true},
         },
-        views: {},
-        wrappers: {
-            row: Row,
-            section: Section,
-            transparent: Transparent,
-            accordeon: Accordeon,
+        controlWrappers: {
+            columnRow: {Component: ColumnRow},
+            row: {Component: Row},
+            section: {Component: Section},
+            transparent: {Component: Transparent},
+            accordeon: {Component: Accordeon},
         },
+        views: {},
+        viewWrappers: {},
         validators: {},
     },
     [EntityType.String]: {
@@ -121,13 +131,15 @@ export const untypedConfig = {
             string_number_with_scale: {Component: StringNumberWithScale},
             monaco: {Component: Monaco},
         },
-        views: {},
-        wrappers: {
-            row: Row,
-            section: Section,
-            transparent: Transparent,
-            accordeon: Accordeon,
+        controlWrappers: {
+            columnRow: {Component: ColumnRow},
+            row: {Component: Row},
+            section: {Component: Section},
+            transparent: {Component: Transparent},
+            accordeon: {Component: Accordeon},
         },
+        views: {},
+        viewWrappers: {},
         validators: {},
     },
 } as const;

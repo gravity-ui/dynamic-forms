@@ -80,8 +80,8 @@ const Component: Control<JsonSchemaObject, RangeInputProps> = ({controlProps, in
     }, [inputValue?.[fromKey], inputValue?.[toKey]]);
 
     return (
-        <ControlContainer stretch="max">
-            <Flex direction="row" alignItems="flex-start" gap={2}>
+        <ControlContainer stretch="max" className={b()}>
+            <Flex className={b('items')} direction="row" alignItems="flex-start" gap={2}>
                 <Entity name={fromName} schema={schema.properties?.[fromKey]} />
                 <Text className={b('delimiter')}>-</Text>
                 <Entity name={toName} schema={schema.properties?.[toKey]} />
