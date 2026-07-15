@@ -1,5 +1,12 @@
 import type {SchemaRendererMode} from '../constants';
-import type {Control, JsonSchema, SchemaRendererConfig, View, Wrapper} from '../types';
+import type {
+    Control,
+    ControlWrapper,
+    JsonSchema,
+    SchemaRendererConfig,
+    View,
+    ViewWrapper,
+} from '../types';
 
 export type GetRenderKitParams<Schema extends JsonSchema> = {
     config?: SchemaRendererConfig;
@@ -8,18 +15,18 @@ export type GetRenderKitParams<Schema extends JsonSchema> = {
 
 export type GetRenderKitReturn<Schema extends JsonSchema> = {
     [SchemaRendererMode.Form]: {
-        Component: Control<Schema> | undefined;
-        props: Record<string, any>;
+        Control: Control<Schema> | undefined;
+        ControlWrapper: ControlWrapper<Schema> | undefined;
+        controlProps: Record<string, any>;
+        controlWrapperProps: Record<string, any>;
         independent: boolean | undefined;
-        Wrapper: Wrapper<Schema> | undefined;
-        wrapperProps: Record<string, any>;
     };
     [SchemaRendererMode.Overview]: {
-        Component: View<Schema> | undefined;
-        props: Record<string, any>;
+        View: View<Schema> | undefined;
+        ViewWrapper: ViewWrapper<Schema> | undefined;
+        viewProps: Record<string, any>;
+        viewWrapperProps: Record<string, any>;
         independent: boolean | undefined;
-        Wrapper: Wrapper<Schema> | undefined;
-        wrapperProps: Record<string, any>;
     };
 };
 

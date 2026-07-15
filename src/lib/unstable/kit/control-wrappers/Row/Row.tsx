@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Flex, HelpMark, Text} from '@gravity-ui/uikit';
 
-import type {JsonSchema, Wrapper} from '../../../core';
+import type {ControlWrapper, JsonSchema} from '../../../core';
 import {ArrayRemoveButton, ControlError, HTMLContent, WrapperContainer} from '../../components';
 import {block, getValidationState} from '../../utils';
 
@@ -14,15 +14,15 @@ export interface RowProps {
     descriptionType?: 'tooltip' | 'bottom';
 }
 
-const Component: Wrapper<JsonSchema, RowProps> = ({
+const Component: ControlWrapper<JsonSchema, RowProps> = ({
     children,
     input,
     meta,
     schema,
-    wrapperProps,
+    controlWrapperProps,
 }) => {
     const tooltip = React.useMemo(() => {
-        if (!schema.description || wrapperProps.descriptionType === 'bottom') {
+        if (!schema.description || controlWrapperProps.descriptionType === 'bottom') {
             return null;
         }
 
@@ -31,21 +31,21 @@ const Component: Wrapper<JsonSchema, RowProps> = ({
                 <HTMLContent html={schema.description} />
             </HelpMark>
         );
-    }, [schema.description, wrapperProps.descriptionType]);
+    }, [schema.description, controlWrapperProps.descriptionType]);
 
     const bottomDescription = React.useMemo(() => {
-        if (!schema.description || wrapperProps.descriptionType !== 'bottom') {
+        if (!schema.description || controlWrapperProps.descriptionType !== 'bottom') {
             return null;
         }
 
         return <HTMLContent html={schema.description} color="secondary" />;
-    }, [schema.description, wrapperProps.descriptionType]);
+    }, [schema.description, controlWrapperProps.descriptionType]);
 
     return (
         <WrapperContainer className={b()} direction="row" alignItems="flex-start" gap={2}>
             <div className={b('left')}>
                 <Text
-                    className={b('title', {required: wrapperProps.required})}
+                    className={b('title', {required: controlWrapperProps.required})}
                     wordBreak="break-word"
                 >
                     {schema.title}

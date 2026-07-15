@@ -1,6 +1,6 @@
 import type {EntityType} from '../constants';
 
-import type {Control, View, Wrapper} from './components';
+import type {Control, ControlWrapper, View, ViewWrapper} from './components';
 import type {
     JsonSchema,
     JsonSchemaAny,
@@ -13,15 +13,41 @@ import type {
 import type {Validator} from './validation';
 
 export interface ControlsConfig<Schema extends JsonSchema> {
-    [key: string]: {Component?: Control<Schema>; independent?: boolean} | undefined;
+    [key: string]:
+        | {
+              Component?: Control<Schema>;
+              defaultProps?: Record<string, any>;
+              independent?: boolean;
+          }
+        | undefined;
+}
+
+export interface ControlWrappersConfig<Schema extends JsonSchema> {
+    [key: string]:
+        | {
+              Component?: ControlWrapper<Schema>;
+              defaultProps?: Record<string, any>;
+          }
+        | undefined;
 }
 
 export interface ViewsConfig<Schema extends JsonSchema> {
-    [key: string]: {Component?: View<Schema>; independent?: boolean} | undefined;
+    [key: string]:
+        | {
+              Component?: View<Schema>;
+              defaultProps?: Record<string, any>;
+              independent?: boolean;
+          }
+        | undefined;
 }
 
-export interface WrappersConfig<Schema extends JsonSchema> {
-    [key: string]: Wrapper<Schema> | undefined;
+export interface ViewWrappersConfig<Schema extends JsonSchema> {
+    [key: string]:
+        | {
+              Component?: ViewWrapper<Schema>;
+              defaultProps?: Record<string, any>;
+          }
+        | undefined;
 }
 
 export interface ValidatorsConfig<Schema extends JsonSchema> {
@@ -30,8 +56,9 @@ export interface ValidatorsConfig<Schema extends JsonSchema> {
 
 export interface TypeConfig<Schema extends JsonSchema> {
     controls: ControlsConfig<Schema>;
+    controlWrappers: ControlWrappersConfig<Schema>;
     views: ViewsConfig<Schema>;
-    wrappers: WrappersConfig<Schema>;
+    viewWrappers: ViewWrappersConfig<Schema>;
     validators: ValidatorsConfig<Schema>;
 }
 

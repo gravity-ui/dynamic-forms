@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Flex, HelpMark, Text, type TextProps} from '@gravity-ui/uikit';
 
-import type {JsonSchema, Wrapper} from '../../../core';
+import type {ControlWrapper, JsonSchema} from '../../../core';
 import {ArrayRemoveButton, ControlError, HTMLContent, WrapperContainer} from '../../components';
 import {block, getValidationState} from '../../utils';
 
@@ -15,14 +15,18 @@ export interface SectionProps extends TextProps {
     withIndent?: boolean;
 }
 
-const Component: Wrapper<JsonSchema, SectionProps> = ({
+const Component: ControlWrapper<JsonSchema, SectionProps> = ({
     children,
     input,
     meta,
     schema,
-    wrapperProps,
+    controlWrapperProps,
 }) => {
-    const {descriptionType = 'tooltip', withIndent = false, ...restWrapperProps} = wrapperProps;
+    const {
+        descriptionType = 'tooltip',
+        withIndent = false,
+        ...restControlWrapperProps
+    } = controlWrapperProps;
 
     const tooltip = React.useMemo(() => {
         if (!schema.description || descriptionType === 'bottom') {
@@ -49,7 +53,7 @@ const Component: Wrapper<JsonSchema, SectionProps> = ({
             <Flex direction="column" gap={4}>
                 <Flex direction="column" gap={2}>
                     <Flex className={b('header')} gap={2} alignItems="center">
-                        <Text variant="subheader-1" {...restWrapperProps}>
+                        <Text variant="subheader-1" {...restControlWrapperProps}>
                             {schema.title}
                         </Text>
                         {tooltip}

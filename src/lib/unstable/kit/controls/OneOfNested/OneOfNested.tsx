@@ -29,8 +29,8 @@ const Component: Control<JsonSchemaObject, OneOfNestedProps> = ({
     input,
     meta,
     schema,
-    Wrapper,
-    wrapperProps,
+    ControlWrapper,
+    controlWrapperProps,
 }) => {
     const {name, value} = input;
     const {
@@ -68,38 +68,38 @@ const Component: Control<JsonSchemaObject, OneOfNestedProps> = ({
             error: undefined,
         };
 
-        if (formKit.Component) {
+        if (formKit.Control) {
             if (formKit.independent) {
                 result = (
-                    <formKit.Component
+                    <formKit.Control
                         input={togglerInput}
                         meta={togglerMeta}
                         schema={togglerSchema}
-                        controlProps={formKit.props}
-                        Wrapper={formKit.Wrapper}
-                        wrapperProps={formKit.wrapperProps}
+                        controlProps={formKit.controlProps}
+                        ControlWrapper={formKit.ControlWrapper}
+                        controlWrapperProps={formKit.controlWrapperProps}
                     />
                 );
             } else {
                 result = (
-                    <formKit.Component
+                    <formKit.Control
                         input={togglerInput}
                         meta={togglerMeta}
                         schema={togglerSchema}
-                        controlProps={formKit.props}
+                        controlProps={formKit.controlProps}
                     />
                 );
 
-                if (formKit.Wrapper) {
+                if (formKit.ControlWrapper) {
                     result = (
-                        <formKit.Wrapper
+                        <formKit.ControlWrapper
                             input={togglerInput}
                             meta={togglerMeta}
                             schema={togglerSchema}
-                            wrapperProps={formKit.wrapperProps}
+                            controlWrapperProps={formKit.controlWrapperProps}
                         >
                             {result}
-                        </formKit.Wrapper>
+                        </formKit.ControlWrapper>
                     );
                 }
             }
@@ -140,16 +140,16 @@ const Component: Control<JsonSchemaObject, OneOfNestedProps> = ({
         </ControlContainer>
     );
 
-    if (Wrapper) {
+    if (ControlWrapper) {
         content = (
-            <Wrapper
+            <ControlWrapper
                 input={wrapperInput}
                 meta={meta}
                 schema={schema}
-                wrapperProps={wrapperProps || {}}
+                controlWrapperProps={controlWrapperProps || {}}
             >
                 {content}
-            </Wrapper>
+            </ControlWrapper>
         );
     }
 

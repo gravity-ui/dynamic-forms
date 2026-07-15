@@ -11,3 +11,4 @@ export {
     useSchemaRendererMutators,
     useUserContext,
 } from './useSchemaRenderer';
+export {defineControl, defineControlWrapper, defineView, defineViewWrapper} from './utils';
