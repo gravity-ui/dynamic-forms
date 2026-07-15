@@ -2,6 +2,7 @@ import type {MutableState} from 'final-form';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
+import set from 'lodash/set';
 
 import type {EntityState} from '../../../Entity';
 import {getSchemaPath, getValuePaths, parseSchemaPath, smartSet} from '../../../utils';
@@ -18,9 +19,11 @@ import type {
 const applyMutators = ({
     mutableState,
     mutators,
+    replace = false,
 }: {
     mutableState: MutableState<object, object>;
     mutators: SetSchemaMutatorsParams['mutators'];
+    replace?: boolean;
 }) => {
     const registeredFields = Object.keys(mutableState.fields);
 
@@ -36,7 +39,11 @@ const applyMutators = ({
                 const schemaPath = getSchemaPath(m.name, headName, mutatedSchema);
 
                 if (schemaPath) {
-                    smartSet(mutatedSchema, schemaPath, m.schema);
+                    if (replace) {
+                        set(mutatedSchema, schemaPath, m.schema);
+                    } else {
+                        smartSet(mutatedSchema, schemaPath, m.schema);
+                    }
 
                     const schemaField = mutableState.fields[m.name];
 
@@ -114,6 +121,7 @@ export const removeSchemaMutators: RemoveSchemaMutatorsFunction = (
                                     : {},
                             };
                         }),
+                        replace: true,
                     });
 
                     headField.data.mutators = [];

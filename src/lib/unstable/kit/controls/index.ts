@@ -8,6 +8,7 @@ export {DateInput, type DateInputProps} from './DateInput';
 export {FewOfNested, type FewOfNestedProps} from './FewOfNested';
 export {FileInput, type FileInputProps} from './FileInput';
 export {Label, type LabelProps} from './Label';
+export {Monaco, type MonacoProps} from './Monaco';
 export {MultiSelect, type MultiSelectProps} from './MultiSelect';
 export {NumberBase, type NumberBaseProps} from './NumberBase';
 export {NumberWithScale, type NumberWithScaleProps} from './NumberWithScale';
