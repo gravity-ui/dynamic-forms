@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.21.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.20.0...v5.21.0) (2026-07-15)
+
+
+### Features
+
+* **unstable:** add ability to define default config components props ([#391](https://github.com/gravity-ui/dynamic-forms/issues/391)) ([4f7c3c8](https://github.com/gravity-ui/dynamic-forms/commit/4f7c3c88354f5b4a204bca9d7fe73b55af4d8796))
+* **unstable:** add big numbers support ([#388](https://github.com/gravity-ui/dynamic-forms/issues/388)) ([98e9835](https://github.com/gravity-ui/dynamic-forms/commit/98e98350fdcbfee1b186daeb6325ccd0a06e77d5))
+* **unstable:** add user ctx, add monaco ([#390](https://github.com/gravity-ui/dynamic-forms/issues/390)) ([f64b91d](https://github.com/gravity-ui/dynamic-forms/commit/f64b91d4148d043317c4b84230529cd4ed0dda22))
+
 ## [5.20.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.19.1...v5.20.0) (2026-07-08)
 
 
