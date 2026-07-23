@@ -58,6 +58,16 @@ task('styles-components', () => {
         .pipe(dest(path.resolve(BUILD_DIR, 'cjs')));
 });
 
+// Bundles the AI-facing docs tree (cleaned README + docs/ guides) into build/docs so
+// it ships in the npm tarball. See scripts/build-docs.mjs.
+task('copy-docs', (done) => {
+    const {execFileSync} = require('child_process');
+    execFileSync(process.execPath, [path.resolve(__dirname, 'scripts/build-docs.mjs')], {
+        stdio: 'inherit',
+    });
+    done();
+});
+
 task(
     'build',
     series([
@@ -65,6 +75,7 @@ task(
         parallel(['compile-to-esm', 'compile-to-cjs']),
         'copy-i18n',
         parallel(['styles-components']),
+        'copy-docs',
     ]),
 );
 
