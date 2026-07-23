@@ -68,3 +68,7 @@ A JSON-Schema-driven engine that renders form fields and read-only value views f
 - **Forgetting to pass a `config`** — `<DynamicField>` / `<DynamicView>` need a `config` object (`dynamicConfig` / `dynamicViewConfig`) that registers field types, or no fields render.
 - **Missing `configure({lang})`** — default text tokens are `en`; call `configure({lang: Lang.Ru})` once before rendering to localize built-in strings.
 - **Expecting built-in validation** — validation rules live in the `spec`; the package renders fields, it does not impose schema validation by itself.
+
+## Documentation for AI agents
+
+Agent-readable documentation for the installed version is located in `node_modules/@gravity-ui/dynamic-forms/build/docs/INDEX.md`.
