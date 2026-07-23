@@ -31,7 +31,7 @@
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "build": "gulp",
-    "build:docs": "node scripts/build-docs.mjs",
+    "build:docs": "gulp copy-docs",
     "build-storybook": "storybook build",
     "dev": "storybook dev -p 6006",
     "start": "storybook dev",
