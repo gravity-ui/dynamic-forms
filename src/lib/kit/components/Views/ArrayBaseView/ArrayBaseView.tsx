@@ -52,11 +52,15 @@ export const ArrayBaseView: ArrayView = ({spec, name, value = []}) => {
                                 {spec.viewSpec.itemPrefix}
                             </Label>
                         ) : null}
-                        <ViewController spec={itemSpec} name={`${name}[${idx}]`} />
+                        <ViewController
+                            spec={itemSpec}
+                            name={`${name}[${idx}]`}
+                            resolvedValue={value[idx]}
+                        />
                     </React.Fragment>
                 );
             }),
-        [value.length, name, getItemSpec, spec.viewSpec.itemPrefix],
+        [value, name, getItemSpec, spec.viewSpec.itemPrefix],
     );
 
     if (!itemSpecCorrect) {

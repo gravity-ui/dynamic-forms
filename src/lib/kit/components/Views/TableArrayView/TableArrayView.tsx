@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Flex, HelpMark, Table, type TableColumnConfig} from '@gravity-ui/uikit';
 
-import type {ArrayView, FormValue, ObjectValue} from '../../../../core';
+import type {ArrayView, ObjectValue} from '../../../../core';
 import {
     ViewController,
     isArraySpec,
@@ -35,7 +35,7 @@ export const TableArrayView: ArrayView = ({value = [], spec, name}) => {
             id: 'idx',
             name: '',
             sticky: 'left',
-            template: (__: FormValue, idx: number) => (
+            template: (__: ObjectValue, idx: number) => (
                 <div className={b('idx')} key={`idx-${idx}`}>
                     {idx + 1}
                 </div>
@@ -71,7 +71,7 @@ export const TableArrayView: ArrayView = ({value = [], spec, name}) => {
                                   {label}
                               </div>
                           ),
-                template: (_: FormValue, idx: number) => {
+                template: (item: ObjectValue, idx: number) => {
                     const entitySpec = items?.properties?.[property];
 
                     if (!entitySpec) {
@@ -91,6 +91,7 @@ export const TableArrayView: ArrayView = ({value = [], spec, name}) => {
                             <ViewController
                                 spec={entitySpec}
                                 name={`${name}[${idx}].${property}`}
+                                resolvedValue={item?.[property]}
                             />
                         </div>
                     );

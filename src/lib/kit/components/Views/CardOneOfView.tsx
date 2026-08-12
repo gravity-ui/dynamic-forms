@@ -61,6 +61,7 @@ export const CardOneOfView: ObjectIndependentView = (props) => {
                     spec={specProperties[valueKey]}
                     name={`${name ? name + '.' : ''}${valueKey}`}
                     key={`${name ? name + '.' : ''}${valueKey}`}
+                    resolvedValue={value[valueKey]}
                 />
             ) : null}
         </Card>

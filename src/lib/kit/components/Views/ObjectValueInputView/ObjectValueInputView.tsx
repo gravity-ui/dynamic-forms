@@ -6,7 +6,13 @@ import type {ObjectIndependentView} from '../../../../core';
 import {ViewController} from '../../../../core';
 import {OBJECT_VALUE_PROPERTY_NAME} from '../../../constants/common';
 
-export const ObjectValueInputView: ObjectIndependentView = ({spec, name, Layout, ...restProps}) => {
+export const ObjectValueInputView: ObjectIndependentView = ({
+    spec,
+    name,
+    Layout,
+    value,
+    ...restProps
+}) => {
     const childSpec = React.useMemo(() => {
         if (spec.properties?.[OBJECT_VALUE_PROPERTY_NAME]) {
             const childSpec = cloneDeep(spec.properties[OBJECT_VALUE_PROPERTY_NAME]);
@@ -27,12 +33,13 @@ export const ObjectValueInputView: ObjectIndependentView = ({spec, name, Layout,
         <ViewController
             spec={childSpec}
             name={`${name ? name + '.' : ''}${OBJECT_VALUE_PROPERTY_NAME}`}
+            resolvedValue={value?.[OBJECT_VALUE_PROPERTY_NAME]}
         />
     );
 
     if (Layout) {
         return (
-            <Layout spec={spec} name={name} {...restProps}>
+            <Layout spec={spec} name={name} value={value} {...restProps}>
                 {content}
             </Layout>
         );

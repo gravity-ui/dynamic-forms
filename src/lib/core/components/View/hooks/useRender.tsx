@@ -10,6 +10,7 @@ import type {IndependentViewEntity, ViewEntity, ViewLayoutType} from '../types';
 
 export interface UseRenderParams<Value extends FormValue, SpecType extends Spec> {
     value: Value;
+    resolved?: boolean;
     name: string;
     spec: SpecType;
     viewEntity?: ViewEntity<Value, SpecType> | IndependentViewEntity<Value, SpecType>;
@@ -19,6 +20,7 @@ export interface UseRenderParams<Value extends FormValue, SpecType extends Spec>
 
 export const useRender = <Value extends FormValue, SpecType extends Spec>({
     value,
+    resolved,
     name,
     spec,
     viewEntity,
@@ -28,7 +30,7 @@ export const useRender = <Value extends FormValue, SpecType extends Spec>({
     const render = React.useMemo(() => {
         if (viewEntity && isCorrectSpec(spec) && isString(name)) {
             if (!spec.viewSpec.hidden) {
-                const currentValue = name ? get(value, name) : value;
+                const currentValue = !resolved && name ? get(value, name) : value;
                 const linkValue =
                     isValidElementType(Link) && spec?.viewSpec?.link ? (
                         <Link value={currentValue} link={spec.viewSpec.link} />
@@ -71,7 +73,7 @@ export const useRender = <Value extends FormValue, SpecType extends Spec>({
         }
 
         return null;
-    }, [spec, name, value, viewEntity, Layout, Link]);
+    }, [spec, name, value, resolved, viewEntity, Layout, Link]);
 
     return render;
 };

@@ -64,6 +64,8 @@ type LayoutType = React.ComponentType<
 
 `Views` are the components responsible for rendering the entity value. There can be two types of views: simple and independent. A `simple` `View` [ViewController](./lib.md#viewcontroller) wraps in [ViewLayout](#viewlayouts), whereas an `independent` `View` [ViewController](./lib.md#viewcontroller) is passed [ViewLayout](#viewlayouts) into the props, allowing the component to wrap itself.
 
+If your `View` renders nested entities through [ViewController](./lib.md#viewcontroller), always pass the child value in the `resolvedValue` prop. Otherwise the value is looked up by `name` as a path and properties whose keys contain dots resolve to `undefined` — see [Dotted property keys](./lib.md#dotted-property-keys).
+
 ```typescript
 type ViewEntity = {
   Component: React.ComponentType<{
