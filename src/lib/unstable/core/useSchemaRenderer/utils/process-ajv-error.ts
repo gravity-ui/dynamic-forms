@@ -1,21 +1,25 @@
 import type {ErrorObject} from 'ajv';
+import type {FormApi} from 'final-form';
 import get from 'lodash/get';
 import isString from 'lodash/isString';
 
-import type {ErrorMessages, JsonSchema} from '../../types';
-import {getSchemaByInstancePath, getSchemaBySchemaPath, parseInstancePath} from '../../utils';
-import type {ValidateErrorItem} from '../types';
+import type {ErrorMessages, JsonSchema, ValidationError} from '../../types';
+import {getSchemaBySchemaPath} from '../../utils';
 
 export interface ProcessAjvErrorParams<Schema extends JsonSchema> {
     error: ErrorObject;
-    errorMessages: ErrorMessages;
+    errorMessages?: ErrorMessages;
+    form: FormApi;
+    nameFromRoot: string;
     schema: Schema;
-    onError: (error: ValidateErrorItem) => void;
+    onError: (error: ValidationError) => void;
 }
 
 export const processAjvError = <Schema extends JsonSchema>({
     error,
     errorMessages,
+    form,
+    nameFromRoot,
     schema,
     onError,
 }: ProcessAjvErrorParams<Schema>) => {
@@ -56,7 +60,7 @@ export const processAjvError = <Schema extends JsonSchema>({
         const propertyName = instancePath.split('/').pop() as string;
         const errorOrMap: Record<string, string> | string | undefined = get(
             schema,
-            `entityParameters.errorMessages.${keyword}`,
+            `nodeParameters.errorMessages.${keyword}`,
         );
         const message: string | undefined = isString(errorOrMap)
             ? errorOrMap
@@ -65,18 +69,18 @@ export const processAjvError = <Schema extends JsonSchema>({
         return message;
     };
 
-    onError({
-        path: parseInstancePath(instancePath),
-        error:
-            // case when keyword in schema path is the schema
-            getErrorMessageBySchema(getSchemaBySchemaPath(schemaPath, schema)) ||
+    const schemaPathByName = form.getFieldState(nameFromRoot)?.data?.state?.schemaPath;
+
+    onError(
+        // case when keyword in schema path is the schema
+        getErrorMessageBySchema(getSchemaBySchemaPath(schema, schemaPath)) ||
             // case when keyword in schema path is not the schema
             (schemaPath.endsWith(`/${keyword}`) &&
                 getErrorMessageBySchema(
-                    getSchemaBySchemaPath(schemaPath.slice(0, -`/${keyword}`.length), schema),
+                    getSchemaBySchemaPath(schema, schemaPath.slice(0, -`/${keyword}`.length)),
                 )) ||
-            getErrorMessageBySchema(getSchemaByInstancePath(instancePath, schema)) ||
-            errorMessages[keyword as keyof typeof errorMessages] ||
+            getErrorMessageBySchema(schemaPathByName) ||
+            errorMessages?.[keyword as keyof typeof errorMessages] ||
             error.message,
-    });
+    );
 };

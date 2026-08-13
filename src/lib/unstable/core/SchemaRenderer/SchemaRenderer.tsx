@@ -1,14 +1,14 @@
 import React from 'react';
 
-import {Entity} from '../Entity';
+import {SchemaNode} from '../SchemaNode';
 import {type UseSchemaRendererParams, useSchemaRenderer} from '../useSchemaRenderer';
 
 export interface SchemaRendererProps extends Omit<UseSchemaRendererParams, 'connectValidate'> {}
 
 const SchemaRendererComponent: React.FC<SchemaRendererProps> = (props) => {
-    const {schema} = useSchemaRenderer(props);
+    useSchemaRenderer(props);
 
-    return schema ? <Entity name={props.name} schema={schema} /> : null;
+    return <SchemaNode headName={props.name} name={props.name} schemaPath="#" />;
 };
 
 export const SchemaRenderer = React.memo(SchemaRendererComponent);

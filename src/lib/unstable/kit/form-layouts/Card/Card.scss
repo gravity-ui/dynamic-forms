@@ -1,0 +1,28 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}card {
+    margin-bottom: spacing(4);
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &__card {
+        padding: spacing(3) spacing(4);
+    }
+
+    &__header {
+        min-height: 28px;
+    }
+
+    &__toggler {
+        width: 28px;
+    }
+
+    &__content {
+        &_hidden {
+            display: none;
+        }
+    }
+}

@@ -1,207 +1,34 @@
-import type {EntityType, JsonSchemaType} from '../constants';
+import type {JsonSchemaType, NodeType} from '../constants';
 
-import type {SchemaRendererConfig} from './config';
-import type {
-    ExtractControlProps,
-    ExtractControlWrapperProps,
-    ExtractViewProps,
-    ExtractViewWrapperProps,
-    ObjectKeys,
-} from './helpers';
-import type {ErrorMessages} from './validation';
+import type {NodeEntity, NodeLayout} from './components';
+import type {ErrorMessages, Validator} from './validation';
 import type {ArrayValue, FieldValue, ObjectValue} from './values';
 
-type ControlEntityParameters<
-    TypeConfig extends SchemaRendererConfig[EntityType],
-    Control extends ObjectKeys<TypeConfig['controls']> = ObjectKeys<TypeConfig['controls']>,
-> = [Control] extends [never]
-    ? {}
-    : {
-          [C in Control]: {
-              /**
-               * Identifier of a control registered in `config[entityType].controls`. Selects
-               * which React component renders the field in form mode. When omitted, the
-               * renderer falls back to the default control for this entity type.
-               */
-              controlType?: C;
-              /**
-               * Extra props forwarded to the selected control. Typed to the `controlProps`
-               * shape declared by the chosen control component.
-               */
-              controlProps?: ExtractControlProps<TypeConfig['controls'][C]>;
-          };
-      }[Control];
-
-type ControlWrapperEntityParameters<
-    TypeConfig extends SchemaRendererConfig[EntityType],
-    ControlWrapper extends ObjectKeys<TypeConfig['controlWrappers']> = ObjectKeys<
-        TypeConfig['controlWrappers']
-    >,
-> = [ControlWrapper] extends [never]
-    ? {}
-    : {
-          [W in ControlWrapper]: {
-              /**
-               * Identifier of a wrapper registered in `config[entityType].wrappers`. The
-               * wrapper component is rendered around the control in form mode (e.g. to add
-               * a label, layout, or visibility logic).
-               */
-              controlWrapperType?: W;
-              /**
-               * Extra props forwarded to the selected control wrapper. Typed to the
-               * `wrapperProps` shape declared by the chosen wrapper component.
-               */
-              controlWrapperProps?: ExtractControlWrapperProps<TypeConfig['controlWrappers'][W]>;
-          };
-      }[ControlWrapper];
-
-type ViewEntityParameters<
-    TypeConfig extends SchemaRendererConfig[EntityType],
-    View extends ObjectKeys<TypeConfig['views']> = ObjectKeys<TypeConfig['views']>,
-> = [View] extends [never]
-    ? {}
-    : {
-          [V in View]: {
-              /**
-               * Identifier of a view registered in `config[entityType].views`. Selects which
-               * React component renders the field in overview (read-only) mode. When omitted,
-               * the renderer falls back to the default view for this entity type.
-               */
-              viewType?: V;
-              /**
-               * Extra props forwarded to the selected view. Typed to the `viewProps` shape
-               * declared by the chosen view component.
-               */
-              viewProps?: ExtractViewProps<TypeConfig['views'][V]>;
-          };
-      }[View];
-
-type ViewWrapperEntityParameters<
-    TypeConfig extends SchemaRendererConfig[EntityType],
-    ViewWrapper extends ObjectKeys<TypeConfig['viewWrappers']> = ObjectKeys<
-        TypeConfig['viewWrappers']
-    >,
-> = [ViewWrapper] extends [never]
-    ? {}
-    : {
-          [W in ViewWrapper]: {
-              /**
-               * Identifier of a wrapper registered in `config[entityType].wrappers`. The
-               * wrapper component is rendered around the view in overview mode.
-               */
-              viewWrapperType?: W;
-              /**
-               * Extra props forwarded to the selected view wrapper. Typed to the
-               * `wrapperProps` shape declared by the chosen wrapper component.
-               */
-              viewWrapperProps?: ExtractViewWrapperProps<TypeConfig['viewWrappers'][W]>;
-          };
-      }[ViewWrapper];
-
-type ValidatorEntityParameters<Validator extends string> = [Validator] extends [never]
-    ? {}
-    : {
-          [V in Validator]: {
-              /**
-               * Identifier of a custom validator registered in `config[entityType].validators`.
-               * Runs in addition to (or instead of, depending on the renderer policy) the
-               * JSON Schema validation derived from the schema keywords.
-               *
-               * TODO(verify): confirm whether the custom validator replaces or complements
-               * JSON Schema validation and adjust this comment.
-               */
-              validatorType?: V;
-          };
-      }[Validator];
-
-/**
- * Renderer-specific configuration carried on each schema node. Not part of the
- * JSON Schema specification — these keywords are ignored by JSON Schema
- * validators and consumed only by SchemaRenderer to choose controls, views,
- * wrappers, validators, and custom error messages for the field.
- *
- * Generic parameters bind the available `controlType` / `viewType` /
- * `wrapperType` / `validatorType` values to those registered in the
- * `SchemaRendererConfig` for this entity type — making invalid identifiers a
- * TypeScript error at the schema declaration site.
- */
-interface EntityParameters<
-    Type extends EntityType,
-    TypeConfig extends SchemaRendererConfig[Type],
-    Control extends ObjectKeys<TypeConfig['controls']> = ObjectKeys<TypeConfig['controls']>,
-    ControlWrapper extends ObjectKeys<TypeConfig['controlWrappers']> = ObjectKeys<
-        TypeConfig['controlWrappers']
-    >,
-    View extends ObjectKeys<TypeConfig['views']> = ObjectKeys<TypeConfig['views']>,
-    ViewWrapper extends ObjectKeys<TypeConfig['viewWrappers']> = ObjectKeys<
-        TypeConfig['viewWrappers']
-    >,
-    Validator extends ObjectKeys<TypeConfig['validators']> = ObjectKeys<TypeConfig['validators']>,
-> {
-    /**
-     * Optional bag of renderer-specific configuration for this schema node.
-     * Ignored by JSON Schema validators.
-     */
-    entityParameters?: {
-        /**
-         * Forces the renderer to treat this node as a specific `EntityType`, overriding
-         * the inference based on the JSON Schema `type` keyword. Useful when a single
-         * JSON type should be rendered as multiple kinds of UI (e.g. `String` rendered
-         * via different `EntityType` registrations).
-         */
-        type?: Type;
-        /**
-         * Custom error messages shown by the renderer when validation fails. Keys
-         * correspond to JSON Schema validation keywords (`minLength`, `pattern`, `enum`,
-         * etc.).
-         *
-         * `dependencies` and `required` accept either a single string (used for any
-         * failure of that keyword) or a `Record<string, string>` mapping the dependent /
-         * required property name to its own message.
-         *
-         * Not part of the JSON Schema specification — purely a UI override for this
-         * renderer.
-         *
-         * @example
-         * {
-         *   type: JsonSchemaType.String,
-         *   minLength: 5,
-         *   entityParameters: {
-         *     errorMessages: {minLength: 'Must be at least 5 characters'},
-         *   },
-         * }
-         *
-         * @example
-         * // Per-property message for required.
-         * {
-         *   type: JsonSchemaType.Object,
-         *   required: ['name', 'email'],
-         *   entityParameters: {
-         *     errorMessages: {
-         *       required: {name: 'Name is required', email: 'Email is required'},
-         *     },
-         *   },
-         * }
-         */
+interface NodeParameters<Type extends NodeType, Schema extends JsonSchema> {
+    nodeParameters?: {
+        entity?: string | NodeEntity<Schema>;
+        entityProps?: Record<string, any>;
         errorMessages?: Omit<ErrorMessages, 'dependencies' | 'required'> & {
             dependencies?: string | Record<string, string>;
             required?: string | Record<string, string>;
         };
-    } & ControlEntityParameters<TypeConfig, Control> &
-        ControlWrapperEntityParameters<TypeConfig, ControlWrapper> &
-        ViewEntityParameters<TypeConfig, View> &
-        ViewWrapperEntityParameters<TypeConfig, ViewWrapper> &
-        ValidatorEntityParameters<Validator>;
+        formEntity?: string | NodeEntity<Schema>;
+        formEntityProps?: Record<string, any>;
+        formLayout?: string | NodeLayout<Schema>;
+        formLayoutProps?: Record<string, any>;
+        layout?: string | NodeLayout<Schema>;
+        layoutProps?: Record<string, any>;
+        overviewEntity?: string | NodeEntity<Schema>;
+        overviewEntityProps?: Record<string, any>;
+        overviewLayout?: string | NodeLayout<Schema>;
+        overviewLayoutProps?: Record<string, any>;
+        type?: Type;
+        validator?: string | Validator<Schema>;
+    };
 }
 
-/**
- * Common JSON Schema keywords inherited by every concrete schema variant.
- */
-interface JsonSchemaBase<
-    Config extends SchemaRendererConfig,
-    Schema extends JsonSchema<Config>,
-    Value extends FieldValue,
-> {
+interface JsonSchemaBase<Type extends NodeType, Schema extends JsonSchema, Value extends FieldValue>
+    extends NodeParameters<Type, Schema> {
     /**
      * Unique URI identifier for the schema; establishes the base URI used to resolve
      * relative `$ref`s in all nested sub-schemas.
@@ -330,7 +157,7 @@ interface JsonSchemaBase<
      *
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.9
      */
-    definitions?: {[key: string]: JsonSchema<Config>};
+    definitions?: {[key: string]: JsonSchema};
 
     /**
      * Longer human-readable explanation of the schema. The SchemaRenderer renders it
@@ -497,9 +324,7 @@ interface JsonSchemaBase<
 /**
  * Schema variant without an explicit `type` keyword. Matches values of any JSON type and accepts every keyword from the typed variants.
  */
-export interface JsonSchemaAny<Config extends SchemaRendererConfig = any>
-    extends JsonSchemaBase<Config, JsonSchema<Config>, FieldValue>,
-        EntityParameters<EntityType.Any, Config[EntityType.Any]> {
+export interface JsonSchemaAny extends JsonSchemaBase<NodeType.Any, JsonSchema, FieldValue> {
     /**
      * Optional declared JSON type(s). When omitted, the schema matches any JSON type
      * and every keyword from the typed variants is accepted (each behaving according
@@ -539,7 +364,7 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = any>
      *
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.6.4.2
      */
-    additionalItems?: JsonSchema<Config> | boolean;
+    additionalItems?: JsonSchema | boolean;
 
     /**
      * Schema applied to object properties not listed in `properties` and not matched
@@ -560,7 +385,7 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = any>
      *
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.6.5.6
      */
-    additionalProperties?: JsonSchema<Config> | boolean;
+    additionalProperties?: JsonSchema | boolean;
 
     /**
      * Sub-schema that **at least one** array item must satisfy; ignored for non-array
@@ -575,7 +400,7 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = any>
      *
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.6.4.6
      */
-    contains?: JsonSchema<Config> | boolean;
+    contains?: JsonSchema | boolean;
 
     /**
      * Property dependencies on an object value; ignored for non-object values.
@@ -598,7 +423,7 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = any>
      *
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.6.5.7
      */
-    dependencies?: {[key: string]: string[] | JsonSchema<Config>};
+    dependencies?: {[key: string]: string[] | JsonSchema};
 
     /**
      * Strict upper bound for numeric values (value must be strictly less than this);
@@ -647,7 +472,7 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = any>
      *
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.6.4.1
      */
-    items?: JsonSchema<Config> | JsonSchema<Config>[];
+    items?: JsonSchema | JsonSchema[];
 
     /**
      * Inclusive upper bound for numeric values; ignored for non-numeric values.
@@ -791,7 +616,7 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = any>
      *
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.6.5.5
      */
-    patternProperties?: {[key: string]: JsonSchema<Config>};
+    patternProperties?: {[key: string]: JsonSchema};
 
     /**
      * Map of property name to schema. Each listed property's value must validate
@@ -806,7 +631,7 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = any>
      *
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.6.5.4
      */
-    properties?: {[key: string]: JsonSchema<Config>};
+    properties?: {[key: string]: JsonSchema};
 
     /**
      * Schema each property **name** must satisfy; ignored for non-object values.
@@ -819,7 +644,7 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = any>
      *
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.6.5.8
      */
-    propertyNames?: JsonSchemaString<Config>;
+    propertyNames?: JsonSchemaString;
 
     /**
      * Names of properties that must be present on the object value; ignored for
@@ -868,9 +693,8 @@ export interface JsonSchemaAny<Config extends SchemaRendererConfig = any>
 /**
  * Schema for array values (`type: JsonSchemaType.Array`).
  */
-export interface JsonSchemaArray<Config extends SchemaRendererConfig = any>
-    extends JsonSchemaBase<Config, JsonSchemaArray<Config>, ArrayValue>,
-        EntityParameters<EntityType.Array, Config[EntityType.Array]> {
+export interface JsonSchemaArray
+    extends JsonSchemaBase<NodeType.Array, JsonSchemaArray, ArrayValue> {
     /**
      * Declares this schema as describing an array value (or `null`, or a union of
      * the two for nullable arrays).
@@ -906,7 +730,7 @@ export interface JsonSchemaArray<Config extends SchemaRendererConfig = any>
      *
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.6.4.2
      */
-    additionalItems?: JsonSchema<Config> | boolean;
+    additionalItems?: JsonSchema | boolean;
 
     /**
      * Sub-schema that **at least one** array item must satisfy. An empty array
@@ -921,7 +745,7 @@ export interface JsonSchemaArray<Config extends SchemaRendererConfig = any>
      *
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.6.4.6
      */
-    contains?: JsonSchema<Config> | boolean;
+    contains?: JsonSchema | boolean;
 
     /**
      * Constrains array items. Two forms:
@@ -940,7 +764,7 @@ export interface JsonSchemaArray<Config extends SchemaRendererConfig = any>
      *
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.6.4.1
      */
-    items?: JsonSchema<Config> | JsonSchema<Config>[];
+    items?: JsonSchema | JsonSchema[];
 
     /**
      * Maximum number of items the array may contain.
@@ -979,9 +803,8 @@ export interface JsonSchemaArray<Config extends SchemaRendererConfig = any>
 /**
  * Schema for boolean values (`type: JsonSchemaType.Boolean`).
  */
-export interface JsonSchemaBoolean<Config extends SchemaRendererConfig = any>
-    extends JsonSchemaBase<Config, JsonSchemaBoolean<Config>, boolean>,
-        EntityParameters<EntityType.Boolean, Config[EntityType.Boolean]> {
+export interface JsonSchemaBoolean
+    extends JsonSchemaBase<NodeType.Boolean, JsonSchemaBoolean, boolean> {
     /**
      * Declares this schema as describing a boolean value (or `null`, or a union of
      * the two for nullable booleans).
@@ -1004,9 +827,8 @@ export interface JsonSchemaBoolean<Config extends SchemaRendererConfig = any>
 /**
  * Schema for numeric values (`type: JsonSchemaType.Number`).
  */
-export interface JsonSchemaNumber<Config extends SchemaRendererConfig = any>
-    extends JsonSchemaBase<Config, JsonSchemaNumber<Config>, number>,
-        EntityParameters<EntityType.Number, Config[EntityType.Number]> {
+export interface JsonSchemaNumber
+    extends JsonSchemaBase<NodeType.Number, JsonSchemaNumber, number> {
     /**
      * Declares this schema as describing a numeric value.
      *
@@ -1098,9 +920,8 @@ export interface JsonSchemaNumber<Config extends SchemaRendererConfig = any>
 /**
  * Schema for object values (`type: JsonSchemaType.Object`).
  */
-export interface JsonSchemaObject<Config extends SchemaRendererConfig = any>
-    extends JsonSchemaBase<Config, JsonSchemaObject<Config>, ObjectValue>,
-        EntityParameters<EntityType.Object, Config[EntityType.Object]> {
+export interface JsonSchemaObject
+    extends JsonSchemaBase<NodeType.Object, JsonSchemaObject, ObjectValue> {
     /**
      * Declares this schema as describing an object value (or `null`, or a union of
      * the two for nullable objects).
@@ -1144,7 +965,7 @@ export interface JsonSchemaObject<Config extends SchemaRendererConfig = any>
      *
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.6.5.6
      */
-    additionalProperties?: JsonSchema<Config> | boolean;
+    additionalProperties?: JsonSchema | boolean;
 
     /**
      * Property dependencies. Each key triggers a constraint only when that property
@@ -1166,7 +987,7 @@ export interface JsonSchemaObject<Config extends SchemaRendererConfig = any>
      *
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.6.5.7
      */
-    dependencies?: {[key: string]: string[] | JsonSchemaObject<Config>};
+    dependencies?: {[key: string]: string[] | JsonSchemaObject};
 
     /**
      * Maximum number of own properties the object may declare.
@@ -1204,7 +1025,7 @@ export interface JsonSchemaObject<Config extends SchemaRendererConfig = any>
      *
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.6.5.5
      */
-    patternProperties?: {[key: string]: JsonSchema<Config>};
+    patternProperties?: {[key: string]: JsonSchema};
 
     /**
      * Map of property name to schema. Each listed property's value must validate
@@ -1224,7 +1045,7 @@ export interface JsonSchemaObject<Config extends SchemaRendererConfig = any>
      *
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.6.5.4
      */
-    properties?: {[key: string]: JsonSchema<Config>};
+    properties?: {[key: string]: JsonSchema};
 
     /**
      * Schema each property **name** must satisfy. Object keys are always strings, so
@@ -1237,7 +1058,7 @@ export interface JsonSchemaObject<Config extends SchemaRendererConfig = any>
      *
      * @see https://json-schema.org/draft-07/json-schema-validation.html#rfc.section.6.5.8
      */
-    propertyNames?: JsonSchema<Config>;
+    propertyNames?: JsonSchema;
 
     /**
      * Names of properties that must be present on the object value.
@@ -1259,9 +1080,8 @@ export interface JsonSchemaObject<Config extends SchemaRendererConfig = any>
 /**
  * Schema for string values (`type: JsonSchemaType.String`).
  */
-export interface JsonSchemaString<Config extends SchemaRendererConfig = any>
-    extends JsonSchemaBase<Config, JsonSchemaString<Config>, string>,
-        EntityParameters<EntityType.String, Config[EntityType.String]> {
+export interface JsonSchemaString
+    extends JsonSchemaBase<NodeType.String, JsonSchemaString, string> {
     /**
      * Declares this schema as describing a string value (or `null`, or a union of
      * the two for nullable strings).
@@ -1350,10 +1170,10 @@ export interface JsonSchemaString<Config extends SchemaRendererConfig = any>
  * @example
  * const schema: JsonSchema = { type: JsonSchemaType.Object, properties: { id: { type: JsonSchemaType.Number } } };
  */
-export type JsonSchema<Config extends SchemaRendererConfig = any> =
-    | JsonSchemaAny<Config>
-    | JsonSchemaArray<Config>
-    | JsonSchemaBoolean<Config>
-    | JsonSchemaNumber<Config>
-    | JsonSchemaObject<Config>
-    | JsonSchemaString<Config>;
+export type JsonSchema =
+    | JsonSchemaAny
+    | JsonSchemaArray
+    | JsonSchemaBoolean
+    | JsonSchemaNumber
+    | JsonSchemaObject
+    | JsonSchemaString;

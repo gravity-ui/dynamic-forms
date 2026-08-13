@@ -1,111 +1,155 @@
-import {type FieldValidator} from 'final-form';
+import type {ErrorObject} from 'ajv';
+import type {FieldValidator, FormApi} from 'final-form';
 import get from 'lodash/get';
-import isBoolean from 'lodash/isBoolean';
+import isEqual from 'lodash/isEqual';
 import isObjectLike from 'lodash/isObjectLike';
-import isString from 'lodash/isString';
+import omit from 'lodash/omit';
 
-import type {
-    ErrorMessages,
-    FieldValue,
-    JsonSchema,
-    ObjectValue,
-    SchemaRendererConfig,
-    SyncValidateError,
-} from '../../types';
-import {formatFinalFormPath, getValuePaths} from '../../utils';
-import type {SetAsyncValidationCacheMutator, SetAsyncValidationWaitersMutator} from '../mutators';
-import type {SchemaRendererState} from '../types';
+import {SchemaRendererEventType} from '../../constants';
+import type {FieldValue, JsonSchema, NodesConfig, ValidationError} from '../../types';
+import {
+    arrPathToFinalFormName,
+    finalFormNameToArrPath,
+    getServiceFieldName,
+    getValuePaths,
+    instancePathToArrPath,
+} from '../../utils';
+import {SCHEMA_RENDERER_SERVICE_FIELD} from '../constants';
+import type {NodeParametersErrorObject, SchemaRendererState, ValidationWaiter} from '../types';
 
 import {type GetAjvValidateReturn, getAjvValidate} from './get-ajv-validate';
-import {processAjvValidateErrors} from './process-ajv-validate-errors';
-import {processErrorsState} from './process-errors-state';
+import {processAjvError} from './process-ajv-error';
 
-export type GetValidateParams = {
-    config: SchemaRendererConfig;
-    errorMessages: ErrorMessages;
-    name: string;
-    setAsyncValidationCache?: SetAsyncValidationCacheMutator;
-    setAsyncValidationWaiters?: SetAsyncValidationWaitersMutator;
-    setErrors: (errors: Record<string, SyncValidateError>) => void;
-};
-
-type GetValidateReturn = FieldValidator<FieldValue>;
-
-export const getValidate = ({
-    config,
-    errorMessages,
-    name,
-    setAsyncValidationCache,
-    setAsyncValidationWaiters,
-    setErrors,
-}: GetValidateParams): GetValidateReturn => {
-    let schema: JsonSchema;
+export const getValidate = (form: FormApi, headName: string): FieldValidator<FieldValue> => {
     let ajvValidate: GetAjvValidateReturn;
+    let config: NodesConfig | undefined;
+    let schema: JsonSchema;
 
-    return (value, allValues, meta): SyncValidateError => {
-        const data = meta?.data as SchemaRendererState | undefined;
+    return (): ValidationError | Promise<ValidationError> => {
+        const allValues = form.getState().values;
+        const value = headName ? get(allValues, headName) : allValues;
+        const srName = getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, headName);
+        const srField = form.getFieldState(srName);
+        const srState: SchemaRendererState | undefined = srField?.data?.state;
 
-        if (!data?.schema) {
+        if (!srState?.schema) {
             return false;
         }
 
-        if (schema !== data.schema) {
-            schema = data.schema;
+        if (schema !== srState.schema || config !== srState.config) {
+            config = srState.config;
+            schema = srState.schema;
             ajvValidate = getAjvValidate({config, schema});
         }
 
         ajvValidate(value);
 
-        const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-            ajvValidateErrors: ajvValidate.errors || [],
-            allValues: allValues as ObjectValue,
-            errorMessages,
-            name,
-            schema,
-            setAsyncValidationCache,
-            validationState: data,
-        });
-        const {externalPriorityErrorItems, externalRegularErrorItems} = processErrorsState({
-            errorsState: data,
-            name,
+        const waiters: Record<string, ValidationWaiter> = {};
+        const ajvErrors: Record<string, ValidationError> = {};
+        const npErrors: Record<string, ValidationError> = {};
+
+        ajvValidate.errors?.forEach((e) => {
+            const nameFromRoot = arrPathToFinalFormName([
+                ...finalFormNameToArrPath(headName),
+                ...instancePathToArrPath(e.instancePath),
+            ]);
+
+            if (e.keyword === 'nodeParameters') {
+                const error = e as NodeParametersErrorObject;
+                const cache = srState.cache[nameFromRoot];
+                const cacheItem = cache?.find((c) => isEqual(error.params, omit(c, 'result')));
+                const waiter = srState.waiters[nameFromRoot];
+
+                if (cacheItem) {
+                    npErrors[nameFromRoot] = cacheItem.result;
+
+                    return;
+                }
+
+                if (!waiter || !isEqual(error.params, omit(waiter, 'promise'))) {
+                    const errorOrPromise = error.params.validator(error.params.value, allValues);
+
+                    if (errorOrPromise instanceof Promise) {
+                        waiters[nameFromRoot] = {
+                            ...error.params,
+                            promise: errorOrPromise,
+                        };
+
+                        errorOrPromise.then((result) => {
+                            srState.cache[nameFromRoot] = [
+                                ...(srState.cache[nameFromRoot] || []),
+                                {...error.params, result},
+                            ];
+
+                            srState.runValidate();
+                        });
+                    } else {
+                        npErrors[nameFromRoot] = errorOrPromise;
+                    }
+
+                    return;
+                }
+            } else {
+                const error = e as ErrorObject;
+
+                processAjvError({
+                    error,
+                    errorMessages: srState?.errorMessages,
+                    form,
+                    nameFromRoot,
+                    schema,
+                    onError: (err: ValidationError) => {
+                        ajvErrors[nameFromRoot] = err;
+                    },
+                });
+            }
         });
 
-        if (Object.keys(waiters).length) {
-            setAsyncValidationWaiters?.({headName: name, waiters});
+        const allErrors: Record<string, ValidationError> = {};
+
+        Object.entries({
+            ...srState?.regularErrors,
+            ...ajvErrors,
+            ...npErrors,
+            ...srState?.priorityErrors,
+        }).forEach(([n, e]) => {
+            if (isObjectLike(e)) {
+                getValuePaths(e).forEach((childArrPath) => {
+                    const childName = arrPathToFinalFormName([
+                        ...finalFormNameToArrPath(n),
+                        ...childArrPath,
+                    ]);
+
+                    allErrors[childName] = get(e, childArrPath);
+                });
+            } else {
+                allErrors[n] = e;
+            }
+        });
+
+        const newErrors: Record<string, ValidationError> = {};
+
+        Object.keys({...srState.errors, ...allErrors}).forEach((key) => {
+            if (srState.errors[key] !== allErrors[key]) {
+                newErrors[key] = allErrors[key];
+            }
+        });
+
+        srState.errors = allErrors;
+        srState.waiters = {...srState.waiters, ...waiters};
+
+        if (Object.values(newErrors).length) {
+            srState.dispatchEvent([
+                {type: SchemaRendererEventType.Error, names: Object.keys(newErrors)},
+            ]);
         }
 
-        const result: {errors: Record<string, SyncValidateError>} = {errors: {}};
+        if (Object.values(waiters).length) {
+            return Promise.race(Object.values(waiters).map((w) => w.promise)).then(() =>
+                Object.values(allErrors).some(Boolean) ? 'error' : false,
+            );
+        }
 
-        [
-            ...externalRegularErrorItems,
-            ...ajvErrorItems,
-            ...entityParametersErrorItems,
-            ...externalPriorityErrorItems,
-        ].forEach((item) => {
-            if (!item.error) {
-                return;
-            }
-
-            if (isObjectLike(item.error)) {
-                getValuePaths(item.error).forEach((childPath) => {
-                    result.errors[formatFinalFormPath([name, ...item.path, ...childPath])] = get(
-                        item.error,
-                        childPath,
-                    );
-                });
-
-                return;
-            }
-
-            if (isBoolean(item.error) || isString(item.error)) {
-                result.errors[formatFinalFormPath([name, ...item.path])] = item.error;
-
-                return;
-            }
-        });
-
-        setErrors(result.errors);
-
-        return Object.keys(result.errors).length ? 'error' : false;
+        return Object.values(allErrors).some(Boolean) ? 'error' : false;
     };
 };
