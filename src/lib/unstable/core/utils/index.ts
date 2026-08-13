@@ -1,2 +1,2 @@
 export * from './common';
-export * from './config-definers';
+export * from './definers';

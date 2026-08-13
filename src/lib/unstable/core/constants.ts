@@ -3,6 +3,17 @@ export enum SchemaRendererMode {
     Overview = 'overview',
 }
 
+export enum SchemaRendererEventType {
+    Config = 'config',
+    Error = 'error',
+    ErrorMessages = 'errorMessages',
+    Mode = 'mode',
+    Name = 'name',
+    Patch = 'patch',
+    Schema = 'schema',
+    UserContext = 'userContext',
+}
+
 export enum JsonSchemaType {
     Array = 'array',
     Boolean = 'boolean',
@@ -13,7 +24,7 @@ export enum JsonSchemaType {
     String = 'string',
 }
 
-export enum EntityType {
+export enum NodeType {
     Any = 'any',
     Array = 'array',
     Boolean = 'boolean',

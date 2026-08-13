@@ -1,5 +1,5 @@
-import {EntityType, type SchemaRendererConfig} from '../../core';
-import {Accordeon, ColumnRow, Row, Section, Transparent} from '../control-wrappers';
+import {NodeType, type NodesConfig} from '../../core';
+import {Monaco, ObjectBase} from '../entities';
 import {
     Alert,
     ArrayBase,
@@ -12,11 +12,9 @@ import {
     FewOfNested,
     FileInput,
     Label,
-    Monaco,
     MultiSelect,
     NumberBase,
     NumberWithScale,
-    ObjectBase,
     ObjectInline,
     OneOfNested,
     Password,
@@ -31,71 +29,78 @@ import {
     Switch,
     TextArea,
     TextContent,
-} from '../controls';
+} from '../form-entities';
+import {Accordeon, Card, ColumnRow, Row, Section, Transparent} from '../form-layouts';
 
 export const untypedConfig = {
-    [EntityType.Any]: {
-        controls: {date_input: {Component: DateInput}},
-        controlWrappers: {
+    [NodeType.Any]: {
+        formEntities: {
+            date_input: {Component: DateInput},
+        },
+        formLayouts: {
             columnRow: {Component: ColumnRow},
             row: {Component: Row},
             section: {Component: Section},
             transparent: {Component: Transparent},
             accordeon: {Component: Accordeon},
+            card: {Component: Card},
         },
-        views: {},
-        viewWrappers: {},
+        overviewEntities: {},
+        overviewLayouts: {},
         validators: {},
     },
-    [EntityType.Array]: {
-        controls: {
+    [NodeType.Array]: {
+        formEntities: {
             base: {Component: ArrayBase},
             checkbox_group: {Component: CheckboxGroup},
             select: {Component: MultiSelect},
             array_table: {Component: ArrayTable},
         },
-        controlWrappers: {
+        formLayouts: {
             columnRow: {Component: ColumnRow},
             row: {Component: Row},
             section: {Component: Section},
             transparent: {Component: Transparent},
             accordeon: {Component: Accordeon},
+            card: {Component: Card},
         },
-        views: {},
-        viewWrappers: {},
+        overviewEntities: {},
+        overviewLayouts: {},
         validators: {},
     },
-    [EntityType.Boolean]: {
-        controls: {base: {Component: Checkbox}, switch: {Component: Switch}},
-        controlWrappers: {
+    [NodeType.Boolean]: {
+        formEntities: {base: {Component: Checkbox}, switch: {Component: Switch}},
+        formLayouts: {
             columnRow: {Component: ColumnRow},
             row: {Component: Row},
             section: {Component: Section},
             transparent: {Component: Transparent},
+            card: {Component: Card},
         },
-        views: {},
-        viewWrappers: {},
+        overviewEntities: {},
+        overviewLayouts: {},
         validators: {},
     },
-    [EntityType.Number]: {
-        controls: {
+    [NodeType.Number]: {
+        formEntities: {
             base: {Component: NumberBase},
             slider: {Component: Slider},
             number_with_scale: {Component: NumberWithScale},
         },
-        controlWrappers: {
+        formLayouts: {
             columnRow: {Component: ColumnRow},
             row: {Component: Row},
             section: {Component: Section},
             transparent: {Component: Transparent},
             accordeon: {Component: Accordeon},
+            card: {Component: Card},
         },
-        views: {},
-        viewWrappers: {},
+        overviewEntities: {},
+        overviewLayouts: {},
         validators: {},
     },
-    [EntityType.Object]: {
-        controls: {
+    [NodeType.Object]: {
+        formEntities: {
             base: {Component: ObjectBase},
             inline: {Component: ObjectInline},
             dot_value: {Component: DotValue},
@@ -104,19 +109,22 @@ export const untypedConfig = {
             one_of_nested: {Component: OneOfNested, independent: true},
             few_of_nested: {Component: FewOfNested, independent: true},
         },
-        controlWrappers: {
+        formLayouts: {
             columnRow: {Component: ColumnRow},
             row: {Component: Row},
             section: {Component: Section},
             transparent: {Component: Transparent},
             accordeon: {Component: Accordeon},
+            card: {Component: Card},
         },
-        views: {},
-        viewWrappers: {},
+        overviewEntities: {
+            base: {Component: ObjectBase},
+        },
+        overviewLayouts: {},
         validators: {},
     },
-    [EntityType.String]: {
-        controls: {
+    [NodeType.String]: {
+        formEntities: {
             base: {Component: StringBase},
             color_picker: {Component: ColorPicker},
             file: {Component: FileInput},
@@ -131,17 +139,20 @@ export const untypedConfig = {
             string_number_with_scale: {Component: StringNumberWithScale},
             monaco: {Component: Monaco},
         },
-        controlWrappers: {
+        formLayouts: {
             columnRow: {Component: ColumnRow},
             row: {Component: Row},
             section: {Component: Section},
             transparent: {Component: Transparent},
             accordeon: {Component: Accordeon},
+            card: {Component: Card},
         },
-        views: {},
-        viewWrappers: {},
+        overviewEntities: {
+            monaco: {Component: Monaco},
+        },
+        overviewLayouts: {},
         validators: {},
     },
 } as const;
 
-export const config: SchemaRendererConfig = untypedConfig;
+export const config: NodesConfig = untypedConfig;

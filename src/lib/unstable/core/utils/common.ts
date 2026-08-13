@@ -1,5 +1,4 @@
 import get from 'lodash/get';
-import set from 'lodash/set';
 
 import type {JsonSchema} from '../types';
 
@@ -16,14 +15,14 @@ import type {JsonSchema} from '../types';
  * @param schemaPath - JSON Pointer string, e.g. `"#/properties/name/minLength"`.
  * @returns Path segments, e.g. `['properties', 'name', 'minLength']`.
  */
-export const parseSchemaPath = (schemaPath: string): string[] => {
+export const schemaPathToArrPath = (schemaPath: string): string[] => {
     return decodeURIComponent(schemaPath)
         .split('/')
         .slice(1)
         .map((segment) => segment.replace(/~1/g, '/').replace(/~0/g, '~'));
 };
 
-export const parseInstancePath = (instancePath: string): string[] => {
+export const instancePathToArrPath = (instancePath: string): string[] => {
     if (!instancePath.length) {
         return [];
     }
@@ -34,7 +33,7 @@ export const parseInstancePath = (instancePath: string): string[] => {
         .map((segment) => segment.replace(/~1/g, '/').replace(/~0/g, '~'));
 };
 
-export const parseFinalFormName = (finalFormName: string): string[] => {
+export const finalFormNameToArrPath = (finalFormName: string): string[] => {
     const result: string[] = [];
     const regex = /([^[.\]]+)|\[(\d+)\]/g;
     let match;
@@ -50,7 +49,7 @@ export const parseFinalFormName = (finalFormName: string): string[] => {
     return result;
 };
 
-export const formatFinalFormPath = (finalFormPath: string[]): string => {
+export const arrPathToFinalFormName = (finalFormPath: string[]): string => {
     return finalFormPath.reduce<string>((result, segment) => {
         if (/^\d+$/.test(segment)) {
             return `${result}[${segment}]`;
@@ -60,44 +59,6 @@ export const formatFinalFormPath = (finalFormPath: string[]): string => {
     }, '');
 };
 
-export const getSchemaPath = (
-    finalFormNameOrPath: string | string[],
-    finalFormHeadName: string,
-    schema: JsonSchema,
-): string[] | undefined => {
-    const finalFormPath = Array.isArray(finalFormNameOrPath)
-        ? finalFormNameOrPath
-        : parseFinalFormName(finalFormNameOrPath);
-
-    const schemaPath = finalFormPath
-        .slice(parseFinalFormName(finalFormHeadName).length)
-        .reduce((path: string[] | undefined, segment, index) => {
-            if (path === undefined) {
-                return path;
-            }
-
-            const schemaByPath: JsonSchema | undefined = index === 0 ? schema : get(schema, path);
-
-            if (get(schemaByPath, ['properties', segment])) {
-                return [...path, 'properties', segment];
-            }
-
-            const items = get(schemaByPath, 'items');
-
-            if (items) {
-                if (Array.isArray(items)) {
-                    return [...path, 'items', segment];
-                }
-
-                return [...path, 'items'];
-            }
-
-            return undefined;
-        }, []);
-
-    return schemaPath;
-};
-
 /**
  * Resolves a sub-schema from the root schema by an AJV `schemaPath`.
  *
@@ -105,9 +66,9 @@ export const getSchemaPath = (
  * The path must point to a schema object, not to a validation keyword — callers
  * should strip the trailing keyword first (see `processAjvError`).
  *
+ * @param schema - The root JSON schema object.
  * @param schemaPath - JSON Pointer string pointing to a schema node,
  *   e.g. `"#/properties/name"`.
- * @param schema - The root JSON schema object.
  *
  * @example
  * const nameSchema = {
@@ -123,43 +84,16 @@ export const getSchemaPath = (
  * @returns The sub-schema at the given path, or the root schema when the path is empty.
  */
 export const getSchemaBySchemaPath = (
-    schemaPath: string,
     schema: JsonSchema,
+    schemaPath: string | string[],
 ): JsonSchema | undefined => {
-    const pathArr = parseSchemaPath(schemaPath);
+    const pathArr = Array.isArray(schemaPath) ? schemaPath : schemaPathToArrPath(schemaPath);
 
     if (!pathArr.length) {
         return schema;
     }
 
     return get(schema, pathArr);
-};
-
-export const getSchemaByInstancePath = (
-    instancePath: string,
-    schema: JsonSchema,
-): JsonSchema | undefined => {
-    const schemaPath = getSchemaPath(parseInstancePath(instancePath), '', schema);
-
-    if (schemaPath) {
-        return schemaPath.length ? get(schema, schemaPath) : schema;
-    }
-
-    return undefined;
-};
-
-export const getSchemaByFinalFormPath = (
-    finalFormNameOrPath: string | string[],
-    finalFormHeadName: string,
-    schema: JsonSchema,
-): JsonSchema | undefined => {
-    const schemaPath = getSchemaPath(finalFormNameOrPath, finalFormHeadName, schema);
-
-    if (schemaPath) {
-        return schemaPath.length ? get(schema, schemaPath) : schema;
-    }
-
-    return undefined;
 };
 
 export const getValuePaths = (value: unknown, path: string[] = []) => {
@@ -183,34 +117,7 @@ export const getValuePaths = (value: unknown, path: string[] = []) => {
     return result;
 };
 
-export const smartSet = (object: object, path: string[], value: unknown) => {
-    const valuePaths = getValuePaths(value);
+export const fixType = <Type>(value: any): Type => value as Type;
 
-    if (valuePaths.length) {
-        set(object, path, {...get(object, path)});
-
-        valuePaths.forEach((valuePath) => {
-            set(object, [...path, ...valuePath], get(value, valuePath));
-        });
-    }
-
-    return object;
-};
-
-export const smartMerge = (first: object, second: object, deep = false) => {
-    let result = {};
-
-    if (deep) {
-        getValuePaths(first).forEach((path) => {
-            set(result, path, get(first, path));
-        });
-    } else {
-        result = {...first};
-    }
-
-    getValuePaths(second).forEach((path) => {
-        set(result, path, get(second, path));
-    });
-
-    return result;
-};
+export const getServiceFieldName = (serviceFieldName: string, headName: string) =>
+    headName ? `${serviceFieldName}.${headName}` : serviceFieldName;

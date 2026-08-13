@@ -1,6 +1,6 @@
-import type {EntityType} from '../constants';
+import type {NodeType} from '../constants';
 
-import type {Control, ControlWrapper, View, ViewWrapper} from './components';
+import type {NodeEntity, NodeLayout} from './components';
 import type {
     JsonSchema,
     JsonSchemaAny,
@@ -12,61 +12,42 @@ import type {
 } from './schema';
 import type {Validator} from './validation';
 
-export interface ControlsConfig<Schema extends JsonSchema> {
-    [key: string]:
-        | {
-              Component?: Control<Schema>;
-              defaultProps?: Record<string, any>;
-              independent?: boolean;
-          }
-        | undefined;
+export interface NodeEntityConfig<Schema extends JsonSchema> {
+    Component?: NodeEntity<Schema>;
+    defaultProps?: Record<string, any>;
+    independent?: boolean;
 }
 
-export interface ControlWrappersConfig<Schema extends JsonSchema> {
-    [key: string]:
-        | {
-              Component?: ControlWrapper<Schema>;
-              defaultProps?: Record<string, any>;
-          }
-        | undefined;
+export interface NodeLayoutConfig<Schema extends JsonSchema> {
+    Component?: NodeLayout<Schema>;
+    defaultProps?: Record<string, any>;
 }
 
-export interface ViewsConfig<Schema extends JsonSchema> {
-    [key: string]:
-        | {
-              Component?: View<Schema>;
-              defaultProps?: Record<string, any>;
-              independent?: boolean;
-          }
-        | undefined;
+export interface NodeEntitiesConfig<Schema extends JsonSchema> {
+    [key: string]: NodeEntityConfig<Schema> | undefined;
 }
 
-export interface ViewWrappersConfig<Schema extends JsonSchema> {
-    [key: string]:
-        | {
-              Component?: ViewWrapper<Schema>;
-              defaultProps?: Record<string, any>;
-          }
-        | undefined;
+export interface NodeLayoutsConfig<Schema extends JsonSchema> {
+    [key: string]: NodeLayoutConfig<Schema> | undefined;
 }
 
-export interface ValidatorsConfig<Schema extends JsonSchema> {
+export interface NodeValidatorsConfig<Schema extends JsonSchema> {
     [key: string]: Validator<Schema> | undefined;
 }
 
-export interface TypeConfig<Schema extends JsonSchema> {
-    controls: ControlsConfig<Schema>;
-    controlWrappers: ControlWrappersConfig<Schema>;
-    views: ViewsConfig<Schema>;
-    viewWrappers: ViewWrappersConfig<Schema>;
-    validators: ValidatorsConfig<Schema>;
+export interface NodeTypeConfig<Schema extends JsonSchema> {
+    formEntities?: NodeEntitiesConfig<Schema>;
+    formLayouts?: NodeLayoutsConfig<Schema>;
+    overviewEntities?: NodeEntitiesConfig<Schema>;
+    overviewLayouts?: NodeLayoutsConfig<Schema>;
+    validators?: NodeValidatorsConfig<Schema>;
 }
 
-export interface SchemaRendererConfig {
-    [EntityType.Any]: TypeConfig<JsonSchemaAny>;
-    [EntityType.Array]: TypeConfig<JsonSchemaArray>;
-    [EntityType.Boolean]: TypeConfig<JsonSchemaBoolean>;
-    [EntityType.Number]: TypeConfig<JsonSchemaNumber>;
-    [EntityType.Object]: TypeConfig<JsonSchemaObject>;
-    [EntityType.String]: TypeConfig<JsonSchemaString>;
+export interface NodesConfig {
+    [NodeType.Any]?: NodeTypeConfig<JsonSchemaAny>;
+    [NodeType.Array]?: NodeTypeConfig<JsonSchemaArray>;
+    [NodeType.Boolean]?: NodeTypeConfig<JsonSchemaBoolean>;
+    [NodeType.Number]?: NodeTypeConfig<JsonSchemaNumber>;
+    [NodeType.Object]?: NodeTypeConfig<JsonSchemaObject>;
+    [NodeType.String]?: NodeTypeConfig<JsonSchemaString>;
 }

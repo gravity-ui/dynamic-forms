@@ -6,47 +6,52 @@ import type {
     FuncKeywordDefinition,
     SchemaValidateFunction,
     ValidateFunction,
+    Vocabulary,
 } from 'ajv';
 import Decimal from 'decimal.js';
 import get from 'lodash/get';
+import isString from 'lodash/isString';
 
-import {type EntityType, JsonSchemaType} from '../../constants';
-import type {
-    FieldValue,
-    JsonSchema,
-    JsonSchemaString,
-    SchemaRendererConfig,
-    Validator,
-} from '../../types';
-import type {EntityParametersError} from '../types';
+import {JsonSchemaType} from '../../constants';
+import type {FieldValue, JsonSchema, JsonSchemaString, NodesConfig, Validator} from '../../types';
+import type {NodeParametersErrorObject} from '../types';
 
 export interface GetAjvValidateParams {
-    config: SchemaRendererConfig;
+    config?: NodesConfig;
+    keywords?: Vocabulary;
     schema: JsonSchema;
 }
 
 export interface GetAjvValidateReturn extends ValidateFunction {
-    errors?: (ErrorObject | EntityParametersError)[];
+    errors?: (ErrorObject | NodeParametersErrorObject)[];
 }
 
-export const getAjvValidate = ({config, schema}: GetAjvValidateParams): GetAjvValidateReturn => {
-    function entityParametersValidate(_: unknown, value: FieldValue, schema?: JsonSchema) {
-        if (schema && schema.entityParameters) {
-            const entityType: EntityType | undefined = get(schema, 'entityParameters.type');
-            const validatorType: string | undefined = schema.entityParameters.validatorType;
-            const validator: Validator<JsonSchema> | undefined = get(
-                config,
-                `${entityType}.validators.${validatorType}`,
-            );
+export const getAjvValidate = ({
+    config,
+    keywords,
+    schema: rootSchema,
+}: GetAjvValidateParams): GetAjvValidateReturn => {
+    function nodeParametersValidate(_: unknown, value: FieldValue, schema?: JsonSchema) {
+        if (schema && schema.nodeParameters) {
+            let validator: Validator<JsonSchema> | undefined;
+
+            if (isString(schema.nodeParameters.validator)) {
+                const nodeType = schema.nodeParameters.type;
+                const validatorType = schema.nodeParameters.validator;
+
+                validator = get(config, `${nodeType}.validators.${validatorType}`);
+            } else {
+                validator = schema.nodeParameters.validator;
+            }
 
             if (validator) {
-                const error: Partial<EntityParametersError> = {
-                    keyword: 'entityParameters',
+                const error: Partial<NodeParametersErrorObject> = {
+                    keyword: 'nodeParameters',
                     message: '',
                     params: {validator, value, schema},
                 };
 
-                (entityParametersValidate as SchemaValidateFunction).errors = [error];
+                (nodeParametersValidate as SchemaValidateFunction).errors = [error];
 
                 return false;
             }
@@ -184,10 +189,11 @@ export const getAjvValidate = ({config, schema}: GetAjvValidateParams): GetAjvVa
         allErrors: true,
         allowMatchingProperties: true,
         keywords: [
+            ...(keywords || []),
             {
                 errors: true,
-                keyword: 'entityParameters',
-                validate: entityParametersValidate as FuncKeywordDefinition['validate'],
+                keyword: 'nodeParameters',
+                validate: nodeParametersValidate as FuncKeywordDefinition['validate'],
             },
             {
                 errors: true,
@@ -196,7 +202,7 @@ export const getAjvValidate = ({config, schema}: GetAjvValidateParams): GetAjvVa
             },
         ],
     });
-    const ajvValidate = ajv.compile(schema) as GetAjvValidateReturn;
+    const ajvValidate = ajv.compile(rootSchema) as GetAjvValidateReturn;
 
     return ajvValidate;
 };

@@ -2,24 +2,14 @@ import type {SchemaToValueType} from './helpers';
 import type {JsonSchema} from './schema';
 import type {ObjectValue} from './values';
 
-type ArrayError = SyncValidateError[];
-interface ObjectError extends Record<string, SyncValidateError> {}
+type ArrayError = Error[];
+interface ObjectError extends Record<string, Error> {}
+export type ValidationError = ArrayError | ObjectError | boolean | string | undefined;
 
-export type SyncValidateError = ArrayError | boolean | string | ObjectError | undefined;
-
-export type AsyncValidateError = Promise<SyncValidateError>;
-
-export type SyncValidator<Schema extends JsonSchema> = (
+export type Validator<Schema extends JsonSchema> = (
     value: SchemaToValueType<Schema> | null | undefined,
     allValues: ObjectValue,
-) => SyncValidateError;
-
-export type AsyncValidator<Schema extends JsonSchema> = (
-    value: SchemaToValueType<Schema> | null | undefined,
-    allValues: ObjectValue,
-) => AsyncValidateError;
-
-export type Validator<Schema extends JsonSchema> = SyncValidator<Schema> | AsyncValidator<Schema>;
+) => ValidationError | Promise<ValidationError>;
 
 export interface ErrorMessages {
     additionalItems?: string;
