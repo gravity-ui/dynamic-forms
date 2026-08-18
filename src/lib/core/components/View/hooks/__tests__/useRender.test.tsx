@@ -8,7 +8,7 @@ import {useComponents, useRender} from '../';
 import type {FormValue, Spec} from '../../../../../core';
 import {BaseView, ObjectBaseView, ViewRow, dynamicViewConfig} from '../../../../../kit';
 import {SpecTypes} from '../../../../constants';
-import type {ObjectSpec, StringSpec} from '../../../../types';
+import type {AnyObject, ObjectSpec, StringSpec} from '../../../../types';
 import type {DynamicViewConfig} from '../../types';
 
 const name = 'name';
@@ -20,8 +20,7 @@ interface UseRenderProps {
         useRender?: ReturnType<typeof useRender>;
     };
     name: string;
-    value: FormValue;
-    resolved?: boolean;
+    value: AnyObject;
     spec: Spec;
     config: DynamicViewConfig;
     Link?: React.ComponentType<{
@@ -190,65 +189,5 @@ describe('View/hooks/useRender', () => {
         expect(mirror.useRender?.props.linkValue.type).toBe(Link);
         expect(mirror.useRender?.props.linkValue.props.value).toBe(value[name]);
         expect(mirror.useRender?.props.linkValue.props.link).toBe(_spec.viewSpec.link);
-    });
-
-    describe('resolved', () => {
-        const baseSpec = (): StringSpec => {
-            const _spec = cloneDeep(spec);
-
-            _spec.viewSpec.type = 'base';
-
-            return _spec;
-        };
-
-        test('reads value by name as a path when not resolved', () => {
-            const mirror: UseRenderProps['mirror'] = {};
-
-            render(
-                <UseRender
-                    mirror={mirror}
-                    name="dotted.key"
-                    value={{dotted: {key: 'nested'}}}
-                    spec={baseSpec()}
-                    config={dynamicViewConfig}
-                />,
-            );
-
-            expect(mirror.useRender?.props.value).toBe('nested');
-        });
-
-        test('uses value as is when resolved', () => {
-            const mirror: UseRenderProps['mirror'] = {};
-
-            render(
-                <UseRender
-                    mirror={mirror}
-                    name="dotted.key"
-                    value="resolved"
-                    resolved
-                    spec={baseSpec()}
-                    config={dynamicViewConfig}
-                />,
-            );
-
-            expect(mirror.useRender?.props.value).toBe('resolved');
-        });
-
-        test('does not fall back to the path when resolved value is undefined', () => {
-            const mirror: UseRenderProps['mirror'] = {};
-
-            render(
-                <UseRender
-                    mirror={mirror}
-                    name="dotted.key"
-                    value={undefined}
-                    resolved
-                    spec={baseSpec()}
-                    config={dynamicViewConfig}
-                />,
-            );
-
-            expect(mirror.useRender?.props.value).toBe(undefined);
-        });
     });
 });

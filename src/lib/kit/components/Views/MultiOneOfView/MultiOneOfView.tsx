@@ -29,11 +29,11 @@ export const MultiOneOfView: React.FC<MultiOneOfViewProps> = (props) => {
 
     const items = React.useMemo(
         () =>
-            values.map((valueKey) => {
+            values.map((value) => {
                 const title =
-                    spec.description?.[valueKey] ||
-                    specProperties[valueKey]?.viewSpec.layoutTitle ||
-                    valueKey ||
+                    spec.description?.[value] ||
+                    specProperties[value]?.viewSpec.layoutTitle ||
+                    value ||
                     '';
 
                 return title;
@@ -83,13 +83,12 @@ export const MultiOneOfView: React.FC<MultiOneOfViewProps> = (props) => {
                 className={b('content', {flat: withoutIndent, 'multiple-values': items.length > 1})}
             >
                 <GroupIndent>
-                    {values.map((valueKey) => (
-                        <React.Fragment key={valueKey}>
-                            {specProperties && specProperties[valueKey] ? (
+                    {values.map((value) => (
+                        <React.Fragment key={value}>
+                            {specProperties && specProperties[value] ? (
                                 <ViewController
-                                    name={`${name ? name + '.' : ''}${valueKey}`}
-                                    spec={specProperties[valueKey]}
-                                    resolvedValue={value?.[valueKey]}
+                                    name={`${name ? name + '.' : ''}${value}`}
+                                    spec={specProperties[value]}
                                 />
                             ) : null}
                         </React.Fragment>

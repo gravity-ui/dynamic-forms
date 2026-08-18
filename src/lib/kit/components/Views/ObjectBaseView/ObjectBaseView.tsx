@@ -20,7 +20,6 @@ export const ObjectBaseView: React.FC<ObjectBaseViewProps> = ({
     spec,
     name,
     Layout,
-    value,
     ...restProps
 }) => {
     const content = React.useMemo(() => {
@@ -45,7 +44,6 @@ export const ObjectBaseView: React.FC<ObjectBaseViewProps> = ({
                             <ViewController
                                 spec={specProperties[property]}
                                 name={`${name ? name + '.' : ''}${property}`}
-                                resolvedValue={value?.[property]}
                             />
                             {delimiter && delimiter[property] ? (
                                 <Text className={b('delimiter')}>{delimiter[property]}</Text>
@@ -55,14 +53,14 @@ export const ObjectBaseView: React.FC<ObjectBaseViewProps> = ({
                 )}
             </div>
         );
-    }, [inline, name, value, spec.properties, spec.viewSpec.delimiter, spec.viewSpec.order]);
+    }, [inline, name, spec.properties, spec.viewSpec.delimiter, spec.viewSpec.order]);
 
     if (!Layout || !content) {
         return content;
     }
 
     return (
-        <Layout spec={spec} name={name} value={value} {...restProps}>
+        <Layout spec={spec} name={name} {...restProps}>
             {content}
         </Layout>
     );

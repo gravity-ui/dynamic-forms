@@ -35,16 +35,8 @@ export const TimeRangeSelectorView: ObjectIndependentView = ({
 
     const content = (
         <React.Fragment>
-            <ViewController
-                spec={startTimeSpec}
-                name={`${name ? name + '.' : ''}${START_TIME}`}
-                resolvedValue={value?.[START_TIME]}
-            />
-            <ViewController
-                spec={endTimeSpec}
-                name={`${name ? name + '.' : ''}${END_TIME}`}
-                resolvedValue={value?.[END_TIME]}
-            />
+            <ViewController spec={startTimeSpec} name={`${name ? name + '.' : ''}${START_TIME}`} />
+            <ViewController spec={endTimeSpec} name={`${name ? name + '.' : ''}${END_TIME}`} />
         </React.Fragment>
     );
 

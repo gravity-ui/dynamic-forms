@@ -53,16 +53,7 @@ This component serves as the primary entry point for creating an overview of for
 
 This component searches for all required rendering elements and renders the entity.
 
-| Property      | Type        | Required | Description                                                                                                                                                                               |
-| :------------ | :---------- | :------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name          | `string`    |   yes    | View name                                                                                                                                                                                 |
-| spec          | `Spec`      |   yes    | An [spec](./spec.md#specs) describing the entity                                                                                                                                          |
-| resolvedValue | `FormValue` |          | Already resolved value of the entity. Pass it when rendering child entities, so the value does not depend on parsing `name` as a path (see [Dotted property keys](#dotted-property-keys)) |
-
-Passing `resolvedValue` — including `resolvedValue={undefined}` — disables reading the value from the form value by `name`. Omit the prop entirely to keep that behaviour.
-
-### Dotted property keys
-
-`spec.properties` keys are treated as literal keys of the value object, not as paths. A spec with the property `agent.cluster` describes the value `{'agent.cluster': 'main'}`, not `{agent: {cluster: 'main'}}`.
-
-Every `View` that renders nested entities must therefore pass the already resolved child value into [ViewController](#viewcontroller) via `resolvedValue`. All views shipped with the library do this. If you render `ViewController` from a custom [View](./config.md#views) without `resolvedValue`, the value is looked up by `name` as a path and properties whose keys contain dots resolve to `undefined`.
+| Property | Type     | Required | Description                                      |
+| :------- | :------- | :------: | :----------------------------------------------- |
+| name     | `string` |   yes    | View name                                        |
+| spec     | `Spec`   |   yes    | An [spec](./spec.md#specs) describing the entity |
