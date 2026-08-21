@@ -9,8 +9,10 @@ interface NodeParameters<Type extends NodeType, Schema extends JsonSchema> {
         entity?: string | NodeEntity<Schema>;
         entityProps?: Record<string, any>;
         errorMessages?: Omit<ErrorMessages, 'dependencies' | 'required'> & {
-            dependencies?: string | Record<string, string>;
-            required?: string | Record<string, string>;
+            dependencies?:
+                | ErrorMessages['dependencies']
+                | Record<string, ErrorMessages['dependencies']>;
+            required?: ErrorMessages['required'] | Record<string, ErrorMessages['required']>;
         };
         formEntity?: string | NodeEntity<Schema>;
         formEntityProps?: Record<string, any>;

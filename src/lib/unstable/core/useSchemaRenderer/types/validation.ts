@@ -1,5 +1,3 @@
-import type {ErrorObject} from 'ajv';
-
 import type {FieldValue, JsonSchema, ValidationError, Validator} from '../../types';
 
 export interface ValidationWaiter {
@@ -12,8 +10,3 @@ export interface ValidationWaiter {
 export interface ValidationCache extends Omit<ValidationWaiter, 'promise'> {
     result: ValidationError;
 }
-
-export type NodeParametersErrorObject = ErrorObject<
-    'nodeParameters',
-    {schema: JsonSchema; validator: Validator<JsonSchema>; value: FieldValue}
->;

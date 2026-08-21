@@ -90,8 +90,10 @@ export const createNodeParametersDefiner =
             | OverviewLayout;
         overviewLayoutProps?: NodeComponentProps<Config, Type, 'overviewLayouts', OverviewLayout>;
         errorMessages?: Omit<ErrorMessages, 'dependencies' | 'required'> & {
-            dependencies?: string | Record<string, string>;
-            required?: string | Record<string, string>;
+            dependencies?:
+                | ErrorMessages['dependencies']
+                | Record<string, ErrorMessages['dependencies']>;
+            required?: ErrorMessages['required'] | Record<string, ErrorMessages['required']>;
         };
         validator?:
             | NoInfer<NodeTypeConfigKey<Config, Type, 'validators'>>

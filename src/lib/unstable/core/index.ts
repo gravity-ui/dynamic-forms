@@ -1,10 +1,10 @@
 export {
-    SchemaNode,
-    type SchemaNodeProps,
-    type SchemaNodeState,
+    SchemaRendererNode,
+    type SchemaRendererNodeProps,
+    type SchemaRendererNodeState,
     getAccumulatedSchema,
     getRenderKit,
-} from './SchemaNode';
+} from './SchemaRendererNode';
 export {SchemaRenderer, type SchemaRendererProps} from './SchemaRenderer';
 export {NodeType, JsonSchemaType, SchemaRendererEventType, SchemaRendererMode} from './constants';
 export type * from './types';
@@ -23,5 +23,5 @@ export {
     defineNodeEntityConfig,
     defineNodeLayoutConfig,
     getServiceFieldName,
-    getSchemaBySchemaPath,
+    getSchemaByPointer,
 } from './utils';

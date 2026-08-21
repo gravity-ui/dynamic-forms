@@ -3,7 +3,12 @@ import React from 'react';
 import {Plus} from '@gravity-ui/icons';
 import {Button, HelpMark, Icon, Text} from '@gravity-ui/uikit';
 
-import {type JsonSchema, type JsonSchemaArray, type NodeEntity, SchemaNode} from '../../../core';
+import {
+    type JsonSchema,
+    type JsonSchemaArray,
+    type NodeEntity,
+    SchemaRendererNode,
+} from '../../../core';
 import {ArrayRemoveButton, EntityContainer} from '../../components';
 import {block} from '../../utils';
 
@@ -144,7 +149,7 @@ const ArrayTableComponent: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
                 </div>
                 {columns.map((column, cIndex) => (
                     <div className={b('cell')} key={cIndex}>
-                        <SchemaNode
+                        <SchemaRendererNode
                             headName={headName}
                             name={getItemName(rIndex, column.name)}
                             schemaPath={getItemSchemaPath(rIndex, column.name)}

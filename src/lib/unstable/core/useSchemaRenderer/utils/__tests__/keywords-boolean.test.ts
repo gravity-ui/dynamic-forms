@@ -1,123 +1,181 @@
-// import {JsonSchemaType} from '../../../constants';
-// import type {JsonSchemaBoolean} from '../../../types';
+import {createForm} from 'final-form';
 
-// import {
-//     AJV_MESSAGES,
-//     FIELD_NAME,
-//     GLOBAL_ERROR_MESSAGES,
-//     SCHEMA_ERROR_MESSAGES,
-//     createAjvValidate,
-//     createProcessAjvError,
-//     createProcessAjvValidateErrors,
-//     createValidate,
-// } from './fixtures.test';
+import {JsonSchemaType} from '../../../constants';
+import type {JSLErrors, JsonSchemaBoolean} from '../../../types';
+import {getSchemaRootNode} from '../get-schema-root-node';
+import {type ParseErrorParams, getParser} from '../parse-errors';
 
-// describe('validate booleans', () => {
-//     describe('type', () => {
-//         const schema: JsonSchemaBoolean = {type: JsonSchemaType.Boolean};
+describe('validate booleans', () => {
+    describe('type', () => {
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaBoolean = {type: JsonSchemaType.Boolean};
+            const value = true;
+            const node = getSchemaRootNode({schema});
 
-//         const validValue = true;
-//         const invalidValue = 'a';
+            expect(node.validate(value).errors).toEqual([]);
+        });
 
-//         const ajvError = {
-//             keyword: 'type',
-//             instancePath: '',
-//             schemaPath: '#/type',
-//             params: {type: JsonSchemaType.Boolean},
-//             message: AJV_MESSAGES.typeBoolean,
-//         };
-//         const ajvErrors = [ajvError];
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaBoolean = {type: JsonSchemaType.Boolean};
+            const value = 'a';
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `a` (string) in `#` to be of type `boolean`',
+                data: {
+                    value: 'a',
+                    received: 'string',
+                    expected: 'boolean',
+                    schema,
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
 
-//         test('ajv: a valid value produces no errors', () => {
-//             const validate = createAjvValidate({schema});
+            expect(node.validate(value).errors).toEqual([error]);
+        });
 
-//             validate(validValue);
+        test('get-parser: default error message', () => {
+            const schema: JsonSchemaBoolean = {type: JsonSchemaType.Boolean};
+            const value = 'a';
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `a` (string) in `#` to be of type `boolean`',
+                data: {
+                    value: 'a',
+                    received: 'string',
+                    expected: 'boolean',
+                    schema,
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
 
-//             expect(validate.errors).toBe(null);
-//         });
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
 
-//         test('ajv: an invalid value produces an error', () => {
-//             const validate = createAjvValidate({schema});
+            expect(node.validate(value).errors).toEqual([error]);
 
-//             validate(invalidValue);
+            getParser(error.code)(params);
 
-//             expect(validate.errors).toEqual(ajvErrors);
-//         });
+            expect(params.setJSLError).toHaveBeenCalledWith('', error.message);
+        });
 
-//         test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-//             const {processAjvValidateErrors} = createProcessAjvValidateErrors();
+        test('get-parser: error schema-level error message', () => {
+            const message = 'type error message';
+            const schema: JsonSchemaBoolean = {
+                type: JsonSchemaType.Boolean,
+                nodeParameters: {errorMessages: {type: message}},
+            };
+            const value = 'a';
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `a` (string) in `#` to be of type `boolean`',
+                data: {
+                    value: 'a',
+                    received: 'string',
+                    expected: 'boolean',
+                    schema,
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
 
-//             const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-//                 ajvValidateErrors: ajvErrors,
-//                 errorMessages: {},
-//                 schema,
-//             });
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {type: 'global error message'}},
+            } as unknown as ParseErrorParams;
 
-//             expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.typeBoolean}]);
-//             expect(entityParametersErrorItems).toEqual([]);
-//             expect(waiters).toEqual({});
-//         });
+            expect(node.validate(value).errors).toEqual([error]);
 
-//         test('processAjvError: with no custom messages the ajv text is used', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
+            getParser(error.code)(params);
 
-//             processAjvError({error: ajvError, errorMessages: {}, schema});
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
 
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: [],
-//                 error: AJV_MESSAGES.typeBoolean,
-//             });
-//         });
+        test('get-parser: instance schema-level error message', () => {
+            const message = 'type error message';
+            const schema: JsonSchemaBoolean = {
+                allOf: [{type: JsonSchemaType.Boolean}],
+                nodeParameters: {errorMessages: {type: message}},
+            };
+            const value = 'a';
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `a` (string) in `#` to be of type `boolean`',
+                data: {
+                    value: 'a',
+                    received: 'string',
+                    expected: 'boolean',
+                    schema: schema.allOf![0],
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
 
-//         test('processAjvError: a global error message takes precedence over the ajv text', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
+            form.registerField<any>('', () => {}, {}, {data: {schemaPath: '#'}});
 
-//             processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {type: 'global error message'}},
+            } as unknown as ParseErrorParams;
 
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: [],
-//                 error: GLOBAL_ERROR_MESSAGES.type,
-//             });
-//         });
+            expect(node.validate(value).errors).toEqual([error]);
 
-//         test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-//             const schemaWithMessage: JsonSchemaBoolean = {
-//                 ...schema,
-//                 entityParameters: {errorMessages: {type: SCHEMA_ERROR_MESSAGES.type}},
-//             };
-//             const {processAjvError, onError} = createProcessAjvError();
+            getParser(error.code)(params);
 
-//             processAjvError({
-//                 error: ajvError,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithMessage,
-//             });
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
 
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: [],
-//                 error: SCHEMA_ERROR_MESSAGES.type,
-//             });
-//         });
+        test('get-parser: global error message', () => {
+            const message = 'type error message';
+            const schema: JsonSchemaBoolean = {type: JsonSchemaType.Boolean};
+            const value = 'a';
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `a` (string) in `#` to be of type `boolean`',
+                data: {
+                    value: 'a',
+                    received: 'string',
+                    expected: 'boolean',
+                    schema,
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
 
-//         // type has no schema, so we can't test this case
-//         test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {type: message}},
+            } as unknown as ParseErrorParams;
 
-//         test('validate: a valid value is not flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
+            expect(node.validate(value).errors).toEqual([error]);
 
-//             expect(validate(validValue, {schema})).toBe(false);
-//             expect(setErrors).toHaveBeenCalledWith({});
-//         });
+            getParser(error.code)(params);
 
-//         test('validate: an invalid value is flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             const errors = {[FIELD_NAME]: AJV_MESSAGES.typeBoolean};
-
-//             expect(validate(invalidValue, {schema})).toEqual('error');
-//             expect(setErrors).toHaveBeenCalledWith(errors);
-//         });
-//     });
-// });
-
-test.skip('keywords-boolean', () => {});
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+    });
+});

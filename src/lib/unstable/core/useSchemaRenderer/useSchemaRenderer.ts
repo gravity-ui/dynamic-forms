@@ -66,24 +66,30 @@ export const useSchemaRenderer = ({
         const userContextUpdated = userContext !== prevParams?.userContext;
 
         const initialState: SchemaRendererState = {
-            cache: nameUpdated || schemaUpdated ? {} : prevState?.cache || {},
+            cache: nameUpdated || schemaUpdated || !prevState?.cache ? {} : prevState.cache,
             config: config || {},
             dispatchEvent,
-            errors: nameUpdated || schemaUpdated ? {} : prevState?.errors || {},
+            errors: nameUpdated || schemaUpdated || !prevState?.errors ? {} : prevState.errors,
             errorMessages: errorMessages || {},
             mode,
             originalSchema,
-            patches: nameUpdated || schemaUpdated ? [] : prevState?.patches || [],
-            priorityErrors: nameUpdated || schemaUpdated ? {} : prevState?.priorityErrors || {},
-            regularErrors: nameUpdated || schemaUpdated ? {} : prevState?.regularErrors || {},
+            patches: nameUpdated || schemaUpdated || !prevState?.patches ? [] : prevState.patches,
+            priorityErrors:
+                nameUpdated || schemaUpdated || !prevState?.priorityErrors
+                    ? {}
+                    : prevState.priorityErrors,
+            regularErrors:
+                nameUpdated || schemaUpdated || !prevState?.regularErrors
+                    ? {}
+                    : prevState.regularErrors,
             runValidate,
             schema:
                 nameUpdated || schemaUpdated ? cloneDeep(originalSchema) : prevState?.schema || {},
             subscribe,
-            subsribers: prevState?.subsribers || {byId: {}, byName: new Map(), byPath: new Map()},
+            subscribers: prevState?.subscribers || {byId: {}, byName: new Map(), byPath: new Map()},
             unsubscribe,
             userContext: userContextUpdated ? userContext || {} : prevState?.userContext || {},
-            waiters: nameUpdated || schemaUpdated ? {} : prevState?.waiters || {},
+            waiters: nameUpdated || schemaUpdated || !prevState?.waiters ? {} : prevState.waiters,
         };
         const getValidator = connectValidate ? () => validate : undefined;
 

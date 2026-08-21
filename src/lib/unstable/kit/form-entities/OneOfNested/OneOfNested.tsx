@@ -5,9 +5,9 @@ import {
     type JsonSchemaObject,
     type NodeEntity,
     NodeType,
-    SchemaNode,
     SchemaRendererEventType,
     SchemaRendererMode,
+    SchemaRendererNode,
     getRenderKit,
     useSchemaRendererState,
 } from '../../../core';
@@ -138,7 +138,7 @@ const OneOfNestedComponent: NodeEntity<JsonSchemaObject, OneOfNestedProps> = ({
         <EntityContainer stretch="by-child">
             {toggler}
             <div className={b('content', {'with-indent': withIndent})}>
-                <SchemaNode
+                <SchemaRendererNode
                     headName={headName}
                     name={`${name}.${togglerValue}`}
                     schemaPath={`${schemaPath}/properties/${togglerValue}`}

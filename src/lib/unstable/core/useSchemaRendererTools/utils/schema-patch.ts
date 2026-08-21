@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import set from 'lodash/set';
 
-import type {SchemaNodeState} from '../../SchemaNode';
+import type {SchemaRendererNodeState} from '../../SchemaRendererNode';
 import {SchemaRendererEventType} from '../../constants';
 import type {JsonSchema} from '../../types';
 import {
@@ -14,10 +14,10 @@ import {
     type SchemaRendererState,
 } from '../../useSchemaRenderer';
 import {
-    getSchemaBySchemaPath,
+    getSchemaByPointer,
     getServiceFieldName,
     getValuePaths,
-    schemaPathToArrPath,
+    pointerToArrayPath,
 } from '../../utils';
 
 export interface AddSchemaPatchesParams {
@@ -35,7 +35,7 @@ export const addSchemaPatches = ({form, patches}: AddSchemaPatchesParams) => {
             schemaPath = p.schemaPath;
         } else {
             const nodeField = form.getFieldState(p.name);
-            const nodeState: SchemaNodeState | undefined = nodeField?.data?.state;
+            const nodeState: SchemaRendererNodeState | undefined = nodeField?.data?.state;
 
             schemaPath = nodeState?.schemaPath;
         }
@@ -46,14 +46,14 @@ export const addSchemaPatches = ({form, patches}: AddSchemaPatchesParams) => {
             const srState: SchemaRendererState | undefined = srField?.data?.state;
 
             if (srState) {
-                const schemaArrPath = schemaPathToArrPath(schemaPath);
+                const schemaArrPath = pointerToArrayPath(schemaPath);
                 const valuePaths = getValuePaths(p.schema);
                 const changedPaths: string[][] = [];
 
                 if (p.replace) {
                     [
                         ...valuePaths,
-                        ...getValuePaths(getSchemaBySchemaPath(srState.schema, schemaArrPath)),
+                        ...getValuePaths(getSchemaByPointer(srState.schema, schemaArrPath)),
                     ].forEach((path) => {
                         const current = get(srState.schema, [...schemaArrPath, ...path]);
                         const next = get(p.schema, path);
@@ -99,6 +99,7 @@ export const addSchemaPatches = ({form, patches}: AddSchemaPatchesParams) => {
         const srState: SchemaRendererState | undefined = srField?.data?.state;
 
         if (srState) {
+            srState.schema = {...srState.schema};
             srState.dispatchEvent([{type: SchemaRendererEventType.Patch, paths}]);
             srState.runValidate();
         }
@@ -120,7 +121,7 @@ export const removeSchemaPatches = ({form, patchesToRemove}: RemoveSchemaPatches
             schemaPath = p.schemaPath;
         } else {
             const nodeField = form.getFieldState(p.name);
-            const nodeState: SchemaNodeState | undefined = nodeField?.data?.state;
+            const nodeState: SchemaRendererNodeState | undefined = nodeField?.data?.state;
 
             schemaPath = nodeState?.schemaPath;
         }
@@ -145,13 +146,13 @@ export const removeSchemaPatches = ({form, patchesToRemove}: RemoveSchemaPatches
                     schemaPath = p.schemaPath;
                 } else {
                     const nodeField = form.getFieldState(p.name);
-                    const nodeState: SchemaNodeState | undefined = nodeField?.data?.state;
+                    const nodeState: SchemaRendererNodeState | undefined = nodeField?.data?.state;
 
                     schemaPath = nodeState?.schemaPath;
                 }
 
                 if (schemaPath) {
-                    const schemaArrPath = schemaPathToArrPath(schemaPath);
+                    const schemaArrPath = pointerToArrayPath(schemaPath);
 
                     if (schemaArrPath.length) {
                         set(
@@ -172,7 +173,7 @@ export const removeSchemaPatches = ({form, patchesToRemove}: RemoveSchemaPatches
                     pSchemaPath = p.schemaPath;
                 } else {
                     const nodeField = form.getFieldState(p.name);
-                    const nodeState: SchemaNodeState | undefined = nodeField?.data?.state;
+                    const nodeState: SchemaRendererNodeState | undefined = nodeField?.data?.state;
 
                     pSchemaPath = nodeState?.schemaPath;
                 }
@@ -184,7 +185,8 @@ export const removeSchemaPatches = ({form, patchesToRemove}: RemoveSchemaPatches
                         ptrSchemaPath = ptr.schemaPath;
                     } else {
                         const nodeField = form.getFieldState(ptr.name);
-                        const nodeState: SchemaNodeState | undefined = nodeField?.data?.state;
+                        const nodeState: SchemaRendererNodeState | undefined =
+                            nodeField?.data?.state;
 
                         ptrSchemaPath = nodeState?.schemaPath;
                     }
@@ -202,7 +204,7 @@ export const removeSchemaPatches = ({form, patchesToRemove}: RemoveSchemaPatches
                 });
 
                 if (!shouldRemove && pSchemaPath) {
-                    const schemaArrPath = schemaPathToArrPath(pSchemaPath);
+                    const schemaArrPath = pointerToArrayPath(pSchemaPath);
 
                     if (schemaArrPath.length) {
                         set(schemaPatch, schemaArrPath, p.schema);
@@ -211,7 +213,7 @@ export const removeSchemaPatches = ({form, patchesToRemove}: RemoveSchemaPatches
                     }
                 }
 
-                return shouldRemove;
+                return !shouldRemove;
             });
 
             addSchemaPatches({form, patches: [{headName, schemaPath: '#', schema: schemaPatch}]});

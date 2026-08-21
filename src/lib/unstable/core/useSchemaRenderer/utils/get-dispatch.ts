@@ -12,12 +12,12 @@ export const getDispatch = (form: FormApi, headName: string) => {
         const srState: SchemaRendererState | undefined = srField?.data?.state;
 
         if (events.length && srState) {
-            const {subsribers} = srState;
+            const {subscribers} = srState;
             const notified = new Set<string>();
 
             events.forEach((ep) => {
                 if (ep.all) {
-                    Object.entries(subsribers.byId).forEach(([id, s]) => {
+                    Object.entries(subscribers.byId).forEach(([id, s]) => {
                         if (s.subscription[ep.type] && !notified.has(id)) {
                             notified.add(id);
                             s.callback(events);
@@ -33,8 +33,8 @@ export const getDispatch = (form: FormApi, headName: string) => {
                     p.forEach((path) => {
                         current = current.length ? `${current}/${path}` : path;
 
-                        subsribers.byPath.get(current)?.forEach((id) => {
-                            const s = subsribers.byId[id];
+                        subscribers.byPath.get(current)?.forEach((id) => {
+                            const s = subscribers.byId[id];
 
                             if (s.subscription[ep.type] && !notified.has(id)) {
                                 notified.add(id);
@@ -45,8 +45,8 @@ export const getDispatch = (form: FormApi, headName: string) => {
                 });
 
                 ep.names?.forEach((n) => {
-                    subsribers.byName.get(n)?.forEach((id) => {
-                        const s = subsribers.byId[id];
+                    subscribers.byName.get(n)?.forEach((id) => {
+                        const s = subscribers.byId[id];
 
                         if (s.subscription[ep.type] && !notified.has(id)) {
                             notified.add(id);
