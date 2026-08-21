@@ -1,201 +1,399 @@
-// import {EntityType, JsonSchemaType} from '../../../constants';
-// import type {JsonSchema} from '../../../types';
+import {createForm} from 'final-form';
 
-// import {
-//     AJV_MESSAGES,
-//     CUSTOM_ASYNC_VALIDATOR_WITH_ERROR_TYPE,
-//     CUSTOM_VALIDATOR_WITH_ERROR_MESSAGE,
-//     CUSTOM_VALIDATOR_WITH_ERROR_TYPE,
-//     FIELD_NAME,
-//     createValidate,
-//     customAsyncValidatorWithError,
-// } from './fixtures.test';
+import {JsonSchemaType, SchemaRendererEventType} from '../../../constants';
+import type {JsonSchemaNumber, JsonSchemaString} from '../../../types';
+import {getServiceFieldName} from '../../../utils';
+import {SCHEMA_RENDERER_SERVICE_FIELD} from '../../constants';
+import type {SchemaRendererState} from '../../types';
+import {getValidate} from '../get-validate';
 
-// describe('getValidate', () => {
-//     test('returns false if no schema', () => {
-//         const {validate, setAsyncValidationCache, setAsyncValidationWaiters, setErrors} =
-//             createValidate();
+describe('getValidate', () => {
+    test('returns false if there is no renderer state', () => {
+        const form = createForm<any>({onSubmit: () => {}, initialValues: {form: 1}});
+        const validate = getValidate(form, 'form');
 
-//         const result = validate(1);
+        expect(validate()).toBe(false);
+    });
 
-//         expect(result).toBe(false);
-//         expect(setAsyncValidationCache).not.toHaveBeenCalled();
-//         expect(setAsyncValidationWaiters).not.toHaveBeenCalled();
-//         expect(setErrors).not.toHaveBeenCalled();
-//     });
+    test('returns an error when the value fails jsl validation', () => {
+        const schema: JsonSchemaString = {type: JsonSchemaType.String};
+        const form = createForm<any>({onSubmit: () => {}, initialValues: {form: 1}});
+        const state = {
+            cache: {},
+            config: {},
+            dispatchEvent: jest.fn(),
+            errors: {},
+            errorMessages: {},
+            priorityErrors: {},
+            regularErrors: {},
+            runValidate: jest.fn(),
+            schema,
+            waiters: {},
+        } as unknown as SchemaRendererState;
 
-//     test('return error if schema is not valid (AJV error)', () => {
-//         const schema: JsonSchema = {
-//             type: JsonSchemaType.String,
-//             entityParameters: {type: EntityType.String},
-//         };
+        form.registerField(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'form'),
+            () => {},
+            {},
+            {data: {state}},
+        );
 
-//         const {validate, setAsyncValidationCache, setAsyncValidationWaiters, setErrors} =
-//             createValidate();
+        const validate = getValidate(form, 'form');
 
-//         const result = validate(1, {schema});
+        expect(validate()).toBe('error');
+        expect(state.errors).toEqual({form: 'Expected `1` (number) in `#` to be of type `string`'});
+        expect(state.dispatchEvent).toHaveBeenCalledWith([
+            {type: SchemaRendererEventType.Error, names: ['form']},
+        ]);
+        expect(state.waiters).toEqual({});
+    });
 
-//         const errors = {[FIELD_NAME]: AJV_MESSAGES.typeString};
+    test('returns an error from a nodeParameters validator', () => {
+        const message = 'nodeParameters error message';
+        const schema: JsonSchemaString = {
+            type: JsonSchemaType.String,
+            nodeParameters: {validator: () => message},
+        };
+        const form = createForm<any>({onSubmit: () => {}, initialValues: {form: '1'}});
+        const state = {
+            cache: {},
+            config: {},
+            dispatchEvent: jest.fn(),
+            errors: {},
+            errorMessages: {},
+            priorityErrors: {},
+            regularErrors: {},
+            runValidate: jest.fn(),
+            schema,
+            waiters: {},
+        } as unknown as SchemaRendererState;
 
-//         expect(result).toEqual('error');
-//         expect(setAsyncValidationCache).not.toHaveBeenCalled();
-//         expect(setAsyncValidationWaiters).not.toHaveBeenCalled();
-//         expect(setErrors).toHaveBeenCalledWith(errors);
-//     });
+        form.registerField(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'form'),
+            () => {},
+            {},
+            {data: {state}},
+        );
 
-//     test('return error if schema is not valid (entity parameters error)', () => {
-//         const schema: JsonSchema = {
-//             entityParameters: {
-//                 type: EntityType.String,
-//                 validatorType: CUSTOM_VALIDATOR_WITH_ERROR_TYPE,
-//             },
-//         };
+        const validate = getValidate(form, 'form');
 
-//         const {validate, setAsyncValidationCache, setAsyncValidationWaiters, setErrors} =
-//             createValidate();
+        expect(validate()).toBe('error');
+        expect(state.errors).toEqual({form: message});
+        expect(state.dispatchEvent).toHaveBeenCalledWith([
+            {type: SchemaRendererEventType.Error, names: ['form']},
+        ]);
+    });
 
-//         const result = validate('1', {schema});
+    test('returns an error from regularErrors', () => {
+        const message = 'regular error message';
+        const schema: JsonSchemaString = {type: JsonSchemaType.String};
+        const form = createForm<any>({onSubmit: () => {}, initialValues: {form: '1'}});
+        const state = {
+            cache: {},
+            config: {},
+            dispatchEvent: jest.fn(),
+            errors: {},
+            errorMessages: {},
+            priorityErrors: {},
+            regularErrors: {form: message},
+            runValidate: jest.fn(),
+            schema,
+            waiters: {},
+        } as unknown as SchemaRendererState;
 
-//         const errors = {[FIELD_NAME]: CUSTOM_VALIDATOR_WITH_ERROR_MESSAGE};
+        form.registerField(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'form'),
+            () => {},
+            {},
+            {data: {state}},
+        );
 
-//         expect(result).toEqual('error');
-//         expect(setAsyncValidationCache).not.toHaveBeenCalled();
-//         expect(setAsyncValidationWaiters).not.toHaveBeenCalled();
-//         expect(setErrors).toHaveBeenCalledWith(errors);
-//     });
+        const validate = getValidate(form, 'form');
 
-//     test('return error if schema is not valid (external regular error)', () => {
-//         const schema: JsonSchema = {entityParameters: {type: EntityType.String}};
-//         const regularError = 'regular-error';
+        expect(validate()).toBe('error');
+        expect(state.errors).toEqual({form: message});
+        expect(state.dispatchEvent).toHaveBeenCalledWith([
+            {type: SchemaRendererEventType.Error, names: ['form']},
+        ]);
+    });
 
-//         const {validate, setAsyncValidationCache, setAsyncValidationWaiters, setErrors} =
-//             createValidate();
+    test('returns an error from priorityErrors', () => {
+        const message = 'priority error message';
+        const schema: JsonSchemaString = {type: JsonSchemaType.String};
+        const form = createForm<any>({onSubmit: () => {}, initialValues: {form: '1'}});
+        const state = {
+            cache: {},
+            config: {},
+            dispatchEvent: jest.fn(),
+            errors: {},
+            errorMessages: {},
+            priorityErrors: {form: message},
+            regularErrors: {},
+            runValidate: jest.fn(),
+            schema,
+            waiters: {},
+        } as unknown as SchemaRendererState;
 
-//         const result = validate('1', {schema, regularErrors: {[FIELD_NAME]: regularError}});
+        form.registerField(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'form'),
+            () => {},
+            {},
+            {data: {state}},
+        );
 
-//         const errors = {[FIELD_NAME]: regularError};
+        const validate = getValidate(form, 'form');
 
-//         expect(result).toEqual('error');
-//         expect(setAsyncValidationCache).not.toHaveBeenCalled();
-//         expect(setAsyncValidationWaiters).not.toHaveBeenCalled();
-//         expect(setErrors).toHaveBeenCalledWith(errors);
-//     });
+        expect(validate()).toBe('error');
+        expect(state.errors).toEqual({form: message});
+        expect(state.dispatchEvent).toHaveBeenCalledWith([
+            {type: SchemaRendererEventType.Error, names: ['form']},
+        ]);
+    });
 
-//     test('return error if schema is not valid (external priority error)', () => {
-//         const schema: JsonSchema = {entityParameters: {type: EntityType.String}};
-//         const priorityError = 'priority-error';
+    test('stores a waiter and returns a promise for an async nodeParameters validator', async () => {
+        const message = 'async nodeParameters error message';
+        const validator = () => Promise.resolve(message);
+        const schema: JsonSchemaString = {
+            type: JsonSchemaType.String,
+            nodeParameters: {validator},
+        };
+        const value = '1';
+        const form = createForm<any>({onSubmit: () => {}, initialValues: {form: value}});
+        const state = {
+            cache: {},
+            config: {},
+            dispatchEvent: jest.fn(),
+            errors: {},
+            errorMessages: {},
+            priorityErrors: {},
+            regularErrors: {},
+            runValidate: jest.fn(),
+            schema,
+            waiters: {},
+        } as unknown as SchemaRendererState;
 
-//         const {validate, setAsyncValidationCache, setAsyncValidationWaiters, setErrors} =
-//             createValidate();
+        form.registerField(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'form'),
+            () => {},
+            {},
+            {data: {state}},
+        );
 
-//         const result = validate('1', {schema, priorityErrors: {[FIELD_NAME]: priorityError}});
+        const validate = getValidate(form, 'form');
+        const result = validate();
 
-//         const errors = {[FIELD_NAME]: priorityError};
+        expect(result).toBeInstanceOf(Promise);
+        expect(state.errors).toEqual({});
+        expect(state.waiters.form).toEqual({
+            promise: expect.any(Promise),
+            schema,
+            validator,
+            value,
+        });
+        expect(state.dispatchEvent).not.toHaveBeenCalled();
 
-//         expect(result).toEqual('error');
-//         expect(setAsyncValidationCache).not.toHaveBeenCalled();
-//         expect(setAsyncValidationWaiters).not.toHaveBeenCalled();
-//         expect(setErrors).toHaveBeenCalledWith(errors);
-//     });
+        await expect(result).resolves.toBe(false);
 
-//     test('call setAsyncValidationWaiters if has waiters', () => {
-//         const schema: JsonSchema = {
-//             entityParameters: {
-//                 type: EntityType.String,
-//                 validatorType: CUSTOM_ASYNC_VALIDATOR_WITH_ERROR_TYPE,
-//             },
-//         };
-//         const value = '1';
+        expect(state.cache.form).toEqual([{schema, validator, value, result: message}]);
+        expect(state.runValidate).toHaveBeenCalled();
 
-//         const {validate, setAsyncValidationCache, setAsyncValidationWaiters, setErrors} =
-//             createValidate();
+        expect(validate()).toBe('error');
+        expect(state.errors).toEqual({form: message});
+    });
 
-//         const result = validate(value, {schema});
+    test('jsl errors override regularErrors', () => {
+        const schema: JsonSchemaString = {type: JsonSchemaType.String};
+        const form = createForm<any>({onSubmit: () => {}, initialValues: {form: 1}});
+        const state = {
+            cache: {},
+            config: {},
+            dispatchEvent: jest.fn(),
+            errors: {},
+            errorMessages: {},
+            priorityErrors: {},
+            regularErrors: {form: 'regular error message'},
+            runValidate: jest.fn(),
+            schema,
+            waiters: {},
+        } as unknown as SchemaRendererState;
 
-//         expect(result).toBe(false);
-//         expect(setAsyncValidationCache).not.toHaveBeenCalled();
-//         expect(setAsyncValidationWaiters).toHaveBeenCalledWith({
-//             headName: FIELD_NAME,
-//             waiters: {'': {schema: schema, validator: customAsyncValidatorWithError, value}},
-//         });
-//         expect(setErrors).toHaveBeenCalledWith({});
-//     });
+        form.registerField(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'form'),
+            () => {},
+            {},
+            {data: {state}},
+        );
 
-//     test('AJV errors have priority over external regular errors', () => {
-//         const schema: JsonSchema = {
-//             type: JsonSchemaType.String,
-//             entityParameters: {type: EntityType.String},
-//         };
-//         const regularError = 'regular-error';
+        const validate = getValidate(form, 'form');
 
-//         const {validate, setAsyncValidationCache, setAsyncValidationWaiters, setErrors} =
-//             createValidate();
+        expect(validate()).toBe('error');
+        expect(state.errors).toEqual({
+            form: 'Expected `1` (number) in `#` to be of type `string`',
+        });
+    });
 
-//         const result = validate(1, {schema, regularErrors: {[FIELD_NAME]: regularError}});
+    test('nodeParameters errors override jsl errors', () => {
+        const message = 'nodeParameters error message';
+        const schema: JsonSchemaString = {
+            type: JsonSchemaType.String,
+            nodeParameters: {validator: () => message},
+        };
+        const form = createForm<any>({onSubmit: () => {}, initialValues: {form: 1}});
+        const state = {
+            cache: {},
+            config: {},
+            dispatchEvent: jest.fn(),
+            errors: {},
+            errorMessages: {},
+            priorityErrors: {},
+            regularErrors: {},
+            runValidate: jest.fn(),
+            schema,
+            waiters: {},
+        } as unknown as SchemaRendererState;
 
-//         const errors = {[FIELD_NAME]: AJV_MESSAGES.typeString};
+        form.registerField(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'form'),
+            () => {},
+            {},
+            {data: {state}},
+        );
 
-//         expect(result).toEqual('error');
-//         expect(setAsyncValidationCache).not.toHaveBeenCalled();
-//         expect(setAsyncValidationWaiters).not.toHaveBeenCalled();
-//         expect(setErrors).toHaveBeenCalledWith(errors);
-//     });
+        const validate = getValidate(form, 'form');
 
-//     test('entity parameters error has priority over AJV errors', () => {
-//         const schema: JsonSchema = {
-//             type: JsonSchemaType.String,
-//             entityParameters: {
-//                 type: EntityType.String,
-//                 validatorType: CUSTOM_VALIDATOR_WITH_ERROR_TYPE,
-//             },
-//         };
+        expect(validate()).toBe('error');
+        expect(state.errors).toEqual({form: message});
+    });
 
-//         const {validate, setAsyncValidationCache, setAsyncValidationWaiters, setErrors} =
-//             createValidate();
+    test('priorityErrors override nodeParameters errors', () => {
+        const message = 'priority error message';
+        const schema: JsonSchemaString = {
+            type: JsonSchemaType.String,
+            nodeParameters: {validator: () => 'nodeParameters error message'},
+        };
+        const form = createForm<any>({onSubmit: () => {}, initialValues: {form: '1'}});
+        const state = {
+            cache: {},
+            config: {},
+            dispatchEvent: jest.fn(),
+            errors: {},
+            errorMessages: {},
+            priorityErrors: {form: message},
+            regularErrors: {},
+            runValidate: jest.fn(),
+            schema,
+            waiters: {},
+        } as unknown as SchemaRendererState;
 
-//         const result = validate(1, {schema});
+        form.registerField(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'form'),
+            () => {},
+            {},
+            {data: {state}},
+        );
 
-//         const errors = {[FIELD_NAME]: CUSTOM_VALIDATOR_WITH_ERROR_MESSAGE};
+        const validate = getValidate(form, 'form');
 
-//         expect(result).toEqual('error');
-//         expect(setAsyncValidationCache).not.toHaveBeenCalled();
-//         expect(setAsyncValidationWaiters).not.toHaveBeenCalled();
-//         expect(setErrors).toHaveBeenCalledWith(errors);
-//     });
+        expect(validate()).toBe('error');
+        expect(state.errors).toEqual({form: message});
+    });
 
-//     test('external priority errors have priority over entity parameters errors', () => {
-//         const schema: JsonSchema = {
-//             entityParameters: {
-//                 type: EntityType.String,
-//                 validatorType: CUSTOM_VALIDATOR_WITH_ERROR_TYPE,
-//             },
-//         };
-//         const priorityError = 'priority-error';
+    test('recomputes the schema node when the schema changes', () => {
+        const schema: JsonSchemaString = {type: JsonSchemaType.String};
+        const nextSchema: JsonSchemaNumber = {type: JsonSchemaType.Number};
+        const form = createForm<any>({onSubmit: () => {}, initialValues: {form: '1'}});
+        const state = {
+            cache: {},
+            config: {},
+            dispatchEvent: jest.fn(),
+            errors: {},
+            errorMessages: {},
+            priorityErrors: {},
+            regularErrors: {},
+            runValidate: jest.fn(),
+            schema,
+            waiters: {},
+        } as unknown as SchemaRendererState;
 
-//         const {validate, setAsyncValidationCache, setAsyncValidationWaiters, setErrors} =
-//             createValidate();
+        form.registerField(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'form'),
+            () => {},
+            {},
+            {data: {state}},
+        );
 
-//         const result = validate('1', {schema, priorityErrors: {[FIELD_NAME]: priorityError}});
+        const validate = getValidate(form, 'form');
 
-//         const errors = {[FIELD_NAME]: priorityError};
+        expect(validate()).toBe(false);
+        expect(state.errors).toEqual({});
 
-//         expect(result).toEqual('error');
-//         expect(setAsyncValidationCache).not.toHaveBeenCalled();
-//         expect(setAsyncValidationWaiters).not.toHaveBeenCalled();
-//         expect(setErrors).toHaveBeenCalledWith(errors);
-//     });
+        state.schema = nextSchema;
 
-//     test('recompute ajvValidate if schema is different', () => {
-//         const schema: JsonSchema = {type: JsonSchemaType.String};
-//         const schema2: JsonSchema = {type: JsonSchemaType.Number};
+        expect(validate()).toBe('error');
+        expect(state.errors).toEqual({form: 'Expected `1` (string) in `#` to be of type `number`'});
+    });
 
-//         const {validate, setErrors} = createValidate();
+    test('does not dispatch an event when errors did not change', () => {
+        const schema: JsonSchemaString = {type: JsonSchemaType.String};
+        const form = createForm<any>({onSubmit: () => {}, initialValues: {form: 1}});
+        const state = {
+            cache: {},
+            config: {},
+            dispatchEvent: jest.fn(),
+            errors: {},
+            errorMessages: {},
+            priorityErrors: {},
+            regularErrors: {},
+            runValidate: jest.fn(),
+            schema,
+            waiters: {},
+        } as unknown as SchemaRendererState;
 
-//         expect(validate('1', {schema})).toEqual(false);
-//         expect(setErrors).toHaveBeenCalledWith({});
-//         expect(validate('1', {schema: schema2})).toBe('error');
-//         expect(setErrors).toHaveBeenCalledWith({[FIELD_NAME]: AJV_MESSAGES.typeNumber});
-//     });
-// });
+        form.registerField(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'form'),
+            () => {},
+            {},
+            {data: {state}},
+        );
 
-test.skip('getValidate', () => {});
+        const validate = getValidate(form, 'form');
+
+        expect(validate()).toBe('error');
+        expect(state.dispatchEvent).toHaveBeenCalledTimes(1);
+
+        expect(validate()).toBe('error');
+        expect(state.dispatchEvent).toHaveBeenCalledTimes(1);
+    });
+
+    test('flattens object-like errors onto child field names', () => {
+        const schema: JsonSchemaString = {type: JsonSchemaType.String};
+        const form = createForm<any>({onSubmit: () => {}, initialValues: {form: '1'}});
+        const state = {
+            cache: {},
+            config: {},
+            dispatchEvent: jest.fn(),
+            errors: {},
+            errorMessages: {},
+            priorityErrors: {},
+            regularErrors: {form: {a: 'nested error message'}},
+            runValidate: jest.fn(),
+            schema,
+            waiters: {},
+        } as unknown as SchemaRendererState;
+
+        form.registerField(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'form'),
+            () => {},
+            {},
+            {data: {state}},
+        );
+
+        const validate = getValidate(form, 'form');
+
+        expect(validate()).toBe('error');
+        expect(state.errors).toEqual({'form.a': 'nested error message'});
+        expect(state.dispatchEvent).toHaveBeenCalledWith([
+            {type: SchemaRendererEventType.Error, names: ['form.a']},
+        ]);
+    });
+});

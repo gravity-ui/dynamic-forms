@@ -14,27 +14,27 @@ export const getSubscribe = (form: FormApi, headName: string) => {
         const srState: SchemaRendererState | undefined = srField?.data?.state;
 
         if (srState) {
-            const {subsribers} = srState;
+            const {subscribers} = srState;
 
-            subsribers.byId[id] = subscriber;
+            subscribers.byId[id] = subscriber;
 
             subscriber.schemaPaths?.forEach((schemaPath) => {
-                let set = subsribers.byPath.get(schemaPath);
+                let set = subscribers.byPath.get(schemaPath);
 
                 if (!set) {
                     set = new Set();
-                    subsribers.byPath.set(schemaPath, set);
+                    subscribers.byPath.set(schemaPath, set);
                 }
 
                 set.add(id);
             });
 
             if (subscriber.name) {
-                let set = subsribers.byName.get(subscriber.name);
+                let set = subscribers.byName.get(subscriber.name);
 
                 if (!set) {
                     set = new Set();
-                    subsribers.byName.set(subscriber.name, set);
+                    subscribers.byName.set(subscriber.name, set);
                 }
 
                 set.add(id);
@@ -49,27 +49,27 @@ export const getSubscribe = (form: FormApi, headName: string) => {
         const srState: SchemaRendererState | undefined = srField?.data?.state;
 
         if (srState) {
-            const {subsribers} = srState;
-            const subscriber = subsribers.byId[id];
+            const {subscribers} = srState;
+            const subscriber = subscribers.byId[id];
 
             if (subscriber) {
                 subscriber.schemaPaths?.forEach((schemaPath) => {
-                    subsribers.byPath.get(schemaPath)?.delete(id);
+                    subscribers.byPath.get(schemaPath)?.delete(id);
 
-                    if (subsribers.byPath.get(schemaPath)?.size === 0) {
-                        subsribers.byPath.delete(schemaPath);
+                    if (subscribers.byPath.get(schemaPath)?.size === 0) {
+                        subscribers.byPath.delete(schemaPath);
                     }
                 });
 
                 if (subscriber.name) {
-                    subsribers.byName.get(subscriber.name)?.delete(id);
+                    subscribers.byName.get(subscriber.name)?.delete(id);
 
-                    if (subsribers.byName.get(subscriber.name)?.size === 0) {
-                        subsribers.byName.delete(subscriber.name);
+                    if (subscribers.byName.get(subscriber.name)?.size === 0) {
+                        subscribers.byName.delete(subscriber.name);
                     }
                 }
 
-                delete subsribers.byId[id];
+                delete subscribers.byId[id];
             }
         }
     };

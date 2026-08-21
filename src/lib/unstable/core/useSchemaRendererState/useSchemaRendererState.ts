@@ -4,7 +4,7 @@ import {useForm} from 'react-final-form';
 
 import {SchemaRendererEventType} from '../constants';
 import {SCHEMA_RENDERER_SERVICE_FIELD, type SchemaRendererState} from '../useSchemaRenderer';
-import {getSchemaBySchemaPath, getServiceFieldName} from '../utils';
+import {getSchemaByPointer, getServiceFieldName} from '../utils';
 
 export interface UseSchemaRendererStateParams {
     headName: string;
@@ -24,7 +24,7 @@ export const useSchemaRendererState = <
     const form = useForm();
 
     const uuidRef = React.useRef<string>(null);
-    const [toggler, setToggler] = React.useState(false);
+    const [tick, setTick] = React.useState(0);
 
     const srName = React.useMemo(
         () => getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, headName),
@@ -48,11 +48,13 @@ export const useSchemaRendererState = <
                 {},
             );
 
-            const walk = (schemaPath?: string): string[] => {
-                if (schemaPath) {
-                    const schema = getSchemaBySchemaPath(srState.schema || {}, schemaPath);
+            const walk = (path?: string, paths: Set<string> = new Set()): string[] => {
+                if (path && !paths.has(path)) {
+                    paths.add(path);
 
-                    return [schemaPath, ...walk(schema?.$ref)];
+                    const schema = getSchemaByPointer(srState.schema || {}, path);
+
+                    return [path, ...walk(schema?.$ref, paths)];
                 }
 
                 return [];
@@ -63,22 +65,22 @@ export const useSchemaRendererState = <
             uuidRef.current = srState.subscribe({
                 name,
                 schemaPaths,
-                callback: () => setToggler((f) => !f),
+                callback: () => setTick((t) => t + 1),
                 subscription,
             });
         }
-    }, [form, name, schemaPath, srName, ...subscriptions]);
+    }, [form, name, schemaPath, srName, subscriptions.join(',')]);
 
     const state: SchemaRendererState<UserContext> | undefined = React.useMemo(() => {
         const srField = form.getFieldState(srName);
         const srState: SchemaRendererState<UserContext> | undefined = srField?.data?.state;
 
         if (srState) {
-            return {...srState, schema: {...srState.schema}};
+            return {...srState};
         }
 
         return undefined;
-    }, [form, srName, toggler]);
+    }, [form, srName, tick]);
 
     React.useEffect(() => {
         return () => {

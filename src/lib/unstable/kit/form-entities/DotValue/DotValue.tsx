@@ -3,7 +3,7 @@ import React from 'react';
 import get from 'lodash/get';
 import isString from 'lodash/isString';
 
-import {type JsonSchemaObject, type NodeEntity, SchemaNode} from '../../../core';
+import {type JsonSchemaObject, type NodeEntity, SchemaRendererNode} from '../../../core';
 import {EntityContainer} from '../../components';
 
 export interface DotValueProps {}
@@ -36,7 +36,7 @@ const DotValueComponent: NodeEntity<JsonSchemaObject, DotValueProps> = ({
 
     return (
         <EntityContainer stretch="by-child">
-            <SchemaNode
+            <SchemaRendererNode
                 headName={headName}
                 name={`${name ? name + '.' : ''}${childKey}`}
                 schemaPath={`${schemaPath}/properties/${childKey}`}

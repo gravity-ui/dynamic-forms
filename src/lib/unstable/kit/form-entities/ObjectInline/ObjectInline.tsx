@@ -4,7 +4,7 @@ import {Flex, Text} from '@gravity-ui/uikit';
 import isObject from 'lodash/isObject';
 import isString from 'lodash/isString';
 
-import {type JsonSchemaObject, type NodeEntity, SchemaNode} from '../../../core';
+import {type JsonSchemaObject, type NodeEntity, SchemaRendererNode} from '../../../core';
 import {EntityContainer} from '../../components';
 import {block} from '../../utils';
 
@@ -34,7 +34,7 @@ const ObjectInlineComponent: NodeEntity<JsonSchemaObject, ObjectInlineProps> = (
                 {(order || Object.keys(schema.properties || {})).map(
                     (property: string, index: number, array: string[]) => (
                         <React.Fragment key={property}>
-                            <SchemaNode
+                            <SchemaRendererNode
                                 headName={headName}
                                 name={`${name ? name + '.' : ''}${property}`}
                                 schemaPath={`${schemaPath}/properties/${property}`}

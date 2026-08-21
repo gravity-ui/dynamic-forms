@@ -23,7 +23,7 @@ export interface SchemaRendererState<
     runValidate: () => void;
     schema: JsonSchema;
     subscribe: (subscriber: SchemaRendererSubscriber) => string;
-    subsribers: {
+    subscribers: {
         byId: Record<string, SchemaRendererSubscriber>;
         byName: Map<string, Set<string>>;
         byPath: Map<string, Set<string>>;

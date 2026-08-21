@@ -3,9 +3,9 @@ import type {FieldMetaState} from 'react-final-form';
 
 import {
     SCHEMA_RENDERER_SERVICE_FIELD,
-    type SchemaNodeState,
+    type SchemaRendererNodeState,
     type SchemaRendererState,
-    getSchemaBySchemaPath,
+    getSchemaByPointer,
     getServiceFieldName,
 } from '../../core';
 
@@ -37,13 +37,13 @@ export const isTupleItem = (name: string, headName: string, form: FormApi) => {
     const srState: SchemaRendererState | undefined = srField?.data?.state;
     const parentName = getArrayItemParentName(name);
     const parentField = form.getFieldState(parentName);
-    const parentState: SchemaNodeState | undefined = parentField?.data?.state;
+    const parentState: SchemaRendererNodeState | undefined = parentField?.data?.state;
 
     if (!parentState || !srState) {
         return false;
     }
 
-    const parentSchema = getSchemaBySchemaPath(srState.schema, parentState.schemaPath);
+    const parentSchema = getSchemaByPointer(srState.schema, parentState.schemaPath);
 
     return parentSchema && 'items' in parentSchema && Array.isArray(parentSchema.items);
 };

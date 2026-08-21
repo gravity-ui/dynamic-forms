@@ -6,9 +6,9 @@ import {
     type JsonSchema,
     type JsonSchemaObject,
     type NodeEntity,
-    SchemaNode,
     SchemaRendererEventType,
     SchemaRendererMode,
+    SchemaRendererNode,
     getRenderKit,
     useSchemaRendererState,
 } from '../../../core';
@@ -142,7 +142,7 @@ const FewOfNestedComponent: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
             {togglerValues.length ? (
                 <div className={b('content', {'with-indent': withIndent})}>
                     {togglerValues.map((togglerValue) => (
-                        <SchemaNode
+                        <SchemaRendererNode
                             headName={headName}
                             key={togglerValue}
                             name={`${name}.${togglerValue}`}

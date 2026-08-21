@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {type JsonSchemaObject, type NodeEntity, SchemaNode} from '../../../core';
+import {type JsonSchemaObject, type NodeEntity, SchemaRendererNode} from '../../../core';
 import {EntityContainer} from '../../components';
 
 export interface ObjectBaseProps {
@@ -20,7 +20,7 @@ const ObjectBaseComponent: NodeEntity<JsonSchemaObject, ObjectBaseProps> = ({
     return (
         <EntityContainer stretch="by-child">
             {(props.order || Object.keys(schema.properties || {})).map((property: string) => (
-                <SchemaNode
+                <SchemaRendererNode
                     headName={headName}
                     name={`${name ? name + '.' : ''}${property}`}
                     schemaPath={`${schemaPath}/properties/${property}`}

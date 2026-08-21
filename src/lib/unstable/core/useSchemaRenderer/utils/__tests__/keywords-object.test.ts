@@ -1,1306 +1,2419 @@
-// import {JsonSchemaType} from '../../../constants';
-// import type {JsonSchemaObject} from '../../../types';
-
-// import {
-//     AJV_MESSAGES,
-//     FIELD_NAME,
-//     GLOBAL_ERROR_MESSAGES,
-//     KEYWORD_SCHEMA_ERROR_MESSAGES,
-//     SCHEMA_ERROR_MESSAGES,
-//     createAjvValidate,
-//     createProcessAjvError,
-//     createProcessAjvValidateErrors,
-//     createValidate,
-// } from './fixtures.test';
-
-// describe('validate objects', () => {
-//     describe('additionalProperties (boolean)', () => {
-//         const schema: JsonSchemaObject = {
-//             type: JsonSchemaType.Object,
-//             properties: {a: {type: JsonSchemaType.String}},
-//             additionalProperties: false,
-//         };
-
-//         const validValue = {a: 'x'};
-//         const invalidValue = {a: 'x', extra: 1};
-
-//         const ajvError = {
-//             keyword: 'additionalProperties',
-//             instancePath: '',
-//             schemaPath: '#/additionalProperties',
-//             params: {additionalProperty: 'extra'},
-//             message: AJV_MESSAGES.additionalProperties,
-//         };
-//         const ajvErrors = [ajvError];
-
-//         test('ajv: a valid value produces no errors', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(validValue);
-
-//             expect(validate.errors).toBe(null);
-//         });
-
-//         test('ajv: an invalid value produces an error', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(invalidValue);
-
-//             expect(validate.errors).toEqual(ajvErrors);
-//         });
-
-//         test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-//             const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-//             const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-//                 ajvValidateErrors: ajvErrors,
-//                 errorMessages: {},
-//                 schema,
-//             });
-
-//             expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.additionalProperties}]);
-//             expect(entityParametersErrorItems).toEqual([]);
-//             expect(waiters).toEqual({});
-//         });
-
-//         test('processAjvError: with no custom messages the ajv text is used', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: {}, schema});
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: [],
-//                 error: AJV_MESSAGES.additionalProperties,
-//             });
-//         });
-
-//         test('processAjvError: a global error message takes precedence over the ajv text', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: [],
-//                 error: GLOBAL_ERROR_MESSAGES.additionalProperties,
-//             });
-//         });
-
-//         test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-//             const schemaWithMessage: JsonSchemaObject = {
-//                 ...schema,
-//                 entityParameters: {
-//                     errorMessages: {
-//                         additionalProperties: SCHEMA_ERROR_MESSAGES.additionalProperties,
-//                     },
-//                 },
-//             };
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({
-//                 error: ajvError,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithMessage,
-//             });
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: [],
-//                 error: SCHEMA_ERROR_MESSAGES.additionalProperties,
-//             });
-//         });
-
-//         // additionalProperties has no schema, so we can't test this case
-//         test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
-
-//         test('validate: a valid value is not flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             expect(validate(validValue, {schema})).toBe(false);
-//             expect(setErrors).toHaveBeenCalledWith({});
-//         });
-
-//         test('validate: an invalid value is flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             const errors = {[FIELD_NAME]: AJV_MESSAGES.additionalProperties};
-
-//             expect(validate(invalidValue, {schema})).toEqual('error');
-//             expect(setErrors).toHaveBeenCalledWith(errors);
-//         });
-//     });
-
-//     describe('additionalProperties (schema)', () => {
-//         const schema: JsonSchemaObject = {
-//             type: JsonSchemaType.Object,
-//             properties: {a: {type: JsonSchemaType.String}},
-//             additionalProperties: {type: JsonSchemaType.Number},
-//         };
-
-//         const validValue = {a: 'x', extra: 1};
-//         const invalidValue = {a: 'x', extra: 'y'};
-
-//         const ajvError = {
-//             keyword: 'type',
-//             instancePath: '/extra',
-//             schemaPath: '#/additionalProperties/type',
-//             params: {type: JsonSchemaType.Number},
-//             message: AJV_MESSAGES.typeNumber,
-//         };
-//         const ajvErrors = [ajvError];
-
-//         test('ajv: a valid value produces no errors', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(validValue);
-//             expect(validate.errors).toBe(null);
-//         });
-
-//         test('ajv: an invalid value produces an error', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(invalidValue);
-//             expect(validate.errors).toEqual(ajvErrors);
-//         });
-
-//         test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-//             const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-//             const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-//                 ajvValidateErrors: ajvErrors,
-//                 errorMessages: {},
-//                 schema,
-//             });
-
-//             expect(ajvErrorItems).toEqual([{path: ['extra'], error: AJV_MESSAGES.typeNumber}]);
-//             expect(entityParametersErrorItems).toEqual([]);
-//             expect(waiters).toEqual({});
-//         });
-
-//         test('processAjvError: with no custom messages the ajv text is used', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: {}, schema});
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['extra'],
-//                 error: AJV_MESSAGES.typeNumber,
-//             });
-//         });
-
-//         test('processAjvError: a global error message takes precedence over the ajv text', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['extra'],
-//                 error: GLOBAL_ERROR_MESSAGES.type,
-//             });
-//         });
-
-//         // additional properties has no schema by instance path, so we can't test this case
-//         test.skip('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {});
-
-//         test('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {
-//             const schemaWithKeywordMessage: JsonSchemaObject = {
-//                 ...schema,
-//                 additionalProperties: {
-//                     type: JsonSchemaType.Number,
-//                     entityParameters: {errorMessages: {type: KEYWORD_SCHEMA_ERROR_MESSAGES.type}},
-//                 },
-//             };
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({
-//                 error: ajvError,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithKeywordMessage,
-//             });
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['extra'],
-//                 error: KEYWORD_SCHEMA_ERROR_MESSAGES.type,
-//             });
-//         });
-
-//         test('validate: a valid value is not flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             expect(validate(validValue, {schema})).toBe(false);
-//             expect(setErrors).toHaveBeenCalledWith({});
-//         });
-
-//         test('validate: an invalid value is flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             const errors = {[`${FIELD_NAME}.extra`]: AJV_MESSAGES.typeNumber};
-
-//             expect(validate(invalidValue, {schema})).toEqual('error');
-//             expect(setErrors).toHaveBeenCalledWith(errors);
-//         });
-//     });
-
-//     describe('dependencies (list)', () => {
-//         const schema: JsonSchemaObject = {
-//             type: JsonSchemaType.Object,
-//             properties: {a: {type: JsonSchemaType.String}, b: {type: JsonSchemaType.String}},
-//             dependencies: {a: ['b']},
-//         };
-
-//         const validValue = {a: 'x', b: 'y'};
-//         const invalidValue = {a: 'x'};
-
-//         const ajvError = {
-//             keyword: 'dependencies',
-//             instancePath: '',
-//             schemaPath: '#/dependencies',
-//             params: {property: 'a', missingProperty: 'b', depsCount: 1, deps: 'b'},
-//             message: AJV_MESSAGES.dependencies('b', 'a'),
-//         };
-//         const ajvErrors = [ajvError];
-
-//         test('ajv: a valid value produces no errors', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(validValue);
-
-//             expect(validate.errors).toBe(null);
-//         });
-
-//         test('ajv: an invalid value produces an error', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(invalidValue);
-
-//             expect(validate.errors).toEqual(ajvErrors);
-//         });
-
-//         test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-//             const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-//             const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-//                 ajvValidateErrors: ajvErrors,
-//                 errorMessages: {},
-//                 schema,
-//             });
-
-//             expect(ajvErrorItems).toEqual([
-//                 {path: ['b'], error: AJV_MESSAGES.dependencies('b', 'a')},
-//             ]);
-//             expect(entityParametersErrorItems).toEqual([]);
-//             expect(waiters).toEqual({});
-//         });
-
-//         test('processAjvError: with no custom messages the ajv text is used', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: {}, schema});
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['b'],
-//                 error: AJV_MESSAGES.dependencies('b', 'a'),
-//             });
-//         });
-
-//         test('processAjvError: a global error message takes precedence over the ajv text', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['b'],
-//                 error: GLOBAL_ERROR_MESSAGES.dependencies,
-//             });
-//         });
-
-//         // case with error message as a string
-//         test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-//             const schemaWithMessage: JsonSchemaObject = {
-//                 ...schema,
-//                 properties: {
-//                     a: {type: JsonSchemaType.String},
-//                     b: {
-//                         type: JsonSchemaType.String,
-//                         entityParameters: {
-//                             errorMessages: {dependencies: SCHEMA_ERROR_MESSAGES.dependencies},
-//                         },
-//                     },
-//                 },
-//             };
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({
-//                 error: ajvError,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithMessage,
-//             });
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['b'],
-//                 error: SCHEMA_ERROR_MESSAGES.dependencies,
-//             });
-//         });
-
-//         // case with error message as an object
-//         test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-//             const schemaWithMessage: JsonSchemaObject = {
-//                 ...schema,
-//                 properties: {
-//                     a: {type: JsonSchemaType.String},
-//                     b: {
-//                         type: JsonSchemaType.String,
-//                         entityParameters: {
-//                             errorMessages: {dependencies: {b: SCHEMA_ERROR_MESSAGES.dependencies}},
-//                         },
-//                     },
-//                 },
-//             };
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({
-//                 error: ajvError,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithMessage,
-//             });
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['b'],
-//                 error: SCHEMA_ERROR_MESSAGES.dependencies,
-//             });
-//         });
-
-//         // dependencies has same schema path and instance path in this case, so we dont need to test this
-//         test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
-
-//         test('validate: a valid value is not flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             expect(validate(validValue, {schema})).toBe(false);
-//             expect(setErrors).toHaveBeenCalledWith({});
-//         });
-
-//         test('validate: an invalid value is flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             const errors = {[`${FIELD_NAME}.b`]: AJV_MESSAGES.dependencies('b', 'a')};
-
-//             expect(validate(invalidValue, {schema})).toEqual('error');
-//             expect(setErrors).toHaveBeenCalledWith(errors);
-//         });
-//     });
-
-//     describe('dependencies (schema)', () => {
-//         const schema: JsonSchemaObject = {
-//             type: JsonSchemaType.Object,
-//             properties: {a: {type: JsonSchemaType.String}, b: {type: JsonSchemaType.String}},
-//             dependencies: {a: {properties: {b: {type: JsonSchemaType.String, minLength: 2}}}},
-//         };
-
-//         const validValue = {};
-//         const invalidValue = {a: 'x', b: 'y'};
-
-//         const ajvError = {
-//             keyword: 'minLength',
-//             instancePath: '/b',
-//             schemaPath: '#/dependencies/a/properties/b/minLength',
-//             params: {limit: 2},
-//             message: AJV_MESSAGES.minLength(2),
-//         };
-//         const ajvErrors = [ajvError];
-
-//         test('ajv: a valid value produces no errors', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(validValue);
-
-//             expect(validate.errors).toBe(null);
-//         });
-
-//         test('ajv: an invalid value produces an error', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(invalidValue);
-
-//             expect(validate.errors).toEqual(ajvErrors);
-//         });
-
-//         test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-//             const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-//             const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-//                 ajvValidateErrors: ajvErrors,
-//                 errorMessages: {},
-//                 schema,
-//             });
-
-//             expect(ajvErrorItems).toEqual([{path: ['b'], error: AJV_MESSAGES.minLength(2)}]);
-//             expect(entityParametersErrorItems).toEqual([]);
-//             expect(waiters).toEqual({});
-//         });
-
-//         test('processAjvError: with no custom messages the ajv text is used', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: {}, schema});
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['b'],
-//                 error: AJV_MESSAGES.minLength(2),
-//             });
-//         });
-
-//         test('processAjvError: a global error message takes precedence over the ajv text', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['b'],
-//                 error: GLOBAL_ERROR_MESSAGES.minLength,
-//             });
-//         });
-
-//         test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-//             const schemaWithMessage: JsonSchemaObject = {
-//                 ...schema,
-//                 properties: {
-//                     b: {
-//                         type: JsonSchemaType.String,
-//                         entityParameters: {
-//                             errorMessages: {minLength: SCHEMA_ERROR_MESSAGES.minLength},
-//                         },
-//                     },
-//                 },
-//             };
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({
-//                 error: ajvError,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithMessage,
-//             });
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['b'],
-//                 error: SCHEMA_ERROR_MESSAGES.minLength,
-//             });
-//         });
-
-//         test('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {
-//             const schemaWithKeywordMessage: JsonSchemaObject = {
-//                 ...schema,
-//                 dependencies: {
-//                     a: {
-//                         properties: {
-//                             b: {
-//                                 type: JsonSchemaType.String,
-//                                 minLength: 2,
-//                                 entityParameters: {
-//                                     errorMessages: {
-//                                         minLength: KEYWORD_SCHEMA_ERROR_MESSAGES.minLength,
-//                                     },
-//                                 },
-//                             },
-//                         },
-//                     },
-//                 },
-//             };
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({
-//                 error: ajvError,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithKeywordMessage,
-//             });
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['b'],
-//                 error: KEYWORD_SCHEMA_ERROR_MESSAGES.minLength,
-//             });
-//         });
-
-//         test('validate: a valid value is not flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             expect(validate(validValue, {schema})).toBe(false);
-//             expect(setErrors).toHaveBeenCalledWith({});
-//         });
-
-//         test('validate: an invalid value is flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             const errors = {[`${FIELD_NAME}.b`]: AJV_MESSAGES.minLength(2)};
-
-//             expect(validate(invalidValue, {schema})).toEqual('error');
-//             expect(setErrors).toHaveBeenCalledWith(errors);
-//         });
-//     });
-
-//     describe('maxProperties', () => {
-//         const schema: JsonSchemaObject = {
-//             type: JsonSchemaType.Object,
-//             maxProperties: 1,
-//         };
-//         const validValue = {a: 1};
-//         const invalidValue = {a: 1, b: 2};
-
-//         const ajvError = {
-//             keyword: 'maxProperties',
-//             instancePath: '',
-//             schemaPath: '#/maxProperties',
-//             params: {limit: 1},
-//             message: AJV_MESSAGES.maxProperties(1),
-//         };
-//         const ajvErrors = [ajvError];
-
-//         test('ajv: a valid value produces no errors', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(validValue);
-
-//             expect(validate.errors).toBe(null);
-//         });
-
-//         test('ajv: an invalid value produces an error', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(invalidValue);
-
-//             expect(validate.errors).toEqual(ajvErrors);
-//         });
-
-//         test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-//             const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-//             const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-//                 ajvValidateErrors: ajvErrors,
-//                 errorMessages: {},
-//                 schema,
-//             });
-
-//             expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.maxProperties(1)}]);
-//             expect(entityParametersErrorItems).toEqual([]);
-//             expect(waiters).toEqual({});
-//         });
-
-//         test('processAjvError: with no custom messages the ajv text is used', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: {}, schema});
-
-//             expect(onError).toHaveBeenCalledWith({path: [], error: AJV_MESSAGES.maxProperties(1)});
-//         });
-
-//         test('processAjvError: a global error message takes precedence over the ajv text', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: [],
-//                 error: GLOBAL_ERROR_MESSAGES.maxProperties,
-//             });
-//         });
-
-//         test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-//             const schemaWithMessage: JsonSchemaObject = {
-//                 ...schema,
-//                 entityParameters: {
-//                     errorMessages: {maxProperties: SCHEMA_ERROR_MESSAGES.maxProperties},
-//                 },
-//             };
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({
-//                 error: ajvError,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithMessage,
-//             });
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: [],
-//                 error: SCHEMA_ERROR_MESSAGES.maxProperties,
-//             });
-//         });
-
-//         // maxProperties has no schema, so we can't test this case
-//         test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
-
-//         test('validate: a valid value is not flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             expect(validate(validValue, {schema})).toBe(false);
-//             expect(setErrors).toHaveBeenCalledWith({});
-//         });
-
-//         test('validate: an invalid value is flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             const errors = {[FIELD_NAME]: AJV_MESSAGES.maxProperties(1)};
-
-//             expect(validate(invalidValue, {schema})).toEqual('error');
-//             expect(setErrors).toHaveBeenCalledWith(errors);
-//         });
-//     });
-
-//     describe('minProperties', () => {
-//         const schema: JsonSchemaObject = {
-//             type: JsonSchemaType.Object,
-//             minProperties: 1,
-//         };
-
-//         const validValue = {a: 1};
-//         const invalidValue = {};
-
-//         const ajvError = {
-//             keyword: 'minProperties',
-//             instancePath: '',
-//             schemaPath: '#/minProperties',
-//             params: {limit: 1},
-//             message: AJV_MESSAGES.minProperties(1),
-//         };
-//         const ajvErrors = [ajvError];
-
-//         test('ajv: a valid value produces no errors', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(validValue);
-
-//             expect(validate.errors).toBe(null);
-//         });
-
-//         test('ajv: an invalid value produces an error', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(invalidValue);
-
-//             expect(validate.errors).toEqual(ajvErrors);
-//         });
-
-//         test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-//             const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-//             const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-//                 ajvValidateErrors: ajvErrors,
-//                 errorMessages: {},
-//                 schema,
-//             });
-
-//             expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.minProperties(1)}]);
-//             expect(entityParametersErrorItems).toEqual([]);
-//             expect(waiters).toEqual({});
-//         });
-
-//         test('processAjvError: with no custom messages the ajv text is used', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: {}, schema});
-
-//             expect(onError).toHaveBeenCalledWith({path: [], error: AJV_MESSAGES.minProperties(1)});
-//         });
-
-//         test('processAjvError: a global error message takes precedence over the ajv text', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: [],
-//                 error: GLOBAL_ERROR_MESSAGES.minProperties,
-//             });
-//         });
-
-//         test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-//             const schemaWithMessage: JsonSchemaObject = {
-//                 ...schema,
-//                 entityParameters: {
-//                     errorMessages: {minProperties: SCHEMA_ERROR_MESSAGES.minProperties},
-//                 },
-//             };
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({
-//                 error: ajvError,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithMessage,
-//             });
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: [],
-//                 error: SCHEMA_ERROR_MESSAGES.minProperties,
-//             });
-//         });
-
-//         // minProperties has no schema, so we can't test this case
-//         test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
-
-//         test('validate: a valid value is not flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             expect(validate(validValue, {schema})).toBe(false);
-//             expect(setErrors).toHaveBeenCalledWith({});
-//         });
-
-//         test('validate: an invalid value is flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             const errors = {[FIELD_NAME]: AJV_MESSAGES.minProperties(1)};
-
-//             expect(validate(invalidValue, {schema})).toEqual('error');
-//             expect(setErrors).toHaveBeenCalledWith(errors);
-//         });
-//     });
-
-//     describe('properties', () => {
-//         const schema: JsonSchemaObject = {
-//             type: JsonSchemaType.Object,
-//             properties: {a: {type: JsonSchemaType.String}},
-//         };
-//         const validValue = {a: 'x'};
-//         const invalidValue = {a: 1};
-
-//         const ajvError = {
-//             keyword: 'type',
-//             instancePath: '/a',
-//             schemaPath: '#/properties/a/type',
-//             params: {type: JsonSchemaType.String},
-//             message: AJV_MESSAGES.typeString,
-//         };
-//         const ajvErrors = [ajvError];
-
-//         test('ajv: a valid value produces no errors', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(validValue);
-
-//             expect(validate.errors).toBe(null);
-//         });
-
-//         test('ajv: an invalid value produces an error', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(invalidValue);
-
-//             expect(validate.errors).toEqual(ajvErrors);
-//         });
-
-//         test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-//             const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-//             const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-//                 ajvValidateErrors: ajvErrors,
-//                 errorMessages: {},
-//                 schema,
-//             });
-
-//             expect(ajvErrorItems).toEqual([{path: ['a'], error: AJV_MESSAGES.typeString}]);
-//             expect(entityParametersErrorItems).toEqual([]);
-//             expect(waiters).toEqual({});
-//         });
-
-//         test('processAjvError: with no custom messages the ajv text is used', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: {}, schema});
-
-//             expect(onError).toHaveBeenCalledWith({path: ['a'], error: AJV_MESSAGES.typeString});
-//         });
-
-//         test('processAjvError: a global error message takes precedence over the ajv text', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['a'],
-//                 error: GLOBAL_ERROR_MESSAGES.type,
-//             });
-//         });
-
-//         test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-//             const schemaWithMessage: JsonSchemaObject = {
-//                 ...schema,
-//                 properties: {
-//                     a: {
-//                         type: JsonSchemaType.String,
-//                         entityParameters: {errorMessages: {type: SCHEMA_ERROR_MESSAGES.type}},
-//                     },
-//                 },
-//             };
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({
-//                 error: ajvError,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithMessage,
-//             });
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['a'],
-//                 error: SCHEMA_ERROR_MESSAGES.type,
-//             });
-//         });
-
-//         // properties has same schema path and instance path in this case, so we dont need to test this
-//         test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
-
-//         test('validate: a valid value is not flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             expect(validate(validValue, {schema})).toBe(false);
-//             expect(setErrors).toHaveBeenCalledWith({});
-//         });
-
-//         test('validate: an invalid value is flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             const errors = {[`${FIELD_NAME}.a`]: AJV_MESSAGES.typeString};
-
-//             expect(validate(invalidValue, {schema})).toEqual('error');
-//             expect(setErrors).toHaveBeenCalledWith(errors);
-//         });
-//     });
-
-//     describe('propertyNames', () => {
-//         const schema: JsonSchemaObject = {
-//             type: JsonSchemaType.Object,
-//             propertyNames: {pattern: '^[a-z]+$'},
-//         };
-//         const validValue = {a: 1};
-//         const invalidValue = {A: 1};
-
-//         const ajvError1 = {
-//             keyword: 'pattern',
-//             instancePath: '',
-//             schemaPath: '#/propertyNames/pattern',
-//             params: {pattern: '^[a-z]+$'},
-//             message: AJV_MESSAGES.pattern('^[a-z]+$'),
-//             propertyName: 'A',
-//         };
-//         const ajvError2 = {
-//             keyword: 'propertyNames',
-//             instancePath: '',
-//             schemaPath: '#/propertyNames',
-//             params: {propertyName: 'A'},
-//             message: AJV_MESSAGES.propertyNames,
-//         };
-//         const ajvErrors = [ajvError1, ajvError2];
-
-//         test('ajv: a valid value produces no errors', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(validValue);
-
-//             expect(validate.errors).toBe(null);
-//         });
-
-//         test('ajv: an invalid value produces an error', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(invalidValue);
-
-//             expect(validate.errors).toEqual(ajvErrors);
-//         });
-
-//         test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-//             const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-//             const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-//                 ajvValidateErrors: ajvErrors,
-//                 errorMessages: {},
-//                 schema,
-//             });
-
-//             expect(ajvErrorItems).toEqual([
-//                 {path: ['A'], error: AJV_MESSAGES.pattern('^[a-z]+$')},
-//                 {path: [], error: AJV_MESSAGES.propertyNames},
-//             ]);
-//             expect(entityParametersErrorItems).toEqual([]);
-//             expect(waiters).toEqual({});
-//         });
-
-//         test('processAjvError: with no custom messages the ajv text is used', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError1, errorMessages: {}, schema});
-//             processAjvError({error: ajvError2, errorMessages: {}, schema});
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['A'],
-//                 error: AJV_MESSAGES.pattern('^[a-z]+$'),
-//             });
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: [],
-//                 error: AJV_MESSAGES.propertyNames,
-//             });
-//         });
-
-//         test('processAjvError: a global error message takes precedence over the ajv text', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError1, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-//             processAjvError({error: ajvError2, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['A'],
-//                 error: GLOBAL_ERROR_MESSAGES.pattern,
-//             });
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: [],
-//                 error: GLOBAL_ERROR_MESSAGES.propertyNames,
-//             });
-//         });
-
-//         test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-//             const schemaWithMessage: JsonSchemaObject = {
-//                 ...schema,
-//                 entityParameters: {
-//                     errorMessages: {
-//                         propertyNames: SCHEMA_ERROR_MESSAGES.propertyNames,
-//                     },
-//                 },
-//             };
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({
-//                 error: ajvError1,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithMessage,
-//             });
-//             processAjvError({
-//                 error: ajvError2,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithMessage,
-//             });
-
-//             // propertyNames has no schema in properties, so it resolves global error message
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['A'],
-//                 error: GLOBAL_ERROR_MESSAGES.pattern,
-//             });
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: [],
-//                 error: SCHEMA_ERROR_MESSAGES.propertyNames,
-//             });
-//         });
-
-//         test('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {
-//             const schemaWithKeywordMessage: JsonSchemaObject = {
-//                 ...schema,
-//                 propertyNames: {
-//                     pattern: '^[a-z]+$',
-//                     entityParameters: {
-//                         errorMessages: {pattern: KEYWORD_SCHEMA_ERROR_MESSAGES.pattern},
-//                     },
-//                 },
-//             };
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({
-//                 error: ajvError1,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithKeywordMessage,
-//             });
-//             processAjvError({
-//                 error: ajvError2,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithKeywordMessage,
-//             });
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['A'],
-//                 error: KEYWORD_SCHEMA_ERROR_MESSAGES.pattern,
-//             });
-//             // propertyNames schme path is the same as instance path, so it resolves global error message
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: [],
-//                 error: GLOBAL_ERROR_MESSAGES.propertyNames,
-//             });
-//         });
-
-//         test('validate: a valid value is not flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             expect(validate(validValue, {schema})).toBe(false);
-//             expect(setErrors).toHaveBeenCalledWith({});
-//         });
-
-//         test('validate: an invalid value is flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             const errors = {
-//                 [FIELD_NAME]: AJV_MESSAGES.propertyNames,
-//                 [`${FIELD_NAME}.A`]: AJV_MESSAGES.pattern('^[a-z]+$'),
-//             };
-
-//             expect(validate(invalidValue, {schema})).toEqual('error');
-//             expect(setErrors).toHaveBeenCalledWith(errors);
-//         });
-//     });
-
-//     describe('required', () => {
-//         const schema: JsonSchemaObject = {
-//             type: JsonSchemaType.Object,
-//             properties: {a: {type: JsonSchemaType.Number}},
-//             required: ['a'],
-//         };
-//         const validValue = {a: 1};
-//         const invalidValue = {};
-
-//         const ajvError = {
-//             keyword: 'required',
-//             instancePath: '',
-//             schemaPath: '#/required',
-//             params: {missingProperty: 'a'},
-//             message: AJV_MESSAGES.required('a'),
-//         };
-//         const ajvErrors = [ajvError];
-
-//         test('ajv: a valid value produces no errors', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(validValue);
-
-//             expect(validate.errors).toBe(null);
-//         });
-
-//         test('ajv: an invalid value produces an error', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(invalidValue);
-
-//             expect(validate.errors).toEqual(ajvErrors);
-//         });
-
-//         test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-//             const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-//             const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-//                 ajvValidateErrors: ajvErrors,
-//                 errorMessages: {},
-//                 schema,
-//             });
-
-//             expect(ajvErrorItems).toEqual([{path: ['a'], error: AJV_MESSAGES.required('a')}]);
-//             expect(entityParametersErrorItems).toEqual([]);
-//             expect(waiters).toEqual({});
-//         });
-
-//         test('processAjvError: with no custom messages the ajv text is used', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: {}, schema});
-
-//             expect(onError).toHaveBeenCalledWith({path: ['a'], error: AJV_MESSAGES.required('a')});
-//         });
-
-//         test('processAjvError: a global error message takes precedence over the ajv text', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['a'],
-//                 error: GLOBAL_ERROR_MESSAGES.required,
-//             });
-//         });
-
-//         // by instancePath we resolve child schema
-//         test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-//             const schemaWithMessage: JsonSchemaObject = {
-//                 ...schema,
-//                 properties: {
-//                     a: {
-//                         type: JsonSchemaType.Number,
-//                         entityParameters: {
-//                             errorMessages: {required: SCHEMA_ERROR_MESSAGES.required},
-//                         },
-//                     },
-//                 },
-//             };
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({
-//                 error: ajvError,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithMessage,
-//             });
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['a'],
-//                 error: SCHEMA_ERROR_MESSAGES.required,
-//             });
-//         });
-
-//         // by schemaPath we resolve parent schema, case with error message as a string
-//         test('processAjvError: a message from the parent schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {
-//             const schemaWithMessage: JsonSchemaObject = {
-//                 ...schema,
-//                 entityParameters: {
-//                     errorMessages: {required: SCHEMA_ERROR_MESSAGES.required},
-//                 },
-//             };
-
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({
-//                 error: ajvError,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithMessage,
-//             });
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['a'],
-//                 error: SCHEMA_ERROR_MESSAGES.required,
-//             });
-//         });
-
-//         // by schemaPath we resolve parent schema, case with error message as an object
-//         test('processAjvError: a message from the parent schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {
-//             const schemaWithMessage: JsonSchemaObject = {
-//                 ...schema,
-//                 entityParameters: {
-//                     errorMessages: {required: {a: SCHEMA_ERROR_MESSAGES.required}},
-//                 },
-//             };
-
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({
-//                 error: ajvError,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithMessage,
-//             });
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: ['a'],
-//                 error: SCHEMA_ERROR_MESSAGES.required,
-//             });
-//         });
-
-//         test('validate: a valid value is not flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             expect(validate(validValue, {schema})).toBe(false);
-//             expect(setErrors).toHaveBeenCalledWith({});
-//         });
-
-//         test('validate: an invalid value is flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             const errors = {[`${FIELD_NAME}.a`]: AJV_MESSAGES.required('a')};
-
-//             expect(validate(invalidValue, {schema})).toEqual('error');
-//             expect(setErrors).toHaveBeenCalledWith(errors);
-//         });
-//     });
-
-//     describe('type', () => {
-//         const schema: JsonSchemaObject = {
-//             type: JsonSchemaType.Object,
-//         };
-
-//         const validValue = {};
-//         const invalidValue = 'a';
-
-//         const ajvError = {
-//             keyword: 'type',
-//             instancePath: '',
-//             schemaPath: '#/type',
-//             params: {type: JsonSchemaType.Object},
-//             message: AJV_MESSAGES.typeObject,
-//         };
-//         const ajvErrors = [ajvError];
-
-//         test('ajv: a valid value produces no errors', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(validValue);
-
-//             expect(validate.errors).toBe(null);
-//         });
-
-//         test('ajv: an invalid value produces an error', () => {
-//             const validate = createAjvValidate({schema});
-
-//             validate(invalidValue);
-
-//             expect(validate.errors).toEqual(ajvErrors);
-//         });
-
-//         test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-//             const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-//             const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-//                 ajvValidateErrors: ajvErrors,
-//                 errorMessages: {},
-//                 schema,
-//             });
-
-//             expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.typeObject}]);
-//             expect(entityParametersErrorItems).toEqual([]);
-//             expect(waiters).toEqual({});
-//         });
-
-//         test('processAjvError: with no custom messages the ajv text is used', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: {}, schema});
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: [],
-//                 error: AJV_MESSAGES.typeObject,
-//             });
-//         });
-
-//         test('processAjvError: a global error message takes precedence over the ajv text', () => {
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: [],
-//                 error: GLOBAL_ERROR_MESSAGES.type,
-//             });
-//         });
-
-//         test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-//             const schemaWithMessage: JsonSchemaObject = {
-//                 ...schema,
-//                 entityParameters: {errorMessages: {type: SCHEMA_ERROR_MESSAGES.type}},
-//             };
-//             const {processAjvError, onError} = createProcessAjvError();
-
-//             processAjvError({
-//                 error: ajvError,
-//                 errorMessages: GLOBAL_ERROR_MESSAGES,
-//                 schema: schemaWithMessage,
-//             });
-
-//             expect(onError).toHaveBeenCalledWith({
-//                 path: [],
-//                 error: SCHEMA_ERROR_MESSAGES.type,
-//             });
-//         });
-
-//         // type has no schema, so we can't test this case
-//         test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
-
-//         test('validate: a valid value is not flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             expect(validate(validValue, {schema})).toBe(false);
-//             expect(setErrors).toHaveBeenCalledWith({});
-//         });
-
-//         test('validate: an invalid value is flagged as an error', () => {
-//             const {validate, setErrors} = createValidate();
-
-//             const errors = {[FIELD_NAME]: AJV_MESSAGES.typeObject};
-
-//             expect(validate(invalidValue, {schema})).toEqual('error');
-//             expect(setErrors).toHaveBeenCalledWith(errors);
-//         });
-//     });
-// });
-
-test.skip('keywords-object', () => {});
+import {createForm} from 'final-form';
+
+import {JsonSchemaType} from '../../../constants';
+import type {JSLErrors, JsonSchema, JsonSchemaObject} from '../../../types';
+import {getSchemaRootNode} from '../get-schema-root-node';
+import {type ParseErrorParams, getParser} from '../parse-errors';
+
+describe('validate objects', () => {
+    describe('additionalProperties (boolean)', () => {
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}},
+                additionalProperties: false,
+            };
+            const value = {a: 'x'};
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([]);
+        });
+
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}},
+                additionalProperties: false,
+            };
+            const value = {a: 'x', extra: 1};
+            const error: JSLErrors.AdditionalProperties = {
+                type: 'error',
+                code: 'no-additional-properties-error',
+                message: 'Additional property `extra` in `#/extra` is not allowed',
+                data: {
+                    pointer: '#/extra',
+                    schema,
+                    value,
+                    property: 'extra',
+                    properties: ['a'],
+                },
+            };
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([error]);
+        });
+
+        test('get-parser: default error message', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}},
+                additionalProperties: false,
+            };
+            const value = {a: 'x', extra: 1};
+            const error: JSLErrors.AdditionalProperties = {
+                type: 'error',
+                code: 'no-additional-properties-error',
+                message: 'Additional property `extra` in `#/extra` is not allowed',
+                data: {
+                    pointer: '#/extra',
+                    schema,
+                    value,
+                    property: 'extra',
+                    properties: ['a'],
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('extra', () => {}, {}, {});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('extra', error.message);
+        });
+
+        test('get-parser: error schema-level error message', () => {
+            const message = 'additionalProperties error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {
+                    a: {
+                        type: JsonSchemaType.String,
+                        nodeParameters: {
+                            errorMessages: {additionalProperties: 'another error message'},
+                        },
+                    },
+                },
+                additionalProperties: false,
+                nodeParameters: {errorMessages: {additionalProperties: message}},
+            };
+            const value = {a: 'x', extra: 1};
+            const error: JSLErrors.AdditionalProperties = {
+                type: 'error',
+                code: 'no-additional-properties-error',
+                message: 'Additional property `extra` in `#/extra` is not allowed',
+                data: {
+                    pointer: '#/extra',
+                    schema,
+                    value,
+                    property: 'extra',
+                    properties: ['a'],
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('extra', () => {}, {}, {});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {
+                    schema,
+                    errorMessages: {additionalProperties: 'global error message'},
+                },
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('extra', message);
+        });
+
+        test('get-parser: instance schema-level error message', () => {
+            const message = 'additionalProperties error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {nodeParameters: {errorMessages: {additionalProperties: message}}}},
+                allOf: [
+                    {properties: {a: {type: JsonSchemaType.String}}, additionalProperties: false},
+                ],
+            };
+            const value = {a: 'x', extra: 1};
+            const error: JSLErrors.AdditionalProperties = {
+                type: 'error',
+                code: 'no-additional-properties-error',
+                message: 'Additional property `extra` in `#/extra` is not allowed',
+                data: {
+                    pointer: '#/extra',
+                    schema: schema.allOf![0],
+                    value,
+                    property: 'extra',
+                    properties: ['a'],
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('extra', () => {}, {}, {data: {schemaPath: '#/properties/a'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {additionalProperties: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('extra', message);
+        });
+
+        test('get-parser: parent instance schema-level error message', () => {
+            const message = 'additionalProperties error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                allOf: [
+                    {
+                        properties: {a: {type: JsonSchemaType.String}},
+                        additionalProperties: false,
+                    },
+                ],
+                nodeParameters: {errorMessages: {additionalProperties: message}},
+            };
+            const value = {a: 'x', extra: 1};
+            const error: JSLErrors.AdditionalProperties = {
+                type: 'error',
+                code: 'no-additional-properties-error',
+                message: 'Additional property `extra` in `#/extra` is not allowed',
+                data: {
+                    pointer: '#/extra',
+                    schema: schema.allOf![0],
+                    value,
+                    property: 'extra',
+                    properties: ['a'],
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('', () => {}, {}, {data: {schemaPath: '#'}});
+            form.registerField<any>('extra', () => {}, {}, {data: {schemaPath: '#/properties/a'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {
+                    schema,
+                    errorMessages: {additionalProperties: 'global error message'},
+                },
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('extra', message);
+        });
+
+        test('get-parser: global error message', () => {
+            const message = 'additionalProperties error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}},
+                additionalProperties: false,
+            };
+            const value = {a: 'x', extra: 1};
+            const error: JSLErrors.AdditionalProperties = {
+                type: 'error',
+                code: 'no-additional-properties-error',
+                message: 'Additional property `extra` in `#/extra` is not allowed',
+                data: {
+                    pointer: '#/extra',
+                    schema,
+                    value,
+                    property: 'extra',
+                    properties: ['a'],
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('extra', () => {}, {}, {data: {schemaPath: '#/properties/a'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {additionalProperties: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('extra', message);
+        });
+
+        test('get-parser: parent default error message (pointer field not registered)', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}},
+                additionalProperties: false,
+            };
+            const value = {a: 'x', extra: 1};
+            const error: JSLErrors.AdditionalProperties = {
+                type: 'error',
+                code: 'no-additional-properties-error',
+                message: 'Additional property `extra` in `#/extra` is not allowed',
+                data: {
+                    pointer: '#/extra',
+                    schema,
+                    value,
+                    property: 'extra',
+                    properties: ['a'],
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', error.message);
+        });
+
+        test('get-parser: parent error schema-level error message (pointer field not registered)', () => {
+            const message = 'additionalProperties error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}},
+                additionalProperties: false,
+                nodeParameters: {errorMessages: {additionalProperties: message}},
+            };
+            const value = {a: 'x', extra: 1};
+            const error: JSLErrors.AdditionalProperties = {
+                type: 'error',
+                code: 'no-additional-properties-error',
+                message: 'Additional property `extra` in `#/extra` is not allowed',
+                data: {
+                    pointer: '#/extra',
+                    schema,
+                    value,
+                    property: 'extra',
+                    properties: ['a'],
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: parent instance schema-level error message (pointer field not registered)', () => {
+            const message = 'additionalProperties error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                allOf: [
+                    {
+                        properties: {a: {type: JsonSchemaType.String}},
+                        additionalProperties: false,
+                    },
+                ],
+                nodeParameters: {errorMessages: {additionalProperties: message}},
+            };
+            const value = {a: 'x', extra: 1};
+            const error: JSLErrors.AdditionalProperties = {
+                type: 'error',
+                code: 'no-additional-properties-error',
+                message: 'Additional property `extra` in `#/extra` is not allowed',
+                data: {
+                    pointer: '#/extra',
+                    schema: schema.allOf![0],
+                    value,
+                    property: 'extra',
+                    properties: ['a'],
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField('', () => {}, {}, {data: {schemaPath: '#'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: parent global error message (pointer field not registered)', () => {
+            const message = 'additionalProperties error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}},
+                additionalProperties: false,
+            };
+            const value = {a: 'x', extra: 1};
+            const error: JSLErrors.AdditionalProperties = {
+                type: 'error',
+                code: 'no-additional-properties-error',
+                message: 'Additional property `extra` in `#/extra` is not allowed',
+                data: {
+                    pointer: '#/extra',
+                    schema,
+                    value,
+                    property: 'extra',
+                    properties: ['a'],
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {errorMessages: {additionalProperties: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+    });
+
+    describe('additionalProperties (schema)', () => {
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}},
+                additionalProperties: {type: JsonSchemaType.Number},
+            };
+            const value = {a: 'x', extra: 1};
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([]);
+        });
+
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}},
+                additionalProperties: {type: JsonSchemaType.Number},
+            };
+            const value = {a: 'x', extra: 'y'};
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `y` (string) in `#/extra` to be of type `number`',
+                data: {
+                    value: 'y',
+                    received: 'string',
+                    expected: 'number',
+                    schema: schema.additionalProperties as JsonSchema,
+                    pointer: '#/extra',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([error]);
+        });
+
+        // error has no specific code for parser tests
+    });
+
+    describe('dependencies (list)', () => {
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}, b: {type: JsonSchemaType.String}},
+                dependencies: {a: ['b']},
+            };
+            const value = {a: 'x', b: 'y'};
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([]);
+        });
+
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}, b: {type: JsonSchemaType.String}},
+                dependencies: {a: ['b']},
+            };
+            const value = {a: 'x'};
+            const error: JSLErrors.Dependencies = {
+                type: 'error',
+                code: 'missing-dependency-error',
+                message: "The required propery 'b' in `#` is missing",
+                data: {missingProperty: 'b', pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([error]);
+        });
+
+        test('get-parser: default error message (property pointer field registered)', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}, b: {type: JsonSchemaType.String}},
+                dependencies: {a: ['b']},
+            };
+            const value = {a: 'x'};
+            const error: JSLErrors.Dependencies = {
+                type: 'error',
+                code: 'missing-dependency-error',
+                message: "The required propery 'b' in `#` is missing",
+                data: {missingProperty: 'b', pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('b', () => {}, {}, {});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('b', error.message);
+        });
+
+        test('get-parser: error schema-level error message (property pointer field registered)', () => {
+            const message = 'dependencies error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {
+                    a: {type: JsonSchemaType.String},
+                    b: {
+                        type: JsonSchemaType.String,
+                        nodeParameters: {
+                            errorMessages: {dependencies: 'another error message'},
+                        },
+                    },
+                },
+                dependencies: {a: ['b']},
+                nodeParameters: {errorMessages: {dependencies: message}},
+            };
+            const value = {a: 'x'};
+            const error: JSLErrors.Dependencies = {
+                type: 'error',
+                code: 'missing-dependency-error',
+                message: "The required propery 'b' in `#` is missing",
+                data: {missingProperty: 'b', pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('b', () => {}, {}, {});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {dependencies: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('b', message);
+        });
+
+        test('get-parser: instance schema-level error message (property pointer field registered)', () => {
+            const message = 'dependencies error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {b: {nodeParameters: {errorMessages: {dependencies: message}}}},
+                allOf: [
+                    {
+                        properties: {
+                            a: {type: JsonSchemaType.String},
+                            b: {type: JsonSchemaType.String},
+                        },
+                        dependencies: {a: ['b']},
+                    },
+                ],
+            };
+            const value = {a: 'x'};
+            const error: JSLErrors.Dependencies = {
+                type: 'error',
+                code: 'missing-dependency-error',
+                message: "The required propery 'b' in `#` is missing",
+                data: {missingProperty: 'b', pointer: '#', schema: schema.allOf![0], value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('b', () => {}, {}, {data: {schemaPath: '#/properties/b'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {dependencies: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('b', message);
+        });
+
+        test('get-parser: parent instance schema-level error message (property pointer field registered)', () => {
+            const message = 'dependencies error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                allOf: [
+                    {
+                        properties: {
+                            a: {type: JsonSchemaType.String},
+                            b: {type: JsonSchemaType.String},
+                        },
+                        dependencies: {a: ['b']},
+                    },
+                ],
+                nodeParameters: {errorMessages: {dependencies: message}},
+            };
+            const value = {a: 'x'};
+            const error: JSLErrors.Dependencies = {
+                type: 'error',
+                code: 'missing-dependency-error',
+                message: "The required propery 'b' in `#` is missing",
+                data: {missingProperty: 'b', pointer: '#', schema: schema.allOf![0], value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('', () => {}, {}, {data: {schemaPath: '#'}});
+            form.registerField<any>('b', () => {}, {}, {data: {schemaPath: '#/properties/b'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {dependencies: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('b', message);
+        });
+
+        test('get-parser: global error message (property pointer field registered)', () => {
+            const message = 'dependencies error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}, b: {type: JsonSchemaType.String}},
+                dependencies: {a: ['b']},
+            };
+            const value = {a: 'x'};
+            const error: JSLErrors.Dependencies = {
+                type: 'error',
+                code: 'missing-dependency-error',
+                message: "The required propery 'b' in `#` is missing",
+                data: {missingProperty: 'b', pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('b', () => {}, {}, {data: {schemaPath: '#/properties/b'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {dependencies: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('b', message);
+        });
+
+        test('get-parser: default error message (property pointer field not registered)', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}, b: {type: JsonSchemaType.String}},
+                dependencies: {a: ['b']},
+            };
+            const value = {a: 'x'};
+            const error: JSLErrors.Dependencies = {
+                type: 'error',
+                code: 'missing-dependency-error',
+                message: "The required propery 'b' in `#` is missing",
+                data: {missingProperty: 'b', pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', error.message);
+        });
+
+        test('get-parser: error schema-level error message (property pointer field not registered)', () => {
+            const message = 'dependencies error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}, b: {type: JsonSchemaType.String}},
+                dependencies: {a: ['b']},
+                nodeParameters: {errorMessages: {dependencies: message}},
+            };
+            const value = {a: 'x'};
+            const error: JSLErrors.Dependencies = {
+                type: 'error',
+                code: 'missing-dependency-error',
+                message: "The required propery 'b' in `#` is missing",
+                data: {missingProperty: 'b', pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: instance schema-level error message (property pointer field not registered)', () => {
+            const message = 'dependencies error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                allOf: [
+                    {
+                        properties: {
+                            a: {type: JsonSchemaType.String},
+                            b: {type: JsonSchemaType.String},
+                        },
+                        dependencies: {a: ['b']},
+                    },
+                ],
+                nodeParameters: {errorMessages: {dependencies: message}},
+            };
+            const value = {a: 'x'};
+            const error: JSLErrors.Dependencies = {
+                type: 'error',
+                code: 'missing-dependency-error',
+                message: "The required propery 'b' in `#` is missing",
+                data: {missingProperty: 'b', pointer: '#', schema: schema.allOf![0], value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField('', () => {}, {}, {data: {schemaPath: '#'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: global error message (property pointer field not registered)', () => {
+            const message = 'dependencies error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}, b: {type: JsonSchemaType.String}},
+                dependencies: {a: ['b']},
+            };
+            const value = {a: 'x'};
+            const error: JSLErrors.Dependencies = {
+                type: 'error',
+                code: 'missing-dependency-error',
+                message: "The required propery 'b' in `#` is missing",
+                data: {missingProperty: 'b', pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {errorMessages: {dependencies: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+    });
+
+    describe('dependencies (schema)', () => {
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}, b: {type: JsonSchemaType.String}},
+                dependencies: {a: {properties: {b: {type: JsonSchemaType.String, minLength: 2}}}},
+            };
+            const value = {a: 'x', b: 'yz'};
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([]);
+        });
+
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}, b: {type: JsonSchemaType.String}},
+                dependencies: {a: {properties: {b: {type: JsonSchemaType.String, minLength: 2}}}},
+            };
+            const value = {a: 'x', b: 'y'};
+            const error: JSLErrors.MinLength = {
+                type: 'error',
+                code: 'min-length-error',
+                message: 'Value `#/b` should have a minimum length of `2`, but got `1`.',
+                data: {
+                    minLength: 2,
+                    length: 1,
+                    pointer: '#/b',
+                    schema: (schema.dependencies!.a as JsonSchemaObject).properties!.b,
+                    value: 'y',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([error]);
+        });
+
+        // error has no specific code for parser tests
+    });
+
+    describe('maxProperties', () => {
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                maxProperties: 1,
+            };
+            const value = {a: 1};
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([]);
+        });
+
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                maxProperties: 1,
+            };
+            const value = {a: 1, b: 2};
+            const error: JSLErrors.MaxProperties = {
+                type: 'error',
+                code: 'max-properties-error',
+                message: 'Too many properties in `#`, should be `1` at most, but got `2`',
+                data: {maxProperties: 1, length: 2, pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([error]);
+        });
+
+        test('get-parser: default error message', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                maxProperties: 1,
+            };
+            const value = {a: 1, b: 2};
+            const error: JSLErrors.MaxProperties = {
+                type: 'error',
+                code: 'max-properties-error',
+                message: 'Too many properties in `#`, should be `1` at most, but got `2`',
+                data: {maxProperties: 1, length: 2, pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', error.message);
+        });
+
+        test('get-parser: error schema-level error message', () => {
+            const message = 'maxProperties error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                maxProperties: 1,
+                nodeParameters: {errorMessages: {maxProperties: message}},
+            };
+            const value = {a: 1, b: 2};
+            const error: JSLErrors.MaxProperties = {
+                type: 'error',
+                code: 'max-properties-error',
+                message: 'Too many properties in `#`, should be `1` at most, but got `2`',
+                data: {maxProperties: 1, length: 2, pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {maxProperties: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: instance schema-level error message', () => {
+            const message = 'maxProperties error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                allOf: [{maxProperties: 1}],
+                nodeParameters: {errorMessages: {maxProperties: message}},
+            };
+            const value = {a: 1, b: 2};
+            const error: JSLErrors.MaxProperties = {
+                type: 'error',
+                code: 'max-properties-error',
+                message: 'Too many properties in `#`, should be `1` at most, but got `2`',
+                data: {maxProperties: 1, length: 2, pointer: '#', schema: schema.allOf![0], value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('', () => {}, {}, {data: {schemaPath: '#'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {maxProperties: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: global error message', () => {
+            const message = 'maxProperties error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                maxProperties: 1,
+            };
+            const value = {a: 1, b: 2};
+            const error: JSLErrors.MaxProperties = {
+                type: 'error',
+                code: 'max-properties-error',
+                message: 'Too many properties in `#`, should be `1` at most, but got `2`',
+                data: {maxProperties: 1, length: 2, pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {maxProperties: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+    });
+
+    describe('minProperties', () => {
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                minProperties: 1,
+            };
+            const value = {a: 1};
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([]);
+        });
+
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                minProperties: 1,
+            };
+            const value = {};
+            const error: JSLErrors.MinProperties = {
+                type: 'error',
+                code: 'min-properties-error',
+                message: 'Too few properties in `#`, should be at least `1`, but got `0`',
+                data: {minProperties: 1, length: 0, pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([error]);
+        });
+
+        test('get-parser: default error message', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                minProperties: 1,
+            };
+            const value = {};
+            const error: JSLErrors.MinProperties = {
+                type: 'error',
+                code: 'min-properties-error',
+                message: 'Too few properties in `#`, should be at least `1`, but got `0`',
+                data: {minProperties: 1, length: 0, pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', error.message);
+        });
+
+        test('get-parser: error schema-level error message', () => {
+            const message = 'minProperties error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                minProperties: 1,
+                nodeParameters: {errorMessages: {minProperties: message}},
+            };
+            const value = {};
+            const error: JSLErrors.MinProperties = {
+                type: 'error',
+                code: 'min-properties-error',
+                message: 'Too few properties in `#`, should be at least `1`, but got `0`',
+                data: {minProperties: 1, length: 0, pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {minProperties: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: instance schema-level error message', () => {
+            const message = 'minProperties error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                allOf: [{minProperties: 1}],
+                nodeParameters: {errorMessages: {minProperties: message}},
+            };
+            const value = {};
+            const error: JSLErrors.MinProperties = {
+                type: 'error',
+                code: 'min-properties-error',
+                message: 'Too few properties in `#`, should be at least `1`, but got `0`',
+                data: {minProperties: 1, length: 0, pointer: '#', schema: schema.allOf![0], value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('', () => {}, {}, {data: {schemaPath: '#'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {minProperties: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: global error message', () => {
+            const message = 'minProperties error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                minProperties: 1,
+            };
+            const value = {};
+            const error: JSLErrors.MinProperties = {
+                type: 'error',
+                code: 'min-properties-error',
+                message: 'Too few properties in `#`, should be at least `1`, but got `0`',
+                data: {minProperties: 1, length: 0, pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {minProperties: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+    });
+
+    describe('properties', () => {
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}},
+            };
+            const value = {a: 'x'};
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([]);
+        });
+
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.String}},
+            };
+            const value = {a: 1};
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `1` (number) in `#/a` to be of type `string`',
+                data: {
+                    value: 1,
+                    received: 'number',
+                    expected: 'string',
+                    schema: schema.properties!.a,
+                    pointer: '#/a',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([error]);
+        });
+
+        // error has no specific code for parser tests
+    });
+
+    describe('propertyNames', () => {
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                propertyNames: {pattern: '^[a-z]+$'},
+            };
+            const value = {a: 1};
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([]);
+        });
+
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                propertyNames: {pattern: '^[a-z]+$'},
+            };
+            const value = {A: 1};
+            const nestedError: JSLErrors.Pattern = {
+                type: 'error',
+                code: 'pattern-error',
+                message: 'Value in `#/A` should match `^[a-z]+$`, but received `A`',
+                data: {
+                    pattern: '^[a-z]+$',
+                    description: '^[a-z]+$',
+                    received: 'A',
+                    schema: schema.propertyNames!,
+                    value: 'A',
+                    pointer: '#/A',
+                },
+            };
+            const error: JSLErrors.PropertyNames = {
+                type: 'error',
+                code: 'invalid-property-name-error',
+                message: 'Invalid property name `A` at `#`',
+                data: {
+                    property: 'A',
+                    pointer: '#',
+                    validationError: nestedError,
+                    value: 1,
+                    schema,
+                },
+            };
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([error]);
+        });
+
+        test('get-parser: default nested error message (property pointer field registered)', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                propertyNames: {pattern: '^[a-z]+$'},
+            };
+            const value = {A: 1};
+            const nestedError: JSLErrors.Pattern = {
+                type: 'error',
+                code: 'pattern-error',
+                message: 'Value in `#/A` should match `^[a-z]+$`, but received `A`',
+                data: {
+                    pattern: '^[a-z]+$',
+                    description: '^[a-z]+$',
+                    received: 'A',
+                    schema: schema.propertyNames!,
+                    value: 'A',
+                    pointer: '#/A',
+                },
+            };
+            const error: JSLErrors.PropertyNames = {
+                type: 'error',
+                code: 'invalid-property-name-error',
+                message: 'Invalid property name `A` at `#`',
+                data: {
+                    property: 'A',
+                    pointer: '#',
+                    validationError: nestedError,
+                    value: 1,
+                    schema,
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('A', () => {}, {}, {});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('A', nestedError.message);
+        });
+
+        test('get-parser: nested error schema-level error message (property pointer field registered)', () => {
+            const message = 'propertyNames error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                propertyNames: {
+                    pattern: '^[a-z]+$',
+                    nodeParameters: {errorMessages: {pattern: message}},
+                },
+                nodeParameters: {errorMessages: {pattern: 'another error message'}},
+            };
+            const value = {A: 1};
+            const nestedError: JSLErrors.Pattern = {
+                type: 'error',
+                code: 'pattern-error',
+                message: 'Value in `#/A` should match `^[a-z]+$`, but received `A`',
+                data: {
+                    pattern: '^[a-z]+$',
+                    description: '^[a-z]+$',
+                    received: 'A',
+                    schema: schema.propertyNames!,
+                    value: 'A',
+                    pointer: '#/A',
+                },
+            };
+            const error: JSLErrors.PropertyNames = {
+                type: 'error',
+                code: 'invalid-property-name-error',
+                message: 'Invalid property name `A` at `#`',
+                data: {
+                    property: 'A',
+                    pointer: '#',
+                    validationError: nestedError,
+                    value: 1,
+                    schema,
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('A', () => {}, {}, {});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {pattern: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('A', message);
+        });
+
+        test('get-parser: nested error property instance schema-level error message (property pointer field registered)', () => {
+            const message = 'propertyNames error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {nodeParameters: {errorMessages: {pattern: message}}}},
+                allOf: [{propertyNames: {pattern: '^[a-z]+$'}}],
+            };
+            const value = {A: 1};
+            const nestedError: JSLErrors.Pattern = {
+                type: 'error',
+                code: 'pattern-error',
+                message: 'Value in `#/A` should match `^[a-z]+$`, but received `A`',
+                data: {
+                    pattern: '^[a-z]+$',
+                    description: '^[a-z]+$',
+                    received: 'A',
+                    schema: schema.allOf![0].propertyNames!,
+                    value: 'A',
+                    pointer: '#/A',
+                },
+            };
+            const error: JSLErrors.PropertyNames = {
+                type: 'error',
+                code: 'invalid-property-name-error',
+                message: 'Invalid property name `A` at `#`',
+                data: {
+                    property: 'A',
+                    pointer: '#',
+                    validationError: nestedError,
+                    value: 1,
+                    schema: schema.allOf![0],
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('A', () => {}, {}, {data: {schemaPath: '#/properties/a'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {pattern: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('A', message);
+        });
+
+        test('get-parser: error schema-level error message (property pointer field registered)', () => {
+            const message = 'propertyNames error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                allOf: [
+                    {
+                        propertyNames: {pattern: '^[a-z]+$'},
+                        nodeParameters: {errorMessages: {propertyNames: message}},
+                    },
+                ],
+            };
+            const value = {A: 1};
+            const nestedError: JSLErrors.Pattern = {
+                type: 'error',
+                code: 'pattern-error',
+                message: 'Value in `#/A` should match `^[a-z]+$`, but received `A`',
+                data: {
+                    pattern: '^[a-z]+$',
+                    description: '^[a-z]+$',
+                    received: 'A',
+                    schema: schema.allOf![0].propertyNames!,
+                    value: 'A',
+                    pointer: '#/A',
+                },
+            };
+            const error: JSLErrors.PropertyNames = {
+                type: 'error',
+                code: 'invalid-property-name-error',
+                message: 'Invalid property name `A` at `#`',
+                data: {
+                    property: 'A',
+                    pointer: '#',
+                    validationError: nestedError,
+                    value: 1,
+                    schema: schema.allOf![0],
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('A', () => {}, {}, {data: {schemaPath: '#/properties/a'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {pattern: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('A', message);
+        });
+
+        test('get-parser: error instance schema-level error message (property pointer field registered)', () => {
+            const message = 'propertyNames error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                allOf: [{propertyNames: {pattern: '^[a-z]+$'}}],
+                nodeParameters: {errorMessages: {propertyNames: message}},
+            };
+            const value = {A: 1};
+            const nestedError: JSLErrors.Pattern = {
+                type: 'error',
+                code: 'pattern-error',
+                message: 'Value in `#/A` should match `^[a-z]+$`, but received `A`',
+                data: {
+                    pattern: '^[a-z]+$',
+                    description: '^[a-z]+$',
+                    received: 'A',
+                    schema: schema.allOf![0].propertyNames!,
+                    value: 'A',
+                    pointer: '#/A',
+                },
+            };
+            const error: JSLErrors.PropertyNames = {
+                type: 'error',
+                code: 'invalid-property-name-error',
+                message: 'Invalid property name `A` at `#`',
+                data: {
+                    property: 'A',
+                    pointer: '#',
+                    validationError: nestedError,
+                    value: 1,
+                    schema: schema.allOf![0],
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('', () => {}, {}, {data: {schemaPath: '#'}});
+            form.registerField<any>('A', () => {}, {}, {data: {schemaPath: '#/properties/a'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {pattern: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('A', message);
+        });
+
+        test('get-parser: global nested error message (property pointer field registered)', () => {
+            const message = 'propertyNames error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                propertyNames: {pattern: '^[a-z]+$'},
+            };
+            const value = {A: 1};
+            const nestedError: JSLErrors.Pattern = {
+                type: 'error',
+                code: 'pattern-error',
+                message: 'Value in `#/A` should match `^[a-z]+$`, but received `A`',
+                data: {
+                    pattern: '^[a-z]+$',
+                    description: '^[a-z]+$',
+                    received: 'A',
+                    schema: schema.propertyNames!,
+                    value: 'A',
+                    pointer: '#/A',
+                },
+            };
+            const error: JSLErrors.PropertyNames = {
+                type: 'error',
+                code: 'invalid-property-name-error',
+                message: 'Invalid property name `A` at `#`',
+                data: {
+                    property: 'A',
+                    pointer: '#',
+                    validationError: nestedError,
+                    value: 1,
+                    schema,
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('A', () => {}, {}, {data: {schemaPath: '#/properties/a'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {pattern: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('A', message);
+        });
+
+        test('get-parser: global error message (property pointer field registered)', () => {
+            const message = 'propertyNames error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                propertyNames: {pattern: '^[a-z]+$'},
+            };
+            const value = {A: 1};
+            const nestedError: JSLErrors.Pattern = {
+                type: 'error',
+                code: 'pattern-error',
+                message: 'Value in `#/A` should match `^[a-z]+$`, but received `A`',
+                data: {
+                    pattern: '^[a-z]+$',
+                    description: '^[a-z]+$',
+                    received: 'A',
+                    schema: schema.propertyNames!,
+                    value: 'A',
+                    pointer: '#/A',
+                },
+            };
+            const error: JSLErrors.PropertyNames = {
+                type: 'error',
+                code: 'invalid-property-name-error',
+                message: 'Invalid property name `A` at `#`',
+                data: {
+                    property: 'A',
+                    pointer: '#',
+                    validationError: nestedError,
+                    value: 1,
+                    schema,
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('A', () => {}, {}, {data: {schemaPath: '#/properties/a'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {propertyNames: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('A', message);
+        });
+
+        test('get-parser: default error message (property pointer field not registered)', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                propertyNames: {pattern: '^[a-z]+$'},
+            };
+            const value = {A: 1};
+            const nestedError: JSLErrors.Pattern = {
+                type: 'error',
+                code: 'pattern-error',
+                message: 'Value in `#/A` should match `^[a-z]+$`, but received `A`',
+                data: {
+                    pattern: '^[a-z]+$',
+                    description: '^[a-z]+$',
+                    received: 'A',
+                    schema: schema.propertyNames!,
+                    value: 'A',
+                    pointer: '#/A',
+                },
+            };
+            const error: JSLErrors.PropertyNames = {
+                type: 'error',
+                code: 'invalid-property-name-error',
+                message: 'Invalid property name `A` at `#`',
+                data: {
+                    property: 'A',
+                    pointer: '#',
+                    validationError: nestedError,
+                    value: 1,
+                    schema,
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', error.message);
+        });
+
+        test('get-parser: nested error schema-level error message (property pointer field not registered)', () => {
+            const message = 'propertyNames error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                propertyNames: {
+                    pattern: '^[a-z]+$',
+                    nodeParameters: {errorMessages: {propertyNames: message}},
+                },
+                nodeParameters: {errorMessages: {propertyNames: 'another error message'}},
+            };
+            const value = {A: 1};
+            const nestedError: JSLErrors.Pattern = {
+                type: 'error',
+                code: 'pattern-error',
+                message: 'Value in `#/A` should match `^[a-z]+$`, but received `A`',
+                data: {
+                    pattern: '^[a-z]+$',
+                    description: '^[a-z]+$',
+                    received: 'A',
+                    schema: schema.propertyNames!,
+                    value: 'A',
+                    pointer: '#/A',
+                },
+            };
+            const error: JSLErrors.PropertyNames = {
+                type: 'error',
+                code: 'invalid-property-name-error',
+                message: 'Invalid property name `A` at `#`',
+                data: {
+                    property: 'A',
+                    pointer: '#',
+                    validationError: nestedError,
+                    value: 1,
+                    schema,
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {propertyNames: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: error schema-level error message (property pointer field not registered)', () => {
+            const message = 'propertyNames error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                propertyNames: {pattern: '^[a-z]+$'},
+                nodeParameters: {errorMessages: {propertyNames: message}},
+            };
+            const value = {A: 1};
+            const nestedError: JSLErrors.Pattern = {
+                type: 'error',
+                code: 'pattern-error',
+                message: 'Value in `#/A` should match `^[a-z]+$`, but received `A`',
+                data: {
+                    pattern: '^[a-z]+$',
+                    description: '^[a-z]+$',
+                    received: 'A',
+                    schema: schema.propertyNames!,
+                    value: 'A',
+                    pointer: '#/A',
+                },
+            };
+            const error: JSLErrors.PropertyNames = {
+                type: 'error',
+                code: 'invalid-property-name-error',
+                message: 'Invalid property name `A` at `#`',
+                data: {
+                    property: 'A',
+                    pointer: '#',
+                    validationError: nestedError,
+                    value: 1,
+                    schema,
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: instance schema-level error message (property pointer field not registered)', () => {
+            const message = 'propertyNames error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                allOf: [{propertyNames: {pattern: '^[a-z]+$'}}],
+                nodeParameters: {errorMessages: {propertyNames: message}},
+            };
+            const value = {A: 1};
+            const nestedError: JSLErrors.Pattern = {
+                type: 'error',
+                code: 'pattern-error',
+                message: 'Value in `#/A` should match `^[a-z]+$`, but received `A`',
+                data: {
+                    pattern: '^[a-z]+$',
+                    description: '^[a-z]+$',
+                    received: 'A',
+                    schema: schema.allOf![0].propertyNames!,
+                    value: 'A',
+                    pointer: '#/A',
+                },
+            };
+            const error: JSLErrors.PropertyNames = {
+                type: 'error',
+                code: 'invalid-property-name-error',
+                message: 'Invalid property name `A` at `#`',
+                data: {
+                    property: 'A',
+                    pointer: '#',
+                    validationError: nestedError,
+                    value: 1,
+                    schema: schema.allOf![0],
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField('', () => {}, {}, {data: {schemaPath: '#'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {propertyNames: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: global error message (property pointer field not registered)', () => {
+            const message = 'propertyNames error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                propertyNames: {pattern: '^[a-z]+$'},
+            };
+            const value = {A: 1};
+            const nestedError: JSLErrors.Pattern = {
+                type: 'error',
+                code: 'pattern-error',
+                message: 'Value in `#/A` should match `^[a-z]+$`, but received `A`',
+                data: {
+                    pattern: '^[a-z]+$',
+                    description: '^[a-z]+$',
+                    received: 'A',
+                    schema: schema.propertyNames!,
+                    value: 'A',
+                    pointer: '#/A',
+                },
+            };
+            const error: JSLErrors.PropertyNames = {
+                type: 'error',
+                code: 'invalid-property-name-error',
+                message: 'Invalid property name `A` at `#`',
+                data: {
+                    property: 'A',
+                    pointer: '#',
+                    validationError: nestedError,
+                    value: 1,
+                    schema,
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {errorMessages: {propertyNames: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+    });
+
+    describe('required', () => {
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.Number}},
+                required: ['a'],
+            };
+            const value = {a: 1};
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([]);
+        });
+
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.Number}},
+                required: ['a'],
+            };
+            const value = {};
+            const error: JSLErrors.Required = {
+                type: 'error',
+                code: 'required-property-error',
+                message: 'The required property `a` is missing at `#`',
+                data: {key: 'a', pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([error]);
+        });
+
+        test('get-parser: default error message (property pointer field registered)', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.Number}},
+                required: ['a'],
+            };
+            const value = {};
+            const error: JSLErrors.Required = {
+                type: 'error',
+                code: 'required-property-error',
+                message: 'The required property `a` is missing at `#`',
+                data: {key: 'a', pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('a', () => {}, {}, {});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('a', error.message);
+        });
+
+        test('get-parser: error schema-level error message (property pointer field registered)', () => {
+            const message = 'required error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {
+                    a: {
+                        type: JsonSchemaType.Number,
+                        nodeParameters: {errorMessages: {required: 'another error message'}},
+                    },
+                },
+                required: ['a'],
+                nodeParameters: {errorMessages: {required: message}},
+            };
+            const value = {};
+            const error: JSLErrors.Required = {
+                type: 'error',
+                code: 'required-property-error',
+                message: 'The required property `a` is missing at `#`',
+                data: {key: 'a', pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('a', () => {}, {}, {});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {required: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('a', message);
+        });
+
+        test('get-parser: property instance schema-level error message (property pointer field registered)', () => {
+            const message = 'required error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {nodeParameters: {errorMessages: {required: message}}}},
+                allOf: [{properties: {a: {type: JsonSchemaType.Number}}, required: ['a']}],
+            };
+            const value = {};
+            const error: JSLErrors.Required = {
+                type: 'error',
+                code: 'required-property-error',
+                message: 'The required property `a` is missing at `#`',
+                data: {key: 'a', pointer: '#', schema: schema.allOf![0], value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('a', () => {}, {}, {data: {schemaPath: '#/properties/a'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {required: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('a', message);
+        });
+
+        test('get-parser: instance schema-level error message (property pointer field registered)', () => {
+            const message = 'required error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                allOf: [{properties: {a: {type: JsonSchemaType.Number}}, required: ['a']}],
+                nodeParameters: {errorMessages: {required: message}},
+            };
+            const value = {};
+            const error: JSLErrors.Required = {
+                type: 'error',
+                code: 'required-property-error',
+                message: 'The required property `a` is missing at `#`',
+                data: {key: 'a', pointer: '#', schema: schema.allOf![0], value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('', () => {}, {}, {data: {schemaPath: '#'}});
+            form.registerField<any>('a', () => {}, {}, {data: {schemaPath: '#/properties/a'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {required: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('a', message);
+        });
+
+        test('get-parser: global error message (property pointer field registered)', () => {
+            const message = 'required error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.Number}},
+                required: ['a'],
+            };
+            const value = {};
+            const error: JSLErrors.Required = {
+                type: 'error',
+                code: 'required-property-error',
+                message: 'The required property `a` is missing at `#`',
+                data: {key: 'a', pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('a', () => {}, {}, {data: {schemaPath: '#/properties/a'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {required: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('a', message);
+        });
+
+        test('get-parser: default error message (property pointer field not registered)', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.Number}},
+                required: ['a'],
+            };
+            const value = {};
+            const error: JSLErrors.Required = {
+                type: 'error',
+                code: 'required-property-error',
+                message: 'The required property `a` is missing at `#`',
+                data: {key: 'a', pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', error.message);
+        });
+
+        test('get-parser: error schema-level error message (property pointer field not registered)', () => {
+            const message = 'required error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.Number}},
+                required: ['a'],
+                nodeParameters: {errorMessages: {required: message}},
+            };
+            const value = {};
+            const error: JSLErrors.Required = {
+                type: 'error',
+                code: 'required-property-error',
+                message: 'The required property `a` is missing at `#`',
+                data: {key: 'a', pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: instance schema-level error message (property pointer field not registered)', () => {
+            const message = 'required error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                allOf: [{properties: {a: {type: JsonSchemaType.Number}}, required: ['a']}],
+                nodeParameters: {errorMessages: {required: message}},
+            };
+            const value = {};
+            const error: JSLErrors.Required = {
+                type: 'error',
+                code: 'required-property-error',
+                message: 'The required property `a` is missing at `#`',
+                data: {key: 'a', pointer: '#', schema: schema.allOf![0], value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField('', () => {}, {}, {data: {schemaPath: '#'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: global error message (property pointer field not registered)', () => {
+            const message = 'required error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                properties: {a: {type: JsonSchemaType.Number}},
+                required: ['a'],
+            };
+            const value = {};
+            const error: JSLErrors.Required = {
+                type: 'error',
+                code: 'required-property-error',
+                message: 'The required property `a` is missing at `#`',
+                data: {key: 'a', pointer: '#', schema, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {errorMessages: {required: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+    });
+
+    describe('type', () => {
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+            };
+            const value = {};
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([]);
+        });
+
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+            };
+            const value = 'a';
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `a` (string) in `#` to be of type `object`',
+                data: {
+                    value: 'a',
+                    received: 'string',
+                    expected: 'object',
+                    schema,
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([error]);
+        });
+
+        test('get-parser: default error message', () => {
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+            };
+            const value = 'a';
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `a` (string) in `#` to be of type `object`',
+                data: {
+                    value: 'a',
+                    received: 'string',
+                    expected: 'object',
+                    schema,
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', error.message);
+        });
+
+        test('get-parser: error schema-level error message', () => {
+            const message = 'type error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+                nodeParameters: {errorMessages: {type: message}},
+            };
+            const value = 'a';
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `a` (string) in `#` to be of type `object`',
+                data: {
+                    value: 'a',
+                    received: 'string',
+                    expected: 'object',
+                    schema,
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {type: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: instance schema-level error message', () => {
+            const message = 'type error message';
+            const schema: JsonSchemaObject = {
+                allOf: [{type: JsonSchemaType.Object}],
+                nodeParameters: {errorMessages: {type: message}},
+            };
+            const value = 'a';
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `a` (string) in `#` to be of type `object`',
+                data: {
+                    value: 'a',
+                    received: 'string',
+                    expected: 'object',
+                    schema: schema.allOf![0],
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('', () => {}, {}, {data: {schemaPath: '#'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {type: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: global error message', () => {
+            const message = 'type error message';
+            const schema: JsonSchemaObject = {
+                type: JsonSchemaType.Object,
+            };
+            const value = 'a';
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `a` (string) in `#` to be of type `object`',
+                data: {
+                    value: 'a',
+                    received: 'string',
+                    expected: 'object',
+                    schema,
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {type: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+    });
+});

@@ -3,42 +3,39 @@ import get from 'lodash/get';
 import type {JsonSchema} from '../types';
 
 /**
- * Parses an AJV `schemaPath` (JSON Pointer) into an array of path segments
- * suitable for lodash `get`.
+ * Parses a JSON Pointer into an array of path segments suitable for lodash `get`.
  *
- * Strips the `#/` prefix, decodes URI-encoded characters, splits on `/`,
- * and unescapes JSON Pointer tokens (`~1` → `/`, `~0` → `~`).
+ * Accepts fragment pointers (`#/…`) and document pointers (`/…`). Decodes
+ * URI-encoded characters, splits on `/`, and unescapes JSON Pointer tokens
+ * (`~1` → `/`, `~0` → `~`).
  *
- * Returns all segments unchanged; stripping a trailing validation keyword
- * (e.g. `minLength`) before lookup is the caller's responsibility.
+ * An empty pointer (`#` or `''`) yields an empty array.
  *
- * @param schemaPath - JSON Pointer string, e.g. `"#/properties/name/minLength"`.
- * @returns Path segments, e.g. `['properties', 'name', 'minLength']`.
+ * @param pointer - JSON Pointer string, e.g. `"#/properties/name"`.
+ * @returns Path segments, e.g. `['properties', 'name']`.
  */
-export const schemaPathToArrPath = (schemaPath: string): string[] => {
-    return decodeURIComponent(schemaPath)
+export const pointerToArrayPath = (pointer: string): string[] => {
+    return decodeURIComponent(pointer)
         .split('/')
         .slice(1)
         .map((segment) => segment.replace(/~1/g, '/').replace(/~0/g, '~'));
 };
 
-export const instancePathToArrPath = (instancePath: string): string[] => {
-    if (!instancePath.length) {
-        return [];
-    }
-
-    return instancePath
-        .slice('/'.length)
-        .split('/')
-        .map((segment) => segment.replace(/~1/g, '/').replace(/~0/g, '~'));
-};
-
-export const finalFormNameToArrPath = (finalFormName: string): string[] => {
+/**
+ * Parses a Final Form / lodash path (`a.b[0].c`) into an array of path segments.
+ *
+ * Object keys are split on `.`. Array indices in bracket notation (`[0]`)
+ * become string segments (`'0'`).
+ *
+ * @param dotBracketPath - Dotted path with optional brackets, e.g. `"items[0].name"`.
+ * @returns Path segments, e.g. `['items', '0', 'name']`.
+ */
+export const dotBracketToArrayPath = (dotBracketPath: string): string[] => {
     const result: string[] = [];
     const regex = /([^[.\]]+)|\[(\d+)\]/g;
     let match;
 
-    while ((match = regex.exec(finalFormName)) !== null) {
+    while ((match = regex.exec(dotBracketPath)) !== null) {
         if (match[1] !== undefined) {
             result.push(match[1]);
         } else if (match[2] !== undefined) {
@@ -49,8 +46,17 @@ export const finalFormNameToArrPath = (finalFormName: string): string[] => {
     return result;
 };
 
-export const arrPathToFinalFormName = (finalFormPath: string[]): string => {
-    return finalFormPath.reduce<string>((result, segment) => {
+/**
+ * Builds a Final Form / lodash path from an array of path segments.
+ *
+ * Numeric segments become bracket indices (`[0]`). Other segments are joined
+ * with `.`.
+ *
+ * @param arrayPath - Path segments, e.g. `['items', '0', 'name']`.
+ * @returns Dotted path with brackets, e.g. `"items[0].name"`.
+ */
+export const arrayPathToDotBracket = (arrayPath: string[]): string => {
+    return arrayPath.reduce<string>((result, segment) => {
         if (/^\d+$/.test(segment)) {
             return `${result}[${segment}]`;
         }
@@ -60,15 +66,14 @@ export const arrPathToFinalFormName = (finalFormPath: string[]): string => {
 };
 
 /**
- * Resolves a sub-schema from the root schema by an AJV `schemaPath`.
+ * Resolves a sub-schema from the root schema by a JSON Pointer.
  *
- * Parses `schemaPath` via `parseSchemaPath` and looks up the node with lodash `get`.
- * The path must point to a schema object, not to a validation keyword — callers
- * should strip the trailing keyword first (see `processAjvError`).
+ * A string pointer is parsed via `pointerToArrayPath`. An array of segments is
+ * used as-is. Lookup is done with lodash `get`.
  *
  * @param schema - The root JSON schema object.
- * @param schemaPath - JSON Pointer string pointing to a schema node,
- *   e.g. `"#/properties/name"`.
+ * @param pointer - JSON Pointer (`"#/properties/name"`) or path segments
+ *   (`['properties', 'name']`).
  *
  * @example
  * const nameSchema = {
@@ -79,15 +84,15 @@ export const arrPathToFinalFormName = (finalFormPath: string[]): string => {
  *     name: nameSchema,
  *   },
  * };
- * getSchemaBySchemaPath("#/properties/name", objectSchema); // returns nameSchema
+ * getSchemaByPointer(objectSchema, '#/properties/name'); // returns nameSchema
  *
  * @returns The sub-schema at the given path, or the root schema when the path is empty.
  */
-export const getSchemaBySchemaPath = (
+export const getSchemaByPointer = (
     schema: JsonSchema,
-    schemaPath: string | string[],
+    pointer: string | string[],
 ): JsonSchema | undefined => {
-    const pathArr = Array.isArray(schemaPath) ? schemaPath : schemaPathToArrPath(schemaPath);
+    const pathArr = Array.isArray(pointer) ? pointer : pointerToArrayPath(pointer);
 
     if (!pathArr.length) {
         return schema;
@@ -116,8 +121,6 @@ export const getValuePaths = (value: unknown, path: string[] = []) => {
 
     return result;
 };
-
-export const fixType = <Type>(value: any): Type => value as Type;
 
 export const getServiceFieldName = (serviceFieldName: string, headName: string) =>
     headName ? `${serviceFieldName}.${headName}` : serviceFieldName;

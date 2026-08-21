@@ -1,29 +1,26 @@
-import type {ErrorObject} from 'ajv';
-import type {FieldValidator, FormApi} from 'final-form';
+import type {FormApi} from 'final-form';
+import type {SchemaNode} from 'json-schema-library';
 import get from 'lodash/get';
-import isEqual from 'lodash/isEqual';
 import isObjectLike from 'lodash/isObjectLike';
-import omit from 'lodash/omit';
 
 import {SchemaRendererEventType} from '../../constants';
-import type {FieldValue, JsonSchema, NodesConfig, ValidationError} from '../../types';
+import type {JSLErrors, JsonSchema, NodesConfig, ValidationError} from '../../types';
 import {
-    arrPathToFinalFormName,
-    finalFormNameToArrPath,
+    arrayPathToDotBracket,
+    dotBracketToArrayPath,
     getServiceFieldName,
     getValuePaths,
-    instancePathToArrPath,
 } from '../../utils';
 import {SCHEMA_RENDERER_SERVICE_FIELD} from '../constants';
-import type {NodeParametersErrorObject, SchemaRendererState, ValidationWaiter} from '../types';
+import type {SchemaRendererState, ValidationWaiter} from '../types';
 
-import {type GetAjvValidateReturn, getAjvValidate} from './get-ajv-validate';
-import {processAjvError} from './process-ajv-error';
+import {getSchemaRootNode} from './get-schema-root-node';
+import {getParser} from './parse-errors';
 
-export const getValidate = (form: FormApi, headName: string): FieldValidator<FieldValue> => {
-    let ajvValidate: GetAjvValidateReturn;
-    let config: NodesConfig | undefined;
+export const getValidate = (form: FormApi, headName: string) => {
+    let config: NodesConfig;
     let schema: JsonSchema;
+    let schemaNode: SchemaNode;
 
     return (): ValidationError | Promise<ValidationError> => {
         const allValues = form.getState().values;
@@ -32,91 +29,55 @@ export const getValidate = (form: FormApi, headName: string): FieldValidator<Fie
         const srField = form.getFieldState(srName);
         const srState: SchemaRendererState | undefined = srField?.data?.state;
 
-        if (!srState?.schema) {
+        if (!srState) {
             return false;
         }
 
-        if (schema !== srState.schema || config !== srState.config) {
+        if (srState.schema !== schema || srState.config !== config) {
             config = srState.config;
             schema = srState.schema;
-            ajvValidate = getAjvValidate({config, schema});
+            schemaNode = getSchemaRootNode({config, schema});
         }
 
-        ajvValidate(value);
+        const validateErrors = schemaNode.validate(value).errors as JSLErrors.Error[];
 
         const waiters: Record<string, ValidationWaiter> = {};
-        const ajvErrors: Record<string, ValidationError> = {};
+        const jslErrors: Record<string, ValidationError> = {};
         const npErrors: Record<string, ValidationError> = {};
 
-        ajvValidate.errors?.forEach((e) => {
-            const nameFromRoot = arrPathToFinalFormName([
-                ...finalFormNameToArrPath(headName),
-                ...instancePathToArrPath(e.instancePath),
-            ]);
+        validateErrors.forEach((error) => {
+            const parser = getParser(error.code);
 
-            if (e.keyword === 'nodeParameters') {
-                const error = e as NodeParametersErrorObject;
-                const cache = srState.cache[nameFromRoot];
-                const cacheItem = cache?.find((c) => isEqual(error.params, omit(c, 'result')));
-                const waiter = srState.waiters[nameFromRoot];
-
-                if (cacheItem) {
-                    npErrors[nameFromRoot] = cacheItem.result;
-
-                    return;
-                }
-
-                if (!waiter || !isEqual(error.params, omit(waiter, 'promise'))) {
-                    const errorOrPromise = error.params.validator(error.params.value, allValues);
-
-                    if (errorOrPromise instanceof Promise) {
-                        waiters[nameFromRoot] = {
-                            ...error.params,
-                            promise: errorOrPromise,
-                        };
-
-                        errorOrPromise.then((result) => {
-                            srState.cache[nameFromRoot] = [
-                                ...(srState.cache[nameFromRoot] || []),
-                                {...error.params, result},
-                            ];
-
-                            srState.runValidate();
-                        });
-                    } else {
-                        npErrors[nameFromRoot] = errorOrPromise;
-                    }
-
-                    return;
-                }
-            } else {
-                const error = e as ErrorObject;
-
-                processAjvError({
-                    error,
-                    errorMessages: srState?.errorMessages,
-                    form,
-                    nameFromRoot,
-                    schema,
-                    onError: (err: ValidationError) => {
-                        ajvErrors[nameFromRoot] = err;
-                    },
-                });
-            }
+            parser({
+                allValues,
+                error,
+                form,
+                headName,
+                setJSLError: (n, e) => {
+                    jslErrors[n] = e;
+                },
+                setNPError: (n, e) => {
+                    npErrors[n] = e;
+                },
+                setWaiter: (n, w) => {
+                    waiters[n] = w;
+                },
+                state: srState,
+            });
         });
 
         const allErrors: Record<string, ValidationError> = {};
 
         Object.entries({
             ...srState?.regularErrors,
-            ...ajvErrors,
+            ...jslErrors,
             ...npErrors,
             ...srState?.priorityErrors,
         }).forEach(([n, e]) => {
             if (isObjectLike(e)) {
                 getValuePaths(e).forEach((childArrPath) => {
-                    const childName = arrPathToFinalFormName([
-                        ...finalFormNameToArrPath(n),
+                    const childName = arrayPathToDotBracket([
+                        ...dotBracketToArrayPath(n),
                         ...childArrPath,
                     ]);
 

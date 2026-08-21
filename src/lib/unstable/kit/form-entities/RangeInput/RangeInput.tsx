@@ -7,9 +7,9 @@ import {
     type JsonSchemaObject,
     type NodeEntity,
     type ObjectValue,
-    SchemaNode,
     type SchemaPatch,
     type SchemaPatchRemover,
+    SchemaRendererNode,
     useSchemaRendererTools,
 } from '../../../core';
 import {EntityContainer} from '../../components';
@@ -93,13 +93,13 @@ const RangeInputComponent: NodeEntity<JsonSchemaObject, RangeInputProps> = ({
     return (
         <EntityContainer stretch="max" className={b()}>
             <Flex className={b('items')} direction="row" alignItems="flex-start" gap={2}>
-                <SchemaNode
+                <SchemaRendererNode
                     headName={headName}
                     name={fromName}
                     schemaPath={`${schemaPath}/properties/${fromKey}`}
                 />
                 <Text className={b('delimiter')}>-</Text>
-                <SchemaNode
+                <SchemaRendererNode
                     headName={headName}
                     name={toName}
                     schemaPath={`${schemaPath}/properties/${toKey}`}

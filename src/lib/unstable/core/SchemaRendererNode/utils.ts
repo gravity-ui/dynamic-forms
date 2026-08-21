@@ -4,7 +4,9 @@ import set from 'lodash/set';
 
 import {EMPTY_OBJECT, type NodeType, SchemaRendererMode} from '../constants';
 import type {JsonSchema, NodeEntity, NodeLayout, NodesConfig} from '../types';
-import {fixType, getSchemaBySchemaPath, getValuePaths} from '../utils';
+import {getSchemaByPointer, getValuePaths} from '../utils';
+
+const fixType = <Type>(value: any): Type => value as Type;
 
 const mergeValues = (first?: object, second?: object) => {
     const result = {};
@@ -189,17 +191,25 @@ export const getAccumulatedSchema = (
     schemaPath: string,
     rootSchema?: JsonSchema,
     override?: JsonSchema,
+    collectedPaths: Set<string> = new Set(),
 ) => {
     let accumulatedSchema: JsonSchema = {
-        ...(rootSchema ? getSchemaBySchemaPath(rootSchema, schemaPath) : {}),
+        ...(rootSchema ? getSchemaByPointer(rootSchema, schemaPath) : {}),
     };
 
     if (override) {
         accumulatedSchema = mergeValues(accumulatedSchema, override);
     }
 
-    if (accumulatedSchema.$ref) {
-        const schemaByRef = getAccumulatedSchema(accumulatedSchema.$ref, rootSchema);
+    if (accumulatedSchema.$ref && !collectedPaths.has(accumulatedSchema.$ref)) {
+        collectedPaths.add(accumulatedSchema.$ref);
+
+        const schemaByRef = getAccumulatedSchema(
+            accumulatedSchema.$ref,
+            rootSchema,
+            undefined,
+            collectedPaths,
+        );
 
         if (schemaByRef) {
             accumulatedSchema = mergeValues(accumulatedSchema, schemaByRef);

@@ -10,10 +10,10 @@ import {SCHEMA_RENDERER_SERVICE_FIELD} from '../useSchemaRenderer';
 import {useSchemaRendererState} from '../useSchemaRendererState';
 import {getServiceFieldName} from '../utils';
 
-import type {SchemaNodeState} from './types';
+import type {SchemaRendererNodeState} from './types';
 import {getAccumulatedSchema, getRenderKit} from './utils';
 
-export interface SchemaNodeProps {
+export interface SchemaRendererNodeProps {
     headName: string;
     modeOverride?: SchemaRendererMode;
     name: string;
@@ -21,7 +21,7 @@ export interface SchemaNodeProps {
     schemaPath: string;
 }
 
-const SchemaNodeComponent: React.FC<SchemaNodeProps> = ({
+const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
     headName,
     modeOverride,
     name,
@@ -64,7 +64,7 @@ const SchemaNodeComponent: React.FC<SchemaNodeProps> = ({
     React.useMemo(() => {
         unsubscribeRef.current?.();
 
-        const initialState: SchemaNodeState = {schemaPath};
+        const initialState: SchemaRendererNodeState = {schemaPath};
 
         unsubscribeRef.current = form.registerField(
             name,
@@ -175,4 +175,4 @@ const SchemaNodeComponent: React.FC<SchemaNodeProps> = ({
     return content;
 };
 
-export const SchemaNode = React.memo(SchemaNodeComponent);
+export const SchemaRendererNode = React.memo(SchemaRendererNodeComponent);

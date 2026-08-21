@@ -3,7 +3,7 @@ import React from 'react';
 import {Plus} from '@gravity-ui/icons';
 import {Button, Flex, Icon} from '@gravity-ui/uikit';
 
-import {type JsonSchemaArray, type NodeEntity, SchemaNode} from '../../../core';
+import {type JsonSchemaArray, type NodeEntity, SchemaRendererNode} from '../../../core';
 import {EntityContainer} from '../../components';
 
 export interface ArrayBaseProps {
@@ -61,7 +61,7 @@ const ArrayBaseComponent: NodeEntity<JsonSchemaArray, ArrayBaseProps> = ({
 
         if (Array.isArray(itemsSchema)) {
             return itemsSchema.map((_item, index) => (
-                <SchemaNode
+                <SchemaRendererNode
                     headName={headName}
                     name={`${name}[${index}]`}
                     schemaPath={`${schemaPath}/items/${index}`}
@@ -73,7 +73,7 @@ const ArrayBaseComponent: NodeEntity<JsonSchemaArray, ArrayBaseProps> = ({
         return new Array(value?.length)
             .fill(null)
             .map((_, index) => (
-                <SchemaNode
+                <SchemaRendererNode
                     headName={headName}
                     name={`${name}[${index}]`}
                     schemaPath={`${schemaPath}/items`}
