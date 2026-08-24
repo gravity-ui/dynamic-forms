@@ -3,7 +3,7 @@ import React from 'react';
 import {isValidElementType} from 'react-is';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
-import {isCorrectSpec} from '../../helpers';
+import {isCorrectSpec, warnAboutDottedPropertyKeys} from '../../helpers';
 import type {FormValue, Spec} from '../../types';
 
 import {ViewController} from './ViewController';
@@ -35,6 +35,10 @@ export const DynamicView = ({
 }: DynamicViewProps) => {
     const DynamicFormsCtx = useCreateContext();
     const shared = useViewSharedStore(externalShared);
+
+    React.useEffect(() => {
+        warnAboutDottedPropertyKeys(spec);
+    }, [spec]);
 
     const context = React.useMemo(
         () => ({

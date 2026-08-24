@@ -2,7 +2,7 @@ import isObjectLike from 'lodash/isObjectLike';
 import isString from 'lodash/isString';
 
 import {SpecTypes} from './constants';
-import type {ArraySpec, BooleanSpec, NumberSpec, ObjectSpec, StringSpec} from './types';
+import type {ArraySpec, BooleanSpec, NumberSpec, ObjectSpec, Spec, StringSpec} from './types';
 
 export const isCorrectSpec = (candidate: any) =>
     isObjectLike(candidate) &&
@@ -28,3 +28,37 @@ export const isObjectSpec = (candidate: any): candidate is ObjectSpec =>
 
 export const isStringSpec = (candidate: any): candidate is StringSpec =>
     candidate?.type === SpecTypes.String;
+
+export const collectDottedPropertyKeys = (spec: Spec): string[] => {
+    const dottedKeys: string[] = [];
+
+    if (isObjectSpec(spec) && isObjectLike(spec.properties)) {
+        Object.entries(spec.properties ?? {}).forEach(([key, childSpec]) => {
+            if (key.includes('.')) {
+                dottedKeys.push(key);
+            }
+
+            dottedKeys.push(...collectDottedPropertyKeys(childSpec));
+        });
+    }
+
+    if (isArraySpec(spec) && spec.items) {
+        dottedKeys.push(...collectDottedPropertyKeys(spec.items));
+    }
+
+    return dottedKeys;
+};
+
+export const warnAboutDottedPropertyKeys = (spec: Spec) => {
+    if (process.env.NODE_ENV !== 'production') {
+        const dottedKeys = collectDottedPropertyKeys(spec);
+
+        if (dottedKeys.length) {
+            console.warn(
+                `[dynamic-forms] Spec property keys containing dots are not supported, their values will not be resolved: ${dottedKeys.join(
+                    ', ',
+                )}. See docs/lib.md#dotted-property-keys`,
+            );
+        }
+    }
+};

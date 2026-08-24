@@ -154,6 +154,10 @@ beforeEach(() => {
     });
 });
 
+afterEach(() => {
+    jest.restoreAllMocks();
+});
+
 test('Form/hooks/DynamicField', () => {
     const mirror: WonderMirror = {field: {}, controller: {}};
     let form = null as FormApi | null;
@@ -405,4 +409,67 @@ test('Form/hooks/DynamicField', () => {
             .reverse()
             .find((err) => Boolean(err)),
     );
+});
+
+test('warns about spec property keys containing dots', () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+    const stringSpec = {
+        type: SpecTypes.String,
+        viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Field'},
+    } as const;
+
+    const dottedSpec: ObjectSpec = {
+        type: SpecTypes.Object,
+        properties: {
+            'agent.cluster': stringSpec,
+            namespace: stringSpec,
+            'agent.resources': {
+                type: SpecTypes.Object,
+                properties: {'limits.memory': stringSpec},
+                viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Resources'},
+            },
+            servers: {
+                type: SpecTypes.Array,
+                items: {
+                    type: SpecTypes.Object,
+                    properties: {'net.host': stringSpec},
+                    viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Server'},
+                },
+                viewSpec: {type: 'base', layout: 'row', layoutTitle: 'Servers'},
+            },
+        },
+        viewSpec: {type: 'base', layout: 'section', layoutTitle: 'Candidate'},
+    };
+
+    render(
+        <ThemeProvider>
+            <Form initialValues={{}} onSubmit={noop}>
+                {() => <DynamicField name={name} spec={dottedSpec} config={dynamicConfig} />}
+            </Form>
+        </ThemeProvider>,
+    );
+
+    expect(warn).toHaveBeenCalledTimes(1);
+
+    const message = warn.mock.calls[0][0] as string;
+
+    ['agent.cluster', 'agent.resources', 'limits.memory', 'net.host'].forEach((key) => {
+        expect(message).toContain(key);
+    });
+    expect(message).not.toContain('namespace,');
+});
+
+test('does not warn when spec property keys have no dots', () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+    render(
+        <ThemeProvider>
+            <Form initialValues={{}} onSubmit={noop}>
+                {() => <DynamicField name={name} spec={spec} config={dynamicConfig} />}
+            </Form>
+        </ThemeProvider>,
+    );
+
+    expect(warn).not.toHaveBeenCalled();
 });

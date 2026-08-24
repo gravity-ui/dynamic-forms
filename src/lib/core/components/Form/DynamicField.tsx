@@ -6,7 +6,7 @@ import isString from 'lodash/isString';
 import {isValidElementType} from 'react-is';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
-import {isCorrectSpec} from '../../helpers';
+import {isCorrectSpec, warnAboutDottedPropertyKeys} from '../../helpers';
 import type {Spec, StringSpec} from '../../types';
 
 import {Controller} from './Controller';
@@ -64,6 +64,10 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
     const {mutatorsStore, mutateDFState} = useMutators(externalMutators);
     const {store: searchStore, setField, removeField, isHiddenField} = useSearchStore();
     const shared = useFormSharedStore(externalShared);
+
+    React.useEffect(() => {
+        warnAboutDottedPropertyKeys(spec);
+    }, [spec]);
 
     const context = React.useMemo(
         () => ({
