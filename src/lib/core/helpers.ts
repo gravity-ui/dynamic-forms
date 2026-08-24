@@ -48,3 +48,17 @@ export const collectDottedPropertyKeys = (spec: Spec): string[] => {
 
     return dottedKeys;
 };
+
+export const warnAboutDottedPropertyKeys = (spec: Spec) => {
+    if (process.env.NODE_ENV !== 'production') {
+        const dottedKeys = collectDottedPropertyKeys(spec);
+
+        if (dottedKeys.length) {
+            console.warn(
+                `[dynamic-forms] Spec property keys containing dots are not supported, their values will not be resolved: ${dottedKeys.join(
+                    ', ',
+                )}. See docs/lib.md#dotted-property-keys`,
+            );
+        }
+    }
+};

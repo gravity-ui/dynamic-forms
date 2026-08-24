@@ -3,7 +3,7 @@ import React from 'react';
 import {isValidElementType} from 'react-is';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
-import {collectDottedPropertyKeys, isCorrectSpec} from '../../helpers';
+import {isCorrectSpec, warnAboutDottedPropertyKeys} from '../../helpers';
 import type {FormValue, Spec} from '../../types';
 
 import {ViewController} from './ViewController';
@@ -37,17 +37,7 @@ export const DynamicView = ({
     const shared = useViewSharedStore(externalShared);
 
     React.useEffect(() => {
-        if (process.env.NODE_ENV !== 'production') {
-            const dottedKeys = collectDottedPropertyKeys(spec);
-
-            if (dottedKeys.length) {
-                console.warn(
-                    `[dynamic-forms] Spec property keys containing dots are not supported, their values will not be resolved: ${dottedKeys.join(
-                        ', ',
-                    )}. See docs/lib.md#dotted-property-keys`,
-                );
-            }
-        }
+        warnAboutDottedPropertyKeys(spec);
     }, [spec]);
 
     const context = React.useMemo(

@@ -62,4 +62,4 @@ This component searches for all required rendering elements and renders the enti
 
 Dots in `spec.properties` keys are not supported. The library follows the [final-form field name](https://final-form.org/docs/final-form/field-names) convention: a dot is a path separator, so a property key like `a.b` is treated as the path `a` → `b`, not as a literal key of the value object. Values of such properties will not be resolved — fields render without data.
 
-In development mode `DynamicView` warns about such keys in the console. If your data source produces keys with dots, transform both the spec and the values before passing them to the library.
+In development mode `DynamicField` and `DynamicView` warn about such keys in the console. If your data source produces keys with dots, transform both the spec and the values before passing them to the library.
