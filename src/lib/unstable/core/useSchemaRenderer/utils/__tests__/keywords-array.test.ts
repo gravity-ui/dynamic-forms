@@ -1,1165 +1,1590 @@
-import type {ErrorObject} from 'ajv';
+import {createForm} from 'final-form';
 
 import {JsonSchemaType} from '../../../constants';
-import type {ArrayValue, JsonSchemaArray} from '../../../types';
-
-import {
-    AJV_MESSAGES,
-    FIELD_NAME,
-    GLOBAL_ERROR_MESSAGES,
-    KEYWORD_SCHEMA_ERROR_MESSAGES,
-    SCHEMA_ERROR_MESSAGES,
-    createAjvValidate,
-    createProcessAjvError,
-    createProcessAjvValidateErrors,
-    createValidate,
-} from './fixtures.test';
+import type {JSLErrors, JsonSchema, JsonSchemaArray} from '../../../types';
+import {getSchemaRootNode} from '../get-schema-root-node';
+import {type ParseErrorParams, getParser} from '../parse-errors';
 
 describe('validate arrays', () => {
-    // additionalItems requires tuple-form `items` — use 2-element tuple (avoids 1-tuple strict warning).
     describe('additionalItems (boolean)', () => {
-        const schema: JsonSchemaArray = {
-            type: JsonSchemaType.Array,
-            items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
-            additionalItems: false,
-        };
-
-        const validValue = ['a', 1];
-        const invalidValue = ['a', 1, 'x'];
-
-        const ajvError: ErrorObject = {
-            keyword: 'additionalItems',
-            instancePath: '',
-            schemaPath: '#/additionalItems',
-            params: {limit: 2},
-            message: AJV_MESSAGES.additionalItems(2),
-        };
-        const ajvErrors = [ajvError];
-
-        test('ajv: a valid value produces no errors', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(validValue);
-
-            expect(validate.errors).toBe(null);
-        });
-
-        test('ajv: an extra item with additionalItems=false produces an error', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(invalidValue);
-
-            expect(validate.errors).toEqual(ajvErrors);
-        });
-
-        test('ajv: an extra item is allowed when additionalItems=true', () => {
-            const validate = createAjvValidate({schema: {...schema, additionalItems: true}});
-
-            validate(invalidValue);
-
-            expect(validate.errors).toEqual(null);
-        });
-
-        test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-            const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-            const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-                ajvValidateErrors: ajvErrors,
-                errorMessages: {},
-                schema,
-            });
-
-            expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.additionalItems(2)}]);
-            expect(entityParametersErrorItems).toEqual([]);
-            expect(waiters).toEqual({});
-        });
-
-        test('processAjvError: with no custom messages the ajv text is used', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: {}, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: AJV_MESSAGES.additionalItems(2),
-            });
-        });
-
-        test('processAjvError: a global error message takes precedence over the ajv text', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: GLOBAL_ERROR_MESSAGES.additionalItems,
-            });
-        });
-
-        test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-            const schemaWithMessage: JsonSchemaArray = {
-                ...schema,
-                entityParameters: {
-                    errorMessages: {additionalItems: SCHEMA_ERROR_MESSAGES.additionalItems},
-                },
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
+                additionalItems: false,
             };
-            const {processAjvError, onError} = createProcessAjvError();
+            const value = ['a', 1];
+            const node = getSchemaRootNode({schema});
 
-            processAjvError({
-                error: ajvError,
-                errorMessages: GLOBAL_ERROR_MESSAGES,
-                schema: schemaWithMessage,
-            });
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: SCHEMA_ERROR_MESSAGES.additionalItems,
-            });
+            expect(node.validate(value).errors).toEqual([]);
         });
 
-        // additionalItems=false has no schema, so we can't test this case
-        test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
+        test('jsl: an extra item produces an error', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
+                additionalItems: false,
+            };
+            const value = ['a', 1, 'x'];
+            const error: JSLErrors.AdditionalItems = {
+                type: 'error',
+                code: 'additional-items-error',
+                message: 'Array at `#/2` may not have an additional item `2`',
+                data: {key: 2, pointer: '#/2', value, schema},
+            };
+            const node = getSchemaRootNode({schema});
 
-        test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
-
-            expect(validate(validValue, {schema})).toBe(false);
-            expect(setErrors).toHaveBeenCalledWith({});
+            expect(node.validate(value).errors).toEqual([error]);
         });
 
-        test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
+        test('get-parser: default error message', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
+                additionalItems: false,
+            };
+            const value = ['a', 1, 'x'];
+            const error: JSLErrors.AdditionalItems = {
+                type: 'error',
+                code: 'additional-items-error',
+                message: 'Array at `#/2` may not have an additional item `2`',
+                data: {key: 2, pointer: '#/2', value, schema},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
 
-            const errors = {[FIELD_NAME]: AJV_MESSAGES.additionalItems(2)};
+            form.registerField<any>('[2]', () => {}, {}, {});
 
-            expect(validate(invalidValue, {schema})).toBe('error');
-            expect(setErrors).toHaveBeenCalledWith(errors);
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('[2]', error.message);
+        });
+
+        test('get-parser: error schema-level error message', () => {
+            const message = 'additional items error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: [
+                    {
+                        type: JsonSchemaType.String,
+                        nodeParameters: {errorMessages: {additionalItems: 'another error message'}},
+                    },
+                    {type: JsonSchemaType.Number},
+                ],
+                additionalItems: false,
+                nodeParameters: {errorMessages: {additionalItems: message}},
+            };
+            const value = ['a', 1, 'x'];
+            const error: JSLErrors.AdditionalItems = {
+                type: 'error',
+                code: 'additional-items-error',
+                message: 'Array at `#/2` may not have an additional item `2`',
+                data: {key: 2, pointer: '#/2', value, schema},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('[2]', () => {}, {}, {data: {schemaPath: '#/items/0'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {additionalItems: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('[2]', message);
+        });
+
+        test('get-parser: instance schema-level error message', () => {
+            const message = 'additional items error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: [{nodeParameters: {errorMessages: {additionalItems: message}}}, {}],
+                allOf: [
+                    {
+                        items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
+                        additionalItems: false,
+                    },
+                ],
+            };
+            const value = ['a', 1, 'x'];
+            const error: JSLErrors.AdditionalItems = {
+                type: 'error',
+                code: 'additional-items-error',
+                message: 'Array at `#/2` may not have an additional item `2`',
+                data: {key: 2, pointer: '#/2', value, schema: schema.allOf![0]},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('[2]', () => {}, {}, {data: {schemaPath: '#/items/0'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {additionalItems: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('[2]', message);
+        });
+
+        test('get-parser: parent instance schema-level error message', () => {
+            const message = 'additional items error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                allOf: [
+                    {
+                        items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
+                        additionalItems: false,
+                    },
+                ],
+                nodeParameters: {errorMessages: {additionalItems: message}},
+            };
+            const value = ['a', 1, 'x'];
+            const error: JSLErrors.AdditionalItems = {
+                type: 'error',
+                code: 'additional-items-error',
+                message: 'Array at `#/2` may not have an additional item `2`',
+                data: {key: 2, pointer: '#/2', value, schema: schema.allOf![0]},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('', () => {}, {}, {data: {schemaPath: '#'}});
+            form.registerField<any>('[2]', () => {}, {}, {data: {schemaPath: '#/items/3'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {additionalItems: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('[2]', message);
+        });
+
+        test('get-parser: global error message', () => {
+            const message = 'additional items error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                allOf: [
+                    {
+                        items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
+                        additionalItems: false,
+                    },
+                ],
+            };
+            const value = ['a', 1, 'x'];
+            const error: JSLErrors.AdditionalItems = {
+                type: 'error',
+                code: 'additional-items-error',
+                message: 'Array at `#/2` may not have an additional item `2`',
+                data: {key: 2, pointer: '#/2', value, schema: schema.allOf![0]},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('[2]', () => {}, {}, {data: {schemaPath: '#/items/3'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {additionalItems: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('[2]', message);
+        });
+
+        test('get-parser: parent default error message (pointer field not registered)', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
+                additionalItems: false,
+            };
+
+            const value = ['a', 1, 'x'];
+            const error: JSLErrors.AdditionalItems = {
+                type: 'error',
+                code: 'additional-items-error',
+                message: 'Array at `#/2` may not have an additional item `2`',
+                data: {key: 2, pointer: '#/2', value, schema},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', error.message);
+        });
+
+        test('get-parser: parent error schema-level error message (pointer field not registered)', () => {
+            const message = 'additional items error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
+                additionalItems: false,
+                nodeParameters: {errorMessages: {additionalItems: message}},
+            };
+            const value = ['a', 1, 'x'];
+            const error: JSLErrors.AdditionalItems = {
+                type: 'error',
+                code: 'additional-items-error',
+                message: 'Array at `#/2` may not have an additional item `2`',
+                data: {key: 2, pointer: '#/2', value, schema},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: parent instance schema-level error message (pointer field not registered)', () => {
+            const message = 'additional items error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                allOf: [
+                    {
+                        items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
+                        additionalItems: false,
+                    },
+                ],
+                nodeParameters: {errorMessages: {additionalItems: message}},
+            };
+            const value = ['a', 1, 'x'];
+            const error: JSLErrors.AdditionalItems = {
+                type: 'error',
+                code: 'additional-items-error',
+                message: 'Array at `#/2` may not have an additional item `2`',
+                data: {key: 2, pointer: '#/2', value, schema: schema.allOf![0]},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm<any>({onSubmit: () => {}, initialValues: value});
+
+            form.registerField('', () => {}, {}, {data: {schemaPath: '#'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: parent global error message (pointer field not registered)', () => {
+            const message = 'additional items error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
+                additionalItems: false,
+            };
+            const value = ['a', 1, 'x'];
+            const error: JSLErrors.AdditionalItems = {
+                type: 'error',
+                code: 'additional-items-error',
+                message: 'Array at `#/2` may not have an additional item `2`',
+                data: {key: 2, pointer: '#/2', value, schema},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {errorMessages: {additionalItems: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
         });
     });
 
-    // additionalItems requires tuple-form `items` — use 2-element tuple (avoids 1-tuple strict warning).
     describe('additionalItems (schema)', () => {
-        const schema: JsonSchemaArray = {
-            type: JsonSchemaType.Array,
-            items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
-            additionalItems: {type: JsonSchemaType.Number},
-        };
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
+                additionalItems: {type: JsonSchemaType.Number},
+            };
+            const value = ['a', 1, 2];
+            const node = getSchemaRootNode({schema});
 
-        const validValue = ['a', 1, 2];
-        const invalidValue = ['a', 1, 'x'];
-
-        const ajvError: ErrorObject = {
-            keyword: 'type',
-            instancePath: '/2',
-            schemaPath: '#/additionalItems/type',
-            params: {type: JsonSchemaType.Number},
-            message: AJV_MESSAGES.typeNumber,
-        };
-        const ajvErrors = [ajvError];
-
-        test('ajv: a valid value produces no errors', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(validValue);
-
-            expect(validate.errors).toBe(null);
+            expect(node.validate(value).errors).toEqual([]);
         });
 
-        test('ajv: an invalid value produces an error', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(invalidValue);
-
-            expect(validate.errors).toEqual(ajvErrors);
-        });
-
-        test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-            const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-            const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-                ajvValidateErrors: ajvErrors,
-                errorMessages: {},
-                schema,
-            });
-
-            expect(ajvErrorItems).toEqual([{path: ['2'], error: AJV_MESSAGES.typeNumber}]);
-            expect(entityParametersErrorItems).toEqual([]);
-            expect(waiters).toEqual({});
-        });
-
-        test('processAjvError: with no custom messages the ajv text is used', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: {}, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: ['2'],
-                error: AJV_MESSAGES.typeNumber,
-            });
-        });
-
-        test('processAjvError: a global error message takes precedence over the ajv text', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: ['2'],
-                error: GLOBAL_ERROR_MESSAGES.type,
-            });
-        });
-
-        // items has no schema for additionalItems instance paths, so we can't test this case
-        test.skip('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {});
-
-        test('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {
-            const schemaWithKeywordMessage: JsonSchemaArray = {
-                ...schema,
-                additionalItems: {
-                    type: JsonSchemaType.Number,
-                    entityParameters: {errorMessages: {type: KEYWORD_SCHEMA_ERROR_MESSAGES.type}},
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
+                additionalItems: {type: JsonSchemaType.Number},
+            };
+            const value = ['a', 1, 'x'];
+            const error = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `x` (string) in `#/2` to be of type `number`',
+                data: {
+                    value: 'x',
+                    received: 'string',
+                    expected: 'number',
+                    schema: schema.additionalItems,
+                    pointer: '#/2',
                 },
             };
-            const {processAjvError, onError} = createProcessAjvError();
+            const node = getSchemaRootNode({schema});
 
-            processAjvError({
-                error: ajvError,
-                errorMessages: GLOBAL_ERROR_MESSAGES,
-                schema: schemaWithKeywordMessage,
-            });
-
-            expect(onError).toHaveBeenCalledWith({
-                path: ['2'],
-                error: KEYWORD_SCHEMA_ERROR_MESSAGES.type,
-            });
+            expect(node.validate(value).errors).toEqual([error]);
         });
 
-        test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
-
-            expect(validate(validValue, {schema})).toBe(false);
-            expect(setErrors).toHaveBeenCalledWith({});
-        });
-
-        test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
-
-            const errors = {[`${FIELD_NAME}[2]`]: AJV_MESSAGES.typeNumber};
-
-            expect(validate(invalidValue, {schema})).toBe('error');
-            expect(setErrors).toHaveBeenCalledWith(errors);
-        });
+        // error has no specific code for parser tests
     });
 
     describe('contains (boolean)', () => {
-        const schema: JsonSchemaArray = {
-            type: JsonSchemaType.Array,
-            items: {type: JsonSchemaType.Number},
-            contains: true,
-        };
-
-        const validValue = [1];
-        const invalidValue: ArrayValue = [];
-
-        const ajvError: ErrorObject = {
-            keyword: 'contains',
-            instancePath: '',
-            schemaPath: '#/contains',
-            params: {minContains: 1},
-            message: AJV_MESSAGES.contains,
-        };
-        const ajvErrors = [ajvError];
-
-        test('ajv: a valid value produces no errors', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(validValue);
-
-            expect(validate.errors).toBe(null);
-        });
-
-        test('ajv: an invalid value produces an error', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(invalidValue);
-
-            expect(validate.errors).toEqual(ajvErrors);
-        });
-
-        test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-            const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-            const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-                ajvValidateErrors: ajvErrors,
-                errorMessages: {},
-                schema,
-            });
-
-            expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.contains}]);
-            expect(entityParametersErrorItems).toEqual([]);
-            expect(waiters).toEqual({});
-        });
-
-        test('processAjvError: with no custom messages the ajv text is used', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: {}, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: AJV_MESSAGES.contains,
-            });
-        });
-
-        test('processAjvError: a global error message takes precedence over the ajv text', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: GLOBAL_ERROR_MESSAGES.contains,
-            });
-        });
-
-        test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-            const schemaWithMessage: JsonSchemaArray = {
-                ...schema,
-                entityParameters: {
-                    errorMessages: {contains: SCHEMA_ERROR_MESSAGES.contains},
-                },
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: {type: JsonSchemaType.Number},
+                contains: true,
             };
+            const value = [1];
+            const node = getSchemaRootNode({schema});
 
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({
-                error: ajvError,
-                errorMessages: GLOBAL_ERROR_MESSAGES,
-                schema: schemaWithMessage,
-            });
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: SCHEMA_ERROR_MESSAGES.contains,
-            });
+            expect(node.validate(value).errors).toEqual([]);
         });
 
-        // contains has no schema, so we can't test this case
-        test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: {type: JsonSchemaType.Number},
+                contains: true,
+            };
+            const value: unknown[] = [];
+            const error: JSLErrors.ContainsAny = {
+                type: 'error',
+                code: 'contains-any-error',
+                message: 'The array at `#` must contain at least one item',
+                data: {pointer: '#', value: value, schema},
+            };
+            const node = getSchemaRootNode({schema});
 
-        test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
-
-            expect(validate(validValue, {schema})).toBe(false);
-            expect(setErrors).toHaveBeenCalledWith({});
+            expect(node.validate(value).errors).toEqual([error]);
         });
 
-        test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
+        test('get-parser: default error message', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: {type: JsonSchemaType.Number},
+                contains: true,
+            };
+            const value: unknown[] = [];
+            const error: JSLErrors.ContainsAny = {
+                type: 'error',
+                code: 'contains-any-error',
+                message: 'The array at `#` must contain at least one item',
+                data: {pointer: '#', value: value, schema},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
 
-            const errors = {[FIELD_NAME]: AJV_MESSAGES.contains};
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
 
-            expect(validate(invalidValue, {schema})).toBe('error');
-            expect(setErrors).toHaveBeenCalledWith(errors);
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', error.message);
+        });
+
+        test('get-parser: error schema-level error message', () => {
+            const message = 'contains error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: {type: JsonSchemaType.Number},
+                contains: true,
+                nodeParameters: {errorMessages: {contains: message}},
+            };
+            const value: unknown[] = [];
+            const error: JSLErrors.ContainsAny = {
+                type: 'error',
+                code: 'contains-any-error',
+                message: 'The array at `#` must contain at least one item',
+                data: {pointer: '#', value: value, schema},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {contains: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: instance schema-level error message', () => {
+            const message = 'contains error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: {type: JsonSchemaType.Number},
+                allOf: [{contains: true}],
+                nodeParameters: {errorMessages: {contains: message}},
+            };
+            const value: unknown[] = [];
+            const error: JSLErrors.ContainsAny = {
+                type: 'error',
+                code: 'contains-any-error',
+                message: 'The array at `#` must contain at least one item',
+                data: {pointer: '#', value: value, schema: schema.allOf![0]},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('', () => {}, {}, {data: {schemaPath: '#'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {contains: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: global error message', () => {
+            const message = 'contains error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: {type: JsonSchemaType.Number},
+                contains: true,
+            };
+            const value: unknown[] = [];
+            const error: JSLErrors.ContainsAny = {
+                type: 'error',
+                code: 'contains-any-error',
+                message: 'The array at `#` must contain at least one item',
+                data: {pointer: '#', value: value, schema},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {contains: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
         });
     });
 
     describe('contains (schema)', () => {
-        const schema: JsonSchemaArray = {
-            type: JsonSchemaType.Array,
-            contains: {type: JsonSchemaType.Number},
-        };
-
-        const validValue = [1];
-        const invalidValue: ArrayValue = [];
-
-        const ajvError: ErrorObject = {
-            keyword: 'contains',
-            instancePath: '',
-            schemaPath: '#/contains',
-            params: {minContains: 1},
-            message: AJV_MESSAGES.contains,
-        };
-        const ajvErrors = [ajvError];
-
-        test('ajv: a valid value produces no errors', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(validValue);
-
-            expect(validate.errors).toBe(null);
-        });
-
-        test('ajv: an invalid value produces an error', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(invalidValue);
-
-            expect(validate.errors).toEqual(ajvErrors);
-        });
-
-        test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-            const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-            const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-                ajvValidateErrors: ajvErrors,
-                errorMessages: {},
-                schema,
-            });
-
-            expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.contains}]);
-            expect(entityParametersErrorItems).toEqual([]);
-            expect(waiters).toEqual({});
-        });
-
-        test('processAjvError: with no custom messages the ajv text is used', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: {}, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: AJV_MESSAGES.contains,
-            });
-        });
-
-        test('processAjvError: a global error message takes precedence over the ajv text', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: GLOBAL_ERROR_MESSAGES.contains,
-            });
-        });
-
-        test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-            const schemaWithMessage: JsonSchemaArray = {
-                ...schema,
-                entityParameters: {
-                    errorMessages: {contains: SCHEMA_ERROR_MESSAGES.contains},
-                },
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                contains: {type: JsonSchemaType.Number},
             };
+            const value = [1];
+            const node = getSchemaRootNode({schema});
 
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({
-                error: ajvError,
-                errorMessages: GLOBAL_ERROR_MESSAGES,
-                schema: schemaWithMessage,
-            });
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: SCHEMA_ERROR_MESSAGES.contains,
-            });
+            expect(node.validate(value).errors).toEqual([]);
         });
 
-        test('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {
-            const schemaWithKeywordMessage: JsonSchemaArray = {
-                ...schema,
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                contains: {type: JsonSchemaType.Number},
+            };
+            const value: unknown[] = [];
+            const error: JSLErrors.ContainsMin = {
+                type: 'error',
+                code: 'contains-min-error',
+                message:
+                    'The array at `#` contains 1 too few items matching `{"type":"array","contains":{"type":"number"}}`',
+                data: {pointer: '#', schema, delta: 1, value},
+            };
+            const node = getSchemaRootNode({schema});
+
+            expect(node.validate(value).errors).toEqual([error]);
+        });
+
+        test('get-parser: default error message', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                contains: {type: JsonSchemaType.Number},
+            };
+            const value: unknown[] = [];
+            const error: JSLErrors.ContainsMin = {
+                type: 'error',
+                code: 'contains-min-error',
+                message: `The array at \`#\` contains 1 too few items matching \`${JSON.stringify(
+                    schema,
+                )}\``,
+                data: {pointer: '#', schema, delta: 1, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', error.message);
+        });
+
+        test('get-parser: contains keyword schema-level error message', () => {
+            const message = 'contains error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
                 contains: {
                     type: JsonSchemaType.Number,
-                    entityParameters: {
-                        errorMessages: {contains: KEYWORD_SCHEMA_ERROR_MESSAGES.contains},
-                    },
+                    nodeParameters: {errorMessages: {contains: message}},
                 },
+                nodeParameters: {errorMessages: {contains: 'another error message'}},
             };
-            const {processAjvError, onError} = createProcessAjvError();
+            const value: unknown[] = [];
+            const error: JSLErrors.ContainsMin = {
+                type: 'error',
+                code: 'contains-min-error',
+                message: `The array at \`#\` contains 1 too few items matching \`${JSON.stringify(
+                    schema,
+                )}\``,
+                data: {pointer: '#', schema, delta: 1, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
 
-            processAjvError({
-                error: ajvError,
-                errorMessages: GLOBAL_ERROR_MESSAGES,
-                schema: schemaWithKeywordMessage,
-            });
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {contains: 'global error message'}},
+            } as unknown as ParseErrorParams;
 
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: KEYWORD_SCHEMA_ERROR_MESSAGES.contains,
-            });
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
         });
 
-        test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
+        test('get-parser: error schema-level error message', () => {
+            const message = 'contains error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                contains: {type: JsonSchemaType.Number},
+                nodeParameters: {errorMessages: {contains: message}},
+            };
+            const value: unknown[] = [];
+            const error: JSLErrors.ContainsMin = {
+                type: 'error',
+                code: 'contains-min-error',
+                message: `The array at \`#\` contains 1 too few items matching \`${JSON.stringify(
+                    schema,
+                )}\``,
+                data: {pointer: '#', schema, delta: 1, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
 
-            expect(validate(validValue, {schema})).toBe(false);
-            expect(setErrors).toHaveBeenCalledWith({});
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {contains: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
         });
 
-        test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
+        test('get-parser: instance schema-level error message', () => {
+            const message = 'contains error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                allOf: [{contains: {type: JsonSchemaType.Number}}],
+                nodeParameters: {errorMessages: {contains: message}},
+            };
+            const value: unknown[] = [];
+            const error: JSLErrors.ContainsMin = {
+                type: 'error',
+                code: 'contains-min-error',
+                message: `The array at \`#\` contains 1 too few items matching \`${JSON.stringify(
+                    schema.allOf![0],
+                )}\``,
+                data: {pointer: '#', schema: schema.allOf![0], delta: 1, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
 
-            const errors = {[FIELD_NAME]: AJV_MESSAGES.contains};
+            form.registerField<any>('', () => {}, {}, {data: {schemaPath: '#'}});
 
-            expect(validate(invalidValue, {schema})).toBe('error');
-            expect(setErrors).toHaveBeenCalledWith(errors);
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {contains: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: global error message', () => {
+            const message = 'contains error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                contains: {type: JsonSchemaType.Number},
+            };
+            const value: unknown[] = [];
+            const error: JSLErrors.ContainsMin = {
+                type: 'error',
+                code: 'contains-min-error',
+                message: `The array at \`#\` contains 1 too few items matching \`${JSON.stringify(
+                    schema,
+                )}\``,
+                data: {pointer: '#', schema, delta: 1, value},
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {contains: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
         });
     });
 
     describe('items (single schema)', () => {
-        const schema: JsonSchemaArray = {
-            type: JsonSchemaType.Array,
-            items: {type: JsonSchemaType.String},
-        };
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: {type: JsonSchemaType.String},
+            };
+            const value = ['a'];
+            const node = getSchemaRootNode({schema});
 
-        const validValue = ['a'];
-        const invalidValue: ArrayValue = [1];
-
-        const ajvError: ErrorObject = {
-            keyword: 'type',
-            instancePath: '/0',
-            schemaPath: '#/items/type',
-            params: {type: JsonSchemaType.String},
-            message: AJV_MESSAGES.typeString,
-        };
-        const ajvErrors = [ajvError];
-
-        test('ajv: a valid value produces no errors', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(validValue);
-
-            expect(validate.errors).toBe(null);
+            expect(node.validate(value).errors).toEqual([]);
         });
 
-        test('ajv: an invalid value produces an error', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(invalidValue);
-
-            expect(validate.errors).toEqual(ajvErrors);
-        });
-
-        test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-            const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-            const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-                ajvValidateErrors: ajvErrors,
-                errorMessages: {},
-                schema,
-            });
-
-            expect(ajvErrorItems).toEqual([{path: ['0'], error: AJV_MESSAGES.typeString}]);
-            expect(entityParametersErrorItems).toEqual([]);
-            expect(waiters).toEqual({});
-        });
-
-        test('processAjvError: with no custom messages the ajv text is used', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: {}, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: ['0'],
-                error: AJV_MESSAGES.typeString,
-            });
-        });
-
-        test('processAjvError: a global error message takes precedence over the ajv text', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: ['0'],
-                error: GLOBAL_ERROR_MESSAGES.type,
-            });
-        });
-
-        test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-            const schemaWithMessage: JsonSchemaArray = {
-                ...schema,
-                items: {
-                    type: JsonSchemaType.String,
-                    entityParameters: {errorMessages: {type: SCHEMA_ERROR_MESSAGES.type}},
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: {type: JsonSchemaType.String},
+            };
+            const value = [1];
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `1` (number) in `#/0` to be of type `string`',
+                data: {
+                    value: 1,
+                    received: 'number',
+                    expected: 'string',
+                    schema: schema.items as JsonSchema,
+                    pointer: '#/0',
                 },
             };
+            const node = getSchemaRootNode({schema});
 
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({
-                error: ajvError,
-                errorMessages: GLOBAL_ERROR_MESSAGES,
-                schema: schemaWithMessage,
-            });
-
-            expect(onError).toHaveBeenCalledWith({
-                path: ['0'],
-                error: SCHEMA_ERROR_MESSAGES.type,
-            });
+            expect(node.validate(value).errors).toEqual([error]);
         });
 
-        // items has same schema path and instance path in this case, so we dont need to test this
-        test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
-
-        test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
-
-            expect(validate(validValue, {schema})).toBe(false);
-            expect(setErrors).toHaveBeenCalledWith({});
-        });
-
-        test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
-
-            const errors = {[`${FIELD_NAME}[0]`]: AJV_MESSAGES.typeString};
-
-            expect(validate(invalidValue, {schema})).toBe('error');
-            expect(setErrors).toHaveBeenCalledWith(errors);
-        });
+        // error has no specific code for parser tests
     });
 
     describe('items (tuple)', () => {
-        const schema: JsonSchemaArray = {
-            type: JsonSchemaType.Array,
-            items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
-        };
-
-        const validValue = ['a', 1];
-        const invalidValue: ArrayValue = ['a', 'b'];
-
-        const ajvError: ErrorObject = {
-            keyword: 'type',
-            instancePath: '/1',
-            schemaPath: '#/items/1/type',
-            params: {type: JsonSchemaType.Number},
-            message: AJV_MESSAGES.typeNumber,
-        };
-
-        const ajvErrors = [ajvError];
-
-        test('ajv: a valid value produces no errors', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(validValue);
-
-            expect(validate.errors).toBe(null);
-        });
-
-        test('ajv: an invalid value produces an error', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(invalidValue);
-
-            expect(validate.errors).toEqual(ajvErrors);
-        });
-
-        test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-            const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-            const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-                ajvValidateErrors: ajvErrors,
-                errorMessages: {},
-                schema,
-            });
-
-            expect(ajvErrorItems).toEqual([{path: ['1'], error: AJV_MESSAGES.typeNumber}]);
-            expect(entityParametersErrorItems).toEqual([]);
-            expect(waiters).toEqual({});
-        });
-
-        test('processAjvError: with no custom messages the ajv text is used', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: {}, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: ['1'],
-                error: AJV_MESSAGES.typeNumber,
-            });
-        });
-
-        test('processAjvError: a global error message takes precedence over the ajv text', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: ['1'],
-                error: GLOBAL_ERROR_MESSAGES.type,
-            });
-        });
-
-        test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-            const schemaWithMessage: JsonSchemaArray = {
-                ...schema,
-                items: [
-                    {type: JsonSchemaType.String},
-                    {
-                        type: JsonSchemaType.Number,
-                        entityParameters: {errorMessages: {type: SCHEMA_ERROR_MESSAGES.type}},
-                    },
-                ],
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
             };
-            const {processAjvError, onError} = createProcessAjvError();
+            const value = ['a', 1];
+            const node = getSchemaRootNode({schema});
 
-            processAjvError({
-                error: ajvError,
-                errorMessages: GLOBAL_ERROR_MESSAGES,
-                schema: schemaWithMessage,
-            });
-
-            expect(onError).toHaveBeenCalledWith({
-                path: ['1'],
-                error: SCHEMA_ERROR_MESSAGES.type,
-            });
+            expect(node.validate(value).errors).toEqual([]);
         });
 
-        // items has same schema path and instance path in this case, so we dont need to test this
-        test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
+            };
+            const value = ['a', 'b'];
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `b` (string) in `#/1` to be of type `number`',
+                data: {
+                    value: 'b',
+                    received: 'string',
+                    expected: 'number',
+                    schema: (schema.items as JsonSchema[])[1],
+                    pointer: '#/1',
+                },
+            };
+            const node = getSchemaRootNode({schema});
 
-        test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
-
-            expect(validate(validValue, {schema})).toBe(false);
-            expect(setErrors).toHaveBeenCalledWith({});
+            expect(node.validate(value).errors).toEqual([error]);
         });
 
-        test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
-
-            const errors = {[`${FIELD_NAME}[1]`]: AJV_MESSAGES.typeNumber};
-
-            expect(validate(invalidValue, {schema})).toBe('error');
-            expect(setErrors).toHaveBeenCalledWith(errors);
-        });
+        // error has no specific code for parser tests
     });
 
     describe('maxItems', () => {
-        const schema: JsonSchemaArray = {
-            type: JsonSchemaType.Array,
-            maxItems: 1,
-        };
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                maxItems: 1,
+            };
+            const value = [1];
+            const node = getSchemaRootNode({schema});
 
-        const validValue = [1];
-        const invalidValue: ArrayValue = [1, 2];
-
-        const ajvError: ErrorObject = {
-            keyword: 'maxItems',
-            instancePath: '',
-            schemaPath: '#/maxItems',
-            params: {limit: 1},
-            message: AJV_MESSAGES.maxItems(1),
-        };
-        const ajvErrors = [ajvError];
-
-        test('ajv: a valid value produces no errors', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(validValue);
-
-            expect(validate.errors).toBe(null);
+            expect(node.validate(value).errors).toEqual([]);
         });
 
-        test('ajv: an invalid value produces an error', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(invalidValue);
-
-            expect(validate.errors).toEqual(ajvErrors);
-        });
-
-        test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-            const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-            const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-                ajvValidateErrors: ajvErrors,
-                errorMessages: {},
-                schema,
-            });
-
-            expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.maxItems(1)}]);
-            expect(entityParametersErrorItems).toEqual([]);
-            expect(waiters).toEqual({});
-        });
-
-        test('processAjvError: with no custom messages the ajv text is used', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: {}, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: AJV_MESSAGES.maxItems(1),
-            });
-        });
-
-        test('processAjvError: a global error message takes precedence over the ajv text', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: GLOBAL_ERROR_MESSAGES.maxItems,
-            });
-        });
-
-        test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-            const schemaWithMessage: JsonSchemaArray = {
-                ...schema,
-                entityParameters: {
-                    errorMessages: {maxItems: SCHEMA_ERROR_MESSAGES.maxItems},
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                maxItems: 1,
+            };
+            const value = [1, 2];
+            const error: JSLErrors.MaxItems = {
+                type: 'error',
+                code: 'max-items-error',
+                message: 'Too many items in `#`, should be `1` at most, but got `2`',
+                data: {
+                    maximum: 1,
+                    length: 2,
+                    schema,
+                    value,
+                    pointer: '#',
                 },
             };
-            const {processAjvError, onError} = createProcessAjvError();
+            const node = getSchemaRootNode({schema});
 
-            processAjvError({
-                error: ajvError,
-                errorMessages: GLOBAL_ERROR_MESSAGES,
-                schema: schemaWithMessage,
-            });
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: SCHEMA_ERROR_MESSAGES.maxItems,
-            });
+            expect(node.validate(value).errors).toEqual([error]);
         });
 
-        // maxItems has no schema, so we can't test this case
-        test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
+        test('get-parser: default error message', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                maxItems: 1,
+            };
+            const value = [1, 2];
+            const error: JSLErrors.MaxItems = {
+                type: 'error',
+                code: 'max-items-error',
+                message: 'Too many items in `#`, should be `1` at most, but got `2`',
+                data: {
+                    maximum: 1,
+                    length: 2,
+                    schema,
+                    value,
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
 
-        test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
 
-            expect(validate(validValue, {schema})).toBe(false);
-            expect(setErrors).toHaveBeenCalledWith({});
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', error.message);
         });
 
-        test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
+        test('get-parser: error schema-level error message', () => {
+            const message = 'maxItems error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                maxItems: 1,
+                nodeParameters: {errorMessages: {maxItems: message}},
+            };
+            const value = [1, 2];
+            const error: JSLErrors.MaxItems = {
+                type: 'error',
+                code: 'max-items-error',
+                message: 'Too many items in `#`, should be `1` at most, but got `2`',
+                data: {
+                    maximum: 1,
+                    length: 2,
+                    schema,
+                    value,
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
 
-            const errors = {[FIELD_NAME]: AJV_MESSAGES.maxItems(1)};
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {maxItems: 'global error message'}},
+            } as unknown as ParseErrorParams;
 
-            expect(validate(invalidValue, {schema})).toBe('error');
-            expect(setErrors).toHaveBeenCalledWith(errors);
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: instance schema-level error message', () => {
+            const message = 'maxItems error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                allOf: [{maxItems: 1}],
+                nodeParameters: {errorMessages: {maxItems: message}},
+            };
+            const value = [1, 2];
+            const error: JSLErrors.MaxItems = {
+                type: 'error',
+                code: 'max-items-error',
+                message: 'Too many items in `#`, should be `1` at most, but got `2`',
+                data: {
+                    maximum: 1,
+                    length: 2,
+                    schema: schema.allOf![0],
+                    value,
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('', () => {}, {}, {data: {schemaPath: '#'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {maxItems: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: global error message', () => {
+            const message = 'maxItems error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                maxItems: 1,
+            };
+            const value = [1, 2];
+            const error: JSLErrors.MaxItems = {
+                type: 'error',
+                code: 'max-items-error',
+                message: 'Too many items in `#`, should be `1` at most, but got `2`',
+                data: {
+                    maximum: 1,
+                    length: 2,
+                    schema,
+                    value,
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {maxItems: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
         });
     });
 
     describe('minItems', () => {
-        const schema: JsonSchemaArray = {
-            type: JsonSchemaType.Array,
-            minItems: 2,
-        };
-
-        const validValue = [1, 2];
-        const invalidValue: ArrayValue = [1];
-
-        const ajvError: ErrorObject = {
-            keyword: 'minItems',
-            instancePath: '',
-            schemaPath: '#/minItems',
-            params: {limit: 2},
-            message: AJV_MESSAGES.minItems(2),
-        };
-        const ajvErrors = [ajvError];
-
-        test('ajv: a valid value produces no errors', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(validValue);
-
-            expect(validate.errors).toBe(null);
-        });
-
-        test('ajv: an invalid value produces an error', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(invalidValue);
-
-            expect(validate.errors).toEqual(ajvErrors);
-        });
-
-        test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-            const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-            const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-                ajvValidateErrors: ajvErrors,
-                errorMessages: {},
-                schema,
-            });
-
-            expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.minItems(2)}]);
-            expect(entityParametersErrorItems).toEqual([]);
-            expect(waiters).toEqual({});
-        });
-
-        test('processAjvError: with no custom messages the ajv text is used', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: {}, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: AJV_MESSAGES.minItems(2),
-            });
-        });
-
-        test('processAjvError: a global error message takes precedence over the ajv text', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: GLOBAL_ERROR_MESSAGES.minItems,
-            });
-        });
-
-        test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-            const schemaWithMessage: JsonSchemaArray = {
-                ...schema,
-                entityParameters: {errorMessages: {minItems: SCHEMA_ERROR_MESSAGES.minItems}},
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                minItems: 2,
             };
-            const {processAjvError, onError} = createProcessAjvError();
+            const value = [1, 2];
+            const node = getSchemaRootNode({schema});
 
-            processAjvError({
-                error: ajvError,
-                errorMessages: GLOBAL_ERROR_MESSAGES,
-                schema: schemaWithMessage,
-            });
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: SCHEMA_ERROR_MESSAGES.minItems,
-            });
+            expect(node.validate(value).errors).toEqual([]);
         });
 
-        // minItems has no schema, so we can't test this case
-        test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                minItems: 2,
+            };
+            const value = [1];
+            const error: JSLErrors.MinItems = {
+                type: 'error',
+                code: 'min-items-error',
+                message: 'Too few items in `#`, should be at least `2`, but got `1`',
+                data: {
+                    minItems: 2,
+                    length: 1,
+                    pointer: '#',
+                    schema,
+                    value,
+                },
+            };
+            const node = getSchemaRootNode({schema});
 
-        test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
-
-            expect(validate(validValue, {schema})).toBe(false);
-            expect(setErrors).toHaveBeenCalledWith({});
+            expect(node.validate(value).errors).toEqual([error]);
         });
 
-        test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
+        test('get-parser: default error message', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                minItems: 2,
+            };
+            const value = [1];
+            const error: JSLErrors.MinItems = {
+                type: 'error',
+                code: 'min-items-error',
+                message: 'Too few items in `#`, should be at least `2`, but got `1`',
+                data: {
+                    minItems: 2,
+                    length: 1,
+                    pointer: '#',
+                    schema,
+                    value,
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
 
-            const errors = {[FIELD_NAME]: AJV_MESSAGES.minItems(2)};
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
 
-            expect(validate(invalidValue, {schema})).toBe('error');
-            expect(setErrors).toHaveBeenCalledWith(errors);
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', error.message);
+        });
+
+        test('get-parser: error schema-level error message', () => {
+            const message = 'minItems error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                minItems: 2,
+                nodeParameters: {errorMessages: {minItems: message}},
+            };
+            const value = [1];
+            const error: JSLErrors.MinItems = {
+                type: 'error',
+                code: 'min-items-error',
+                message: 'Too few items in `#`, should be at least `2`, but got `1`',
+                data: {
+                    minItems: 2,
+                    length: 1,
+                    pointer: '#',
+                    schema,
+                    value,
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {minItems: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: instance schema-level error message', () => {
+            const message = 'minItems error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                allOf: [{minItems: 2}],
+                nodeParameters: {errorMessages: {minItems: message}},
+            };
+            const value = [1];
+            const error: JSLErrors.MinItems = {
+                type: 'error',
+                code: 'min-items-error',
+                message: 'Too few items in `#`, should be at least `2`, but got `1`',
+                data: {
+                    minItems: 2,
+                    length: 1,
+                    pointer: '#',
+                    schema: schema.allOf![0],
+                    value,
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('', () => {}, {}, {data: {schemaPath: '#'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {minItems: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: global error message', () => {
+            const message = 'minItems error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                minItems: 2,
+            };
+            const value = [1];
+            const error: JSLErrors.MinItems = {
+                type: 'error',
+                code: 'min-items-error',
+                message: 'Too few items in `#`, should be at least `2`, but got `1`',
+                data: {
+                    minItems: 2,
+                    length: 1,
+                    pointer: '#',
+                    schema,
+                    value,
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {minItems: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
         });
     });
 
     describe('type', () => {
-        const schema: JsonSchemaArray = {
-            type: JsonSchemaType.Array,
-        };
-
-        const validValue = [1];
-        const invalidValue = 'a';
-
-        const ajvError = {
-            keyword: 'type',
-            instancePath: '',
-            schemaPath: '#/type',
-            params: {type: JsonSchemaType.Array},
-            message: AJV_MESSAGES.typeArray,
-        };
-        const ajvErrors = [ajvError];
-
-        test('ajv: a valid value produces no errors', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(validValue);
-
-            expect(validate.errors).toBe(null);
-        });
-
-        test('ajv: an invalid value produces an error', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(invalidValue);
-
-            expect(validate.errors).toEqual(ajvErrors);
-        });
-
-        test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-            const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-            const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-                ajvValidateErrors: ajvErrors,
-                errorMessages: {},
-                schema,
-            });
-
-            expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.typeArray}]);
-            expect(entityParametersErrorItems).toEqual([]);
-            expect(waiters).toEqual({});
-        });
-
-        test('processAjvError: with no custom messages the ajv text is used', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: {}, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: AJV_MESSAGES.typeArray,
-            });
-        });
-
-        test('processAjvError: a global error message takes precedence over the ajv text', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: GLOBAL_ERROR_MESSAGES.type,
-            });
-        });
-
-        test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-            const schemaWithMessage: JsonSchemaArray = {
-                ...schema,
-                entityParameters: {errorMessages: {type: SCHEMA_ERROR_MESSAGES.type}},
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
             };
-            const {processAjvError, onError} = createProcessAjvError();
+            const value = [1];
+            const node = getSchemaRootNode({schema});
 
-            processAjvError({
-                error: ajvError,
-                errorMessages: GLOBAL_ERROR_MESSAGES,
-                schema: schemaWithMessage,
-            });
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: SCHEMA_ERROR_MESSAGES.type,
-            });
+            expect(node.validate(value).errors).toEqual([]);
         });
 
-        // type has no schema, so we can't test this case
-        test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+            };
+            const value = 'a';
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `a` (string) in `#` to be of type `array`',
+                data: {
+                    value: 'a',
+                    received: 'string',
+                    expected: 'array',
+                    schema,
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
 
-        test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
-
-            expect(validate(validValue, {schema})).toBe(false);
-            expect(setErrors).toHaveBeenCalledWith({});
+            expect(node.validate(value).errors).toEqual([error]);
         });
 
-        test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
+        test('get-parser: default error message', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+            };
+            const value = 'a';
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `a` (string) in `#` to be of type `array`',
+                data: {
+                    value: 'a',
+                    received: 'string',
+                    expected: 'array',
+                    schema,
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
 
-            const errors = {[FIELD_NAME]: AJV_MESSAGES.typeArray};
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
 
-            expect(validate(invalidValue, {schema})).toBe('error');
-            expect(setErrors).toHaveBeenCalledWith(errors);
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', error.message);
+        });
+
+        test('get-parser: error schema-level error message', () => {
+            const message = 'type error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                nodeParameters: {errorMessages: {type: message}},
+            };
+            const value = 'a';
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `a` (string) in `#` to be of type `array`',
+                data: {
+                    value: 'a',
+                    received: 'string',
+                    expected: 'array',
+                    schema,
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {type: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: instance schema-level error message', () => {
+            const message = 'type error message';
+            const schema: JsonSchemaArray = {
+                allOf: [{type: JsonSchemaType.Array}],
+                nodeParameters: {errorMessages: {type: message}},
+            };
+            const value = 'a';
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `a` (string) in `#` to be of type `array`',
+                data: {
+                    value: 'a',
+                    received: 'string',
+                    expected: 'array',
+                    schema: schema.allOf![0],
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('', () => {}, {}, {data: {schemaPath: '#'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {type: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: global error message', () => {
+            const message = 'type error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+            };
+            const value = 'a';
+            const error: JSLErrors.Type = {
+                type: 'error',
+                code: 'type-error',
+                message: 'Expected `a` (string) in `#` to be of type `array`',
+                data: {
+                    value: 'a',
+                    received: 'string',
+                    expected: 'array',
+                    schema,
+                    pointer: '#',
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {type: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
         });
     });
 
     describe('uniqueItems', () => {
-        const schema: JsonSchemaArray = {
-            type: JsonSchemaType.Array,
-            uniqueItems: true,
-        };
-
-        const validValue = [1, 2];
-        const invalidValue: ArrayValue = [1, 1];
-
-        const ajvError: ErrorObject = {
-            keyword: 'uniqueItems',
-            instancePath: '',
-            schemaPath: '#/uniqueItems',
-            params: {i: 1, j: 0},
-            message: AJV_MESSAGES.uniqueItems(0, 1),
-        };
-        const ajvErrors = [ajvError];
-
-        test('ajv: a valid value produces no errors', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(validValue);
-
-            expect(validate.errors).toBe(null);
-        });
-
-        test('ajv: an invalid value produces an error', () => {
-            const validate = createAjvValidate({schema});
-
-            validate(invalidValue);
-
-            expect(validate.errors).toEqual(ajvErrors);
-        });
-
-        test('processAjvValidateErrors: an ajv error is converted into an error item', () => {
-            const {processAjvValidateErrors} = createProcessAjvValidateErrors();
-
-            const {ajvErrorItems, entityParametersErrorItems, waiters} = processAjvValidateErrors({
-                ajvValidateErrors: ajvErrors,
-                errorMessages: {},
-                schema,
-            });
-
-            expect(ajvErrorItems).toEqual([{path: [], error: AJV_MESSAGES.uniqueItems(0, 1)}]);
-            expect(entityParametersErrorItems).toEqual([]);
-            expect(waiters).toEqual({});
-        });
-
-        test('processAjvError: with no custom messages the ajv text is used', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: {}, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: AJV_MESSAGES.uniqueItems(0, 1),
-            });
-        });
-
-        test('processAjvError: a global error message takes precedence over the ajv text', () => {
-            const {processAjvError, onError} = createProcessAjvError();
-
-            processAjvError({error: ajvError, errorMessages: GLOBAL_ERROR_MESSAGES, schema});
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: GLOBAL_ERROR_MESSAGES.uniqueItems,
-            });
-        });
-
-        test('processAjvError: a message from the instance schema entityParameters takes precedence over the ajv text and global error messages (by instancePath)', () => {
-            const schemaWithMessage: JsonSchemaArray = {
-                ...schema,
-                entityParameters: {errorMessages: {uniqueItems: SCHEMA_ERROR_MESSAGES.uniqueItems}},
+        test('jsl: a valid value produces no errors', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                uniqueItems: true,
             };
-            const {processAjvError, onError} = createProcessAjvError();
+            const value = [1, 2];
+            const node = getSchemaRootNode({schema});
 
-            processAjvError({
-                error: ajvError,
-                errorMessages: GLOBAL_ERROR_MESSAGES,
-                schema: schemaWithMessage,
-            });
-
-            expect(onError).toHaveBeenCalledWith({
-                path: [],
-                error: SCHEMA_ERROR_MESSAGES.uniqueItems,
-            });
+            expect(node.validate(value).errors).toEqual([]);
         });
 
-        // uniqueItems has no schema, so we can't test this case
-        test.skip('processAjvError: a message from the keyword schema entityParameters takes precedence over the ajv text, global error messages, and instance schema entityParameters (by schemaPath)', () => {});
+        test('jsl: an invalid value produces an error', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                uniqueItems: true,
+            };
+            const value = [1, 1];
+            const error: JSLErrors.UniqueItems = {
+                type: 'error',
+                code: 'unique-items-error',
+                message: 'Items in array must be unique. Value `1` in `#/1` is a duplicate of #/0.',
+                data: {
+                    pointer: '#/1',
+                    duplicatePointer: '#/0',
+                    arrayPointer: '#',
+                    value: '1',
+                    schema,
+                },
+            };
+            const node = getSchemaRootNode({schema});
 
-        test('validate: a valid value is not flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
-
-            expect(validate(validValue, {schema})).toBe(false);
-            expect(setErrors).toHaveBeenCalledWith({});
+            expect(node.validate(value).errors).toEqual([error]);
         });
 
-        test('validate: an invalid value is flagged as an error', () => {
-            const {validate, setErrors} = createValidate();
+        test('get-parser: default error message', () => {
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                uniqueItems: true,
+            };
+            const value = [1, 1];
+            const error: JSLErrors.UniqueItems = {
+                type: 'error',
+                code: 'unique-items-error',
+                message: 'Items in array must be unique. Value `1` in `#/1` is a duplicate of #/0.',
+                data: {
+                    pointer: '#/1',
+                    duplicatePointer: '#/0',
+                    arrayPointer: '#',
+                    value: '1',
+                    schema,
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
 
-            const errors = {[FIELD_NAME]: AJV_MESSAGES.uniqueItems(0, 1)};
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema},
+            } as unknown as ParseErrorParams;
 
-            expect(validate(invalidValue, {schema})).toBe('error');
-            expect(setErrors).toHaveBeenCalledWith(errors);
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', error.message);
+        });
+
+        test('get-parser: error schema-level error message', () => {
+            const message = 'uniqueItems error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                uniqueItems: true,
+                nodeParameters: {errorMessages: {uniqueItems: message}},
+            };
+            const value = [1, 1];
+            const error: JSLErrors.UniqueItems = {
+                type: 'error',
+                code: 'unique-items-error',
+                message: 'Items in array must be unique. Value `1` in `#/1` is a duplicate of #/0.',
+                data: {
+                    pointer: '#/1',
+                    duplicatePointer: '#/0',
+                    arrayPointer: '#',
+                    value: '1',
+                    schema,
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {uniqueItems: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: instance schema-level error message', () => {
+            const message = 'uniqueItems error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                allOf: [{uniqueItems: true}],
+                nodeParameters: {errorMessages: {uniqueItems: message}},
+            };
+            const value = [1, 1];
+            const error: JSLErrors.UniqueItems = {
+                type: 'error',
+                code: 'unique-items-error',
+                message: 'Items in array must be unique. Value `1` in `#/1` is a duplicate of #/0.',
+                data: {
+                    pointer: '#/1',
+                    duplicatePointer: '#/0',
+                    arrayPointer: '#',
+                    value: '1',
+                    schema: schema.allOf![0],
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            form.registerField<any>('', () => {}, {}, {data: {schemaPath: '#'}});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {uniqueItems: 'global error message'}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
+        });
+
+        test('get-parser: global error message', () => {
+            const message = 'uniqueItems error message';
+            const schema: JsonSchemaArray = {
+                type: JsonSchemaType.Array,
+                uniqueItems: true,
+            };
+            const value = [1, 1];
+            const error: JSLErrors.UniqueItems = {
+                type: 'error',
+                code: 'unique-items-error',
+                message: 'Items in array must be unique. Value `1` in `#/1` is a duplicate of #/0.',
+                data: {
+                    pointer: '#/1',
+                    duplicatePointer: '#/0',
+                    arrayPointer: '#',
+                    value: '1',
+                    schema,
+                },
+            };
+            const node = getSchemaRootNode({schema});
+            const form = createForm({onSubmit: () => {}, initialValues: value});
+
+            const params = {
+                error,
+                form,
+                headName: '',
+                setJSLError: jest.fn(),
+                state: {schema, errorMessages: {uniqueItems: message}},
+            } as unknown as ParseErrorParams;
+
+            expect(node.validate(value).errors).toEqual([error]);
+
+            getParser(error.code)(params);
+
+            expect(params.setJSLError).toHaveBeenCalledWith('', message);
         });
     });
 });

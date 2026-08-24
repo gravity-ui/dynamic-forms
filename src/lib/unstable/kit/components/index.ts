@@ -1,5 +1,5 @@
 export {ArrayRemoveButton, type ArrayRemoveButtonProps} from './ArrayRemoveButton';
-export {ControlContainer, type ControlContainerProps} from './ControlContainer';
-export {ControlError, type ControlErrorProps} from './ControlError';
+export {EntityContainer, type EntityContainerProps} from './EntityContainer';
+export {EntityError, type EntityErrorProps} from './EntityError';
 export {HTMLContent, type HTMLContentProps} from './HTMLContent';
-export {WrapperContainer, type WrapperContainerProps} from './WrapperContainer';
+export {LayoutContainer, type LayoutContainerProps} from './LayoutContainer';

@@ -8,16 +8,21 @@ import {getArrayItemIndex, getArrayItemParentName, isArrayItem, isTupleItem} fro
 
 export interface ArrayRemoveButtonProps {
     name: string;
+    headName: string;
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export const ArrayRemoveButton: React.FC<ArrayRemoveButtonProps> = ({name, onClick}) => {
+const ArrayRemoveButtonComponent: React.FC<ArrayRemoveButtonProps> = ({
+    name,
+    headName,
+    onClick,
+}) => {
     const form = useForm();
 
     const [ready, setReady] = React.useState(false);
 
     const arrayItem = isArrayItem(name);
-    const tupleItem = isTupleItem(name, form);
+    const tupleItem = isTupleItem(name, headName, form);
 
     const removeItem = React.useCallback(
         (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -53,3 +58,5 @@ export const ArrayRemoveButton: React.FC<ArrayRemoveButtonProps> = ({name, onCli
 
     return null;
 };
+
+export const ArrayRemoveButton = React.memo(ArrayRemoveButtonComponent);

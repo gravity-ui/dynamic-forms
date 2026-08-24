@@ -1,179 +1,154 @@
+/* eslint-disable complexity */
+
 import React from 'react';
 
 import type {FieldValidator} from 'final-form';
 import cloneDeep from 'lodash/cloneDeep';
-import noop from 'lodash/noop';
 import {useForm} from 'react-final-form';
 
-import {EMPTY_OBJECT, type SchemaRendererMode} from '../constants';
-import type {
-    ErrorMessages,
-    FieldValue,
-    JsonSchema,
-    SchemaRendererConfig,
-    SyncValidateError,
-} from '../types';
+import {SchemaRendererEventType, type SchemaRendererMode} from '../constants';
+import type {ErrorMessages, FieldValue, JsonSchema, NodesConfig} from '../types';
+import {getServiceFieldName} from '../utils';
 
-import {ENTITY_SERVICE_FIELD, USER_CONTEXT_SERVICE_FIELD} from './constants';
-import {useSchemaRendererMutators} from './hooks';
-import type {UserContextState} from './mutators';
-import {getValidate} from './utils';
+import {SCHEMA_RENDERER_SERVICE_FIELD} from './constants';
+import type {SchemaRendererState} from './types';
+import {getDispatch, getRunValidate, getSubscribe, getValidate} from './utils';
 
 export interface UseSchemaRendererParams {
-    config: SchemaRendererConfig;
+    config?: NodesConfig;
     connectValidate?: boolean;
     errorMessages?: ErrorMessages;
     mode: SchemaRendererMode;
-    /**
-     * The `name` prop must be a non-empty string.
-     *
-     * In `final-form` and `react-final-form`, the `name` is used as a key to register
-     * the field within the form. If you pass an empty string (`name=""`), the field will
-     * not be registered, its value will not be tracked, and validation will not work.
-     *
-     * This can lead to:
-     * - the field being missing from the form `values`;
-     * - the `validate` function not being called;
-     * - no error or touched state updates;
-     * - inconsistent or broken form behavior.
-     *
-     * Always provide a unique, non-empty string for the field name.
-     */
     name: string;
     schema: JsonSchema;
-    userContext?: Omit<UserContextState, 'headName'>;
+    validateOnBlur: boolean;
+    userContext?: SchemaRendererState['userContext'];
 }
-
-export type UseSchemaRendererReturn = {
-    schema: JsonSchema | undefined;
-    validate: FieldValidator<FieldValue> | undefined;
-};
 
 export const useSchemaRenderer = ({
     config,
     connectValidate = true,
-    errorMessages = EMPTY_OBJECT,
+    errorMessages,
     mode,
-    name,
+    name: headName,
     schema: originalSchema,
+    validateOnBlur,
     userContext,
-}: UseSchemaRendererParams) => {
+}: UseSchemaRendererParams): FieldValidator<FieldValue> => {
     const form = useForm();
-    const {setAsyncValidationCache, setAsyncValidationWaiters, triggerFields} =
-        useSchemaRendererMutators();
 
-    const errorsRef = React.useRef<Record<string, SyncValidateError>>({});
-    const schemaRef = React.useRef<JsonSchema | undefined>(undefined);
-    const [schema, setSchema] = React.useState<JsonSchema | undefined>(undefined);
-    const [fieldsToTrigger, setFieldsToTrigger] = React.useState<string[]>([]);
+    const stateRef = React.useRef<SchemaRendererState>(null);
+    const prevParamsRef = React.useRef<UseSchemaRendererParams>(null);
+    const unsubscribeRef = React.useRef<() => void>(null);
 
-    const setErrors = React.useCallback(
-        (errors: Record<string, SyncValidateError>) => {
-            const formState = form.getState();
-            const fieldsToTrigger: string[] = Object.keys({
-                ...errorsRef.current,
-                ...errors,
-            }).filter((key) => {
-                if (errorsRef.current[key] !== errors[key]) {
-                    const field = form.getFieldState(key);
-
-                    if (field?.touched || formState.submitFailed) {
-                        return true;
-                    }
-                }
-
-                return false;
-            });
-
-            errorsRef.current = errors;
-
-            if (fieldsToTrigger.length) {
-                setFieldsToTrigger(fieldsToTrigger);
-            }
-        },
-        [form],
+    const {subscribe, unsubscribe} = React.useMemo(
+        () => getSubscribe(form, headName),
+        [form, headName],
     );
-
-    const validate = React.useMemo(
-        () =>
-            getValidate({
-                config,
-                errorMessages,
-                name,
-                setAsyncValidationCache,
-                setAsyncValidationWaiters,
-                setErrors,
-            }),
-        [
-            config,
-            errorMessages,
-            name,
-            setAsyncValidationCache,
-            setAsyncValidationWaiters,
-            setErrors,
-        ],
+    const dispatchEvent = React.useMemo(() => getDispatch(form, headName), [form, headName]);
+    const runValidate = React.useMemo(
+        () => getRunValidate(form, headName, validateOnBlur),
+        [form, headName, validateOnBlur],
     );
+    const validate = React.useMemo(() => getValidate(form, headName), [form, headName]);
 
-    const returnValue = React.useMemo(() => {
-        if (connectValidate) {
-            return {schema};
-        }
+    React.useMemo(() => {
+        unsubscribeRef.current?.();
 
-        return {
-            schema,
-            validate: (value?: FieldValue) => {
-                const allValues = form.getState().values;
-                const meta = form.getFieldState(name);
+        const prevParams = prevParamsRef.current;
+        const prevState = stateRef.current;
 
-                return validate(value, allValues, meta);
-            },
+        const configUpdated = config !== prevParams?.config;
+        const errorMessagesUpdated = errorMessages !== prevParams?.errorMessages;
+        const nameUpdated = headName !== prevParams?.name;
+        const modeUpdated = mode !== prevParams?.mode;
+        const schemaUpdated = originalSchema !== prevParams?.schema;
+        const userContextUpdated = userContext !== prevParams?.userContext;
+
+        const initialState: SchemaRendererState = {
+            cache: nameUpdated || schemaUpdated || !prevState?.cache ? {} : prevState.cache,
+            config: config || {},
+            dispatchEvent,
+            errors: nameUpdated || schemaUpdated || !prevState?.errors ? {} : prevState.errors,
+            errorMessages: errorMessages || {},
+            mode,
+            originalSchema,
+            patches: nameUpdated || schemaUpdated || !prevState?.patches ? [] : prevState.patches,
+            priorityErrors:
+                nameUpdated || schemaUpdated || !prevState?.priorityErrors
+                    ? {}
+                    : prevState.priorityErrors,
+            regularErrors:
+                nameUpdated || schemaUpdated || !prevState?.regularErrors
+                    ? {}
+                    : prevState.regularErrors,
+            runValidate,
+            schema:
+                nameUpdated || schemaUpdated ? cloneDeep(originalSchema) : prevState?.schema || {},
+            subscribe,
+            subscribers: prevState?.subscribers || {byId: {}, byName: new Map(), byPath: new Map()},
+            unsubscribe,
+            userContext: userContextUpdated ? userContext || {} : prevState?.userContext || {},
+            waiters: nameUpdated || schemaUpdated || !prevState?.waiters ? {} : prevState.waiters,
         };
-    }, [connectValidate, form, name, schema, validate]);
-
-    React.useLayoutEffect(() => {
-        schemaRef.current = cloneDeep(originalSchema);
-
-        setSchema(schemaRef.current);
-    }, [originalSchema]);
-
-    React.useLayoutEffect(() => {
-        const data = {originalSchema, schema: schemaRef.current};
         const getValidator = connectValidate ? () => validate : undefined;
 
-        const unsubscribe = form.registerField(name, noop, EMPTY_OBJECT, {data, getValidator});
+        let initialEvents = [
+            ...(configUpdated ? [SchemaRendererEventType.Config] : []),
+            ...(errorMessagesUpdated ? [SchemaRendererEventType.ErrorMessages] : []),
+            ...(nameUpdated ? [SchemaRendererEventType.Name] : []),
+            ...(modeUpdated ? [SchemaRendererEventType.Mode] : []),
+            ...(schemaUpdated ? [SchemaRendererEventType.Schema] : []),
+            ...(userContextUpdated ? [SchemaRendererEventType.UserContext] : []),
+        ].map((type) => ({type, all: true}));
 
-        return () => unsubscribe();
-    }, [connectValidate, form, name, originalSchema, validate]);
+        unsubscribeRef.current = form.registerField(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, headName),
+            (f) => {
+                const state: SchemaRendererState | undefined = f.data?.state;
 
-    React.useLayoutEffect(() => {
-        const data = {config, errorsRef, headName: name, mode, schema: schemaRef.current};
-        const unsubscribe = form.registerField(
-            `${ENTITY_SERVICE_FIELD}.${name}`,
-            noop,
-            EMPTY_OBJECT,
-            {data},
+                if (state && initialEvents.length) {
+                    state.dispatchEvent(initialEvents);
+
+                    initialEvents = [];
+                }
+            },
+            {data: true},
+            {data: {state: initialState}, getValidator, validateFields: [headName]},
         );
 
-        return () => unsubscribe();
-    }, [config, form, mode, name]);
+        prevParamsRef.current = {
+            config,
+            errorMessages,
+            name: headName,
+            mode,
+            schema: originalSchema,
+            userContext,
+            validateOnBlur,
+        };
+        stateRef.current = initialState;
+    }, [
+        config,
+        connectValidate,
+        dispatchEvent,
+        errorMessages,
+        form,
+        headName,
+        mode,
+        originalSchema,
+        runValidate,
+        subscribe,
+        unsubscribe,
+        validate,
+        validateOnBlur,
+        userContext,
+    ]);
 
-    React.useLayoutEffect(() => {
-        const data = {...userContext, headName: name};
-        const unsubscribe = form.registerField(
-            `${USER_CONTEXT_SERVICE_FIELD}.${name}`,
-            noop,
-            EMPTY_OBJECT,
-            {data},
-        );
+    React.useEffect(() => {
+        return () => {
+            unsubscribeRef.current?.();
+        };
+    }, []);
 
-        return () => unsubscribe();
-    }, [form, name, userContext]);
-
-    React.useLayoutEffect(() => {
-        if (fieldsToTrigger.length) {
-            triggerFields?.({fields: fieldsToTrigger});
-        }
-    }, [fieldsToTrigger, triggerFields]);
-
-    return returnValue;
+    return validate;
 };
