@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Button} from '@gravity-ui/uikit';
+import {Button, SegmentedRadioGroup} from '@gravity-ui/uikit';
 import type {StoryFn} from '@storybook/react';
 import {noop} from 'lodash';
 import {Form} from 'react-final-form';
@@ -30,13 +30,13 @@ const schema: JsonSchemaObject = {
             nodeParameters: defineNodeParameters({
                 entity: 'textarea',
                 type: NodeType.String,
-                formEntityProps: {
+                entityProps: {
                     rows: 10,
                 },
-                formEntity: 'textarea',
-                formLayout: 'row',
-                formLayoutProps: {
+                layout: 'row',
+                layoutProps: {
                     descriptionType: 'tooltip',
+                    copy: true,
                 },
             }),
         },
@@ -70,9 +70,9 @@ const schema: JsonSchemaObject = {
             title: 'monaco',
             nodeParameters: {
                 type: NodeType.String,
-                formEntity: 'monaco',
-                formLayout: 'row',
-                formEntityProps: {language: 'json'},
+                entity: 'monaco',
+                layout: 'row',
+                entityProps: {language: 'json'},
                 overviewEntity: 'monaco',
                 overviewEntityProps: {language: 'json'},
             },
@@ -89,9 +89,9 @@ const schema: JsonSchemaObject = {
             },
             nodeParameters: {
                 type: NodeType.String,
-                formEntity: 'string_number_with_scale',
-                formLayout: 'row',
-                formEntityProps: {
+                entity: 'string_number_with_scale',
+                layout: 'row',
+                entityProps: {
                     scale: {
                         km: {title: 'km', factor: '1000'},
                         m: {title: 'm', factor: '1'},
@@ -111,9 +111,9 @@ const schema: JsonSchemaObject = {
             title: 'number_with_scale',
             nodeParameters: defineNodeParameters({
                 type: NodeType.Number,
-                formEntity: 'number_with_scale',
-                formLayout: 'row',
-                formEntityProps: {
+                entity: 'number_with_scale',
+                layout: 'row',
+                entityProps: {
                     scale: {
                         km: {title: 'km', factor: 1000},
                         m: {title: 'm', factor: 1},
@@ -134,7 +134,7 @@ const schema: JsonSchemaObject = {
                     title: 'from',
                     nodeParameters: {
                         type: NodeType.Number,
-                        formEntity: 'base',
+                        entity: 'base',
                         formLayout: 'transparent',
                     },
                 },
@@ -143,15 +143,15 @@ const schema: JsonSchemaObject = {
                     title: 'to',
                     nodeParameters: defineNodeParameters({
                         type: NodeType.Number,
-                        formEntity: 'base',
+                        entity: 'base',
                         formLayout: 'transparent',
                     }),
                 },
             },
             nodeParameters: {
                 type: NodeType.Object,
-                formEntity: 'range_input',
-                formLayout: 'row',
+                entity: 'range_input',
+                layout: 'row',
             },
         },
         object_inline: {
@@ -164,7 +164,7 @@ const schema: JsonSchemaObject = {
                     title: 'foo',
                     nodeParameters: {
                         type: NodeType.String,
-                        formEntity: 'select',
+                        entity: 'select',
                         formLayout: 'transparent',
                     },
                 },
@@ -173,7 +173,7 @@ const schema: JsonSchemaObject = {
                     title: 'bar',
                     nodeParameters: {
                         type: NodeType.Number,
-                        formEntity: 'base',
+                        entity: 'base',
                         formLayout: 'transparent',
                     },
                 },
@@ -182,16 +182,16 @@ const schema: JsonSchemaObject = {
                     title: 'rab',
                     nodeParameters: {
                         type: NodeType.Boolean,
-                        formEntity: 'base',
+                        entity: 'base',
                         formLayout: 'transparent',
                     },
                 },
             },
             nodeParameters: {
                 type: NodeType.Object,
-                formEntity: 'inline',
-                formLayout: 'row',
-                formEntityProps: {
+                entity: 'inline',
+                layout: 'row',
+                entityProps: {
                     delimiter: ':',
                 },
             },
@@ -212,8 +212,8 @@ const schema: JsonSchemaObject = {
                             description: 'one_of_nested',
                             nodeParameters: {
                                 type: NodeType.String,
-                                formEntity: 'base',
-                                formLayout: 'row',
+                                entity: 'base',
+                                layout: 'row',
                             },
                             allOf: [
                                 {
@@ -227,8 +227,8 @@ const schema: JsonSchemaObject = {
                             multipleOf: 5,
                             nodeParameters: {
                                 type: NodeType.Number,
-                                formEntity: 'base',
-                                formLayout: 'row',
+                                entity: 'base',
+                                layout: 'row',
                             },
                         },
                         rab: {
@@ -236,14 +236,14 @@ const schema: JsonSchemaObject = {
                             title: 'rab',
                             nodeParameters: {
                                 type: NodeType.Boolean,
-                                formEntity: 'base',
-                                formLayout: 'row',
+                                entity: 'base',
+                                layout: 'row',
                             },
                         },
                     },
                     nodeParameters: {
                         type: NodeType.Object,
-                        formEntity: 'base',
+                        entity: 'base',
                         formLayout: 'section',
                     },
                 },
@@ -252,8 +252,8 @@ const schema: JsonSchemaObject = {
                     title: 'bar',
                     nodeParameters: {
                         type: NodeType.Number,
-                        formEntity: 'base',
-                        formLayout: 'row',
+                        entity: 'base',
+                        layout: 'row',
                     },
                 },
                 rab: {
@@ -261,16 +261,16 @@ const schema: JsonSchemaObject = {
                     title: 'rab',
                     nodeParameters: {
                         type: NodeType.Boolean,
-                        formEntity: 'base',
-                        formLayout: 'row',
+                        entity: 'base',
+                        layout: 'row',
                     },
                 },
             },
             nodeParameters: {
                 type: NodeType.Object,
-                formEntity: 'one_of_nested',
+                entity: 'one_of_nested',
                 formLayout: 'transparent',
-                formEntityProps: {
+                entityProps: {
                     booleanToKey: {
                         true: 'foo',
                         false: 'bar',
@@ -279,8 +279,8 @@ const schema: JsonSchemaObject = {
                         title: 'one of toggler',
                         nodeParameters: {
                             type: NodeType.Boolean,
-                            formEntity: 'switch',
-                            formLayout: 'row',
+                            entity: 'switch',
+                            layout: 'row',
                         },
                     },
                     withIndent: true,
@@ -302,8 +302,8 @@ const schema: JsonSchemaObject = {
                             title: 'foo',
                             nodeParameters: {
                                 type: NodeType.String,
-                                formEntity: 'base',
-                                formLayout: 'row',
+                                entity: 'base',
+                                layout: 'row',
                             },
                         },
                         bar: {
@@ -311,8 +311,8 @@ const schema: JsonSchemaObject = {
                             title: 'bar',
                             nodeParameters: {
                                 type: NodeType.Number,
-                                formEntity: 'base',
-                                formLayout: 'row',
+                                entity: 'base',
+                                layout: 'row',
                             },
                         },
                         rab: {
@@ -320,14 +320,14 @@ const schema: JsonSchemaObject = {
                             title: 'rab',
                             nodeParameters: {
                                 type: NodeType.Boolean,
-                                formEntity: 'base',
-                                formLayout: 'row',
+                                entity: 'base',
+                                layout: 'row',
                             },
                         },
                     },
                     nodeParameters: {
                         type: NodeType.Object,
-                        formEntity: 'base',
+                        entity: 'base',
                         formLayout: 'section',
                     },
                 },
@@ -336,8 +336,8 @@ const schema: JsonSchemaObject = {
                     title: 'bar',
                     nodeParameters: {
                         type: NodeType.Number,
-                        formEntity: 'base',
-                        formLayout: 'row',
+                        entity: 'base',
+                        layout: 'row',
                     },
                 },
                 rab: {
@@ -345,16 +345,16 @@ const schema: JsonSchemaObject = {
                     title: 'rab',
                     nodeParameters: {
                         type: NodeType.Boolean,
-                        formEntity: 'base',
-                        formLayout: 'row',
+                        entity: 'base',
+                        layout: 'row',
                     },
                 },
             },
             nodeParameters: {
                 type: NodeType.Object,
-                formEntity: 'few_of_nested',
+                entity: 'few_of_nested',
                 formLayout: 'transparent',
-                formEntityProps: {
+                entityProps: {
                     toggler: {
                         title: 'few of toggler',
                         items: {
@@ -362,8 +362,8 @@ const schema: JsonSchemaObject = {
                         },
                         nodeParameters: {
                             type: NodeType.Array,
-                            formEntity: 'select',
-                            formLayout: 'row',
+                            entity: 'select',
+                            layout: 'row',
                         },
                     },
                 },
@@ -379,13 +379,13 @@ const schema: JsonSchemaObject = {
                 description: 'item description',
                 nodeParameters: {
                     type: NodeType.String,
-                    formEntity: 'base',
-                    formLayout: 'row',
+                    entity: 'base',
+                    layout: 'row',
                 },
             },
             nodeParameters: {
                 type: NodeType.Array,
-                formEntity: 'base',
+                entity: 'base',
                 formLayout: 'card',
             },
         },
@@ -400,8 +400,8 @@ const schema: JsonSchemaObject = {
                     description: 'string item description',
                     nodeParameters: {
                         type: NodeType.String,
-                        formEntity: 'base',
-                        formLayout: 'row',
+                        entity: 'base',
+                        layout: 'row',
                     },
                 },
                 {
@@ -410,15 +410,15 @@ const schema: JsonSchemaObject = {
                     description: 'number item description',
                     nodeParameters: {
                         type: NodeType.Number,
-                        formEntity: 'base',
-                        formLayout: 'row',
+                        entity: 'base',
+                        layout: 'row',
                     },
                 },
             ],
             nodeParameters: {
                 type: NodeType.Array,
-                formEntity: 'base',
-                formLayout: 'row',
+                entity: 'base',
+                layout: 'row',
             },
         },
         array_table: {
@@ -436,7 +436,7 @@ const schema: JsonSchemaObject = {
                         description: 'name description',
                         nodeParameters: {
                             type: NodeType.String,
-                            formEntity: 'base',
+                            entity: 'base',
                             formLayout: 'transparent',
                         },
                     },
@@ -444,7 +444,7 @@ const schema: JsonSchemaObject = {
                         title: 'surname',
                         nodeParameters: {
                             type: NodeType.String,
-                            formEntity: 'base',
+                            entity: 'base',
                             formLayout: 'transparent',
                         },
                     },
@@ -452,7 +452,7 @@ const schema: JsonSchemaObject = {
                         title: 'age',
                         nodeParameters: {
                             type: NodeType.Number,
-                            formEntity: 'base',
+                            entity: 'base',
                             formLayout: 'transparent',
                         },
                     },
@@ -460,7 +460,7 @@ const schema: JsonSchemaObject = {
                 title: 'item title',
                 nodeParameters: {
                     type: NodeType.Object,
-                    formEntity: 'base',
+                    entity: 'base',
                     formLayout: 'accordeon',
                     formLayoutProps: {
                         withIndent: true,
@@ -469,7 +469,7 @@ const schema: JsonSchemaObject = {
             },
             nodeParameters: {
                 type: NodeType.Array,
-                formEntity: 'array_table',
+                entity: 'array_table',
                 formLayout: 'accordeon',
                 formLayoutProps: {
                     withIndent: true,
@@ -482,8 +482,8 @@ const schema: JsonSchemaObject = {
             description: 'number description',
             nodeParameters: {
                 type: NodeType.Number,
-                formEntity: 'base',
-                formLayout: 'row',
+                entity: 'base',
+                layout: 'row',
             },
         },
         string: {
@@ -492,8 +492,8 @@ const schema: JsonSchemaObject = {
             description: 'string description',
             nodeParameters: {
                 type: NodeType.String,
-                formEntity: 'base',
-                formLayout: 'row',
+                entity: 'base',
+                layout: 'row',
                 formLayoutProps: {
                     descriptionType: 'bottom',
                     required: true,
@@ -506,8 +506,8 @@ const schema: JsonSchemaObject = {
             description: 'boolean description',
             nodeParameters: {
                 type: NodeType.Boolean,
-                formEntity: 'base',
-                formLayout: 'row',
+                entity: 'base',
+                layout: 'row',
             },
         },
         switch: {
@@ -516,8 +516,8 @@ const schema: JsonSchemaObject = {
             description: 'switch description',
             nodeParameters: {
                 type: NodeType.Boolean,
-                formEntity: 'switch',
-                formLayout: 'row',
+                entity: 'switch',
+                layout: 'row',
             },
         },
         alert: {
@@ -526,9 +526,9 @@ const schema: JsonSchemaObject = {
             description: 'alert description',
             nodeParameters: {
                 type: NodeType.String,
-                formEntity: 'alert',
-                formLayout: 'row',
-                formEntityProps: {
+                entity: 'alert',
+                layout: 'row',
+                entityProps: {
                     iconName: 'CircleExclamationFill',
                     iconProps: {
                         size: 18,
@@ -547,9 +547,9 @@ const schema: JsonSchemaObject = {
             description: 'label description',
             nodeParameters: {
                 type: NodeType.String,
-                formEntity: 'label',
-                formLayout: 'row',
-                formEntityProps: {
+                entity: 'label',
+                layout: 'row',
+                entityProps: {
                     iconName: 'TriangleExclamation',
                     title: 'Label title',
                     theme: 'clear',
@@ -562,9 +562,9 @@ const schema: JsonSchemaObject = {
             description: 'text content description',
             nodeParameters: {
                 type: NodeType.String,
-                formEntity: 'text_content',
-                formLayout: 'row',
-                formEntityProps: {
+                entity: 'text_content',
+                layout: 'row',
+                entityProps: {
                     iconName: 'TriangleExclamation',
                 },
             },
@@ -575,8 +575,8 @@ const schema: JsonSchemaObject = {
             description: 'password description',
             nodeParameters: {
                 type: NodeType.String,
-                formEntity: 'password',
-                formLayout: 'row',
+                entity: 'password',
+                layout: 'row',
             },
         },
         color_picker: {
@@ -586,9 +586,9 @@ const schema: JsonSchemaObject = {
             description: 'color picker description',
             nodeParameters: {
                 type: NodeType.String,
-                formEntity: 'color_picker',
-                formLayout: 'row',
-                formEntityProps: {
+                entity: 'color_picker',
+                layout: 'row',
+                entityProps: {
                     withAlpha: true,
                 },
             },
@@ -599,8 +599,8 @@ const schema: JsonSchemaObject = {
             description: 'date input description',
             nodeParameters: {
                 type: NodeType.Any,
-                formEntity: 'date_input',
-                formLayout: 'row',
+                entity: 'date_input',
+                layout: 'row',
             },
         },
         radio_group: {
@@ -611,9 +611,9 @@ const schema: JsonSchemaObject = {
             description: 'radio group description',
             nodeParameters: {
                 type: NodeType.String,
-                formEntity: 'radio_group',
-                formLayout: 'row',
-                formEntityProps: {
+                entity: 'radio_group',
+                layout: 'row',
+                entityProps: {
                     direction: 'horizontal',
                     enumDescriptions: {
                         foo: 'Option 1',
@@ -631,9 +631,9 @@ const schema: JsonSchemaObject = {
             description: 'segmented radio group description',
             nodeParameters: {
                 type: NodeType.String,
-                formEntity: 'segmented_radio_group',
-                formLayout: 'row',
-                formEntityProps: {
+                entity: 'segmented_radio_group',
+                layout: 'row',
+                entityProps: {
                     enumDescriptions: {
                         foo: 'Option 1',
                         bar: 'Option 2',
@@ -651,9 +651,9 @@ const schema: JsonSchemaObject = {
             examples: ['Choose status'],
             nodeParameters: {
                 type: NodeType.String,
-                formEntity: 'select',
+                entity: 'select',
                 formLayout: 'accordeon',
-                formEntityProps: {
+                entityProps: {
                     enumDescriptions: {
                         draft: 'Draft',
                         published: 'Published',
@@ -678,9 +678,9 @@ const schema: JsonSchemaObject = {
                     examples: ['Choose status'],
                     nodeParameters: {
                         type: NodeType.String,
-                        formEntity: 'select',
+                        entity: 'select',
                         formLayout: 'accordeon',
-                        formEntityProps: {
+                        entityProps: {
                             enumDescriptions: {
                                 draft: 'Draft',
                                 published: 'Published',
@@ -697,7 +697,7 @@ const schema: JsonSchemaObject = {
             },
             nodeParameters: {
                 type: NodeType.Object,
-                formEntity: 'base',
+                entity: 'base',
                 formLayout: 'transparent',
             },
         },
@@ -711,9 +711,9 @@ const schema: JsonSchemaObject = {
             title: 'checkbox_group',
             nodeParameters: {
                 type: NodeType.Array,
-                formEntity: 'checkbox_group',
+                entity: 'checkbox_group',
                 formLayout: 'accordeon',
-                formEntityProps: {
+                entityProps: {
                     direction: 'column',
                     enumDescriptions: {
                         monday: 'Mon',
@@ -738,9 +738,9 @@ const schema: JsonSchemaObject = {
                     title: 'checkbox_group',
                     nodeParameters: {
                         type: NodeType.Array,
-                        formEntity: 'checkbox_group',
+                        entity: 'checkbox_group',
                         formLayout: 'accordeon',
-                        formEntityProps: {
+                        entityProps: {
                             direction: 'column',
                             enumDescriptions: {
                                 monday: 'Mon',
@@ -756,7 +756,7 @@ const schema: JsonSchemaObject = {
             },
             nodeParameters: {
                 type: NodeType.Object,
-                formEntity: 'base',
+                entity: 'base',
                 formLayout: 'transparent',
             },
         },
@@ -768,9 +768,9 @@ const schema: JsonSchemaObject = {
             title: 'multi_select',
             nodeParameters: {
                 type: NodeType.Array,
-                formEntity: 'select',
-                formLayout: 'row',
-                formEntityProps: {
+                entity: 'select',
+                layout: 'row',
+                entityProps: {
                     enumDescriptions: {
                         draft: 'Draft',
                         published: 'Published',
@@ -789,8 +789,8 @@ const schema: JsonSchemaObject = {
             description: 'slider description',
             nodeParameters: {
                 type: NodeType.Number,
-                formEntity: 'slider',
-                formLayout: 'row',
+                entity: 'slider',
+                layout: 'row',
             },
         },
         range_slider: {
@@ -803,8 +803,8 @@ const schema: JsonSchemaObject = {
             },
             nodeParameters: {
                 type: NodeType.Object,
-                formEntity: 'range_slider',
-                formLayout: 'row',
+                entity: 'range_slider',
+                layout: 'row',
             },
         },
         object_value: {
@@ -817,15 +817,15 @@ const schema: JsonSchemaObject = {
                     title: 'Value',
                     nodeParameters: {
                         type: NodeType.String,
-                        formEntity: 'base',
+                        entity: 'base',
                         formLayout: 'transparent',
                     },
                 },
             },
             nodeParameters: {
                 type: NodeType.Object,
-                formEntity: 'dot_value',
-                formLayout: 'row',
+                entity: 'dot_value',
+                layout: 'row',
             },
         },
         file: {
@@ -833,9 +833,9 @@ const schema: JsonSchemaObject = {
             title: 'File Input',
             nodeParameters: {
                 type: NodeType.String,
-                formEntity: 'file',
-                formLayout: 'row',
-                formEntityProps: {
+                entity: 'file',
+                layout: 'row',
+                entityProps: {
                     accept: ['.json', '.txt'],
                     readAsMethod: 'readAsText',
                 },
@@ -846,7 +846,7 @@ const schema: JsonSchemaObject = {
     description: 'Main object description',
     nodeParameters: {
         type: NodeType.Object,
-        formEntity: 'base',
+        entity: 'base',
         formLayout: 'section',
         formLayoutProps: {
             descriptionType: 'bottom',
@@ -859,13 +859,82 @@ const schema: JsonSchemaObject = {
 
 const value = {
     test: {
+        textarea:
+            'textarea value min-height: 20px; min-height: 20px; min-height: 20px;min-height: 20px; min-height: 20px; min-height: 20px; min-height: 20px; min-height: 20px; min-height: 20px;',
+        monaco: JSON.stringify(
+            {
+                extends: '@gravity-ui/tsconfig/tsconfig.json',
+                include: ['src/**/*.ts', 'src/**/*.tsx'],
+                exclude: ['src/stories'],
+                compilerOptions: {
+                    outDir: 'build/esm',
+                    module: 'esnext',
+                    jsx: 'react',
+                    resolveJsonModule: true,
+                    baseUrl: '.',
+                    declaration: true,
+                    allowJs: true,
+                    importHelpers: true,
+                    paths: {
+                        '@gravity-ui/dynamic-forms/unstable': ['./src/unstable.ts'],
+                        '@gravity-ui/uikit/unstable': [
+                            'node_modules/@gravity-ui/uikit/build/esm/unstable',
+                        ],
+                    },
+                },
+            },
+            null,
+            2,
+        ),
+        string_number_with_scale: '1000',
+        number_with_scale: 1000,
+        range_input: {from: 10, to: 20},
+        object_inline: {foo: 'foo', bar: 1, rab: true},
+        one_of_nested: {
+            foo: {
+                foo: 'textarea value',
+                bar: 10,
+                rab: true,
+            },
+            bar: 5,
+            rab: false,
+        },
+        few_of_nested: {
+            foo: {
+                foo: 'textarea value',
+                bar: 10,
+                rab: true,
+            },
+            bar: 5,
+            rab: true,
+        },
         array: ['test', 'test2'],
         tuple: ['test', 123],
+        array_table: [
+            {name: 'John', surname: 'Doe', age: 30},
+            {name: 'Jane', surname: 'Smith', age: 25},
+        ],
         number: 123,
         string: 'test',
         boolean: true,
-        object_value: {value: 'test'},
+        switch: true,
+        alert: 'alert value',
+        label: 'label value',
         text_content: 'value',
+        password: 'password',
+        color_picker: '#5282ff',
+        date_input: '2020-01-01',
+        radio_group: 'foo',
+        segmented_radio_group: 'foo',
+        select: 'draft',
+        sselect: {select: 'draft'},
+        checkbox_group: ['monday'],
+        ccheckbox_group: {checkbox_group: ['monday']},
+        multi_select: ['draft'],
+        slider: 50,
+        range_slider: {from: 0, to: 100},
+        object_value: {value: 'test'},
+        file: 'file content',
     },
 };
 
@@ -1086,6 +1155,7 @@ const template = () => {
     const Template: StoryFn<typeof ObjectBase> = (__) => {
         const [cfg, _setCfg] = React.useState(config);
         const [sch, _setSch] = React.useState(schema);
+        const [mode, setMode] = React.useState(SchemaRendererMode.Overview);
 
         React.useEffect(() => {
             setTimeout(() => {
@@ -1096,8 +1166,8 @@ const template = () => {
                 //     description: 'textarea description',
                 //     nodeParameters: {
                 //         type: NodeType.String,
-                //         formEntity: 'textarea',
-                //         formLayout: 'row',
+                //         entity: 'textarea',
+                //         layout: 'row',
                 //     },
                 // });
             }, 5000);
@@ -1107,6 +1177,17 @@ const template = () => {
             <Form initialValues={value} onSubmit={noop} destroyOnUnregister validateOnBlur={false}>
                 {(form) => (
                     <React.Fragment>
+                        <SegmentedRadioGroup
+                            value={mode}
+                            onUpdate={(value) => setMode(value as SchemaRendererMode)}
+                        >
+                            <SegmentedRadioGroup.Option value={SchemaRendererMode.Form}>
+                                Form
+                            </SegmentedRadioGroup.Option>
+                            <SegmentedRadioGroup.Option value={SchemaRendererMode.Overview}>
+                                Overview
+                            </SegmentedRadioGroup.Option>
+                        </SegmentedRadioGroup>
                         {/* {fields.map((field) => (
                             <SchemaRenderer
                                 validateOnBlur={false}
@@ -1123,7 +1204,7 @@ const template = () => {
                             name="test"
                             schema={sch}
                             config={cfg}
-                            mode={SchemaRendererMode.Form}
+                            mode={mode}
                             userContext={userContext}
                         />
                         <SchemaRenderer
@@ -1132,14 +1213,14 @@ const template = () => {
                             name="test2"
                             schema={sch}
                             config={cfg}
-                            mode={SchemaRendererMode.Form}
+                            mode={mode}
                             userContext={userContext}
                         />
                         {/* <SchemaRenderer
                             name="raz"
                             schema={sch}
                             config={cfg}
-                            mode={SchemaRendererMode.Form}
+                            mode={mode}
                             userContext={userContext}
                         /> */}
 

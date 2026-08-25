@@ -44,7 +44,7 @@ const AlertComponent: NodeEntity<JsonSchemaString, AlertProps> = ({props, schema
     }, [message, schema.description]);
 
     return (
-        <EntityContainer stretch="fit">
+        <EntityContainer stretch="fit" fill="populated">
             <UIKitAlert icon={icon} message={msg} {...entityRestProps} />
         </EntityContainer>
     );

@@ -9,4 +9,10 @@
         width: 100%;
         flex: 1 0 0;
     }
+
+    &_hide-empty {
+        &:not(:has([data-fill='populated'])) {
+            display: none;
+        }
+    }
 }

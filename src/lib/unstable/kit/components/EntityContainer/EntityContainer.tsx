@@ -9,18 +9,20 @@ import './EntityContainer.scss';
 const b = block('entity-container');
 
 export interface EntityContainerProps extends FlexProps {
-    stretch: 'max' | 'fit' | 'by-child';
     children: React.ReactNode;
+    fill?: 'populated' | 'empty' | 'by-child';
+    stretch: 'max' | 'fit' | 'by-child';
 }
 
 const EntityContainerComponent: React.FC<EntityContainerProps> = ({
-    stretch,
     children,
+    fill,
+    stretch,
     ...restFlexProps
 }) => {
     return (
-        <div className={b({stretch})} data-stretch={stretch}>
-            <Flex direction="column" {...restFlexProps} grow={1}>
+        <div className={b({stretch})} data-stretch={stretch} data-fill={fill}>
+            <Flex direction="column" minWidth={0} {...restFlexProps} grow={1}>
                 {children}
             </Flex>
         </div>

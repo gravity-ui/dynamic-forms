@@ -1,7 +1,12 @@
 import React from 'react';
 
-import {type JsonSchemaObject, type NodeEntity, SchemaRendererNode} from '../../../core';
-import {EntityContainer} from '../../components';
+import {
+    type JsonSchemaObject,
+    type NodeEntity,
+    SchemaRendererMode,
+    SchemaRendererNode,
+} from '../../../core';
+import {EmptyEntityValue, EntityContainer} from '../../components';
 
 export interface ObjectBaseProps {
     disabled?: boolean;
@@ -10,6 +15,7 @@ export interface ObjectBaseProps {
 
 const ObjectBaseComponent: NodeEntity<JsonSchemaObject, ObjectBaseProps> = ({
     headName,
+    mode,
     input,
     props,
     schema,
@@ -17,8 +23,14 @@ const ObjectBaseComponent: NodeEntity<JsonSchemaObject, ObjectBaseProps> = ({
 }) => {
     const {name} = input;
 
+    const overviewFlag = mode === SchemaRendererMode.Overview;
+
+    if (overviewFlag && !Object.keys(schema.properties || {}).length) {
+        return <EmptyEntityValue />;
+    }
+
     return (
-        <EntityContainer stretch="by-child">
+        <EntityContainer stretch="by-child" fill="by-child">
             {(props.order || Object.keys(schema.properties || {})).map((property: string) => (
                 <SchemaRendererNode
                     headName={headName}

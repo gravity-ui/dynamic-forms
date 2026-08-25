@@ -1,6 +1,3 @@
-export {Alert, type AlertProps} from './Alert';
-export {ArrayBase, type ArrayBaseProps} from './ArrayBase';
-export {ArrayTable, type ArrayTableProps} from './ArrayTable';
 export {Checkbox, type CheckboxProps} from './Checkbox';
 export {CheckboxGroup, type CheckboxGroupProps} from './CheckboxGroup';
 export {ColorPicker, type ColorPickerProps} from './ColorPicker';
