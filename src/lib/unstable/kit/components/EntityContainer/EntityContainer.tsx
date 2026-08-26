@@ -14,7 +14,7 @@ export interface EntityContainerProps extends FlexProps {
     stretch: 'max' | 'fit' | 'by-child';
 }
 
-const EntityContainerComponent: React.FC<EntityContainerProps> = ({
+export const EntityContainer: React.FC<EntityContainerProps> = ({
     children,
     fill,
     stretch,
@@ -28,5 +28,3 @@ const EntityContainerComponent: React.FC<EntityContainerProps> = ({
         </div>
     );
 };
-
-export const EntityContainer = React.memo(EntityContainerComponent);

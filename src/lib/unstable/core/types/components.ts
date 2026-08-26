@@ -25,7 +25,7 @@ export interface NodeLayoutProps<Schema extends JsonSchema, Props extends Record
 export type NodeLayout<
     Schema extends JsonSchema,
     Props extends Record<string, any> = {},
-> = React.ComponentType<NodeLayoutProps<Schema, Props>>;
+> = React.FC<NodeLayoutProps<Schema, Props>>;
 
 export interface NodeEntityProps<
     Schema extends JsonSchema,
@@ -45,4 +45,4 @@ export type NodeEntity<
     Schema extends JsonSchema,
     Props extends Record<string, any> = {},
     LayoutProps extends Record<string, any> = {},
-> = React.ComponentType<NodeEntityProps<Schema, Props, LayoutProps>>;
+> = React.FC<NodeEntityProps<Schema, Props, LayoutProps>>;

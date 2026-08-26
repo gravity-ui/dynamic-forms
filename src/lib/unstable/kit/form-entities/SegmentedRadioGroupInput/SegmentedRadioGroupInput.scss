@@ -1,0 +1,19 @@
+@import '../../styles/variables.scss';
+
+.#{$ns}segmented-radio-group-input {
+    &_error {
+        .g-segmented-radio-group {
+            .g-segmented-radio-group__option_checked {
+                &:hover {
+                    &::after {
+                        border: 1px solid var(--g-color-text-danger);
+                    }
+                }
+
+                &::after {
+                    border: 1px solid var(--g-color-text-danger);
+                }
+            }
+        }
+    }
+}

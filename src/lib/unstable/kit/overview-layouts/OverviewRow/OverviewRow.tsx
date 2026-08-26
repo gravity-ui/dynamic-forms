@@ -10,7 +10,7 @@ import './OverviewRow.scss';
 
 const b = block('overview-row');
 
-const Component: NodeLayout<JsonSchema> = ({children, input, schema, props}) => {
+export const OverviewRow: NodeLayout<JsonSchema> = ({children, input, schema, props}) => {
     const tooltip = React.useMemo(() => {
         if (!schema.description) {
             return null;
@@ -45,5 +45,3 @@ const Component: NodeLayout<JsonSchema> = ({children, input, schema, props}) => 
         </LayoutContainer>
     );
 };
-
-export const OverviewRow = React.memo(Component);

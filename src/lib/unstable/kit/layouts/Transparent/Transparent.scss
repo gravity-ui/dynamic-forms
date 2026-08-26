@@ -1,0 +1,20 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}transparent {
+    margin-bottom: spacing(4);
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &:hover {
+        .#{$ns}transparent__copy-button {
+            display: block;
+        }
+    }
+
+    &__copy-button {
+        display: none;
+    }
+}

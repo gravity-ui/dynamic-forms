@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {ClipboardButton} from '@gravity-ui/uikit';
-import {isNumber, isString} from 'lodash';
+import isNumber from 'lodash/isNumber';
+import isString from 'lodash/isString';
 
 import {block} from '../../utils';
 
@@ -15,7 +16,7 @@ export interface CopyButtonProps {
     value: unknown;
 }
 
-const CopyButtonComponent: React.FC<CopyButtonProps> = ({className, copy, value}) => {
+export const CopyButton: React.FC<CopyButtonProps> = ({className, copy, value}) => {
     if (copy && (isString(value) || isNumber(value))) {
         return (
             <div className={b(null, className)}>
@@ -26,5 +27,3 @@ const CopyButtonComponent: React.FC<CopyButtonProps> = ({className, copy, value}
 
     return null;
 };
-
-export const CopyButton = React.memo(CopyButtonComponent);

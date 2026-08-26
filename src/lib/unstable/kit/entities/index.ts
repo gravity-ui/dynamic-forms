@@ -1,5 +1,11 @@
 export {Alert, type AlertProps} from './Alert';
-export {ArrayBase, type ArrayBaseProps} from './ArrayBase';
+export {ArrayEntity, type ArrayEntityProps} from './ArrayEntity';
 export {ArrayTable, type ArrayTableProps} from './ArrayTable';
+export {DotValue, type DotValueProps} from './DotValue';
+export {FewOfNested, type FewOfNestedProps} from './FewOfNested';
+export {Label, type LabelProps} from './Label';
 export {Monaco, type MonacoProps} from './Monaco';
-export {ObjectBase, type ObjectBaseProps} from './ObjectBase';
+export {ObjectEntity, type ObjectEntityProps} from './ObjectEntity';
+export {ObjectInline, type ObjectInlineProps} from './ObjectInline';
+export {OneOfNested, type OneOfNestedProps} from './OneOfNested';
+export {TextContent, type TextContentProps} from './TextContent';

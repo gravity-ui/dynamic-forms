@@ -1,0 +1,35 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}form-row {
+    margin-bottom: spacing(4);
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &__left {
+        display: inline;
+        min-width: 180px;
+        width: 180px;
+        min-height: 28px;
+        padding-top: 4.5px;
+    }
+
+    &__title {
+        min-height: 18px;
+        margin-right: spacing(1);
+
+        &_required {
+            &::after {
+                content: '*';
+                margin-left: spacing(1);
+                color: var(--g-color-text-danger);
+            }
+        }
+    }
+
+    &__help-mark {
+        margin-top: 1.5px;
+    }
+}

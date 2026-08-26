@@ -16,7 +16,7 @@ export interface AlertProps extends UIKitAlertProps {
     iconProps?: Partial<IconProps>;
 }
 
-const AlertComponent: NodeEntity<JsonSchemaString, AlertProps> = ({props, schema}) => {
+export const Alert: NodeEntity<JsonSchemaString, AlertProps> = ({props, schema}) => {
     const {iconName, iconProps, message, ...entityRestProps} = props;
 
     const icon = React.useMemo(
@@ -49,5 +49,3 @@ const AlertComponent: NodeEntity<JsonSchemaString, AlertProps> = ({props, schema
         </EntityContainer>
     );
 };
-
-export const Alert = React.memo(AlertComponent);
