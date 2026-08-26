@@ -25,7 +25,7 @@ export interface MonacoProps
     withoutDialog?: boolean;
 }
 
-const MonacoComponent: NodeEntity<JsonSchemaString, MonacoProps> = ({
+export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
     headName,
     input,
     meta,
@@ -207,5 +207,3 @@ const MonacoComponent: NodeEntity<JsonSchemaString, MonacoProps> = ({
         </EntityContainer>
     );
 };
-
-export const Monaco = React.memo(MonacoComponent);

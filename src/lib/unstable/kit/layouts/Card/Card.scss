@@ -1,0 +1,51 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}card {
+    margin-bottom: spacing(4);
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &:hover {
+        .#{$ns}card__copy-button {
+            display: block;
+        }
+    }
+
+    &__inner {
+        display: flex;
+        flex-direction: column;
+        gap: spacing(4);
+
+        &_hidden {
+            gap: 0;
+
+            & > .#{$ns}card__content {
+                opacity: 0;
+                height: 0;
+            }
+        }
+    }
+
+    &__card {
+        padding: spacing(4);
+    }
+
+    &__header {
+        min-height: 28px;
+    }
+
+    &__header-actions {
+        margin-left: spacing(3);
+    }
+
+    &__toggler {
+        width: 28px;
+    }
+
+    &__copy-button {
+        display: none;
+    }
+}

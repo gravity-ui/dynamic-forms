@@ -30,6 +30,8 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
 }) => {
     const form = useForm();
 
+    const firstRenderRef = React.useRef(true);
+    const pendingTicksRef = React.useRef({input: 0, meta: 0});
     const fieldRef = React.useRef<FieldState<any>>(null);
     const unsubscribeRef = React.useRef<() => void>(null);
     const [ticks, setTicks] = React.useState({input: 0, meta: 0});
@@ -88,7 +90,14 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
                     }
 
                     if (inputTick + metaTick) {
-                        setTicks((t) => ({input: t.input + inputTick, meta: t.meta + metaTick}));
+                        if (firstRenderRef.current) {
+                            pendingTicksRef.current = {input: inputTick, meta: metaTick};
+                        } else {
+                            setTicks((t) => ({
+                                input: t.input + inputTick,
+                                meta: t.meta + metaTick,
+                            }));
+                        }
                     }
                 }
 
@@ -129,6 +138,15 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
     }, [error, form, name, ticks.meta]);
 
     React.useEffect(() => {
+        firstRenderRef.current = false;
+
+        if (pendingTicksRef.current.input || pendingTicksRef.current.meta) {
+            setTicks((t) => ({
+                input: t.input + pendingTicksRef.current.input,
+                meta: t.meta + pendingTicksRef.current.meta,
+            }));
+        }
+
         return () => {
             unsubscribeRef.current?.();
         };

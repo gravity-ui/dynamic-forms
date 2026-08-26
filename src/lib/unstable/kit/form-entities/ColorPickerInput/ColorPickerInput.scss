@@ -1,0 +1,15 @@
+@import '../../styles/variables.scss';
+
+.#{$ns}color-picker-input {
+    .g-color-picker__picker-wrapper {
+        width: 100%;
+    }
+
+    &_error {
+        .g-color-picker__picker-wrapper {
+            .g-text-input__content {
+                border: 1px solid var(--g-color-text-danger);
+            }
+        }
+    }
+}

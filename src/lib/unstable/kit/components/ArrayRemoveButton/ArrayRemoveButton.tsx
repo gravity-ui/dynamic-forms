@@ -12,11 +12,7 @@ export interface ArrayRemoveButtonProps {
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const ArrayRemoveButtonComponent: React.FC<ArrayRemoveButtonProps> = ({
-    name,
-    headName,
-    onClick,
-}) => {
+export const ArrayRemoveButton: React.FC<ArrayRemoveButtonProps> = ({name, headName, onClick}) => {
     const form = useForm();
 
     const [ready, setReady] = React.useState(false);
@@ -58,5 +54,3 @@ const ArrayRemoveButtonComponent: React.FC<ArrayRemoveButtonProps> = ({
 
     return null;
 };
-
-export const ArrayRemoveButton = React.memo(ArrayRemoveButtonComponent);

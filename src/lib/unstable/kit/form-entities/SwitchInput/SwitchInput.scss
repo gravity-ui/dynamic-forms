@@ -1,0 +1,23 @@
+@import '../../styles/variables.scss';
+
+.#{$ns}switch-input {
+    min-height: 28px;
+
+    &_error {
+        .g-switch {
+            .g-switch__indicator {
+                &:hover {
+                    &::before {
+                        border: 1px solid var(--g-color-text-danger);
+                        box-sizing: border-box;
+                    }
+                }
+
+                &::before {
+                    border: 1px solid var(--g-color-text-danger);
+                    box-sizing: border-box;
+                }
+            }
+        }
+    }
+}

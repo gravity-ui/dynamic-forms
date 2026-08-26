@@ -1,25 +1,25 @@
-export {Checkbox, type CheckboxProps} from './Checkbox';
-export {CheckboxGroup, type CheckboxGroupProps} from './CheckboxGroup';
-export {ColorPicker, type ColorPickerProps} from './ColorPicker';
+export {CheckboxInput, type CheckboxInputProps} from './CheckboxInput';
+export {CheckboxGroupInput, type CheckboxGroupInputProps} from './CheckboxGroupInput';
+export {ColorPickerInput, type ColorPickerInputProps} from './ColorPickerInput';
 export {DateInput, type DateInputProps} from './DateInput';
-export {FewOfNested, type FewOfNestedProps} from './FewOfNested';
 export {FileInput, type FileInputProps} from './FileInput';
-export {Label, type LabelProps} from './Label';
-export {MultiSelect, type MultiSelectProps} from './MultiSelect';
-export {NumberBase, type NumberBaseProps} from './NumberBase';
-export {NumberWithScale, type NumberWithScaleProps} from './NumberWithScale';
-export {ObjectInline, type ObjectInlineProps} from './ObjectInline';
-export {OneOfNested, type OneOfNestedProps} from './OneOfNested';
-export {DotValue, type DotValueProps} from './DotValue';
-export {Password, type PasswordProps} from './Password';
-export {RadioGroup, type RadioGroupProps} from './RadioGroup';
+export {MultiSelectInput, type MultiSelectInputProps} from './MultiSelectInput';
+export {NumberInput, type NumberInputProps} from './NumberInput';
+export {NumberWithScaleInput, type NumberWithScaleInputProps} from './NumberWithScaleInput';
+export {PasswordInput, type PasswordInputProps} from './PasswordInput';
+export {RadioGroupInput, type RadioGroupInputProps} from './RadioGroupInput';
 export {RangeInput, type RangeInputProps} from './RangeInput';
-export {RangeSlider, type RangeSliderProps} from './RangeSlider';
-export {Select, type SelectProps} from './Select';
-export {SegmentedRadioGroup, type SegmentedRadioGroupProps} from './SegmentedRadioGroup';
-export {Slider, type SliderProps} from './Slider';
-export {StringBase, type StringBaseProps} from './StringBase';
-export {StringNumberWithScale, type StringNumberWithScaleProps} from './StringNumberWithScale';
-export {Switch, type SwitchProps} from './Switch';
-export {TextArea, type TextAreaProps} from './TextArea';
-export {TextContent, type TextContentProps} from './TextContent';
+export {RangeSliderInput, type RangeSliderInputProps} from './RangeSliderInput';
+export {SelectInput, type SelectInputProps} from './SelectInput';
+export {
+    SegmentedRadioGroupInput,
+    type SegmentedRadioGroupInputProps,
+} from './SegmentedRadioGroupInput';
+export {SliderInput, type SliderInputProps} from './SliderInput';
+export {StringInput, type StringInputProps} from './StringInput';
+export {
+    StringNumberWithScaleInput,
+    type StringNumberWithScaleInputProps,
+} from './StringNumberWithScaleInput';
+export {SwitchInput, type SwitchInputProps} from './SwitchInput';
+export {TextAreaInput, type TextAreaInputProps} from './TextAreaInput';

@@ -13,6 +13,7 @@ import {
     useSchemaRendererTools,
 } from '../../../core';
 import {EntityContainer} from '../../components';
+import {DASH} from '../../constants';
 import {block} from '../../utils';
 
 import './RangeInput.scss';
@@ -21,16 +22,17 @@ const b = block('range-input');
 
 export interface RangeInputProps {
     propertyKeys?: [string, string];
+    separator?: string;
 }
 
-const RangeInputComponent: NodeEntity<JsonSchemaObject, RangeInputProps> = ({
+export const RangeInput: NodeEntity<JsonSchemaObject, RangeInputProps> = ({
     headName,
     input,
     props,
     schemaPath,
 }) => {
     const {name, value: inputValue} = input;
-    const {propertyKeys} = props;
+    const {propertyKeys, separator = DASH} = props;
 
     const prevValueRef = React.useRef<ObjectValue | null | undefined>(null);
     const {addSchemaPatches, removeSchemaPatches} = useSchemaRendererTools();
@@ -98,7 +100,7 @@ const RangeInputComponent: NodeEntity<JsonSchemaObject, RangeInputProps> = ({
                     name={fromName}
                     schemaPath={`${schemaPath}/properties/${fromKey}`}
                 />
-                <Text className={b('delimiter')}>-</Text>
+                <Text className={b('delimiter')}>{separator}</Text>
                 <SchemaRendererNode
                     headName={headName}
                     name={toName}
@@ -108,5 +110,3 @@ const RangeInputComponent: NodeEntity<JsonSchemaObject, RangeInputProps> = ({
         </EntityContainer>
     );
 };
-
-export const RangeInput = React.memo(RangeInputComponent);

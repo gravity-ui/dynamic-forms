@@ -13,7 +13,7 @@ export interface LongValueProps extends Omit<TextProps, 'children'> {
     value?: string | number | boolean;
 }
 
-const LongValueComponent: React.FC<LongValueProps> = ({
+export const LongValue: React.FC<LongValueProps> = ({
     className,
     color,
     onClick,
@@ -77,5 +77,3 @@ const LongValueComponent: React.FC<LongValueProps> = ({
         </Text>
     );
 };
-
-export const LongValue = React.memo(LongValueComponent);

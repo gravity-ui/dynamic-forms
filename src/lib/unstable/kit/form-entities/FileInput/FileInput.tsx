@@ -16,7 +16,7 @@ export interface FileInputProps
     readAsMethod?: 'readAsBinaryString' | 'readAsDataURL' | 'readAsText';
 }
 
-const FileInputComponent: NodeEntity<JsonSchemaString, FileInputProps> = ({
+export const FileInput: NodeEntity<JsonSchemaString, FileInputProps> = ({
     input,
     meta,
     props,
@@ -92,5 +92,3 @@ const FileInputComponent: NodeEntity<JsonSchemaString, FileInputProps> = ({
         </EntityContainer>
     );
 };
-
-export const FileInput = React.memo(FileInputComponent);

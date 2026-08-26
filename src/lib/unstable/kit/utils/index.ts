@@ -10,3 +10,4 @@ export {
     isStringNumber,
     isTupleItem,
 } from './common';
+export {parseDate} from './date';

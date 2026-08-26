@@ -13,7 +13,7 @@ export interface LayoutContainerProps extends FlexProps {
     hideEmpty?: boolean;
 }
 
-const LayoutContainerComponent: React.FC<LayoutContainerProps> = ({
+export const LayoutContainer: React.FC<LayoutContainerProps> = ({
     className,
     children,
     hideEmpty = false,
@@ -25,5 +25,3 @@ const LayoutContainerComponent: React.FC<LayoutContainerProps> = ({
         </Flex>
     );
 };
-
-export const LayoutContainer = React.memo(LayoutContainerComponent);

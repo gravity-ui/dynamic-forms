@@ -1,0 +1,23 @@
+@import '../../styles/variables.scss';
+
+.#{$ns}checkbox-input {
+    min-height: 28px;
+    display: flex;
+    justify-content: center;
+
+    &_error {
+        .g-control-label {
+            .g-checkbox__indicator {
+                &:hover {
+                    &::before {
+                        border: 1px solid var(--g-color-text-danger);
+                    }
+                }
+
+                &::before {
+                    border: 1px solid var(--g-color-text-danger);
+                }
+            }
+        }
+    }
+}

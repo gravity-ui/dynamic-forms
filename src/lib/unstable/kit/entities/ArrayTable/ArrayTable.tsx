@@ -10,7 +10,7 @@ import {
     SchemaRendererMode,
     SchemaRendererNode,
 } from '../../../core';
-import {ArrayRemoveButton, EmptyEntityValue, EntityContainer} from '../../components';
+import {ArrayRemoveButton, EmptyEntityValue, EntityContainer, HTMLContent} from '../../components';
 import {block} from '../../utils';
 
 import './ArrayTable.scss';
@@ -23,7 +23,7 @@ export interface ArrayTableProps {
     disabled?: boolean;
 }
 
-const ArrayTableComponent: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
+export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
     headName,
     input,
     mode,
@@ -135,7 +135,9 @@ const ArrayTableComponent: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
                                 <div className={b('column-title-word')} key={word}>
                                     <Text variant="subheader-1">{word}</Text>
                                     {wIndex + 1 === array.length && column.schema.description ? (
-                                        <HelpMark>{column.schema.description}</HelpMark>
+                                        <HelpMark>
+                                            <HTMLContent html={column.schema.description} />
+                                        </HelpMark>
                                     ) : null}
                                 </div>
                             ))}
@@ -190,5 +192,3 @@ const ArrayTableComponent: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
         </EntityContainer>
     );
 };
-
-export const ArrayTable = React.memo(ArrayTableComponent);

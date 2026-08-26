@@ -1,0 +1,10 @@
+@import '../../styles/variables.scss';
+
+.#{$ns}color-picker-value {
+    &__preview {
+        width: 14px;
+        height: 14px;
+        margin-top: -1px;
+        border-radius: var(--g-border-radius-xs);
+    }
+}
