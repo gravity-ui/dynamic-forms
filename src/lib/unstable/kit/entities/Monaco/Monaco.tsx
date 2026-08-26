@@ -12,7 +12,7 @@ import {
     useSchemaRendererState,
     useSchemaRendererTools,
 } from '../../../core';
-import {EntityContainer} from '../../components';
+import {EmptyEntityValue, EntityContainer} from '../../components';
 import {block, getBooleanValidationState} from '../../utils';
 
 import './Monaco.scss';
@@ -34,6 +34,8 @@ const MonacoComponent: NodeEntity<JsonSchemaString, MonacoProps> = ({
     schema,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
+
+    const overviewFlag = mode === SchemaRendererMode.Overview;
 
     const {
         language = 'plaintext',
@@ -61,7 +63,7 @@ const MonacoComponent: NodeEntity<JsonSchemaString, MonacoProps> = ({
     const options: MonacoEditorProps['options'] = React.useMemo(
         () => ({
             fontSize: 12,
-            readOnly: mode === SchemaRendererMode.Overview || schema.readOnly,
+            readOnly: overviewFlag || schema.readOnly,
             formatOnPaste: true,
             formatOnType: true,
             contextmenu: false,
@@ -70,7 +72,7 @@ const MonacoComponent: NodeEntity<JsonSchemaString, MonacoProps> = ({
             automaticLayout: true,
             ...optionsProps,
         }),
-        [mode, optionsProps, schema.readOnly],
+        [optionsProps, overviewFlag, schema.readOnly],
     );
 
     const onUpdate = React.useCallback(
@@ -171,6 +173,10 @@ const MonacoComponent: NodeEntity<JsonSchemaString, MonacoProps> = ({
         return null;
     }
 
+    if (overviewFlag && !value) {
+        return <EmptyEntityValue />;
+    }
+
     const control = (
         <MonacoEditor
             {...restEntityProps}
@@ -183,7 +189,11 @@ const MonacoComponent: NodeEntity<JsonSchemaString, MonacoProps> = ({
     );
 
     return (
-        <EntityContainer stretch="max" className={b({error: getBooleanValidationState(meta)})}>
+        <EntityContainer
+            className={b({error: getBooleanValidationState(meta)})}
+            stretch="max"
+            fill="populated"
+        >
             <Container width={width} height={height}>
                 {control}
             </Container>

@@ -36,8 +36,8 @@ const RangeInputComponent: NodeEntity<JsonSchemaObject, RangeInputProps> = ({
     const {addSchemaPatches, removeSchemaPatches} = useSchemaRendererTools();
 
     const [fromKey, toKey] = propertyKeys || ['from', 'to'];
-    const fromName = `${name}.${fromKey}`;
-    const toName = `${name}.${toKey}`;
+    const fromName = `${name ? name + '.' : ''}${fromKey}`;
+    const toName = `${name ? name + '.' : ''}${toKey}`;
 
     React.useEffect(() => {
         const patches: SchemaPatch[] = [];

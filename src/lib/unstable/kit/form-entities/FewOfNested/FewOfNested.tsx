@@ -145,7 +145,7 @@ const FewOfNestedComponent: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
                         <SchemaRendererNode
                             headName={headName}
                             key={togglerValue}
-                            name={`${name}.${togglerValue}`}
+                            name={`${name ? name + '.' : ''}${togglerValue}`}
                             schemaPath={`${schemaPath}/properties/${togglerValue}`}
                         />
                     ))}

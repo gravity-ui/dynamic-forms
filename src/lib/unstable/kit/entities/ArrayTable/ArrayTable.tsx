@@ -7,9 +7,10 @@ import {
     type JsonSchema,
     type JsonSchemaArray,
     type NodeEntity,
+    SchemaRendererMode,
     SchemaRendererNode,
 } from '../../../core';
-import {ArrayRemoveButton, EntityContainer} from '../../components';
+import {ArrayRemoveButton, EmptyEntityValue, EntityContainer} from '../../components';
 import {block} from '../../utils';
 
 import './ArrayTable.scss';
@@ -25,16 +26,19 @@ export interface ArrayTableProps {
 const ArrayTableComponent: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
     headName,
     input,
+    mode,
     props,
     schema,
     schemaPath,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
 
+    const overviewFlag = mode === SchemaRendererMode.Overview;
+
     const addButton = React.useMemo(() => {
         const itemsSchema = schema.items;
 
-        if (Array.isArray(itemsSchema)) {
+        if (Array.isArray(itemsSchema) || overviewFlag) {
             return null;
         }
 
@@ -61,6 +65,7 @@ const ArrayTableComponent: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
         onBlur,
         onChange,
         onFocus,
+        overviewFlag,
         schema.items,
         schema.readOnly,
         value,
@@ -106,6 +111,10 @@ const ArrayTableComponent: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
         if (Array.isArray(schema.items)) {
             tupleItems = true;
             rowsCount = schema.items.length;
+            withRemoveButton = false;
+        }
+
+        if (overviewFlag) {
             withRemoveButton = false;
         }
 
@@ -165,10 +174,14 @@ const ArrayTableComponent: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
         ));
 
         return {head, rows};
-    }, [columns, headName, name, schema.items, schemaPath, value?.length]);
+    }, [columns, headName, name, overviewFlag, schema.items, schemaPath, value?.length]);
+
+    if (overviewFlag && !value?.length) {
+        return <EmptyEntityValue />;
+    }
 
     return (
-        <EntityContainer stretch="by-child" gap={2}>
+        <EntityContainer stretch="by-child" gap={2} fill="by-child">
             <div>
                 {head}
                 {rows}

@@ -12,7 +12,9 @@
 
     &_stretch_fit {
         width: fit-content;
-        flex: 0 0 auto;
+        max-width: 100%;
+        min-width: 0;
+        flex: 0 1 auto;
     }
 
     &_stretch_by-child {

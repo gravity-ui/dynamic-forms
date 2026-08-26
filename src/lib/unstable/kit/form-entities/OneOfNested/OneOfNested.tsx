@@ -140,7 +140,7 @@ const OneOfNestedComponent: NodeEntity<JsonSchemaObject, OneOfNestedProps> = ({
             <div className={b('content', {'with-indent': withIndent})}>
                 <SchemaRendererNode
                     headName={headName}
-                    name={`${name}.${togglerValue}`}
+                    name={`${name ? name + '.' : ''}${togglerValue}`}
                     schemaPath={`${schemaPath}/properties/${togglerValue}`}
                 />
             </div>

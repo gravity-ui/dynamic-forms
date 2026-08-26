@@ -1,9 +1,6 @@
 import {NodeType, type NodesConfig} from '../../core';
-import {Monaco, ObjectBase} from '../entities';
+import {Alert, ArrayBase, ArrayTable, Monaco, ObjectBase} from '../entities';
 import {
-    Alert,
-    ArrayBase,
-    ArrayTable,
     Checkbox,
     CheckboxGroup,
     ColorPicker,
@@ -31,6 +28,8 @@ import {
     TextContent,
 } from '../form-entities';
 import {Accordeon, Card, ColumnRow, Row, Section, Transparent} from '../form-layouts';
+import {OverviewBooleanBase, OverviewStringBase} from '../overview-entities';
+import {OverviewRow} from '../overview-layouts';
 
 export const untypedConfig = {
     [NodeType.Any]: {
@@ -46,7 +45,9 @@ export const untypedConfig = {
             card: {Component: Card},
         },
         overviewEntities: {},
-        overviewLayouts: {},
+        overviewLayouts: {
+            row: {Component: OverviewRow},
+        },
         validators: {},
     },
     [NodeType.Array]: {
@@ -64,8 +65,13 @@ export const untypedConfig = {
             accordeon: {Component: Accordeon},
             card: {Component: Card},
         },
-        overviewEntities: {},
-        overviewLayouts: {},
+        overviewEntities: {
+            base: {Component: ArrayBase},
+            table: {Component: ArrayTable},
+        },
+        overviewLayouts: {
+            row: {Component: OverviewRow},
+        },
         validators: {},
     },
     [NodeType.Boolean]: {
@@ -77,8 +83,13 @@ export const untypedConfig = {
             transparent: {Component: Transparent},
             card: {Component: Card},
         },
-        overviewEntities: {},
-        overviewLayouts: {},
+        overviewEntities: {
+            base: {Component: OverviewBooleanBase},
+            switch: {Component: OverviewBooleanBase},
+        },
+        overviewLayouts: {
+            row: {Component: OverviewRow},
+        },
         validators: {},
     },
     [NodeType.Number]: {
@@ -96,7 +107,9 @@ export const untypedConfig = {
             card: {Component: Card},
         },
         overviewEntities: {},
-        overviewLayouts: {},
+        overviewLayouts: {
+            row: {Component: OverviewRow},
+        },
         validators: {},
     },
     [NodeType.Object]: {
@@ -120,7 +133,9 @@ export const untypedConfig = {
         overviewEntities: {
             base: {Component: ObjectBase},
         },
-        overviewLayouts: {},
+        overviewLayouts: {
+            row: {Component: OverviewRow},
+        },
         validators: {},
     },
     [NodeType.String]: {
@@ -148,9 +163,23 @@ export const untypedConfig = {
             card: {Component: Card},
         },
         overviewEntities: {
+            base: {Component: OverviewStringBase},
+            color_picker: {Component: OverviewStringBase},
+            // file: {Component: OverviewStringBase},
+            password: {Component: OverviewStringBase},
+            radio_group: {Component: OverviewStringBase},
+            segmented_radio_group: {Component: OverviewStringBase},
+            select: {Component: OverviewStringBase},
+            textarea: {Component: OverviewStringBase},
+            // text_content: {Component: OverviewStringBase},
+            // label: {Component: OverviewStringBase},
+            alert: {Component: Alert},
+            // string_number_with_scale: {Component: OverviewStringBase},
             monaco: {Component: Monaco},
         },
-        overviewLayouts: {},
+        overviewLayouts: {
+            row: {Component: OverviewRow},
+        },
         validators: {},
     },
 } as const;

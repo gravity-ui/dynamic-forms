@@ -1,0 +1,50 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}overview-row {
+    max-width: 100%;
+    margin-bottom: spacing(4);
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &:hover {
+        .#{$ns}overview-row__copy-button {
+            display: block;
+        }
+    }
+
+    &__left {
+        width: 300px;
+        flex-shrink: 0;
+        min-height: 20px;
+        display: flex;
+        align-items: baseline;
+    }
+
+    &__title {
+        min-height: 18px;
+    }
+
+    &__help-mark {
+        min-width: 16px;
+        margin-left: spacing(1);
+        margin-top: 1.5px;
+    }
+
+    &__dots {
+        min-width: 25px;
+        flex-grow: 1;
+        margin: 0 spacing(0.5);
+        border-bottom: 1px dotted var(--g-color-text-secondary);
+    }
+
+    &__right {
+        min-width: 0;
+    }
+
+    &__copy-button {
+        display: none;
+    }
+}

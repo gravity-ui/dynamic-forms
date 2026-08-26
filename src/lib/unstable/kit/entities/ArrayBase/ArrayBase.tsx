@@ -3,8 +3,13 @@ import React from 'react';
 import {Plus} from '@gravity-ui/icons';
 import {Button, Flex, Icon} from '@gravity-ui/uikit';
 
-import {type JsonSchemaArray, type NodeEntity, SchemaRendererNode} from '../../../core';
-import {EntityContainer} from '../../components';
+import {
+    type JsonSchemaArray,
+    type NodeEntity,
+    SchemaRendererMode,
+    SchemaRendererNode,
+} from '../../../core';
+import {EmptyEntityValue, EntityContainer} from '../../components';
 
 export interface ArrayBaseProps {
     addButtonText?: string;
@@ -15,16 +20,19 @@ export interface ArrayBaseProps {
 const ArrayBaseComponent: NodeEntity<JsonSchemaArray, ArrayBaseProps> = ({
     headName,
     input,
+    mode,
     props,
     schema,
     schemaPath,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
 
+    const overviewFlag = mode === SchemaRendererMode.Overview;
+
     const addButton = React.useMemo(() => {
         const itemsSchema = schema.items;
 
-        if (Array.isArray(itemsSchema)) {
+        if (Array.isArray(itemsSchema) || overviewFlag) {
             return null;
         }
 
@@ -51,6 +59,7 @@ const ArrayBaseComponent: NodeEntity<JsonSchemaArray, ArrayBaseProps> = ({
         onBlur,
         onChange,
         onFocus,
+        overviewFlag,
         schema.items,
         schema.readOnly,
         value,
@@ -82,8 +91,12 @@ const ArrayBaseComponent: NodeEntity<JsonSchemaArray, ArrayBaseProps> = ({
             ));
     }, [headName, name, schema.items, schemaPath, value?.length]);
 
+    if (overviewFlag && !value?.length) {
+        return <EmptyEntityValue />;
+    }
+
     return (
-        <EntityContainer stretch="by-child" gap={4}>
+        <EntityContainer stretch="by-child" gap={4} fill="by-child">
             <Flex direction="column">{items}</Flex>
             {addButton}
         </EntityContainer>
