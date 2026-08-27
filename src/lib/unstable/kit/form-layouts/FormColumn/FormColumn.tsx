@@ -44,7 +44,7 @@ export const FormColumn: NodeLayout<JsonSchema, FormColumnProps> = ({
 
     return (
         <LayoutContainer className={b()} gap={2}>
-            <Flex direction="column" gap={0.5} grow={1}>
+            <Flex direction="column" gap={0.5}>
                 <div className={b('top')}>
                     <Text className={b('title', {required: props.required})} wordBreak="break-word">
                         {schema.title}
@@ -54,7 +54,7 @@ export const FormColumn: NodeLayout<JsonSchema, FormColumnProps> = ({
                 </div>
                 {bottomDescription}
             </Flex>
-            <Flex className={b('bottom')} direction="column" gap={0.5} grow={1}>
+            <Flex className={b('bottom')} direction="column" gap={0.5}>
                 {children}
                 <EntityError errorMessage={meta.error} validationState={getValidationState(meta)} />
             </Flex>

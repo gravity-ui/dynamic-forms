@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {ChevronsCollapseUpRight, ChevronsExpandUpRight, Code} from '@gravity-ui/icons';
-import {Button, Dialog, Flex, Icon, Text} from '@gravity-ui/uikit';
+import {Dialog} from '@gravity-ui/uikit';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
 import {
@@ -12,7 +11,7 @@ import {
     useSchemaRendererState,
     useSchemaRendererTools,
 } from '../../../core';
-import {EmptyEntityValue, EntityContainer} from '../../components';
+import {EmptyEntityValue, EntityContainer, MonacoContainer} from '../../components';
 import {block, getBooleanValidationState} from '../../utils';
 
 import './Monaco.scss';
@@ -22,7 +21,7 @@ const b = block('monaco');
 export interface MonacoProps
     extends Omit<MonacoEditorProps, 'defaultValue' | 'value' | 'onChange'> {
     ignoreMonacoErrors?: boolean;
-    withoutDialog?: boolean;
+    withDialog?: boolean;
 }
 
 export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
@@ -40,7 +39,7 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
     const {
         language = 'plaintext',
         options: optionsProps,
-        withoutDialog = true,
+        withDialog = true,
         ignoreMonacoErrors = false,
         width = '100%',
         height = 350,
@@ -82,41 +81,6 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
             onBlur();
         },
         [onFocus, onChange, onBlur],
-    );
-
-    const Container: React.FC<
-        React.PropsWithChildren<{
-            dialog?: boolean;
-            width: string | number;
-            height: string | number;
-        }>
-    > = React.useCallback(
-        ({children, dialog, width, height}) => (
-            <div className={b('container')} data-qa={name}>
-                <Flex alignItems="center" justifyContent="space-between" className={b('header')}>
-                    <Flex alignItems="center" gap={1}>
-                        <Icon data={Code} size={16} />
-                        <Text variant="subheader-1">{language}</Text>
-                    </Flex>
-                    {withoutDialog ? (
-                        <Button
-                            onClick={toggleDialogOpen}
-                            view="flat-secondary"
-                            qa={`${name}-dialog-open`}
-                        >
-                            <Icon
-                                data={dialog ? ChevronsCollapseUpRight : ChevronsExpandUpRight}
-                                size={16}
-                            />
-                        </Button>
-                    ) : null}
-                </Flex>
-                <div className={b('control')} style={{width, height}}>
-                    <div className={b('control-inner')}>{children}</div>
-                </div>
-            </div>
-        ),
-        [name, language, withoutDialog, toggleDialogOpen],
     );
 
     const editorDidMount: MonacoEditorProps['editorDidMount'] = React.useMemo(() => {
@@ -194,14 +158,30 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
             stretch="max"
             fill="populated"
         >
-            <Container width={width} height={height}>
+            <MonacoContainer
+                dialog={false}
+                height={height}
+                language={language}
+                toggleDialogVisibility={toggleDialogOpen}
+                width={width}
+                withDialog={withDialog}
+                qa={name}
+            >
                 {control}
-            </Container>
+            </MonacoContainer>
             <Dialog open={dialogOpen} onClose={toggleDialogOpen} hasCloseButton={false}>
                 <Dialog.Body className={b('dialog-body')}>
-                    <Container width="80vw" height="90vh" dialog>
+                    <MonacoContainer
+                        dialog={true}
+                        height="90vh"
+                        language={language}
+                        toggleDialogVisibility={toggleDialogOpen}
+                        width="80vw"
+                        withDialog={withDialog}
+                        qa={name}
+                    >
                         {control}
-                    </Container>
+                    </MonacoContainer>
                 </Dialog.Body>
             </Dialog>
         </EntityContainer>

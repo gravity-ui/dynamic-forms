@@ -31,7 +31,7 @@ export const Transparent: NodeLayout<JsonSchema, TransparentProps> = ({
             gap={0.5}
             hideEmpty={isBoolean(props.hideEmpty) ? props.hideEmpty : overviewFlag}
         >
-            <Flex grow={1} gap={2}>
+            <Flex gap={2}>
                 {children}
                 {overviewFlag ? null : <ArrayRemoveButton name={input.name} headName={headName} />}
                 {overviewFlag ? (

@@ -36,7 +36,7 @@ export const ObjectInline: NodeEntity<JsonSchemaObject, ObjectInlineProps> = ({
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
-    if (overviewFlag && !Object.keys(schema.properties || {}).length) {
+    if (overviewFlag && !Object.keys(input.value || {}).length) {
         return <EmptyEntityValue />;
     }
 
