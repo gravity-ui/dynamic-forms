@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Flex, HelpMark, Text, type TextProps} from '@gravity-ui/uikit';
+import {Flex, HelpMark, Text, type TextProps, spacing} from '@gravity-ui/uikit';
 
 import {type JsonSchema, type NodeLayout, SchemaRendererMode} from '../../../core';
 import {
@@ -51,7 +51,9 @@ export const Section: NodeLayout<JsonSchema, SectionProps> = ({
             return null;
         }
 
-        return <HTMLContent html={schema.description} color="secondary" />;
+        return (
+            <HTMLContent className={spacing({mb: 2})} html={schema.description} color="secondary" />
+        );
     }, [schema.description, descriptionType, overviewFlag]);
 
     return (

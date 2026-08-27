@@ -79,7 +79,7 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
             ));
         }
 
-        return new Array(value?.length)
+        return new Array(value?.length ?? 0)
             .fill(null)
             .map((_, index) => (
                 <SchemaRendererNode
@@ -97,7 +97,7 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
 
     return (
         <EntityContainer stretch="by-child" gap={4} fill="by-child">
-            <Flex direction="column">{items}</Flex>
+            {items?.length ? <Flex direction="column">{items}</Flex> : null}
             {addButton}
         </EntityContainer>
     );

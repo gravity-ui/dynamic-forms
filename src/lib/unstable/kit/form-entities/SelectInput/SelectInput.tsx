@@ -84,7 +84,7 @@ export const SelectInput: NodeEntity<JsonSchemaString, SelectInputProps> = ({
                 filterable={(schema.enum?.length || 0) > 9}
                 renderOption={renderOption}
                 getOptionHeight={getOptionHeight}
-                placeholder={schema.examples?.[0]}
+                placeholder={schema.examples?.[0] || ''}
                 disabled={schema.readOnly}
                 {...restEntityProps}
                 value={value}

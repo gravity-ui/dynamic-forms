@@ -55,7 +55,7 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
             return Object.keys(value);
         }
 
-        if (schema.properties && Object.keys(schema.properties).length) {
+        if (!overviewFlag && schema.properties && Object.keys(schema.properties).length) {
             return [Object.keys(schema.properties)[0]];
         }
 

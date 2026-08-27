@@ -92,7 +92,7 @@ export const DateInput: NodeEntity<JsonSchemaAny, DateInputProps> = ({
             <DatePicker
                 format={format}
                 popupPlacement="bottom-start"
-                placeholder={`${schema.examples?.[0]}`}
+                placeholder={`${schema.examples?.[0] || ''}`}
                 disabled={schema.readOnly}
                 hasClear
                 {...restEntityProps}

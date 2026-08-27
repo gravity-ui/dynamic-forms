@@ -6,3 +6,4 @@ export {EntityError, type EntityErrorProps} from './EntityError';
 export {HTMLContent, type HTMLContentProps} from './HTMLContent';
 export {LayoutContainer, type LayoutContainerProps} from './LayoutContainer';
 export {LongValue, type LongValueProps} from './LongValue';
+export {MonacoContainer, type MonacoContainerProps} from './MonacoContainer';
