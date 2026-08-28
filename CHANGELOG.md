@@ -1,5 +1,21 @@
 # Changelog
 
+## [5.21.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.20.0...v5.21.0) (2026-08-28)
+
+
+### Features
+
+* **unstable:** add ability to define default config components props ([#391](https://github.com/gravity-ui/dynamic-forms/issues/391)) ([4f7c3c8](https://github.com/gravity-ui/dynamic-forms/commit/4f7c3c88354f5b4a204bca9d7fe73b55af4d8796))
+* **unstable:** add big numbers support ([#388](https://github.com/gravity-ui/dynamic-forms/issues/388)) ([98e9835](https://github.com/gravity-ui/dynamic-forms/commit/98e98350fdcbfee1b186daeb6325ccd0a06e77d5))
+* **unstable:** add overview entities ([#396](https://github.com/gravity-ui/dynamic-forms/issues/396)) ([32209ed](https://github.com/gravity-ui/dynamic-forms/commit/32209ed7649599a3074c8d5f150faaf3cf52de58))
+* **unstable:** add overview layouts and entities ([#397](https://github.com/gravity-ui/dynamic-forms/issues/397)) ([edc0de7](https://github.com/gravity-ui/dynamic-forms/commit/edc0de7e04a21b0952ae7983e2a21e12de11bbd1))
+* **unstable:** add spec to schema transformer ([#399](https://github.com/gravity-ui/dynamic-forms/issues/399)) ([c1f9e95](https://github.com/gravity-ui/dynamic-forms/commit/c1f9e9577d50c6b557b00ead0354c87fe4335428))
+* **unstable:** add user ctx, add monaco ([#390](https://github.com/gravity-ui/dynamic-forms/issues/390)) ([f64b91d](https://github.com/gravity-ui/dynamic-forms/commit/f64b91d4148d043317c4b84230529cd4ed0dda22))
+* **unstable:** replace ajv wit jsl ([#395](https://github.com/gravity-ui/dynamic-forms/issues/395)) ([285dd8d](https://github.com/gravity-ui/dynamic-forms/commit/285dd8d9b9e19ac2d2a938aa75bd1e4f359e27cd))
+* **unstable:** small fixes + add stories ([#398](https://github.com/gravity-ui/dynamic-forms/issues/398)) ([5fa8f78](https://github.com/gravity-ui/dynamic-forms/commit/5fa8f78f3393c8b56c1dedfdaa4aca1d43f4af88))
+* **unstable:** update core patterns and namings, add subscriptions ([#394](https://github.com/gravity-ui/dynamic-forms/issues/394)) ([e4d0a49](https://github.com/gravity-ui/dynamic-forms/commit/e4d0a497b0d657a4b4b006fefb136402b4cbc19e))
+* warn about unsupported dots in spec property keys ([#393](https://github.com/gravity-ui/dynamic-forms/issues/393)) ([1e45f66](https://github.com/gravity-ui/dynamic-forms/commit/1e45f66309a413623bc544073e082a5a41e610b6))
+
 ## [5.20.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.19.1...v5.20.0) (2026-07-08)
 
 
