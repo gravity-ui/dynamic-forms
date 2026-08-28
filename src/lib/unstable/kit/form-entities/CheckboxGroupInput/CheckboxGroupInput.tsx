@@ -24,7 +24,7 @@ export const CheckboxGroupInput: NodeEntity<JsonSchemaArray, CheckboxGroupInputP
     schema,
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
-    const {enumDescriptions, direction, disabled, optionsDisabled} = props;
+    const {enumDescriptions, direction = 'row', disabled, optionsDisabled} = props;
 
     const value = React.useMemo(
         () => (Array.isArray(inputValue) ? (inputValue as string[]) : []),

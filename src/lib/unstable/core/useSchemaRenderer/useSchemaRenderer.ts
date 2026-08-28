@@ -18,6 +18,7 @@ export interface UseSchemaRendererParams {
     config?: NodesConfig;
     connectValidate?: boolean;
     errorMessages?: ErrorMessages;
+    jsonDefaultValues?: boolean;
     mode: SchemaRendererMode;
     name: string;
     schema: JsonSchema;
@@ -29,6 +30,7 @@ export const useSchemaRenderer = ({
     config,
     connectValidate = true,
     errorMessages,
+    jsonDefaultValues = false,
     mode,
     name: headName,
     schema: originalSchema,
@@ -64,6 +66,7 @@ export const useSchemaRenderer = ({
         const modeUpdated = mode !== prevParams?.mode;
         const schemaUpdated = originalSchema !== prevParams?.schema;
         const userContextUpdated = userContext !== prevParams?.userContext;
+        const settingsUpdated = jsonDefaultValues !== prevParams?.jsonDefaultValues;
 
         const initialState: SchemaRendererState = {
             cache: nameUpdated || schemaUpdated || !prevState?.cache ? {} : prevState.cache,
@@ -83,6 +86,7 @@ export const useSchemaRenderer = ({
                     ? {}
                     : prevState.regularErrors,
             runValidate,
+            settings: {jsonDefaultValues},
             schema:
                 nameUpdated || schemaUpdated ? cloneDeep(originalSchema) : prevState?.schema || {},
             subscribe,
@@ -100,6 +104,7 @@ export const useSchemaRenderer = ({
             ...(modeUpdated ? [SchemaRendererEventType.Mode] : []),
             ...(schemaUpdated ? [SchemaRendererEventType.Schema] : []),
             ...(userContextUpdated ? [SchemaRendererEventType.UserContext] : []),
+            ...(settingsUpdated ? [SchemaRendererEventType.Settings] : []),
         ].map((type) => ({type, all: true}));
 
         unsubscribeRef.current = form.registerField(
@@ -120,6 +125,7 @@ export const useSchemaRenderer = ({
         prevParamsRef.current = {
             config,
             errorMessages,
+            jsonDefaultValues,
             name: headName,
             mode,
             schema: originalSchema,
@@ -133,6 +139,7 @@ export const useSchemaRenderer = ({
         dispatchEvent,
         errorMessages,
         form,
+        jsonDefaultValues,
         headName,
         mode,
         originalSchema,

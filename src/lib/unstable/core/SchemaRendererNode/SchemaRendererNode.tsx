@@ -46,6 +46,7 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
             SchemaRendererEventType.Mode,
             SchemaRendererEventType.Name,
             SchemaRendererEventType.Patch,
+            SchemaRendererEventType.Settings,
             SchemaRendererEventType.Schema,
         ],
     });
@@ -57,6 +58,7 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
 
     const error = srState?.errors[name];
     const mode: SchemaRendererMode | undefined = modeOverride || srState?.mode;
+    const jsonDefaultValues: boolean = srState?.settings?.jsonDefaultValues || false;
 
     const kit = React.useMemo(
         () => getRenderKit({config: srState?.config, schema}),
@@ -68,6 +70,14 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
 
         const initialState: SchemaRendererNodeState = {schemaPath};
 
+        let defaultValue = schema?.default;
+
+        if (jsonDefaultValues && typeof defaultValue === 'string') {
+            try {
+                defaultValue = JSON.parse(defaultValue);
+            } catch {}
+        }
+
         unsubscribeRef.current = form.registerField(
             name,
             (f) => {
@@ -77,14 +87,14 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
                     let inputTick = 0;
                     let metaTick = 0;
 
-                    if (f.value !== prevF?.value) {
+                    if (f.value !== prevF.value) {
                         inputTick = 1;
                     }
 
                     if (
-                        prevF?.submitFailed !== f.submitFailed ||
-                        prevF?.touched !== f.touched ||
-                        prevF?.validating !== f.validating
+                        prevF.submitFailed !== f.submitFailed ||
+                        prevF.touched !== f.touched ||
+                        prevF.validating !== f.validating
                     ) {
                         metaTick = 1;
                     }
@@ -106,11 +116,11 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
             {submitFailed: true, touched: true, validating: true, value: true},
             {
                 data: {state: initialState},
-                defaultValue: schema?.default,
+                defaultValue,
                 validateFields: [getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, headName)],
             },
         );
-    }, [form, headName, name, schema?.default, schema?.type, schemaPath]);
+    }, [form, jsonDefaultValues, headName, name, schema?.default, schema?.type, schemaPath]);
 
     const input: FieldInputProps<any> = React.useMemo(() => {
         const fieldState = form.getFieldState(name);
@@ -120,7 +130,7 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
             onBlur: fieldState?.blur || noop,
             onChange: fieldState?.change || noop,
             onFocus: fieldState?.focus || noop,
-            value: fieldState?.value || undefined,
+            value: fieldState?.value ?? undefined,
         };
     }, [name, form, ticks.input]);
 

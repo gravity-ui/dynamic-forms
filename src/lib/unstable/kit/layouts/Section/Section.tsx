@@ -30,7 +30,13 @@ export const Section: NodeLayout<JsonSchema, SectionProps> = ({
     schema,
     props,
 }) => {
-    const {copy, descriptionType = 'tooltip', withIndent = false, ...restLayoutProps} = props;
+    const {
+        copy,
+        descriptionType = 'tooltip',
+        required,
+        withIndent = false,
+        ...restLayoutProps
+    } = props;
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
@@ -61,7 +67,15 @@ export const Section: NodeLayout<JsonSchema, SectionProps> = ({
             <Flex direction="column" gap={4}>
                 <Flex direction="column">
                     <Flex className={b('header')} gap={2} alignItems="center">
-                        <Text variant="subheader-1" {...restLayoutProps}>
+                        <Text
+                            variant="subheader-1"
+                            {...restLayoutProps}
+                            className={b(
+                                'title',
+                                {required: required && !overviewFlag},
+                                restLayoutProps?.className,
+                            )}
+                        >
                             {schema.title}
                         </Text>
                         {tooltip}

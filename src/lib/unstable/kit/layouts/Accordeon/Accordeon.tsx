@@ -45,6 +45,7 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
 }) => {
     const {
         copy,
+        required,
         titleProps,
         togglerProps,
         withIndent = false,
@@ -62,7 +63,16 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
         return (
             <Flex alignItems="center" gap={2}>
                 {withDefaultSummary ? (
-                    <Text {...titleProps}>{schema.title}</Text>
+                    <Text
+                        {...titleProps}
+                        className={b(
+                            'title',
+                            {required: required && !overviewFlag},
+                            titleProps?.className,
+                        )}
+                    >
+                        {schema.title}
+                    </Text>
                 ) : (
                     <Disclosure.Summary>
                         {(props) => (
@@ -72,7 +82,16 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
                             >
                                 <Flex alignItems="center" gap={2} height="100%">
                                     <Icon data={props.expanded ? ChevronUp : ChevronDown} />
-                                    <Text {...titleProps}>{schema.title}</Text>
+                                    <Text
+                                        {...titleProps}
+                                        className={b(
+                                            'title',
+                                            {required: required && !overviewFlag},
+                                            titleProps?.className,
+                                        )}
+                                    >
+                                        {schema.title}
+                                    </Text>
                                 </Flex>
                             </Button>
                         )}
@@ -101,6 +120,7 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
         input.name,
         input.value,
         overviewFlag,
+        required,
         schema.title,
         schema.description,
         titleProps,

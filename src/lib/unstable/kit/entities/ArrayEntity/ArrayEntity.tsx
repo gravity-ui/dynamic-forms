@@ -10,10 +10,14 @@ import {
     SchemaRendererNode,
 } from '../../../core';
 import {EmptyEntityValue, EntityContainer} from '../../components';
+import {block} from '../../utils';
+
+import './ArrayEntity.scss';
+
+const b = block('array-entity');
 
 export interface ArrayEntityProps {
     addButtonText?: string;
-    addButtonPosition?: string;
     disabled?: boolean;
 }
 
@@ -44,6 +48,7 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
 
         return (
             <Button
+                className={b('add-button')}
                 onClick={onClick}
                 disabled={props.disabled || schema.readOnly}
                 qa={`${name}-add-button`}

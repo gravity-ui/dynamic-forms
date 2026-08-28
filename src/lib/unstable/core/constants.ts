@@ -10,6 +10,7 @@ export enum SchemaRendererEventType {
     Mode = 'mode',
     Name = 'name',
     Patch = 'patch',
+    Settings = 'settings',
     Schema = 'schema',
     UserContext = 'userContext',
 }
