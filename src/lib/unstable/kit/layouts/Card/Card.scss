@@ -17,7 +17,7 @@
     &__inner {
         display: flex;
         flex-direction: column;
-        gap: spacing(2);
+        gap: spacing(4);
 
         &_hidden {
             gap: 0;
@@ -43,6 +43,16 @@
 
     &__toggler {
         width: 28px;
+    }
+
+    &__title {
+        &_required {
+            &::after {
+                content: '*';
+                margin-left: spacing(1);
+                color: var(--g-color-text-danger);
+            }
+        }
     }
 
     &__copy-button {

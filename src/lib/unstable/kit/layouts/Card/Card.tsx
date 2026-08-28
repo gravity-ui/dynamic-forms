@@ -44,6 +44,7 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
         descriptionType = 'tooltip',
         likeAccordeon = true,
         open = true,
+        required,
         ...restLayoutProps
     } = props;
 
@@ -82,7 +83,12 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
                     <Flex className={b('header')} direction="column" justifyContent="center">
                         <Flex justifyContent="space-between" alignItems="center">
                             <Flex alignItems="center" gap={2}>
-                                <Text variant="subheader-1">{schema.title}</Text>
+                                <Text
+                                    variant="subheader-1"
+                                    className={b('title', {required: required && !overviewFlag})}
+                                >
+                                    {schema.title}
+                                </Text>
                                 {tooltip}
                             </Flex>
                             <Flex className={b('header-actions')} alignItems="center" gap={2}>

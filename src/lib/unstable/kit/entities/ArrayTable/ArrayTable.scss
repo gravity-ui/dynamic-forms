@@ -52,4 +52,8 @@
         gap: 0 spacing(1);
         flex-wrap: wrap;
     }
+
+    &__add-button {
+        align-self: flex-start;
+    }
 }

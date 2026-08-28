@@ -50,6 +50,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
 
         return (
             <Button
+                className={b('add-button')}
                 onClick={onClick}
                 disabled={props.disabled || schema.readOnly}
                 qa={`${name}-add-button`}

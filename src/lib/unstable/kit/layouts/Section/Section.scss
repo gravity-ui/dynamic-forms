@@ -18,6 +18,16 @@
         min-height: 28px;
     }
 
+    &__title {
+        &_required {
+            &::after {
+                content: '*';
+                margin-left: spacing(1);
+                color: var(--g-color-text-danger);
+            }
+        }
+    }
+
     &__content {
         &_with-indent {
             position: relative;

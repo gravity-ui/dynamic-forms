@@ -14,7 +14,6 @@ const monacoOptions = {
     automaticLayout: true,
     fontSize: 12,
     minimap: {enabled: false},
-    readOnly: true,
     scrollBeyondLastLine: false,
     wordWrap: 'on' as const,
 };
@@ -118,6 +117,7 @@ const Example: React.FC<ExampleProps> = ({schema, submitOnMount, title, value}) 
                                         language="json"
                                         options={{
                                             ...monacoOptions,
+                                            readOnly: true,
                                             scrollbar: {
                                                 vertical: 'hidden',
                                                 horizontal: 'hidden',
@@ -153,10 +153,11 @@ export const EntityPreview: React.FC<EntityPreviewProps> = ({
     correctValue,
     emptyValue,
     incorrectValue,
-    schema,
+    schema: jsonSchema,
     title,
 }) => {
     const theme = useTheme();
+    const [schema, setSchema] = React.useState<JsonSchema>(jsonSchema);
 
     return (
         <Flex direction="column">
@@ -192,7 +193,12 @@ export const EntityPreview: React.FC<EntityPreviewProps> = ({
                             language="json"
                             options={monacoOptions}
                             theme={`vs-${theme.includes('dark') ? 'dark' : 'light'}`}
-                            value={JSON.stringify(schema, null, 2)}
+                            defaultValue={JSON.stringify(jsonSchema, null, 2)}
+                            onChange={(value) => {
+                                try {
+                                    setSchema(JSON.parse(value));
+                                } catch {}
+                            }}
                         />
                     </MonacoContainer>
                 </Flex>
