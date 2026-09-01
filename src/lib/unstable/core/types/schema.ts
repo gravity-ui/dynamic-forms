@@ -1,13 +1,18 @@
 import type {JsonSchemaType, NodeType} from '../constants';
 
-import type {NodeEntity, NodeLayout} from './components';
+import type {
+    DefaultNodeEntityProps,
+    DefaultNodeLayoutProps,
+    NodeEntity,
+    NodeLayout,
+} from './components';
 import type {ErrorMessages, Validator} from './validation';
 import type {ArrayValue, FieldValue, ObjectValue} from './values';
 
 interface NodeParameters<Type extends NodeType, Schema extends JsonSchema> {
     nodeParameters?: {
         entity?: string | NodeEntity<Schema>;
-        entityProps?: Record<string, any>;
+        entityProps?: DefaultNodeEntityProps & Record<string, any>;
         errorMessages?: Omit<ErrorMessages, 'dependencies' | 'required'> & {
             dependencies?:
                 | ErrorMessages['dependencies']
@@ -15,15 +20,15 @@ interface NodeParameters<Type extends NodeType, Schema extends JsonSchema> {
             required?: ErrorMessages['required'] | Record<string, ErrorMessages['required']>;
         };
         formEntity?: string | NodeEntity<Schema>;
-        formEntityProps?: Record<string, any>;
+        formEntityProps?: DefaultNodeEntityProps & Record<string, any>;
         formLayout?: string | NodeLayout<Schema>;
-        formLayoutProps?: Record<string, any>;
+        formLayoutProps?: DefaultNodeLayoutProps & Record<string, any>;
         layout?: string | NodeLayout<Schema>;
-        layoutProps?: Record<string, any>;
+        layoutProps?: DefaultNodeLayoutProps & Record<string, any>;
         overviewEntity?: string | NodeEntity<Schema>;
-        overviewEntityProps?: Record<string, any>;
+        overviewEntityProps?: DefaultNodeEntityProps & Record<string, any>;
         overviewLayout?: string | NodeLayout<Schema>;
-        overviewLayoutProps?: Record<string, any>;
+        overviewLayoutProps?: DefaultNodeLayoutProps & Record<string, any>;
         type?: Type;
         validator?: string | Validator<Schema>;
     };
