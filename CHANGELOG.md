@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.23.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.22.0...v5.23.0) (2026-09-01)
+
+
+### Features
+
+* set uuid lib version 14.0.1 ([#403](https://github.com/gravity-ui/dynamic-forms/issues/403)) ([7a0eb84](https://github.com/gravity-ui/dynamic-forms/commit/7a0eb84679d1ac38e3186823bc705cb6fccc7cdc))
+
 ## [5.22.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.21.0...v5.22.0) (2026-09-01)
 
 
