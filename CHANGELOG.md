@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.22.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.21.0...v5.22.0) (2026-09-01)
+
+
+### Features
+
+* **unstable:** update types ([#400](https://github.com/gravity-ui/dynamic-forms/issues/400)) ([a66bb22](https://github.com/gravity-ui/dynamic-forms/commit/a66bb2208655fe23eae05f1c14df1f9677c4deab))
+* update deps versions ([#402](https://github.com/gravity-ui/dynamic-forms/issues/402)) ([aa8f133](https://github.com/gravity-ui/dynamic-forms/commit/aa8f133ddf67e608113578a96a7cd55c2fdf2580))
+
 ## [5.21.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.20.0...v5.21.0) (2026-08-28)
 
 
