@@ -1094,6 +1094,19 @@ export const objectInputTypeRules: Record<
                 'nodeParameters.entityProps.toggler.nodeParameters.entityProps.enumDescriptions',
                 spec.description,
             );
+        } else {
+            const enumDescriptions = Object.fromEntries(
+                Object.entries(spec.properties || {}).map(([key, value]) => [
+                    key,
+                    value.viewSpec.layoutTitle || key,
+                ]),
+            );
+
+            set(
+                mutableSchema,
+                'nodeParameters.entityProps.toggler.nodeParameters.entityProps.enumDescriptions',
+                enumDescriptions,
+            );
         }
 
         if (spec.validator && spec.validator !== 'base') {

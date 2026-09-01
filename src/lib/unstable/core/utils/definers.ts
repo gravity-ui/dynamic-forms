@@ -1,5 +1,13 @@
 import type {NodeType} from '../constants';
-import type {ErrorMessages, NodeEntity, NodeLayout, NodesConfig, Validator} from '../types';
+import type {
+    DefaultNodeEntityProps,
+    DefaultNodeLayoutProps,
+    ErrorMessages,
+    NodeEntity,
+    NodeLayout,
+    NodesConfig,
+    Validator,
+} from '../types';
 import type {
     EntityKind,
     ExtractNodeEntityProps,
@@ -62,33 +70,37 @@ export const createNodeParametersDefiner =
             | NoInfer<NodeTypeConfigKey<Config, Type, 'overviewEntities'>>
             | NodeEntity<SchemaOfNodeType<Type>>
             | Entity;
-        entityProps?: NodeComponentProps<Config, Type, EntityKind, Entity>;
+        entityProps?: DefaultNodeEntityProps & NodeComponentProps<Config, Type, EntityKind, Entity>;
         formEntity?:
             | NoInfer<NodeTypeConfigKey<Config, Type, 'formEntities'>>
             | NodeEntity<SchemaOfNodeType<Type>>
             | FormEntity;
-        formEntityProps?: NodeComponentProps<Config, Type, 'formEntities', FormEntity>;
+        formEntityProps?: DefaultNodeEntityProps &
+            NodeComponentProps<Config, Type, 'formEntities', FormEntity>;
         overviewEntity?:
             | NoInfer<NodeTypeConfigKey<Config, Type, 'overviewEntities'>>
             | NodeEntity<SchemaOfNodeType<Type>>
             | OverviewEntity;
-        overviewEntityProps?: NodeComponentProps<Config, Type, 'overviewEntities', OverviewEntity>;
+        overviewEntityProps?: DefaultNodeEntityProps &
+            NodeComponentProps<Config, Type, 'overviewEntities', OverviewEntity>;
         layout?:
             | NoInfer<NodeTypeConfigKey<Config, Type, 'formLayouts'>>
             | NoInfer<NodeTypeConfigKey<Config, Type, 'overviewLayouts'>>
             | NodeLayout<SchemaOfNodeType<Type>>
             | Layout;
-        layoutProps?: NodeComponentProps<Config, Type, LayoutKind, Layout>;
+        layoutProps?: DefaultNodeLayoutProps & NodeComponentProps<Config, Type, LayoutKind, Layout>;
         formLayout?:
             | NoInfer<NodeTypeConfigKey<Config, Type, 'formLayouts'>>
             | NodeLayout<SchemaOfNodeType<Type>>
             | FormLayout;
-        formLayoutProps?: NodeComponentProps<Config, Type, 'formLayouts', FormLayout>;
+        formLayoutProps?: DefaultNodeLayoutProps &
+            NodeComponentProps<Config, Type, 'formLayouts', FormLayout>;
         overviewLayout?:
             | NoInfer<NodeTypeConfigKey<Config, Type, 'overviewLayouts'>>
             | NodeLayout<SchemaOfNodeType<Type>>
             | OverviewLayout;
-        overviewLayoutProps?: NodeComponentProps<Config, Type, 'overviewLayouts', OverviewLayout>;
+        overviewLayoutProps?: DefaultNodeLayoutProps &
+            NodeComponentProps<Config, Type, 'overviewLayouts', OverviewLayout>;
         errorMessages?: Omit<ErrorMessages, 'dependencies' | 'required'> & {
             dependencies?:
                 | ErrorMessages['dependencies']
