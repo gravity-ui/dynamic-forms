@@ -37,22 +37,27 @@ export const MultiSelect: ArrayInput<MultiSelectProps> = ({name, input, spec, in
         () =>
             withCustomOptions
                 ? externalOptions || []
-                : spec.enum?.map((id) => ({
-                      id,
-                      value: id,
-                      text: spec.description?.[id] || id,
-                      content: spec.viewSpec.selectParams?.meta?.[id] ? (
-                          <div key={id}>
-                              <Text>{spec.description?.[id] || id}</Text>
-                              <Text color="secondary" className={b('meta-text')}>
-                                  {spec.viewSpec.selectParams.meta[id]}
-                              </Text>
-                          </div>
-                      ) : (
-                          spec.description?.[id] || id
-                      ),
-                      key: id,
-                  })),
+                : spec.enum?.map((enumValue) => {
+                      const value = String(enumValue);
+                      const text = spec.description?.[value] || value;
+
+                      return {
+                          id: value,
+                          value,
+                          text,
+                          content: spec.viewSpec.selectParams?.meta?.[value] ? (
+                              <div key={value}>
+                                  <Text>{text}</Text>
+                                  <Text color="secondary" className={b('meta-text')}>
+                                      {spec.viewSpec.selectParams.meta[value]}
+                                  </Text>
+                              </div>
+                          ) : (
+                              text
+                          ),
+                          key: value,
+                      };
+                  }),
         [
             spec.enum,
             spec.description,
@@ -85,11 +90,22 @@ export const MultiSelect: ArrayInput<MultiSelectProps> = ({name, input, spec, in
         [onFocus, onBlur],
     );
 
-    const _value = React.useMemo(() => transformArrOut<FieldArrayValue, string[]>(value), [value]);
+    const _value = React.useMemo(
+        () => transformArrOut<FieldArrayValue, Array<string | number>>(value).map(String),
+        [value],
+    );
 
     const handleChange = React.useCallback(
-        (value: string[]) => onChange(transformArrIn<string[], FieldArrayValue>(value)),
-        [onChange],
+        (value: string[]) => {
+            const enumValues = value.map(
+                (selectedValue) =>
+                    spec.enum?.find((enumValue) => String(enumValue) === selectedValue) ??
+                    selectedValue,
+            );
+
+            onChange(transformArrIn<Array<string | number>, FieldArrayValue>(enumValues));
+        },
+        [onChange, spec.enum],
     );
 
     return (

@@ -19,8 +19,8 @@ export interface CheckboxGroupProps
 export const CheckboxGroup: ArrayInput<CheckboxGroupProps> = ({name, input, spec, inputProps}) => {
     const {value, onBlur, onChange, onFocus} = input;
 
-    const _value: string[] | undefined = React.useMemo(
-        () => transformArrOut<FieldArrayValue, string[]>(value),
+    const _value: Array<string | number> | undefined = React.useMemo(
+        () => transformArrOut<FieldArrayValue, Array<string | number>>(value),
         [value],
     );
 
@@ -34,7 +34,7 @@ export const CheckboxGroup: ArrayInput<CheckboxGroupProps> = ({name, input, spec
     );
 
     const handleUpdate = React.useCallback(
-        (optionValue: string, selected: boolean) => {
+        (optionValue: string | number, selected: boolean) => {
             let newValue = _value || [];
 
             if (selected) {
@@ -43,7 +43,7 @@ export const CheckboxGroup: ArrayInput<CheckboxGroupProps> = ({name, input, spec
                 newValue = newValue.filter((id) => id !== optionValue);
             }
 
-            onChange(transformArrIn<string[], FieldArrayValue>(newValue));
+            onChange(transformArrIn<Array<string | number>, FieldArrayValue>(newValue));
         },
         [_value, onChange],
     );
