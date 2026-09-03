@@ -91,7 +91,10 @@ export const MultiSelect: ArrayInput<MultiSelectProps> = ({name, input, spec, in
     );
 
     const _value = React.useMemo(
-        () => transformArrOut<FieldArrayValue, Array<string | number>>(value).map(String),
+        () =>
+            transformArrOut<FieldArrayValue, Array<string | number> | undefined>(value)?.map(
+                String,
+            ),
         [value],
     );
 

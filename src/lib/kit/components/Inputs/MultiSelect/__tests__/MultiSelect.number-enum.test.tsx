@@ -22,11 +22,11 @@ beforeEach(() => {
     });
 });
 
-const renderNumberEnum = (values: number[]) => {
+const renderNumberEnum = (values: number[], initialValue: number[] | undefined = [3]) => {
     const spec: ArraySpec = {
         type: SpecTypes.Array,
         enum: values,
-        defaultValue: [3],
+        defaultValue: initialValue,
         viewSpec: {
             type: 'select',
             layout: 'row',
@@ -35,7 +35,7 @@ const renderNumberEnum = (values: number[]) => {
 
     render(
         <ThemeProvider>
-            <Form initialValues={{input: [3]}} onSubmit={noop}>
+            <Form initialValues={{input: initialValue}} onSubmit={noop}>
                 {({values}) => (
                     <>
                         <DynamicField name="input" spec={spec} config={dynamicConfig} />
@@ -55,6 +55,12 @@ test('renders an array select with nine numeric enum options', () => {
 
 test('renders an array select with ten numeric enum options', () => {
     expect(renderNumberEnum([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])).toBeVisible();
+});
+
+test('renders an array select without an initial value', () => {
+    renderNumberEnum([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], undefined);
+
+    expect(screen.getByRole('combobox')).toBeVisible();
 });
 
 test('keeps numeric enum values after selection', async () => {
