@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.23.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.23.0...v5.23.1) (2026-09-04)
+
+
+### Bug Fixes
+
+* support numeric values in array enums ([#405](https://github.com/gravity-ui/dynamic-forms/issues/405)) ([6787ba4](https://github.com/gravity-ui/dynamic-forms/commit/6787ba4d773c3671d308854e3211cd3029ded8e9))
+
 ## [5.23.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.22.0...v5.23.0) (2026-09-01)
 
 
