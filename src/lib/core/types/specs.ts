@@ -15,7 +15,7 @@ export interface ArraySpec<
     maxLength?: bigint;
     minLength?: bigint;
     items?: Spec;
-    enum?: string[];
+    enum?: Array<string | number>;
     description?: Record<string, string>;
     validator?: string;
     viewSpec: {
