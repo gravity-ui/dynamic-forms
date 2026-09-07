@@ -9,14 +9,20 @@ import {
 } from '@gravity-ui/uikit';
 
 import {type JsonSchemaString, type NodeEntity, SchemaRendererMode} from '../../../core';
-import {EntityContainer} from '../../components';
+import {EntityContainer, HTMLContent} from '../../components';
 
 export interface LabelProps extends UIKitLabelProps {
     iconName?: keyof typeof icons;
     iconProps?: Partial<IconProps>;
 }
 
-export const Label: NodeEntity<JsonSchemaString, LabelProps> = ({input, mode, props, schema}) => {
+export const Label: NodeEntity<JsonSchemaString, LabelProps> = ({
+    headName,
+    input,
+    mode,
+    props,
+    schema,
+}) => {
     const {value} = input;
     const {iconName, iconProps, title, ...restEntityProps} = props;
 
@@ -33,18 +39,18 @@ export const Label: NodeEntity<JsonSchemaString, LabelProps> = ({input, mode, pr
     const content = React.useMemo(() => {
         if (title) {
             if (typeof title === 'string') {
-                return <span dangerouslySetInnerHTML={{__html: title}} />;
+                return <HTMLContent content={title} headName={headName} />;
             }
 
             return title;
         }
 
         if (schema.description) {
-            return <span dangerouslySetInnerHTML={{__html: schema.description}} />;
+            return <HTMLContent content={schema.description} headName={headName} />;
         }
 
         return undefined;
-    }, [title, schema.description]);
+    }, [headName, title, schema.description]);
 
     return (
         <EntityContainer stretch="fit" fill="populated">

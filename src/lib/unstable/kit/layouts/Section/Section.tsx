@@ -42,10 +42,10 @@ export const Section: NodeLayout<JsonSchema, SectionProps> = ({
 
         return (
             <HelpMark>
-                <HTMLContent html={schema.description} />
+                <HTMLContent content={schema.description} headName={headName} />
             </HelpMark>
         );
-    }, [schema.description, descriptionType]);
+    }, [headName, schema.description, descriptionType]);
 
     const bottomDescription = React.useMemo(() => {
         if (!schema.description || descriptionType !== 'bottom' || overviewFlag) {
@@ -53,9 +53,14 @@ export const Section: NodeLayout<JsonSchema, SectionProps> = ({
         }
 
         return (
-            <HTMLContent className={spacing({mb: 2})} html={schema.description} color="secondary" />
+            <HTMLContent
+                className={spacing({mb: 2})}
+                content={schema.description}
+                color="secondary"
+                headName={headName}
+            />
         );
-    }, [schema.description, descriptionType, overviewFlag]);
+    }, [headName, schema.description, descriptionType, overviewFlag]);
 
     return (
         <LayoutContainer className={b()} gap={0.5} hideEmpty={overviewFlag} hidden={hidden}>

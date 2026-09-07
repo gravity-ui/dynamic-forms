@@ -10,7 +10,7 @@ import './OverviewRow.scss';
 
 const b = block('overview-row');
 
-export const OverviewRow: NodeLayout<JsonSchema> = ({children, input, schema}) => {
+export const OverviewRow: NodeLayout<JsonSchema> = ({children, headName, input, schema}) => {
     const {copy, hidden} = schema.nodeParameters?.flags || {};
 
     const tooltip = React.useMemo(() => {
@@ -20,10 +20,10 @@ export const OverviewRow: NodeLayout<JsonSchema> = ({children, input, schema}) =
 
         return (
             <HelpMark className={b('help-mark')}>
-                <HTMLContent html={schema.description} />
+                <HTMLContent content={schema.description} headName={headName} />
             </HelpMark>
         );
-    }, [schema.description]);
+    }, [headName, schema.description]);
 
     return (
         <LayoutContainer

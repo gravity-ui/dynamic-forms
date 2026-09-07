@@ -31,18 +31,18 @@ export const FormColumn: NodeLayout<JsonSchema, FormColumnProps> = ({
 
         return (
             <HelpMark className={b('help-mark')}>
-                <HTMLContent html={schema.description} />
+                <HTMLContent content={schema.description} headName={headName} />
             </HelpMark>
         );
-    }, [schema.description, props.descriptionType]);
+    }, [headName, schema.description, props.descriptionType]);
 
     const bottomDescription = React.useMemo(() => {
         if (!schema.description || props.descriptionType !== 'bottom') {
             return null;
         }
 
-        return <HTMLContent html={schema.description} color="secondary" />;
-    }, [schema.description, props.descriptionType]);
+        return <HTMLContent content={schema.description} headName={headName} color="secondary" />;
+    }, [headName, schema.description, props.descriptionType]);
 
     return (
         <LayoutContainer className={b()} gap={2} hidden={hidden}>

@@ -9,7 +9,7 @@ import {
 } from '@gravity-ui/uikit';
 
 import {type JsonSchemaString, type NodeEntity, SchemaRendererMode} from '../../../core';
-import {EntityContainer} from '../../components';
+import {EntityContainer, HTMLContent} from '../../components';
 import {block} from '../../utils';
 
 import './TextContent.scss';
@@ -22,6 +22,7 @@ export interface TextContentProps extends Omit<UIKitLabelProps, 'theme'> {
 }
 
 export const TextContent: NodeEntity<JsonSchemaString, TextContentProps> = ({
+    headName,
     input,
     mode,
     props,
@@ -42,18 +43,18 @@ export const TextContent: NodeEntity<JsonSchemaString, TextContentProps> = ({
     const content = React.useMemo(() => {
         if (titleProp) {
             if (typeof titleProp === 'string') {
-                return <span dangerouslySetInnerHTML={{__html: titleProp}} />;
+                return <HTMLContent content={titleProp} headName={headName} />;
             }
 
             return titleProp;
         }
 
         if (schema.description) {
-            return <span dangerouslySetInnerHTML={{__html: schema.description}} />;
+            return <HTMLContent content={schema.description} headName={headName} />;
         }
 
         return undefined;
-    }, [titleProp, schema.description]);
+    }, [headName, titleProp, schema.description]);
 
     return (
         <EntityContainer stretch="fit" fill="populated">
