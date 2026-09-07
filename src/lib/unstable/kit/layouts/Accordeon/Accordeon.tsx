@@ -44,14 +44,13 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
     props,
 }) => {
     const {
-        copy,
-        required,
         titleProps,
         togglerProps,
         withIndent = false,
         withDefaultSummary = false,
         ...restLayoutProps
     } = props;
+    const {copy, required, hidden, open} = schema.nodeParameters?.flags || {};
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
@@ -132,8 +131,9 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
         <LayoutContainer
             className={b({'without-default-summary': !withDefaultSummary})}
             hideEmpty={overviewFlag}
+            hidden={hidden}
         >
-            <Disclosure summary={summary} defaultExpanded {...restLayoutProps}>
+            <Disclosure summary={summary} defaultExpanded={open} {...restLayoutProps}>
                 <Flex direction="column" gap={0.5} grow={1}>
                     <div className={b('content', {'with-indent': withIndent})}>{children}</div>
                     {overviewFlag ? null : (

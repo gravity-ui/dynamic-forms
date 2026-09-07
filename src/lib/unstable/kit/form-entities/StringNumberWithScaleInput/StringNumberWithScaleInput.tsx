@@ -35,6 +35,7 @@ export const StringNumberWithScaleInput: NodeEntity<
 > = ({input, meta, props, schema}) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
     const {defaultType, viewType, scale, ...restEntityProps} = props;
+    const {disabled} = schema.nodeParameters?.flags || {};
 
     const scaleKit = React.useMemo(() => {
         if (scale) {
@@ -119,7 +120,7 @@ export const StringNumberWithScaleInput: NodeEntity<
             <div className={b('input')}>
                 <TextInput
                     placeholder={`${schema.examples?.[0] || ''}`}
-                    disabled={schema.readOnly}
+                    disabled={disabled || schema.readOnly}
                     hasClear
                     {...restEntityProps}
                     {...preparedInputProps}
@@ -138,7 +139,7 @@ export const StringNumberWithScaleInput: NodeEntity<
                         value={scaleValue}
                         onUpdate={setScaleValue}
                         multiple={false}
-                        disabled={schema.readOnly || meta.error}
+                        disabled={disabled || schema.readOnly || meta.error}
                         qa={`${name}-scale`}
                     />
                 </div>

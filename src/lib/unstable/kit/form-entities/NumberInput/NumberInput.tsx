@@ -34,6 +34,7 @@ export const NumberInput: NodeEntity<JsonSchemaNumber, NumberInputProps> = ({
     schema,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
+    const {disabled} = schema.nodeParameters?.flags || {};
 
     return (
         <EntityContainer stretch="max" className={b({error: getBooleanValidationState(meta)})}>
@@ -42,7 +43,7 @@ export const NumberInput: NodeEntity<JsonSchemaNumber, NumberInputProps> = ({
                 max={schema.maximum}
                 step={schema.multipleOf || 1}
                 placeholder={`${schema.examples?.[0] || ''}`}
-                disabled={schema.readOnly}
+                disabled={disabled || schema.readOnly}
                 allowDecimal
                 hasClear
                 {...props}

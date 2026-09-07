@@ -22,6 +22,8 @@ export const FormRow: NodeLayout<JsonSchema, FormRowProps> = ({
     schema,
     props,
 }) => {
+    const {hidden, required} = schema.nodeParameters?.flags || {};
+
     const tooltip = React.useMemo(() => {
         if (!schema.description || props.descriptionType === 'bottom') {
             return null;
@@ -43,9 +45,15 @@ export const FormRow: NodeLayout<JsonSchema, FormRowProps> = ({
     }, [schema.description, props.descriptionType]);
 
     return (
-        <LayoutContainer className={b()} direction="row" alignItems="flex-start" gap={2}>
+        <LayoutContainer
+            className={b()}
+            direction="row"
+            alignItems="flex-start"
+            gap={2}
+            hidden={hidden}
+        >
             <div className={b('left')}>
-                <Text className={b('title', {required: props.required})} wordBreak="break-word">
+                <Text className={b('title', {required})} wordBreak="break-word">
                     {schema.title}
                 </Text>
                 {tooltip}

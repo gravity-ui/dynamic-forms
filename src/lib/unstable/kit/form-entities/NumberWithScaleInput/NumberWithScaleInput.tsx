@@ -37,6 +37,7 @@ export const NumberWithScaleInput: NodeEntity<JsonSchemaNumber, NumberWithScaleI
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
     const {defaultType, viewType, scale, max, min, step, ...restEntityProps} = props;
+    const {disabled} = schema.nodeParameters?.flags || {};
 
     const scaleKit = React.useMemo(() => {
         if (scale) {
@@ -113,7 +114,7 @@ export const NumberWithScaleInput: NodeEntity<JsonSchemaNumber, NumberWithScaleI
             <div className={b('input')}>
                 <NumberInput
                     placeholder={`${schema.examples?.[0] || ''}`}
-                    disabled={schema.readOnly}
+                    disabled={disabled || schema.readOnly}
                     allowDecimal
                     hasClear
                     {...restEntityProps}

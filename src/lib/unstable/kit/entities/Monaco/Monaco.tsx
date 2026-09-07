@@ -33,6 +33,7 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
     schema,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
+    const {disabled} = schema.nodeParameters?.flags || {};
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
@@ -62,7 +63,7 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
     const options: MonacoEditorProps['options'] = React.useMemo(
         () => ({
             fontSize: 12,
-            readOnly: overviewFlag || schema.readOnly,
+            readOnly: overviewFlag || disabled || schema.readOnly,
             formatOnPaste: true,
             formatOnType: true,
             contextmenu: false,
@@ -71,7 +72,7 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
             automaticLayout: true,
             ...optionsProps,
         }),
-        [optionsProps, overviewFlag, schema.readOnly],
+        [disabled, optionsProps, overviewFlag, schema.readOnly],
     );
 
     const onUpdate = React.useCallback(

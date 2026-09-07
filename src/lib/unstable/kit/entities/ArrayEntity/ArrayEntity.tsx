@@ -18,7 +18,6 @@ const b = block('array-entity');
 
 export interface ArrayEntityProps {
     addButtonText?: string;
-    disabled?: boolean;
 }
 
 export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
@@ -30,6 +29,7 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
     schemaPath,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
+    const {disabled} = schema.nodeParameters?.flags || {};
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
@@ -50,7 +50,7 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
             <Button
                 className={b('add-button')}
                 onClick={onClick}
-                disabled={props.disabled || schema.readOnly}
+                disabled={disabled || schema.readOnly}
                 qa={`${name}-add-button`}
             >
                 <Icon data={Plus} size={14} />
@@ -59,7 +59,7 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
         );
     }, [
         props.addButtonText,
-        props.disabled,
+        disabled,
         name,
         onBlur,
         onChange,

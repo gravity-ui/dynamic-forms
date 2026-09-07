@@ -10,7 +10,9 @@ import './OverviewRow.scss';
 
 const b = block('overview-row');
 
-export const OverviewRow: NodeLayout<JsonSchema> = ({children, input, schema, props}) => {
+export const OverviewRow: NodeLayout<JsonSchema> = ({children, input, schema}) => {
+    const {copy, hidden} = schema.nodeParameters?.flags || {};
+
     const tooltip = React.useMemo(() => {
         if (!schema.description) {
             return null;
@@ -24,7 +26,14 @@ export const OverviewRow: NodeLayout<JsonSchema> = ({children, input, schema, pr
     }, [schema.description]);
 
     return (
-        <LayoutContainer className={b()} direction="row" alignItems="flex-start" gap={2} hideEmpty>
+        <LayoutContainer
+            className={b()}
+            direction="row"
+            alignItems="flex-start"
+            gap={2}
+            hidden={hidden}
+            hideEmpty
+        >
             <div className={b('left')}>
                 <Text className={b('title')} color="secondary" wordBreak="break-all">
                     {schema.title}
@@ -35,11 +44,7 @@ export const OverviewRow: NodeLayout<JsonSchema> = ({children, input, schema, pr
             <Flex className={b('right')} direction="column" gap={0.5} grow={1}>
                 <Flex grow={1} gap={2}>
                     {children}
-                    <CopyButton
-                        className={b('copy-button')}
-                        copy={props.copy}
-                        value={input.value}
-                    />
+                    <CopyButton className={b('copy-button')} copy={copy} value={input.value} />
                 </Flex>
             </Flex>
         </LayoutContainer>

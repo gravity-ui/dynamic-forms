@@ -19,7 +19,6 @@ const b = block('object-inline');
 
 export interface ObjectInlineProps {
     delimiter?: string | Record<string, string>;
-    disabled?: boolean;
     order?: string[];
 }
 

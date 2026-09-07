@@ -39,6 +39,7 @@ export const DateInput: NodeEntity<JsonSchemaAny, DateInputProps> = ({
         timeZone: timeZoneProp,
         ...restEntityProps
     } = props;
+    const {disabled} = schema.nodeParameters?.flags || {};
 
     const timeZone = timeZoneProp && isValidTimeZone(timeZoneProp) ? timeZoneProp : undefined;
 
@@ -93,7 +94,7 @@ export const DateInput: NodeEntity<JsonSchemaAny, DateInputProps> = ({
                 format={format}
                 popupPlacement="bottom-start"
                 placeholder={`${schema.examples?.[0] || ''}`}
-                disabled={schema.readOnly}
+                disabled={disabled || schema.readOnly}
                 hasClear
                 {...restEntityProps}
                 value={value}

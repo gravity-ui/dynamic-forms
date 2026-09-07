@@ -10,7 +10,9 @@ import './OverviewColumn.scss';
 
 const b = block('overview-column');
 
-export const OverviewColumn: NodeLayout<JsonSchema> = ({children, input, schema, props}) => {
+export const OverviewColumn: NodeLayout<JsonSchema> = ({children, input, schema}) => {
+    const {copy, hidden} = schema.nodeParameters?.flags || {};
+
     const tooltip = React.useMemo(() => {
         if (!schema.description) {
             return null;
@@ -24,7 +26,7 @@ export const OverviewColumn: NodeLayout<JsonSchema> = ({children, input, schema,
     }, [schema.description]);
 
     return (
-        <LayoutContainer className={b()} gap={2} hideEmpty>
+        <LayoutContainer className={b()} gap={2} hidden={hidden} hideEmpty>
             <Flex direction="column" gap={0.5} grow={1}>
                 <div className={b('top')}>
                     <Text className={b('title')} color="secondary" wordBreak="break-word">
@@ -36,11 +38,7 @@ export const OverviewColumn: NodeLayout<JsonSchema> = ({children, input, schema,
             <Flex className={b('bottom')} direction="column" gap={0.5} grow={1}>
                 <Flex grow={1} gap={2}>
                     {children}
-                    <CopyButton
-                        className={b('copy-button')}
-                        copy={props.copy}
-                        value={input.value}
-                    />
+                    <CopyButton className={b('copy-button')} copy={copy} value={input.value} />
                 </Flex>
             </Flex>
         </LayoutContainer>

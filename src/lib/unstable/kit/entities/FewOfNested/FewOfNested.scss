@@ -5,6 +5,10 @@
     &__content {
         margin-top: spacing(4);
 
+        &:empty {
+            display: none;
+        }
+
         &_with-indent {
             position: relative;
             padding-left: spacing(7);

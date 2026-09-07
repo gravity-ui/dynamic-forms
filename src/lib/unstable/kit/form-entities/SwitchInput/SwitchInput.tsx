@@ -20,6 +20,7 @@ export const SwitchInput: NodeEntity<JsonSchemaBoolean, SwitchInputProps> = ({
     schema,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
+    const {disabled} = schema.nodeParameters?.flags || {};
 
     const onUpdate = React.useCallback(
         (value: boolean) => {
@@ -37,7 +38,7 @@ export const SwitchInput: NodeEntity<JsonSchemaBoolean, SwitchInputProps> = ({
             justifyContent="center"
         >
             <Switch
-                disabled={schema.readOnly}
+                disabled={disabled || schema.readOnly}
                 {...props}
                 checked={value ?? false}
                 onFocus={onFocus}

@@ -39,14 +39,8 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
     schema,
     props,
 }) => {
-    const {
-        copy,
-        descriptionType = 'tooltip',
-        likeAccordeon = true,
-        open = true,
-        required,
-        ...restLayoutProps
-    } = props;
+    const {descriptionType = 'tooltip', likeAccordeon = true, ...restLayoutProps} = props;
+    const {copy, required, hidden, open = true} = schema.nodeParameters?.flags || {};
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
@@ -77,7 +71,7 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
     }, [schema.description, descriptionType, overviewFlag]);
 
     return (
-        <LayoutContainer className={b()} hideEmpty={overviewFlag}>
+        <LayoutContainer className={b()} hideEmpty={overviewFlag} hidden={hidden}>
             <UIKitCard {...restLayoutProps} className={b('card')}>
                 <div className={b('inner', {hidden: !visible})}>
                     <Flex className={b('header')} direction="column" justifyContent="center">

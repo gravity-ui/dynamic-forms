@@ -22,7 +22,9 @@ export const Transparent: NodeLayout<JsonSchema, TransparentProps> = ({
     meta,
     mode,
     props,
+    schema,
 }) => {
+    const {copy, hidden} = schema.nodeParameters?.flags || {};
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
     return (
@@ -30,16 +32,13 @@ export const Transparent: NodeLayout<JsonSchema, TransparentProps> = ({
             className={b()}
             gap={0.5}
             hideEmpty={isBoolean(props.hideEmpty) ? props.hideEmpty : overviewFlag}
+            hidden={hidden}
         >
             <Flex gap={2}>
                 {children}
                 {overviewFlag ? null : <ArrayRemoveButton name={input.name} headName={headName} />}
                 {overviewFlag ? (
-                    <CopyButton
-                        className={b('copy-button')}
-                        copy={props.copy}
-                        value={input.value}
-                    />
+                    <CopyButton className={b('copy-button')} copy={copy} value={input.value} />
                 ) : null}
             </Flex>
             {overviewFlag ? null : (

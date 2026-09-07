@@ -33,13 +33,14 @@ export const PasswordInput: NodeEntity<JsonSchemaString, PasswordInputProps> = (
     schema,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
+    const {disabled} = schema.nodeParameters?.flags || {};
 
     return (
         <EntityContainer stretch="max" className={b({error: getBooleanValidationState(meta)})}>
             <UIKitPasswordInput
                 autoComplete="new-password"
                 placeholder={schema.examples?.[0]}
-                disabled={schema.readOnly}
+                disabled={disabled || schema.readOnly}
                 hasClear
                 {...props}
                 value={value ?? ''}
