@@ -24,6 +24,7 @@ export const FileInput: NodeEntity<JsonSchemaString, FileInputProps> = ({
 }) => {
     const {onBlur, onChange, onFocus} = input;
     const {readAsMethod = 'readAsBinaryString', ...restEntityProps} = props;
+    const {disabled} = schema.nodeParameters?.flags || {};
 
     const counterRef = React.useRef(0);
     const [file, setFile] = React.useState<File | null>(null);
@@ -81,7 +82,7 @@ export const FileInput: NodeEntity<JsonSchemaString, FileInputProps> = ({
     return (
         <EntityContainer stretch="max">
             <FileDropZone
-                disabled={schema.readOnly}
+                disabled={disabled || schema.readOnly}
                 accept={[]}
                 {...restEntityProps}
                 onUpdate={onUpdate}

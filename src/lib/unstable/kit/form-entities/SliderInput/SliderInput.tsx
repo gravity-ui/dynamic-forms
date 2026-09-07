@@ -26,6 +26,7 @@ export const SliderInput: NodeEntity<JsonSchemaNumber, SliderInputProps> = ({
     schema,
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
+    const {disabled} = schema.nodeParameters?.flags || {};
 
     const value = isNaN(Number(inputValue)) ? undefined : Number(inputValue);
 
@@ -47,7 +48,7 @@ export const SliderInput: NodeEntity<JsonSchemaNumber, SliderInputProps> = ({
                 max={schema.maximum}
                 step={1}
                 marks={2}
-                disabled={schema.readOnly}
+                disabled={disabled || schema.readOnly}
                 tooltipDisplay="on"
                 {...props}
                 value={value}

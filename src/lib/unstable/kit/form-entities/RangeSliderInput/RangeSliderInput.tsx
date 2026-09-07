@@ -30,6 +30,7 @@ export const RangeSliderInput: NodeEntity<JsonSchemaObject, RangeSliderInputProp
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
     const {propertyKeys, ...restEntityProps} = props;
+    const {disabled} = schema.nodeParameters?.flags || {};
 
     const [fromKey, toKey] = propertyKeys || ['from', 'to'];
 
@@ -69,7 +70,7 @@ export const RangeSliderInput: NodeEntity<JsonSchemaObject, RangeSliderInputProp
                 max={max}
                 step={1}
                 marks={2}
-                disabled={schema.readOnly}
+                disabled={disabled || schema.readOnly}
                 tooltipDisplay="on"
                 {...restEntityProps}
                 defaultValue={defaultValue}

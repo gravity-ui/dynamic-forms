@@ -25,6 +25,7 @@ export const SegmentedRadioGroupInput: NodeEntity<
 > = ({input, meta, props, schema}) => {
     const {name, onBlur, onChange, onFocus, value} = input;
     const {enumDescriptions, optionsDisabled, ...restEntityProps} = props;
+    const {disabled} = schema.nodeParameters?.flags || {};
 
     const options = React.useMemo(
         () =>
@@ -49,7 +50,7 @@ export const SegmentedRadioGroupInput: NodeEntity<
         <EntityContainer stretch="max" className={b({error: getBooleanValidationState(meta)})}>
             <SegmentedRadioGroup
                 width="max"
-                disabled={schema.readOnly}
+                disabled={disabled || schema.readOnly}
                 options={options}
                 {...restEntityProps}
                 value={value}

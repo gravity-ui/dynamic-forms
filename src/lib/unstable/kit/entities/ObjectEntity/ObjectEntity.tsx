@@ -9,7 +9,6 @@ import {
 import {EmptyEntityValue, EntityContainer} from '../../components';
 
 export interface ObjectEntityProps {
-    disabled?: boolean;
     order?: string[];
 }
 

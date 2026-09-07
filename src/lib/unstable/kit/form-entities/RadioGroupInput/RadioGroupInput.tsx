@@ -24,6 +24,7 @@ export const RadioGroupInput: NodeEntity<JsonSchemaString, RadioGroupInputProps>
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
     const {enumDescriptions, optionsDisabled, direction = 'horizontal', ...restEntityProps} = props;
+    const {disabled} = schema.nodeParameters?.flags || {};
 
     const options: RadioGroupOption[] | undefined = React.useMemo(
         () =>
@@ -43,7 +44,7 @@ export const RadioGroupInput: NodeEntity<JsonSchemaString, RadioGroupInputProps>
         >
             <RadioGroup
                 options={options}
-                disabled={schema.readOnly}
+                disabled={disabled || schema.readOnly}
                 {...restEntityProps}
                 value={value}
                 onFocus={onFocus}

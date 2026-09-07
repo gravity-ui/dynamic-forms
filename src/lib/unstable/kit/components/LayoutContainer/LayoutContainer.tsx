@@ -11,16 +11,22 @@ const b = block('layout-container');
 export interface LayoutContainerProps extends FlexProps {
     children: React.ReactNode;
     hideEmpty?: boolean;
+    hidden?: boolean;
 }
 
 export const LayoutContainer: React.FC<LayoutContainerProps> = ({
     className,
     children,
     hideEmpty = false,
+    hidden = false,
     ...restProps
 }) => {
     return (
-        <Flex className={b({'hide-empty': hideEmpty}, className)} direction="column" {...restProps}>
+        <Flex
+            className={b({'hide-empty': hideEmpty, hidden}, className)}
+            direction="column"
+            {...restProps}
+        >
             {children}
         </Flex>
     );

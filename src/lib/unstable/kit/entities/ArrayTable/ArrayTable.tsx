@@ -20,7 +20,6 @@ const b = block('array-table');
 export interface ArrayTableProps {
     order?: string[];
     addButtonText?: string;
-    disabled?: boolean;
 }
 
 export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
@@ -32,6 +31,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
     schemaPath,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
+    const {disabled} = schema.nodeParameters?.flags || {};
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
@@ -52,7 +52,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
             <Button
                 className={b('add-button')}
                 onClick={onClick}
-                disabled={props.disabled || schema.readOnly}
+                disabled={disabled || schema.readOnly}
                 qa={`${name}-add-button`}
             >
                 <Icon data={Plus} size={14} />
@@ -61,7 +61,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
         );
     }, [
         props.addButtonText,
-        props.disabled,
+        disabled,
         name,
         onBlur,
         onChange,

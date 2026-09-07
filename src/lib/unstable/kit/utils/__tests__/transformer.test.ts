@@ -31,12 +31,12 @@ describe('specToJsonSchema', () => {
             pattern: '^[A-Z]',
             title: 'Name',
             description: 'First name',
+            examples: ['Ada'],
             nodeParameters: {
                 type: NodeType.String,
+                flags: {copy: true, disabled: true},
                 entity: 'base',
                 layout: 'row',
-                entityProps: {disabled: true, placeholder: 'Ada'},
-                layoutProps: {copy: true},
                 errorMessages: {pattern: 'Must start with a capital'},
             },
         });
@@ -89,9 +89,9 @@ describe('specToJsonSchema', () => {
             title: 'Name',
             nodeParameters: {
                 type: NodeType.String,
+                flags: {required: true},
                 entity: 'base',
                 layout: 'row',
-                layoutProps: {required: true},
             },
         });
         expect((schema as JsonSchemaObject).properties?.age).toMatchObject({
@@ -166,7 +166,6 @@ describe('specToJsonSchema', () => {
             entity: 'date',
             layout: 'row',
             entityProps: {
-                placeholder: 'Pick a date',
                 format: 'YYYY-MM-DD',
                 outputFormat: 'date',
                 timeZone: 'Europe/Moscow',
@@ -183,9 +182,10 @@ describe('specToJsonSchema', () => {
         });
 
         expect(schema.nodeParameters).toMatchObject({
+            flags: {required: true},
             entity: 'textarea',
             layout: 'row',
-            layoutProps: {descriptionType: 'bottom', required: true},
+            layoutProps: {descriptionType: 'bottom'},
         });
     });
 

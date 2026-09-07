@@ -1,34 +1,36 @@
 import type {JsonSchemaType, NodeType} from '../constants';
 
-import type {
-    DefaultNodeEntityProps,
-    DefaultNodeLayoutProps,
-    NodeEntity,
-    NodeLayout,
-} from './components';
+import type {NodeEntity, NodeLayout} from './components';
 import type {ErrorMessages, Validator} from './validation';
 import type {ArrayValue, FieldValue, ObjectValue} from './values';
 
 interface NodeParameters<Type extends NodeType, Schema extends JsonSchema> {
     nodeParameters?: {
         entity?: string | NodeEntity<Schema>;
-        entityProps?: DefaultNodeEntityProps & Record<string, any>;
+        entityProps?: Record<string, any>;
         errorMessages?: Omit<ErrorMessages, 'dependencies' | 'required'> & {
             dependencies?:
                 | ErrorMessages['dependencies']
                 | Record<string, ErrorMessages['dependencies']>;
             required?: ErrorMessages['required'] | Record<string, ErrorMessages['required']>;
         };
+        flags?: {
+            copy?: boolean;
+            disabled?: boolean;
+            hidden?: boolean;
+            open?: boolean;
+            required?: boolean;
+        };
         formEntity?: string | NodeEntity<Schema>;
-        formEntityProps?: DefaultNodeEntityProps & Record<string, any>;
+        formEntityProps?: Record<string, any>;
         formLayout?: string | NodeLayout<Schema>;
-        formLayoutProps?: DefaultNodeLayoutProps & Record<string, any>;
+        formLayoutProps?: Record<string, any>;
         layout?: string | NodeLayout<Schema>;
-        layoutProps?: DefaultNodeLayoutProps & Record<string, any>;
+        layoutProps?: Record<string, any>;
         overviewEntity?: string | NodeEntity<Schema>;
-        overviewEntityProps?: DefaultNodeEntityProps & Record<string, any>;
+        overviewEntityProps?: Record<string, any>;
         overviewLayout?: string | NodeLayout<Schema>;
-        overviewLayoutProps?: DefaultNodeLayoutProps & Record<string, any>;
+        overviewLayoutProps?: Record<string, any>;
         type?: Type;
         validator?: string | Validator<Schema>;
     };

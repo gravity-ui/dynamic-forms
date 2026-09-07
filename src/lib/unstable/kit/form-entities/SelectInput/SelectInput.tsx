@@ -5,6 +5,7 @@ import isString from 'lodash/isString';
 
 import type {JsonSchemaString, NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';
+import {DASH} from '../../constants';
 import {getValidationState} from '../../utils';
 
 export interface SelectInputProps
@@ -33,6 +34,7 @@ export const SelectInput: NodeEntity<JsonSchemaString, SelectInputProps> = ({
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
     const {enumDescriptions, optionsMeta, ...restEntityProps} = props;
+    const {disabled} = schema.nodeParameters?.flags || {};
 
     const value = React.useMemo(
         () => (isString(inputValue) ? [inputValue] : undefined),
@@ -84,8 +86,8 @@ export const SelectInput: NodeEntity<JsonSchemaString, SelectInputProps> = ({
                 filterable={(schema.enum?.length || 0) > 9}
                 renderOption={renderOption}
                 getOptionHeight={getOptionHeight}
-                placeholder={schema.examples?.[0] || ''}
-                disabled={schema.readOnly}
+                placeholder={schema.examples?.[0] || DASH}
+                disabled={disabled || schema.readOnly}
                 {...restEntityProps}
                 value={value}
                 onFocus={onFocus as SelectProps['onFocus']}

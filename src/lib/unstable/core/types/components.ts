@@ -7,13 +7,6 @@ import type {SchemaRendererMode} from '../constants';
 import type {SchemaToValueType} from './helpers';
 import type {JsonSchema} from './schema';
 
-export interface DefaultNodeLayoutProps {
-    copy?: boolean;
-    hidden?: boolean;
-    open?: boolean;
-    required?: boolean;
-}
-
 export interface NodeLayoutProps<
     Schema extends JsonSchema,
     Props extends Record<string, any> = {},
@@ -22,7 +15,7 @@ export interface NodeLayoutProps<
     children: React.ReactNode;
     headName: string;
     mode: SchemaRendererMode;
-    props: DefaultNodeLayoutProps & Partial<Props>;
+    props: Partial<Props>;
     schema: Schema;
     schemaPath: string;
 }
@@ -33,11 +26,6 @@ export type NodeLayout<
     Value extends SchemaToValueType<Schema> = SchemaToValueType<Schema>,
 > = React.FC<NodeLayoutProps<Schema, Props, Value>>;
 
-export interface DefaultNodeEntityProps {
-    disabled?: boolean;
-    required?: boolean;
-}
-
 export interface NodeEntityProps<
     Schema extends JsonSchema,
     Props extends Record<string, any> = {},
@@ -46,9 +34,9 @@ export interface NodeEntityProps<
 > extends FieldRenderProps<Value | null | undefined> {
     Layout?: NodeLayout<Schema, LayoutProps>;
     headName: string;
-    layoutProps?: DefaultNodeLayoutProps & Partial<LayoutProps>;
+    layoutProps?: Partial<LayoutProps>;
     mode: SchemaRendererMode;
-    props: DefaultNodeEntityProps & Partial<Props>;
+    props: Partial<Props>;
     schema: Schema;
     schemaPath: string;
 }
