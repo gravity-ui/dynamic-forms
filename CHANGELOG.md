@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.24.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.23.1...v5.24.0) (2026-09-07)
+
+
+### Features
+
+* **unstable:** add node parameters flags ([#407](https://github.com/gravity-ui/dynamic-forms/issues/407)) ([2bb7b9c](https://github.com/gravity-ui/dynamic-forms/commit/2bb7b9cd9fc6c96c25f65d34069db17b11828cf5))
+* **unstable:** add render hmtl or md ([#409](https://github.com/gravity-ui/dynamic-forms/issues/409)) ([ce878d9](https://github.com/gravity-ui/dynamic-forms/commit/ce878d9eb1b541fa2614f98a19feba2c4a69062d))
+
 ## [5.23.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.23.0...v5.23.1) (2026-09-04)
 
 
