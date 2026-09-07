@@ -98,7 +98,7 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
                 )}
                 {schema.description ? (
                     <HelpMark onClick={stopPropagation}>
-                        <HTMLContent html={schema.description} />
+                        <HTMLContent content={schema.description} headName={headName} />
                     </HelpMark>
                 ) : null}
                 {overviewFlag ? (

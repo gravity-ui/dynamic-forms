@@ -1,0 +1,33 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}alert {
+    .g-alert__text-content {
+        & > div {
+            // stylelint-disable-next-line declaration-no-important
+            gap: 0 !important;
+        }
+    }
+
+    &_expanded {
+        .g-alert__text-content {
+            & > div {
+                // stylelint-disable-next-line declaration-no-important
+                gap: spacing(2) !important;
+            }
+        }
+    }
+
+    &__title {
+        cursor: pointer;
+    }
+
+    &__message {
+        height: 0;
+        overflow: hidden;
+
+        &_expanded {
+            height: unset;
+        }
+    }
+}

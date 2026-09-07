@@ -137,7 +137,10 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
                                     <Text variant="subheader-1">{word}</Text>
                                     {wIndex + 1 === array.length && column.schema.description ? (
                                         <HelpMark>
-                                            <HTMLContent html={column.schema.description} />
+                                            <HTMLContent
+                                                content={column.schema.description}
+                                                headName={headName}
+                                            />
                                         </HelpMark>
                                     ) : null}
                                 </div>

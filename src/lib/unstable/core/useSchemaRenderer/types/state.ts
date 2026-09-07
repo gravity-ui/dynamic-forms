@@ -32,6 +32,9 @@ export interface SchemaRendererState<
         byPath: Map<string, Set<string>>;
     };
     unsubscribe: (id: string) => void;
-    userContext: {MonacoEditor?: React.ComponentType<MonacoEditorProps>} & UserContext;
+    userContext: {
+        MonacoEditor?: React.ComponentType<MonacoEditorProps>;
+        RenderHTMLOrMD?: React.ComponentType<{content: string}>;
+    } & UserContext;
     waiters: Record<string, ValidationWaiter | undefined>;
 }

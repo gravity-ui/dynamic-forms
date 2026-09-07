@@ -57,18 +57,18 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
 
         return (
             <HelpMark>
-                <HTMLContent html={schema.description} />
+                <HTMLContent content={schema.description} headName={headName} />
             </HelpMark>
         );
-    }, [schema.description, descriptionType]);
+    }, [headName, schema.description, descriptionType]);
 
     const bottomDescription = React.useMemo(() => {
         if (!schema.description || descriptionType !== 'bottom' || overviewFlag) {
             return null;
         }
 
-        return <HTMLContent html={schema.description} color="secondary" />;
-    }, [schema.description, descriptionType, overviewFlag]);
+        return <HTMLContent content={schema.description} headName={headName} color="secondary" />;
+    }, [headName, schema.description, descriptionType, overviewFlag]);
 
     return (
         <LayoutContainer className={b()} hideEmpty={overviewFlag} hidden={hidden}>
