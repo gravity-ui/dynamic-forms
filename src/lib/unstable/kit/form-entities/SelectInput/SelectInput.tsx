@@ -11,6 +11,7 @@ import {getValidationState} from '../../utils';
 export interface SelectInputProps
     extends Omit<
         SelectProps,
+        | 'defaultValue'
         | 'value'
         | 'onFocus'
         | 'onBlur'
@@ -23,7 +24,6 @@ export interface SelectInputProps
     > {
     enumDescriptions?: Record<string, string>;
     optionsMeta?: Record<string, string>;
-    options?: SelectProps['options'];
 }
 
 export const SelectInput: NodeEntity<JsonSchemaString, SelectInputProps> = ({

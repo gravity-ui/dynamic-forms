@@ -99,7 +99,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
 
     const {head, rows} = React.useMemo(() => {
         let tupleItems = false;
-        let rowsCount = value?.length;
+        let rowsCount = value?.length || 0;
         let withRemoveButton = true;
 
         const getItemName = (index: number, property?: string) =>
@@ -189,7 +189,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
     return (
         <EntityContainer stretch="by-child" gap={2} fill="by-child">
             <div>
-                {head}
+                {rows.length ? head : null}
                 {rows}
             </div>
             {addButton}
