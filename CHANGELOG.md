@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.25.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.24.0...v5.25.0) (2026-09-08)
+
+
+### Features
+
+* **unstable:** add error messages ([#413](https://github.com/gravity-ui/dynamic-forms/issues/413)) ([f1a206c](https://github.com/gravity-ui/dynamic-forms/commit/f1a206c1486a97de4563b8ef4219839adc4a38fa))
+* **unstable:** add silent registration ([#412](https://github.com/gravity-ui/dynamic-forms/issues/412)) ([fcc6e76](https://github.com/gravity-ui/dynamic-forms/commit/fcc6e767ebb7b262ee7e96ee184edd4a7de9506e))
+* **unstable:** fix strict mode ff destroy values ([#414](https://github.com/gravity-ui/dynamic-forms/issues/414)) ([6b3e279](https://github.com/gravity-ui/dynamic-forms/commit/6b3e27956d03f81bd21a448499759738767cd1b7))
+* **unstable:** transform segmented radio group to select if width is… ([#410](https://github.com/gravity-ui/dynamic-forms/issues/410)) ([fa3bff3](https://github.com/gravity-ui/dynamic-forms/commit/fa3bff34614bf89bb9170b8dd51a1b92ae412f82))
+
 ## [5.24.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.23.1...v5.24.0) (2026-09-07)
 
 
