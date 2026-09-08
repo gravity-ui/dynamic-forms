@@ -32,4 +32,8 @@
     &__help-mark {
         margin-top: 1.5px;
     }
+
+    &__right {
+        max-width: calc(100% - 180px - spacing(2));
+    }
 }

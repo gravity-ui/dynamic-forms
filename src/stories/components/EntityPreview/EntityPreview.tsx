@@ -178,6 +178,7 @@ export const EntityPreview: React.FC<EntityPreviewProps> = ({
                 className={spacing({px: 4, pb: 4})}
                 direction="row"
                 gap="4"
+                maxWidth="100%"
             >
                 <Flex
                     alignSelf="flex-start"
@@ -202,7 +203,7 @@ export const EntityPreview: React.FC<EntityPreviewProps> = ({
                         />
                     </MonacoContainer>
                 </Flex>
-                <Flex direction="column" gap="4" grow>
+                <Flex direction="column" gap="4" grow maxWidth="calc(100% - 480px - (16px / 2))">
                     <Example schema={schema} title="With correct value" value={correctValue} />
                     <Example
                         schema={schema}
