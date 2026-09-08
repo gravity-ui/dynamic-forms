@@ -17,7 +17,7 @@ export interface ErrorMessages {
     additionalProperties?: ((e: JSLErrors.AdditionalProperties) => string) | string;
     anyOf?: ((e: JSLErrors.AnyOf) => string) | string;
     const?: ((e: JSLErrors.Const) => string) | string;
-    contains?: ((e: JSLErrors.ContainsAny) => string) | string;
+    contains?: ((e: JSLErrors.ContainsAny | JSLErrors.ContainsMin) => string) | string;
     dependencies?: ((e: JSLErrors.Dependencies) => string) | string;
     enum?: ((e: JSLErrors.Enum) => string) | string;
     exclusiveMaximum?: ((e: JSLErrors.ExclusiveMaximum) => string) | string;
