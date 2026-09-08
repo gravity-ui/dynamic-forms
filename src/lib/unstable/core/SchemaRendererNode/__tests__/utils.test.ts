@@ -1,6 +1,8 @@
+import type {FormApi} from 'final-form';
+
 import {EMPTY_OBJECT, JsonSchemaType, NodeType, SchemaRendererMode} from '../../constants';
 import type {JsonSchemaObject, JsonSchemaString, NodesConfig} from '../../types';
-import {getAccumulatedSchema, getRenderKit} from '../utils';
+import {getAccumulatedSchema, getCompareValues, getRenderKit, scheduleFlush} from '../utils';
 
 describe('getRenderKit', () => {
     test('returns empty kits when schema and config are omitted', () => {
@@ -340,5 +342,120 @@ describe('getAccumulatedSchema', () => {
             minLength: 2,
             title: 'from-ref',
         });
+    });
+});
+
+describe('scheduleFlush', () => {
+    test('does not call form.batch synchronously', () => {
+        const form = {batch: jest.fn()} as unknown as FormApi;
+
+        scheduleFlush(form);
+
+        expect(form.batch).not.toHaveBeenCalled();
+    });
+
+    test('calls form.batch in a microtask', async () => {
+        const form = {batch: jest.fn()} as unknown as FormApi;
+
+        scheduleFlush(form);
+        await new Promise<void>((resolve) => queueMicrotask(resolve));
+
+        expect(form.batch).toHaveBeenCalledTimes(1);
+        expect(form.batch).toHaveBeenCalledWith(expect.any(Function));
+    });
+
+    test('coalesces multiple calls for the same form into a single batch', async () => {
+        const form = {batch: jest.fn()} as unknown as FormApi;
+
+        scheduleFlush(form);
+        scheduleFlush(form);
+        scheduleFlush(form);
+        await new Promise<void>((resolve) => queueMicrotask(resolve));
+
+        expect(form.batch).toHaveBeenCalledTimes(1);
+    });
+
+    test('allows another flush after the scheduled one has run', async () => {
+        const form = {batch: jest.fn()} as unknown as FormApi;
+
+        scheduleFlush(form);
+        await new Promise<void>((resolve) => queueMicrotask(resolve));
+
+        scheduleFlush(form);
+        await new Promise<void>((resolve) => queueMicrotask(resolve));
+
+        expect(form.batch).toHaveBeenCalledTimes(2);
+    });
+
+    test('flushes different forms independently', async () => {
+        const formA = {batch: jest.fn()} as unknown as FormApi;
+        const formB = {batch: jest.fn()} as unknown as FormApi;
+
+        scheduleFlush(formA);
+        scheduleFlush(formB);
+        await new Promise<void>((resolve) => queueMicrotask(resolve));
+
+        expect(formA.batch).toHaveBeenCalledTimes(1);
+        expect(formB.batch).toHaveBeenCalledTimes(1);
+    });
+});
+
+describe('getCompareValues', () => {
+    test('returns false on the first call, including an empty object', () => {
+        const compareValues = getCompareValues();
+
+        expect(compareValues({})).toBe(false);
+        expect(compareValues({})).toBe(true);
+    });
+
+    test('returns false on the first non-empty object and true when it is unchanged', () => {
+        const compareValues = getCompareValues();
+
+        expect(compareValues({a: 1})).toBe(false);
+        expect(compareValues({a: 1})).toBe(true);
+    });
+
+    test('returns false when a value changes', () => {
+        const compareValues = getCompareValues();
+
+        compareValues({a: 1});
+
+        expect(compareValues({a: 2})).toBe(false);
+        expect(compareValues({a: 2})).toBe(true);
+    });
+
+    test('returns false when a key is added', () => {
+        const compareValues = getCompareValues();
+
+        compareValues({a: 1});
+
+        expect(compareValues({a: 1, b: 2})).toBe(false);
+    });
+
+    test('returns false when a key is removed', () => {
+        const compareValues = getCompareValues();
+
+        compareValues({a: 1, b: 2});
+
+        expect(compareValues({a: 1})).toBe(false);
+    });
+
+    test('compares object values by reference', () => {
+        const compareValues = getCompareValues();
+        const obj = {nested: true};
+
+        expect(compareValues({a: obj})).toBe(false);
+        expect(compareValues({a: obj})).toBe(true);
+        expect(compareValues({a: {nested: true}})).toBe(false);
+    });
+
+    test('does not share cache between comparators', () => {
+        const first = getCompareValues();
+        const second = getCompareValues();
+
+        expect(first({a: 1})).toBe(false);
+        expect(second({a: 1})).toBe(false);
+        expect(first({a: 1})).toBe(true);
+        expect(second({a: 1})).toBe(true);
     });
 });

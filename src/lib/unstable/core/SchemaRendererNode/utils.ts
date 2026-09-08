@@ -234,3 +234,22 @@ export const scheduleFlush = (form: FormApi) => {
         form.batch(() => {});
     });
 };
+
+export const getCompareValues = () => {
+    let cachedValues: Record<string, unknown>;
+
+    return (currentValues: Record<string, unknown>) => {
+        if (
+            !cachedValues ||
+            [...Object.keys(cachedValues), ...Object.keys(currentValues)].some(
+                (key) => cachedValues[key] !== currentValues[key],
+            )
+        ) {
+            cachedValues = {...currentValues};
+
+            return false;
+        }
+
+        return true;
+    };
+};

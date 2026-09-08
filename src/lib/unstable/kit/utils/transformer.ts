@@ -3,11 +3,17 @@ import isObject from 'lodash/isObject';
 import set from 'lodash/set';
 
 import {type Spec, SpecTypes} from '../../../core';
-import {type JsonSchema, JsonSchemaType, NodeType} from '../../core';
+import {type ErrorMessages, type JsonSchema, JsonSchemaType, NodeType} from '../../core';
+import {errorMessages as defaultErrorMessages} from '../constants';
 
 type Rules = Record<
     string,
-    (spec: Spec, mutableSchema: JsonSchema, rules: {specRules: Rules; viewSpecRules: Rules}) => void
+    (
+        spec: Spec,
+        mutableSchema: JsonSchema,
+        rules: {specRules: Rules; viewSpecRules: Rules},
+        errorMessages: ErrorMessages,
+    ) => void
 >;
 
 const viewSpecRules: Rules = {
@@ -934,11 +940,16 @@ const specRules: Rules = {
             set(mutableSchema, 'nodeParameters.type', specTypeToNodeType[spec.type]);
         }
     },
-    required: (spec, mutableSchema) => {
+    required: (spec, mutableSchema, _rules, errorMessages) => {
         if (spec.required) {
             set(mutableSchema, 'allOf', [
                 ...(mutableSchema.allOf || []),
-                {not: {enum: [null, undefined, '', false]}},
+                {
+                    not: {
+                        enum: [null, undefined, '', false],
+                        nodeParameters: {errorMessages: {not: errorMessages.required}},
+                    },
+                },
             ]);
             set(mutableSchema, 'nodeParameters.flags.required', true);
         }
@@ -977,7 +988,7 @@ const specRules: Rules = {
             }
         }
     },
-    items: (spec, mutableSchema, rules) => {
+    items: (spec, mutableSchema, rules, errorMessages) => {
         if (spec.type === SpecTypes.Array && spec.items) {
             const childSchema: JsonSchema = specToJsonSchema(
                 spec.items,
@@ -987,6 +998,7 @@ const specRules: Rules = {
                     ? {...mutableSchema.items}
                     : {},
                 rules,
+                errorMessages,
             );
 
             set(mutableSchema, 'items', childSchema);
@@ -1054,13 +1066,14 @@ const specRules: Rules = {
             set(mutableSchema, 'type', JsonSchemaType.Integer);
         }
     },
-    properties: (spec, mutableSchema, rules) => {
+    properties: (spec, mutableSchema, rules, errorMessages) => {
         if (spec.type === SpecTypes.Object && spec.properties) {
             Object.entries(spec.properties).forEach(([key, childSpec]) => {
                 const childSchema: JsonSchema = specToJsonSchema(
                     childSpec,
                     {...(get(mutableSchema, ['properties', key]) || {})},
                     rules,
+                    errorMessages,
                 );
 
                 set(mutableSchema, ['properties', key], childSchema);
@@ -1077,8 +1090,10 @@ const specRules: Rules = {
             set(mutableSchema, 'nodeParameters.errorMessages.pattern', spec.patternError);
         }
     },
-    viewSpec: (spec, mutableSchema, rules) => {
-        Object.values(rules.viewSpecRules).forEach((rule) => rule(spec, mutableSchema, rules));
+    viewSpec: (spec, mutableSchema, rules, errorMessages) => {
+        Object.values(rules.viewSpecRules).forEach((rule) =>
+            rule(spec, mutableSchema, rules, errorMessages),
+        );
     },
 };
 
@@ -1086,6 +1101,7 @@ export function specToJsonSchema(
     spec: Spec,
     mutableSchema: JsonSchema = {},
     rules?: {specRules: Rules; viewSpecRules: Rules},
+    errorMessages: ErrorMessages = defaultErrorMessages,
 ) {
     const mergedSpecRules = {
         ...specRules,
@@ -1097,7 +1113,12 @@ export function specToJsonSchema(
     };
 
     Object.values(mergedSpecRules).forEach((rule) =>
-        rule(spec, mutableSchema, {specRules: mergedSpecRules, viewSpecRules: mergedViewSpecRules}),
+        rule(
+            spec,
+            mutableSchema,
+            {specRules: mergedSpecRules, viewSpecRules: mergedViewSpecRules},
+            errorMessages,
+        ),
     );
 
     return mutableSchema;
