@@ -119,7 +119,7 @@ export const useSchemaRenderer = ({
                 }
             },
             {data: true},
-            {data: {state: initialState}, getValidator, validateFields: [headName]},
+            {data: {state: initialState}, getValidator, silent: true, validateFields: [headName]},
         );
 
         prevParamsRef.current = {

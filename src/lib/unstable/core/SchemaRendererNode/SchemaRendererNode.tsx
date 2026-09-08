@@ -11,7 +11,7 @@ import {useSchemaRendererState} from '../useSchemaRendererState';
 import {getServiceFieldName} from '../utils';
 
 import type {SchemaRendererNodeState} from './types';
-import {getAccumulatedSchema, getRenderKit} from './utils';
+import {getAccumulatedSchema, getRenderKit, scheduleFlush} from './utils';
 
 export interface SchemaRendererNodeProps {
     headName: string;
@@ -30,8 +30,6 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
 }) => {
     const form = useForm();
 
-    const firstRenderRef = React.useRef(true);
-    const pendingTicksRef = React.useRef({input: 0, meta: 0});
     const fieldRef = React.useRef<FieldState<any>>(null);
     const unsubscribeRef = React.useRef<() => void>(null);
     const [ticks, setTicks] = React.useState({input: 0, meta: 0});
@@ -78,7 +76,7 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
             } catch {}
         }
 
-        unsubscribeRef.current = form.registerField(
+        const unsubscribe = form.registerField(
             name,
             (f) => {
                 const prevF = fieldRef.current;
@@ -100,14 +98,10 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
                     }
 
                     if (inputTick + metaTick) {
-                        if (firstRenderRef.current) {
-                            pendingTicksRef.current = {input: inputTick, meta: metaTick};
-                        } else {
-                            setTicks((t) => ({
-                                input: t.input + inputTick,
-                                meta: t.meta + metaTick,
-                            }));
-                        }
+                        setTicks((t) => ({
+                            input: t.input + inputTick,
+                            meta: t.meta + metaTick,
+                        }));
                     }
                 }
 
@@ -117,9 +111,19 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
             {
                 data: {state: initialState},
                 defaultValue,
+                silent: true,
                 validateFields: [getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, headName)],
             },
         );
+
+        if (defaultValue !== undefined) {
+            scheduleFlush(form);
+        }
+
+        unsubscribeRef.current = () => {
+            unsubscribe();
+            scheduleFlush(form);
+        };
     }, [form, jsonDefaultValues, headName, name, schema?.default, schema?.type, schemaPath]);
 
     const input: FieldInputProps<any> = React.useMemo(() => {
@@ -148,15 +152,6 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
     }, [error, form, name, ticks.meta]);
 
     React.useEffect(() => {
-        firstRenderRef.current = false;
-
-        if (pendingTicksRef.current.input || pendingTicksRef.current.meta) {
-            setTicks((t) => ({
-                input: t.input + pendingTicksRef.current.input,
-                meta: t.meta + pendingTicksRef.current.meta,
-            }));
-        }
-
         return () => {
             unsubscribeRef.current?.();
         };
