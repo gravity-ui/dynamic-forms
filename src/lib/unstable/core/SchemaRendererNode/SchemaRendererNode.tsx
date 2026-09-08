@@ -11,7 +11,7 @@ import {useSchemaRendererState} from '../useSchemaRendererState';
 import {getServiceFieldName} from '../utils';
 
 import type {SchemaRendererNodeState} from './types';
-import {getAccumulatedSchema, getRenderKit, scheduleFlush} from './utils';
+import {getAccumulatedSchema, getCompareValues, getRenderKit, scheduleFlush} from './utils';
 
 export interface SchemaRendererNodeProps {
     headName: string;
@@ -29,6 +29,8 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
     schemaPath,
 }) => {
     const form = useForm();
+
+    const compareValuesRef = React.useRef(getCompareValues());
 
     const fieldRef = React.useRef<FieldState<any>>(null);
     const unsubscribeRef = React.useRef<() => void>(null);
@@ -64,6 +66,20 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
     );
 
     React.useMemo(() => {
+        if (
+            compareValuesRef.current({
+                form,
+                jsonDefaultValues,
+                headName,
+                name,
+                default: schema?.default,
+                type: schema?.type,
+                schemaPath,
+            })
+        ) {
+            return;
+        }
+
         unsubscribeRef.current?.();
 
         const initialState: SchemaRendererNodeState = {schemaPath};
