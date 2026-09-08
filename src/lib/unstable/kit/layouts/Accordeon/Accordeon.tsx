@@ -54,78 +54,45 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
-    const summary = React.useMemo(() => {
-        const stopPropagation = (event: React.MouseEvent<HTMLButtonElement>) => {
-            event.stopPropagation();
-        };
+    const summary = React.useMemo(
+        () => (
+            <Text
+                {...titleProps}
+                className={b('title', {required: required && !overviewFlag}, titleProps?.className)}
+            >
+                {schema.title}
+            </Text>
+        ),
+        [overviewFlag, required, schema.title, titleProps],
+    );
 
-        return (
-            <Flex alignItems="center" gap={2}>
-                {withDefaultSummary ? (
-                    <Text
-                        {...titleProps}
-                        className={b(
-                            'title',
-                            {required: required && !overviewFlag},
-                            titleProps?.className,
-                        )}
-                    >
-                        {schema.title}
-                    </Text>
-                ) : (
-                    <Disclosure.Summary>
-                        {(props) => (
-                            <Button
-                                {...togglerProps}
-                                className={b('toggler', togglerProps?.className)}
-                            >
-                                <Flex alignItems="center" gap={2} height="100%">
-                                    <Icon data={props.expanded ? ChevronUp : ChevronDown} />
-                                    <Text
-                                        {...titleProps}
-                                        className={b(
-                                            'title',
-                                            {required: required && !overviewFlag},
-                                            titleProps?.className,
-                                        )}
-                                    >
-                                        {schema.title}
-                                    </Text>
-                                </Flex>
-                            </Button>
-                        )}
-                    </Disclosure.Summary>
-                )}
-                {schema.description ? (
-                    <HelpMark onClick={stopPropagation}>
-                        <HTMLContent content={schema.description} headName={headName} />
-                    </HelpMark>
-                ) : null}
-                {overviewFlag ? (
-                    <CopyButton className={b('copy-button')} copy={copy} value={input.value} />
-                ) : null}
-                {overviewFlag ? null : (
-                    <ArrayRemoveButton
-                        name={input.name}
-                        headName={headName}
-                        onClick={stopPropagation}
-                    />
-                )}
-            </Flex>
-        );
-    }, [
-        copy,
-        headName,
-        input.name,
-        input.value,
-        overviewFlag,
-        required,
-        schema.title,
-        schema.description,
-        titleProps,
-        togglerProps,
-        withDefaultSummary,
-    ]);
+    const helpMark = React.useMemo(() => {
+        if (schema.description) {
+            return (
+                <HelpMark>
+                    <HTMLContent content={schema.description} headName={headName} />
+                </HelpMark>
+            );
+        }
+
+        return null;
+    }, [schema.description, headName]);
+
+    const copyButton = React.useMemo(() => {
+        if (overviewFlag) {
+            return <CopyButton className={b('copy-button')} copy={copy} value={input.value} />;
+        }
+
+        return null;
+    }, [overviewFlag, copy, input.value]);
+
+    const removeButton = React.useMemo(() => {
+        if (overviewFlag) {
+            return null;
+        }
+
+        return <ArrayRemoveButton name={input.name} headName={headName} />;
+    }, [overviewFlag, input.name, headName]);
 
     return (
         <LayoutContainer
@@ -133,7 +100,30 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
             hideEmpty={overviewFlag}
             hidden={hidden}
         >
-            <Disclosure summary={summary} defaultExpanded={open} {...restLayoutProps}>
+            <Disclosure defaultExpanded={open} summary={summary} {...restLayoutProps}>
+                <Disclosure.Summary>
+                    {({expanded, onClick}, defaultSummary) => (
+                        <Flex minHeight="28px" alignItems="center" gap={2}>
+                            {withDefaultSummary ? (
+                                defaultSummary
+                            ) : (
+                                <Button
+                                    {...togglerProps}
+                                    onClick={onClick}
+                                    className={b('toggler', togglerProps?.className)}
+                                >
+                                    <Flex alignItems="center" gap={2} height="100%">
+                                        <Icon data={expanded ? ChevronUp : ChevronDown} />
+                                        {summary}
+                                    </Flex>
+                                </Button>
+                            )}
+                            {helpMark}
+                            {copyButton}
+                            {removeButton}
+                        </Flex>
+                    )}
+                </Disclosure.Summary>
                 <Flex direction="column" gap={0.5} grow={1}>
                     <div className={b('content', {'with-indent': withIndent})}>{children}</div>
                     {overviewFlag ? null : (

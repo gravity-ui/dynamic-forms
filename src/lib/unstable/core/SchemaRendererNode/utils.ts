@@ -1,3 +1,4 @@
+import type {FormApi} from 'final-form';
 import get from 'lodash/get';
 import isString from 'lodash/isString';
 import set from 'lodash/set';
@@ -217,4 +218,19 @@ export const getAccumulatedSchema = (
     }
 
     return accumulatedSchema;
+};
+
+const flushes = new WeakMap<object, boolean>();
+
+export const scheduleFlush = (form: FormApi) => {
+    if (flushes.get(form)) {
+        return;
+    }
+
+    flushes.set(form, true);
+
+    queueMicrotask(() => {
+        flushes.delete(form);
+        form.batch(() => {});
+    });
 };
