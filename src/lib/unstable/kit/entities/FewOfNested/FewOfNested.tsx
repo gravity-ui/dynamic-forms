@@ -6,6 +6,7 @@ import {
     type JsonSchema,
     type JsonSchemaObject,
     type NodeEntity,
+    type ObjectValue,
     SchemaRendererEventType,
     SchemaRendererMode,
     SchemaRendererNode,
@@ -72,7 +73,18 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
             value: togglerValues,
             onChange: (value: unknown) => {
                 if (Array.isArray(value)) {
-                    setTogglerValues(value.filter(isString));
+                    const nextTogglerValues = value.filter(isString);
+
+                    setTogglerValues(nextTogglerValues);
+                    input.onChange(
+                        nextTogglerValues.reduce(
+                            (acc: ObjectValue, togglerValue) => ({
+                                ...acc,
+                                [togglerValue]: input.value?.[togglerValue],
+                            }),
+                            {},
+                        ),
+                    );
                 }
             },
         };

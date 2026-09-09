@@ -93,10 +93,10 @@ export const getValidate = (form: FormApi, headName: string) => {
         Object.keys({...srState.errors, ...allErrors}).forEach((key) => {
             if (srState.errors[key] !== allErrors[key]) {
                 newErrors[key] = allErrors[key];
+                srState.errors[key] = allErrors[key];
             }
         });
 
-        srState.errors = allErrors;
         srState.waiters = {...srState.waiters, ...waiters};
 
         if (Object.values(newErrors).length) {

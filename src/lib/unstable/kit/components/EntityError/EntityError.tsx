@@ -16,7 +16,7 @@ export interface EntityErrorProps {
 export const EntityError: React.FC<EntityErrorProps> = ({errorMessage, validationState}) => {
     if (validationState === 'invalid' && errorMessage) {
         return (
-            <Text className={b()} color="danger">
+            <Text className={b()} color="danger" data-sr-error="true">
                 {errorMessage}
             </Text>
         );

@@ -64,7 +64,7 @@ export const Alert: NodeEntity<JsonSchemaString, AlertProps> = ({headName, props
         if (message) {
             if (typeof message === 'string') {
                 return (
-                    <div className={b('message', {expanded})}>
+                    <div className={b('message', {expanded: expanded || !title})}>
                         <HTMLContent content={message} headName={headName} />
                     </div>
                 );
@@ -75,14 +75,14 @@ export const Alert: NodeEntity<JsonSchemaString, AlertProps> = ({headName, props
 
         if (schema.description) {
             return (
-                <div className={b('message', {expanded})}>
+                <div className={b('message', {expanded: expanded || !title})}>
                     <HTMLContent content={schema.description} headName={headName} />
                 </div>
             );
         }
 
         return undefined;
-    }, [expanded, headName, message, schema.description]);
+    }, [expanded, headName, message, schema.description, title]);
 
     return (
         <EntityContainer className={b({expanded})} stretch="fit" fill="populated">
