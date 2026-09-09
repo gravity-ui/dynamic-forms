@@ -70,8 +70,10 @@ export const OneOfNested: NodeEntity<JsonSchemaObject, OneOfNestedProps> = ({
                     : togglerValue,
             onChange: (value: unknown) => {
                 const nextValue = `${value}`;
+                const nextTogglerValue = booleanToKey?.[nextValue as 'true' | 'false'] || nextValue;
 
-                setTogglerValue(booleanToKey?.[nextValue as 'true' | 'false'] || nextValue);
+                setTogglerValue(nextTogglerValue);
+                input.onChange({[nextTogglerValue]: undefined});
             },
         };
         const togglerMeta = {

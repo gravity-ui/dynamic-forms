@@ -132,9 +132,7 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
             },
         );
 
-        if (defaultValue !== undefined) {
-            scheduleFlush(form);
-        }
+        scheduleFlush(form);
 
         unsubscribeRef.current = () => {
             unsubscribe();

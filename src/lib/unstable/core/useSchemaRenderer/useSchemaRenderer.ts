@@ -54,7 +54,7 @@ export const useSchemaRenderer = ({
     );
     const validate = React.useMemo(() => getValidate(form, headName), [form, headName]);
 
-    React.useMemo(() => {
+    const unsubscribeField = React.useMemo(() => {
         unsubscribeRef.current?.();
 
         const prevParams = prevParamsRef.current;
@@ -133,6 +133,8 @@ export const useSchemaRenderer = ({
             validateOnBlur,
         };
         stateRef.current = initialState;
+
+        return unsubscribeRef.current;
     }, [
         config,
         connectValidate,
@@ -150,6 +152,10 @@ export const useSchemaRenderer = ({
         validateOnBlur,
         userContext,
     ]);
+
+    React.useEffect(() => {
+        runValidate();
+    }, [unsubscribeField]);
 
     React.useEffect(() => {
         return () => {
