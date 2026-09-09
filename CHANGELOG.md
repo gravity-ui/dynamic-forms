@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.26.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.25.0...v5.26.0) (2026-09-09)
+
+
+### Features
+
+* **unstable:** add one/few of erasing old values ([#415](https://github.com/gravity-ui/dynamic-forms/issues/415)) ([a018164](https://github.com/gravity-ui/dynamic-forms/commit/a018164e4b77ccf16f21db811a97bff277cbb70a))
+
 ## [5.25.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.24.0...v5.25.0) (2026-09-08)
 
 
