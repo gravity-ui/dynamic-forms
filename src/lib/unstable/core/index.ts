@@ -24,4 +24,7 @@ export {
     defineNodeLayoutConfig,
     getServiceFieldName,
     getSchemaByPointer,
+    isStringFloat,
+    isStringInt,
+    isStringNumber,
 } from './utils';

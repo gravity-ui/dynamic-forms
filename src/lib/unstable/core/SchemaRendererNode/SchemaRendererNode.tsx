@@ -1,6 +1,7 @@
 import React from 'react';
 
 import type {FieldState} from 'final-form';
+import get from 'lodash/get';
 import noop from 'lodash/noop';
 import {type FieldInputProps, type FieldMetaState, useForm} from 'react-final-form';
 
@@ -11,7 +12,7 @@ import {useSchemaRendererState} from '../useSchemaRendererState';
 import {getServiceFieldName, getStrictModeChecker} from '../utils';
 
 import type {SchemaRendererNodeState} from './types';
-import {getAccumulatedSchema, getRenderKit, scheduleFlush} from './utils';
+import {coerceToJsonSchemaType, getAccumulatedSchema, getRenderKit, scheduleFlush} from './utils';
 
 export interface SchemaRendererNodeProps {
     headName: string;
@@ -57,7 +58,9 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
 
     const error = srState?.errors[name];
     const mode: SchemaRendererMode | undefined = modeOverride || srState?.mode;
+    // todo: check parent
     const required = schema?.nodeParameters?.flags?.required;
+    const coerceInitialValues: boolean = srState?.settings?.coerceInitialValues ?? true;
     const jsonDefaultValues: boolean = srState?.settings?.jsonDefaultValues ?? false;
 
     const kit = React.useMemo(
@@ -67,7 +70,7 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
 
     React.useMemo(() => {
         if (
-            !strictCheckerRef.current.check({
+            !strictCheckerRef.current.checkDiff({
                 form,
                 headName,
                 name,
@@ -96,17 +99,23 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
             if (result === undefined && required) {
                 if (
                     (Array.isArray(schema.type) &&
+                        schema.type.length &&
                         !schema.type.filter((t) => t !== JsonSchemaType.Array).length) ||
                     schema.type === JsonSchemaType.Array
                 ) {
                     result = [];
                 } else if (
                     (Array.isArray(schema.type) &&
+                        schema.type.length &&
                         !schema.type.filter((t) => t !== JsonSchemaType.Object).length) ||
                     schema.type === JsonSchemaType.Object
                 ) {
                     result = {};
                 }
+            }
+
+            if (coerceInitialValues) {
+                result = coerceToJsonSchemaType(result, schema?.type);
             }
 
             return result;
@@ -152,7 +161,32 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
             },
         );
 
-        scheduleFlush(form, headName);
+        const castParams = (() => {
+            if (!coerceInitialValues) {
+                return undefined;
+            }
+
+            const formValues = form.getState().values;
+            const currentValue = name ? get(formValues, name) : formValues;
+
+            if (currentValue === undefined) {
+                return undefined;
+            }
+
+            const coercedCurrentValue = coerceToJsonSchemaType(currentValue, schema?.type);
+
+            if (coercedCurrentValue !== undefined && coercedCurrentValue !== currentValue) {
+                return {name, value: coercedCurrentValue};
+            }
+
+            if (defaultValue !== undefined && defaultValue !== currentValue) {
+                return {name, value: defaultValue};
+            }
+
+            return undefined;
+        })();
+
+        scheduleFlush(form, headName, castParams);
 
         unsubscribeRef.current = () => {
             unsubscribe();

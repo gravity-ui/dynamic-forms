@@ -47,10 +47,3 @@ export const isTupleItem = (name: string, headName: string, form: FormApi) => {
 
     return parentSchema && 'items' in parentSchema && Array.isArray(parentSchema.items);
 };
-
-export const isStringInt = (v: unknown): v is string => /^-?(0|[1-9][0-9]*)$/.test(`${v}`);
-
-export const isStringFloat = (v: unknown): v is string =>
-    /^-?(0|[1-9][0-9]*)(\.[0-9]+)?$/.test(`${v}`);
-
-export const isStringNumber = (v: unknown): v is string => isStringInt(v) || isStringFloat(v);

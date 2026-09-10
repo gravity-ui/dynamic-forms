@@ -5,9 +5,6 @@ export {
     getBooleanValidationState,
     getValidationState,
     isArrayItem,
-    isStringInt,
-    isStringFloat,
-    isStringNumber,
     isTupleItem,
 } from './common';
 export {parseDate} from './date';

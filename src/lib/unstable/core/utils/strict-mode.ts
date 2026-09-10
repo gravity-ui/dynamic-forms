@@ -2,12 +2,12 @@ export const getStrictModeChecker = () => {
     const checker: {
         cachedValues: Record<string, unknown> | undefined;
         hasDiff: boolean | undefined;
-        check: (currentValues: Record<string, unknown>) => boolean;
+        checkDiff: (currentValues: Record<string, unknown>) => boolean;
         isStrict: () => boolean | undefined;
     } = {
         cachedValues: undefined,
         hasDiff: undefined,
-        check: (currentValues: Record<string, unknown>) => {
+        checkDiff: (currentValues: Record<string, unknown>) => {
             const cachedValues = checker.cachedValues;
 
             if (
@@ -21,6 +21,8 @@ export const getStrictModeChecker = () => {
 
                 return true;
             }
+
+            checker.hasDiff = false;
 
             return false;
         },

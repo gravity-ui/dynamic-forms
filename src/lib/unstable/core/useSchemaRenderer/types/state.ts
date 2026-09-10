@@ -22,7 +22,10 @@ export interface SchemaRendererState<
     regularErrors: Record<string, ValidationError>;
     runValidate: () => void;
     schema: JsonSchema;
-    settings: {jsonDefaultValues: boolean};
+    settings: {
+        coerceInitialValues: boolean;
+        jsonDefaultValues: boolean;
+    };
     subscribe: (subscriber: SchemaRendererSubscriber) => string;
     subscribers: {
         byId: Record<string, SchemaRendererSubscriber>;

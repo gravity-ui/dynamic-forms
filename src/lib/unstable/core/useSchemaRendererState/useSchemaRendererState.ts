@@ -34,7 +34,7 @@ export const useSchemaRendererState = <
 
     React.useMemo(() => {
         if (
-            !strictCheckerRef.current.check({
+            !strictCheckerRef.current.checkDiff({
                 form,
                 headName,
                 name,

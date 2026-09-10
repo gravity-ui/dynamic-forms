@@ -4,9 +4,8 @@ import {Text} from '@gravity-ui/uikit';
 import Decimal from 'decimal.js';
 import get from 'lodash/get';
 
-import type {JsonSchemaString, NodeEntity} from '../../../core';
+import {type JsonSchemaString, type NodeEntity, isStringNumber} from '../../../core';
 import {EmptyEntityValue, EntityContainer, LongValue, type LongValueProps} from '../../components';
-import {isStringNumber} from '../../utils';
 
 export interface StringNumberWithScaleValueProps extends Omit<LongValueProps, 'qa' | 'value'> {
     scale?: Record<string, {title: string; factor: string}>;

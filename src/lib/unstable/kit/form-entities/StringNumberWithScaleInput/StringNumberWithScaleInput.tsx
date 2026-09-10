@@ -3,9 +3,9 @@ import React from 'react';
 import {Select, TextInput, type TextInputProps} from '@gravity-ui/uikit';
 import Decimal from 'decimal.js';
 
-import type {JsonSchemaString, NodeEntity} from '../../../core';
+import {type JsonSchemaString, type NodeEntity, isStringNumber} from '../../../core';
 import {EntityContainer} from '../../components';
-import {block, getBooleanValidationState, getValidationState, isStringNumber} from '../../utils';
+import {block, getBooleanValidationState, getValidationState} from '../../utils';
 
 import './StringNumberWithScaleInput.scss';
 

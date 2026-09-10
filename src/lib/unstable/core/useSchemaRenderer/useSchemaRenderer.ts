@@ -15,6 +15,7 @@ import type {SchemaRendererState} from './types';
 import {getDispatch, getRunValidate, getSubscribe, getValidate} from './utils';
 
 export interface UseSchemaRendererParams {
+    coerceInitialValues?: boolean;
     config?: NodesConfig;
     connectValidate?: boolean;
     errorMessages?: ErrorMessages;
@@ -27,6 +28,7 @@ export interface UseSchemaRendererParams {
 }
 
 export const useSchemaRenderer = ({
+    coerceInitialValues = true,
     config,
     connectValidate = true,
     errorMessages,
@@ -65,7 +67,9 @@ export const useSchemaRenderer = ({
         const modeUpdated = mode !== prevParams?.mode;
         const schemaUpdated = originalSchema !== prevParams?.schema;
         const userContextUpdated = userContext !== prevParams?.userContext;
-        const settingsUpdated = jsonDefaultValues !== prevParams?.jsonDefaultValues;
+        const settingsUpdated =
+            coerceInitialValues !== prevParams?.coerceInitialValues ||
+            jsonDefaultValues !== prevParams?.jsonDefaultValues;
 
         const initialState: SchemaRendererState = {
             cache: nameUpdated || schemaUpdated || !prevState?.cache ? {} : prevState.cache,
@@ -85,7 +89,7 @@ export const useSchemaRenderer = ({
                     ? {}
                     : prevState.regularErrors,
             runValidate,
-            settings: {jsonDefaultValues},
+            settings: {coerceInitialValues, jsonDefaultValues},
             schema:
                 nameUpdated || schemaUpdated ? cloneDeep(originalSchema) : prevState?.schema || {},
             subscribe,
@@ -106,6 +110,7 @@ export const useSchemaRenderer = ({
         ].map((type) => ({type, all: true}));
 
         prevParamsRef.current = {
+            coerceInitialValues,
             config,
             errorMessages,
             jsonDefaultValues,
@@ -119,6 +124,7 @@ export const useSchemaRenderer = ({
 
         return {initialEvents, initialState};
     }, [
+        coerceInitialValues,
         config,
         dispatchEvent,
         errorMessages,
@@ -135,7 +141,7 @@ export const useSchemaRenderer = ({
 
     React.useMemo(() => {
         if (
-            !strictCheckerRef.current.check({
+            !strictCheckerRef.current.checkDiff({
                 connectValidate,
                 form,
                 headName,
