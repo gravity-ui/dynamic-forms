@@ -175,11 +175,19 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
 
             const coercedCurrentValue = coerceToJsonSchemaType(currentValue, schema?.type);
 
-            if (coercedCurrentValue !== undefined && coercedCurrentValue !== currentValue) {
+            if (coercedCurrentValue !== undefined) {
+                if (coercedCurrentValue === currentValue) {
+                    return undefined;
+                }
+
                 return {name, value: coercedCurrentValue};
             }
 
-            if (defaultValue !== undefined && defaultValue !== currentValue) {
+            if (defaultValue !== undefined) {
+                if (defaultValue === currentValue) {
+                    return undefined;
+                }
+
                 return {name, value: defaultValue};
             }
 
