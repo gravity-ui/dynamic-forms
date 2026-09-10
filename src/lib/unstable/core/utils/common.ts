@@ -124,3 +124,10 @@ export const getValuePaths = (value: unknown, path: string[] = []) => {
 
 export const getServiceFieldName = (serviceFieldName: string, headName: string) =>
     headName ? `${serviceFieldName}.${headName}` : serviceFieldName;
+
+export const isStringInt = (v: unknown): v is string => /^-?(0|[1-9][0-9]*)$/.test(`${v}`);
+
+export const isStringFloat = (v: unknown): v is string =>
+    /^-?(0|[1-9][0-9]*)(\.[0-9]+)?$/.test(`${v}`);
+
+export const isStringNumber = (v: unknown): v is string => isStringInt(v) || isStringFloat(v);

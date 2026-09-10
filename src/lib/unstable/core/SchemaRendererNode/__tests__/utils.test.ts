@@ -4,7 +4,7 @@ import {EMPTY_OBJECT, JsonSchemaType, NodeType, SchemaRendererMode} from '../../
 import type {JsonSchemaObject, JsonSchemaString, NodesConfig} from '../../types';
 import {SCHEMA_RENDERER_SERVICE_FIELD} from '../../useSchemaRenderer';
 import {getServiceFieldName} from '../../utils';
-import {getAccumulatedSchema, getRenderKit, scheduleFlush} from '../utils';
+import {coerceToJsonSchemaType, getAccumulatedSchema, getRenderKit, scheduleFlush} from '../utils';
 
 describe('getRenderKit', () => {
     test('returns empty kits when schema and config are omitted', () => {
@@ -485,5 +485,79 @@ describe('scheduleFlush', () => {
         expect(formB.batch).toHaveBeenCalledTimes(1);
         expect(runValidateA).toHaveBeenCalledTimes(1);
         expect(runValidateB).toHaveBeenCalledTimes(1);
+    });
+
+    test('applies queued field changes inside the batched flush', async () => {
+        const runValidate = jest.fn();
+        const change = jest.fn();
+        const form = {
+            batch: jest.fn((fn: () => void) => fn()),
+            change,
+            getFieldState: jest.fn(() => ({data: {state: {runValidate}}})),
+        } as unknown as FormApi;
+
+        scheduleFlush(form, 'form', {name: 'step.form.format.csv.blockSize', value: 10000});
+        scheduleFlush(form, 'form', {name: 'enabled', value: true});
+        await new Promise<void>((resolve) => queueMicrotask(resolve));
+
+        expect(change).toHaveBeenCalledTimes(2);
+        expect(change).toHaveBeenCalledWith('step.form.format.csv.blockSize', 10000);
+        expect(change).toHaveBeenCalledWith('enabled', true);
+        expect(runValidate).toHaveBeenCalledTimes(1);
+    });
+});
+
+describe('coerceToJsonSchemaType', () => {
+    test('returns the value when it is undefined or type is omitted', () => {
+        expect(coerceToJsonSchemaType(undefined, JsonSchemaType.Number)).toBeUndefined();
+        expect(coerceToJsonSchemaType('100')).toBe('100');
+    });
+
+    test('keeps null when the schema allows null', () => {
+        expect(
+            coerceToJsonSchemaType(null, [JsonSchemaType.Number, JsonSchemaType.Null]),
+        ).toBeNull();
+        expect(coerceToJsonSchemaType(null, JsonSchemaType.Null)).toBeNull();
+    });
+
+    test('casts strings and empty values to number', () => {
+        expect(coerceToJsonSchemaType('10000', JsonSchemaType.Number)).toBe(10000);
+        expect(coerceToJsonSchemaType(100, JsonSchemaType.Number)).toBe(100);
+        expect(coerceToJsonSchemaType('', JsonSchemaType.Number)).toBe('');
+        expect(coerceToJsonSchemaType(null, JsonSchemaType.Number)).toBeNull();
+        expect(coerceToJsonSchemaType('abc', JsonSchemaType.Number)).toBe('abc');
+    });
+
+    test('casts integer strings and keeps non-integers', () => {
+        expect(coerceToJsonSchemaType('7', JsonSchemaType.Integer)).toBe(7);
+        expect(coerceToJsonSchemaType('7.5', JsonSchemaType.Integer)).toBe(7.5);
+        expect(coerceToJsonSchemaType(7, JsonSchemaType.Integer)).toBe(7);
+    });
+
+    test('casts boolean-like values', () => {
+        expect(coerceToJsonSchemaType(true, JsonSchemaType.Boolean)).toBe(true);
+        expect(coerceToJsonSchemaType('true', JsonSchemaType.Boolean)).toBe(true);
+        expect(coerceToJsonSchemaType('false', JsonSchemaType.Boolean)).toBe(false);
+        expect(coerceToJsonSchemaType(1, JsonSchemaType.Boolean)).toBe(true);
+        expect(coerceToJsonSchemaType(0, JsonSchemaType.Boolean)).toBe(false);
+        expect(coerceToJsonSchemaType('yes', JsonSchemaType.Boolean)).toBe('yes');
+    });
+
+    test('casts primitives to string and leaves objects untouched', () => {
+        expect(coerceToJsonSchemaType(100, JsonSchemaType.String)).toBe('100');
+        expect(coerceToJsonSchemaType(false, JsonSchemaType.String)).toBe('false');
+        expect(coerceToJsonSchemaType({a: 1}, JsonSchemaType.String)).toEqual({a: 1});
+        expect(coerceToJsonSchemaType('keep', JsonSchemaType.String)).toBe('keep');
+    });
+
+    test('does not cast object or array values', () => {
+        expect(coerceToJsonSchemaType('{"a":1}', JsonSchemaType.Object)).toBe('{"a":1}');
+        expect(coerceToJsonSchemaType('[1]', JsonSchemaType.Array)).toBe('[1]');
+    });
+
+    test('uses the first non-null type from a union', () => {
+        expect(coerceToJsonSchemaType('100', [JsonSchemaType.Null, JsonSchemaType.Number])).toBe(
+            100,
+        );
     });
 });

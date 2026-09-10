@@ -1,12 +1,13 @@
 import type {FormApi} from 'final-form';
 import get from 'lodash/get';
+import isObjectLike from 'lodash/isObjectLike';
 import isString from 'lodash/isString';
 import set from 'lodash/set';
 
-import {EMPTY_OBJECT, type NodeType, SchemaRendererMode} from '../constants';
-import type {JsonSchema, NodeEntity, NodeLayout, NodesConfig} from '../types';
+import {EMPTY_OBJECT, JsonSchemaType, type NodeType, SchemaRendererMode} from '../constants';
+import type {FieldValue, JsonSchema, NodeEntity, NodeLayout, NodesConfig} from '../types';
 import {SCHEMA_RENDERER_SERVICE_FIELD, type SchemaRendererState} from '../useSchemaRenderer';
-import {getSchemaByPointer, getServiceFieldName, getValuePaths} from '../utils';
+import {getSchemaByPointer, getServiceFieldName, getValuePaths, isStringNumber} from '../utils';
 
 const fixType = <Type>(value: any): Type => value as Type;
 
@@ -221,24 +222,41 @@ export const getAccumulatedSchema = (
     return accumulatedSchema;
 };
 
-const flushes = new WeakMap<object, Set<string>>();
+const flushes = new WeakMap<object, {changes: Map<string, FieldValue>; headNames: Set<string>}>();
 
-export const scheduleFlush = (form: FormApi, headName: string) => {
+export const scheduleFlush = (
+    form: FormApi,
+    headName: string,
+    change?: {name: string; value: FieldValue},
+) => {
     const scheduled = flushes.get(form);
 
     if (scheduled) {
-        scheduled.add(headName);
+        scheduled.headNames.add(headName);
+
+        if (change) {
+            scheduled.changes.set(change.name, change.value);
+        }
 
         return;
     }
 
+    const changes = new Map<string, FieldValue>();
     const headNames = new Set([headName]);
 
-    flushes.set(form, headNames);
+    if (change) {
+        changes.set(change.name, change.value);
+    }
+
+    flushes.set(form, {changes, headNames});
 
     queueMicrotask(() => {
         flushes.delete(form);
-        form.batch(() => {});
+        form.batch(() => {
+            changes.forEach((value, name) => {
+                form.change(name, value);
+            });
+        });
 
         headNames.forEach((name) => {
             const srName = getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, name);
@@ -248,4 +266,63 @@ export const scheduleFlush = (form: FormApi, headName: string) => {
             srState?.runValidate();
         });
     });
+};
+
+// eslint-disable-next-line complexity
+export const coerceToJsonSchemaType = (
+    value: FieldValue,
+    type?: JsonSchema['type'],
+): FieldValue => {
+    if (value === undefined || value === null || !type) {
+        return value;
+    }
+
+    const typeArray = Array.isArray(type) ? type : [type];
+
+    if (
+        typeArray.length &&
+        typeArray.some((t) => t === JsonSchemaType.Number || t === JsonSchemaType.Integer) &&
+        !typeArray.filter(
+            (t) =>
+                t !== JsonSchemaType.Number &&
+                t !== JsonSchemaType.Integer &&
+                t !== JsonSchemaType.Null,
+        ).length
+    ) {
+        if (isStringNumber(value)) {
+            return Number(value);
+        }
+
+        return value;
+    }
+
+    if (
+        typeArray.length &&
+        typeArray.some((t) => t === JsonSchemaType.Boolean) &&
+        !typeArray.filter((t) => t !== JsonSchemaType.Boolean && t !== JsonSchemaType.Null).length
+    ) {
+        if (value === 'true' || value === 1) {
+            return true;
+        }
+
+        if (value === 'false' || value === 0) {
+            return false;
+        }
+
+        return value;
+    }
+
+    if (
+        typeArray.length &&
+        typeArray.some((t) => t === JsonSchemaType.String) &&
+        !typeArray.filter((t) => t !== JsonSchemaType.String && t !== JsonSchemaType.Null).length
+    ) {
+        if (!(typeof value === 'string' || isObjectLike(value))) {
+            return String(value);
+        }
+
+        return value;
+    }
+
+    return value;
 };

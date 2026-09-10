@@ -6,6 +6,9 @@ import {
     getSchemaByPointer,
     getServiceFieldName,
     getValuePaths,
+    isStringFloat,
+    isStringInt,
+    isStringNumber,
     pointerToArrayPath,
 } from '../common';
 
@@ -139,5 +142,45 @@ describe('getServiceFieldName', () => {
         expect(getServiceFieldName('SCHEMA_RENDERER_SERVICE_FIELD', '')).toBe(
             'SCHEMA_RENDERER_SERVICE_FIELD',
         );
+    });
+});
+
+describe('isStringInt', () => {
+    test('accepts integer strings', () => {
+        expect(isStringInt('0')).toBe(true);
+        expect(isStringInt('-12')).toBe(true);
+        expect(isStringInt(42)).toBe(true);
+    });
+
+    test('rejects non-integers and leading zeros', () => {
+        expect(isStringInt('01')).toBe(false);
+        expect(isStringInt('1.5')).toBe(false);
+        expect(isStringInt('')).toBe(false);
+    });
+});
+
+describe('isStringFloat', () => {
+    test('accepts integer and decimal strings', () => {
+        expect(isStringFloat('0')).toBe(true);
+        expect(isStringFloat('8')).toBe(true);
+        expect(isStringFloat('1.5')).toBe(true);
+        expect(isStringFloat('-0.25')).toBe(true);
+    });
+
+    test('rejects invalid numeric strings', () => {
+        expect(isStringFloat('.5')).toBe(false);
+        expect(isStringFloat('1.')).toBe(false);
+        expect(isStringFloat('01.2')).toBe(false);
+    });
+});
+
+describe('isStringNumber', () => {
+    test('accepts integer and decimal strings', () => {
+        expect(isStringNumber('12')).toBe(true);
+        expect(isStringNumber('1.5')).toBe(true);
+    });
+
+    test('rejects non-numeric strings', () => {
+        expect(isStringNumber('abc')).toBe(false);
     });
 });
