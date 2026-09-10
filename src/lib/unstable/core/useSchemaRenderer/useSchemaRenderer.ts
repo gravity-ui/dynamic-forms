@@ -8,7 +8,7 @@ import {useForm} from 'react-final-form';
 
 import {SchemaRendererEventType, type SchemaRendererMode} from '../constants';
 import type {ErrorMessages, FieldValue, JsonSchema, NodesConfig} from '../types';
-import {getServiceFieldName} from '../utils';
+import {getServiceFieldName, getStrictModeChecker} from '../utils';
 
 import {SCHEMA_RENDERER_SERVICE_FIELD} from './constants';
 import type {SchemaRendererState} from './types';
@@ -39,6 +39,7 @@ export const useSchemaRenderer = ({
 }: UseSchemaRendererParams): FieldValidator<FieldValue> => {
     const form = useForm();
 
+    const strictCheckerRef = React.useRef(getStrictModeChecker());
     const stateRef = React.useRef<SchemaRendererState>(null);
     const prevParamsRef = React.useRef<UseSchemaRendererParams>(null);
     const unsubscribeRef = React.useRef<() => void>(null);
@@ -54,9 +55,7 @@ export const useSchemaRenderer = ({
     );
     const validate = React.useMemo(() => getValidate(form, headName), [form, headName]);
 
-    const unsubscribeField = React.useMemo(() => {
-        unsubscribeRef.current?.();
-
+    const {initialEvents, initialState} = React.useMemo(() => {
         const prevParams = prevParamsRef.current;
         const prevState = stateRef.current;
 
@@ -95,9 +94,8 @@ export const useSchemaRenderer = ({
             userContext: userContextUpdated ? userContext || {} : prevState?.userContext || {},
             waiters: nameUpdated || schemaUpdated || !prevState?.waiters ? {} : prevState.waiters,
         };
-        const getValidator = connectValidate ? () => validate : undefined;
 
-        let initialEvents = [
+        const initialEvents = [
             ...(configUpdated ? [SchemaRendererEventType.Config] : []),
             ...(errorMessagesUpdated ? [SchemaRendererEventType.ErrorMessages] : []),
             ...(nameUpdated ? [SchemaRendererEventType.Name] : []),
@@ -106,21 +104,6 @@ export const useSchemaRenderer = ({
             ...(userContextUpdated ? [SchemaRendererEventType.UserContext] : []),
             ...(settingsUpdated ? [SchemaRendererEventType.Settings] : []),
         ].map((type) => ({type, all: true}));
-
-        unsubscribeRef.current = form.registerField(
-            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, headName),
-            (f) => {
-                const state: SchemaRendererState | undefined = f.data?.state;
-
-                if (state && initialEvents.length) {
-                    state.dispatchEvent(initialEvents);
-
-                    initialEvents = [];
-                }
-            },
-            {data: true},
-            {data: {state: initialState}, getValidator, silent: true, validateFields: [headName]},
-        );
 
         prevParamsRef.current = {
             config,
@@ -134,13 +117,11 @@ export const useSchemaRenderer = ({
         };
         stateRef.current = initialState;
 
-        return unsubscribeRef.current;
+        return {initialEvents, initialState};
     }, [
         config,
-        connectValidate,
         dispatchEvent,
         errorMessages,
-        form,
         jsonDefaultValues,
         headName,
         mode,
@@ -148,17 +129,59 @@ export const useSchemaRenderer = ({
         runValidate,
         subscribe,
         unsubscribe,
-        validate,
         validateOnBlur,
         userContext,
     ]);
 
-    React.useEffect(() => {
-        runValidate();
-    }, [unsubscribeField]);
+    React.useMemo(() => {
+        if (
+            !strictCheckerRef.current.check({
+                connectValidate,
+                form,
+                headName,
+                validate,
+            })
+        ) {
+            return;
+        }
+
+        const getValidator = connectValidate ? () => validate : undefined;
+
+        unsubscribeRef.current?.();
+
+        unsubscribeRef.current = form.registerField(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, headName),
+            () => {},
+            {data: true},
+            {
+                data: {state: stateRef.current},
+                getValidator,
+                silent: true,
+                validateFields: [headName],
+            },
+        );
+    }, [connectValidate, form, headName, validate]);
 
     React.useEffect(() => {
+        const srField = form.getFieldState(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, headName),
+        );
+
+        if (srField?.data) {
+            srField.data.state = initialState;
+
+            initialState.dispatchEvent(initialEvents);
+        }
+    }, [initialEvents, initialState]);
+
+    React.useEffect(() => {
+        const strictChecker = strictCheckerRef.current;
+
         return () => {
+            if (strictChecker.isStrict()) {
+                return;
+            }
+
             unsubscribeRef.current?.();
         };
     }, []);

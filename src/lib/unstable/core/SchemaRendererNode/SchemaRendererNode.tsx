@@ -4,14 +4,14 @@ import type {FieldState} from 'final-form';
 import noop from 'lodash/noop';
 import {type FieldInputProps, type FieldMetaState, useForm} from 'react-final-form';
 
-import {SchemaRendererEventType, SchemaRendererMode} from '../constants';
+import {JsonSchemaType, SchemaRendererEventType, SchemaRendererMode} from '../constants';
 import type {JsonSchema} from '../types';
 import {SCHEMA_RENDERER_SERVICE_FIELD} from '../useSchemaRenderer';
 import {useSchemaRendererState} from '../useSchemaRendererState';
-import {getServiceFieldName} from '../utils';
+import {getServiceFieldName, getStrictModeChecker} from '../utils';
 
 import type {SchemaRendererNodeState} from './types';
-import {getAccumulatedSchema, getCompareValues, getRenderKit, scheduleFlush} from './utils';
+import {getAccumulatedSchema, getRenderKit, scheduleFlush} from './utils';
 
 export interface SchemaRendererNodeProps {
     headName: string;
@@ -30,8 +30,7 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
 }) => {
     const form = useForm();
 
-    const compareValuesRef = React.useRef(getCompareValues());
-
+    const strictCheckerRef = React.useRef(getStrictModeChecker());
     const fieldRef = React.useRef<FieldState<any>>(null);
     const unsubscribeRef = React.useRef<() => void>(null);
     const [ticks, setTicks] = React.useState({input: 0, meta: 0});
@@ -58,7 +57,8 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
 
     const error = srState?.errors[name];
     const mode: SchemaRendererMode | undefined = modeOverride || srState?.mode;
-    const jsonDefaultValues: boolean = srState?.settings?.jsonDefaultValues || false;
+    const required = schema?.nodeParameters?.flags?.required;
+    const jsonDefaultValues: boolean = srState?.settings?.jsonDefaultValues ?? false;
 
     const kit = React.useMemo(
         () => getRenderKit({config: srState?.config, schema}),
@@ -67,9 +67,8 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
 
     React.useMemo(() => {
         if (
-            compareValuesRef.current({
+            !strictCheckerRef.current.check({
                 form,
-                jsonDefaultValues,
                 headName,
                 name,
                 default: schema?.default,
@@ -83,14 +82,35 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
         unsubscribeRef.current?.();
 
         const initialState: SchemaRendererNodeState = {schemaPath};
+        const defaultValue = (() => {
+            let result = schema?.default;
 
-        let defaultValue = schema?.default;
+            if (jsonDefaultValues) {
+                try {
+                    result = JSON.parse(result as string);
+                } catch {
+                    result = undefined;
+                }
+            }
 
-        if (jsonDefaultValues && typeof defaultValue === 'string') {
-            try {
-                defaultValue = JSON.parse(defaultValue);
-            } catch {}
-        }
+            if (result === undefined && required) {
+                if (
+                    (Array.isArray(schema.type) &&
+                        !schema.type.filter((t) => t !== JsonSchemaType.Array).length) ||
+                    schema.type === JsonSchemaType.Array
+                ) {
+                    result = [];
+                } else if (
+                    (Array.isArray(schema.type) &&
+                        !schema.type.filter((t) => t !== JsonSchemaType.Object).length) ||
+                    schema.type === JsonSchemaType.Object
+                ) {
+                    result = {};
+                }
+            }
+
+            return result;
+        })();
 
         const unsubscribe = form.registerField(
             name,
@@ -132,13 +152,13 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
             },
         );
 
-        scheduleFlush(form);
+        scheduleFlush(form, headName);
 
         unsubscribeRef.current = () => {
             unsubscribe();
-            scheduleFlush(form);
+            scheduleFlush(form, headName);
         };
-    }, [form, jsonDefaultValues, headName, name, schema?.default, schema?.type, schemaPath]);
+    }, [form, headName, name, schema?.default, schema?.type, schemaPath]);
 
     const input: FieldInputProps<any> = React.useMemo(() => {
         const fieldState = form.getFieldState(name);
@@ -166,7 +186,13 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
     }, [error, form, name, ticks.meta]);
 
     React.useEffect(() => {
+        const strictChecker = strictCheckerRef.current;
+
         return () => {
+            if (strictChecker.isStrict()) {
+                return;
+            }
+
             unsubscribeRef.current?.();
         };
     }, []);

@@ -2,7 +2,9 @@ import type {FormApi} from 'final-form';
 
 import {EMPTY_OBJECT, JsonSchemaType, NodeType, SchemaRendererMode} from '../../constants';
 import type {JsonSchemaObject, JsonSchemaString, NodesConfig} from '../../types';
-import {getAccumulatedSchema, getCompareValues, getRenderKit, scheduleFlush} from '../utils';
+import {SCHEMA_RENDERER_SERVICE_FIELD} from '../../useSchemaRenderer';
+import {getServiceFieldName} from '../../utils';
+import {getAccumulatedSchema, getRenderKit, scheduleFlush} from '../utils';
 
 describe('getRenderKit', () => {
     test('returns empty kits when schema and config are omitted', () => {
@@ -346,116 +348,142 @@ describe('getAccumulatedSchema', () => {
 });
 
 describe('scheduleFlush', () => {
-    test('does not call form.batch synchronously', () => {
-        const form = {batch: jest.fn()} as unknown as FormApi;
+    test('does not call form.batch or runValidate synchronously', () => {
+        const runValidate = jest.fn();
+        const form = {
+            batch: jest.fn(),
+            getFieldState: jest.fn(() => ({data: {state: {runValidate}}})),
+        } as unknown as FormApi;
 
-        scheduleFlush(form);
+        scheduleFlush(form, 'form');
 
         expect(form.batch).not.toHaveBeenCalled();
+        expect(form.getFieldState).not.toHaveBeenCalled();
+        expect(runValidate).not.toHaveBeenCalled();
     });
 
-    test('calls form.batch in a microtask', async () => {
-        const form = {batch: jest.fn()} as unknown as FormApi;
+    test('calls form.batch and runValidate in a microtask', async () => {
+        const runValidate = jest.fn();
+        const form = {
+            batch: jest.fn(),
+            getFieldState: jest.fn(() => ({data: {state: {runValidate}}})),
+        } as unknown as FormApi;
 
-        scheduleFlush(form);
+        scheduleFlush(form, 'form');
         await new Promise<void>((resolve) => queueMicrotask(resolve));
 
+        expect(form.getFieldState).toHaveBeenCalledTimes(1);
+        expect(form.getFieldState).toHaveBeenCalledWith(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'form'),
+        );
         expect(form.batch).toHaveBeenCalledTimes(1);
         expect(form.batch).toHaveBeenCalledWith(expect.any(Function));
+        expect(runValidate).toHaveBeenCalledTimes(1);
+    });
+
+    test('does not throw when there is no renderer state', async () => {
+        const form = {
+            batch: jest.fn(),
+            getFieldState: jest.fn(() => undefined),
+        } as unknown as FormApi;
+
+        scheduleFlush(form, 'form');
+        await new Promise<void>((resolve) => queueMicrotask(resolve));
+
+        expect(form.getFieldState).toHaveBeenCalledWith(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'form'),
+        );
+        expect(form.batch).toHaveBeenCalledTimes(1);
     });
 
     test('coalesces multiple calls for the same form into a single batch', async () => {
-        const form = {batch: jest.fn()} as unknown as FormApi;
+        const runValidate = jest.fn();
+        const form = {
+            batch: jest.fn(),
+            getFieldState: jest.fn(() => ({data: {state: {runValidate}}})),
+        } as unknown as FormApi;
 
-        scheduleFlush(form);
-        scheduleFlush(form);
-        scheduleFlush(form);
+        scheduleFlush(form, 'form');
+        scheduleFlush(form, 'form');
+        scheduleFlush(form, 'form');
         await new Promise<void>((resolve) => queueMicrotask(resolve));
 
         expect(form.batch).toHaveBeenCalledTimes(1);
+        expect(runValidate).toHaveBeenCalledTimes(1);
+    });
+
+    test('runs validate for every unique headName on the same form', async () => {
+        const runValidateA = jest.fn();
+        const runValidateB = jest.fn();
+        const form = {
+            batch: jest.fn(),
+            getFieldState: jest.fn((name: string) => {
+                if (name === getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'a')) {
+                    return {data: {state: {runValidate: runValidateA}}};
+                }
+
+                if (name === getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'b')) {
+                    return {data: {state: {runValidate: runValidateB}}};
+                }
+
+                return undefined;
+            }),
+        } as unknown as FormApi;
+
+        scheduleFlush(form, 'a');
+        scheduleFlush(form, 'b');
+        await new Promise<void>((resolve) => queueMicrotask(resolve));
+
+        expect(form.batch).toHaveBeenCalledTimes(1);
+        expect(form.getFieldState).toHaveBeenCalledTimes(2);
+        expect(form.getFieldState).toHaveBeenNthCalledWith(
+            1,
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'a'),
+        );
+        expect(form.getFieldState).toHaveBeenNthCalledWith(
+            2,
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'b'),
+        );
+        expect(runValidateA).toHaveBeenCalledTimes(1);
+        expect(runValidateB).toHaveBeenCalledTimes(1);
     });
 
     test('allows another flush after the scheduled one has run', async () => {
-        const form = {batch: jest.fn()} as unknown as FormApi;
+        const runValidate = jest.fn();
+        const form = {
+            batch: jest.fn(),
+            getFieldState: jest.fn(() => ({data: {state: {runValidate}}})),
+        } as unknown as FormApi;
 
-        scheduleFlush(form);
+        scheduleFlush(form, 'form');
         await new Promise<void>((resolve) => queueMicrotask(resolve));
 
-        scheduleFlush(form);
+        scheduleFlush(form, 'form');
         await new Promise<void>((resolve) => queueMicrotask(resolve));
 
         expect(form.batch).toHaveBeenCalledTimes(2);
+        expect(runValidate).toHaveBeenCalledTimes(2);
     });
 
     test('flushes different forms independently', async () => {
-        const formA = {batch: jest.fn()} as unknown as FormApi;
-        const formB = {batch: jest.fn()} as unknown as FormApi;
+        const runValidateA = jest.fn();
+        const runValidateB = jest.fn();
+        const formA = {
+            batch: jest.fn(),
+            getFieldState: jest.fn(() => ({data: {state: {runValidate: runValidateA}}})),
+        } as unknown as FormApi;
+        const formB = {
+            batch: jest.fn(),
+            getFieldState: jest.fn(() => ({data: {state: {runValidate: runValidateB}}})),
+        } as unknown as FormApi;
 
-        scheduleFlush(formA);
-        scheduleFlush(formB);
+        scheduleFlush(formA, 'form');
+        scheduleFlush(formB, 'form');
         await new Promise<void>((resolve) => queueMicrotask(resolve));
 
         expect(formA.batch).toHaveBeenCalledTimes(1);
         expect(formB.batch).toHaveBeenCalledTimes(1);
-    });
-});
-
-describe('getCompareValues', () => {
-    test('returns false on the first call, including an empty object', () => {
-        const compareValues = getCompareValues();
-
-        expect(compareValues({})).toBe(false);
-        expect(compareValues({})).toBe(true);
-    });
-
-    test('returns false on the first non-empty object and true when it is unchanged', () => {
-        const compareValues = getCompareValues();
-
-        expect(compareValues({a: 1})).toBe(false);
-        expect(compareValues({a: 1})).toBe(true);
-    });
-
-    test('returns false when a value changes', () => {
-        const compareValues = getCompareValues();
-
-        compareValues({a: 1});
-
-        expect(compareValues({a: 2})).toBe(false);
-        expect(compareValues({a: 2})).toBe(true);
-    });
-
-    test('returns false when a key is added', () => {
-        const compareValues = getCompareValues();
-
-        compareValues({a: 1});
-
-        expect(compareValues({a: 1, b: 2})).toBe(false);
-    });
-
-    test('returns false when a key is removed', () => {
-        const compareValues = getCompareValues();
-
-        compareValues({a: 1, b: 2});
-
-        expect(compareValues({a: 1})).toBe(false);
-    });
-
-    test('compares object values by reference', () => {
-        const compareValues = getCompareValues();
-        const obj = {nested: true};
-
-        expect(compareValues({a: obj})).toBe(false);
-        expect(compareValues({a: obj})).toBe(true);
-        expect(compareValues({a: {nested: true}})).toBe(false);
-    });
-
-    test('does not share cache between comparators', () => {
-        const first = getCompareValues();
-        const second = getCompareValues();
-
-        expect(first({a: 1})).toBe(false);
-        expect(second({a: 1})).toBe(false);
-        expect(first({a: 1})).toBe(true);
-        expect(second({a: 1})).toBe(true);
+        expect(runValidateA).toHaveBeenCalledTimes(1);
+        expect(runValidateB).toHaveBeenCalledTimes(1);
     });
 });

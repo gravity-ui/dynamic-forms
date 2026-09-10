@@ -51,9 +51,17 @@ export const OneOfNested: NodeEntity<JsonSchemaObject, OneOfNestedProps> = ({
         subscriptions: [SchemaRendererEventType.Config],
     });
 
-    const [togglerValue, setTogglerValue] = React.useState<string | undefined>(
-        Object.keys(value || (overviewFlag ? undefined : schema.properties) || {})[0],
-    );
+    const [togglerValue, setTogglerValue] = React.useState<string | undefined>(() => {
+        if (value && Object.keys(value).length) {
+            return Object.keys(value)[0];
+        }
+
+        if (!overviewFlag && schema.properties) {
+            return Object.keys(schema.properties)[0];
+        }
+
+        return undefined;
+    });
 
     const toggler = React.useMemo(() => {
         let result: React.ReactNode = null;
