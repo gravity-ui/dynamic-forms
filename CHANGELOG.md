@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.27.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.27.0...v5.27.1) (2026-09-10)
+
+
+### Bug Fixes
+
+* **unstable:** fix coerce condition ([#420](https://github.com/gravity-ui/dynamic-forms/issues/420)) ([90c9942](https://github.com/gravity-ui/dynamic-forms/commit/90c99427a5f3033855173ce2dc44aa8806f66cd4))
+
 ## [5.27.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.26.0...v5.27.0) (2026-09-10)
 
 
