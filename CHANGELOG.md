@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.27.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.26.0...v5.27.0) (2026-09-10)
+
+
+### Features
+
+* **unstable:** add light coerce values ([#419](https://github.com/gravity-ui/dynamic-forms/issues/419)) ([737805a](https://github.com/gravity-ui/dynamic-forms/commit/737805af31c6b31c045a23e538610346d91ba028))
+* **unstable:** support strict mode renders +  update transformer ([#417](https://github.com/gravity-ui/dynamic-forms/issues/417)) ([6c464b8](https://github.com/gravity-ui/dynamic-forms/commit/6c464b8d34441f9e6df4c1decd93ec9e38ed50b2))
+
 ## [5.26.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.25.0...v5.26.0) (2026-09-09)
 
 
