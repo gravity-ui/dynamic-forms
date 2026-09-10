@@ -5,7 +5,8 @@ import set from 'lodash/set';
 
 import {EMPTY_OBJECT, type NodeType, SchemaRendererMode} from '../constants';
 import type {JsonSchema, NodeEntity, NodeLayout, NodesConfig} from '../types';
-import {getSchemaByPointer, getValuePaths} from '../utils';
+import {SCHEMA_RENDERER_SERVICE_FIELD, type SchemaRendererState} from '../useSchemaRenderer';
+import {getSchemaByPointer, getServiceFieldName, getValuePaths} from '../utils';
 
 const fixType = <Type>(value: any): Type => value as Type;
 
@@ -220,36 +221,31 @@ export const getAccumulatedSchema = (
     return accumulatedSchema;
 };
 
-const flushes = new WeakMap<object, boolean>();
+const flushes = new WeakMap<object, Set<string>>();
 
-export const scheduleFlush = (form: FormApi) => {
-    if (flushes.get(form)) {
+export const scheduleFlush = (form: FormApi, headName: string) => {
+    const scheduled = flushes.get(form);
+
+    if (scheduled) {
+        scheduled.add(headName);
+
         return;
     }
 
-    flushes.set(form, true);
+    const headNames = new Set([headName]);
+
+    flushes.set(form, headNames);
 
     queueMicrotask(() => {
         flushes.delete(form);
         form.batch(() => {});
+
+        headNames.forEach((name) => {
+            const srName = getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, name);
+            const srField = form.getFieldState(srName);
+            const srState: SchemaRendererState | undefined = srField?.data?.state;
+
+            srState?.runValidate();
+        });
     });
-};
-
-export const getCompareValues = () => {
-    let cachedValues: Record<string, unknown>;
-
-    return (currentValues: Record<string, unknown>) => {
-        if (
-            !cachedValues ||
-            [...Object.keys(cachedValues), ...Object.keys(currentValues)].some(
-                (key) => cachedValues[key] !== currentValues[key],
-            )
-        ) {
-            cachedValues = {...currentValues};
-
-            return false;
-        }
-
-        return true;
-    };
 };

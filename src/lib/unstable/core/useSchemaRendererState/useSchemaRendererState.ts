@@ -4,7 +4,7 @@ import {useForm} from 'react-final-form';
 
 import {SchemaRendererEventType} from '../constants';
 import {SCHEMA_RENDERER_SERVICE_FIELD, type SchemaRendererState} from '../useSchemaRenderer';
-import {getSchemaByPointer, getServiceFieldName} from '../utils';
+import {getSchemaByPointer, getServiceFieldName, getStrictModeChecker} from '../utils';
 
 export interface UseSchemaRendererStateParams {
     headName: string;
@@ -23,6 +23,7 @@ export const useSchemaRendererState = <
 }: UseSchemaRendererStateParams) => {
     const form = useForm();
 
+    const strictCheckerRef = React.useRef(getStrictModeChecker());
     const uuidRef = React.useRef<string>(null);
     const [tick, setTick] = React.useState(0);
 
@@ -32,6 +33,18 @@ export const useSchemaRendererState = <
     );
 
     React.useMemo(() => {
+        if (
+            !strictCheckerRef.current.check({
+                form,
+                headName,
+                name,
+                schemaPath,
+                subscriptions: subscriptions.join(','),
+            })
+        ) {
+            return;
+        }
+
         const srField = form.getFieldState(srName);
         const srState: SchemaRendererState | undefined = srField?.data?.state;
 
@@ -83,7 +96,13 @@ export const useSchemaRendererState = <
     }, [form, srName, tick]);
 
     React.useEffect(() => {
+        const strictChecker = strictCheckerRef.current;
+
         return () => {
+            if (strictChecker.isStrict()) {
+                return;
+            }
+
             const srField = form.getFieldState(srName);
             const srState: SchemaRendererState | undefined = srField?.data?.state;
 

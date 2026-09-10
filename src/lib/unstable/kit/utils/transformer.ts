@@ -4,7 +4,6 @@ import set from 'lodash/set';
 
 import {type Spec, SpecTypes} from '../../../core';
 import {type ErrorMessages, type JsonSchema, JsonSchemaType, NodeType} from '../../core';
-import {errorMessages as defaultErrorMessages} from '../constants';
 
 type Rules = Record<
     string,
@@ -1077,6 +1076,28 @@ const specRules: Rules = {
                 );
 
                 set(mutableSchema, ['properties', key], childSchema);
+
+                if (
+                    childSpec.required &&
+                    !(
+                        spec.viewSpec.type === 'oneof' ||
+                        spec.viewSpec.type === 'oneof_flat' ||
+                        spec.viewSpec.type === 'card_oneof' ||
+                        spec.viewSpec.type === 'multi_oneof' ||
+                        spec.viewSpec.type === 'multi_oneof_flat'
+                    )
+                ) {
+                    set(
+                        mutableSchema,
+                        ['required'],
+                        [...(get(mutableSchema, 'required') || []), key],
+                    );
+                    set(
+                        mutableSchema,
+                        'nodeParameters.errorMessages.required',
+                        errorMessages.required,
+                    );
+                }
             });
         }
     },
@@ -1101,7 +1122,7 @@ export function specToJsonSchema(
     spec: Spec,
     mutableSchema: JsonSchema = {},
     rules?: {specRules: Rules; viewSpecRules: Rules},
-    errorMessages: ErrorMessages = defaultErrorMessages,
+    errorMessages: ErrorMessages = {},
 ) {
     const mergedSpecRules = {
         ...specRules,
