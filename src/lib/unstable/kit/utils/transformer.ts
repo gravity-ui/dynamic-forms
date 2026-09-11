@@ -192,12 +192,20 @@ const viewSpecRules: Rules = {
         }
     },
     order: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.Object && spec.viewSpec.order) {
+        if (
+            spec.type === SpecTypes.Object &&
+            spec.viewSpec.order &&
+            Object.keys(spec.viewSpec.order).length
+        ) {
             set(mutableSchema, 'nodeParameters.entityProps.order', spec.viewSpec.order);
         }
     },
     delimiter: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.Object && spec.viewSpec.delimiter) {
+        if (
+            spec.type === SpecTypes.Object &&
+            spec.viewSpec.delimiter &&
+            Object.keys(spec.viewSpec.delimiter).length
+        ) {
             set(mutableSchema, 'nodeParameters.entityProps.delimiter', spec.viewSpec.delimiter);
         }
     },
@@ -438,7 +446,7 @@ const viewSpecRules: Rules = {
                         'nodeParameters.entityProps.toggler.nodeParameters.entityProps.enumDescriptions',
                         spec.description,
                     );
-                } else if (spec.properties) {
+                } else if (spec.properties && Object.keys(spec.properties).length) {
                     set(
                         mutableSchema,
                         'nodeParameters.entityProps.toggler.nodeParameters.entityProps.enumDescriptions',
@@ -547,7 +555,7 @@ const viewSpecRules: Rules = {
                         'nodeParameters.entityProps.toggler.nodeParameters.entityProps.enumDescriptions',
                         spec.description,
                     );
-                } else if (spec.properties) {
+                } else if (spec.properties && Object.keys(spec.properties).length) {
                     set(
                         mutableSchema,
                         'nodeParameters.entityProps.toggler.nodeParameters.entityProps.enumDescriptions',
@@ -656,7 +664,7 @@ const viewSpecRules: Rules = {
                         'nodeParameters.entityProps.toggler.nodeParameters.entityProps.enumDescriptions',
                         spec.description,
                     );
-                } else if (spec.properties) {
+                } else if (spec.properties && Object.keys(spec.properties).length) {
                     set(
                         mutableSchema,
                         'nodeParameters.entityProps.toggler.nodeParameters.entityProps.enumDescriptions',
@@ -766,7 +774,7 @@ const viewSpecRules: Rules = {
                         'nodeParameters.entityProps.toggler.nodeParameters.entityProps.enumDescriptions',
                         spec.description,
                     );
-                } else if (spec.properties) {
+                } else if (spec.properties && Object.keys(spec.properties).length) {
                     set(
                         mutableSchema,
                         'nodeParameters.entityProps.toggler.nodeParameters.entityProps.enumDescriptions',
@@ -848,7 +856,7 @@ const viewSpecRules: Rules = {
                         'nodeParameters.entityProps.toggler.nodeParameters.entityProps.enumDescriptions',
                         spec.description,
                     );
-                } else if (spec.properties) {
+                } else if (spec.properties && Object.keys(spec.properties).length) {
                     set(
                         mutableSchema,
                         'nodeParameters.entityProps.toggler.nodeParameters.entityProps.enumDescriptions',
@@ -897,7 +905,7 @@ const viewSpecRules: Rules = {
         } else if (spec.viewSpec.type === 'file_input') {
             set(mutableSchema, 'nodeParameters.entity', 'file');
         } else if (spec.viewSpec.type === 'monaco_input') {
-            set(mutableSchema, 'nodeParameters.entity', 'monaco');
+            set(mutableSchema, 'nodeParameters.entity', 'monaco_input');
         } else if (spec.viewSpec.type === 'number_with_scale') {
             set(mutableSchema, 'nodeParameters.entity', 'string_number_with_scale');
         } else if (spec.viewSpec.type === 'range_input_picker') {
@@ -1017,7 +1025,11 @@ const specRules: Rules = {
         }
     },
     description: (spec, mutableSchema) => {
-        if ('description' in spec && isObject(spec.description)) {
+        if (
+            'description' in spec &&
+            isObject(spec.description) &&
+            Object.keys(spec.description).length
+        ) {
             set(mutableSchema, 'nodeParameters.entityProps.enumDescriptions', spec.description);
         }
     },
