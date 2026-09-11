@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.29.2](https://github.com/gravity-ui/dynamic-forms/compare/v5.29.1...v5.29.2) (2026-09-11)
+
+
+### Bug Fixes
+
+* **unstable:** fix transformer conditions ([#428](https://github.com/gravity-ui/dynamic-forms/issues/428)) ([e4fe8ca](https://github.com/gravity-ui/dynamic-forms/commit/e4fe8caf2e3d529b5ccb88027ba89c0b229b21ed))
+
 ## [5.29.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.29.0...v5.29.1) (2026-09-11)
 
 
