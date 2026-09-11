@@ -8,7 +8,7 @@ import {type ErrorMessages, type JsonSchema, JsonSchemaType, NodeType} from '../
 type Rules = Record<
     string,
     (
-        spec: Spec,
+        spec: Partial<Spec & {viewSpec: Partial<Spec['viewSpec']>}> | null | undefined,
         mutableSchema: JsonSchema,
         rules: {specRules: Rules; viewSpecRules: Rules},
         errorMessages: ErrorMessages,
@@ -17,12 +17,12 @@ type Rules = Record<
 
 const viewSpecRules: Rules = {
     disabled: (spec, mutableSchema) => {
-        if (spec.viewSpec.disabled) {
+        if (spec?.viewSpec?.disabled) {
             set(mutableSchema, 'nodeParameters.flags.disabled', true);
         }
     },
     layout: (spec, mutableSchema) => {
-        const layout = spec.viewSpec.layout;
+        const layout = spec?.viewSpec?.layout;
 
         if (!layout) {
             return;
@@ -60,35 +60,35 @@ const viewSpecRules: Rules = {
         }
     },
     layoutTitle: (spec, mutableSchema) => {
-        if (spec.viewSpec.layoutTitle) {
+        if (spec?.viewSpec?.layoutTitle) {
             set(mutableSchema, 'title', spec.viewSpec.layoutTitle);
         }
     },
     layoutDescription: (spec, mutableSchema) => {
-        if (spec.viewSpec.layoutDescription) {
+        if (spec?.viewSpec?.layoutDescription) {
             set(mutableSchema, 'description', spec.viewSpec.layoutDescription);
         }
     },
     layoutOpen: (spec, mutableSchema) => {
-        if (spec.viewSpec.layoutOpen !== undefined) {
+        if (spec?.viewSpec?.layoutOpen !== undefined) {
             set(mutableSchema, 'nodeParameters.flags.open', spec.viewSpec.layoutOpen);
         }
     },
     itemLabel: (spec, mutableSchema) => {
-        if ('itemLabel' in spec.viewSpec && spec.viewSpec.itemLabel) {
+        if (spec?.viewSpec && 'itemLabel' in spec.viewSpec && spec.viewSpec.itemLabel) {
             set(mutableSchema, 'nodeParameters.entityProps.addButtonText', spec.viewSpec.itemLabel);
         }
     },
     itemPrefix: (spec, mutableSchema) => {
-        if ('itemPrefix' in spec.viewSpec && spec.viewSpec.itemPrefix) {
+        if (spec?.viewSpec && 'itemPrefix' in spec.viewSpec && spec.viewSpec.itemPrefix) {
             set(mutableSchema, 'nodeParameters.entityProps.itemPrefix', spec.viewSpec.itemPrefix);
         }
     },
     table: (spec, mutableSchema) => {
         if (
-            spec.type === SpecTypes.Array &&
-            spec.viewSpec.table &&
-            spec.items?.type === SpecTypes.Object
+            spec?.type === SpecTypes.Array &&
+            spec?.viewSpec?.table &&
+            spec?.items?.type === SpecTypes.Object
         ) {
             const order: string[] = [];
 
@@ -112,21 +112,31 @@ const viewSpecRules: Rules = {
         }
     },
     link: (spec, mutableSchema) => {
-        if (spec.viewSpec.link) {
+        if (spec?.viewSpec?.link) {
             set(mutableSchema, 'nodeParameters.entityProps.link', spec.viewSpec.link);
         }
     },
     placeholder: (spec, mutableSchema) => {
-        if ('placeholder' in spec.viewSpec && spec.viewSpec.placeholder) {
+        if (spec?.viewSpec && 'placeholder' in spec.viewSpec && spec.viewSpec.placeholder) {
             if (spec.type === SpecTypes.String) {
                 set(mutableSchema, 'examples', [spec.viewSpec.placeholder]);
             } else if (spec.type === SpecTypes.Array) {
                 set(mutableSchema, 'examples', [[spec.viewSpec.placeholder]]);
+            } else {
+                set(
+                    mutableSchema,
+                    'nodeParameters.entityProps.placeholder',
+                    spec.viewSpec.placeholder,
+                );
             }
         }
     },
     addButtonPosition: (spec, mutableSchema) => {
-        if ('addButtonPosition' in spec.viewSpec && spec.viewSpec.addButtonPosition) {
+        if (
+            spec?.viewSpec &&
+            'addButtonPosition' in spec.viewSpec &&
+            spec.viewSpec.addButtonPosition
+        ) {
             set(
                 mutableSchema,
                 'nodeParameters.entityProps.addButtonPosition',
@@ -135,12 +145,12 @@ const viewSpecRules: Rules = {
         }
     },
     hidden: (spec, mutableSchema) => {
-        if (spec.viewSpec.hidden) {
+        if (spec?.viewSpec?.hidden) {
             set(mutableSchema, 'nodeParameters.flags.hidden', true);
         }
     },
     selectParams: (spec, mutableSchema) => {
-        if ('selectParams' in spec.viewSpec && spec.viewSpec.selectParams) {
+        if (spec?.viewSpec && 'selectParams' in spec.viewSpec && spec.viewSpec.selectParams) {
             if (spec.viewSpec.selectParams.filterPlaceholder) {
                 set(
                     mutableSchema,
@@ -159,7 +169,7 @@ const viewSpecRules: Rules = {
         }
     },
     checkboxGroupParams: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.Array && spec.viewSpec.checkboxGroupParams) {
+        if (spec?.type === SpecTypes.Array && spec?.viewSpec?.checkboxGroupParams) {
             if (spec.viewSpec.checkboxGroupParams.placement) {
                 set(
                     mutableSchema,
@@ -178,7 +188,7 @@ const viewSpecRules: Rules = {
         }
     },
     viewColor: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.Boolean && spec.viewSpec.viewColor) {
+        if (spec?.type === SpecTypes.Boolean && spec?.viewSpec?.viewColor) {
             set(
                 mutableSchema,
                 'nodeParameters.overviewEntityProps.viewColor',
@@ -187,14 +197,14 @@ const viewSpecRules: Rules = {
         }
     },
     copy: (spec, mutableSchema) => {
-        if ('copy' in spec.viewSpec && spec.viewSpec.copy) {
+        if (spec?.viewSpec && 'copy' in spec.viewSpec && spec.viewSpec.copy) {
             set(mutableSchema, 'nodeParameters.flags.copy', true);
         }
     },
     order: (spec, mutableSchema) => {
         if (
-            spec.type === SpecTypes.Object &&
-            spec.viewSpec.order &&
+            spec?.type === SpecTypes.Object &&
+            spec?.viewSpec?.order &&
             Object.keys(spec.viewSpec.order).length
         ) {
             set(mutableSchema, 'nodeParameters.entityProps.order', spec.viewSpec.order);
@@ -202,15 +212,15 @@ const viewSpecRules: Rules = {
     },
     delimiter: (spec, mutableSchema) => {
         if (
-            spec.type === SpecTypes.Object &&
-            spec.viewSpec.delimiter &&
+            spec?.type === SpecTypes.Object &&
+            spec?.viewSpec?.delimiter &&
             Object.keys(spec.viewSpec.delimiter).length
         ) {
             set(mutableSchema, 'nodeParameters.entityProps.delimiter', spec.viewSpec.delimiter);
         }
     },
     sizeParams: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.String && spec.viewSpec.sizeParams) {
+        if (spec?.type === SpecTypes.String && spec?.viewSpec?.sizeParams) {
             if (spec.viewSpec.sizeParams.defaultType) {
                 set(
                     mutableSchema,
@@ -237,7 +247,7 @@ const viewSpecRules: Rules = {
         }
     },
     monacoParams: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.String && spec.viewSpec.monacoParams) {
+        if (spec?.type === SpecTypes.String && spec?.viewSpec?.monacoParams) {
             if (spec.viewSpec.monacoParams.language) {
                 set(
                     mutableSchema,
@@ -256,12 +266,12 @@ const viewSpecRules: Rules = {
         }
     },
     hideValues: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.String && spec.viewSpec.hideValues) {
+        if (spec?.type === SpecTypes.String && spec?.viewSpec?.hideValues) {
             set(mutableSchema, 'nodeParameters.entityProps.hideValues', spec.viewSpec.hideValues);
         }
     },
     textContentParams: (spec, mutableSchema) => {
-        if (spec.type !== SpecTypes.String || !spec.viewSpec.textContentParams) {
+        if (spec?.type !== SpecTypes.String || !spec?.viewSpec?.textContentParams) {
             return;
         }
 
@@ -308,7 +318,7 @@ const viewSpecRules: Rules = {
         }
     },
     fileInput: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.String && spec.viewSpec.fileInput) {
+        if (spec?.type === SpecTypes.String && spec?.viewSpec?.fileInput) {
             if (spec.viewSpec.fileInput.accept) {
                 set(mutableSchema, 'nodeParameters.entityProps.accept', [
                     spec.viewSpec.fileInput.accept,
@@ -325,7 +335,7 @@ const viewSpecRules: Rules = {
         }
     },
     dateInput: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.String && spec.viewSpec.dateInput) {
+        if (spec?.type === SpecTypes.String && spec?.viewSpec?.dateInput) {
             if (spec.viewSpec.dateInput.outputFormat) {
                 set(
                     mutableSchema,
@@ -352,7 +362,7 @@ const viewSpecRules: Rules = {
         }
     },
     radioGroupParams: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.String && spec.viewSpec.radioGroupParams) {
+        if (spec?.type === SpecTypes.String && spec?.viewSpec?.radioGroupParams) {
             if (spec.viewSpec.radioGroupParams.direction) {
                 set(
                     mutableSchema,
@@ -371,19 +381,19 @@ const viewSpecRules: Rules = {
         }
     },
     generateRandomValueButton: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.String && spec.viewSpec.generateRandomValueButton) {
+        if (spec?.type === SpecTypes.String && spec?.viewSpec?.generateRandomValueButton) {
             set(mutableSchema, 'nodeParameters.entityProps.generateRandomValueButton', true);
         }
     },
     inputProps: (spec, mutableSchema) => {
-        if (spec.viewSpec.inputProps) {
+        if (spec?.viewSpec?.inputProps) {
             Object.entries(spec.viewSpec.inputProps).forEach(([key, value]) => {
                 set(mutableSchema, `nodeParameters.entityProps.${key}`, value);
             });
         }
     },
     layoutProps: (spec, mutableSchema) => {
-        if (spec.viewSpec.layoutProps) {
+        if (spec?.viewSpec?.layoutProps) {
             Object.entries(spec.viewSpec.layoutProps).forEach(([key, value]) => {
                 set(mutableSchema, `nodeParameters.layoutProps.${key}`, value);
             });
@@ -391,7 +401,7 @@ const viewSpecRules: Rules = {
     },
     // eslint-disable-next-line complexity -- old viewSpec.type mapping, isolated per viewType
     type: (spec, mutableSchema) => {
-        if (spec.viewSpec.type === 'oneof') {
+        if (spec?.viewSpec?.type === 'oneof') {
             set(mutableSchema, 'nodeParameters.entity', 'one_of_nested');
 
             if (spec.type === SpecTypes.Object) {
@@ -502,7 +512,7 @@ const viewSpecRules: Rules = {
                     );
                 }
             }
-        } else if (spec.viewSpec.type === 'oneof_flat') {
+        } else if (spec?.viewSpec?.type === 'oneof_flat') {
             set(mutableSchema, 'nodeParameters.entity', 'one_of_nested');
 
             if (spec.type === SpecTypes.Object) {
@@ -611,7 +621,7 @@ const viewSpecRules: Rules = {
                     );
                 }
             }
-        } else if (spec.viewSpec.type === 'card_oneof') {
+        } else if (spec?.viewSpec?.type === 'card_oneof') {
             set(mutableSchema, 'nodeParameters.entity', 'one_of_nested');
 
             if (spec.type === SpecTypes.Object) {
@@ -720,7 +730,7 @@ const viewSpecRules: Rules = {
                     );
                 }
             }
-        } else if (spec.viewSpec.type === 'multi_oneof') {
+        } else if (spec?.viewSpec?.type === 'multi_oneof') {
             set(mutableSchema, 'nodeParameters.entity', 'few_of_nested');
 
             if (spec.type === SpecTypes.Object) {
@@ -803,7 +813,7 @@ const viewSpecRules: Rules = {
                     spec.viewSpec.order || Object.keys(spec.properties || {}),
                 );
             }
-        } else if (spec.viewSpec.type === 'multi_oneof_flat') {
+        } else if (spec?.viewSpec?.type === 'multi_oneof_flat') {
             set(mutableSchema, 'nodeParameters.entity', 'few_of_nested');
 
             if (spec.type === SpecTypes.Object) {
@@ -885,9 +895,9 @@ const viewSpecRules: Rules = {
                     spec.viewSpec.order || Object.keys(spec.properties || {}),
                 );
             }
-        } else if (spec.viewSpec.type === 'object_value') {
+        } else if (spec?.viewSpec?.type === 'object_value') {
             set(mutableSchema, 'nodeParameters.entity', 'dot_value');
-        } else if (spec.viewSpec.type === 'text_content') {
+        } else if (spec?.viewSpec?.type === 'text_content') {
             const textContentParams =
                 spec.type === SpecTypes.String ? spec.viewSpec.textContentParams : undefined;
 
@@ -898,31 +908,31 @@ const viewSpecRules: Rules = {
             } else {
                 set(mutableSchema, 'nodeParameters.entity', 'text_content');
             }
-        } else if (spec.viewSpec.type === 'date_input') {
+        } else if (spec?.viewSpec?.type === 'date_input') {
             set(mutableSchema, 'type', undefined);
             set(mutableSchema, 'nodeParameters.entity', 'date');
             set(mutableSchema, 'nodeParameters.type', NodeType.Any);
-        } else if (spec.viewSpec.type === 'file_input') {
+        } else if (spec?.viewSpec?.type === 'file_input') {
             set(mutableSchema, 'nodeParameters.entity', 'file');
-        } else if (spec.viewSpec.type === 'monaco_input') {
+        } else if (spec?.viewSpec?.type === 'monaco_input') {
             set(mutableSchema, 'nodeParameters.entity', 'monaco_input');
-        } else if (spec.viewSpec.type === 'number_with_scale') {
+        } else if (spec?.viewSpec?.type === 'number_with_scale') {
             set(mutableSchema, 'nodeParameters.entity', 'string_number_with_scale');
-        } else if (spec.viewSpec.type === 'range_input_picker') {
+        } else if (spec?.viewSpec?.type === 'range_input_picker') {
             set(
                 mutableSchema,
                 'nodeParameters.entity',
                 spec.type === SpecTypes.Number ? 'slider' : 'range_input',
             );
         } else {
-            set(mutableSchema, 'nodeParameters.entity', spec.viewSpec.type);
+            set(mutableSchema, 'nodeParameters.entity', spec?.viewSpec?.type);
         }
     },
 };
 
 const specRules: Rules = {
     defaultValue: (spec, mutableSchema) => {
-        if (spec.defaultValue !== undefined) {
+        if (spec?.defaultValue !== undefined) {
             set(mutableSchema, 'default', spec.defaultValue);
         }
     },
@@ -942,13 +952,13 @@ const specRules: Rules = {
             [SpecTypes.String]: NodeType.String,
         };
 
-        if (spec.type) {
+        if (spec?.type) {
             set(mutableSchema, 'type', specTypeToJsonSchemaType[spec.type]);
             set(mutableSchema, 'nodeParameters.type', specTypeToNodeType[spec.type]);
         }
     },
     required: (spec, mutableSchema, _rules, errorMessages) => {
-        if (spec.required) {
+        if (spec?.required) {
             set(mutableSchema, 'allOf', [
                 ...(mutableSchema.allOf || []),
                 {
@@ -962,7 +972,7 @@ const specRules: Rules = {
         }
     },
     maxLength: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.Array && spec.maxLength !== undefined) {
+        if (spec?.type === SpecTypes.Array && spec?.maxLength !== undefined) {
             const maxItems = Number(spec.maxLength);
 
             if (!Number.isNaN(maxItems)) {
@@ -970,7 +980,7 @@ const specRules: Rules = {
             }
         }
 
-        if (spec.type === SpecTypes.String && spec.maxLength !== undefined) {
+        if (spec?.type === SpecTypes.String && spec?.maxLength !== undefined) {
             const maxLength = Number(spec.maxLength);
 
             if (!Number.isNaN(maxLength)) {
@@ -979,7 +989,7 @@ const specRules: Rules = {
         }
     },
     minLength: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.Array && spec.minLength !== undefined) {
+        if (spec?.type === SpecTypes.Array && spec?.minLength !== undefined) {
             const minItems = Number(spec.minLength);
 
             if (!Number.isNaN(minItems)) {
@@ -987,7 +997,7 @@ const specRules: Rules = {
             }
         }
 
-        if (spec.type === SpecTypes.String && spec.minLength !== undefined) {
+        if (spec?.type === SpecTypes.String && spec?.minLength !== undefined) {
             const minLength = Number(spec.minLength);
 
             if (!Number.isNaN(minLength)) {
@@ -996,7 +1006,7 @@ const specRules: Rules = {
         }
     },
     items: (spec, mutableSchema, rules, errorMessages) => {
-        if (spec.type === SpecTypes.Array && spec.items) {
+        if (spec?.type === SpecTypes.Array && spec?.items) {
             const childSchema: JsonSchema = specToJsonSchema(
                 spec.items,
                 'items' in mutableSchema &&
@@ -1013,19 +1023,20 @@ const specRules: Rules = {
     },
     enum: (spec, mutableSchema) => {
         if (
-            spec.type === SpecTypes.Array &&
+            spec?.type === SpecTypes.Array &&
             spec.enum?.length &&
             (spec.items?.type === SpecTypes.String || !spec.items?.type)
         ) {
             set(mutableSchema, 'items.enum', spec.enum);
         }
 
-        if (spec.type === SpecTypes.String && spec.enum?.length) {
+        if (spec?.type === SpecTypes.String && spec?.enum?.length) {
             set(mutableSchema, 'enum', spec.enum);
         }
     },
     description: (spec, mutableSchema) => {
         if (
+            spec &&
             'description' in spec &&
             isObject(spec.description) &&
             Object.keys(spec.description).length
@@ -1034,12 +1045,12 @@ const specRules: Rules = {
         }
     },
     validator: (spec, mutableSchema) => {
-        if (spec.validator && spec.validator !== 'base') {
+        if (spec?.validator && spec?.validator !== 'base') {
             set(mutableSchema, 'nodeParameters.validator', spec.validator);
         }
     },
     maximum: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.Number && spec.maximum !== undefined) {
+        if (spec?.type === SpecTypes.Number && spec?.maximum !== undefined) {
             const maximum = Number(spec.maximum);
 
             if (!Number.isNaN(maximum)) {
@@ -1047,7 +1058,7 @@ const specRules: Rules = {
             }
         }
 
-        if (spec.type === SpecTypes.String && 'maximum' in spec && spec.maximum !== undefined) {
+        if (spec?.type === SpecTypes.String && 'maximum' in spec && spec?.maximum !== undefined) {
             const maximum = Number(spec.maximum);
 
             if (!Number.isNaN(maximum)) {
@@ -1056,7 +1067,7 @@ const specRules: Rules = {
         }
     },
     minimum: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.Number && spec.minimum !== undefined) {
+        if (spec?.type === SpecTypes.Number && spec.minimum !== undefined) {
             const minimum = Number(spec.minimum);
 
             if (!Number.isNaN(minimum)) {
@@ -1064,7 +1075,7 @@ const specRules: Rules = {
             }
         }
 
-        if (spec.type === SpecTypes.String && 'minimum' in spec && spec.minimum !== undefined) {
+        if (spec?.type === SpecTypes.String && 'minimum' in spec && spec?.minimum !== undefined) {
             const minimum = Number(spec.minimum);
 
             if (!Number.isNaN(minimum)) {
@@ -1073,12 +1084,12 @@ const specRules: Rules = {
         }
     },
     format: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.Number && spec.format === 'int64') {
+        if (spec?.type === SpecTypes.Number && spec.format === 'int64') {
             set(mutableSchema, 'type', JsonSchemaType.Integer);
         }
     },
     properties: (spec, mutableSchema, rules, errorMessages) => {
-        if (spec.type === SpecTypes.Object && spec.properties) {
+        if (spec?.type === SpecTypes.Object && spec.properties) {
             Object.entries(spec.properties).forEach(([key, childSpec]) => {
                 const childSchema: JsonSchema = specToJsonSchema(
                     childSpec,
@@ -1092,11 +1103,11 @@ const specRules: Rules = {
                 if (
                     childSpec.required &&
                     !(
-                        spec.viewSpec.type === 'oneof' ||
-                        spec.viewSpec.type === 'oneof_flat' ||
-                        spec.viewSpec.type === 'card_oneof' ||
-                        spec.viewSpec.type === 'multi_oneof' ||
-                        spec.viewSpec.type === 'multi_oneof_flat'
+                        spec.viewSpec?.type === 'oneof' ||
+                        spec.viewSpec?.type === 'oneof_flat' ||
+                        spec.viewSpec?.type === 'card_oneof' ||
+                        spec.viewSpec?.type === 'multi_oneof' ||
+                        spec.viewSpec?.type === 'multi_oneof_flat'
                     )
                 ) {
                     set(
@@ -1114,12 +1125,12 @@ const specRules: Rules = {
         }
     },
     pattern: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.String && spec.pattern) {
+        if (spec?.type === SpecTypes.String && spec.pattern) {
             set(mutableSchema, 'pattern', spec.pattern);
         }
     },
     patternError: (spec, mutableSchema) => {
-        if (spec.type === SpecTypes.String && spec.patternError) {
+        if (spec?.type === SpecTypes.String && spec?.patternError) {
             set(mutableSchema, 'nodeParameters.errorMessages.pattern', spec.patternError);
         }
     },
@@ -1131,7 +1142,7 @@ const specRules: Rules = {
 };
 
 export function specToJsonSchema(
-    spec: Spec,
+    spec: Partial<Spec & {viewSpec: Partial<Spec['viewSpec']>}> | null | undefined,
     mutableSchema: JsonSchema = {},
     rules?: {specRules: Rules; viewSpecRules: Rules},
     errorMessages: ErrorMessages = {},
@@ -1145,14 +1156,16 @@ export function specToJsonSchema(
         ...rules?.viewSpecRules,
     };
 
-    Object.values(mergedSpecRules).forEach((rule) =>
-        rule(
-            spec,
-            mutableSchema,
-            {specRules: mergedSpecRules, viewSpecRules: mergedViewSpecRules},
-            errorMessages,
-        ),
-    );
+    if (spec) {
+        Object.values(mergedSpecRules).forEach((rule) =>
+            rule(
+                spec,
+                mutableSchema,
+                {specRules: mergedSpecRules, viewSpecRules: mergedViewSpecRules},
+                errorMessages,
+            ),
+        );
+    }
 
     return mutableSchema;
 }
