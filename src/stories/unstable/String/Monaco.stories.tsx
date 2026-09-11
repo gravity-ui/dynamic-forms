@@ -19,9 +19,9 @@ const createStory = (layout: string | undefined, layoutName: string): StoryFn =>
         minLength: 10,
         nodeParameters: {
             type: NodeType.String,
-            entity: 'monaco',
+            entity: 'monaco_input',
             entityProps: {language: 'json', height: 140},
-            overviewEntity: 'monaco',
+            overviewEntity: 'monaco_input',
             overviewEntityProps: {language: 'json', height: 140},
             layout,
         },
