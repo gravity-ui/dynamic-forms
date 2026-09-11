@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.29.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.28.0...v5.29.0) (2026-09-11)
+
+
+### Features
+
+* **unstable:** update monaco config key ([#424](https://github.com/gravity-ui/dynamic-forms/issues/424)) ([adcccc0](https://github.com/gravity-ui/dynamic-forms/commit/adcccc0c4b91f2825c19694d0c9d4359f746fc96))
+
 ## [5.28.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.27.1...v5.28.0) (2026-09-11)
 
 
