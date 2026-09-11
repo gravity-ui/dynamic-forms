@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.29.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.29.0...v5.29.1) (2026-09-11)
+
+
+### Bug Fixes
+
+* **unstable:** fix radio group styles ([#426](https://github.com/gravity-ui/dynamic-forms/issues/426)) ([96d425d](https://github.com/gravity-ui/dynamic-forms/commit/96d425db9a94e3aef11b64d26c59fa99f2fd853d))
+
 ## [5.29.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.28.0...v5.29.0) (2026-09-11)
 
 
