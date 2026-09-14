@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.30.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.29.2...v5.30.0) (2026-09-14)
+
+
+### Features
+
+* **unstable:** add order prop for one/few of, update styles ([#430](https://github.com/gravity-ui/dynamic-forms/issues/430)) ([c9c831d](https://github.com/gravity-ui/dynamic-forms/commit/c9c831dc9b9726c1f2ae09aeaa7a5e20915264ab))
+
 ## [5.29.2](https://github.com/gravity-ui/dynamic-forms/compare/v5.29.1...v5.29.2) (2026-09-11)
 
 
