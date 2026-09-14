@@ -19,7 +19,7 @@ const createStory = (layout: string | undefined, layoutName: string): StoryFn =>
         minLength: 5,
         nodeParameters: {
             type: NodeType.String,
-            entity: 'file',
+            entity: 'file_input',
             entityProps: {accept: ['.json', '.txt'], readAsMethod: 'readAsText'},
             layout,
         },

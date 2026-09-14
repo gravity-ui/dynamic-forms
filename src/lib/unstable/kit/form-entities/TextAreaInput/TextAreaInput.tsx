@@ -35,7 +35,7 @@ export const TextAreaInput: NodeEntity<JsonSchemaString, TextAreaInputProps> = (
         <EntityContainer stretch="max" className={b({error: getBooleanValidationState(meta)})}>
             <TextArea
                 maxRows={20}
-                minRows={0}
+                minRows={8}
                 placeholder={schema.examples?.[0]}
                 disabled={disabled || schema.readOnly}
                 hasClear
