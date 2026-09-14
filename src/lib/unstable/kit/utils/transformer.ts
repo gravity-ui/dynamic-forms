@@ -22,10 +22,10 @@ const viewSpecRules: Rules = {
         }
     },
     layout: (spec, mutableSchema) => {
-        const layout = spec?.viewSpec?.layout;
+        let layout = spec?.viewSpec?.layout;
 
         if (!layout) {
-            return;
+            layout = 'transparent';
         }
 
         if (layout === 'row_verbose') {
@@ -450,6 +450,14 @@ const viewSpecRules: Rules = {
                     );
                 }
 
+                if (spec.required) {
+                    set(
+                        mutableSchema,
+                        'nodeParameters.entityProps.toggler.nodeParameters.flags.required',
+                        true,
+                    );
+                }
+
                 if (spec.description && Object.keys(spec.description).length) {
                     set(
                         mutableSchema,
@@ -559,6 +567,14 @@ const viewSpecRules: Rules = {
                     );
                 }
 
+                if (spec.required) {
+                    set(
+                        mutableSchema,
+                        'nodeParameters.entityProps.toggler.nodeParameters.flags.required',
+                        true,
+                    );
+                }
+
                 if (spec.description && Object.keys(spec.description).length) {
                     set(
                         mutableSchema,
@@ -665,6 +681,14 @@ const viewSpecRules: Rules = {
                         mutableSchema,
                         'nodeParameters.entityProps.toggler.nodeParameters.entityProps.placeholder',
                         spec.viewSpec.placeholder,
+                    );
+                }
+
+                if (spec.required) {
+                    set(
+                        mutableSchema,
+                        'nodeParameters.entityProps.toggler.nodeParameters.flags.required',
+                        true,
                     );
                 }
 
@@ -778,6 +802,14 @@ const viewSpecRules: Rules = {
                     );
                 }
 
+                if (spec.required) {
+                    set(
+                        mutableSchema,
+                        'nodeParameters.entityProps.toggler.nodeParameters.flags.required',
+                        true,
+                    );
+                }
+
                 if (spec.description && Object.keys(spec.description).length) {
                     set(
                         mutableSchema,
@@ -860,6 +892,14 @@ const viewSpecRules: Rules = {
                     );
                 }
 
+                if (spec.required) {
+                    set(
+                        mutableSchema,
+                        'nodeParameters.entityProps.toggler.nodeParameters.flags.required',
+                        true,
+                    );
+                }
+
                 if (spec.description && Object.keys(spec.description).length) {
                     set(
                         mutableSchema,
@@ -913,7 +953,7 @@ const viewSpecRules: Rules = {
             set(mutableSchema, 'nodeParameters.entity', 'date');
             set(mutableSchema, 'nodeParameters.type', NodeType.Any);
         } else if (spec?.viewSpec?.type === 'file_input') {
-            set(mutableSchema, 'nodeParameters.entity', 'file');
+            set(mutableSchema, 'nodeParameters.entity', 'file_input');
         } else if (spec?.viewSpec?.type === 'monaco_input') {
             set(mutableSchema, 'nodeParameters.entity', 'monaco_input');
         } else if (spec?.viewSpec?.type === 'number_with_scale') {

@@ -57,7 +57,7 @@ export const StringNumberWithScaleInput: NodeEntity<
                     scale: preparedScale,
                     defaultType,
                     viewType: viewType && preparedScale[viewType] ? [viewType] : [defaultType],
-                    minScaleLength: `${minScaleLength + 42}px`,
+                    minScaleLength: `${minScaleLength + 60}px`,
                 };
             }
         }
