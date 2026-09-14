@@ -69,6 +69,7 @@ export const Section: NodeLayout<JsonSchema, SectionProps> = ({
                     <Flex className={b('header')} gap={2} alignItems="center">
                         <Text
                             variant="subheader-1"
+                            color="complementary"
                             {...restLayoutProps}
                             className={b(
                                 'title',

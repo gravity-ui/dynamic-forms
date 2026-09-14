@@ -79,6 +79,7 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
                             <Flex alignItems="center" gap={2}>
                                 <Text
                                     variant="subheader-1"
+                                    color="complementary"
                                     className={b('title', {required: required && !overviewFlag})}
                                 >
                                     {schema.title}

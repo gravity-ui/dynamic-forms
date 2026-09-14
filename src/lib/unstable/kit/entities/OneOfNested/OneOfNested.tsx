@@ -23,6 +23,7 @@ export interface OneOfNestedProps {
     booleanToKey?: {true: string; false: string};
     withIndent?: boolean;
     togglerArrayRemoveButton?: boolean;
+    order?: string[];
 }
 
 export const OneOfNested: NodeEntity<JsonSchemaObject, OneOfNestedProps> = ({
@@ -42,6 +43,7 @@ export const OneOfNested: NodeEntity<JsonSchemaObject, OneOfNestedProps> = ({
         togglerArrayRemoveButton = false,
         toggler: togglerSchema = {},
         withIndent = false,
+        order,
     } = props;
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
@@ -56,8 +58,14 @@ export const OneOfNested: NodeEntity<JsonSchemaObject, OneOfNestedProps> = ({
             return Object.keys(value)[0];
         }
 
-        if (!overviewFlag && schema.properties) {
-            return Object.keys(schema.properties)[0];
+        if (!overviewFlag) {
+            if (order?.[0] !== undefined) {
+                return order[0];
+            }
+
+            if (schema.properties) {
+                return Object.keys(schema.properties)[0];
+            }
         }
 
         return undefined;

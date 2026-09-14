@@ -24,6 +24,7 @@ export interface FewOfNestedProps {
     toggler: JsonSchema;
     withIndent?: boolean;
     togglerArrayRemoveButton?: boolean;
+    order?: string[];
 }
 
 export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
@@ -42,6 +43,7 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
         togglerArrayRemoveButton = false,
         toggler: togglerSchema = {},
         withIndent = false,
+        order,
     } = props;
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
@@ -56,8 +58,14 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
             return Object.keys(value);
         }
 
-        if (!overviewFlag && schema.properties && Object.keys(schema.properties).length) {
-            return [Object.keys(schema.properties)[0]];
+        if (!overviewFlag) {
+            if (order?.[0] !== undefined) {
+                return [order[0]];
+            }
+
+            if (schema.properties && Object.keys(schema.properties).length) {
+                return [Object.keys(schema.properties)[0]];
+            }
         }
 
         return [];

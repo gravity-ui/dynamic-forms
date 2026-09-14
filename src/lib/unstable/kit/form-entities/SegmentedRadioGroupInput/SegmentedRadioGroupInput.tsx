@@ -35,7 +35,8 @@ export const SegmentedRadioGroupInput: NodeEntity<
     const {enumDescriptions, optionsDisabled, ...restEntityProps} = props;
     const {disabled} = schema.nodeParameters?.flags || {};
 
-    const ref = React.useRef<HTMLDivElement>(null);
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const controlRef = React.useRef<HTMLDivElement>(null);
     const [overflowed, setOverflowed] = React.useState(false);
 
     const options = React.useMemo(
@@ -58,39 +59,36 @@ export const SegmentedRadioGroupInput: NodeEntity<
     );
 
     React.useLayoutEffect(() => {
-        const root = ref.current;
+        const container = containerRef.current;
+        const control = controlRef.current;
 
-        if (!root) {
+        if (!container || !control) {
             return;
         }
 
         const measure = () => {
-            const texts = root.querySelectorAll<HTMLElement>(
-                '.g-segmented-radio-group__option-text',
-            );
+            const GAP = 48; // little bit more than potential remove button width + spacing
+            const containerWidth = container.offsetWidth - GAP;
+            const controlWidth = control.offsetWidth;
 
-            setOverflowed(
-                Array.from(texts).some((node) => {
-                    if (node.offsetWidth === 0 && node.scrollWidth === 0) {
-                        return false;
-                    }
-
-                    return node.scrollWidth > node.clientWidth;
-                }),
-            );
+            setOverflowed(controlWidth > containerWidth);
         };
 
         measure();
 
         const observer = new ResizeObserver(measure);
 
-        observer.observe(root);
+        observer.observe(container);
 
         return () => observer.disconnect();
     }, [options]);
 
     return (
-        <EntityContainer stretch="max">
+        <EntityContainer
+            ref={containerRef}
+            className={b({error: getBooleanValidationState(meta)})}
+            stretch="max"
+        >
             {overflowed ? (
                 <SelectInput
                     input={input}
@@ -99,13 +97,8 @@ export const SegmentedRadioGroupInput: NodeEntity<
                     schema={schema}
                     {...restProps}
                 />
-            ) : null}
-            <EntityContainer
-                stretch="max"
-                className={b({error: getBooleanValidationState(meta), overflowed})}
-            >
+            ) : (
                 <SegmentedRadioGroup
-                    ref={ref}
                     width="max"
                     disabled={disabled || schema.readOnly}
                     options={options}
@@ -116,7 +109,16 @@ export const SegmentedRadioGroupInput: NodeEntity<
                     onUpdate={onUpdate}
                     qa={name}
                 />
-            </EntityContainer>
+            )}
+            <div className={b('checker')}>
+                <SegmentedRadioGroup
+                    ref={controlRef}
+                    width="max"
+                    disabled={disabled || schema.readOnly}
+                    options={options}
+                    {...restEntityProps}
+                />
+            </div>
         </EntityContainer>
     );
 };

@@ -57,6 +57,8 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
     const summary = React.useMemo(
         () => (
             <Text
+                variant="subheader-1"
+                color="complementary"
                 {...titleProps}
                 className={b('title', {required: required && !overviewFlag}, titleProps?.className)}
             >
