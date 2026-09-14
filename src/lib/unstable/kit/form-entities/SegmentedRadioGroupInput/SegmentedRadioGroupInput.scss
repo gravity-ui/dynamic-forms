@@ -1,6 +1,8 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}segmented-radio-group-input {
+    position: relative;
+
     &_error {
         .g-segmented-radio-group {
             .g-segmented-radio-group__option_checked {
@@ -17,9 +19,11 @@
         }
     }
 
-    &_overflowed {
-        height: 0;
-        opacity: 0;
-        overflow: hidden;
+    &__checker {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: max-content;
+        visibility: hidden;
     }
 }

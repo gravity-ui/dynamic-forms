@@ -53,7 +53,12 @@ export const FormRow: NodeLayout<JsonSchema, FormRowProps> = ({
             hidden={hidden}
         >
             <div className={b('left')}>
-                <Text className={b('title', {required})} wordBreak="break-word">
+                <Text
+                    className={b('title', {required})}
+                    variant="subheader-1"
+                    color="complementary"
+                    wordBreak="break-word"
+                >
                     {schema.title}
                 </Text>
                 {tooltip}

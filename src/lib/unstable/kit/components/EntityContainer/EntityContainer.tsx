@@ -11,6 +11,7 @@ const b = block('entity-container');
 export interface EntityContainerProps extends FlexProps {
     children: React.ReactNode;
     fill?: 'populated' | 'empty' | 'by-child';
+    ref?: React.ComponentPropsWithRef<'div'>['ref'];
     stretch: 'max' | 'fit' | 'by-child';
 }
 

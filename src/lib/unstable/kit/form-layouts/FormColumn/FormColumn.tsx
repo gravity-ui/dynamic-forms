@@ -48,7 +48,12 @@ export const FormColumn: NodeLayout<JsonSchema, FormColumnProps> = ({
         <LayoutContainer className={b()} gap={2} hidden={hidden}>
             <Flex direction="column" gap={0.5}>
                 <div className={b('top')}>
-                    <Text className={b('title', {required})} wordBreak="break-word">
+                    <Text
+                        className={b('title', {required})}
+                        variant="subheader-1"
+                        color="complementary"
+                        wordBreak="break-word"
+                    >
                         {schema.title}
                     </Text>
                     {tooltip}
