@@ -99,12 +99,14 @@ export const RangeInput: NodeEntity<JsonSchemaObject, RangeInputProps> = ({
                     headName={headName}
                     name={fromName}
                     schemaPath={`${schemaPath}/properties/${fromKey}`}
+                    key={fromKey}
                 />
                 <Text className={b('delimiter')}>{separator}</Text>
                 <SchemaRendererNode
                     headName={headName}
                     name={toName}
                     schemaPath={`${schemaPath}/properties/${toKey}`}
+                    key={toKey}
                 />
             </Flex>
         </EntityContainer>

@@ -58,6 +58,7 @@ export const ObjectInline: NodeEntity<JsonSchemaObject, ObjectInlineProps> = ({
                                 headName={headName}
                                 name={`${name ? name + '.' : ''}${property}`}
                                 schemaPath={`${schemaPath}/properties/${property}`}
+                                key={property}
                             />
                             {isString(delimiter) && index + 1 !== array.length ? (
                                 <Text className={b('delimiter')}>{delimiter}</Text>

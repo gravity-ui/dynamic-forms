@@ -1,34 +1,30 @@
 import React from 'react';
 
-import {
-    type JsonSchemaObject,
-    type NodeEntity,
-    SchemaRendererMode,
-    SchemaRendererNode,
-} from '../../../core';
-import {EmptyEntityValue, EntityContainer} from '../../components';
+import {type JsonSchemaObject, type NodeEntity, SchemaRendererNode} from '../../../core';
+import {EntityContainer} from '../../components';
 
 export interface ObjectEntityProps {
     order?: string[];
 }
 
 export const ObjectEntity: NodeEntity<JsonSchemaObject, ObjectEntityProps> = ({
+    Layout,
     headName,
-    mode,
     input,
+    layoutProps,
+    meta,
+    mode,
     props,
     schema,
     schemaPath,
 }) => {
     const {name} = input;
 
-    const overviewFlag = mode === SchemaRendererMode.Overview;
-
-    if (overviewFlag && !Object.keys(schema.properties || {}).length) {
-        return <EmptyEntityValue />;
+    if (!Object.keys(schema.properties || {}).length) {
+        return null;
     }
 
-    return (
+    let content = (
         <EntityContainer stretch="by-child" fill="by-child">
             {(props.order || Object.keys(schema.properties || {})).map((property: string) => (
                 <SchemaRendererNode
@@ -40,4 +36,22 @@ export const ObjectEntity: NodeEntity<JsonSchemaObject, ObjectEntityProps> = ({
             ))}
         </EntityContainer>
     );
+
+    if (Layout) {
+        content = (
+            <Layout
+                headName={headName}
+                input={input}
+                meta={meta}
+                mode={mode}
+                schema={schema}
+                schemaPath={schemaPath}
+                props={layoutProps || {}}
+            >
+                {content}
+            </Layout>
+        );
+    }
+
+    return content;
 };
