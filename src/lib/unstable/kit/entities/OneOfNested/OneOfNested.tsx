@@ -165,6 +165,7 @@ export const OneOfNested: NodeEntity<JsonSchemaObject, OneOfNestedProps> = ({
                         headName={headName}
                         name={`${name ? name + '.' : ''}${togglerValue}`}
                         schemaPath={`${schemaPath}/properties/${togglerValue}`}
+                        key={togglerValue}
                     />
                 </LayoutContainer>
             )}

@@ -171,7 +171,7 @@ export const untypedConfig = {
     },
     [NodeType.Object]: {
         formEntities: {
-            base: {Component: ObjectEntity},
+            base: {Component: ObjectEntity, independent: true},
             dot_value: {Component: DotValue},
             few_of_nested: {Component: FewOfNested, independent: true},
             inline: {Component: ObjectInline},
@@ -189,7 +189,7 @@ export const untypedConfig = {
             transparent: {Component: Transparent},
         },
         overviewEntities: {
-            base: {Component: ObjectEntity},
+            base: {Component: ObjectEntity, independent: true},
             dot_value: {Component: DotValue},
             few_of_nested: {Component: FewOfNested, independent: true},
             inline: {Component: ObjectInline},
