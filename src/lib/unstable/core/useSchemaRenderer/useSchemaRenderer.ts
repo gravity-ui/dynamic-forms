@@ -92,6 +92,7 @@ export const useSchemaRenderer = ({
             settings: {coerceInitialValues, jsonDefaultValues},
             schema:
                 nameUpdated || schemaUpdated ? cloneDeep(originalSchema) : prevState?.schema || {},
+            submitCount: nameUpdated || schemaUpdated || !prevState ? 0 : prevState.submitCount,
             subscribe,
             subscribers: prevState?.subscribers || {byId: {}, byName: new Map(), byPath: new Map()},
             unsubscribe,
@@ -179,6 +180,28 @@ export const useSchemaRenderer = ({
             initialState.dispatchEvent(initialEvents);
         }
     }, [initialEvents, initialState]);
+
+    React.useEffect(() => {
+        const originalSubmit = form.submit;
+
+        form.submit = () => {
+            const srField = form.getFieldState(
+                getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, headName),
+            );
+            const srState: SchemaRendererState | undefined = srField?.data?.state;
+
+            if (srState) {
+                srState.submitCount += 1;
+                srState.dispatchEvent([{type: SchemaRendererEventType.Submit, all: true}]);
+            }
+
+            return originalSubmit.call(form);
+        };
+
+        return () => {
+            form.submit = originalSubmit;
+        };
+    }, [form]);
 
     React.useEffect(() => {
         const strictChecker = strictCheckerRef.current;

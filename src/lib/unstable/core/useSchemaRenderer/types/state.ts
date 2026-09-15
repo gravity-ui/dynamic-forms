@@ -26,6 +26,7 @@ export interface SchemaRendererState<
         coerceInitialValues: boolean;
         jsonDefaultValues: boolean;
     };
+    submitCount: number;
     subscribe: (subscriber: SchemaRendererSubscriber) => string;
     subscribers: {
         byId: Record<string, SchemaRendererSubscriber>;
