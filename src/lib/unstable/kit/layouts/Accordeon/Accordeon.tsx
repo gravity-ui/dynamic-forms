@@ -21,6 +21,7 @@ import {
     HTMLContent,
     LayoutContainer,
 } from '../../components';
+import {useExpanded} from '../../hooks';
 import {block, getValidationState} from '../../utils';
 
 import './Accordeon.scss';
@@ -51,6 +52,7 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
         ...restLayoutProps
     } = props;
     const {copy, required, hidden, open} = schema.nodeParameters?.flags || {};
+    const {expanded, setExpanded} = useExpanded({headName, name: input.name, open});
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
@@ -102,7 +104,12 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
             hideEmpty={overviewFlag}
             hidden={hidden}
         >
-            <Disclosure defaultExpanded={open} summary={summary} {...restLayoutProps}>
+            <Disclosure
+                summary={summary}
+                expanded={expanded}
+                onUpdate={setExpanded}
+                {...restLayoutProps}
+            >
                 <Disclosure.Summary>
                     {({expanded, onClick}, defaultSummary) => (
                         <Flex minHeight="28px" alignItems="center" gap={2}>

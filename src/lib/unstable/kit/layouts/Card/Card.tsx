@@ -19,6 +19,7 @@ import {
     HTMLContent,
     LayoutContainer,
 } from '../../components';
+import {useExpanded} from '../../hooks';
 import {block, getValidationState} from '../../utils';
 
 import './Card.scss';
@@ -44,11 +45,11 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
-    const [visible, setVisible] = React.useState(likeAccordeon ? open : true);
-
-    const toggleVisible = React.useCallback(() => {
-        setVisible((f) => !f);
-    }, []);
+    const {expanded, toggleExpanded} = useExpanded({
+        headName,
+        name: input.name,
+        open: likeAccordeon ? open : true,
+    });
 
     const tooltip = React.useMemo(() => {
         if (!schema.description || descriptionType === 'bottom') {
@@ -73,7 +74,7 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
     return (
         <LayoutContainer className={b()} hideEmpty={overviewFlag} hidden={hidden}>
             <UIKitCard {...restLayoutProps} className={b('card')}>
-                <div className={b('inner', {hidden: !visible})}>
+                <div className={b('inner', {hidden: !expanded})}>
                     <Flex className={b('header')} direction="column" justifyContent="center">
                         <Flex justifyContent="space-between" alignItems="center">
                             <Flex alignItems="center" gap={2}>
@@ -100,12 +101,12 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
                                 {likeAccordeon ? (
                                     <Flex width="28px" justifyContent="center">
                                         <Button
-                                            onClick={toggleVisible}
+                                            onClick={toggleExpanded}
                                             size="s"
                                             view="flat-secondary"
                                         >
                                             <Icon
-                                                data={visible ? ChevronUp : ChevronDown}
+                                                data={expanded ? ChevronUp : ChevronDown}
                                                 size={16}
                                             />
                                         </Button>
@@ -115,7 +116,7 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
                         </Flex>
                         {bottomDescription}
                     </Flex>
-                    <div className={b('content', {hidden: !visible})}>{children}</div>
+                    <div className={b('content', {hidden: !expanded})}>{children}</div>
                 </div>
                 {overviewFlag ? null : (
                     <EntityError

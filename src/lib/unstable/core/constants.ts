@@ -12,6 +12,7 @@ export enum SchemaRendererEventType {
     Patch = 'patch',
     Settings = 'settings',
     Schema = 'schema',
+    Submit = 'submit',
     UserContext = 'userContext',
 }
 
