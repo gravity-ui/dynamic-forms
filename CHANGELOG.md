@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.31.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.30.0...v5.31.0) (2026-09-15)
+
+
+### Features
+
+* **unstable:** update base object entity ([#434](https://github.com/gravity-ui/dynamic-forms/issues/434)) ([1bbad93](https://github.com/gravity-ui/dynamic-forms/commit/1bbad93881be71b867bf70656b50718c953c3b29))
+* **unstable:** update transformer, rename file input config key ([#432](https://github.com/gravity-ui/dynamic-forms/issues/432)) ([284875b](https://github.com/gravity-ui/dynamic-forms/commit/284875b600224310aa044bc21bfe0689ddc53b7e))
+
 ## [5.30.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.29.2...v5.30.0) (2026-09-14)
 
 
