@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.32.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.31.0...v5.32.0) (2026-09-15)
+
+
+### Features
+
+* **unstable:** add auto expand on submit with errors ([#435](https://github.com/gravity-ui/dynamic-forms/issues/435)) ([6303dc9](https://github.com/gravity-ui/dynamic-forms/commit/6303dc980b04310b32169e874502b5faa06b6a4d))
+
 ## [5.31.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.30.0...v5.31.0) (2026-09-15)
 
 
