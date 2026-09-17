@@ -3,15 +3,21 @@ import React from 'react';
 import {Flex, HelpMark, Text} from '@gravity-ui/uikit';
 
 import type {JsonSchema, NodeLayout} from '../../../core';
-import {CopyButton, HTMLContent, LayoutContainer} from '../../components';
+import {HTMLContent, LayoutButtons, LayoutContainer} from '../../components';
 import {block} from '../../utils';
 
 import './OverviewColumn.scss';
 
 const b = block('overview-column');
 
-export const OverviewColumn: NodeLayout<JsonSchema> = ({children, headName, input, schema}) => {
-    const {copy, hidden} = schema.nodeParameters?.flags || {};
+export const OverviewColumn: NodeLayout<JsonSchema> = ({
+    children,
+    headName,
+    input,
+    mode,
+    schema,
+}) => {
+    const {hidden} = schema.nodeParameters?.flags || {};
 
     const tooltip = React.useMemo(() => {
         if (!schema.description) {
@@ -38,7 +44,13 @@ export const OverviewColumn: NodeLayout<JsonSchema> = ({children, headName, inpu
             <Flex className={b('bottom')} direction="column" gap={0.5} grow={1}>
                 <Flex grow={1} gap={2}>
                     {children}
-                    <CopyButton className={b('copy-button')} copy={copy} value={input.value} />
+                    <LayoutButtons
+                        mode={mode}
+                        name={input.name}
+                        headName={headName}
+                        schema={schema}
+                        value={input.value}
+                    />
                 </Flex>
             </Flex>
         </LayoutContainer>

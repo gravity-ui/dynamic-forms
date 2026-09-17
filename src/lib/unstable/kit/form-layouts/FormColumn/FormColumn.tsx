@@ -3,7 +3,7 @@ import React from 'react';
 import {Flex, HelpMark, Text} from '@gravity-ui/uikit';
 
 import type {JsonSchema, NodeLayout} from '../../../core';
-import {ArrayRemoveButton, EntityError, HTMLContent, LayoutContainer} from '../../components';
+import {EntityError, HTMLContent, LayoutButtons, LayoutContainer} from '../../components';
 import {block, getValidationState} from '../../utils';
 
 import './FormColumn.scss';
@@ -19,6 +19,7 @@ export const FormColumn: NodeLayout<JsonSchema, FormColumnProps> = ({
     headName,
     input,
     meta,
+    mode,
     schema,
     props,
 }) => {
@@ -47,18 +48,26 @@ export const FormColumn: NodeLayout<JsonSchema, FormColumnProps> = ({
     return (
         <LayoutContainer className={b()} gap={2} hidden={hidden}>
             <Flex direction="column" gap={0.5}>
-                <div className={b('top')}>
-                    <Text
-                        className={b('title', {required})}
-                        variant="subheader-1"
-                        color="complementary"
-                        wordBreak="break-word"
-                    >
-                        {schema.title}
-                    </Text>
-                    {tooltip}
-                    <ArrayRemoveButton name={input.name} headName={headName} />
-                </div>
+                <Flex alignItems="center" gap={2}>
+                    <div className={b('title')}>
+                        <Text
+                            className={b('title-text', {required})}
+                            variant="subheader-1"
+                            color="complementary"
+                            wordBreak="break-word"
+                        >
+                            {schema.title}
+                        </Text>
+                        {tooltip}
+                    </div>
+                    <LayoutButtons
+                        mode={mode}
+                        name={input.name}
+                        headName={headName}
+                        schema={schema}
+                        value={input.value}
+                    />
+                </Flex>
                 {bottomDescription}
             </Flex>
             <Flex className={b('bottom')} direction="column" gap={0.5}>

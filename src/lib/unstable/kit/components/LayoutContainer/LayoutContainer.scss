@@ -2,8 +2,10 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}layout-container {
+    max-width: 100%;
+    min-width: 0;
     width: fit-content;
-    flex: 0 0 auto;
+    flex: 0 1 auto;
 
     &:has([data-stretch='max']) {
         width: 100%;
@@ -18,5 +20,37 @@
 
     &_hidden {
         display: none;
+    }
+}
+
+@scope (.#{$ns}layout-container) to (.#{$ns}layout-container) {
+    :scope:has([data-droppable='true']:not(:scope .#{$ns}layout-container *)) {
+        .#{$ns}drop-button {
+            display: block;
+        }
+    }
+
+    :scope:has(.#{$ns}drop-button:not(:scope .#{$ns}layout-container *):hover),
+    :scope:has(.#{$ns}drop-button_open:not(:scope .#{$ns}layout-container *)),
+    :scope:has(.#{$ns}array-remove-button:not(:scope .#{$ns}layout-container *):hover) {
+        position: relative;
+
+        &:before {
+            content: '';
+            z-index: -1;
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            width: calc(100% + 16px);
+            height: calc(100% + 16px);
+            background-color: var(--g-color-base-simple-hover);
+            border-radius: 6px;
+        }
+    }
+
+    :scope:hover {
+        .#{$ns}copy-button {
+            display: block;
+        }
     }
 }

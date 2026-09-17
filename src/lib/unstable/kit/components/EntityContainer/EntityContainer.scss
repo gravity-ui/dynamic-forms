@@ -18,6 +18,7 @@
     }
 
     &_stretch_by-child {
+        max-width: 100%;
         width: fit-content;
         flex: 0 0 auto;
 

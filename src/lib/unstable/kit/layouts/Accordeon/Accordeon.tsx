@@ -14,13 +14,7 @@ import {
 } from '@gravity-ui/uikit';
 
 import {type JsonSchema, type NodeLayout, SchemaRendererMode} from '../../../core';
-import {
-    ArrayRemoveButton,
-    CopyButton,
-    EntityError,
-    HTMLContent,
-    LayoutContainer,
-} from '../../components';
+import {EntityError, HTMLContent, LayoutButtons, LayoutContainer} from '../../components';
 import {useExpanded} from '../../hooks';
 import {block, getValidationState} from '../../utils';
 
@@ -51,7 +45,7 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
         withDefaultSummary = false,
         ...restLayoutProps
     } = props;
-    const {copy, required, hidden, open} = schema.nodeParameters?.flags || {};
+    const {required, hidden, open} = schema.nodeParameters?.flags || {};
     const {expanded, setExpanded} = useExpanded({headName, name: input.name, open});
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
@@ -63,6 +57,8 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
                 color="complementary"
                 {...titleProps}
                 className={b('title', {required: required && !overviewFlag}, titleProps?.className)}
+                whiteSpace="break-spaces"
+                wordBreak="break-word"
             >
                 {schema.title}
             </Text>
@@ -81,22 +77,6 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
 
         return null;
     }, [schema.description, headName]);
-
-    const copyButton = React.useMemo(() => {
-        if (overviewFlag) {
-            return <CopyButton className={b('copy-button')} copy={copy} value={input.value} />;
-        }
-
-        return null;
-    }, [overviewFlag, copy, input.value]);
-
-    const removeButton = React.useMemo(() => {
-        if (overviewFlag) {
-            return null;
-        }
-
-        return <ArrayRemoveButton name={input.name} headName={headName} />;
-    }, [overviewFlag, input.name, headName]);
 
     return (
         <LayoutContainer
@@ -128,8 +108,13 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
                                 </Button>
                             )}
                             {helpMark}
-                            {copyButton}
-                            {removeButton}
+                            <LayoutButtons
+                                mode={mode}
+                                name={input.name}
+                                headName={headName}
+                                schema={schema}
+                                value={input.value}
+                            />
                         </Flex>
                     )}
                 </Disclosure.Summary>

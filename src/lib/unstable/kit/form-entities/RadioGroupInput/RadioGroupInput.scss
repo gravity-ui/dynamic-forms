@@ -1,13 +1,12 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}radio-group-input {
-    &_direction_horizontal {
-        min-height: 28px;
-        padding-top: 1px;
-    }
-
-    &_direction_vertical {
-        padding-top: 7px;
+    .g-radio-group {
+        .g-control-label.g-radio-group__option {
+            min-height: 28px;
+            align-items: center;
+            margin-bottom: 0;
+        }
     }
 
     &_error {

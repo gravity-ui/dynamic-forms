@@ -10,6 +10,7 @@ const b = block('entity-container');
 
 export interface EntityContainerProps extends FlexProps {
     children: React.ReactNode;
+    droppable?: boolean;
     fill?: 'populated' | 'empty' | 'by-child';
     ref?: React.ComponentPropsWithRef<'div'>['ref'];
     stretch: 'max' | 'fit' | 'by-child';
@@ -17,12 +18,18 @@ export interface EntityContainerProps extends FlexProps {
 
 export const EntityContainer: React.FC<EntityContainerProps> = ({
     children,
+    droppable,
     fill,
     stretch,
     ...restFlexProps
 }) => {
     return (
-        <div className={b({stretch})} data-stretch={stretch} data-fill={fill}>
+        <div
+            className={b({stretch})}
+            data-fill={fill}
+            data-droppable={droppable}
+            data-stretch={stretch}
+        >
             <Flex direction="column" minWidth={0} {...restFlexProps} grow={1}>
                 {children}
             </Flex>

@@ -7,14 +7,4 @@
     &:last-child {
         margin-bottom: 0;
     }
-
-    &:hover {
-        .#{$ns}transparent__copy-button {
-            display: block;
-        }
-    }
-
-    &__copy-button {
-        display: none;
-    }
 }

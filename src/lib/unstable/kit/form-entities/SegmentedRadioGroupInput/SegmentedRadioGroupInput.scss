@@ -2,6 +2,7 @@
 
 .#{$ns}segmented-radio-group-input {
     position: relative;
+    overflow: hidden;
 
     &_error {
         .g-segmented-radio-group {

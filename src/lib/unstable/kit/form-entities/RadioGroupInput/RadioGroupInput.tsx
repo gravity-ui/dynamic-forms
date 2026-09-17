@@ -39,7 +39,7 @@ export const RadioGroupInput: NodeEntity<JsonSchemaString, RadioGroupInputProps>
     return (
         <EntityContainer
             stretch="fit"
-            className={b({error: getBooleanValidationState(meta), direction})}
+            className={b({error: getBooleanValidationState(meta)})}
             justifyContent="center"
         >
             <RadioGroup

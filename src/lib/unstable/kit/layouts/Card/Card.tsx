@@ -12,13 +12,7 @@ import {
 } from '@gravity-ui/uikit';
 
 import {type JsonSchema, type NodeLayout, SchemaRendererMode} from '../../../core';
-import {
-    ArrayRemoveButton,
-    CopyButton,
-    EntityError,
-    HTMLContent,
-    LayoutContainer,
-} from '../../components';
+import {EntityError, HTMLContent, LayoutButtons, LayoutContainer} from '../../components';
 import {useExpanded} from '../../hooks';
 import {block, getValidationState} from '../../utils';
 
@@ -41,7 +35,7 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
     props,
 }) => {
     const {descriptionType = 'tooltip', likeAccordeon = true, ...restLayoutProps} = props;
-    const {copy, required, hidden, open = true} = schema.nodeParameters?.flags || {};
+    const {required, hidden, open = true} = schema.nodeParameters?.flags || {};
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
@@ -88,16 +82,13 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
                                 {tooltip}
                             </Flex>
                             <Flex className={b('header-actions')} alignItems="center" gap={2}>
-                                {overviewFlag ? (
-                                    <CopyButton
-                                        className={b('copy-button')}
-                                        copy={copy}
-                                        value={input.value}
-                                    />
-                                ) : null}
-                                {overviewFlag ? null : (
-                                    <ArrayRemoveButton name={input.name} headName={headName} />
-                                )}
+                                <LayoutButtons
+                                    mode={mode}
+                                    name={input.name}
+                                    headName={headName}
+                                    schema={schema}
+                                    value={input.value}
+                                />
                                 {likeAccordeon ? (
                                     <Flex width="28px" justifyContent="center">
                                         <Button

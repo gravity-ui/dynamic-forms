@@ -1,7 +1,6 @@
 @import '../../styles/variables.scss';
 
-.#{$ns}array-entity {
-    &__add-button,
+.#{$ns}object-entity {
     &__init-button {
         align-self: flex-start;
     }
