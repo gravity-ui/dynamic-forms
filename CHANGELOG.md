@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.33.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.32.0...v5.33.0) (2026-09-17)
+
+
+### Features
+
+* **unstable:** add entity buttons, support not required arrays and o… ([#437](https://github.com/gravity-ui/dynamic-forms/issues/437)) ([8cc255b](https://github.com/gravity-ui/dynamic-forms/commit/8cc255bc4320b21a6cf52ad7a4076fb8275cc149))
+
 ## [5.32.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.31.0...v5.32.0) (2026-09-15)
 
 
