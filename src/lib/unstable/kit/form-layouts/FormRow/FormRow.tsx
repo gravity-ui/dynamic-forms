@@ -3,7 +3,7 @@ import React from 'react';
 import {Flex, HelpMark, Text} from '@gravity-ui/uikit';
 
 import type {JsonSchema, NodeLayout} from '../../../core';
-import {ArrayRemoveButton, EntityError, HTMLContent, LayoutContainer} from '../../components';
+import {EntityError, HTMLContent, LayoutButtons, LayoutContainer} from '../../components';
 import {block, getValidationState} from '../../utils';
 
 import './FormRow.scss';
@@ -19,6 +19,7 @@ export const FormRow: NodeLayout<JsonSchema, FormRowProps> = ({
     headName,
     input,
     meta,
+    mode,
     schema,
     props,
 }) => {
@@ -66,7 +67,13 @@ export const FormRow: NodeLayout<JsonSchema, FormRowProps> = ({
             <Flex className={b('right')} direction="column" gap={0.5} grow={1}>
                 <Flex grow={1} gap={2}>
                     {children}
-                    <ArrayRemoveButton name={input.name} headName={headName} />
+                    <LayoutButtons
+                        mode={mode}
+                        name={input.name}
+                        headName={headName}
+                        schema={schema}
+                        value={input.value}
+                    />
                 </Flex>
                 {bottomDescription}
                 <EntityError errorMessage={meta.error} validationState={getValidationState(meta)} />

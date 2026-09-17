@@ -4,21 +4,35 @@ import {TrashBin} from '@gravity-ui/icons';
 import {Button, Icon} from '@gravity-ui/uikit';
 import {useForm} from 'react-final-form';
 
-import {getArrayItemIndex, getArrayItemParentName, isArrayItem, isTupleItem} from '../../utils';
+import {SchemaRendererMode} from '../../../core';
+import {
+    block,
+    getArrayItemIndex,
+    getArrayItemParentName,
+    isArrayItem,
+    isTupleItem,
+} from '../../utils';
+
+const b = block('array-remove-button');
 
 export interface ArrayRemoveButtonProps {
+    mode: SchemaRendererMode;
     name: string;
     headName: string;
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export const ArrayRemoveButton: React.FC<ArrayRemoveButtonProps> = ({name, headName, onClick}) => {
+export const ArrayRemoveButton: React.FC<ArrayRemoveButtonProps> = ({
+    mode,
+    name,
+    headName,
+    onClick,
+}) => {
     const form = useForm();
-
-    const [ready, setReady] = React.useState(false);
 
     const arrayItem = isArrayItem(name);
     const tupleItem = isTupleItem(name, headName, form);
+    const overviewFlag = mode === SchemaRendererMode.Overview;
 
     const removeItem = React.useCallback(
         (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -40,13 +54,14 @@ export const ArrayRemoveButton: React.FC<ArrayRemoveButtonProps> = ({name, headN
         [form, name, onClick],
     );
 
-    React.useLayoutEffect(() => {
-        setReady(true);
-    }, []);
-
-    if (ready && arrayItem && !tupleItem) {
+    if (arrayItem && !tupleItem && !overviewFlag) {
         return (
-            <Button view="flat-secondary" onClick={removeItem} qa={`${name}-remove-button`}>
+            <Button
+                className={b()}
+                view="flat-secondary"
+                onClick={removeItem}
+                qa={`${name}-remove-button`}
+            >
                 <Icon data={TrashBin} size={16} />
             </Button>
         );

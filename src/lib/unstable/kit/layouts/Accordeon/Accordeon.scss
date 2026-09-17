@@ -8,12 +8,6 @@
         margin-bottom: 0;
     }
 
-    &:hover {
-        .#{$ns}accordeon__copy-button {
-            display: block;
-        }
-    }
-
     .g-disclosure__trigger {
         padding-left: 6.5px;
     }
@@ -29,6 +23,8 @@
     }
 
     &__toggler {
+        height: auto;
+        min-height: 28px;
         padding-left: 6px;
     }
 
@@ -60,9 +56,5 @@
                 bottom: 0;
             }
         }
-    }
-
-    &__copy-button {
-        display: none;
     }
 }

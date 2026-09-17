@@ -4,7 +4,7 @@ import {Flex} from '@gravity-ui/uikit';
 import isBoolean from 'lodash/isBoolean';
 
 import {type JsonSchema, type NodeLayout, SchemaRendererMode} from '../../../core';
-import {ArrayRemoveButton, CopyButton, EntityError, LayoutContainer} from '../../components';
+import {EntityError, LayoutButtons, LayoutContainer} from '../../components';
 import {block, getValidationState} from '../../utils';
 
 import './Transparent.scss';
@@ -24,7 +24,7 @@ export const Transparent: NodeLayout<JsonSchema, TransparentProps> = ({
     props,
     schema,
 }) => {
-    const {copy, hidden} = schema.nodeParameters?.flags || {};
+    const {hidden} = schema.nodeParameters?.flags || {};
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
     return (
@@ -36,10 +36,13 @@ export const Transparent: NodeLayout<JsonSchema, TransparentProps> = ({
         >
             <Flex gap={2}>
                 {children}
-                {overviewFlag ? null : <ArrayRemoveButton name={input.name} headName={headName} />}
-                {overviewFlag ? (
-                    <CopyButton className={b('copy-button')} copy={copy} value={input.value} />
-                ) : null}
+                <LayoutButtons
+                    mode={mode}
+                    name={input.name}
+                    headName={headName}
+                    schema={schema}
+                    value={input.value}
+                />
             </Flex>
             {overviewFlag ? null : (
                 <EntityError errorMessage={meta.error} validationState={getValidationState(meta)} />

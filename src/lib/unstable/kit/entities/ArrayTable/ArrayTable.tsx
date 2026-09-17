@@ -10,7 +10,13 @@ import {
     SchemaRendererMode,
     SchemaRendererNode,
 } from '../../../core';
-import {ArrayRemoveButton, EmptyEntityValue, EntityContainer, HTMLContent} from '../../components';
+import {
+    ArrayRemoveButton,
+    EmptyEntityValue,
+    EntityContainer,
+    HTMLContent,
+    LayoutContainer,
+} from '../../components';
 import {block} from '../../utils';
 
 import './ArrayTable.scss';
@@ -31,9 +37,50 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
     schemaPath,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
-    const {disabled} = schema.nodeParameters?.flags || {};
+    const {disabled, required} = schema.nodeParameters?.flags || {};
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
+
+    const initButton = React.useMemo(() => {
+        if (required || value !== undefined || overviewFlag) {
+            return null;
+        }
+
+        const itemsSchema = schema.items;
+        const initValue = Array.isArray(itemsSchema)
+            ? itemsSchema.map(() => undefined)
+            : [undefined];
+
+        const onClick = () => {
+            onFocus();
+            onChange(initValue);
+            onBlur();
+        };
+
+        return (
+            <Button
+                className={b('init-button')}
+                onClick={onClick}
+                disabled={disabled || schema.readOnly}
+                qa={`${name}-init-button`}
+            >
+                <Icon data={Plus} size={14} />
+                {props.addButtonText || null}
+            </Button>
+        );
+    }, [
+        props.addButtonText,
+        disabled,
+        name,
+        onBlur,
+        onChange,
+        onFocus,
+        overviewFlag,
+        required,
+        schema.items,
+        schema.readOnly,
+        value,
+    ]);
 
     const addButton = React.useMemo(() => {
         const itemsSchema = schema.items;
@@ -44,7 +91,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
 
         const onClick = () => {
             onFocus();
-            onChange([...(value || []), itemsSchema?.default]);
+            onChange([...(value || []), undefined]);
             onBlur();
         };
 
@@ -152,47 +199,63 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
         );
 
         const rows = new Array(rowsCount).fill(null).map((_, rIndex) => (
-            <div
-                className={b('row', {'with-remove-button': withRemoveButton})}
-                style={{'--columns-count': columns.length} as React.CSSProperties}
-                key={rIndex}
-            >
-                <div className={b('cell')}>
-                    <Text className={b('index')} variant="subheader-1">
-                        {rIndex + 1}
-                    </Text>
-                </div>
-                {columns.map((column, cIndex) => (
-                    <div className={b('cell')} key={cIndex}>
-                        <SchemaRendererNode
-                            headName={headName}
-                            name={getItemName(rIndex, column.name)}
-                            schemaPath={getItemSchemaPath(rIndex, column.name)}
-                        />
+            <React.Fragment key={rIndex}>
+                <div className={b('row-divider')} />
+                <LayoutContainer>
+                    <div
+                        className={b('row', {'with-remove-button': withRemoveButton})}
+                        style={{'--columns-count': columns.length} as React.CSSProperties}
+                    >
+                        <div className={b('cell')}>
+                            <Text className={b('index')} variant="subheader-1">
+                                {rIndex + 1}
+                            </Text>
+                        </div>
+                        {columns.map((column, cIndex) => (
+                            <div className={b('cell')} key={cIndex}>
+                                <SchemaRendererNode
+                                    headName={headName}
+                                    name={getItemName(rIndex, column.name)}
+                                    schemaPath={getItemSchemaPath(rIndex, column.name)}
+                                />
+                            </div>
+                        ))}
+                        {withRemoveButton ? (
+                            <div className={b('cell')}>
+                                <ArrayRemoveButton
+                                    name={`${name}[${rIndex}]`}
+                                    headName={headName}
+                                    mode={mode}
+                                />
+                            </div>
+                        ) : null}
                     </div>
-                ))}
-                {withRemoveButton ? (
-                    <div className={b('cell')}>
-                        <ArrayRemoveButton name={`${name}[${rIndex}]`} headName={headName} />
-                    </div>
-                ) : null}
-            </div>
+                </LayoutContainer>
+            </React.Fragment>
         ));
 
         return {head, rows};
-    }, [columns, headName, name, overviewFlag, schema.items, schemaPath, value?.length]);
+    }, [columns, headName, mode, name, overviewFlag, schema.items, schemaPath, value?.length]);
 
     if (overviewFlag && !value?.length) {
         return <EmptyEntityValue />;
     }
 
     return (
-        <EntityContainer stretch="by-child" gap={2} fill="by-child">
-            <div>
-                {rows.length ? head : null}
-                {rows}
-            </div>
-            {addButton}
+        <EntityContainer stretch="by-child" gap={4} fill="by-child" droppable>
+            {initButton ? (
+                initButton
+            ) : (
+                <React.Fragment>
+                    {rows.length ? (
+                        <div>
+                            {head}
+                            {rows}
+                        </div>
+                    ) : null}
+                    {addButton}
+                </React.Fragment>
+            )}
         </EntityContainer>
     );
 };

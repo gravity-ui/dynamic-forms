@@ -8,12 +8,6 @@
         margin-bottom: 0;
     }
 
-    &:hover {
-        .#{$ns}section__copy-button {
-            display: block;
-        }
-    }
-
     &__header {
         min-height: 28px;
     }
@@ -44,9 +38,5 @@
                 bottom: 0;
             }
         }
-    }
-
-    &__copy-button {
-        display: none;
     }
 }

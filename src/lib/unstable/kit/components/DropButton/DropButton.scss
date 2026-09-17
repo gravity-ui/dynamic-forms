@@ -1,0 +1,6 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}drop-button {
+    display: none;
+}

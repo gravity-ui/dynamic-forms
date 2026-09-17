@@ -3,13 +3,7 @@ import React from 'react';
 import {Flex, HelpMark, Text, type TextProps, spacing} from '@gravity-ui/uikit';
 
 import {type JsonSchema, type NodeLayout, SchemaRendererMode} from '../../../core';
-import {
-    ArrayRemoveButton,
-    CopyButton,
-    EntityError,
-    HTMLContent,
-    LayoutContainer,
-} from '../../components';
+import {EntityError, HTMLContent, LayoutButtons, LayoutContainer} from '../../components';
 import {block, getValidationState} from '../../utils';
 
 import './Section.scss';
@@ -31,7 +25,7 @@ export const Section: NodeLayout<JsonSchema, SectionProps> = ({
     props,
 }) => {
     const {descriptionType = 'tooltip', withIndent = false, ...restLayoutProps} = props;
-    const {copy, required, hidden} = schema.nodeParameters?.flags || {};
+    const {required, hidden} = schema.nodeParameters?.flags || {};
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
@@ -80,16 +74,13 @@ export const Section: NodeLayout<JsonSchema, SectionProps> = ({
                             {schema.title}
                         </Text>
                         {tooltip}
-                        {overviewFlag ? (
-                            <CopyButton
-                                className={b('copy-button')}
-                                copy={copy}
-                                value={input.value}
-                            />
-                        ) : null}
-                        {overviewFlag ? null : (
-                            <ArrayRemoveButton name={input.name} headName={headName} />
-                        )}
+                        <LayoutButtons
+                            mode={mode}
+                            name={input.name}
+                            headName={headName}
+                            schema={schema}
+                            value={input.value}
+                        />
                     </Flex>
                     {bottomDescription}
                 </Flex>

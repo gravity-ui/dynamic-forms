@@ -8,12 +8,6 @@
         margin-bottom: 0;
     }
 
-    &:hover {
-        .#{$ns}card__copy-button {
-            display: block;
-        }
-    }
-
     &__inner {
         display: flex;
         flex-direction: column;
@@ -53,9 +47,5 @@
                 color: var(--g-color-text-danger);
             }
         }
-    }
-
-    &__copy-button {
-        display: none;
     }
 }

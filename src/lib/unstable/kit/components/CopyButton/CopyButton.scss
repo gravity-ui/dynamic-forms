@@ -1,6 +1,7 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}copy-button {
+    display: none;
     width: 20px;
     height: 20px;
     margin-top: -1px;
