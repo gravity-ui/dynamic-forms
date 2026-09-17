@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.33.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.33.0...v5.33.1) (2026-09-17)
+
+
+### Bug Fixes
+
+* **unstable:** fix layout container styles ([#439](https://github.com/gravity-ui/dynamic-forms/issues/439)) ([50bbef6](https://github.com/gravity-ui/dynamic-forms/commit/50bbef680d907455f562556e6831ae07452c5fd2))
+
 ## [5.33.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.32.0...v5.33.0) (2026-09-17)
 
 
