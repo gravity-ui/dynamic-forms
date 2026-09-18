@@ -92,7 +92,7 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
             >
                 <Disclosure.Summary>
                     {({expanded, onClick}, defaultSummary) => (
-                        <Flex minHeight="var(--size)" alignItems="center" gap={2}>
+                        <Flex alignItems="center" gap={2}>
                             {withDefaultSummary ? (
                                 defaultSummary
                             ) : (

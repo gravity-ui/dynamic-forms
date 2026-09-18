@@ -1,23 +1,18 @@
 @import '../../styles/functions.scss';
-@import '../../styles/mixins.scss';
 @import '../../styles/variables.scss';
 
 .#{$ns}text-content {
-    @include size-to-var using ($height) {
-        --size: #{$height};
-    }
-
-    height: var(--size);
     border: none;
     box-shadow: none;
 
     &.g-label {
+        height: auto;
+
         .g-label__addon_side_start {
             position: unset;
         }
 
         .g-label__text {
-            height: var(--size);
             align-items: center;
             margin-left: spacing(1);
         }
@@ -31,12 +26,12 @@
         }
 
         .g-label__value {
-            height: var(--size);
             align-items: center;
         }
 
         .g-label__addon {
             width: auto;
+            height: auto;
         }
     }
 }

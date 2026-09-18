@@ -72,7 +72,7 @@ const schema: JsonSchemaObject = {
             title: 'monaco',
             nodeParameters: {
                 type: NodeType.String,
-                entity: 'monaco',
+                entity: 'monaco_input',
                 layout: 'row',
                 entityProps: {language: 'json'},
                 overviewEntity: 'monaco',
@@ -836,7 +836,7 @@ const schema: JsonSchemaObject = {
             title: 'File Input',
             nodeParameters: {
                 type: NodeType.String,
-                entity: 'file',
+                entity: 'file_input',
                 layout: 'row',
                 entityProps: {
                     accept: ['.json', '.txt'],
@@ -854,7 +854,7 @@ const schema: JsonSchemaObject = {
         layoutProps: {
             descriptionType: 'bottom',
             withIndent: true,
-            variant: 'subheader-2',
+            // variant: 'subheader-2',
         },
         overviewEntity: 'base',
     },

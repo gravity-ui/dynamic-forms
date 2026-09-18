@@ -76,7 +76,7 @@ export const FormRow: NodeLayout<JsonSchema, FormRowProps> = ({
                 {tooltip}
             </div>
             <Flex className={b('right')} direction="column" gap={0.5} grow={1}>
-                <Flex grow={1} gap={2}>
+                <Flex className={b('right-content')} alignItems="center" grow={1} gap={2}>
                     {children}
                     <LayoutButtons
                         mode={mode}

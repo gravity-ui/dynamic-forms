@@ -57,9 +57,9 @@ export const FormColumn: NodeLayout<JsonSchema, FormColumnProps> = ({
     }, [headName, schema.description, props.descriptionType, settings]);
 
     return (
-        <LayoutContainer className={b()} gap={2} hidden={hidden}>
+        <LayoutContainer className={b({size: settings?.size})} gap={1} hidden={hidden}>
             <Flex direction="column" gap={0.5}>
-                <Flex alignItems="center" gap={2}>
+                <Flex alignItems="center">
                     <div className={b('title')}>
                         <Text
                             className={b('title-text', {required})}

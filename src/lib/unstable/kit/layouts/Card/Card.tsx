@@ -105,7 +105,7 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
                                     value={input.value}
                                 />
                                 {likeAccordeon ? (
-                                    <Flex width="var(--size)" justifyContent="center">
+                                    <Flex justifyContent="center">
                                         <Button
                                             onClick={toggleExpanded}
                                             size={settings?.size}

@@ -21,6 +21,7 @@ export const FileInput: NodeEntity<JsonSchemaString, FileInputProps> = ({
     meta,
     props,
     schema,
+    settings,
 }) => {
     const {onBlur, onChange, onFocus} = input;
     const {readAsMethod = 'readAsBinaryString', ...restEntityProps} = props;
@@ -39,10 +40,11 @@ export const FileInput: NodeEntity<JsonSchemaString, FileInputProps> = ({
                     onChange(undefined);
                     setFile(null);
                 },
+                extraProps: {size: settings?.size},
                 tooltipExtraProps: {disabled: true},
             },
         ],
-        [onChange],
+        [onChange, settings?.size],
     );
 
     const onUpdate = React.useCallback(
