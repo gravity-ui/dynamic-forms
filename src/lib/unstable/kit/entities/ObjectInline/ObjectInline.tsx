@@ -49,7 +49,7 @@ export const ObjectInline: NodeEntity<JsonSchemaObject, ObjectInlineProps> = ({
             <Flex
                 className={b('items', {overview: overviewFlag})}
                 direction="row"
-                alignItems="flex-start"
+                alignItems="center"
                 gap={overviewFlag ? 1 : 2}
             >
                 {(order || Object.keys(schema.properties || {})).map(

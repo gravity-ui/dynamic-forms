@@ -81,4 +81,13 @@
     &__right {
         max-width: calc(100% - 180px - spacing(2));
     }
+
+    &__right-content {
+        min-height: var(--size);
+
+        .#{$ns}array-remove-button,
+        .#{$ns}drop-button {
+            align-self: flex-start;
+        }
+    }
 }

@@ -162,7 +162,12 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
     }, [name, input, togglerArrayRemoveButton]);
 
     let content = (
-        <EntityContainer direction="column-reverse" stretch="by-child" fill="populated">
+        <EntityContainer
+            className={b({size: settings?.size})}
+            direction="column-reverse"
+            stretch="by-child"
+            fill="populated"
+        >
             {togglerValues.length ? (
                 <LayoutContainer
                     className={b('content', {'with-indent': withIndent})}

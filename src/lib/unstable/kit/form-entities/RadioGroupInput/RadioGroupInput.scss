@@ -1,14 +1,8 @@
-@import '../../styles/mixins.scss';
 @import '../../styles/variables.scss';
 
 .#{$ns}radio-group-input {
-    @include size-to-var using ($height) {
-        --size: #{$height};
-    }
-
     .g-radio-group {
         .g-control-label.g-radio-group__option {
-            min-height: var(--size);
             align-items: center;
             margin-bottom: 0;
         }
