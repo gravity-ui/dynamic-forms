@@ -30,7 +30,7 @@ export interface SegmentedRadioGroupInputProps
 export const SegmentedRadioGroupInput: NodeEntity<
     JsonSchemaString,
     SegmentedRadioGroupInputProps
-> = ({input, meta, props, schema, ...restProps}) => {
+> = ({input, meta, props, schema, settings, ...restProps}) => {
     const {name, onBlur, onChange, onFocus, value} = input;
     const {enumDescriptions, optionsDisabled, ...restEntityProps} = props;
     const {disabled} = schema.nodeParameters?.flags || {};
@@ -95,6 +95,7 @@ export const SegmentedRadioGroupInput: NodeEntity<
                     meta={meta}
                     props={props}
                     schema={schema}
+                    settings={settings}
                     {...restProps}
                 />
             ) : (
@@ -102,6 +103,7 @@ export const SegmentedRadioGroupInput: NodeEntity<
                     width="max"
                     disabled={disabled || schema.readOnly}
                     options={options}
+                    size={settings?.size}
                     {...restEntityProps}
                     value={value}
                     onFocus={onFocus}
@@ -116,6 +118,7 @@ export const SegmentedRadioGroupInput: NodeEntity<
                     width="max"
                     disabled={disabled || schema.readOnly}
                     options={options}
+                    size={settings?.size}
                     {...restEntityProps}
                 />
             </div>

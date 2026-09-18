@@ -1,7 +1,24 @@
 @import '../../styles/functions.scss';
+@import '../../styles/mixins.scss';
 @import '../../styles/variables.scss';
 
 .#{$ns}few-of-nested {
+    @include size-to-var using ($height) {
+        --size: #{$height};
+    }
+
+    &_size_xl {
+        .#{$ns}few-of-nested__content {
+            &_with-indent {
+                padding-left: spacing(9);
+
+                &:before {
+                    left: calc(spacing(5) + 1.5px);
+                }
+            }
+        }
+    }
+
     &__content {
         margin-top: spacing(4);
 

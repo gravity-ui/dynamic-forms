@@ -11,18 +11,19 @@ import type {ErrorMessages, FieldValue, JsonSchema, NodesConfig} from '../types'
 import {getServiceFieldName, getStrictModeChecker} from '../utils';
 
 import {SCHEMA_RENDERER_SERVICE_FIELD} from './constants';
-import type {SchemaRendererState} from './types';
+import type {SchemaRendererSettings, SchemaRendererState} from './types';
 import {getDispatch, getRunValidate, getSubscribe, getValidate} from './utils';
 
 export interface UseSchemaRendererParams {
-    coerceInitialValues?: boolean;
+    coerceInitialValues?: SchemaRendererSettings['coerceInitialValues'];
     config?: NodesConfig;
     connectValidate?: boolean;
     errorMessages?: ErrorMessages;
-    jsonDefaultValues?: boolean;
+    jsonDefaultValues?: SchemaRendererSettings['jsonDefaultValues'];
     mode: SchemaRendererMode;
     name: string;
     schema: JsonSchema;
+    size?: SchemaRendererSettings['size'];
     validateOnBlur: boolean;
     userContext?: SchemaRendererState['userContext'];
 }
@@ -36,6 +37,7 @@ export const useSchemaRenderer = ({
     mode,
     name: headName,
     schema: originalSchema,
+    size = 'm',
     validateOnBlur,
     userContext,
 }: UseSchemaRendererParams): FieldValidator<FieldValue> => {
@@ -69,7 +71,8 @@ export const useSchemaRenderer = ({
         const userContextUpdated = userContext !== prevParams?.userContext;
         const settingsUpdated =
             coerceInitialValues !== prevParams?.coerceInitialValues ||
-            jsonDefaultValues !== prevParams?.jsonDefaultValues;
+            jsonDefaultValues !== prevParams?.jsonDefaultValues ||
+            size !== prevParams?.size;
 
         const initialState: SchemaRendererState = {
             cache: nameUpdated || schemaUpdated || !prevState?.cache ? {} : prevState.cache,
@@ -89,7 +92,14 @@ export const useSchemaRenderer = ({
                     ? {}
                     : prevState.regularErrors,
             runValidate,
-            settings: {coerceInitialValues, jsonDefaultValues},
+            settings: {
+                coerceInitialValues,
+                jsonDefaultValues,
+                size,
+                headVariant: size === 'xl' ? 'subheader-3' : 'subheader-2',
+                titleVariant: size === 'xl' ? 'subheader-2' : 'subheader-1',
+                textVariant: size === 'xl' ? 'body-2' : 'body-1',
+            },
             schema:
                 nameUpdated || schemaUpdated ? cloneDeep(originalSchema) : prevState?.schema || {},
             submitCount: nameUpdated || schemaUpdated || !prevState ? 0 : prevState.submitCount,
@@ -118,6 +128,7 @@ export const useSchemaRenderer = ({
             name: headName,
             mode,
             schema: originalSchema,
+            size,
             userContext,
             validateOnBlur,
         };
@@ -134,6 +145,7 @@ export const useSchemaRenderer = ({
         mode,
         originalSchema,
         runValidate,
+        size,
         subscribe,
         unsubscribe,
         validateOnBlur,

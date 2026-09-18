@@ -3,7 +3,7 @@
 
 .#{$ns}monaco {
     &_error {
-        .#{$ns}monaco__container {
+        .#{$ns}monaco-container {
             border-color: var(--g-color-text-danger);
         }
     }

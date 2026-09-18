@@ -29,6 +29,7 @@ export const StringInput: NodeEntity<JsonSchemaString, StringInputProps> = ({
     meta,
     props,
     schema,
+    settings,
 }) => {
     const {disabled} = schema.nodeParameters?.flags || {};
 
@@ -38,6 +39,7 @@ export const StringInput: NodeEntity<JsonSchemaString, StringInputProps> = ({
                 placeholder={schema.examples?.[0]}
                 disabled={disabled || schema.readOnly}
                 hasClear
+                size={settings?.size}
                 {...props}
                 value={input.value ?? ''}
                 onFocus={input.onFocus}

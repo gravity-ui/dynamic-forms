@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Plus} from '@gravity-ui/icons';
-import {Button, HelpMark, Icon, Text} from '@gravity-ui/uikit';
+import {Button, Icon, Text} from '@gravity-ui/uikit';
 
 import {
     type JsonSchema,
@@ -14,7 +14,7 @@ import {
     ArrayRemoveButton,
     EmptyEntityValue,
     EntityContainer,
-    HTMLContent,
+    HelpMark,
     LayoutContainer,
 } from '../../components';
 import {block} from '../../utils';
@@ -35,6 +35,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
     props,
     schema,
     schemaPath,
+    settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
     const {disabled, required} = schema.nodeParameters?.flags || {};
@@ -63,6 +64,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
                 onClick={onClick}
                 disabled={disabled || schema.readOnly}
                 qa={`${name}-init-button`}
+                size={settings?.size}
             >
                 <Icon data={Plus} size={14} />
                 {props.addButtonText || null}
@@ -79,6 +81,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
         required,
         schema.items,
         schema.readOnly,
+        settings?.size,
         value,
     ]);
 
@@ -101,6 +104,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
                 onClick={onClick}
                 disabled={disabled || schema.readOnly}
                 qa={`${name}-add-button`}
+                size={settings?.size}
             >
                 <Icon data={Plus} size={14} />
                 {props.addButtonText || null}
@@ -116,6 +120,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
         overviewFlag,
         schema.items,
         schema.readOnly,
+        settings?.size,
         value,
     ]);
 
@@ -172,7 +177,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
                 style={{'--columns-count': columns.length} as React.CSSProperties}
             >
                 <div className={b('cell', {head: true})}>
-                    <Text className={b('index')} variant="subheader-1">
+                    <Text className={b('index')} variant={settings?.titleVariant}>
                         #
                     </Text>
                 </div>
@@ -181,14 +186,13 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
                         <div className={b('column-title')}>
                             {column.schema.title?.split(' ').map((word, wIndex, array) => (
                                 <div className={b('column-title-word')} key={word}>
-                                    <Text variant="subheader-1">{word}</Text>
+                                    <Text variant={settings?.titleVariant}>{word}</Text>
                                     {wIndex + 1 === array.length && column.schema.description ? (
-                                        <HelpMark>
-                                            <HTMLContent
-                                                content={column.schema.description}
-                                                headName={headName}
-                                            />
-                                        </HelpMark>
+                                        <HelpMark
+                                            settings={settings}
+                                            content={column.schema.description}
+                                            headName={headName}
+                                        />
                                     ) : null}
                                 </div>
                             ))}
@@ -207,7 +211,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
                         style={{'--columns-count': columns.length} as React.CSSProperties}
                     >
                         <div className={b('cell')}>
-                            <Text className={b('index')} variant="subheader-1">
+                            <Text className={b('index')} variant={settings?.textVariant}>
                                 {rIndex + 1}
                             </Text>
                         </div>
@@ -226,6 +230,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
                                     name={`${name}[${rIndex}]`}
                                     headName={headName}
                                     mode={mode}
+                                    size={settings?.size}
                                 />
                             </div>
                         ) : null}
@@ -235,14 +240,30 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
         ));
 
         return {head, rows};
-    }, [columns, headName, mode, name, overviewFlag, schema.items, schemaPath, value?.length]);
+    }, [
+        columns,
+        headName,
+        mode,
+        name,
+        overviewFlag,
+        schema.items,
+        schemaPath,
+        settings,
+        value?.length,
+    ]);
 
     if (overviewFlag && !value?.length) {
         return <EmptyEntityValue />;
     }
 
     return (
-        <EntityContainer stretch="by-child" gap={4} fill="by-child" droppable>
+        <EntityContainer
+            className={b({size: settings?.size})}
+            stretch="by-child"
+            gap={4}
+            fill="by-child"
+            droppable
+        >
             {initButton ? (
                 initButton
             ) : (

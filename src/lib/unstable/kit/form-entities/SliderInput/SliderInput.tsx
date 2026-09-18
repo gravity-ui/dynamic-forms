@@ -24,6 +24,7 @@ export const SliderInput: NodeEntity<JsonSchemaNumber, SliderInputProps> = ({
     meta,
     props,
     schema,
+    settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
     const {disabled} = schema.nodeParameters?.flags || {};
@@ -50,6 +51,7 @@ export const SliderInput: NodeEntity<JsonSchemaNumber, SliderInputProps> = ({
                 marks={2}
                 disabled={disabled || schema.readOnly}
                 tooltipDisplay="on"
+                size={settings?.size}
                 {...props}
                 value={value}
                 onFocus={onFocus}

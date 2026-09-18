@@ -21,6 +21,7 @@ export const RadioGroupInput: NodeEntity<JsonSchemaString, RadioGroupInputProps>
     meta,
     props,
     schema,
+    settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
     const {enumDescriptions, optionsDisabled, direction = 'horizontal', ...restEntityProps} = props;
@@ -39,12 +40,13 @@ export const RadioGroupInput: NodeEntity<JsonSchemaString, RadioGroupInputProps>
     return (
         <EntityContainer
             stretch="fit"
-            className={b({error: getBooleanValidationState(meta)})}
+            className={b({error: getBooleanValidationState(meta), size: settings?.size})}
             justifyContent="center"
         >
             <RadioGroup
                 options={options}
                 disabled={disabled || schema.readOnly}
+                size={settings?.size === 'xl' ? 'l' : 'm'}
                 {...restEntityProps}
                 value={value}
                 onFocus={onFocus}

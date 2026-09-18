@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Button, SegmentedRadioGroup} from '@gravity-ui/uikit';
+import {Button, SegmentedRadioGroup, spacing} from '@gravity-ui/uikit';
 import type {StoryFn} from '@storybook/react';
 import {noop} from 'lodash';
 import {Form} from 'react-final-form';
@@ -30,13 +30,15 @@ const schema: JsonSchemaObject = {
             nodeParameters: defineNodeParameters({
                 entity: 'textarea',
                 type: NodeType.String,
+                flags: {
+                    copy: true,
+                },
                 entityProps: {
                     rows: 10,
                 },
                 layout: 'row',
                 layoutProps: {
                     descriptionType: 'tooltip',
-                    copy: true,
                 },
             }),
         },
@@ -1156,6 +1158,7 @@ const template = () => {
     const Template: StoryFn<typeof ObjectBase> = (__) => {
         const [cfg, _setCfg] = React.useState(config);
         const [sch, _setSch] = React.useState(schema);
+        const [size, setSize] = React.useState<'s' | 'm' | 'l' | 'xl'>('m');
         const [mode, setMode] = React.useState(SchemaRendererMode.Form);
 
         React.useEffect(() => {
@@ -1189,6 +1192,16 @@ const template = () => {
                                 Overview
                             </SegmentedRadioGroup.Option>
                         </SegmentedRadioGroup>
+                        <SegmentedRadioGroup
+                            className={spacing({ml: 2})}
+                            value={size}
+                            onUpdate={(value) => setSize(value as 's' | 'm' | 'l' | 'xl')}
+                        >
+                            <SegmentedRadioGroup.Option value="s">s</SegmentedRadioGroup.Option>
+                            <SegmentedRadioGroup.Option value="m">m</SegmentedRadioGroup.Option>
+                            <SegmentedRadioGroup.Option value="l">l</SegmentedRadioGroup.Option>
+                            <SegmentedRadioGroup.Option value="xl">xl</SegmentedRadioGroup.Option>
+                        </SegmentedRadioGroup>
                         {/* {fields.map((field) => (
                             <SchemaRenderer
                                 validateOnBlur={false}
@@ -1207,6 +1220,7 @@ const template = () => {
                             config={cfg}
                             mode={mode}
                             userContext={userContext}
+                            size={size}
                         />
                         <SchemaRenderer
                             validateOnBlur={false}

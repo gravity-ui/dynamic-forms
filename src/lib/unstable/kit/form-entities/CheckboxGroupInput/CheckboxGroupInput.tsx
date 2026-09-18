@@ -21,6 +21,7 @@ export const CheckboxGroupInput: NodeEntity<JsonSchemaArray, CheckboxGroupInputP
     props,
     meta,
     schema,
+    settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
     const {enumDescriptions, direction = 'row', optionsDisabled} = props;
@@ -64,6 +65,7 @@ export const CheckboxGroupInput: NodeEntity<JsonSchemaArray, CheckboxGroupInputP
     return (
         <EntityContainer
             stretch="fit"
+            className={b({size: settings?.size})}
             direction={direction}
             gap={direction === 'row' ? 2 : undefined}
         >
@@ -82,6 +84,7 @@ export const CheckboxGroupInput: NodeEntity<JsonSchemaArray, CheckboxGroupInputP
                         onUpdate={(checked: boolean) => onUpdate(optionValue, checked)}
                         content={text}
                         disabled={disabled || optionsDisabled?.[optionValue] || schema.readOnly}
+                        size={settings?.size === 'xl' ? 'l' : 'm'}
                         qa={`${name}-${optionValue}`}
                     />
                 </Flex>

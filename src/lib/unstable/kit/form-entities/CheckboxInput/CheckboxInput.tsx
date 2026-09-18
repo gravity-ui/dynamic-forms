@@ -21,6 +21,7 @@ export const CheckboxInput: NodeEntity<JsonSchemaBoolean, CheckboxInputProps> = 
     props,
     meta,
     schema,
+    settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
     const {disabled} = schema.nodeParameters?.flags || {};
@@ -35,9 +36,13 @@ export const CheckboxInput: NodeEntity<JsonSchemaBoolean, CheckboxInputProps> = 
     );
 
     return (
-        <EntityContainer stretch="fit" className={b({error: getBooleanValidationState(meta)})}>
+        <EntityContainer
+            stretch="fit"
+            className={b({error: getBooleanValidationState(meta), size: settings?.size})}
+        >
             <Checkbox
                 disabled={disabled || schema.readOnly}
+                size={settings?.size === 'xl' ? 'l' : 'm'}
                 {...props}
                 checked={value ?? false}
                 onFocus={onFocus}

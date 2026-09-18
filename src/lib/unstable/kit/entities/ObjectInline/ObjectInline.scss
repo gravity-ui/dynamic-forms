@@ -1,7 +1,12 @@
 @import '../../styles/functions.scss';
+@import '../../styles/mixins.scss';
 @import '../../styles/variables.scss';
 
 .#{$ns}object-inline {
+    @include size-to-var using ($height) {
+        --size: #{$height};
+    }
+
     .#{$ns}object-inline__items {
         & > * {
             margin-bottom: 0;
@@ -17,7 +22,7 @@
     }
 
     &__delimiter {
-        min-height: 28px;
+        min-height: var(--size);
         display: flex;
         align-items: center;
     }

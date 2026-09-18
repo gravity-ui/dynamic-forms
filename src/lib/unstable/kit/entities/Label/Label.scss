@@ -2,20 +2,16 @@
 @import '../../styles/mixins.scss';
 @import '../../styles/variables.scss';
 
-.#{$ns}range-input {
+.#{$ns}label {
     @include size-to-var using ($height) {
         --size: #{$height};
     }
 
-    .#{$ns}range-input__items {
-        & > * {
-            margin-bottom: 0;
-        }
-    }
-
-    &__delimiter {
-        min-height: var(--size);
-        display: flex;
+    .g-label,
+    .g-label__text,
+    .g-label__addon,
+    .g-label__value {
+        height: var(--size);
         align-items: center;
     }
 }

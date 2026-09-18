@@ -29,6 +29,7 @@ export const ObjectInline: NodeEntity<JsonSchemaObject, ObjectInlineProps> = ({
     props,
     schema,
     schemaPath,
+    settings,
 }) => {
     const {delimiter, order} = props;
     const {name} = input;
@@ -42,7 +43,7 @@ export const ObjectInline: NodeEntity<JsonSchemaObject, ObjectInlineProps> = ({
     return (
         <EntityContainer
             stretch={overviewFlag ? 'by-child' : 'max'}
-            className={b()}
+            className={b({size: settings?.size})}
             fill="by-child"
         >
             <Flex
@@ -61,10 +62,14 @@ export const ObjectInline: NodeEntity<JsonSchemaObject, ObjectInlineProps> = ({
                                 key={property}
                             />
                             {isString(delimiter) && index + 1 !== array.length ? (
-                                <Text className={b('delimiter')}>{delimiter}</Text>
+                                <Text className={b('delimiter')} variant={settings?.textVariant}>
+                                    {delimiter}
+                                </Text>
                             ) : null}
                             {isObject(delimiter) && delimiter[property] ? (
-                                <Text className={b('delimiter')}>{delimiter[property]}</Text>
+                                <Text className={b('delimiter')} variant={settings?.textVariant}>
+                                    {delimiter[property]}
+                                </Text>
                             ) : null}
                         </React.Fragment>
                     ),

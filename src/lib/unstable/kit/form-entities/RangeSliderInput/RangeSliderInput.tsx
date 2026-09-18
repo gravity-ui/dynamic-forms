@@ -27,6 +27,7 @@ export const RangeSliderInput: NodeEntity<JsonSchemaObject, RangeSliderInputProp
     meta,
     props,
     schema,
+    settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
     const {propertyKeys, ...restEntityProps} = props;
@@ -72,6 +73,7 @@ export const RangeSliderInput: NodeEntity<JsonSchemaObject, RangeSliderInputProp
                 marks={2}
                 disabled={disabled || schema.readOnly}
                 tooltipDisplay="on"
+                size={settings?.size}
                 {...restEntityProps}
                 defaultValue={defaultValue}
                 value={value}

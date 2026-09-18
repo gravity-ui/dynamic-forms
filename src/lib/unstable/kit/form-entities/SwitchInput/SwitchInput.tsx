@@ -18,6 +18,7 @@ export const SwitchInput: NodeEntity<JsonSchemaBoolean, SwitchInputProps> = ({
     meta,
     props,
     schema,
+    settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
     const {disabled} = schema.nodeParameters?.flags || {};
@@ -31,14 +32,29 @@ export const SwitchInput: NodeEntity<JsonSchemaBoolean, SwitchInputProps> = ({
         [onBlur, onChange, onFocus],
     );
 
+    const size = (() => {
+        let result = settings?.size;
+
+        if (result === 'xl') {
+            result = 'l';
+        }
+
+        if (result === 'l') {
+            result = 'm';
+        }
+
+        return result;
+    })();
+
     return (
         <EntityContainer
             stretch="fit"
-            className={b({error: getBooleanValidationState(meta)})}
+            className={b({error: getBooleanValidationState(meta), size: settings?.size})}
             justifyContent="center"
         >
             <Switch
                 disabled={disabled || schema.readOnly}
+                size={size}
                 {...props}
                 checked={value ?? false}
                 onFocus={onFocus}

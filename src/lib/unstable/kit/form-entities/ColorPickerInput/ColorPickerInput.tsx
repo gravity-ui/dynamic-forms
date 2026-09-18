@@ -20,6 +20,7 @@ export const ColorPickerInput: NodeEntity<JsonSchemaString, ColorPickerInputProp
     props,
     meta,
     schema,
+    settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
     const {onOpenChange: onOpenChangeProps, ...restEntityProps} = props;
@@ -42,6 +43,7 @@ export const ColorPickerInput: NodeEntity<JsonSchemaString, ColorPickerInputProp
         <EntityContainer stretch="max" className={b({error: getBooleanValidationState(meta)})}>
             <ColorPicker
                 disabled={disabled || schema.readOnly}
+                size={settings?.size}
                 {...restEntityProps}
                 value={value ?? ''}
                 onUpdate={onChange}

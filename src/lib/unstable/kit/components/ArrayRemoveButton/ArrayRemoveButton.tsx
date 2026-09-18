@@ -4,7 +4,7 @@ import {TrashBin} from '@gravity-ui/icons';
 import {Button, Icon} from '@gravity-ui/uikit';
 import {useForm} from 'react-final-form';
 
-import {SchemaRendererMode} from '../../../core';
+import {SchemaRendererMode, type SchemaRendererSettings} from '../../../core';
 import {
     block,
     getArrayItemIndex,
@@ -20,6 +20,7 @@ export interface ArrayRemoveButtonProps {
     name: string;
     headName: string;
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    size?: SchemaRendererSettings['size'];
 }
 
 export const ArrayRemoveButton: React.FC<ArrayRemoveButtonProps> = ({
@@ -27,6 +28,7 @@ export const ArrayRemoveButton: React.FC<ArrayRemoveButtonProps> = ({
     name,
     headName,
     onClick,
+    size,
 }) => {
     const form = useForm();
 
@@ -60,6 +62,7 @@ export const ArrayRemoveButton: React.FC<ArrayRemoveButtonProps> = ({
                 className={b()}
                 view="flat-secondary"
                 onClick={removeItem}
+                size={size}
                 qa={`${name}-remove-button`}
             >
                 <Icon data={TrashBin} size={16} />

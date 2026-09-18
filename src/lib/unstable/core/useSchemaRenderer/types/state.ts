@@ -4,6 +4,7 @@ import type {SchemaRendererMode} from '../../constants';
 import type {ErrorMessages, JsonSchema, NodesConfig, ValidationError} from '../../types';
 
 import type {SchemaPatch} from './patches';
+import type {SchemaRendererSettings} from './settings';
 import type {SchemaRendererEvent, SchemaRendererSubscriber} from './subscription';
 import type {ValidationCache, ValidationWaiter} from './validation';
 
@@ -22,10 +23,7 @@ export interface SchemaRendererState<
     regularErrors: Record<string, ValidationError>;
     runValidate: () => void;
     schema: JsonSchema;
-    settings: {
-        coerceInitialValues: boolean;
-        jsonDefaultValues: boolean;
-    };
+    settings: SchemaRendererSettings;
     submitCount: number;
     subscribe: (subscriber: SchemaRendererSubscriber) => string;
     subscribers: {

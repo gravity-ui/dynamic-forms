@@ -22,7 +22,12 @@ export interface AlertProps extends UIKitAlertProps {
     iconProps?: Partial<IconProps>;
 }
 
-export const Alert: NodeEntity<JsonSchemaString, AlertProps> = ({headName, props, schema}) => {
+export const Alert: NodeEntity<JsonSchemaString, AlertProps> = ({
+    headName,
+    props,
+    schema,
+    settings,
+}) => {
     const {iconName, iconProps, message, title: titleProp, ...entityRestProps} = props;
     const {open = true} = schema.nodeParameters?.flags || {};
 
@@ -51,21 +56,26 @@ export const Alert: NodeEntity<JsonSchemaString, AlertProps> = ({headName, props
                     gap="2"
                     onClick={() => setExpanded(!expanded)}
                 >
-                    <HTMLContent content={title} headName={headName} variant="subheader-2" />
+                    <HTMLContent
+                        content={title}
+                        headName={headName}
+                        settings={settings}
+                        variant={settings?.titleVariant}
+                    />
                     <Icon data={expanded ? icons.ChevronUp : icons.ChevronDown} size={16} />
                 </Flex>
             );
         }
 
         return null;
-    }, [headName, schema.title, titleProp, expanded]);
+    }, [headName, schema.title, titleProp, expanded, settings]);
 
     const msg = React.useMemo(() => {
         if (message) {
             if (typeof message === 'string') {
                 return (
                     <div className={b('message', {expanded: expanded || !title})}>
-                        <HTMLContent content={message} headName={headName} />
+                        <HTMLContent content={message} headName={headName} settings={settings} />
                     </div>
                 );
             }
@@ -76,17 +86,42 @@ export const Alert: NodeEntity<JsonSchemaString, AlertProps> = ({headName, props
         if (schema.description) {
             return (
                 <div className={b('message', {expanded: expanded || !title})}>
-                    <HTMLContent content={schema.description} headName={headName} />
+                    <HTMLContent
+                        content={schema.description}
+                        headName={headName}
+                        settings={settings}
+                    />
                 </div>
             );
         }
 
         return undefined;
-    }, [expanded, headName, message, schema.description, title]);
+    }, [expanded, headName, message, schema.description, title, settings]);
+
+    const size = (() => {
+        let result = settings?.size;
+
+        if (result === 'xl') {
+            result = 'l';
+        }
+
+        if (result === 'l') {
+            result = 'm';
+        }
+
+        return result;
+    })();
 
     return (
         <EntityContainer className={b({expanded})} stretch="fit" fill="populated">
-            <UIKitAlert icon={icon} message={msg} title={title} {...entityRestProps} />
+            <UIKitAlert
+                icon={icon}
+                message={msg}
+                title={title}
+                // @ts-expect-error
+                size={size}
+                {...entityRestProps}
+            />
         </EntityContainer>
     );
 };

@@ -27,6 +27,7 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
     props,
     schema,
     schemaPath,
+    settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
     const {disabled, required} = schema.nodeParameters?.flags || {};
@@ -55,6 +56,7 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
                 onClick={onClick}
                 disabled={disabled || schema.readOnly}
                 qa={`${name}-init-button`}
+                size={settings?.size}
             >
                 <Icon data={Plus} size={14} />
                 {props.addButtonText || null}
@@ -71,6 +73,7 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
         required,
         schema.items,
         schema.readOnly,
+        settings?.size,
         value,
     ]);
 
@@ -93,6 +96,7 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
                 onClick={onClick}
                 disabled={disabled || schema.readOnly}
                 qa={`${name}-add-button`}
+                size={settings?.size}
             >
                 <Icon data={Plus} size={14} />
                 {props.addButtonText || null}
@@ -108,6 +112,7 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
         overviewFlag,
         schema.items,
         schema.readOnly,
+        settings?.size,
         value,
     ]);
 

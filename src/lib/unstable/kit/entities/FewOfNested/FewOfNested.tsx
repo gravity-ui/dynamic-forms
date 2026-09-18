@@ -37,6 +37,7 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
     props,
     schema,
     schemaPath,
+    settings,
 }) => {
     const {name, value} = input;
     const {
@@ -113,6 +114,7 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
                     props={entityProps}
                     schema={togglerSchema}
                     schemaPath="___stub"
+                    settings={settings}
                 />
             );
 
@@ -126,6 +128,7 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
                         props={layoutProps}
                         schema={togglerSchema}
                         schemaPath="___stub"
+                        settings={settings}
                     >
                         {result}
                     </Layout>
@@ -140,6 +143,7 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
         meta,
         mode,
         name,
+        settings,
         srState?.config,
         togglerArrayRemoveButton,
         togglerSchema,
@@ -192,6 +196,7 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
                 schema={schema}
                 schemaPath={schemaPath}
                 props={layoutProps || {}}
+                settings={settings}
             >
                 {content}
             </Layout>

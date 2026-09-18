@@ -30,6 +30,7 @@ export const ObjectEntity: NodeEntity<JsonSchemaObject, ObjectEntityProps> = ({
     props,
     schema,
     schemaPath,
+    settings,
 }) => {
     const {onFocus, onChange, onBlur, value} = input;
     const {disabled, required} = schema.nodeParameters?.flags || {};
@@ -53,6 +54,7 @@ export const ObjectEntity: NodeEntity<JsonSchemaObject, ObjectEntityProps> = ({
                 onClick={onClick}
                 disabled={disabled || schema.readOnly}
                 qa={`${name}-init-button`}
+                size={settings?.size}
             >
                 <Icon data={Plus} size={14} />
                 {schema.title || null}
@@ -68,6 +70,7 @@ export const ObjectEntity: NodeEntity<JsonSchemaObject, ObjectEntityProps> = ({
         required,
         schema.title,
         schema.readOnly,
+        settings?.size,
         value,
     ]);
 
@@ -105,6 +108,7 @@ export const ObjectEntity: NodeEntity<JsonSchemaObject, ObjectEntityProps> = ({
                 mode={mode}
                 schema={schema}
                 schemaPath={schemaPath}
+                settings={settings}
                 props={layoutProps || {}}
             >
                 {content}

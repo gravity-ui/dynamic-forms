@@ -1,7 +1,12 @@
 @import '../../styles/functions.scss';
+@import '../../styles/mixins.scss';
 @import '../../styles/variables.scss';
 
 .#{$ns}array-table {
+    @include size-to-var using ($height) {
+        --size: #{$height};
+    }
+
     &__row-divider {
         width: 100%;
         height: calc(spacing(5) + 1px);
@@ -20,7 +25,7 @@
         width: 100%;
         display: grid;
         align-items: start;
-        grid-template-columns: 28px repeat(var(--columns-count), 1fr);
+        grid-template-columns: var(--size) repeat(var(--columns-count), 1fr);
         gap: spacing(3);
 
         &_head {
@@ -28,7 +33,7 @@
         }
 
         &_with-remove-button {
-            grid-template-columns: 28px repeat(var(--columns-count), 1fr) 28px;
+            grid-template-columns: var(--size) repeat(var(--columns-count), 1fr) var(--size);
         }
 
         &:last-of-type {
@@ -38,13 +43,9 @@
 
     &__cell {
         width: 100%;
-        min-height: 28px;
+        min-height: var(--size);
         display: flex;
         align-items: center;
-
-        &_head {
-            min-height: unset;
-        }
     }
 
     &__index {

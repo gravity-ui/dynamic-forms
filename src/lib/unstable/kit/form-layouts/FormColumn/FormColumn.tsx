@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {Flex, HelpMark, Text} from '@gravity-ui/uikit';
+import {Flex, Text} from '@gravity-ui/uikit';
 
 import type {JsonSchema, NodeLayout} from '../../../core';
-import {EntityError, HTMLContent, LayoutButtons, LayoutContainer} from '../../components';
+import {EntityError, HTMLContent, HelpMark, LayoutButtons, LayoutContainer} from '../../components';
 import {block, getValidationState} from '../../utils';
 
 import './FormColumn.scss';
@@ -21,6 +21,7 @@ export const FormColumn: NodeLayout<JsonSchema, FormColumnProps> = ({
     meta,
     mode,
     schema,
+    settings,
     props,
 }) => {
     const {hidden, required} = schema.nodeParameters?.flags || {};
@@ -31,19 +32,29 @@ export const FormColumn: NodeLayout<JsonSchema, FormColumnProps> = ({
         }
 
         return (
-            <HelpMark className={b('help-mark')}>
-                <HTMLContent content={schema.description} headName={headName} />
-            </HelpMark>
+            <HelpMark
+                className={b('help-mark')}
+                settings={settings}
+                content={schema.description}
+                headName={headName}
+            />
         );
-    }, [headName, schema.description, props.descriptionType]);
+    }, [headName, schema.description, props.descriptionType, settings]);
 
     const bottomDescription = React.useMemo(() => {
         if (!schema.description || props.descriptionType !== 'bottom') {
             return null;
         }
 
-        return <HTMLContent content={schema.description} headName={headName} color="secondary" />;
-    }, [headName, schema.description, props.descriptionType]);
+        return (
+            <HTMLContent
+                content={schema.description}
+                headName={headName}
+                color="secondary"
+                settings={settings}
+            />
+        );
+    }, [headName, schema.description, props.descriptionType, settings]);
 
     return (
         <LayoutContainer className={b()} gap={2} hidden={hidden}>
@@ -52,7 +63,7 @@ export const FormColumn: NodeLayout<JsonSchema, FormColumnProps> = ({
                     <div className={b('title')}>
                         <Text
                             className={b('title-text', {required})}
-                            variant="subheader-1"
+                            variant={settings?.titleVariant}
                             color="complementary"
                             wordBreak="break-word"
                         >
@@ -65,6 +76,7 @@ export const FormColumn: NodeLayout<JsonSchema, FormColumnProps> = ({
                         name={input.name}
                         headName={headName}
                         schema={schema}
+                        settings={settings}
                         value={input.value}
                     />
                 </Flex>
@@ -72,7 +84,11 @@ export const FormColumn: NodeLayout<JsonSchema, FormColumnProps> = ({
             </Flex>
             <Flex className={b('bottom')} direction="column" gap={0.5}>
                 {children}
-                <EntityError errorMessage={meta.error} validationState={getValidationState(meta)} />
+                <EntityError
+                    errorMessage={meta.error}
+                    settings={settings}
+                    validationState={getValidationState(meta)}
+                />
             </Flex>
         </LayoutContainer>
     );
