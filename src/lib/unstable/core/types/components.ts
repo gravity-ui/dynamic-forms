@@ -3,6 +3,7 @@ import type React from 'react';
 import type {FieldRenderProps} from 'react-final-form';
 
 import type {SchemaRendererMode} from '../constants';
+import type {SchemaRendererSettings} from '../useSchemaRenderer';
 
 import type {SchemaToValueType} from './helpers';
 import type {JsonSchema} from './schema';
@@ -18,6 +19,7 @@ export interface NodeLayoutProps<
     props: Partial<Props>;
     schema: Schema;
     schemaPath: string;
+    settings?: SchemaRendererSettings;
 }
 
 export type NodeLayout<
@@ -39,6 +41,7 @@ export interface NodeEntityProps<
     props: Partial<Props>;
     schema: Schema;
     schemaPath: string;
+    settings?: SchemaRendererSettings;
 }
 
 export type NodeEntity<

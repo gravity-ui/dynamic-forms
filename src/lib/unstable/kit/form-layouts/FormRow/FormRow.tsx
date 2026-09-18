@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {Flex, HelpMark, Text} from '@gravity-ui/uikit';
+import {Flex, Text} from '@gravity-ui/uikit';
 
 import type {JsonSchema, NodeLayout} from '../../../core';
-import {EntityError, HTMLContent, LayoutButtons, LayoutContainer} from '../../components';
+import {EntityError, HTMLContent, HelpMark, LayoutButtons, LayoutContainer} from '../../components';
 import {block, getValidationState} from '../../utils';
 
 import './FormRow.scss';
@@ -21,6 +21,7 @@ export const FormRow: NodeLayout<JsonSchema, FormRowProps> = ({
     meta,
     mode,
     schema,
+    settings,
     props,
 }) => {
     const {hidden, required} = schema.nodeParameters?.flags || {};
@@ -31,23 +32,33 @@ export const FormRow: NodeLayout<JsonSchema, FormRowProps> = ({
         }
 
         return (
-            <HelpMark className={b('help-mark')}>
-                <HTMLContent content={schema.description} headName={headName} />
-            </HelpMark>
+            <HelpMark
+                className={b('help-mark')}
+                settings={settings}
+                content={schema.description}
+                headName={headName}
+            />
         );
-    }, [headName, schema.description, props.descriptionType]);
+    }, [headName, schema.description, props.descriptionType, settings]);
 
     const bottomDescription = React.useMemo(() => {
         if (!schema.description || props.descriptionType !== 'bottom') {
             return null;
         }
 
-        return <HTMLContent content={schema.description} headName={headName} color="secondary" />;
-    }, [headName, schema.description, props.descriptionType]);
+        return (
+            <HTMLContent
+                content={schema.description}
+                headName={headName}
+                color="secondary"
+                settings={settings}
+            />
+        );
+    }, [headName, schema.description, props.descriptionType, settings]);
 
     return (
         <LayoutContainer
-            className={b()}
+            className={b({size: settings?.size})}
             direction="row"
             alignItems="flex-start"
             gap={2}
@@ -56,7 +67,7 @@ export const FormRow: NodeLayout<JsonSchema, FormRowProps> = ({
             <div className={b('left')}>
                 <Text
                     className={b('title', {required})}
-                    variant="subheader-1"
+                    variant={settings?.titleVariant}
                     color="complementary"
                     wordBreak="break-word"
                 >
@@ -72,11 +83,16 @@ export const FormRow: NodeLayout<JsonSchema, FormRowProps> = ({
                         name={input.name}
                         headName={headName}
                         schema={schema}
+                        settings={settings}
                         value={input.value}
                     />
                 </Flex>
                 {bottomDescription}
-                <EntityError errorMessage={meta.error} validationState={getValidationState(meta)} />
+                <EntityError
+                    errorMessage={meta.error}
+                    settings={settings}
+                    validationState={getValidationState(meta)}
+                />
             </Flex>
         </LayoutContainer>
     );

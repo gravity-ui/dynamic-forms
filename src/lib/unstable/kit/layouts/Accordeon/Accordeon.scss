@@ -1,7 +1,12 @@
 @import '../../styles/functions.scss';
+@import '../../styles/mixins.scss';
 @import '../../styles/variables.scss';
 
 .#{$ns}accordeon {
+    @include size-to-var using ($height) {
+        --size: #{$height};
+    }
+
     margin-bottom: spacing(4);
 
     &:last-child {
@@ -22,10 +27,37 @@
         }
     }
 
+    &_size_xl {
+        .#{$ns}accordeon__toggler {
+            padding-left: 14px;
+        }
+
+        .#{$ns}accordeon__toggler-content {
+            gap: spacing(3);
+        }
+
+        .#{$ns}accordeon__content {
+            &_with-indent {
+                padding-left: spacing(9);
+
+                &:before {
+                    left: calc(spacing(5) + 1.5px);
+                }
+            }
+        }
+    }
+
     &__toggler {
         height: auto;
-        min-height: 28px;
+        min-height: var(--size);
         padding-left: 6px;
+    }
+
+    &__toggler-content {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        gap: spacing(2);
     }
 
     &__title {

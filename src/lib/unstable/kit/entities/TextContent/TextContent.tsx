@@ -4,6 +4,7 @@ import * as icons from '@gravity-ui/icons';
 import {
     Icon,
     type IconProps,
+    Text,
     Label as UIKitLabel,
     type LabelProps as UIKitLabelProps,
 } from '@gravity-ui/uikit';
@@ -27,10 +28,19 @@ export const TextContent: NodeEntity<JsonSchemaString, TextContentProps> = ({
     mode,
     props,
     schema,
+    settings,
 }) => {
     const {className, iconName, iconProps, title: titleProp, ...restEntityProps} = props;
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
+
+    const value = React.useMemo(() => {
+        if (input.value) {
+            return <Text variant={settings?.textVariant}>{input.value}</Text>;
+        }
+
+        return input.value;
+    }, [input.value, settings?.textVariant]);
 
     const icon = React.useMemo(
         () =>
@@ -43,24 +53,31 @@ export const TextContent: NodeEntity<JsonSchemaString, TextContentProps> = ({
     const content = React.useMemo(() => {
         if (titleProp) {
             if (typeof titleProp === 'string') {
-                return <HTMLContent content={titleProp} headName={headName} />;
+                return <HTMLContent content={titleProp} headName={headName} settings={settings} />;
             }
 
             return titleProp;
         }
 
         if (schema.description) {
-            return <HTMLContent content={schema.description} headName={headName} />;
+            return (
+                <HTMLContent content={schema.description} headName={headName} settings={settings} />
+            );
         }
 
         return undefined;
-    }, [headName, titleProp, schema.description]);
+    }, [headName, titleProp, schema.description, settings]);
 
     return (
-        <EntityContainer stretch="fit" fill="populated">
+        <EntityContainer
+            className={b({size: settings?.size})}
+            justifyContent="center"
+            stretch="fit"
+            fill="populated"
+        >
             <UIKitLabel
                 size={overviewFlag ? 'xs' : 'm'}
-                value={input.value}
+                value={value}
                 icon={icon}
                 className={b(null, className)}
                 {...restEntityProps}

@@ -32,6 +32,7 @@ export const NumberInput: NodeEntity<JsonSchemaNumber, NumberInputProps> = ({
     meta,
     props,
     schema,
+    settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
     const {disabled} = schema.nodeParameters?.flags || {};
@@ -46,6 +47,7 @@ export const NumberInput: NodeEntity<JsonSchemaNumber, NumberInputProps> = ({
                 disabled={disabled || schema.readOnly}
                 allowDecimal
                 hasClear
+                size={settings?.size}
                 {...props}
                 value={value === undefined ? null : value}
                 defaultValue={schema.default}

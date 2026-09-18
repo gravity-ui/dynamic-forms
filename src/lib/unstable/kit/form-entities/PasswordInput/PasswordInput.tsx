@@ -31,6 +31,7 @@ export const PasswordInput: NodeEntity<JsonSchemaString, PasswordInputProps> = (
     meta,
     props,
     schema,
+    settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
     const {disabled} = schema.nodeParameters?.flags || {};
@@ -42,6 +43,7 @@ export const PasswordInput: NodeEntity<JsonSchemaString, PasswordInputProps> = (
                 placeholder={schema.examples?.[0]}
                 disabled={disabled || schema.readOnly}
                 hasClear
+                size={settings?.size}
                 {...props}
                 value={value ?? ''}
                 onFocus={onFocus}

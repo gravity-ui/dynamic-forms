@@ -1,15 +1,32 @@
 @import '../../styles/functions.scss';
+@import '../../styles/mixins.scss';
 @import '../../styles/variables.scss';
 
 .#{$ns}section {
+    @include size-to-var using ($height) {
+        --size: #{$height};
+    }
+
     margin-bottom: spacing(4);
+
+    &_size_xl {
+        .#{$ns}section__content {
+            &_with-indent {
+                padding-left: spacing(9);
+
+                &:before {
+                    left: calc(spacing(5) + 1.5px);
+                }
+            }
+        }
+    }
 
     &:last-child {
         margin-bottom: 0;
     }
 
     &__header {
-        min-height: 28px;
+        min-height: var(--size);
     }
 
     &__title {

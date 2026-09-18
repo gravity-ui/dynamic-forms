@@ -56,6 +56,7 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
         [schemaOverride, schemaPath, srState?.schema],
     );
 
+    const settings = srState?.settings;
     const error = srState?.errors[name];
     const mode: SchemaRendererMode | undefined = modeOverride || srState?.mode;
     // todo: check parent
@@ -259,6 +260,7 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
                     props={entityProps}
                     schema={schema}
                     schemaPath={schemaPath}
+                    settings={settings}
                 />
             );
 
@@ -272,6 +274,7 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
                         props={layoutProps}
                         schema={schema}
                         schemaPath={schemaPath}
+                        settings={settings}
                     >
                         {content}
                     </Layout>

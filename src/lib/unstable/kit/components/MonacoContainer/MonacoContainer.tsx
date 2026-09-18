@@ -3,6 +3,7 @@ import React from 'react';
 import {ChevronsCollapseUpRight, ChevronsExpandUpRight, Code} from '@gravity-ui/icons';
 import {Button, Flex, Icon, Text} from '@gravity-ui/uikit';
 
+import {type SchemaRendererSettings} from '../../../core';
 import {block} from '../../utils';
 
 import './MonacoContainer.scss';
@@ -14,6 +15,7 @@ export interface MonacoContainerProps {
     dialog?: boolean;
     height: string | number;
     language?: string;
+    settings?: SchemaRendererSettings;
     toggleDialogVisibility?: () => void;
     width: string | number;
     withDialog?: boolean;
@@ -25,6 +27,7 @@ export const MonacoContainer: React.FC<MonacoContainerProps> = ({
     dialog,
     height,
     language,
+    settings,
     toggleDialogVisibility,
     width,
     withDialog,
@@ -35,12 +38,13 @@ export const MonacoContainer: React.FC<MonacoContainerProps> = ({
             <Flex alignItems="center" justifyContent="space-between" className={b('header')}>
                 <Flex alignItems="center" gap={1}>
                     <Icon data={Code} size={16} />
-                    <Text variant="subheader-1">{language}</Text>
+                    <Text variant={settings?.titleVariant}>{language}</Text>
                 </Flex>
                 {withDialog ? (
                     <Button
                         onClick={toggleDialogVisibility}
                         view="flat-secondary"
+                        size={settings?.size}
                         qa={`${qa}-dialog-toggler`}
                     >
                         <Icon

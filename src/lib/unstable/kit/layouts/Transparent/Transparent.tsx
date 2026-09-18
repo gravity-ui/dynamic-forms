@@ -23,6 +23,7 @@ export const Transparent: NodeLayout<JsonSchema, TransparentProps> = ({
     mode,
     props,
     schema,
+    settings,
 }) => {
     const {hidden} = schema.nodeParameters?.flags || {};
     const overviewFlag = mode === SchemaRendererMode.Overview;
@@ -41,11 +42,16 @@ export const Transparent: NodeLayout<JsonSchema, TransparentProps> = ({
                     name={input.name}
                     headName={headName}
                     schema={schema}
+                    settings={settings}
                     value={input.value}
                 />
             </Flex>
             {overviewFlag ? null : (
-                <EntityError errorMessage={meta.error} validationState={getValidationState(meta)} />
+                <EntityError
+                    errorMessage={meta.error}
+                    settings={settings}
+                    validationState={getValidationState(meta)}
+                />
             )}
         </LayoutContainer>
     );

@@ -31,6 +31,7 @@ export const DateInput: NodeEntity<JsonSchemaAny, DateInputProps> = ({
     meta,
     props,
     schema,
+    settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
     const {
@@ -96,6 +97,7 @@ export const DateInput: NodeEntity<JsonSchemaAny, DateInputProps> = ({
                 placeholder={`${schema.examples?.[0] || ''}`}
                 disabled={disabled || schema.readOnly}
                 hasClear
+                size={settings?.size}
                 {...restEntityProps}
                 value={value}
                 onFocus={onFocus as DatePickerProps['onFocus']}

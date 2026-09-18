@@ -32,7 +32,7 @@ export interface StringNumberWithScaleInputProps
 export const StringNumberWithScaleInput: NodeEntity<
     JsonSchemaString,
     StringNumberWithScaleInputProps
-> = ({input, meta, props, schema}) => {
+> = ({input, meta, props, schema, settings}) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
     const {defaultType, viewType, scale, ...restEntityProps} = props;
     const {disabled} = schema.nodeParameters?.flags || {};
@@ -122,6 +122,7 @@ export const StringNumberWithScaleInput: NodeEntity<
                     placeholder={`${schema.examples?.[0] || ''}`}
                     disabled={disabled || schema.readOnly}
                     hasClear
+                    size={settings?.size}
                     {...restEntityProps}
                     {...preparedInputProps}
                     onBlur={onBlur}
@@ -141,6 +142,7 @@ export const StringNumberWithScaleInput: NodeEntity<
                         multiple={false}
                         disabled={disabled || schema.readOnly || meta.error}
                         qa={`${name}-scale`}
+                        size={settings?.size}
                     />
                 </div>
             ) : null}

@@ -7,14 +7,13 @@ import {
     Disclosure,
     type DisclosureProps,
     Flex,
-    HelpMark,
     Icon,
     Text,
     type TextProps,
 } from '@gravity-ui/uikit';
 
 import {type JsonSchema, type NodeLayout, SchemaRendererMode} from '../../../core';
-import {EntityError, HTMLContent, LayoutButtons, LayoutContainer} from '../../components';
+import {EntityError, HelpMark, LayoutButtons, LayoutContainer} from '../../components';
 import {useExpanded} from '../../hooks';
 import {block, getValidationState} from '../../utils';
 
@@ -36,6 +35,7 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
     meta,
     mode,
     schema,
+    settings,
     props,
 }) => {
     const {
@@ -53,7 +53,7 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
     const summary = React.useMemo(
         () => (
             <Text
-                variant="subheader-1"
+                variant={settings?.titleVariant}
                 color="complementary"
                 {...titleProps}
                 className={b('title', {required: required && !overviewFlag}, titleProps?.className)}
@@ -63,28 +63,28 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
                 {schema.title}
             </Text>
         ),
-        [overviewFlag, required, schema.title, titleProps],
+        [overviewFlag, required, schema.title, titleProps, settings?.titleVariant],
     );
 
     const helpMark = React.useMemo(() => {
         if (schema.description) {
             return (
-                <HelpMark>
-                    <HTMLContent content={schema.description} headName={headName} />
-                </HelpMark>
+                <HelpMark settings={settings} content={schema.description} headName={headName} />
             );
         }
-
         return null;
-    }, [schema.description, headName]);
-
+    }, [schema.description, headName, settings]);
     return (
         <LayoutContainer
-            className={b({'without-default-summary': !withDefaultSummary})}
+            className={b({
+                'without-default-summary': !withDefaultSummary,
+                size: settings?.size,
+            })}
             hideEmpty={overviewFlag}
             hidden={hidden}
         >
             <Disclosure
+                size={settings?.size === 's' ? 'm' : settings?.size}
                 summary={summary}
                 expanded={expanded}
                 onUpdate={setExpanded}
@@ -92,19 +92,20 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
             >
                 <Disclosure.Summary>
                     {({expanded, onClick}, defaultSummary) => (
-                        <Flex minHeight="28px" alignItems="center" gap={2}>
+                        <Flex minHeight="var(--size)" alignItems="center" gap={2}>
                             {withDefaultSummary ? (
                                 defaultSummary
                             ) : (
                                 <Button
+                                    size={settings?.size}
                                     {...togglerProps}
                                     onClick={onClick}
                                     className={b('toggler', togglerProps?.className)}
                                 >
-                                    <Flex alignItems="center" gap={2} height="100%">
+                                    <div className={b('toggler-content')}>
                                         <Icon data={expanded ? ChevronUp : ChevronDown} />
                                         {summary}
-                                    </Flex>
+                                    </div>
                                 </Button>
                             )}
                             {helpMark}
@@ -113,6 +114,7 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
                                 name={input.name}
                                 headName={headName}
                                 schema={schema}
+                                settings={settings}
                                 value={input.value}
                             />
                         </Flex>
@@ -123,6 +125,7 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
                     {overviewFlag ? null : (
                         <EntityError
                             errorMessage={meta.error}
+                            settings={settings}
                             validationState={getValidationState(meta)}
                         />
                     )}

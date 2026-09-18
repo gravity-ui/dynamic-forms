@@ -30,6 +30,7 @@ export const MultiSelectInput: NodeEntity<JsonSchemaArray, MultiSelectInputProps
     meta,
     props,
     schema,
+    settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
     const {enumDescriptions, optionsMeta, ...restEntityProps} = props;
@@ -48,13 +49,15 @@ export const MultiSelectInput: NodeEntity<JsonSchemaArray, MultiSelectInputProps
                 const value = `${el}`;
                 const text = enumDescriptions?.[value] || value;
                 const optionMeta = optionsMeta?.[value];
-                let content: React.ReactNode = text;
+                let content: React.ReactNode = <Text variant={settings?.textVariant}>{text}</Text>;
 
                 if (optionMeta) {
                     content = (
                         <Flex direction="column" gap="0.5">
-                            <Text>{text}</Text>
-                            <Text color="secondary">{optionMeta}</Text>
+                            {content}
+                            <Text color="secondary" variant={settings?.textVariant}>
+                                {optionMeta}
+                            </Text>
                         </Flex>
                     );
                 }
@@ -64,7 +67,7 @@ export const MultiSelectInput: NodeEntity<JsonSchemaArray, MultiSelectInputProps
         }
 
         return;
-    }, [enumDescriptions, enumValues, optionsMeta]);
+    }, [enumDescriptions, enumValues, optionsMeta, settings]);
 
     const renderOption: SelectProps['renderOption'] = React.useCallback(
         (option: SelectOption) => (
@@ -76,8 +79,33 @@ export const MultiSelectInput: NodeEntity<JsonSchemaArray, MultiSelectInputProps
     );
 
     const getOptionHeight: SelectProps['getOptionHeight'] = React.useCallback(
-        (option: SelectOption) => (option.data?.optionMeta ? 44 : 28),
-        [],
+        (option: SelectOption) => {
+            let height = 28;
+
+            if (settings?.size) {
+                height = {
+                    s: 24,
+                    m: 28,
+                    l: 36,
+                    xl: 44,
+                }[settings.size];
+            }
+
+            if (option.data?.optionMeta) {
+                if (settings?.size) {
+                    height += {
+                        s: 24,
+                        m: 20,
+                        l: 16,
+                        xl: 16,
+                    }[settings.size];
+                } else {
+                    height += 16;
+                }
+            }
+            return height;
+        },
+        [settings?.size],
     );
 
     return (
@@ -90,6 +118,7 @@ export const MultiSelectInput: NodeEntity<JsonSchemaArray, MultiSelectInputProps
                 getOptionHeight={getOptionHeight}
                 placeholder={`${schema.examples?.[0]?.[0] || DASH}`}
                 disabled={disabled || schema.readOnly}
+                size={settings?.size}
                 {...restEntityProps}
                 value={value}
                 onFocus={onFocus as SelectProps['onFocus']}

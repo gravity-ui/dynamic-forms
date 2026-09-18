@@ -36,6 +36,7 @@ export const OneOfNested: NodeEntity<JsonSchemaObject, OneOfNestedProps> = ({
     props,
     schema,
     schemaPath,
+    settings,
 }) => {
     const {name, value} = input;
     const {
@@ -109,6 +110,7 @@ export const OneOfNested: NodeEntity<JsonSchemaObject, OneOfNestedProps> = ({
                     props={entityProps}
                     schema={togglerSchema}
                     schemaPath="___stub"
+                    settings={settings}
                 />
             );
 
@@ -122,6 +124,7 @@ export const OneOfNested: NodeEntity<JsonSchemaObject, OneOfNestedProps> = ({
                         props={layoutProps}
                         schema={togglerSchema}
                         schemaPath="___stub"
+                        settings={settings}
                     >
                         {result}
                     </Layout>
@@ -137,6 +140,7 @@ export const OneOfNested: NodeEntity<JsonSchemaObject, OneOfNestedProps> = ({
         meta,
         mode,
         name,
+        settings,
         srState?.config,
         togglerArrayRemoveButton,
         togglerSchema,
@@ -187,6 +191,7 @@ export const OneOfNested: NodeEntity<JsonSchemaObject, OneOfNestedProps> = ({
                 schema={schema}
                 schemaPath={schemaPath}
                 props={layoutProps || {}}
+                settings={settings}
             >
                 {content}
             </Layout>

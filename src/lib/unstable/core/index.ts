@@ -10,6 +10,7 @@ export {NodeType, JsonSchemaType, SchemaRendererEventType, SchemaRendererMode} f
 export type * from './types';
 export {
     SCHEMA_RENDERER_SERVICE_FIELD,
+    type SchemaRendererSettings,
     type SchemaRendererState,
     type SchemaPatch,
     type SchemaPatchRemover,

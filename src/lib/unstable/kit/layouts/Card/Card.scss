@@ -1,7 +1,12 @@
 @import '../../styles/functions.scss';
+@import '../../styles/mixins.scss';
 @import '../../styles/variables.scss';
 
 .#{$ns}card {
+    @include size-to-var using ($height) {
+        --size: #{$height};
+    }
+
     margin-bottom: spacing(4);
 
     &:last-child {
@@ -28,7 +33,7 @@
     }
 
     &__header {
-        min-height: 28px;
+        min-height: var(--size);
     }
 
     &__header-actions {
@@ -36,7 +41,7 @@
     }
 
     &__toggler {
-        width: 28px;
+        width: var(--size);
     }
 
     &__title {
@@ -47,5 +52,10 @@
                 color: var(--g-color-text-danger);
             }
         }
+    }
+
+    &__help-mark {
+        position: relative;
+        top: 1px;
     }
 }

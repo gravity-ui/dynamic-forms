@@ -1,0 +1,9 @@
+@import './variables.scss';
+
+@mixin size-to-var {
+    @each $size, $height in ('s': $s-height, 'm': $m-height, 'l': $l-height, 'xl': $xl-height) {
+        &_size_#{$size} {
+            @content ($height);
+        }
+    }
+}

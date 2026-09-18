@@ -30,6 +30,7 @@ export const RangeInput: NodeEntity<JsonSchemaObject, RangeInputProps> = ({
     input,
     props,
     schemaPath,
+    settings,
 }) => {
     const {name, value: inputValue} = input;
     const {propertyKeys, separator = DASH} = props;
@@ -93,7 +94,7 @@ export const RangeInput: NodeEntity<JsonSchemaObject, RangeInputProps> = ({
     }, [inputValue?.[fromKey], inputValue?.[toKey]]);
 
     return (
-        <EntityContainer stretch="max" className={b()}>
+        <EntityContainer stretch="max" className={b({size: settings?.size})}>
             <Flex className={b('items')} direction="row" alignItems="flex-start" gap={2}>
                 <SchemaRendererNode
                     headName={headName}
@@ -101,7 +102,9 @@ export const RangeInput: NodeEntity<JsonSchemaObject, RangeInputProps> = ({
                     schemaPath={`${schemaPath}/properties/${fromKey}`}
                     key={fromKey}
                 />
-                <Text className={b('delimiter')}>{separator}</Text>
+                <Text className={b('delimiter')} variant={settings?.textVariant}>
+                    {separator}
+                </Text>
                 <SchemaRendererNode
                     headName={headName}
                     name={toName}

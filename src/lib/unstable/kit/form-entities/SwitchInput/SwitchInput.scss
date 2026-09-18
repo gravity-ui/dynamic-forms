@@ -1,7 +1,12 @@
+@import '../../styles/mixins.scss';
 @import '../../styles/variables.scss';
 
 .#{$ns}switch-input {
-    min-height: 28px;
+    @include size-to-var using ($height) {
+        --size: #{$height};
+    }
+
+    min-height: var(--size);
 
     &_error {
         .g-switch {

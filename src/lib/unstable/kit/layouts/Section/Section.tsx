@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {Flex, HelpMark, Text, type TextProps, spacing} from '@gravity-ui/uikit';
+import {Flex, Text, type TextProps, spacing} from '@gravity-ui/uikit';
 
 import {type JsonSchema, type NodeLayout, SchemaRendererMode} from '../../../core';
-import {EntityError, HTMLContent, LayoutButtons, LayoutContainer} from '../../components';
+import {EntityError, HTMLContent, HelpMark, LayoutButtons, LayoutContainer} from '../../components';
 import {block, getValidationState} from '../../utils';
 
 import './Section.scss';
@@ -23,6 +23,7 @@ export const Section: NodeLayout<JsonSchema, SectionProps> = ({
     mode,
     schema,
     props,
+    settings,
 }) => {
     const {descriptionType = 'tooltip', withIndent = false, ...restLayoutProps} = props;
     const {required, hidden} = schema.nodeParameters?.flags || {};
@@ -34,12 +35,8 @@ export const Section: NodeLayout<JsonSchema, SectionProps> = ({
             return null;
         }
 
-        return (
-            <HelpMark>
-                <HTMLContent content={schema.description} headName={headName} />
-            </HelpMark>
-        );
-    }, [headName, schema.description, descriptionType]);
+        return <HelpMark settings={settings} content={schema.description} headName={headName} />;
+    }, [headName, schema.description, descriptionType, settings]);
 
     const bottomDescription = React.useMemo(() => {
         if (!schema.description || descriptionType !== 'bottom' || overviewFlag) {
@@ -52,17 +49,23 @@ export const Section: NodeLayout<JsonSchema, SectionProps> = ({
                 content={schema.description}
                 color="secondary"
                 headName={headName}
+                settings={settings}
             />
         );
-    }, [headName, schema.description, descriptionType, overviewFlag]);
+    }, [headName, schema.description, descriptionType, overviewFlag, settings]);
 
     return (
-        <LayoutContainer className={b()} gap={0.5} hideEmpty={overviewFlag} hidden={hidden}>
+        <LayoutContainer
+            className={b({size: settings?.size})}
+            gap={0.5}
+            hideEmpty={overviewFlag}
+            hidden={hidden}
+        >
             <Flex direction="column" gap={4}>
-                <Flex direction="column">
+                <Flex direction="column" gap={1}>
                     <Flex className={b('header')} gap={2} alignItems="center">
                         <Text
-                            variant="subheader-1"
+                            variant={settings?.headVariant}
                             color="complementary"
                             {...restLayoutProps}
                             className={b(
@@ -79,6 +82,7 @@ export const Section: NodeLayout<JsonSchema, SectionProps> = ({
                             name={input.name}
                             headName={headName}
                             schema={schema}
+                            settings={settings}
                             value={input.value}
                         />
                     </Flex>
@@ -87,7 +91,11 @@ export const Section: NodeLayout<JsonSchema, SectionProps> = ({
                 <div className={b('content', {'with-indent': withIndent})}>{children}</div>
             </Flex>
             {overviewFlag ? null : (
-                <EntityError errorMessage={meta.error} validationState={getValidationState(meta)} />
+                <EntityError
+                    errorMessage={meta.error}
+                    settings={settings}
+                    validationState={getValidationState(meta)}
+                />
             )}
         </LayoutContainer>
     );

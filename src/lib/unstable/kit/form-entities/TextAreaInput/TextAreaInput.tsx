@@ -28,6 +28,7 @@ export const TextAreaInput: NodeEntity<JsonSchemaString, TextAreaInputProps> = (
     meta,
     props,
     schema,
+    settings,
 }) => {
     const {disabled} = schema.nodeParameters?.flags || {};
 
@@ -39,6 +40,7 @@ export const TextAreaInput: NodeEntity<JsonSchemaString, TextAreaInputProps> = (
                 placeholder={schema.examples?.[0]}
                 disabled={disabled || schema.readOnly}
                 hasClear
+                size={settings?.size}
                 {...props}
                 value={input.value ?? ''}
                 onFocus={input.onFocus}

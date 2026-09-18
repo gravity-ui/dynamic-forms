@@ -4,7 +4,6 @@ import {ChevronDown, ChevronUp} from '@gravity-ui/icons';
 import {
     Button,
     Flex,
-    HelpMark,
     Icon,
     Text,
     Card as UIKitCard,
@@ -12,7 +11,7 @@ import {
 } from '@gravity-ui/uikit';
 
 import {type JsonSchema, type NodeLayout, SchemaRendererMode} from '../../../core';
-import {EntityError, HTMLContent, LayoutButtons, LayoutContainer} from '../../components';
+import {EntityError, HTMLContent, HelpMark, LayoutButtons, LayoutContainer} from '../../components';
 import {useExpanded} from '../../hooks';
 import {block, getValidationState} from '../../utils';
 
@@ -32,6 +31,7 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
     meta,
     mode,
     schema,
+    settings,
     props,
 }) => {
     const {descriptionType = 'tooltip', likeAccordeon = true, ...restLayoutProps} = props;
@@ -51,29 +51,43 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
         }
 
         return (
-            <HelpMark>
-                <HTMLContent content={schema.description} headName={headName} />
-            </HelpMark>
+            <HelpMark
+                className={b('help-mark')}
+                settings={settings}
+                content={schema.description}
+                headName={headName}
+            />
         );
-    }, [headName, schema.description, descriptionType]);
+    }, [headName, schema.description, descriptionType, settings]);
 
     const bottomDescription = React.useMemo(() => {
         if (!schema.description || descriptionType !== 'bottom' || overviewFlag) {
             return null;
         }
 
-        return <HTMLContent content={schema.description} headName={headName} color="secondary" />;
-    }, [headName, schema.description, descriptionType, overviewFlag]);
+        return (
+            <HTMLContent
+                content={schema.description}
+                headName={headName}
+                color="secondary"
+                settings={settings}
+            />
+        );
+    }, [headName, schema.description, descriptionType, overviewFlag, settings]);
 
     return (
-        <LayoutContainer className={b()} hideEmpty={overviewFlag} hidden={hidden}>
+        <LayoutContainer
+            className={b({size: settings?.size})}
+            hideEmpty={overviewFlag}
+            hidden={hidden}
+        >
             <UIKitCard {...restLayoutProps} className={b('card')}>
                 <div className={b('inner', {hidden: !expanded})}>
                     <Flex className={b('header')} direction="column" justifyContent="center">
                         <Flex justifyContent="space-between" alignItems="center">
                             <Flex alignItems="center" gap={2}>
                                 <Text
-                                    variant="subheader-1"
+                                    variant={settings?.headVariant}
                                     color="complementary"
                                     className={b('title', {required: required && !overviewFlag})}
                                 >
@@ -87,13 +101,14 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
                                     name={input.name}
                                     headName={headName}
                                     schema={schema}
+                                    settings={settings}
                                     value={input.value}
                                 />
                                 {likeAccordeon ? (
-                                    <Flex width="28px" justifyContent="center">
+                                    <Flex width="var(--size)" justifyContent="center">
                                         <Button
                                             onClick={toggleExpanded}
-                                            size="s"
+                                            size={settings?.size}
                                             view="flat-secondary"
                                         >
                                             <Icon
@@ -112,6 +127,7 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
                 {overviewFlag ? null : (
                     <EntityError
                         errorMessage={meta.error}
+                        settings={settings}
                         validationState={getValidationState(meta)}
                     />
                 )}

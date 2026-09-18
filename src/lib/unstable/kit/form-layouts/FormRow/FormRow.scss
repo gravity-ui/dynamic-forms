@@ -1,19 +1,63 @@
 @import '../../styles/functions.scss';
+@import '../../styles/mixins.scss';
 @import '../../styles/variables.scss';
 
 .#{$ns}form-row {
+    @include size-to-var using ($height) {
+        --size: #{$height};
+    }
+
     margin-bottom: spacing(4);
 
     &:last-child {
         margin-bottom: 0;
     }
 
+    &_size_s {
+        .#{$ns}form-row__left {
+            padding-top: 3px;
+        }
+
+        .#{$ns}form-row__help-mark {
+            top: 0px;
+        }
+    }
+
+    &_size_m {
+        .#{$ns}form-row__left {
+            padding-top: 5px;
+        }
+
+        .#{$ns}form-row__help-mark {
+            top: 0px;
+        }
+    }
+
+    &_size_l {
+        .#{$ns}form-row__left {
+            padding-top: 9px;
+        }
+
+        .#{$ns}form-row__help-mark {
+            top: 0px;
+        }
+    }
+
+    &_size_xl {
+        .#{$ns}form-row__left {
+            padding-top: 12px;
+        }
+
+        .#{$ns}form-row__help-mark {
+            top: -1px;
+        }
+    }
+
     &__left {
         display: inline;
         min-width: 180px;
         width: 180px;
-        min-height: 28px;
-        padding-top: 4.5px;
+        min-height: var(--size);
     }
 
     &__title {
@@ -30,7 +74,8 @@
     }
 
     &__help-mark {
-        margin-top: 1.5px;
+        position: relative;
+        top: 1.5px;
     }
 
     &__right {

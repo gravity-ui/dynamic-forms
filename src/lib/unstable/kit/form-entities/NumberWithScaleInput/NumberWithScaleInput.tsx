@@ -34,6 +34,7 @@ export const NumberWithScaleInput: NodeEntity<JsonSchemaNumber, NumberWithScaleI
     meta,
     props,
     schema,
+    settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
     const {defaultType, viewType, scale, max, min, step, ...restEntityProps} = props;
@@ -117,6 +118,7 @@ export const NumberWithScaleInput: NodeEntity<JsonSchemaNumber, NumberWithScaleI
                     disabled={disabled || schema.readOnly}
                     allowDecimal
                     hasClear
+                    size={settings?.size}
                     {...restEntityProps}
                     {...preparedInputProps}
                     onBlur={onBlur}
@@ -134,6 +136,7 @@ export const NumberWithScaleInput: NodeEntity<JsonSchemaNumber, NumberWithScaleI
                         value={scaleValue}
                         onUpdate={setScaleValue}
                         multiple={false}
+                        size={settings?.size}
                     />
                 </div>
             ) : null}
