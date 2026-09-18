@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.35.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.34.0...v5.35.0) (2026-09-18)
+
+
+### Features
+
+* **unstable:** add withSchemaRenderer flag to DynamicField ([#444](https://github.com/gravity-ui/dynamic-forms/issues/444)) ([fce0138](https://github.com/gravity-ui/dynamic-forms/commit/fce01387993ba854513c5ebcb53fdbd7df1f7732))
+
 ## [5.34.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.33.1...v5.34.0) (2026-09-18)
 
 
