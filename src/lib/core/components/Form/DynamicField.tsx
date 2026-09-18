@@ -6,6 +6,12 @@ import isString from 'lodash/isString';
 import {isValidElementType} from 'react-is';
 import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 
+import {SchemaRenderer, SchemaRendererMode} from '../../../unstable/core';
+import {
+    specToJsonSchema,
+    config as srConfig,
+    errorMessages as srErrorMessages,
+} from '../../../unstable/kit';
 import {isCorrectSpec, warnAboutDottedPropertyKeys} from '../../helpers';
 import type {Spec, StringSpec} from '../../types';
 
@@ -36,9 +42,10 @@ export interface DynamicFieldProps {
     shared?: Record<string, any>;
     storeSubscriber?: (store: FieldValue) => void;
     __mirror?: WonderMirror;
+    withSchemaRenderer?: boolean;
 }
 
-export const DynamicField: React.FC<DynamicFieldProps> = ({
+const DynamicFieldBase: React.FC<DynamicFieldProps> = ({
     name,
     spec,
     config,
@@ -135,4 +142,32 @@ export const DynamicField: React.FC<DynamicFieldProps> = ({
     }
 
     return null;
+};
+
+export const DynamicField: React.FC<DynamicFieldProps> = ({withSchemaRenderer, ...props}) => {
+    const userContext = React.useMemo(
+        () => ({MonacoEditor: props.Monaco, ...props.shared}),
+        [props.Monaco, props.shared],
+    );
+
+    const jsonSchema = React.useMemo(
+        () => specToJsonSchema(props.spec, undefined, undefined, srErrorMessages),
+        [props.spec],
+    );
+
+    if (withSchemaRenderer) {
+        return (
+            <SchemaRenderer
+                config={srConfig}
+                errorMessages={srErrorMessages}
+                mode={SchemaRendererMode.Form}
+                name={props.name}
+                schema={jsonSchema}
+                validateOnBlur={false}
+                userContext={userContext}
+            />
+        );
+    }
+
+    return <DynamicFieldBase {...props} />;
 };
