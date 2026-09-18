@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.34.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.33.1...v5.34.0) (2026-09-18)
+
+
+### Features
+
+* **unstable:** add sizes ([#441](https://github.com/gravity-ui/dynamic-forms/issues/441)) ([4a590e0](https://github.com/gravity-ui/dynamic-forms/commit/4a590e03265b133e5795fb4c3543727e12f8448d))
+
+
+### Bug Fixes
+
+* **unstable:** style fixes ([#443](https://github.com/gravity-ui/dynamic-forms/issues/443)) ([0fc1054](https://github.com/gravity-ui/dynamic-forms/commit/0fc10545e7a9beabef7e4012ea15a27754cfef5e))
+
 ## [5.33.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.33.0...v5.33.1) (2026-09-17)
 
 
