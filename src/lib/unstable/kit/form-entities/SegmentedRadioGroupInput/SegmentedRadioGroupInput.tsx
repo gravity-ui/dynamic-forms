@@ -87,7 +87,7 @@ export const SegmentedRadioGroupInput: NodeEntity<
         <EntityContainer
             ref={containerRef}
             className={b({error: getBooleanValidationState(meta)})}
-            stretch="max"
+            width="max"
         >
             {overflowed ? (
                 <SelectInput

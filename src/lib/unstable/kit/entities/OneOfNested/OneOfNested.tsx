@@ -162,7 +162,7 @@ export const OneOfNested: NodeEntity<JsonSchemaObject, OneOfNestedProps> = ({
         <EntityContainer
             className={b({size: settings?.size})}
             direction="column-reverse"
-            stretch="by-child"
+            width="by-child"
             fill="populated"
         >
             {togglerValue === undefined ? null : (

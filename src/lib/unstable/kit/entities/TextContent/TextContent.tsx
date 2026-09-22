@@ -9,7 +9,7 @@ import {
     type LabelProps as UIKitLabelProps,
 } from '@gravity-ui/uikit';
 
-import {type JsonSchemaString, type NodeEntity, SchemaRendererMode} from '../../../core';
+import {type JsonSchemaString, type NodeEntity} from '../../../core';
 import {EntityContainer, HTMLContent} from '../../components';
 import {block} from '../../utils';
 
@@ -25,14 +25,11 @@ export interface TextContentProps extends Omit<UIKitLabelProps, 'theme'> {
 export const TextContent: NodeEntity<JsonSchemaString, TextContentProps> = ({
     headName,
     input,
-    mode,
     props,
     schema,
     settings,
 }) => {
     const {className, iconName, iconProps, title: titleProp, ...restEntityProps} = props;
-
-    const overviewFlag = mode === SchemaRendererMode.Overview;
 
     const value = React.useMemo(() => {
         if (input.value) {
@@ -72,11 +69,11 @@ export const TextContent: NodeEntity<JsonSchemaString, TextContentProps> = ({
         <EntityContainer
             className={b({size: settings?.size})}
             justifyContent="center"
-            stretch="fit"
+            width="fit"
             fill="populated"
         >
             <UIKitLabel
-                size={overviewFlag ? 'xs' : 'm'}
+                size="m"
                 value={value}
                 icon={icon}
                 className={b(null, className)}

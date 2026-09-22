@@ -1,7 +1,7 @@
 export {ArrayRemoveButton, type ArrayRemoveButtonProps} from './ArrayRemoveButton';
 export {CopyButton, type CopyButtonProps} from './CopyButton';
 export {DropButton, type DropButtonProps} from './DropButton';
-export {EmptyEntityValue} from './EmptyEntityValue';
+export {EmptyEntityValue, type EmptyEntityValueProps} from './EmptyEntityValue';
 export {EntityContainer, type EntityContainerProps} from './EntityContainer';
 export {EntityError, type EntityErrorProps} from './EntityError';
 export {HTMLContent, type HTMLContentProps} from './HTMLContent';

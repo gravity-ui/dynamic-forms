@@ -2,6 +2,7 @@ import React from 'react';
 
 import {Flex, type FlexProps} from '@gravity-ui/uikit';
 
+import {useSchemaRendererNodeContext} from '../../../core';
 import {block} from '../../utils';
 
 import './LayoutContainer.scss';
@@ -21,9 +22,14 @@ export const LayoutContainer: React.FC<LayoutContainerProps> = ({
     hidden = false,
     ...restProps
 }) => {
+    const nodeContext = useSchemaRendererNodeContext();
+
     return (
         <Flex
-            className={b({'hide-empty': hideEmpty, hidden}, className)}
+            className={b(
+                {'hide-empty': hideEmpty, hidden, view: nodeContext?.settings?.view ?? 'stretch'},
+                className,
+            )}
             direction="column"
             {...restProps}
         >

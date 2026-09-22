@@ -40,7 +40,7 @@ export const ColorPickerInput: NodeEntity<JsonSchemaString, ColorPickerInputProp
     );
 
     return (
-        <EntityContainer stretch="max" className={b({error: getBooleanValidationState(meta)})}>
+        <EntityContainer width="max" className={b({error: getBooleanValidationState(meta)})}>
             <ColorPicker
                 disabled={disabled || schema.readOnly}
                 size={settings?.size}

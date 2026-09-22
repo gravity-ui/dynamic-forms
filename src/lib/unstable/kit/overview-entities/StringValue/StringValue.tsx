@@ -5,14 +5,23 @@ import {EmptyEntityValue, EntityContainer, LongValue, type LongValueProps} from 
 
 export interface StringValueProps extends Omit<LongValueProps, 'qa' | 'value'> {}
 
-export const StringValue: NodeEntity<JsonSchemaString, StringValueProps> = ({input, props}) => {
+export const StringValue: NodeEntity<JsonSchemaString, StringValueProps> = ({
+    input,
+    props,
+    settings,
+}) => {
     if (!input.value) {
-        return <EmptyEntityValue />;
+        return <EmptyEntityValue settings={settings} />;
     }
 
     return (
-        <EntityContainer stretch="fit" fill="populated">
-            <LongValue {...props} value={input.value} qa={input.name} />
+        <EntityContainer width="fit" fill="populated">
+            <LongValue
+                variant={settings?.textVariant}
+                {...props}
+                value={input.value}
+                qa={input.name}
+            />
         </EntityContainer>
     );
 };

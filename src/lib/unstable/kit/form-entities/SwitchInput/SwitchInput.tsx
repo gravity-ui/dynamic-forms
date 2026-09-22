@@ -48,7 +48,7 @@ export const SwitchInput: NodeEntity<JsonSchemaBoolean, SwitchInputProps> = ({
 
     return (
         <EntityContainer
-            stretch="fit"
+            width="fit"
             className={b({error: getBooleanValidationState(meta), size: settings?.size})}
             justifyContent="center"
         >

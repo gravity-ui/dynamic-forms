@@ -9,7 +9,7 @@ import {
     type LabelProps as UIKitLabelProps,
 } from '@gravity-ui/uikit';
 
-import {type JsonSchemaString, type NodeEntity, SchemaRendererMode} from '../../../core';
+import {type JsonSchemaString, type NodeEntity} from '../../../core';
 import {EntityContainer, HTMLContent} from '../../components';
 import {block} from '../../utils';
 
@@ -25,15 +25,12 @@ export interface LabelProps extends UIKitLabelProps {
 export const Label: NodeEntity<JsonSchemaString, LabelProps> = ({
     headName,
     input,
-    mode,
     props,
     schema,
     settings,
 }) => {
     const {value: inputValue} = input;
     const {iconName, iconProps, title, ...restEntityProps} = props;
-
-    const overviewFlag = mode === SchemaRendererMode.Overview;
 
     const icon = React.useMemo(
         () =>
@@ -73,15 +70,10 @@ export const Label: NodeEntity<JsonSchemaString, LabelProps> = ({
         <EntityContainer
             className={b({size: settings?.size})}
             justifyContent="center"
-            stretch="fit"
+            width="fit"
             fill="populated"
         >
-            <UIKitLabel
-                size={overviewFlag ? 'xs' : 'm'}
-                value={value}
-                icon={icon}
-                {...restEntityProps}
-            >
+            <UIKitLabel size="m" value={value} icon={icon} {...restEntityProps}>
                 {content}
             </UIKitLabel>
         </EntityContainer>

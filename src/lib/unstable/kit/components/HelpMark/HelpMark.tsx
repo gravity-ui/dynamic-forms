@@ -14,7 +14,7 @@ export interface HelpMarkProps {
 
 export const HelpMark: React.FC<HelpMarkProps> = ({className, content, headName, settings}) => {
     return (
-        <UIKitHelpMark className={className} iconSize={settings?.size}>
+        <UIKitHelpMark className={className} iconSize={settings?.size === 'xl' ? 'l' : 'm'}>
             <HTMLContent content={content} headName={headName} settings={settings} />
         </UIKitHelpMark>
     );

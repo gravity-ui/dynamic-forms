@@ -2,12 +2,19 @@
 
 .#{$ns}copy-button {
     display: none;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     margin-top: -1px;
 
     .g-button {
         margin-top: -2px;
         margin-left: -2px;
+    }
+
+    &_size_xl {
+        .g-button {
+            margin-top: -3px;
+            margin-left: -3px;
+        }
     }
 }

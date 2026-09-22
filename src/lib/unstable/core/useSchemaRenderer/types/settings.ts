@@ -7,4 +7,5 @@ export interface SchemaRendererSettings {
     headVariant: TextProps['variant'];
     titleVariant: TextProps['variant'];
     textVariant: TextProps['variant'];
+    view: 'fit' | 'stretch';
 }

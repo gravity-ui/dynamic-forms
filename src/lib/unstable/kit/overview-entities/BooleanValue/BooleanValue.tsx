@@ -17,11 +17,15 @@ export interface BooleanValueProps extends Omit<LongValueProps, 'qa' | 'value'> 
     };
 }
 
-export const BooleanValue: NodeEntity<JsonSchemaBoolean, BooleanValueProps> = ({input, props}) => {
+export const BooleanValue: NodeEntity<JsonSchemaBoolean, BooleanValueProps> = ({
+    input,
+    props,
+    settings,
+}) => {
     const {valueDescriptions, viewColor, ...entityRestProps} = props;
 
     if (!isBoolean(input.value)) {
-        return <EmptyEntityValue />;
+        return <EmptyEntityValue settings={settings} />;
     }
 
     const stringValue = String(input.value) as 'true' | 'false';
@@ -37,8 +41,14 @@ export const BooleanValue: NodeEntity<JsonSchemaBoolean, BooleanValueProps> = ({
     }
 
     return (
-        <EntityContainer stretch="fit" fill="populated">
-            <LongValue {...entityRestProps} value={value} color={color} qa={input.name} />
+        <EntityContainer width="fit" fill="populated">
+            <LongValue
+                variant={settings?.textVariant}
+                {...entityRestProps}
+                value={value}
+                color={color}
+                qa={input.name}
+            />
         </EntityContainer>
     );
 };

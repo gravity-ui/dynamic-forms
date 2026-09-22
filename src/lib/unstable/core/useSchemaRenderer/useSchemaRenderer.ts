@@ -25,6 +25,7 @@ export interface UseSchemaRendererParams {
     schema: JsonSchema;
     size?: SchemaRendererSettings['size'];
     validateOnBlur: boolean;
+    view?: SchemaRendererSettings['view'];
     userContext?: SchemaRendererState['userContext'];
 }
 
@@ -39,6 +40,7 @@ export const useSchemaRenderer = ({
     schema: originalSchema,
     size = 'm',
     validateOnBlur,
+    view = 'stretch',
     userContext,
 }: UseSchemaRendererParams): FieldValidator<FieldValue> => {
     const form = useForm();
@@ -72,7 +74,8 @@ export const useSchemaRenderer = ({
         const settingsUpdated =
             coerceInitialValues !== prevParams?.coerceInitialValues ||
             jsonDefaultValues !== prevParams?.jsonDefaultValues ||
-            size !== prevParams?.size;
+            size !== prevParams?.size ||
+            view !== prevParams?.view;
 
         const initialState: SchemaRendererState = {
             cache: nameUpdated || schemaUpdated || !prevState?.cache ? {} : prevState.cache,
@@ -99,6 +102,7 @@ export const useSchemaRenderer = ({
                 headVariant: size === 'xl' ? 'subheader-3' : 'subheader-2',
                 titleVariant: size === 'xl' ? 'subheader-2' : 'subheader-1',
                 textVariant: size === 'xl' ? 'body-2' : 'body-1',
+                view,
             },
             schema:
                 nameUpdated || schemaUpdated ? cloneDeep(originalSchema) : prevState?.schema || {},
@@ -131,6 +135,7 @@ export const useSchemaRenderer = ({
             size,
             userContext,
             validateOnBlur,
+            view,
         };
         stateRef.current = initialState;
 
@@ -149,6 +154,7 @@ export const useSchemaRenderer = ({
         subscribe,
         unsubscribe,
         validateOnBlur,
+        view,
         userContext,
     ]);
 

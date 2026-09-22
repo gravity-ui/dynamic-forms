@@ -7,14 +7,23 @@ import {EmptyEntityValue, EntityContainer, LongValue, type LongValueProps} from 
 
 export interface NumberValueProps extends Omit<LongValueProps, 'qa' | 'value'> {}
 
-export const NumberValue: NodeEntity<JsonSchemaNumber, NumberValueProps> = ({input, props}) => {
+export const NumberValue: NodeEntity<JsonSchemaNumber, NumberValueProps> = ({
+    input,
+    props,
+    settings,
+}) => {
     if (!isNumber(input.value)) {
-        return <EmptyEntityValue />;
+        return <EmptyEntityValue settings={settings} />;
     }
 
     return (
-        <EntityContainer stretch="fit" fill="populated">
-            <LongValue {...props} value={input.value} qa={input.name} />
+        <EntityContainer width="fit" fill="populated">
+            <LongValue
+                variant={settings?.textVariant}
+                {...props}
+                value={input.value}
+                qa={input.name}
+            />
         </EntityContainer>
     );
 };

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {Flex, HelpMark, Text} from '@gravity-ui/uikit';
+import {Flex, Text} from '@gravity-ui/uikit';
 
 import type {JsonSchema, NodeLayout} from '../../../core';
-import {HTMLContent, LayoutButtons, LayoutContainer} from '../../components';
+import {HelpMark, LayoutButtons, LayoutContainer} from '../../components';
 import {block} from '../../utils';
 
 import './OverviewColumn.scss';
@@ -16,6 +16,7 @@ export const OverviewColumn: NodeLayout<JsonSchema> = ({
     input,
     mode,
     schema,
+    settings,
 }) => {
     const {hidden} = schema.nodeParameters?.flags || {};
 
@@ -25,17 +26,25 @@ export const OverviewColumn: NodeLayout<JsonSchema> = ({
         }
 
         return (
-            <HelpMark className={b('help-mark')}>
-                <HTMLContent content={schema.description} headName={headName} />
-            </HelpMark>
+            <HelpMark
+                className={b('help-mark')}
+                settings={settings}
+                content={schema.description}
+                headName={headName}
+            />
         );
-    }, [headName, schema.description]);
+    }, [headName, schema.description, settings]);
 
     return (
-        <LayoutContainer className={b()} gap={2} hidden={hidden} hideEmpty>
+        <LayoutContainer className={b({size: settings?.size})} gap={2} hidden={hidden} hideEmpty>
             <Flex direction="column" gap={0.5} grow={1}>
                 <div className={b('top')}>
-                    <Text className={b('title')} color="secondary" wordBreak="break-word">
+                    <Text
+                        className={b('title')}
+                        variant={settings?.titleVariant}
+                        color="secondary"
+                        wordBreak="break-word"
+                    >
                         {schema.title}
                     </Text>
                     {tooltip}
@@ -49,6 +58,7 @@ export const OverviewColumn: NodeLayout<JsonSchema> = ({
                         name={input.name}
                         headName={headName}
                         schema={schema}
+                        settings={settings}
                         value={input.value}
                     />
                 </Flex>

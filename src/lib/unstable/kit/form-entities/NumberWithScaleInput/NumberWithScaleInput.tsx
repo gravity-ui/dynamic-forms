@@ -107,7 +107,7 @@ export const NumberWithScaleInput: NodeEntity<JsonSchemaNumber, NumberWithScaleI
 
     return (
         <EntityContainer
-            stretch="max"
+            width="max"
             className={b({error: getBooleanValidationState(meta)})}
             direction="row"
             gap={2}

@@ -11,6 +11,7 @@ export interface PrimitiveArrayValueProps extends Omit<LongValueProps, 'qa' | 'v
 export const PrimitiveArrayValue: NodeEntity<JsonSchemaArray, PrimitiveArrayValueProps> = ({
     input,
     props,
+    settings,
 }) => {
     const {direction = 'row', enumDescriptions, ...restProps} = props;
 
@@ -27,14 +28,15 @@ export const PrimitiveArrayValue: NodeEntity<JsonSchemaArray, PrimitiveArrayValu
     }, [enumDescriptions, input.value]);
 
     if (!values.length) {
-        return <EmptyEntityValue />;
+        return <EmptyEntityValue settings={settings} />;
     }
 
     if (direction === 'column') {
         return (
-            <EntityContainer stretch="fit" fill="populated" gap={0.5}>
+            <EntityContainer width="fit" fill="populated" gap={0.5}>
                 {values.map((item, index) => (
                     <LongValue
+                        variant={settings?.textVariant}
                         {...restProps}
                         key={`${item}-${index}`}
                         value={item}
@@ -46,8 +48,13 @@ export const PrimitiveArrayValue: NodeEntity<JsonSchemaArray, PrimitiveArrayValu
     }
 
     return (
-        <EntityContainer stretch="fit" fill="populated">
-            <LongValue {...restProps} value={values.join(', ')} qa={input.name} />
+        <EntityContainer width="fit" fill="populated">
+            <LongValue
+                variant={settings?.textVariant}
+                {...restProps}
+                value={values.join(', ')}
+                qa={input.name}
+            />
         </EntityContainer>
     );
 };

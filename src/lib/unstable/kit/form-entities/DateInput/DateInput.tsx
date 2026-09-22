@@ -90,7 +90,7 @@ export const DateInput: NodeEntity<JsonSchemaAny, DateInputProps> = ({
     );
 
     return (
-        <EntityContainer stretch="max" className={b({error: getBooleanValidationState(meta)})}>
+        <EntityContainer width="max" className={b({error: getBooleanValidationState(meta)})}>
             <DatePicker
                 format={format}
                 popupPlacement="bottom-start"

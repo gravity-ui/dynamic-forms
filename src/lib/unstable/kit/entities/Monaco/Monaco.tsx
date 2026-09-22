@@ -140,7 +140,7 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
     }
 
     if (overviewFlag && !value) {
-        return <EmptyEntityValue />;
+        return <EmptyEntityValue settings={settings} />;
     }
 
     const control = (
@@ -157,7 +157,7 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
     return (
         <EntityContainer
             className={b({error: getBooleanValidationState(meta)})}
-            stretch="max"
+            width="max"
             fill="populated"
         >
             <MonacoContainer

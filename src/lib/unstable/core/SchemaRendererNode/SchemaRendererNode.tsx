@@ -11,6 +11,7 @@ import {SCHEMA_RENDERER_SERVICE_FIELD} from '../useSchemaRenderer';
 import {useSchemaRendererState} from '../useSchemaRendererState';
 import {getServiceFieldName, getStrictModeChecker} from '../utils';
 
+import {SchemaRendererNodeContext} from './context';
 import type {SchemaRendererNodeState} from './types';
 import {coerceToJsonSchemaType, getAccumulatedSchema, getRenderKit, scheduleFlush} from './utils';
 
@@ -240,6 +241,11 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
         };
     }, []);
 
+    const nodeContext = React.useMemo(
+        () => ({headName, mode, name, schemaPath, settings}),
+        [headName, mode, name, schemaPath, settings],
+    );
+
     let content = null;
 
     if (
@@ -281,6 +287,14 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
                 );
             }
         }
+    }
+
+    if (content) {
+        content = (
+            <SchemaRendererNodeContext.Provider value={nodeContext}>
+                {content}
+            </SchemaRendererNodeContext.Provider>
+        );
     }
 
     return content;

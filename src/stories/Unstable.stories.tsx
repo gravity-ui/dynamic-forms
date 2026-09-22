@@ -75,8 +75,8 @@ const schema: JsonSchemaObject = {
                 entity: 'monaco_input',
                 layout: 'row',
                 entityProps: {language: 'json'},
-                overviewEntity: 'monaco',
-                overviewEntityProps: {language: 'json'},
+                // overviewEntity: 'monaco',
+                // overviewEntityProps: {language: 'json'},
             },
         },
         string_number_with_scale: {
@@ -1160,6 +1160,7 @@ const template = () => {
         const [sch, _setSch] = React.useState(schema);
         const [size, setSize] = React.useState<'s' | 'm' | 'l' | 'xl'>('m');
         const [mode, setMode] = React.useState(SchemaRendererMode.Form);
+        const [view, setView] = React.useState<'fit' | 'stretch'>('stretch');
 
         React.useEffect(() => {
             setTimeout(() => {
@@ -1202,6 +1203,16 @@ const template = () => {
                             <SegmentedRadioGroup.Option value="l">l</SegmentedRadioGroup.Option>
                             <SegmentedRadioGroup.Option value="xl">xl</SegmentedRadioGroup.Option>
                         </SegmentedRadioGroup>
+                        <SegmentedRadioGroup
+                            className={spacing({ml: 2})}
+                            value={view}
+                            onUpdate={(value) => setView(value as 'fit' | 'stretch')}
+                        >
+                            <SegmentedRadioGroup.Option value="stretch">
+                                stretch
+                            </SegmentedRadioGroup.Option>
+                            <SegmentedRadioGroup.Option value="fit">fit</SegmentedRadioGroup.Option>
+                        </SegmentedRadioGroup>
                         {/* {fields.map((field) => (
                             <SchemaRenderer
                                 validateOnBlur={false}
@@ -1221,6 +1232,7 @@ const template = () => {
                             mode={mode}
                             userContext={userContext}
                             size={size}
+                            view={view}
                         />
                         <SchemaRenderer
                             validateOnBlur={false}
@@ -1230,6 +1242,7 @@ const template = () => {
                             config={cfg}
                             mode={mode}
                             userContext={userContext}
+                            view={view}
                         />
                         {/* <SchemaRenderer
                             name="raz"

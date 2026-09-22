@@ -112,7 +112,7 @@ export const StringNumberWithScaleInput: NodeEntity<
 
     return (
         <EntityContainer
-            stretch="max"
+            width="max"
             className={b({error: getBooleanValidationState(meta)})}
             direction="row"
             gap={2}

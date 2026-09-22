@@ -2,6 +2,7 @@ import React from 'react';
 
 import {Flex, type FlexProps} from '@gravity-ui/uikit';
 
+import {useSchemaRendererNodeContext} from '../../../core';
 import {block} from '../../utils';
 
 import './EntityContainer.scss';
@@ -13,22 +14,24 @@ export interface EntityContainerProps extends FlexProps {
     droppable?: boolean;
     fill?: 'populated' | 'empty' | 'by-child';
     ref?: React.ComponentPropsWithRef<'div'>['ref'];
-    stretch: 'max' | 'fit' | 'by-child';
+    width: 'max' | 'fit' | 'by-child';
 }
 
 export const EntityContainer: React.FC<EntityContainerProps> = ({
     children,
     droppable,
     fill,
-    stretch,
+    width,
     ...restFlexProps
 }) => {
+    const nodeContext = useSchemaRendererNodeContext();
+
     return (
         <div
-            className={b({stretch})}
+            className={b({view: nodeContext?.settings?.view ?? 'stretch'})}
             data-fill={fill}
             data-droppable={droppable}
-            data-stretch={stretch}
+            data-width={width}
         >
             <Flex direction="column" minWidth={0} {...restFlexProps} grow={1}>
                 {children}

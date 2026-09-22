@@ -165,7 +165,7 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
         <EntityContainer
             className={b({size: settings?.size})}
             direction="column-reverse"
-            stretch="by-child"
+            width="by-child"
             fill="populated"
         >
             {togglerValues.length ? (

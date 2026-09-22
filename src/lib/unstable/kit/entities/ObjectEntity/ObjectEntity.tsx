@@ -79,7 +79,7 @@ export const ObjectEntity: NodeEntity<JsonSchemaObject, ObjectEntityProps> = ({
     }
 
     let content = (
-        <EntityContainer stretch="by-child" fill="by-child" droppable>
+        <EntityContainer width="by-child" fill="by-child" droppable>
             {initButton ? (
                 initButton
             ) : (
