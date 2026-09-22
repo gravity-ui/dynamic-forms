@@ -14,6 +14,7 @@ export interface NumberWithScaleValueProps extends Omit<LongValueProps, 'qa' | '
 export const NumberWithScaleValue: NodeEntity<JsonSchemaNumber, NumberWithScaleValueProps> = ({
     input,
     props,
+    settings,
 }) => {
     const {scale, viewType, ...restProps} = props;
 
@@ -38,13 +39,22 @@ export const NumberWithScaleValue: NodeEntity<JsonSchemaNumber, NumberWithScaleV
     }, [input.value, scale, viewType]);
 
     if (!isNumber(input.value)) {
-        return <EmptyEntityValue />;
+        return <EmptyEntityValue settings={settings} />;
     }
 
     return (
-        <EntityContainer stretch="fit" fill="populated" direction="row" gap={0.5}>
-            <LongValue {...restProps} value={input.value / (level?.factor || 1)} qa={input.name} />
-            {level?.title ? <Text color="secondary">{level.title}</Text> : null}
+        <EntityContainer width="fit" fill="populated" direction="row" gap={0.5}>
+            <LongValue
+                variant={settings?.textVariant}
+                {...restProps}
+                value={input.value / (level?.factor || 1)}
+                qa={input.name}
+            />
+            {level?.title ? (
+                <Text variant={settings?.textVariant} color="secondary">
+                    {level.title}
+                </Text>
+            ) : null}
         </EntityContainer>
     );
 };

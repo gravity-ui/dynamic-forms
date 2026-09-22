@@ -107,7 +107,7 @@ export const SelectInput: NodeEntity<JsonSchemaString, SelectInputProps> = ({
     );
 
     return (
-        <EntityContainer stretch="max">
+        <EntityContainer width="max">
             <Select
                 width="max"
                 options={options}

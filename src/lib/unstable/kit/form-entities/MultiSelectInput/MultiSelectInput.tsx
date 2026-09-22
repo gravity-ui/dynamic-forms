@@ -109,7 +109,7 @@ export const MultiSelectInput: NodeEntity<JsonSchemaArray, MultiSelectInputProps
     );
 
     return (
-        <EntityContainer stretch="max">
+        <EntityContainer width="max">
             <Select
                 width="max"
                 options={options}

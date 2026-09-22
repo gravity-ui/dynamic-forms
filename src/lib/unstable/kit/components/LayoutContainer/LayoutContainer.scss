@@ -7,9 +7,11 @@
     width: fit-content;
     flex: 0 1 auto;
 
-    &:has([data-stretch='max']) {
-        width: 100%;
-        flex: 1 0 0;
+    &_view_stretch {
+        &:has([data-width='max']) {
+            width: 100%;
+            flex: 1 0 0;
+        }
     }
 
     &_hide-empty {

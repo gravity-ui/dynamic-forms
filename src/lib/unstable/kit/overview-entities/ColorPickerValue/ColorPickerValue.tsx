@@ -13,21 +13,27 @@ export interface ColorPickerValueProps extends Omit<LongValueProps, 'qa' | 'valu
 export const ColorPickerValue: NodeEntity<JsonSchemaString, ColorPickerValueProps> = ({
     input,
     props,
+    settings,
 }) => {
     if (!input.value) {
-        return <EmptyEntityValue />;
+        return <EmptyEntityValue settings={settings} />;
     }
 
     return (
         <EntityContainer
             className={b()}
-            stretch="fit"
+            width="fit"
             fill="populated"
             direction="row"
             gap={1}
             alignItems="center"
         >
-            <LongValue {...props} value={input.value} qa={input.name} />
+            <LongValue
+                variant={settings?.textVariant}
+                {...props}
+                value={input.value}
+                qa={input.name}
+            />
             {typeof CSS !== 'undefined' &&
             typeof CSS.supports === 'function' &&
             CSS.supports('color', input.value) ? (

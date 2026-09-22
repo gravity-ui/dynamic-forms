@@ -1,9 +1,11 @@
 export {
     SchemaRendererNode,
+    type SchemaRendererNodeContextValue,
     type SchemaRendererNodeProps,
     type SchemaRendererNodeState,
     getAccumulatedSchema,
     getRenderKit,
+    useSchemaRendererNodeContext,
 } from './SchemaRendererNode';
 export {SchemaRenderer, type SchemaRendererProps} from './SchemaRenderer';
 export {NodeType, JsonSchemaType, SchemaRendererEventType, SchemaRendererMode} from './constants';

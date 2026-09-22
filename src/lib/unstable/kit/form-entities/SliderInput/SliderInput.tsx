@@ -43,7 +43,7 @@ export const SliderInput: NodeEntity<JsonSchemaNumber, SliderInputProps> = ({
     );
 
     return (
-        <EntityContainer stretch="max">
+        <EntityContainer width="max">
             <Slider
                 min={schema.minimum}
                 max={schema.maximum}

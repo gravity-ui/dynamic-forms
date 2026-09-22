@@ -12,7 +12,11 @@ export interface RangeValueProps extends Omit<LongValueProps, 'qa' | 'value'> {
     separator?: string;
 }
 
-export const RangeValue: NodeEntity<JsonSchemaObject, RangeValueProps> = ({input, props}) => {
+export const RangeValue: NodeEntity<JsonSchemaObject, RangeValueProps> = ({
+    input,
+    props,
+    settings,
+}) => {
     const {propertyKeys, separator = DASH, ...restProps} = props;
     const [fromKey, toKey] = propertyKeys || ['from', 'to'];
 
@@ -20,20 +24,26 @@ export const RangeValue: NodeEntity<JsonSchemaObject, RangeValueProps> = ({input
     const to = input.value?.[toKey];
 
     if (!isNumber(from) || !isNumber(to)) {
-        return <EmptyEntityValue />;
+        return <EmptyEntityValue settings={settings} />;
     }
 
     return (
-        <EntityContainer
-            stretch="fit"
-            fill="populated"
-            direction="row"
-            gap={0.5}
-            alignItems="center"
-        >
-            <LongValue {...restProps} value={from} qa={`${input.name}.${fromKey}`} />
-            <Text color="secondary">{separator}</Text>
-            <LongValue {...restProps} value={to} qa={`${input.name}.${toKey}`} />
+        <EntityContainer width="fit" fill="populated" direction="row" gap={0.5} alignItems="center">
+            <LongValue
+                variant={settings?.textVariant}
+                {...restProps}
+                value={from}
+                qa={`${input.name}.${fromKey}`}
+            />
+            <Text variant={settings?.textVariant} color="secondary">
+                {separator}
+            </Text>
+            <LongValue
+                variant={settings?.textVariant}
+                {...restProps}
+                value={to}
+                qa={`${input.name}.${toKey}`}
+            />
         </EntityContainer>
     );
 };

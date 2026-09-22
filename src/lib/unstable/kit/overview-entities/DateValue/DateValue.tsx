@@ -14,7 +14,7 @@ export interface DateValueProps extends Omit<LongValueProps, 'qa' | 'value'> {
     timeZone?: DatePickerProps['timeZone'];
 }
 
-export const DateValue: NodeEntity<JsonSchemaAny, DateValueProps> = ({input, props}) => {
+export const DateValue: NodeEntity<JsonSchemaAny, DateValueProps> = ({input, props, settings}) => {
     const {
         format = DEFAULT_DATE_FORMAT,
         outputFormat,
@@ -29,12 +29,17 @@ export const DateValue: NodeEntity<JsonSchemaAny, DateValueProps> = ({input, pro
     );
 
     if (!date) {
-        return <EmptyEntityValue />;
+        return <EmptyEntityValue settings={settings} />;
     }
 
     return (
-        <EntityContainer stretch="fit" fill="populated">
-            <LongValue {...restProps} value={date.format(format)} qa={input.name} />
+        <EntityContainer width="fit" fill="populated">
+            <LongValue
+                variant={settings?.textVariant}
+                {...restProps}
+                value={date.format(format)}
+                qa={input.name}
+            />
         </EntityContainer>
     );
 };

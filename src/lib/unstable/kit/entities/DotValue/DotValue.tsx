@@ -18,6 +18,7 @@ export const DotValue: NodeEntity<JsonSchemaObject, DotValueProps> = ({
     input,
     mode,
     schemaPath,
+    settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
 
@@ -42,11 +43,11 @@ export const DotValue: NodeEntity<JsonSchemaObject, DotValueProps> = ({
     }, [value]);
 
     if (overviewFlag && Object.keys(value || {}).length === 0) {
-        return <EmptyEntityValue />;
+        return <EmptyEntityValue settings={settings} />;
     }
 
     return (
-        <EntityContainer stretch="by-child" fill="by-child">
+        <EntityContainer width="by-child" fill="by-child">
             <SchemaRendererNode
                 headName={headName}
                 name={`${name ? name + '.' : ''}${childKey}`}

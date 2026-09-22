@@ -14,7 +14,7 @@ export interface StringNumberWithScaleValueProps extends Omit<LongValueProps, 'q
 export const StringNumberWithScaleValue: NodeEntity<
     JsonSchemaString,
     StringNumberWithScaleValueProps
-> = ({input, props}) => {
+> = ({input, props, settings}) => {
     const {scale, viewType, ...restProps} = props;
 
     const level = React.useMemo(() => {
@@ -40,17 +40,22 @@ export const StringNumberWithScaleValue: NodeEntity<
     }, [input.value, scale, viewType]);
 
     if (!isStringNumber(input.value)) {
-        return <EmptyEntityValue />;
+        return <EmptyEntityValue settings={settings} />;
     }
 
     return (
-        <EntityContainer stretch="fit" fill="populated" direction="row" gap={0.5}>
+        <EntityContainer width="fit" fill="populated" direction="row" gap={0.5}>
             <LongValue
+                variant={settings?.textVariant}
                 {...restProps}
                 value={new Decimal(input.value).div(level?.factor || 1).toString()}
                 qa={input.name}
             />
-            {level?.title ? <Text color="secondary">{level.title}</Text> : null}
+            {level?.title ? (
+                <Text variant={settings?.textVariant} color="secondary">
+                    {level.title}
+                </Text>
+            ) : null}
         </EntityContainer>
     );
 };

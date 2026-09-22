@@ -38,7 +38,7 @@ export const NumberInput: NodeEntity<JsonSchemaNumber, NumberInputProps> = ({
     const {disabled} = schema.nodeParameters?.flags || {};
 
     return (
-        <EntityContainer stretch="max" className={b({error: getBooleanValidationState(meta)})}>
+        <EntityContainer width="max" className={b({error: getBooleanValidationState(meta)})}>
             <UIKitNumberInput
                 min={schema.minimum}
                 max={schema.maximum}

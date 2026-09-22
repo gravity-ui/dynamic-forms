@@ -25,7 +25,7 @@
         width: 100%;
         display: grid;
         align-items: start;
-        grid-template-columns: var(--size) repeat(var(--columns-count), 1fr);
+        grid-template-columns: var(--size) repeat(var(--columns-count), minmax(0, 1fr));
         gap: spacing(3);
 
         &_head {
@@ -33,7 +33,9 @@
         }
 
         &_with-remove-button {
-            grid-template-columns: var(--size) repeat(var(--columns-count), 1fr) var(--size);
+            grid-template-columns: var(--size) repeat(var(--columns-count), minmax(0, 1fr)) var(
+                    --size
+                );
         }
 
         &:last-of-type {

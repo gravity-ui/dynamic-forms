@@ -143,11 +143,11 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
     }, [headName, name, schema.items, schemaPath, value?.length]);
 
     if (overviewFlag && !value?.length) {
-        return <EmptyEntityValue />;
+        return <EmptyEntityValue settings={settings} />;
     }
 
     return (
-        <EntityContainer stretch="by-child" gap={4} fill="by-child" droppable>
+        <EntityContainer width="by-child" gap={4} fill="by-child" droppable>
             {initButton ? (
                 initButton
             ) : (

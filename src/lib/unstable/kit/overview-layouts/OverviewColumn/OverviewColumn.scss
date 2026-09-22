@@ -14,17 +14,19 @@
         }
     }
 
+    &_size_xl {
+        .#{$ns}overview-column__help-mark {
+            position: relative;
+            top: -1px;
+        }
+    }
+
     &__top {
         display: inline;
     }
 
     &__title {
-        min-height: 18px;
         margin-right: spacing(1);
-    }
-
-    &__help-mark {
-        margin-top: 1.5px;
     }
 
     &__copy-button {

@@ -34,7 +34,7 @@ export const StringInput: NodeEntity<JsonSchemaString, StringInputProps> = ({
     const {disabled} = schema.nodeParameters?.flags || {};
 
     return (
-        <EntityContainer stretch="max" className={b({error: getBooleanValidationState(meta)})}>
+        <EntityContainer width="max" className={b({error: getBooleanValidationState(meta)})}>
             <TextInput
                 placeholder={schema.examples?.[0]}
                 disabled={disabled || schema.readOnly}

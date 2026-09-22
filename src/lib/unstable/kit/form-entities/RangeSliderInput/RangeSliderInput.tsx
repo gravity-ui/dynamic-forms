@@ -65,7 +65,7 @@ export const RangeSliderInput: NodeEntity<JsonSchemaObject, RangeSliderInputProp
     );
 
     return (
-        <EntityContainer stretch="max">
+        <EntityContainer width="max">
             <Slider
                 min={min}
                 max={max}

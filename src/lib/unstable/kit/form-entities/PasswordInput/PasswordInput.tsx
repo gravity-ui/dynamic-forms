@@ -37,7 +37,7 @@ export const PasswordInput: NodeEntity<JsonSchemaString, PasswordInputProps> = (
     const {disabled} = schema.nodeParameters?.flags || {};
 
     return (
-        <EntityContainer stretch="max" className={b({error: getBooleanValidationState(meta)})}>
+        <EntityContainer width="max" className={b({error: getBooleanValidationState(meta)})}>
             <UIKitPasswordInput
                 autoComplete="new-password"
                 placeholder={schema.examples?.[0]}

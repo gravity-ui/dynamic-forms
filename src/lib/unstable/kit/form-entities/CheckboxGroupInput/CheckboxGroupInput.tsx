@@ -64,7 +64,7 @@ export const CheckboxGroupInput: NodeEntity<JsonSchemaArray, CheckboxGroupInputP
 
     return (
         <EntityContainer
-            stretch="fit"
+            width="fit"
             className={b({size: settings?.size})}
             direction={direction}
             gap={2}

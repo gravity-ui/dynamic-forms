@@ -75,14 +75,14 @@ export const FileInput: NodeEntity<JsonSchemaString, FileInputProps> = ({
 
     if (file) {
         return (
-            <EntityContainer stretch="fit">
+            <EntityContainer width="fit">
                 <FilePreview file={file} actions={actions} />
             </EntityContainer>
         );
     }
 
     return (
-        <EntityContainer stretch="max">
+        <EntityContainer width="max">
             <FileDropZone
                 disabled={disabled || schema.readOnly}
                 accept={[]}

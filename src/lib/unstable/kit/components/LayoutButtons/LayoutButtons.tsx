@@ -29,7 +29,7 @@ export const LayoutButtons: React.FC<LayoutButtonsProps> = ({
     return (
         <React.Fragment>
             <ArrayRemoveButton mode={mode} name={name} headName={headName} size={settings?.size} />
-            <CopyButton mode={mode} schema={schema} value={value} />
+            <CopyButton mode={mode} schema={schema} size={settings?.size} value={value} />
             <DropButton
                 mode={mode}
                 name={name}

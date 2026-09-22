@@ -37,15 +37,11 @@ export const ObjectInline: NodeEntity<JsonSchemaObject, ObjectInlineProps> = ({
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
     if (overviewFlag && !Object.keys(input.value || {}).length) {
-        return <EmptyEntityValue />;
+        return <EmptyEntityValue settings={settings} />;
     }
 
     return (
-        <EntityContainer
-            stretch={overviewFlag ? 'by-child' : 'max'}
-            className={b({size: settings?.size})}
-            fill="by-child"
-        >
+        <EntityContainer width="by-child" className={b({size: settings?.size})} fill="by-child">
             <Flex
                 className={b('items', {overview: overviewFlag})}
                 direction="row"

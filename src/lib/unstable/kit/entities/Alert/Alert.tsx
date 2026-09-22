@@ -113,7 +113,7 @@ export const Alert: NodeEntity<JsonSchemaString, AlertProps> = ({
     })();
 
     return (
-        <EntityContainer className={b({expanded})} stretch="fit" fill="populated">
+        <EntityContainer className={b({expanded})} width="fit" fill="populated">
             <UIKitAlert
                 icon={icon}
                 message={msg}

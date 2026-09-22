@@ -205,7 +205,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
         const rows = new Array(rowsCount).fill(null).map((_, rIndex) => (
             <React.Fragment key={rIndex}>
                 <div className={b('row-divider')} />
-                <LayoutContainer>
+                <LayoutContainer width="100%">
                     <div
                         className={b('row', {'with-remove-button': withRemoveButton})}
                         style={{'--columns-count': columns.length} as React.CSSProperties}
@@ -253,13 +253,13 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
     ]);
 
     if (overviewFlag && !value?.length) {
-        return <EmptyEntityValue />;
+        return <EmptyEntityValue settings={settings} />;
     }
 
     return (
         <EntityContainer
             className={b({size: settings?.size})}
-            stretch="by-child"
+            width="by-child"
             gap={4}
             fill="by-child"
             droppable
