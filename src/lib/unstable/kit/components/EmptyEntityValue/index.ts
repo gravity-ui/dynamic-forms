@@ -1,1 +1,1 @@
-export {EmptyEntityValue, type EmptyEntityValueProps} from './EmptyEntityValue';
+export {EmptyEntityValue} from './EmptyEntityValue';

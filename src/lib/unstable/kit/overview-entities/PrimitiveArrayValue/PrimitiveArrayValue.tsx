@@ -28,7 +28,7 @@ export const PrimitiveArrayValue: NodeEntity<JsonSchemaArray, PrimitiveArrayValu
     }, [enumDescriptions, input.value]);
 
     if (!values.length) {
-        return <EmptyEntityValue settings={settings} />;
+        return <EmptyEntityValue />;
     }
 
     if (direction === 'column') {

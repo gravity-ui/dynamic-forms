@@ -1,10 +1,21 @@
 import React from 'react';
 
-import {Flex, Text, type TextProps} from '@gravity-ui/uikit';
+import {Flex, type TextProps} from '@gravity-ui/uikit';
 
-import {type JsonSchema, type NodeLayout, SchemaRendererMode} from '../../../core';
-import {EntityError, HTMLContent, HelpMark, LayoutButtons, LayoutContainer} from '../../components';
-import {block, getValidationState} from '../../utils';
+import {
+    type JsonSchema,
+    type NodeLayout,
+    SchemaRendererMode,
+    useSchemaRendererNodeContext,
+} from '../../../core';
+import {
+    EntityDescription,
+    EntityError,
+    EntityTitle,
+    LayoutButtons,
+    LayoutContainer,
+} from '../../components';
+import {block} from '../../utils';
 
 import './Section.scss';
 
@@ -15,43 +26,13 @@ export interface SectionProps extends TextProps {
     withIndent?: boolean;
 }
 
-export const Section: NodeLayout<JsonSchema, SectionProps> = ({
-    children,
-    headName,
-    input,
-    meta,
-    mode,
-    schema,
-    props,
-    settings,
-}) => {
+export const Section: NodeLayout<JsonSchema, SectionProps> = ({children, mode, schema, props}) => {
+    const {settings} = useSchemaRendererNodeContext();
+
     const {descriptionType = 'tooltip', withIndent = false, ...restLayoutProps} = props;
-    const {required, hidden} = schema.nodeParameters?.flags || {};
+    const {hidden} = schema.nodeParameters?.flags || {};
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
-
-    const tooltip = React.useMemo(() => {
-        if (!schema.description || descriptionType === 'bottom') {
-            return null;
-        }
-
-        return <HelpMark settings={settings} content={schema.description} headName={headName} />;
-    }, [headName, schema.description, descriptionType, settings]);
-
-    const bottomDescription = React.useMemo(() => {
-        if (!schema.description || descriptionType !== 'bottom' || overviewFlag) {
-            return null;
-        }
-
-        return (
-            <HTMLContent
-                content={schema.description}
-                color="secondary"
-                headName={headName}
-                settings={settings}
-            />
-        );
-    }, [headName, schema.description, descriptionType, overviewFlag, settings]);
 
     return (
         <LayoutContainer
@@ -63,39 +44,19 @@ export const Section: NodeLayout<JsonSchema, SectionProps> = ({
             <Flex direction="column" gap={4}>
                 <Flex direction="column" gap={1}>
                     <Flex className={b('header')} gap={2} alignItems="center">
-                        <Text
-                            variant={settings?.headVariant}
-                            color="complementary"
-                            {...restLayoutProps}
-                            className={b(
-                                'title',
-                                {required: required && !overviewFlag},
-                                restLayoutProps?.className,
-                            )}
-                        >
-                            {schema.title}
-                        </Text>
-                        {tooltip}
-                        <LayoutButtons
-                            mode={mode}
-                            name={input.name}
-                            headName={headName}
-                            schema={schema}
-                            settings={settings}
-                            value={input.value}
-                        />
+                        <Flex alignItems="center" gap={1}>
+                            <EntityTitle type="head" {...restLayoutProps} />
+                            {descriptionType === 'tooltip' ? (
+                                <EntityDescription likeHelpMark />
+                            ) : null}
+                        </Flex>
+                        <LayoutButtons />
                     </Flex>
-                    {bottomDescription}
+                    {descriptionType === 'bottom' ? <EntityDescription /> : null}
                 </Flex>
                 <div className={b('content', {'with-indent': withIndent})}>{children}</div>
             </Flex>
-            {overviewFlag ? null : (
-                <EntityError
-                    errorMessage={meta.error}
-                    settings={settings}
-                    validationState={getValidationState(meta)}
-                />
-            )}
+            {overviewFlag ? null : <EntityError />}
         </LayoutContainer>
     );
 };

@@ -10,6 +10,7 @@ import {
     SchemaRendererEventType,
     SchemaRendererMode,
     SchemaRendererNode,
+    SchemaRendererNodeContext,
     getRenderKit,
     useSchemaRendererState,
 } from '../../../core';
@@ -23,7 +24,6 @@ const b = block('few-of-nested');
 export interface FewOfNestedProps {
     toggler: JsonSchema;
     withIndent?: boolean;
-    togglerArrayRemoveButton?: boolean;
     order?: string[];
 }
 
@@ -40,12 +40,7 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
     settings,
 }) => {
     const {name, value} = input;
-    const {
-        togglerArrayRemoveButton = false,
-        toggler: togglerSchema = {},
-        withIndent = false,
-        order,
-    } = props;
+    const {toggler: togglerSchema = {}, withIndent = false, order} = props;
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
@@ -76,9 +71,12 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
         let result: React.ReactNode = null;
         const renderKit = getRenderKit({config: srState?.config, schema: togglerSchema});
         const {Entity, Layout, entityProps, independent, layoutProps} = renderKit[mode];
+
+        const togglerName = `${name}._____toggler`;
+        const togglerSchemaPath = '___stub';
         const togglerInput = {
             ...input,
-            name: togglerArrayRemoveButton ? name : `${name}._____toggler`,
+            name: togglerName,
             value: togglerValues,
             onChange: (value: unknown) => {
                 if (Array.isArray(value)) {
@@ -97,10 +95,7 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
                 }
             },
         };
-        const togglerMeta = {
-            ...meta,
-            error: undefined,
-        };
+        const togglerMeta = {...meta, error: undefined};
 
         if (Entity) {
             result = (
@@ -113,8 +108,7 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
                     mode={mode}
                     props={entityProps}
                     schema={togglerSchema}
-                    schemaPath="___stub"
-                    settings={settings}
+                    schemaPath={togglerSchemaPath}
                 />
             );
 
@@ -127,8 +121,7 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
                         mode={mode}
                         props={layoutProps}
                         schema={togglerSchema}
-                        schemaPath="___stub"
-                        settings={settings}
+                        schemaPath={togglerSchemaPath}
                     >
                         {result}
                     </Layout>
@@ -136,7 +129,22 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
             }
         }
 
-        return result;
+        const nodeContext = {
+            headName,
+            input: togglerInput,
+            meta: togglerMeta,
+            mode,
+            name: togglerName,
+            schema: togglerSchema,
+            schemaPath: togglerSchemaPath,
+            settings,
+        };
+
+        return (
+            <SchemaRendererNodeContext.Provider value={nodeContext}>
+                {result}
+            </SchemaRendererNodeContext.Provider>
+        );
     }, [
         headName,
         input,
@@ -145,21 +153,9 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
         name,
         settings,
         srState?.config,
-        togglerArrayRemoveButton,
         togglerSchema,
         togglerValues,
     ]);
-
-    const wrapperInput = React.useMemo(() => {
-        if (!togglerArrayRemoveButton) {
-            return input;
-        }
-
-        return {
-            ...input,
-            name: `${name}._____wrapper`,
-        };
-    }, [name, input, togglerArrayRemoveButton]);
 
     let content = (
         <EntityContainer
@@ -195,12 +191,12 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
         content = (
             <Layout
                 headName={headName}
-                input={wrapperInput}
+                input={input}
                 meta={meta}
                 mode={mode}
+                props={layoutProps || {}}
                 schema={schema}
                 schemaPath={schemaPath}
-                props={layoutProps || {}}
                 settings={settings}
             >
                 {content}

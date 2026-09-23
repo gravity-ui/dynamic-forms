@@ -229,6 +229,20 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
         };
     }, [error, form, name, ticks.meta]);
 
+    const nodeContext = React.useMemo(
+        () => ({
+            headName,
+            input,
+            meta,
+            mode: mode ?? SchemaRendererMode.Form,
+            name,
+            schema,
+            schemaPath,
+            settings,
+        }),
+        [headName, input, meta, mode, name, schema, schemaPath, settings],
+    );
+
     React.useEffect(() => {
         const strictChecker = strictCheckerRef.current;
 
@@ -240,11 +254,6 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
             unsubscribeRef.current?.();
         };
     }, []);
-
-    const nodeContext = React.useMemo(
-        () => ({headName, mode, name, schemaPath, settings}),
-        [headName, mode, name, schemaPath, settings],
-    );
 
     let content = null;
 

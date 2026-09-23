@@ -1,5 +1,6 @@
 export {
     SchemaRendererNode,
+    SchemaRendererNodeContext,
     type SchemaRendererNodeContextValue,
     type SchemaRendererNodeProps,
     type SchemaRendererNodeState,

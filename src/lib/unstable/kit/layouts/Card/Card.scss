@@ -44,16 +44,6 @@
         width: var(--size);
     }
 
-    &__title {
-        &_required {
-            &::after {
-                content: '*';
-                margin-left: spacing(1);
-                color: var(--g-color-text-danger);
-            }
-        }
-    }
-
     &__help-mark {
         position: relative;
         top: 1px;

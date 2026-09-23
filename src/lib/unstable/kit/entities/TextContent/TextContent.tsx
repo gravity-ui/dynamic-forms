@@ -23,7 +23,6 @@ export interface TextContentProps extends Omit<UIKitLabelProps, 'theme'> {
 }
 
 export const TextContent: NodeEntity<JsonSchemaString, TextContentProps> = ({
-    headName,
     input,
     props,
     schema,
@@ -50,20 +49,18 @@ export const TextContent: NodeEntity<JsonSchemaString, TextContentProps> = ({
     const content = React.useMemo(() => {
         if (titleProp) {
             if (typeof titleProp === 'string') {
-                return <HTMLContent content={titleProp} headName={headName} settings={settings} />;
+                return <HTMLContent content={titleProp} />;
             }
 
             return titleProp;
         }
 
         if (schema.description) {
-            return (
-                <HTMLContent content={schema.description} headName={headName} settings={settings} />
-            );
+            return <HTMLContent content={schema.description} />;
         }
 
         return undefined;
-    }, [headName, titleProp, schema.description, settings]);
+    }, [titleProp, schema.description]);
 
     return (
         <EntityContainer

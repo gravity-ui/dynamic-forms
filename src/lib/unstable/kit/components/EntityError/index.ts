@@ -1,1 +1,1 @@
-export {EntityError, type EntityErrorProps} from './EntityError';
+export {EntityError} from './EntityError';

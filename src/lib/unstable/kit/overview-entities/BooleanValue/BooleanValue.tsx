@@ -25,7 +25,7 @@ export const BooleanValue: NodeEntity<JsonSchemaBoolean, BooleanValueProps> = ({
     const {valueDescriptions, viewColor, ...entityRestProps} = props;
 
     if (!isBoolean(input.value)) {
-        return <EmptyEntityValue settings={settings} />;
+        return <EmptyEntityValue />;
     }
 
     const stringValue = String(input.value) as 'true' | 'false';

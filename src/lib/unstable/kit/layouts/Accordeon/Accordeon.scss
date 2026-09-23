@@ -60,16 +60,6 @@
         gap: spacing(2);
     }
 
-    &__title {
-        &_required {
-            &::after {
-                content: '*';
-                margin-left: spacing(1);
-                color: var(--g-color-text-danger);
-            }
-        }
-    }
-
     &__content {
         margin-top: spacing(4);
 

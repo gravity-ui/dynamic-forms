@@ -143,7 +143,7 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
     }, [headName, name, schema.items, schemaPath, value?.length]);
 
     if (overviewFlag && !value?.length) {
-        return <EmptyEntityValue settings={settings} />;
+        return <EmptyEntityValue />;
     }
 
     return (

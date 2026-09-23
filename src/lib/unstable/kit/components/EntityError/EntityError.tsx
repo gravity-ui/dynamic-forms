@@ -2,25 +2,19 @@ import React from 'react';
 
 import {Text} from '@gravity-ui/uikit';
 
-import {type SchemaRendererSettings} from '../../../core';
-import {block} from '../../utils';
+import {useSchemaRendererNodeContext} from '../../../core';
+import {block, getValidationState} from '../../utils';
 
 import './EntityError.scss';
 
 const b = block('entity-error');
 
-export interface EntityErrorProps {
-    errorMessage?: string;
-    settings?: SchemaRendererSettings;
-    validationState?: 'invalid';
-}
+export const EntityError: React.FC = () => {
+    const {meta, settings} = useSchemaRendererNodeContext();
 
-export const EntityError: React.FC<EntityErrorProps> = ({
-    errorMessage,
-    settings,
-    validationState,
-}) => {
-    if (validationState === 'invalid' && errorMessage) {
+    const validationState = getValidationState(meta);
+
+    if (validationState === 'invalid' && meta.error) {
         return (
             <Text
                 className={b()}
@@ -29,7 +23,7 @@ export const EntityError: React.FC<EntityErrorProps> = ({
                 wordBreak="break-word"
                 data-sr-error="true"
             >
-                {errorMessage}
+                {meta.error}
             </Text>
         );
     }

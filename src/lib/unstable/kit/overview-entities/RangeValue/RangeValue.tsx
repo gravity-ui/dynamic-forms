@@ -24,7 +24,7 @@ export const RangeValue: NodeEntity<JsonSchemaObject, RangeValueProps> = ({
     const to = input.value?.[toKey];
 
     if (!isNumber(from) || !isNumber(to)) {
-        return <EmptyEntityValue settings={settings} />;
+        return <EmptyEntityValue />;
     }
 
     return (

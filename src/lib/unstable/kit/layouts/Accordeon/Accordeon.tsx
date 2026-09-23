@@ -8,14 +8,24 @@ import {
     type DisclosureProps,
     Flex,
     Icon,
-    Text,
     type TextProps,
 } from '@gravity-ui/uikit';
 
-import {type JsonSchema, type NodeLayout, SchemaRendererMode} from '../../../core';
-import {EntityError, HelpMark, LayoutButtons, LayoutContainer} from '../../components';
+import {
+    type JsonSchema,
+    type NodeLayout,
+    SchemaRendererMode,
+    useSchemaRendererNodeContext,
+} from '../../../core';
+import {
+    EntityDescription,
+    EntityError,
+    EntityTitle,
+    LayoutButtons,
+    LayoutContainer,
+} from '../../components';
 import {useExpanded} from '../../hooks';
-import {block, getValidationState} from '../../utils';
+import {block} from '../../utils';
 
 import './Accordeon.scss';
 
@@ -32,48 +42,26 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
     children,
     headName,
     input,
-    meta,
     mode,
     schema,
-    settings,
     props,
 }) => {
+    const {settings} = useSchemaRendererNodeContext();
+
     const {
         titleProps,
         togglerProps,
         withIndent = false,
-        withDefaultSummary = false,
+        withDefaultSummary = true,
         ...restLayoutProps
     } = props;
-    const {required, hidden, open} = schema.nodeParameters?.flags || {};
+    const {hidden, open} = schema.nodeParameters?.flags || {};
     const {expanded, setExpanded} = useExpanded({headName, name: input.name, open});
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
-    const summary = React.useMemo(
-        () => (
-            <Text
-                variant={settings?.titleVariant}
-                color="complementary"
-                {...titleProps}
-                className={b('title', {required: required && !overviewFlag}, titleProps?.className)}
-                whiteSpace="break-spaces"
-                wordBreak="break-word"
-            >
-                {schema.title}
-            </Text>
-        ),
-        [overviewFlag, required, schema.title, titleProps, settings?.titleVariant],
-    );
+    const summary = React.useMemo(() => <EntityTitle {...titleProps} />, [titleProps]);
 
-    const helpMark = React.useMemo(() => {
-        if (schema.description) {
-            return (
-                <HelpMark settings={settings} content={schema.description} headName={headName} />
-            );
-        }
-        return null;
-    }, [schema.description, headName, settings]);
     return (
         <LayoutContainer
             className={b({
@@ -108,27 +96,14 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
                                     </div>
                                 </Button>
                             )}
-                            {helpMark}
-                            <LayoutButtons
-                                mode={mode}
-                                name={input.name}
-                                headName={headName}
-                                schema={schema}
-                                settings={settings}
-                                value={input.value}
-                            />
+                            <EntityDescription likeHelpMark />
+                            <LayoutButtons />
                         </Flex>
                     )}
                 </Disclosure.Summary>
                 <Flex direction="column" gap={0.5} grow={1}>
                     <div className={b('content', {'with-indent': withIndent})}>{children}</div>
-                    {overviewFlag ? null : (
-                        <EntityError
-                            errorMessage={meta.error}
-                            settings={settings}
-                            validationState={getValidationState(meta)}
-                        />
-                    )}
+                    {overviewFlag ? null : <EntityError />}
                 </Flex>
             </Disclosure>
         </LayoutContainer>

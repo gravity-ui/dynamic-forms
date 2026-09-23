@@ -1,1 +1,1 @@
-export {LayoutButtons, type LayoutButtonsProps} from './LayoutButtons';
+export {LayoutButtons} from './LayoutButtons';

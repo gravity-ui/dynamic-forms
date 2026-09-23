@@ -1,0 +1,15 @@
+@import '../../styles/functions.scss';
+@import '../../styles/variables.scss';
+
+.#{$ns}entity-title {
+    min-height: 18px;
+    margin-right: spacing(1);
+
+    &_required {
+        &::after {
+            content: '*';
+            margin-left: spacing(1);
+            color: var(--g-color-text-danger);
+        }
+    }
+}

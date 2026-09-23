@@ -23,7 +23,6 @@ export interface LabelProps extends UIKitLabelProps {
 }
 
 export const Label: NodeEntity<JsonSchemaString, LabelProps> = ({
-    headName,
     input,
     props,
     schema,
@@ -51,20 +50,18 @@ export const Label: NodeEntity<JsonSchemaString, LabelProps> = ({
     const content = React.useMemo(() => {
         if (title) {
             if (typeof title === 'string') {
-                return <HTMLContent content={title} headName={headName} settings={settings} />;
+                return <HTMLContent content={title} />;
             }
 
             return title;
         }
 
         if (schema.description) {
-            return (
-                <HTMLContent content={schema.description} headName={headName} settings={settings} />
-            );
+            return <HTMLContent content={schema.description} />;
         }
 
         return undefined;
-    }, [headName, title, schema.description, settings]);
+    }, [title, schema.description]);
 
     return (
         <EntityContainer

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Text, type TextProps} from '@gravity-ui/uikit';
+import {Text} from '@gravity-ui/uikit';
 import {
     unstable_Menu as Menu,
     unstable_MenuItem as MenuItem,
@@ -9,12 +9,7 @@ import {
 import {useForm} from 'react-final-form';
 
 import i18n from '../../../../kit/i18n';
-import {
-    type FieldValue,
-    type JsonSchema,
-    SchemaRendererMode,
-    type SchemaRendererSettings,
-} from '../../../core';
+import {SchemaRendererMode, useSchemaRendererNodeContext} from '../../../core';
 import {block, isArrayItem} from '../../utils';
 
 import './DropButton.scss';
@@ -22,24 +17,12 @@ import './DropButton.scss';
 const b = block('drop-button');
 
 export interface DropButtonProps {
-    mode: SchemaRendererMode;
-    name: string;
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    schema?: JsonSchema;
-    size?: SchemaRendererSettings['size'];
-    value: FieldValue;
-    variant?: TextProps['variant'];
 }
 
-export const DropButton: React.FC<DropButtonProps> = ({
-    mode,
-    name,
-    onClick,
-    schema,
-    size,
-    value,
-    variant,
-}) => {
+export const DropButton: React.FC<DropButtonProps> = ({onClick}) => {
+    const {input, mode, name, schema, settings} = useSchemaRendererNodeContext();
+
     const form = useForm();
 
     const [open, setOpen] = React.useState(false);
@@ -58,16 +41,16 @@ export const DropButton: React.FC<DropButtonProps> = ({
         [form, name, onClick],
     );
 
-    if (!required && value !== undefined && !arrayItem && !overviewFlag) {
+    if (!required && input.value !== undefined && !arrayItem && !overviewFlag) {
         return (
             <div className={b({open})}>
                 <Menu
-                    trigger={<MenuTrigger view="flat-secondary" size={size} />}
+                    trigger={<MenuTrigger view="flat-secondary" size={settings?.size} />}
                     onOpenChange={setOpen}
                     placement="right"
                 >
-                    <MenuItem theme="danger" onClick={removeItem} size={size}>
-                        <Text variant={variant}>{i18n('label_delete')}</Text>
+                    <MenuItem theme="danger" onClick={removeItem} size={settings?.size}>
+                        <Text variant={settings?.textVariant}>{i18n('label_delete')}</Text>
                     </MenuItem>
                 </Menu>
             </div>

@@ -16,7 +16,7 @@ export const ColorPickerValue: NodeEntity<JsonSchemaString, ColorPickerValueProp
     settings,
 }) => {
     if (!input.value) {
-        return <EmptyEntityValue settings={settings} />;
+        return <EmptyEntityValue />;
     }
 
     return (

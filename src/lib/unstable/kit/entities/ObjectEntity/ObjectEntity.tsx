@@ -106,10 +106,10 @@ export const ObjectEntity: NodeEntity<JsonSchemaObject, ObjectEntityProps> = ({
                 input={input}
                 meta={meta}
                 mode={mode}
+                props={layoutProps || {}}
                 schema={schema}
                 schemaPath={schemaPath}
                 settings={settings}
-                props={layoutProps || {}}
             >
                 {content}
             </Layout>
