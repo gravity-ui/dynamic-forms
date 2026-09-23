@@ -40,7 +40,7 @@ export const StringNumberWithScaleValue: NodeEntity<
     }, [input.value, scale, viewType]);
 
     if (!isStringNumber(input.value)) {
-        return <EmptyEntityValue settings={settings} />;
+        return <EmptyEntityValue />;
     }
 
     return (

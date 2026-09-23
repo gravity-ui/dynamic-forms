@@ -13,7 +13,7 @@ export const NumberValue: NodeEntity<JsonSchemaNumber, NumberValueProps> = ({
     settings,
 }) => {
     if (!isNumber(input.value)) {
-        return <EmptyEntityValue settings={settings} />;
+        return <EmptyEntityValue />;
     }
 
     return (

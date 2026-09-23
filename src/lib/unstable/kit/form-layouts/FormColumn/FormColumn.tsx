@@ -1,10 +1,16 @@
 import React from 'react';
 
-import {Flex, Text} from '@gravity-ui/uikit';
+import {Flex} from '@gravity-ui/uikit';
 
 import type {JsonSchema, NodeLayout} from '../../../core';
-import {EntityError, HTMLContent, HelpMark, LayoutButtons, LayoutContainer} from '../../components';
-import {block, getValidationState} from '../../utils';
+import {
+    EntityDescription,
+    EntityError,
+    EntityTitle,
+    LayoutButtons,
+    LayoutContainer,
+} from '../../components';
+import {block} from '../../utils';
 
 import './FormColumn.scss';
 
@@ -16,79 +22,30 @@ export interface FormColumnProps {
 
 export const FormColumn: NodeLayout<JsonSchema, FormColumnProps> = ({
     children,
-    headName,
-    input,
-    meta,
-    mode,
     schema,
-    settings,
     props,
+    settings,
 }) => {
-    const {hidden, required} = schema.nodeParameters?.flags || {};
-
-    const tooltip = React.useMemo(() => {
-        if (!schema.description || props.descriptionType === 'bottom') {
-            return null;
-        }
-
-        return (
-            <HelpMark
-                className={b('help-mark')}
-                settings={settings}
-                content={schema.description}
-                headName={headName}
-            />
-        );
-    }, [headName, schema.description, props.descriptionType, settings]);
-
-    const bottomDescription = React.useMemo(() => {
-        if (!schema.description || props.descriptionType !== 'bottom') {
-            return null;
-        }
-
-        return (
-            <HTMLContent
-                content={schema.description}
-                headName={headName}
-                color="secondary"
-                settings={settings}
-            />
-        );
-    }, [headName, schema.description, props.descriptionType, settings]);
+    const {descriptionType} = props;
+    const {hidden} = schema.nodeParameters?.flags || {};
 
     return (
         <LayoutContainer className={b({size: settings?.size})} gap={1} hidden={hidden}>
             <Flex direction="column" gap={0.5}>
                 <Flex alignItems="center">
                     <div className={b('title')}>
-                        <Text
-                            className={b('title-text', {required})}
-                            variant={settings?.titleVariant}
-                            color="complementary"
-                            wordBreak="break-word"
-                        >
-                            {schema.title}
-                        </Text>
-                        {tooltip}
+                        <EntityTitle />
+                        {descriptionType === 'tooltip' ? (
+                            <EntityDescription className={b('help-mark')} likeHelpMark />
+                        ) : null}
                     </div>
-                    <LayoutButtons
-                        mode={mode}
-                        name={input.name}
-                        headName={headName}
-                        schema={schema}
-                        settings={settings}
-                        value={input.value}
-                    />
+                    <LayoutButtons />
                 </Flex>
-                {bottomDescription}
+                {descriptionType === 'bottom' ? <EntityDescription /> : null}
             </Flex>
             <Flex className={b('bottom')} direction="column" gap={0.5}>
                 {children}
-                <EntityError
-                    errorMessage={meta.error}
-                    settings={settings}
-                    validationState={getValidationState(meta)}
-                />
+                <EntityError />
             </Flex>
         </LayoutContainer>
     );

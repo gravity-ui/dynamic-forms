@@ -29,7 +29,7 @@ export const DateValue: NodeEntity<JsonSchemaAny, DateValueProps> = ({input, pro
     );
 
     if (!date) {
-        return <EmptyEntityValue settings={settings} />;
+        return <EmptyEntityValue />;
     }
 
     return (

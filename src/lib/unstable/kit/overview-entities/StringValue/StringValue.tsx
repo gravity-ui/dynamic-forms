@@ -11,7 +11,7 @@ export const StringValue: NodeEntity<JsonSchemaString, StringValueProps> = ({
     settings,
 }) => {
     if (!input.value) {
-        return <EmptyEntityValue settings={settings} />;
+        return <EmptyEntityValue />;
     }
 
     return (

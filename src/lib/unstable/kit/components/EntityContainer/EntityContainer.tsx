@@ -24,11 +24,11 @@ export const EntityContainer: React.FC<EntityContainerProps> = ({
     width,
     ...restFlexProps
 }) => {
-    const nodeContext = useSchemaRendererNodeContext();
+    const {settings} = useSchemaRendererNodeContext();
 
     return (
         <div
-            className={b({view: nodeContext?.settings?.view ?? 'stretch'})}
+            className={b({view: settings?.view ?? 'stretch'})}
             data-fill={fill}
             data-droppable={droppable}
             data-width={width}

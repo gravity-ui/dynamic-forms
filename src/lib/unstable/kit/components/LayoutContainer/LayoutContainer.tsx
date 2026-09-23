@@ -22,12 +22,12 @@ export const LayoutContainer: React.FC<LayoutContainerProps> = ({
     hidden = false,
     ...restProps
 }) => {
-    const nodeContext = useSchemaRendererNodeContext();
+    const {settings} = useSchemaRendererNodeContext();
 
     return (
         <Flex
             className={b(
-                {'hide-empty': hideEmpty, hidden, view: nodeContext?.settings?.view ?? 'stretch'},
+                {'hide-empty': hideEmpty, hidden, view: settings?.view ?? 'stretch'},
                 className,
             )}
             direction="column"

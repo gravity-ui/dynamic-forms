@@ -14,7 +14,7 @@ import {
     ArrayRemoveButton,
     EmptyEntityValue,
     EntityContainer,
-    HelpMark,
+    EntityDescription,
     LayoutContainer,
 } from '../../components';
 import {block} from '../../utils';
@@ -188,10 +188,9 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
                                 <div className={b('column-title-word')} key={word}>
                                     <Text variant={settings?.titleVariant}>{word}</Text>
                                     {wIndex + 1 === array.length && column.schema.description ? (
-                                        <HelpMark
-                                            settings={settings}
+                                        <EntityDescription
                                             content={column.schema.description}
-                                            headName={headName}
+                                            likeHelpMark
                                         />
                                     ) : null}
                                 </div>
@@ -226,12 +225,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
                         ))}
                         {withRemoveButton ? (
                             <div className={b('cell')}>
-                                <ArrayRemoveButton
-                                    name={`${name}[${rIndex}]`}
-                                    headName={headName}
-                                    mode={mode}
-                                    size={settings?.size}
-                                />
+                                <ArrayRemoveButton name={`${name}[${rIndex}]`} />
                             </div>
                         ) : null}
                     </div>
@@ -240,20 +234,10 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
         ));
 
         return {head, rows};
-    }, [
-        columns,
-        headName,
-        mode,
-        name,
-        overviewFlag,
-        schema.items,
-        schemaPath,
-        settings,
-        value?.length,
-    ]);
+    }, [columns, headName, name, overviewFlag, schema.items, schemaPath, settings, value?.length]);
 
     if (overviewFlag && !value?.length) {
-        return <EmptyEntityValue settings={settings} />;
+        return <EmptyEntityValue />;
     }
 
     return (

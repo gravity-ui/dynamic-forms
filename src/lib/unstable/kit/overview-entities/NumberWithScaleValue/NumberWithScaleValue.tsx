@@ -39,7 +39,7 @@ export const NumberWithScaleValue: NodeEntity<JsonSchemaNumber, NumberWithScaleV
     }, [input.value, scale, viewType]);
 
     if (!isNumber(input.value)) {
-        return <EmptyEntityValue settings={settings} />;
+        return <EmptyEntityValue />;
     }
 
     return (

@@ -4,22 +4,17 @@ import {Text, type TextProps} from '@gravity-ui/uikit';
 
 import {
     SchemaRendererEventType,
-    type SchemaRendererSettings,
+    useSchemaRendererNodeContext,
     useSchemaRendererState,
 } from '../../../core';
 
 export interface HTMLContentProps extends TextProps {
     content: string;
-    headName?: string;
-    settings?: SchemaRendererSettings;
 }
 
-export const HTMLContent: React.FC<HTMLContentProps> = ({
-    content,
-    headName = '___stub-name',
-    settings,
-    ...restProps
-}) => {
+export const HTMLContent: React.FC<HTMLContentProps> = ({content, ...restProps}) => {
+    const {headName, settings} = useSchemaRendererNodeContext();
+
     const state = useSchemaRendererState({
         headName,
         subscriptions: [SchemaRendererEventType.UserContext],

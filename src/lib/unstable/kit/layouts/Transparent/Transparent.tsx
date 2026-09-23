@@ -5,7 +5,7 @@ import isBoolean from 'lodash/isBoolean';
 
 import {type JsonSchema, type NodeLayout, SchemaRendererMode} from '../../../core';
 import {EntityError, LayoutButtons, LayoutContainer} from '../../components';
-import {block, getValidationState} from '../../utils';
+import {block} from '../../utils';
 
 import './Transparent.scss';
 
@@ -17,13 +17,9 @@ export interface TransparentProps {
 
 export const Transparent: NodeLayout<JsonSchema, TransparentProps> = ({
     children,
-    headName,
-    input,
-    meta,
     mode,
     props,
     schema,
-    settings,
 }) => {
     const {hidden} = schema.nodeParameters?.flags || {};
     const overviewFlag = mode === SchemaRendererMode.Overview;
@@ -37,22 +33,9 @@ export const Transparent: NodeLayout<JsonSchema, TransparentProps> = ({
         >
             <Flex gap={2}>
                 {children}
-                <LayoutButtons
-                    mode={mode}
-                    name={input.name}
-                    headName={headName}
-                    schema={schema}
-                    settings={settings}
-                    value={input.value}
-                />
+                <LayoutButtons />
             </Flex>
-            {overviewFlag ? null : (
-                <EntityError
-                    errorMessage={meta.error}
-                    settings={settings}
-                    validationState={getValidationState(meta)}
-                />
-            )}
+            {overviewFlag ? null : <EntityError />}
         </LayoutContainer>
     );
 };

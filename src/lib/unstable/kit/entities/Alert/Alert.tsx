@@ -22,12 +22,7 @@ export interface AlertProps extends UIKitAlertProps {
     iconProps?: Partial<IconProps>;
 }
 
-export const Alert: NodeEntity<JsonSchemaString, AlertProps> = ({
-    headName,
-    props,
-    schema,
-    settings,
-}) => {
+export const Alert: NodeEntity<JsonSchemaString, AlertProps> = ({props, schema, settings}) => {
     const {iconName, iconProps, message, title: titleProp, ...entityRestProps} = props;
     const {open = true} = schema.nodeParameters?.flags || {};
 
@@ -56,26 +51,21 @@ export const Alert: NodeEntity<JsonSchemaString, AlertProps> = ({
                     gap="2"
                     onClick={() => setExpanded(!expanded)}
                 >
-                    <HTMLContent
-                        content={title}
-                        headName={headName}
-                        settings={settings}
-                        variant={settings?.titleVariant}
-                    />
+                    <HTMLContent content={title} variant={settings?.titleVariant} />
                     <Icon data={expanded ? icons.ChevronUp : icons.ChevronDown} size={16} />
                 </Flex>
             );
         }
 
         return null;
-    }, [headName, schema.title, titleProp, expanded, settings]);
+    }, [schema.title, titleProp, expanded, settings?.titleVariant]);
 
     const msg = React.useMemo(() => {
         if (message) {
             if (typeof message === 'string') {
                 return (
                     <div className={b('message', {expanded: expanded || !title})}>
-                        <HTMLContent content={message} headName={headName} settings={settings} />
+                        <HTMLContent content={message} />
                     </div>
                 );
             }
@@ -86,17 +76,13 @@ export const Alert: NodeEntity<JsonSchemaString, AlertProps> = ({
         if (schema.description) {
             return (
                 <div className={b('message', {expanded: expanded || !title})}>
-                    <HTMLContent
-                        content={schema.description}
-                        headName={headName}
-                        settings={settings}
-                    />
+                    <HTMLContent content={schema.description} />
                 </div>
             );
         }
 
         return undefined;
-    }, [expanded, headName, message, schema.description, title, settings]);
+    }, [expanded, message, schema.description, title]);
 
     const size = (() => {
         let result = settings?.size;
