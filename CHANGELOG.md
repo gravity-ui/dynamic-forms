@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.36.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.35.0...v5.36.0) (2026-09-23)
+
+
+### Features
+
+* **unstable:** add overview sizes ([#446](https://github.com/gravity-ui/dynamic-forms/issues/446)) ([39366d0](https://github.com/gravity-ui/dynamic-forms/commit/39366d09ee250335a59c3ac7abc422a97ac34de4))
+* **unstable:** remove settings props drilling ([#448](https://github.com/gravity-ui/dynamic-forms/issues/448)) ([021f43b](https://github.com/gravity-ui/dynamic-forms/commit/021f43b3683afed8c7887cf6c1aa636f280deb67))
+
 ## [5.35.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.34.0...v5.35.0) (2026-09-18)
 
 
