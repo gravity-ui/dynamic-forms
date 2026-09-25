@@ -42,3 +42,33 @@ To start the development server with storybook execute the following command:
 npm ci
 npm run dev
 ```
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for details.
+
+## For AI agents
+
+A JSON-Schema-driven engine that renders form fields and read-only value views from a spec — reach for it when your field layout and validation are defined by a schema or backend, instead of hand-writing per-field form markup with `final-form`.
+
+### When to use
+
+- Rendering forms whose field structure comes from a JSON Schema / backend spec, not hardcoded components.
+- Reusing the same spec to render an editable form (`<DynamicField>`) and a read-only summary (`<DynamicView>`).
+- Embedding schema-driven fields into an existing `react-final-form` instance via `<DynamicField>`.
+
+### When not to use
+
+- For a fixed, hand-authored form with a known set of fields, compose primitives from [`@gravity-ui/uikit`](https://gravity-ui.com/uikit) directly — the schema indirection is overhead you do not need.
+- For building dialog/modal field inputs, use [`@gravity-ui/dialog-fields`](https://gravity-ui.com/components/dialog-fields) — it targets dialog-style inputs, not full schema-driven form layout.
+
+### Common pitfalls
+
+- **Hallucinated prop `schema`** — the spec prop is `spec` (a `Spec`), and the field config is `config` (e.g. `dynamicConfig`).
+- **Forgetting to pass a `config`** — `<DynamicField>` / `<DynamicView>` need a `config` object (`dynamicConfig` / `dynamicViewConfig`) that registers field types, or no fields render.
+- **Missing `configure({lang})`** — default text tokens are `en`; call `configure({lang: Lang.Ru})` once before rendering to localize built-in strings.
+- **Expecting built-in validation** — validation rules live in the `spec`; the package renders fields, it does not impose schema validation by itself.
+
+## Documentation for AI agents
+
+Agent-readable documentation for the installed version is located in `node_modules/@gravity-ui/dynamic-forms/build/docs/INDEX.md`.
