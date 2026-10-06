@@ -1,6 +1,13 @@
 import React from 'react';
 
-import {Flex, Select, type SelectOption, type SelectProps, Text} from '@gravity-ui/uikit';
+import {
+    Flex,
+    Select,
+    type SelectOption,
+    type SelectProps,
+    Text,
+    getSelectOptionText,
+} from '@gravity-ui/uikit';
 import isString from 'lodash/isString';
 
 import type {JsonSchemaArray, NodeEntity} from '../../../core';
@@ -62,7 +69,7 @@ export const MultiSelectInput: NodeEntity<JsonSchemaArray, MultiSelectInputProps
                     );
                 }
 
-                return {value, text, content, key: value, data: {optionMeta}};
+                return {value, content, key: value, data: {optionMeta, text}};
             });
         }
 
@@ -71,10 +78,13 @@ export const MultiSelectInput: NodeEntity<JsonSchemaArray, MultiSelectInputProps
 
     const renderOption: SelectProps['renderOption'] = React.useCallback(
         (option: SelectOption) => (
-            <React.Fragment key={option.value}>
-                {option.content || option.text || option.value}
-            </React.Fragment>
+            <React.Fragment key={option.value}>{option.content || option.value}</React.Fragment>
         ),
+        [],
+    );
+
+    const getOptionText: SelectProps['getOptionText'] = React.useCallback(
+        (option: SelectOption) => option.data?.text ?? getSelectOptionText(option),
         [],
     );
 
@@ -116,6 +126,7 @@ export const MultiSelectInput: NodeEntity<JsonSchemaArray, MultiSelectInputProps
                 filterable={(enumValues?.length || 0) > 9}
                 renderOption={renderOption}
                 getOptionHeight={getOptionHeight}
+                getOptionText={getOptionText}
                 placeholder={`${schema.examples?.[0]?.[0] || DASH}`}
                 disabled={disabled || schema.readOnly}
                 size={settings?.size}

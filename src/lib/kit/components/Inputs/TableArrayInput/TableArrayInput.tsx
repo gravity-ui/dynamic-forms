@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {Plus, TrashBin} from '@gravity-ui/icons';
-import {Button, Flex, HelpMark, Icon, Table, type TableColumnConfig} from '@gravity-ui/uikit';
+import {Button, Flex, HelpMark, Icon} from '@gravity-ui/uikit';
+import {Table, type TableColumnConfig} from '@gravity-ui/uikit/legacy';
 import noop from 'lodash/noop';
 import set from 'lodash/set';
 

@@ -100,14 +100,7 @@ export const Alert: NodeEntity<JsonSchemaString, AlertProps> = ({props, schema, 
 
     return (
         <EntityContainer className={b({expanded})} width="fit" fill="populated">
-            <UIKitAlert
-                icon={icon}
-                message={msg}
-                title={title}
-                // @ts-expect-error
-                size={size}
-                {...entityRestProps}
-            />
+            <UIKitAlert icon={icon} message={msg} title={title} size={size} {...entityRestProps} />
         </EntityContainer>
     );
 };
