@@ -13,6 +13,7 @@ import {filterTimeArray, validateArray} from './utils';
 
 export const TimeRangeSelector: ObjectIndependentInput = (props) => {
     const {spec, input, name, Layout} = props;
+    const {onChange} = input;
 
     const [startTimeSpec, endTimeSpec] = React.useMemo(
         () =>
@@ -88,12 +89,12 @@ export const TimeRangeSelector: ObjectIndependentInput = (props) => {
 
     const parentOnChange = React.useCallback(
         (childName: string, childValue: FieldValue, childErrors?: Record<string, ValidateError>) =>
-            input.onChange(
+            onChange(
                 (currentValue) =>
                     set({...currentValue}, childName.split(`${name}.`).join(''), childValue),
                 childErrors,
             ),
-        [input, name],
+        [onChange, name],
     );
 
     if (!startTimeSpec || !endTimeSpec || !startTimeOptions || !endTimeOptions) {
@@ -107,16 +108,16 @@ export const TimeRangeSelector: ObjectIndependentInput = (props) => {
                 name={`${name}.${START_TIME}`}
                 options={startTimeOptions}
                 value={input.value?.[START_TIME]}
-                handleChange={(value) => parentOnChange(START_TIME, value[0])}
-                props={props}
+                parentOnChange={parentOnChange}
+                parentOnUnmount={input.parentOnUnmount}
             />
             <TimeRangeSelect
                 spec={endTimeSpec}
                 name={`${name}.${END_TIME}`}
                 options={endTimeOptions}
                 value={input.value?.[END_TIME]}
-                handleChange={(value) => parentOnChange(END_TIME, value[0])}
-                props={props}
+                parentOnChange={parentOnChange}
+                parentOnUnmount={input.parentOnUnmount}
             />
         </React.Fragment>
     );
