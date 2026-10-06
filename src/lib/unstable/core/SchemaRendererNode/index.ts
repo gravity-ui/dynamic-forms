@@ -5,4 +5,4 @@ export {
     useSchemaRendererNodeContext,
 } from './context';
 export type {SchemaRendererNodeState} from './types';
-export {getAccumulatedSchema, getRenderKit} from './utils';
+export {getRenderKit} from './utils';

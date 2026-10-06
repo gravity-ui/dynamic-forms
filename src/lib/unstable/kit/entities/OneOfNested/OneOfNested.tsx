@@ -130,6 +130,7 @@ export const OneOfNested: NodeEntity<JsonSchemaObject, OneOfNestedProps> = ({
             meta: togglerMeta,
             mode,
             name: togglerName,
+            parentValueEmpty: !input.value,
             schema: togglerSchema,
             schemaPath: togglerSchemaPath,
             settings,

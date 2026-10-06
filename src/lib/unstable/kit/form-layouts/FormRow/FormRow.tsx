@@ -24,7 +24,7 @@ export interface FormRowProps {
 export const FormRow: NodeLayout<JsonSchema, FormRowProps> = ({children, schema, props}) => {
     const {settings} = useSchemaRendererNodeContext();
 
-    const {descriptionType} = props;
+    const {descriptionType = 'tooltip'} = props;
     const {hidden} = schema.nodeParameters?.flags || {};
 
     return (

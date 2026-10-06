@@ -30,52 +30,9 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
     settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
-    const {disabled, required} = schema.nodeParameters?.flags || {};
+    const {disabled} = schema.nodeParameters?.flags || {};
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
-
-    const initButton = React.useMemo(() => {
-        if (required || value !== undefined || overviewFlag) {
-            return null;
-        }
-
-        const itemsSchema = schema.items;
-        const initValue = Array.isArray(itemsSchema)
-            ? itemsSchema.map(() => undefined)
-            : [undefined];
-
-        const onClick = () => {
-            onFocus();
-            onChange(initValue);
-            onBlur();
-        };
-
-        return (
-            <Button
-                className={b('init-button')}
-                onClick={onClick}
-                disabled={disabled || schema.readOnly}
-                qa={`${name}-init-button`}
-                size={settings?.size}
-            >
-                <Icon data={Plus} size={14} />
-                {props.addButtonText || null}
-            </Button>
-        );
-    }, [
-        props.addButtonText,
-        disabled,
-        name,
-        onBlur,
-        onChange,
-        onFocus,
-        overviewFlag,
-        required,
-        schema.items,
-        schema.readOnly,
-        settings?.size,
-        value,
-    ]);
 
     const addButton = React.useMemo(() => {
         const itemsSchema = schema.items;
@@ -148,14 +105,8 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
 
     return (
         <EntityContainer width="by-child" gap={4} fill="by-child" droppable>
-            {initButton ? (
-                initButton
-            ) : (
-                <React.Fragment>
-                    {items?.length ? <Flex direction="column">{items}</Flex> : null}
-                    {addButton}
-                </React.Fragment>
-            )}
+            {items?.length ? <Flex direction="column">{items}</Flex> : null}
+            {addButton}
         </EntityContainer>
     );
 };

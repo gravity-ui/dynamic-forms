@@ -26,7 +26,7 @@ export const FormColumn: NodeLayout<JsonSchema, FormColumnProps> = ({
     props,
     settings,
 }) => {
-    const {descriptionType} = props;
+    const {descriptionType = 'tooltip'} = props;
     const {hidden} = schema.nodeParameters?.flags || {};
 
     return (

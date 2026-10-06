@@ -2,28 +2,13 @@ import type {FormApi} from 'final-form';
 import get from 'lodash/get';
 import isObjectLike from 'lodash/isObjectLike';
 import isString from 'lodash/isString';
-import set from 'lodash/set';
 
 import {EMPTY_OBJECT, JsonSchemaType, type NodeType, SchemaRendererMode} from '../constants';
 import type {FieldValue, JsonSchema, NodeEntity, NodeLayout, NodesConfig} from '../types';
 import {SCHEMA_RENDERER_SERVICE_FIELD, type SchemaRendererState} from '../useSchemaRenderer';
-import {getSchemaByPointer, getServiceFieldName, getValuePaths, isStringNumber} from '../utils';
+import {getSchemaByPointer, getServiceFieldName, isStringNumber, mergeValues} from '../utils';
 
 const fixType = <Type>(value: any): Type => value as Type;
-
-const mergeValues = (first?: object, second?: object) => {
-    const result = {};
-
-    getValuePaths(first).forEach((path) => {
-        set(result, path, get(first, path));
-    });
-
-    getValuePaths(second).forEach((path) => {
-        set(result, path, get(second, path));
-    });
-
-    return result;
-};
 
 type GetRenderKitParams<Schema extends JsonSchema> = {
     config?: NodesConfig;
@@ -194,29 +179,22 @@ export const getAccumulatedSchema = (
     schemaPath: string,
     rootSchema?: JsonSchema,
     override?: JsonSchema,
-    collectedPaths: Set<string> = new Set(),
 ) => {
     let accumulatedSchema: JsonSchema = {
         ...(rootSchema ? getSchemaByPointer(rootSchema, schemaPath) : {}),
     };
 
     if (override) {
-        accumulatedSchema = mergeValues(accumulatedSchema, override);
-    }
+        let overrideSchema = override;
 
-    if (accumulatedSchema.$ref && !collectedPaths.has(accumulatedSchema.$ref)) {
-        collectedPaths.add(accumulatedSchema.$ref);
-
-        const schemaByRef = getAccumulatedSchema(
-            accumulatedSchema.$ref,
-            rootSchema,
-            undefined,
-            collectedPaths,
-        );
-
-        if (schemaByRef) {
-            accumulatedSchema = mergeValues(accumulatedSchema, schemaByRef);
+        if (overrideSchema.$ref && rootSchema) {
+            overrideSchema = mergeValues(
+                overrideSchema,
+                getSchemaByPointer(rootSchema, overrideSchema.$ref),
+            );
         }
+
+        accumulatedSchema = mergeValues(accumulatedSchema, overrideSchema);
     }
 
     return accumulatedSchema;

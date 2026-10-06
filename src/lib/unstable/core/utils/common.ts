@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import set from 'lodash/set';
 
 import type {JsonSchema} from '../types';
 
@@ -65,6 +66,41 @@ export const arrayPathToDotBracket = (arrayPath: string[]): string => {
     }, '');
 };
 
+export const getValuePaths = (value: unknown, path: string[] = []) => {
+    const result: string[][] = [];
+
+    const isObject = (v: unknown): v is Record<string, unknown> =>
+        v !== null && typeof v === 'object' && !Array.isArray(v);
+
+    if (Array.isArray(value)) {
+        value.forEach((_, index) => {
+            result.push(...getValuePaths(value[index], [...path, `${index}`]));
+        });
+    } else if (isObject(value)) {
+        Object.keys(value).forEach((key) => {
+            result.push(...getValuePaths(get(value, key), [...path, key]));
+        });
+    } else if (path.length) {
+        result.push(path);
+    }
+
+    return result;
+};
+
+export const mergeValues = (first?: object, second?: object) => {
+    const result = {};
+
+    getValuePaths(first).forEach((path) => {
+        set(result, path, get(first, path));
+    });
+
+    getValuePaths(second).forEach((path) => {
+        set(result, path, get(second, path));
+    });
+
+    return result;
+};
+
 /**
  * Resolves a sub-schema from the root schema by a JSON Pointer.
  *
@@ -91,6 +127,7 @@ export const arrayPathToDotBracket = (arrayPath: string[]): string => {
 export const getSchemaByPointer = (
     schema: JsonSchema,
     pointer: string | string[],
+    collectedPaths: Set<string> = new Set(),
 ): JsonSchema | undefined => {
     const pathArr = Array.isArray(pointer) ? pointer : pointerToArrayPath(pointer);
 
@@ -98,28 +135,29 @@ export const getSchemaByPointer = (
         return schema;
     }
 
-    return get(schema, pathArr);
+    let current = schema;
+
+    pathArr.forEach((path) => {
+        current = get(current, path);
+
+        if (current?.$ref && !collectedPaths.has(current.$ref)) {
+            collectedPaths.add(current.$ref);
+
+            const schemaByRef = getSchemaByPointer(schema, current.$ref, collectedPaths);
+
+            if (schemaByRef) {
+                current = mergeValues(current, schemaByRef);
+            }
+        }
+    });
+
+    return current;
 };
 
-export const getValuePaths = (value: unknown, path: string[] = []) => {
-    const result: string[][] = [];
+export const getParentName = (name: string) => {
+    const match = /^(.*)(?:\.[^[.\]]+|\[\d+\])$/.exec(name);
 
-    const isObject = (v: unknown): v is Record<string, unknown> =>
-        v !== null && typeof v === 'object' && !Array.isArray(v);
-
-    if (Array.isArray(value)) {
-        value.forEach((_, index) => {
-            result.push(...getValuePaths(value[index], [...path, `${index}`]));
-        });
-    } else if (isObject(value)) {
-        Object.keys(value).forEach((key) => {
-            result.push(...getValuePaths(get(value, key), [...path, key]));
-        });
-    } else if (path.length) {
-        result.push(path);
-    }
-
-    return result;
+    return match ? match[1] : '';
 };
 
 export const getServiceFieldName = (serviceFieldName: string, headName: string) =>

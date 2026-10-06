@@ -4,7 +4,6 @@ export {
     type SchemaRendererNodeContextValue,
     type SchemaRendererNodeProps,
     type SchemaRendererNodeState,
-    getAccumulatedSchema,
     getRenderKit,
     useSchemaRendererNodeContext,
 } from './SchemaRendererNode';
@@ -26,6 +25,7 @@ export {
     createNodeParametersDefiner,
     defineNodeEntityConfig,
     defineNodeLayoutConfig,
+    getParentName,
     getServiceFieldName,
     getSchemaByPointer,
     isStringFloat,
