@@ -28,6 +28,10 @@
     }
 
     &_size_xl {
+        .g-disclosure__trigger {
+            padding-left: 12px;
+        }
+
         .#{$ns}accordeon__toggler {
             padding-left: 14px;
         }
@@ -38,13 +42,17 @@
 
         .#{$ns}accordeon__content {
             &_with-indent {
-                padding-left: spacing(9);
+                padding-left: spacing(11);
 
                 &:before {
                     left: calc(spacing(5) + 1.5px);
                 }
             }
         }
+    }
+
+    &__summary {
+        min-height: var(--size);
     }
 
     &__toggler {

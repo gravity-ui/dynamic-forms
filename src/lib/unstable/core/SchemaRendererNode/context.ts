@@ -10,6 +10,7 @@ export interface SchemaRendererNodeContextValue extends FieldRenderProps<FieldVa
     headName: string;
     mode: SchemaRendererMode;
     name: string;
+    parentValueEmpty: boolean;
     schema: JsonSchema;
     schemaPath: string;
     settings?: SchemaRendererSettings;

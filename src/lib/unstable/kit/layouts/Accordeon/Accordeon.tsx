@@ -52,7 +52,7 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
         titleProps,
         togglerProps,
         withIndent = false,
-        withDefaultSummary = true,
+        withDefaultSummary = false,
         ...restLayoutProps
     } = props;
     const {hidden, open} = schema.nodeParameters?.flags || {};
@@ -60,7 +60,14 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
-    const summary = React.useMemo(() => <EntityTitle {...titleProps} />, [titleProps]);
+    const summary = React.useMemo(
+        () => (
+            <Flex className={b('summary')} alignItems="center">
+                <EntityTitle {...titleProps} />
+            </Flex>
+        ),
+        [titleProps],
+    );
 
     return (
         <LayoutContainer
