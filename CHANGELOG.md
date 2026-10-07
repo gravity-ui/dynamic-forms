@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.37.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.36.0...v5.37.0) (2026-10-07)
+
+
+### Features
+
+* **unstable:** remove init button concept ([#451](https://github.com/gravity-ui/dynamic-forms/issues/451)) ([7f7032f](https://github.com/gravity-ui/dynamic-forms/commit/7f7032fe70ee5606e62ae2ae62c20f2ab424043e))
+
+
+### Bug Fixes
+
+* add TimeRangeSelectProps validation ([#450](https://github.com/gravity-ui/dynamic-forms/issues/450)) ([06edbeb](https://github.com/gravity-ui/dynamic-forms/commit/06edbebe020fb94f28fba37612801d58f6f48703))
+
 ## [5.36.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.35.0...v5.36.0) (2026-09-23)
 
 
