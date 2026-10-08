@@ -4,7 +4,7 @@ import {Menu, MenuItem, MenuTrigger, Text} from '@gravity-ui/uikit';
 import {useForm} from 'react-final-form';
 
 import i18n from '../../../../kit/i18n';
-import {SchemaRendererMode, useSchemaRendererNodeContext} from '../../../core';
+import {SchemaRendererMode, getParentName, useSchemaRendererNodeContext} from '../../../core';
 import {block, isArrayItem} from '../../utils';
 
 import './DropButton.scss';
@@ -28,9 +28,20 @@ export const DropButton: React.FC<DropButtonProps> = ({onClick}) => {
 
     const removeItem = React.useCallback(
         (event: React.MouseEvent<HTMLButtonElement>) => {
+            const parentName = getParentName(name);
+            const parentValue = form.getFieldState(parentName)?.value;
+
             onClick?.(event);
             form.focus(name);
-            form.change(name, undefined);
+
+            if (
+                Object.keys(parentValue).filter((k) => `${parentName}.${k}` !== name).length === 0
+            ) {
+                form.change(parentName, {});
+            } else {
+                form.change(name, undefined);
+            }
+
             form.blur(name);
         },
         [form, name, onClick],

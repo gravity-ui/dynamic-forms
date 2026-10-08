@@ -9,7 +9,7 @@ import {JsonSchemaType, SchemaRendererEventType, SchemaRendererMode} from '../co
 import type {JsonSchema} from '../types';
 import {SCHEMA_RENDERER_SERVICE_FIELD} from '../useSchemaRenderer';
 import {useSchemaRendererState} from '../useSchemaRendererState';
-import {getServiceFieldName, getStrictModeChecker} from '../utils';
+import {getParentName, getServiceFieldName, getStrictModeChecker} from '../utils';
 
 import {SchemaRendererNodeContext} from './context';
 import type {SchemaRendererNodeState} from './types';
@@ -35,6 +35,17 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
     const strictCheckerRef = React.useRef(getStrictModeChecker());
     const fieldRef = React.useRef<FieldState<any>>(null);
     const unsubscribeRef = React.useRef<() => void>(null);
+    const parentValueEmptyRef = React.useRef(
+        (() => {
+            const parentName = getParentName(name);
+
+            if (parentName) {
+                return !get(form.getState().values, parentName);
+            }
+
+            return false;
+        })(),
+    );
     const [ticks, setTicks] = React.useState({input: 0, meta: 0});
 
     const srState = useSchemaRendererState({
@@ -157,14 +168,14 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
             {submitFailed: true, touched: true, validating: true, value: true},
             {
                 data: {state: initialState},
-                defaultValue,
+                ...(parentValueEmptyRef.current ? {} : {defaultValue}),
                 silent: true,
                 validateFields: [getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, headName)],
             },
         );
 
         const castParams = (() => {
-            if (!coerceInitialValues) {
+            if (!coerceInitialValues || parentValueEmptyRef.current) {
                 return undefined;
             }
 
@@ -229,6 +240,8 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
         };
     }, [error, form, name, ticks.meta]);
 
+    const parentValueEmpty = parentValueEmptyRef.current;
+
     const nodeContext = React.useMemo(
         () => ({
             headName,
@@ -236,12 +249,49 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
             meta,
             mode: mode ?? SchemaRendererMode.Form,
             name,
+            parentValueEmpty,
             schema,
             schemaPath,
             settings,
         }),
-        [headName, input, meta, mode, name, schema, schemaPath, settings],
+        [headName, input, meta, mode, name, parentValueEmpty, schema, schemaPath, settings],
     );
+
+    React.useEffect(() => {
+        const unsubscribe = form.subscribe(
+            (state) => {
+                const parentName = getParentName(name);
+                const parentValue = parentName ? get(state.values, parentName) : state.values;
+
+                if (!parentValue !== parentValueEmptyRef.current) {
+                    parentValueEmptyRef.current = !parentValueEmptyRef.current;
+
+                    const fieldValue = name ? get(state.values, name) : state.values;
+
+                    if (!parentValueEmptyRef.current && fieldValue === undefined && required) {
+                        if (
+                            (Array.isArray(schema.type) &&
+                                schema.type.length &&
+                                !schema.type.filter((t) => t !== JsonSchemaType.Array).length) ||
+                            schema.type === JsonSchemaType.Array
+                        ) {
+                            scheduleFlush(form, headName, {name, value: []});
+                        } else if (
+                            (Array.isArray(schema.type) &&
+                                schema.type.length &&
+                                !schema.type.filter((t) => t !== JsonSchemaType.Object).length) ||
+                            schema.type === JsonSchemaType.Object
+                        ) {
+                            scheduleFlush(form, headName, {name, value: {}});
+                        }
+                    }
+                }
+            },
+            {values: true},
+        );
+
+        return unsubscribe;
+    }, [name]);
 
     React.useEffect(() => {
         const strictChecker = strictCheckerRef.current;

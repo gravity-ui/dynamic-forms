@@ -15,7 +15,7 @@ export interface EntityTitleProps extends TextProps {
 }
 
 export const EntityTitle: React.FC<EntityTitleProps> = ({className, type, ...restProps}) => {
-    const {mode, schema, settings} = useSchemaRendererNodeContext();
+    const {mode, parentValueEmpty, schema, settings} = useSchemaRendererNodeContext();
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
     const {required} = schema.nodeParameters?.flags || {};
@@ -31,7 +31,7 @@ export const EntityTitle: React.FC<EntityTitleProps> = ({className, type, ...res
             wordBreak="break-word"
             whiteSpace="break-spaces"
             {...restProps}
-            className={b({required: required && !overviewFlag}, className)}
+            className={b({required: required && !overviewFlag && !parentValueEmpty}, className)}
         >
             {schema.title}
         </Text>

@@ -135,6 +135,7 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
             meta: togglerMeta,
             mode,
             name: togglerName,
+            parentValueEmpty: !input.value,
             schema: togglerSchema,
             schemaPath: togglerSchemaPath,
             settings,

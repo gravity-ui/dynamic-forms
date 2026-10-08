@@ -10,7 +10,7 @@
     &_size_xl {
         .#{$ns}one-of-nested__content {
             &_with-indent {
-                padding-left: spacing(9);
+                padding-left: spacing(11);
 
                 &:before {
                     left: calc(spacing(5) + 1.5px);
