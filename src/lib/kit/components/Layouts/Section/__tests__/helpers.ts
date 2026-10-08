@@ -1,5 +1,5 @@
 import type {ArraySpec, FormValue, ObjectSpec} from '../../../../../core';
-import {SpecTypes} from '../../../../../core';
+import {SpecTypes} from '../../../../../core/constants';
 
 export const SECTION: Record<string, ArraySpec | ObjectSpec> = {
     sectionArraySpec: {

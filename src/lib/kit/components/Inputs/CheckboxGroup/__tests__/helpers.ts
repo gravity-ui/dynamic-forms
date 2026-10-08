@@ -1,5 +1,5 @@
 import type {ArraySpec, FormValue} from '../../../../../core';
-import {SpecTypes} from '../../../../../core';
+import {SpecTypes} from '../../../../../core/constants';
 
 export const CHECKBOX_GROUP: Record<string, ArraySpec> = {
     default: {

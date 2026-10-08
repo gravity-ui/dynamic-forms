@@ -1,5 +1,5 @@
 import type {NumberSpec} from '../../../../../core';
-import {SpecTypes} from '../../../../../core';
+import {SpecTypes} from '../../../../../core/constants';
 
 export const NUMBER_SPEC: Record<string, NumberSpec> = {
     default: {
