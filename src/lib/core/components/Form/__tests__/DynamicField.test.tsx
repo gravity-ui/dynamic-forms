@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ThemeProvider} from '@gravity-ui/uikit';
+import {Provider} from '@gravity-ui/uikit';
 import {act, render} from '@testing-library/react';
 import type {FormApi} from 'final-form';
 import noop from 'lodash/noop';
@@ -163,7 +163,7 @@ test('Form/hooks/DynamicField', () => {
     let form = null as FormApi | null;
 
     render(
-        <ThemeProvider>
+        <Provider>
             <Form initialValues={{}} onSubmit={noop}>
                 {() => {
                     const Caller = () => {
@@ -185,7 +185,7 @@ test('Form/hooks/DynamicField', () => {
                     );
                 }}
             </Form>
-        </ThemeProvider>,
+        </Provider>,
     );
 
     const value = {
@@ -443,11 +443,11 @@ test('warns about spec property keys containing dots', () => {
     };
 
     render(
-        <ThemeProvider>
+        <Provider>
             <Form initialValues={{}} onSubmit={noop}>
                 {() => <DynamicField name={name} spec={dottedSpec} config={dynamicConfig} />}
             </Form>
-        </ThemeProvider>,
+        </Provider>,
     );
 
     expect(warn).toHaveBeenCalledTimes(1);
@@ -464,11 +464,11 @@ test('does not warn when spec property keys have no dots', () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
     render(
-        <ThemeProvider>
+        <Provider>
             <Form initialValues={{}} onSubmit={noop}>
                 {() => <DynamicField name={name} spec={spec} config={dynamicConfig} />}
             </Form>
-        </ThemeProvider>,
+        </Provider>,
     );
 
     expect(warn).not.toHaveBeenCalled();

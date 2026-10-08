@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ThemeProvider} from '@gravity-ui/uikit';
+import {Provider} from '@gravity-ui/uikit';
 import {render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import noop from 'lodash/noop';
@@ -34,7 +34,7 @@ const renderNumberEnum = (values: number[], initialValue: number[] | undefined =
     };
 
     render(
-        <ThemeProvider>
+        <Provider>
             <Form initialValues={{input: initialValue}} onSubmit={noop}>
                 {({values}) => (
                     <>
@@ -43,7 +43,7 @@ const renderNumberEnum = (values: number[], initialValue: number[] | undefined =
                     </>
                 )}
             </Form>
-        </ThemeProvider>,
+        </Provider>,
     );
 
     return screen.getByText('3');
