@@ -2,6 +2,7 @@ export {SchemaRendererNode, type SchemaRendererNodeProps} from './SchemaRenderer
 export {
     SchemaRendererNodeContext,
     type SchemaRendererNodeContextValue,
+    createSchemaRendererNodeContextRuler,
     useSchemaRendererNodeContext,
 } from './context';
 export type {SchemaRendererNodeState} from './types';
