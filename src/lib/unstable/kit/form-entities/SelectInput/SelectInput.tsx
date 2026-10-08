@@ -3,7 +3,7 @@ import React from 'react';
 import {
     Flex,
     Select,
-    type SelectOption,
+    type SelectOptionProps,
     type SelectProps,
     Text,
     getSelectOptionText,
@@ -60,7 +60,7 @@ export const SelectInput: NodeEntity<JsonSchemaString, SelectInputProps> = ({
 
                 if (optionMeta) {
                     content = (
-                        <Flex direction="column" gap="0.5">
+                        <Flex direction="column" gap="spacing-half">
                             {content}
                             <Text color="secondary" variant={settings?.textVariant}>
                                 {optionMeta}
@@ -75,19 +75,19 @@ export const SelectInput: NodeEntity<JsonSchemaString, SelectInputProps> = ({
     );
 
     const renderOption: SelectProps['renderOption'] = React.useCallback(
-        (option: SelectOption) => (
+        (option: SelectOptionProps) => (
             <React.Fragment key={option.value}>{option.content || option.value}</React.Fragment>
         ),
         [],
     );
 
     const getOptionText: SelectProps['getOptionText'] = React.useCallback(
-        (option: SelectOption) => option.data?.text ?? getSelectOptionText(option),
+        (option: SelectOptionProps) => option.data?.text ?? getSelectOptionText(option),
         [],
     );
 
     const getOptionHeight: SelectProps['getOptionHeight'] = React.useCallback(
-        (option: SelectOption) => {
+        (option: SelectOptionProps) => {
             let height = 28;
 
             if (settings?.size) {

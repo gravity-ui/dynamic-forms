@@ -48,7 +48,7 @@ export const Alert: NodeEntity<JsonSchemaString, AlertProps> = ({props, schema, 
                 <Flex
                     className={b('title')}
                     alignItems="center"
-                    gap="2"
+                    gap="spacing-2"
                     onClick={() => setExpanded(!expanded)}
                 >
                     <HTMLContent content={title} variant={settings?.titleVariant} />

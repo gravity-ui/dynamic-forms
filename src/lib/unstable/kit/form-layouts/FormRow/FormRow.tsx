@@ -32,7 +32,7 @@ export const FormRow: NodeLayout<JsonSchema, FormRowProps> = ({children, schema,
             className={b({size: settings?.size})}
             direction="row"
             alignItems="flex-start"
-            gap={2}
+            gap="spacing-2"
             hidden={hidden}
         >
             <div className={b('left')}>
@@ -41,8 +41,13 @@ export const FormRow: NodeLayout<JsonSchema, FormRowProps> = ({children, schema,
                     <EntityDescription className={b('help-mark')} likeHelpMark />
                 ) : null}
             </div>
-            <Flex className={b('right')} direction="column" gap={0.5} grow={1}>
-                <Flex className={b('right-content')} alignItems="center" grow={1} gap={2}>
+            <Flex className={b('right')} direction="column" gap="spacing-half" flexGrow={1}>
+                <Flex
+                    className={b('right-content')}
+                    alignItems="center"
+                    flexGrow={1}
+                    gap="spacing-2"
+                >
                     {children}
                     <LayoutButtons />
                 </Flex>

@@ -50,7 +50,7 @@ export const TableArrayView: ArrayView = ({value = [], spec, name}) => {
                     description && showLayoutDescription
                         ? () => (
                               <Flex
-                                  gap={0.5}
+                                  gap="spacing-half"
                                   alignItems="center"
                                   style={{minWidth: width, maxWidth: width}}
                               >

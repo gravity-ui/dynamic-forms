@@ -147,7 +147,7 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
     }
 
     return (
-        <EntityContainer width="by-child" gap={4} fill="by-child" droppable>
+        <EntityContainer width="by-child" gap="spacing-4" fill="by-child" droppable>
             {initButton ? (
                 initButton
             ) : (

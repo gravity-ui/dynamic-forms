@@ -67,7 +67,7 @@ const Example: React.FC<ExampleProps> = ({schema, submitOnMount, title, value}) 
     };
 
     return (
-        <Flex direction="column" gap="4" style={style}>
+        <Flex direction="column" gap="spacing-4" style={style}>
             <Text variant="subheader-3">{title}</Text>
             <Form
                 destroyOnUnregister
@@ -81,8 +81,8 @@ const Example: React.FC<ExampleProps> = ({schema, submitOnMount, title, value}) 
                     <React.Fragment>
                         {submitOnMount ? <SubmitOnMount /> : null}
                         <SyncViewValue value={get(values, `step.${SchemaRendererMode.Form}`)} />
-                        <Flex direction="column" gap="4">
-                            <Flex direction="column" gap="4">
+                        <Flex direction="column" gap="spacing-4">
+                            <Flex direction="column" gap="spacing-4">
                                 <Text variant="subheader-2">Form</Text>
                                 <SchemaRenderer
                                     config={config}
@@ -93,7 +93,7 @@ const Example: React.FC<ExampleProps> = ({schema, submitOnMount, title, value}) 
                                     validateOnBlur={false}
                                 />
                             </Flex>
-                            <Flex direction="column" gap="4">
+                            <Flex direction="column" gap="spacing-4">
                                 <Text variant="subheader-2">View</Text>
                                 <SchemaRenderer
                                     config={config}
@@ -104,7 +104,7 @@ const Example: React.FC<ExampleProps> = ({schema, submitOnMount, title, value}) 
                                     validateOnBlur={false}
                                 />
                             </Flex>
-                            <Flex direction="column" gap="4">
+                            <Flex direction="column" gap="spacing-4">
                                 <Text variant="subheader-2">Value</Text>
                                 <MonacoContainer
                                     height={getMonacoHeight(
@@ -177,7 +177,7 @@ export const EntityPreview: React.FC<EntityPreviewProps> = ({
                 alignItems="flex-start"
                 className={spacing({px: 4, pb: 4})}
                 direction="row"
-                gap="4"
+                gap="spacing-4"
                 maxWidth="100%"
             >
                 <Flex
@@ -203,7 +203,12 @@ export const EntityPreview: React.FC<EntityPreviewProps> = ({
                         />
                     </MonacoContainer>
                 </Flex>
-                <Flex direction="column" gap="4" grow maxWidth="calc(100% - 480px - (16px / 2))">
+                <Flex
+                    direction="column"
+                    gap="spacing-4"
+                    flexGrow={1}
+                    maxWidth="calc(100% - 480px - (16px / 2))"
+                >
                     <Example schema={schema} title="With correct value" value={correctValue} />
                     <Example
                         schema={schema}

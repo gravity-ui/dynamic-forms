@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {SelectProps as SelectBaseProps, SelectOption} from '@gravity-ui/uikit';
+import type {SelectProps as SelectBaseProps, SelectOptionProps} from '@gravity-ui/uikit';
 import {Select as SelectBase, Text} from '@gravity-ui/uikit';
 
 import type {StringInput} from '../../../../core';
@@ -64,7 +64,7 @@ export const Select: StringInput<SelectProps> = ({name, input, spec, inputProps}
     }, []);
 
     const getOptionText: SelectBaseProps['getOptionText'] = React.useCallback(
-        (option: SelectOption) => spec.description?.[option.value] || option.value,
+        (option: SelectOptionProps) => spec.description?.[option.value] || option.value,
         [spec.description],
     );
 

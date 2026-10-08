@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {SelectProps as SelectBaseProps, SelectOption} from '@gravity-ui/uikit';
+import type {SelectProps as SelectBaseProps, SelectOptionProps} from '@gravity-ui/uikit';
 import {Select, Text} from '@gravity-ui/uikit';
 
 import type {ArrayInput, FieldArrayValue} from '../../../../core';
@@ -71,7 +71,7 @@ export const MultiSelect: ArrayInput<MultiSelectProps> = ({name, input, spec, in
     }, []);
 
     const getOptionText: SelectBaseProps['getOptionText'] = React.useCallback(
-        (option: SelectOption) => spec.description?.[option.value] || option.value,
+        (option: SelectOptionProps) => spec.description?.[option.value] || option.value,
         [spec.description],
     );
 

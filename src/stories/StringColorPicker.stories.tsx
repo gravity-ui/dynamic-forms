@@ -14,15 +14,8 @@ export default {
         docs: {
             description: {
                 component:
-                    'Color picker input for `StringSpec`. ' +
-                    '\n\n' +
-                    '> **Note:** this input wraps `unstable_ColorPicker` from ' +
-                    '`@gravity-ui/uikit/unstable`. The underlying uikit component is **unstable** — ' +
-                    'its API, available props and visual presentation may change between uikit ' +
-                    'releases without following semver. Pin the `@gravity-ui/uikit` version if you ' +
-                    'need a stable look-and-feel.' +
-                    '\n\n' +
-                    'See the [uikit ColorPicker docs](https://preview.gravity-ui.com/uikit/?path=/docs/lab-colorpicker--docs).',
+                    'Color picker input for `StringSpec`, using the stable `ColorPicker` ' +
+                    'from `@gravity-ui/uikit`.',
             },
         },
     },

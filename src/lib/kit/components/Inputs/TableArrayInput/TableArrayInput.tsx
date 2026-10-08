@@ -119,7 +119,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                       )
                     : () => (
                           <Flex
-                              gap={0.5}
+                              gap="spacing-half"
                               alignItems="center"
                               style={{minWidth: width, maxWidth: width}}
                           >

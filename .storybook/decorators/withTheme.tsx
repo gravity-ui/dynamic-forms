@@ -2,13 +2,13 @@ import React from 'react';
 
 import type {DecoratorFn} from '@storybook/react';
 
-import {ThemeProvider} from '@gravity-ui/uikit';
+import {Provider} from '@gravity-ui/uikit';
 
 import '@gravity-ui/uikit/styles/styles.scss';
 import './styles.scss';
 
 export const withTheme: DecoratorFn = (Story, context) => (
-    <ThemeProvider theme={context.globals.theme}>
+    <Provider theme={context.globals.theme} lang={context.globals.lang}>
         <Story {...context} />
-    </ThemeProvider>
+    </Provider>
 );

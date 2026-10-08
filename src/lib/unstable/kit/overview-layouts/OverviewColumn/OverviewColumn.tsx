@@ -17,15 +17,20 @@ export const OverviewColumn: NodeLayout<JsonSchema> = ({children, schema}) => {
     const {hidden} = schema.nodeParameters?.flags || {};
 
     return (
-        <LayoutContainer className={b({size: settings?.size})} gap={2} hidden={hidden} hideEmpty>
-            <Flex direction="column" gap={0.5} grow={1}>
+        <LayoutContainer
+            className={b({size: settings?.size})}
+            gap="spacing-2"
+            hidden={hidden}
+            hideEmpty
+        >
+            <Flex direction="column" gap="spacing-half" flexGrow={1}>
                 <div className={b('top')}>
                     <EntityTitle color="secondary" />
                     <EntityDescription className={b('help-mark')} likeHelpMark />
                 </div>
             </Flex>
-            <Flex className={b('bottom')} direction="column" gap={0.5} grow={1}>
-                <Flex grow={1} gap={2}>
+            <Flex className={b('bottom')} direction="column" gap="spacing-half" flexGrow={1}>
+                <Flex flexGrow={1} gap="spacing-2">
                     {children}
                     <LayoutButtons />
                 </Flex>

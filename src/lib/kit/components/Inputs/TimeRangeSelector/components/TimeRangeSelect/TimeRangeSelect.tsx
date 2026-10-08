@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Select, type SelectOption} from '@gravity-ui/uikit';
+import {Select, type SelectOptionProps} from '@gravity-ui/uikit';
 import isString from 'lodash/isString';
 
 import type {
@@ -20,7 +20,7 @@ const b = block('time-range-select');
 interface TimeRangeSelectProps {
     spec: StringSpec<any, undefined, undefined>;
     name: string;
-    options: SelectOption<string>[];
+    options: SelectOptionProps<string>[];
     value?: FieldValue;
     handleChange: (value: string[]) => void;
     props: IndependentInputProps<
