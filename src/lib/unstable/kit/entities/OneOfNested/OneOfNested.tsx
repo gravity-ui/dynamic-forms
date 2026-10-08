@@ -9,6 +9,7 @@ import {
     SchemaRendererMode,
     SchemaRendererNode,
     SchemaRendererNodeContext,
+    createSchemaRendererNodeContextRuler,
     getRenderKit,
     useSchemaRendererState,
 } from '../../../core';
@@ -124,7 +125,7 @@ export const OneOfNested: NodeEntity<JsonSchemaObject, OneOfNestedProps> = ({
             }
         }
 
-        const nodeContext = {
+        const nodeContextRuler = createSchemaRendererNodeContextRuler({
             headName,
             input: togglerInput,
             meta: togglerMeta,
@@ -134,10 +135,10 @@ export const OneOfNested: NodeEntity<JsonSchemaObject, OneOfNestedProps> = ({
             schema: togglerSchema,
             schemaPath: togglerSchemaPath,
             settings,
-        };
+        });
 
         return (
-            <SchemaRendererNodeContext.Provider value={nodeContext}>
+            <SchemaRendererNodeContext.Provider value={nodeContextRuler}>
                 {result}
             </SchemaRendererNodeContext.Provider>
         );

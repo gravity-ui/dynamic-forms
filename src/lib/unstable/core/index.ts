@@ -5,6 +5,7 @@ export {
     type SchemaRendererNodeProps,
     type SchemaRendererNodeState,
     getRenderKit,
+    createSchemaRendererNodeContextRuler,
     useSchemaRendererNodeContext,
 } from './SchemaRendererNode';
 export {SchemaRenderer, type SchemaRendererProps} from './SchemaRenderer';
