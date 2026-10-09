@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/gravity-ui/dynamic-forms#readme",
   "scripts": {
-    "prepare": "husky install && npm run setup:uikit-next",
+    "prepare": "husky install",
     "lint": "run-p lint:*",
     "lint:js": "eslint src --quiet",
     "lint:prettier": "prettier --check 'src/**/*.{js,jsx,ts,tsx,css,scss}'",
@@ -41,8 +41,7 @@
     "playwright:clear-cache": "rm -rf ./playwright/.cache",
     "playwright:docker": "./scripts/playwright-docker.sh 'npm run playwright'",
     "playwright:docker:update": "./scripts/playwright-docker.sh 'npm run playwright:update'",
-    "playwright:docker:clear-cache": "./scripts/playwright-docker.sh clear-cache",
-    "setup:uikit-next": "bash scripts/prepare-uikit-next.sh"
+    "playwright:docker:clear-cache": "./scripts/playwright-docker.sh clear-cache"
   },
   "dependencies": {
     "@bem-react/classname": "^1.8.0",
@@ -67,7 +66,7 @@
     "@gravity-ui/prettier-config": "^1.1.0",
     "@gravity-ui/stylelint-config": "^4.0.1",
     "@gravity-ui/tsconfig": "^1.0.0",
-    "@gravity-ui/uikit": "^7.41.0",
+    "@gravity-ui/uikit": "8.0.0-beta.1",
     "@playwright/experimental-ct-react": "^1.40.0",
     "@playwright/test": "^1.40.0",
     "@storybook/addon-essentials": "^8.6.4",
@@ -120,7 +119,7 @@
     "typescript": "^5.8.4"
   },
   "peerDependencies": {
-    "@gravity-ui/uikit": "^8.0.0",
+    "@gravity-ui/uikit": "^8.0.0-beta.1",
     "final-form": "^4.20.2",
     "react": "^18.0.0 || ^19.0.0",
     "react-dom": "^18.0.0 || ^19.0.0",
