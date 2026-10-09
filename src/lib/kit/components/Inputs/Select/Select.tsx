@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {SelectProps as SelectBaseProps} from '@gravity-ui/uikit';
+import type {SelectProps as SelectBaseProps, SelectOptionProps} from '@gravity-ui/uikit';
 import {Select as SelectBase, Text} from '@gravity-ui/uikit';
 
 import type {StringInput} from '../../../../core';
@@ -38,7 +38,6 @@ export const Select: StringInput<SelectProps> = ({name, input, spec, inputProps}
                 : spec.enum?.map((id) => ({
                       id,
                       value: id,
-                      text: spec.description?.[id] || id,
                       content: spec.viewSpec.selectParams?.meta?.[id] ? (
                           <div key={id}>
                               <Text>{spec.description?.[id] || id}</Text>
@@ -63,6 +62,11 @@ export const Select: StringInput<SelectProps> = ({name, input, spec, inputProps}
     const renderOption = React.useCallback((option: {value: string; content?: React.ReactNode}) => {
         return <React.Fragment key={option.value}>{option.content || option.value}</React.Fragment>;
     }, []);
+
+    const getOptionText: SelectBaseProps['getOptionText'] = React.useCallback(
+        (option: SelectOptionProps) => spec.description?.[option.value] || option.value,
+        [spec.description],
+    );
 
     const getOptionHeight = React.useCallback(() => {
         if (spec.viewSpec.selectParams?.meta) {
@@ -91,6 +95,7 @@ export const Select: StringInput<SelectProps> = ({name, input, spec, inputProps}
             width="max"
             filterable={filterable}
             getOptionHeight={getOptionHeight}
+            getOptionText={withCustomOptions ? undefined : getOptionText}
             renderOption={renderOption}
             {...inputProps}
             value={[value]}

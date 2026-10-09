@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {SelectProps as SelectBaseProps} from '@gravity-ui/uikit';
+import type {SelectProps as SelectBaseProps, SelectOptionProps} from '@gravity-ui/uikit';
 import {Select, Text} from '@gravity-ui/uikit';
 
 import type {ArrayInput, FieldArrayValue} from '../../../../core';
@@ -44,7 +44,6 @@ export const MultiSelect: ArrayInput<MultiSelectProps> = ({name, input, spec, in
                       return {
                           id: value,
                           value,
-                          text,
                           content: spec.viewSpec.selectParams?.meta?.[value] ? (
                               <div key={value}>
                                   <Text>{text}</Text>
@@ -70,6 +69,11 @@ export const MultiSelect: ArrayInput<MultiSelectProps> = ({name, input, spec, in
     const renderOption = React.useCallback((option: {value: string; content?: React.ReactNode}) => {
         return <React.Fragment key={option.value}>{option.content || option.value}</React.Fragment>;
     }, []);
+
+    const getOptionText: SelectBaseProps['getOptionText'] = React.useCallback(
+        (option: SelectOptionProps) => spec.description?.[option.value] || option.value,
+        [spec.description],
+    );
 
     const getOptionHeight = React.useCallback(() => {
         if (spec.viewSpec.selectParams?.meta) {
@@ -118,6 +122,7 @@ export const MultiSelect: ArrayInput<MultiSelectProps> = ({name, input, spec, in
             filterable={filterable}
             renderOption={renderOption}
             getOptionHeight={getOptionHeight}
+            getOptionText={withCustomOptions ? undefined : getOptionText}
             {...inputProps}
             value={_value}
             options={options}

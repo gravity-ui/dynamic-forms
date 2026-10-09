@@ -3,7 +3,7 @@ import React from 'react';
 import {DynamicForm as BaseDynamicForm} from '~playwright/core/DynamicForm';
 
 import type {ArraySpec, FormValue, Spec} from '../../../../../core';
-import {SpecTypes} from '../../../../../core';
+import {SpecTypes} from '../../../../../core/constants';
 
 export const ARRAY_BASE: Record<string, ArraySpec> = {
     default: {

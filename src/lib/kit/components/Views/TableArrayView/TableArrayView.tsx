@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {Flex, HelpMark, Table, type TableColumnConfig} from '@gravity-ui/uikit';
+import {Flex, HelpMark} from '@gravity-ui/uikit';
+import {Table, type TableColumnConfig} from '@gravity-ui/uikit/legacy';
 
 import type {ArrayView, FormValue, ObjectValue} from '../../../../core';
 import {
@@ -49,7 +50,7 @@ export const TableArrayView: ArrayView = ({value = [], spec, name}) => {
                     description && showLayoutDescription
                         ? () => (
                               <Flex
-                                  gap={0.5}
+                                  gap="spacing-half"
                                   alignItems="center"
                                   style={{minWidth: width, maxWidth: width}}
                               >

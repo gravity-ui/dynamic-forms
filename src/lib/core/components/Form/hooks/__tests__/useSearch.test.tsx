@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {Provider} from '@gravity-ui/uikit';
 import {render} from '@testing-library/react';
 import noop from 'lodash/noop';
 import {Form} from 'react-final-form';
@@ -56,6 +57,7 @@ describe('Form/hooks/useSearch', () => {
                     />
                 )}
             </Form>,
+            {wrapper: Provider},
         );
 
         expect(mirror.field.useSearchStore?.store).toMatchObject({

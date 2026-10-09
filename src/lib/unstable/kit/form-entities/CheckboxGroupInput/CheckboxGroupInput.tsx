@@ -67,7 +67,7 @@ export const CheckboxGroupInput: NodeEntity<JsonSchemaArray, CheckboxGroupInputP
             width="fit"
             className={b({size: settings?.size})}
             direction={direction}
-            gap={2}
+            gap="spacing-2"
         >
             {options?.map(({value: optionValue, text}) => (
                 <Flex

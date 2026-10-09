@@ -1,5 +1,5 @@
 import type {FormValue, ObjectSpec} from '../../../../../core';
-import {SpecTypes} from '../../../../../core';
+import {SpecTypes} from '../../../../../core/constants';
 
 export const MULTI_ONEOF: Record<string, ObjectSpec> = {
     default: {

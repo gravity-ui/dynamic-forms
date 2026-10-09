@@ -44,7 +44,7 @@ export const StringNumberWithScaleValue: NodeEntity<
     }
 
     return (
-        <EntityContainer width="fit" fill="populated" direction="row" gap={0.5}>
+        <EntityContainer width="fit" fill="populated" direction="row" gap="spacing-half">
             <LongValue
                 variant={settings?.textVariant}
                 {...restProps}

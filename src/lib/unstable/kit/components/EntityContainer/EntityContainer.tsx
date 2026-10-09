@@ -33,7 +33,7 @@ export const EntityContainer: React.FC<EntityContainerProps> = ({
             data-droppable={droppable}
             data-width={width}
         >
-            <Flex direction="column" minWidth={0} {...restFlexProps} grow={1}>
+            <Flex direction="column" minWidth={0} {...restFlexProps} flexGrow={1}>
                 {children}
             </Flex>
         </div>

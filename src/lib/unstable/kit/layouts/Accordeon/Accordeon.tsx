@@ -87,7 +87,7 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
             >
                 <Disclosure.Summary>
                     {({expanded, onClick}, defaultSummary) => (
-                        <Flex alignItems="center" gap={2}>
+                        <Flex alignItems="center" gap="spacing-2">
                             {withDefaultSummary ? (
                                 defaultSummary
                             ) : (
@@ -108,7 +108,7 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
                         </Flex>
                     )}
                 </Disclosure.Summary>
-                <Flex direction="column" gap={0.5} grow={1}>
+                <Flex direction="column" gap="spacing-half" flexGrow={1}>
                     <div className={b('content', {'with-indent': withIndent})}>{children}</div>
                     {overviewFlag ? null : <EntityError />}
                 </Flex>

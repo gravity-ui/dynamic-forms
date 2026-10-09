@@ -1,5 +1,5 @@
 import type {FormValue, NumberSpec, ObjectSpec} from '../../../../../core';
-import {SpecTypes} from '../../../../../core';
+import {SpecTypes} from '../../../../../core/constants';
 
 const fromTo = (
     extra: Partial<NumberSpec> = {},
