@@ -1,14 +1,14 @@
 import React from 'react';
 
-import {Flex, Text, spacing, useTheme} from '@gravity-ui/uikit';
+import {Flex, Text, useTheme} from '@gravity-ui/uikit';
 import get from 'lodash/get';
 import noop from 'lodash/noop';
 import {Form, useForm} from 'react-final-form';
 import MonacoEditor from 'react-monaco-editor';
 
-import {SchemaRenderer, SchemaRendererMode} from '../../../lib/unstable/core';
-import type {JsonSchema} from '../../../lib/unstable/core/types';
-import {MonacoContainer, config} from '../../../lib/unstable/kit';
+import {SchemaRenderer, SchemaRendererMode} from '../../../lib/core';
+import type {JsonSchema} from '../../../lib/core/types';
+import {MonacoContainer, config} from '../../../lib/kit';
 
 const monacoOptions = {
     automaticLayout: true,
@@ -162,9 +162,9 @@ export const EntityPreview: React.FC<EntityPreviewProps> = ({
     return (
         <Flex direction="column">
             <Text
-                className={spacing({px: 4, pt: 4, pb: 4})}
                 style={{
                     background: 'var(--g-color-base-background)',
+                    padding: 'var(--g-spacing-4)',
                     position: 'sticky',
                     top: 0,
                     zIndex: 1,
@@ -175,7 +175,8 @@ export const EntityPreview: React.FC<EntityPreviewProps> = ({
             </Text>
             <Flex
                 alignItems="flex-start"
-                className={spacing({px: 4, pb: 4})}
+                paddingInline="spacing-4"
+                paddingBlockEnd="spacing-4"
                 direction="row"
                 gap="spacing-4"
                 maxWidth="100%"

@@ -1,14 +1,14 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}long-value {
-    max-width: var(--df-long-value-max-width, 100%);
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 
     &_open {
         white-space: pre-wrap;
-        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
 
     &_long {
@@ -18,10 +18,8 @@
             color: var(--g-color-text-secondary);
         }
 
-        &.#{$ns}long-value_secondary {
-            &:hover {
-                color: var(--g-color-text-primary);
-            }
+        &.#{$ns}long-value_secondary:hover {
+            color: var(--g-color-text-primary);
         }
     }
 }

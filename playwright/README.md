@@ -1,110 +1,93 @@
-# Playwright Test Component
+# Playwright component tests
 
-## How to write a test
+The primary suite tests `SchemaRenderer` directly with JSON Schema. Its tests and
+screenshots live in `src/lib/kit/__tests__` and `src/lib/kit/__snapshots__`.
+The deprecated `DynamicField` / `DynamicView` suite remains in
+`src/lib/deprecated/kit`, with its own unchanged screenshot references. It is
+available separately; these older references still contain UIKit 7 visuals and
+currently differ from UIKit 8 for some controls.
 
-1. Select the component you want to write tests for
-2. Inside the component folder, create the `__tests__` folder and create a file inside it with the following name `<ComponentName>.visual.test.tsx`
-3. Writing a test:
+## Run tests
 
-   ```ts
-   import React from 'react';
+```sh
+npm run playwright             # Primary SchemaRenderer suite (also used by CI)
+npm run playwright:schema      # Same suite, explicitly
+npm run playwright:deprecated  # Preserved DynamicField / DynamicView suite
+npm run playwright:all         # Both suites
+```
 
-   import {TEST_SPEC} from './helpers';
+Both Chromium and WebKit are checked, in light and dark themes. Ordinary test
+runs never create or replace reference images; missing references fail the test.
+The HTML report is written to `playwright-report` (`playwright-report-docker` in a
+container).
 
-   import {test} from '~playwright/core';
-   import {DynamicForm} from '~playwright/core/DynamicForm';
+## Update screenshots
 
-   test('Name test', async ({mount, expectScreenshot}) => {
-     //mounting a component
-     await mount(<DynamicForm spec={TEST_SPEC} />);
+Generate references in the same Linux amd64 Playwright image as CI. On macOS,
+use Docker or Podman; do not save macOS screenshots under the Linux filenames.
 
-     //screenshot
-     await expectScreenshot();
-   });
-   ```
+```sh
+# Update only the new SchemaRenderer suite; preserve deprecated references.
+./scripts/playwright-docker.sh 'npm run playwright:schema -- --update-snapshots'
 
-   or if you need to do any actions on the component
-
-   ```ts
-   import React from 'react';
-
-   import {TEST_SPEC} from './helpers';
-
-   import {test} from '~playwright/core';
-   import {DynamicForm} from '~playwright/core/DynamicForm';
-
-   test('Name test', async ({mount, expectScreenshot}) => {
-     //mounting a component
-     const component = await mount(<DynamicForm spec={TEST_SPEC} />);
-
-     await component.getByRole('button').click();
-
-     //screenshot
-     await expectScreenshot();
-   });
-   ```
-
-   Group of tests.
-
-   ```ts
-   test.describe('Name group tests', () => {
-   test('1', ...);
-   test('2', ...);
-   ...
-   test('10', ...)
-   });
-   ```
-
-````
-
-4. Run tests
-
-   ```shell
-   npm run playwright:install
-   npm run playwright
-````
-
-If you are using system other than Linux, then you need to run tests via docker command:
-
-```shell
+# Verify the primary suite without updating references.
 npm run playwright:docker
 ```
 
-> `npm run playwright:install` command must be run only once on initial setup
+On Linux with the matching browsers and dependencies installed:
 
-5. Update screenshots if needed
+```sh
+npm run playwright:schema -- --update-snapshots
+npm run playwright
+```
 
-   ```shell
-   npm run playwright:update
-   ```
+Review the generated PNG files before committing them. `npm run playwright:update`
+and `npm run playwright:docker:update` update only SchemaRenderer. Updating
+deprecated references requires an explicit
+`npm run playwright:deprecated -- --update-snapshots` (inside the Linux container).
 
-   Or
+## Add a SchemaRenderer test
 
-   ```shell
-   npm run playwright:docker:update
-   ```
+Use the native schema and the shared `SchemaForm` fixture, which mounts the public
+`SchemaRenderer` API. Do not convert deprecated `Spec` objects for this suite.
 
-6. In the folder `__snapshots__`, which is on the same level as the `__tests__` folder, the folder `<Component name>.visual.test.tsx-snapshots`, will contain screenshots
+```tsx
+import React from 'react';
 
-## Description of possible commands:
+import {test} from '~playwright/core';
+import {SchemaForm} from '~playwright/core/SchemaForm';
 
-1. [playwright-test-components](https://playwright.dev/docs/test-components)
-2. [playwright-docs](https://playwright.dev/docs/api/class-test)
-3. [playwright-writing-tests](https://playwright.dev/docs/writing-tests)
+import {JsonSchemaType, NodeType} from '../../core/constants';
 
-## Test examples
+test('name field', async ({mount, expectScreenshot}) => {
+  await mount(
+    <SchemaForm
+      schema={{
+        type: JsonSchemaType.String,
+        title: 'Name',
+        nodeParameters: {type: NodeType.String, entity: 'base', layout: 'row'},
+      }}
+      value="Ada"
+    />,
+  );
+  await expectScreenshot();
+});
+```
 
-- [ArrayBase](../src/lib/kit/components/Inputs/ArrayBase/__tests__/ArrayBase.visual.test.tsx)
-- [Text](../src/lib/kit/components/Inputs/Text/__tests__/Text.visual.test.tsx)
-- [TextContent](../src/lib/kit/components/Inputs/TextContent/__tests__/TextContent.visual.test.tsx)
-- [TextArea](../src/lib/kit/components/Inputs/TextArea/__tests__/TextArea.visual.test.tsx)
+`expectScreenshot` captures light and dark images and waits for theme changes.
+For multiple captures in one test, pass a distinct `screenshotName` each time.
+Portals such as open select menus are outside the default wrapper: pass a popup
+locator as `component`, or use `fullPage: true` to capture the entire page. A body
+locator alone can clip absolutely positioned popups.
 
-## Npm scripts
+Import runtime constants from `core/constants` in test files, and use `import type`
+for types. Importing the public component barrel in Node test collection would
+load styles outside Vite; the JSX fixture can import the public API normally.
 
-- `npm run playwright:install` - install playwright browsers and dependencies
-- `npm run playwright` - run tests
-- `npm run playwright:update` - update screenshots
-- `npm run playwright:clear-cache` - clear cache vite
-- `npm run playwright:docker` - run tests using docker
-- `npm run playwright:docker:update` - update screenshots using docker
-- `npm run playwright:docker:clear-cache` - clear node_modules cache for docker container and clear cache vite
+## Temporary date-components compatibility
+
+The Vite config used by Playwright resolves `@gravity-ui/date-components` directly
+to its real `DatePicker` module. Forms use this component, but the package barrel
+also exports range pickers that still import removed UIKit 7 APIs. This alias
+keeps date tests enabled; it does not fix package compatibility for consumers.
+Remove it when a UIKit 8 compatible date-components release is installed.

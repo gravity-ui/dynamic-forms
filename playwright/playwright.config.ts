@@ -1,4 +1,4 @@
-import {resolve} from 'path';
+import {dirname, resolve} from 'path';
 
 import type {PlaywrightTestConfig} from '@playwright/experimental-ct-react';
 import {defineConfig, devices} from '@playwright/experimental-ct-react';
@@ -30,7 +30,7 @@ reporter.push(
 const config: PlaywrightTestConfig = {
     testDir: pathFromRoot('src'),
     testMatch: '**/__tests__/*.visual.test.tsx',
-    updateSnapshots: process.env.UPDATE_REQUEST ? 'all' : 'missing',
+    updateSnapshots: process.env.UPDATE_REQUEST ? 'all' : 'none',
     snapshotPathTemplate:
         '{testDir}/{testFileDir}/../__snapshots__/{testFileName}-snapshots/{arg}{-projectName}-linux{ext}',
     /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
@@ -61,6 +61,12 @@ const config: PlaywrightTestConfig = {
             resolve: {
                 alias: {
                     '~playwright': resolve(__dirname),
+                    // Temporary test-only workaround: forms use DatePicker, while the
+                    // package barrel also loads range pickers incompatible with UIKit 8.
+                    '@gravity-ui/date-components': resolve(
+                        dirname(require.resolve('@gravity-ui/date-components/package.json')),
+                        'dist/esm/components/DatePicker/index.js',
+                    ),
                 },
             },
         },

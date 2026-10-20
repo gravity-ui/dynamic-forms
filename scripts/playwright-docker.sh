@@ -5,14 +5,14 @@ set -euo pipefail
 IMAGE_NAME="mcr.microsoft.com/playwright"
 IMAGE_TAG="v1.40.0-jammy" # This version have to be synchronized with playwright version from package.json
 
-NODE_MODULES_CACHE_DIR="$HOME/.cache/dynamic-forms-playwright-docker-node-modules"
+NODE_MODULES_CACHE_DIR="$HOME/.cache/dynamic-forms-playwright-docker-node-modules-linux-amd64"
 
 command_exists() {
   command -v "$1" >/dev/null 2>&1
 }
 
 run_command() {
-    $CONTAINER_TOOL run --rm --network host -it -w /work \
+    $CONTAINER_TOOL run --rm --platform linux/amd64 --network host -it -w /work \
         -v $(pwd):/work \
         -v "$NODE_MODULES_CACHE_DIR:/work/node_modules" \
         -e IS_DOCKER=1 \

@@ -1,0 +1,37 @@
+import React from 'react';
+
+import {dateTimeParse} from '@gravity-ui/date-utils';
+import isObject from 'lodash/isObject';
+
+import {BaseView, DEFAULT_DATE_FORMAT} from '../..';
+import type {StringViewProps} from '../../../../core';
+
+interface Timestamp {
+    seconds: string;
+    nanos?: number;
+}
+
+/** @deprecated Use the SchemaRenderer API. */
+export const DateView: React.FC<StringViewProps> = ({value, spec, ...restProps}) => {
+    const {
+        printFormat = DEFAULT_DATE_FORMAT,
+        outputFormat,
+        timeZone,
+    } = spec.viewSpec.dateInput || {};
+
+    let formatedValue: string | number | undefined = value;
+
+    if (isObject(value) && (value as Timestamp).seconds) {
+        formatedValue = Number((value as unknown as Timestamp).seconds) * 1000;
+    }
+
+    if (formatedValue) {
+        const date = dateTimeParse(formatedValue, {format: outputFormat, timeZone});
+
+        if (date) {
+            formatedValue = date.format(printFormat);
+        }
+    }
+
+    return <BaseView spec={spec} value={String(formatedValue)} {...restProps} />;
+};
