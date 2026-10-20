@@ -11,7 +11,7 @@ import {SCHEMA_RENDERER_SERVICE_FIELD} from '../useSchemaRenderer';
 import {useSchemaRendererState} from '../useSchemaRendererState';
 import {getParentName, getServiceFieldName, getStrictModeChecker} from '../utils';
 
-import {SchemaRendererNodeContext} from './context';
+import {SchemaRendererNodeContext, createSchemaRendererNodeContextRuler} from './context';
 import type {SchemaRendererNodeState} from './types';
 import {coerceToJsonSchemaType, getAccumulatedSchema, getRenderKit, scheduleFlush} from './utils';
 
@@ -257,6 +257,16 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
         [headName, input, meta, mode, name, parentValueEmpty, schema, schemaPath, settings],
     );
 
+    const [nodeContextRuler] = React.useState(() =>
+        createSchemaRendererNodeContextRuler(nodeContext),
+    );
+
+    nodeContextRuler.set(nodeContext);
+
+    React.useEffect(() => {
+        nodeContextRuler.notify();
+    }, [nodeContext, nodeContextRuler]);
+
     React.useEffect(() => {
         const unsubscribe = form.subscribe(
             (state) => {
@@ -350,7 +360,7 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
 
     if (content) {
         content = (
-            <SchemaRendererNodeContext.Provider value={nodeContext}>
+            <SchemaRendererNodeContext.Provider value={nodeContextRuler}>
                 {content}
             </SchemaRendererNodeContext.Provider>
         );
