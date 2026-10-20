@@ -34,8 +34,8 @@ const config: PlaywrightTestConfig = {
     snapshotPathTemplate:
         '{testDir}/{testFileDir}/../__snapshots__/{testFileName}-snapshots/{arg}{-projectName}-linux{ext}',
     /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
-    /* Maximum time one test can run for. */
-    timeout: 10 * 1000,
+    /* Includes mounting, interactions and screenshot comparisons in both themes. */
+    timeout: 30 * 1000,
     /* Run tests in files in parallel */
     fullyParallel: true,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
