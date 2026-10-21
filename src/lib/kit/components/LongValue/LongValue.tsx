@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {Text, type TextProps} from '@gravity-ui/uikit';
-import once from 'lodash/once';
 
 import {block} from '../../utils';
 
@@ -9,85 +8,60 @@ import './LongValue.scss';
 
 const b = block('long-value');
 
-export interface LongValueProps extends TextProps {
+export interface LongValueProps extends Omit<TextProps, 'children'> {
+    onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
     value?: string | number | boolean;
-    onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export const LongValue: React.FC<LongValueProps> = ({
-    value,
+    className,
+    color,
     onClick,
-    className: externalClassName,
+    value,
     ...restProps
 }) => {
     const ref = React.useRef<HTMLDivElement>(null);
+    const openRef = React.useRef(false);
     const [open, setOpen] = React.useState(false);
     const [long, setLong] = React.useState(false);
 
     const handleClick = React.useCallback(
-        (e: React.MouseEvent<HTMLDivElement>) => {
-            onClick?.(e);
-            setOpen((f) => !f);
-        },
-        [setOpen, onClick],
-    );
+        (event: React.MouseEvent<HTMLDivElement>) => {
+            onClick?.(event);
+            setOpen((current) => {
+                openRef.current = !current;
 
-    const className = React.useMemo(
-        () =>
-            b(
-                {
-                    open,
-                    long,
-                    ...(restProps.color ? {[restProps.color]: true} : {}),
-                },
-                externalClassName,
-            ),
-        [open, long, externalClassName, restProps.color],
-    );
-
-    React.useEffect(() => {
-        if (ref.current) {
-            const {offsetWidth, scrollWidth} = ref.current;
-
-            const setFlags = once((offsetW: number, scrollW: number) => {
-                if (offsetW < scrollW) {
-                    if (!long) {
-                        setLong(true);
-                    }
-                } else {
-                    if (long) {
-                        setLong(false);
-                    }
-
-                    if (open) {
-                        setOpen(false);
-                    }
-                }
+                return !current;
             });
+        },
+        [onClick],
+    );
 
-            // element has been rendered, but is not displayed on the page
-            if (offsetWidth === 0 && scrollWidth === 0) {
-                const observer = new IntersectionObserver((entries) => {
-                    const entry = entries.find((e) => e.target === ref.current);
+    React.useLayoutEffect(() => {
+        const node = ref.current;
 
-                    if (entry && entry.isIntersecting) {
-                        const target = entry.target as HTMLDivElement;
-
-                        setFlags(target.offsetWidth, target.scrollWidth);
-                    }
-                });
-
-                observer.observe(ref.current);
-
-                return () => {
-                    observer.disconnect();
-                };
-            } else {
-                setFlags(offsetWidth, scrollWidth);
-            }
+        if (!node) {
+            return undefined;
         }
 
-        return;
+        openRef.current = false;
+        setOpen(false);
+
+        const measure = () => {
+            if (openRef.current || (node.offsetWidth === 0 && node.scrollWidth === 0)) {
+                return;
+            }
+
+            setLong(node.scrollWidth > node.offsetWidth);
+        };
+
+        measure();
+
+        const observer = new ResizeObserver(measure);
+
+        observer.observe(node);
+
+        return () => observer.disconnect();
     }, [value]);
 
     return (
@@ -95,6 +69,7 @@ export const LongValue: React.FC<LongValueProps> = ({
             as="div"
             {...restProps}
             ref={ref}
+            color={color}
             className={b({open, long}, className)}
             onClick={long ? handleClick : undefined}
         >

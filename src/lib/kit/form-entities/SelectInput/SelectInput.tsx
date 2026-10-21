@@ -1,0 +1,142 @@
+import React from 'react';
+
+import {
+    Flex,
+    Select,
+    type SelectOptionProps,
+    type SelectProps,
+    Text,
+    getSelectOptionText,
+} from '@gravity-ui/uikit';
+import isString from 'lodash/isString';
+
+import type {JsonSchemaString, NodeEntity} from '../../../core';
+import {EntityContainer} from '../../components';
+import {DASH} from '../../constants';
+import {getValidationState} from '../../utils';
+
+export interface SelectInputProps
+    extends Omit<
+        SelectProps,
+        | 'defaultValue'
+        | 'value'
+        | 'onFocus'
+        | 'onBlur'
+        | 'onChange'
+        | 'onUpdate'
+        | 'multiple'
+        | 'errorMessage'
+        | 'validationState'
+        | 'qa'
+    > {
+    enumDescriptions?: Record<string, string>;
+    optionsMeta?: Record<string, string>;
+}
+
+export const SelectInput: NodeEntity<JsonSchemaString, SelectInputProps> = ({
+    input,
+    meta,
+    props,
+    schema,
+    settings,
+}) => {
+    const {name, onBlur, onChange, onFocus, value: inputValue} = input;
+    const {enumDescriptions, optionsMeta, ...restEntityProps} = props;
+    const {disabled} = schema.nodeParameters?.flags || {};
+
+    const value = React.useMemo(
+        () => (isString(inputValue) ? [inputValue] : undefined),
+        [inputValue],
+    );
+
+    const onUpdate = React.useCallback((v: string[]) => onChange(v[0]), [onChange]);
+
+    const options = React.useMemo(
+        () =>
+            schema.enum?.map((value) => {
+                const optionMeta = optionsMeta?.[value];
+                const text = enumDescriptions?.[value] || value;
+                let content: React.ReactNode = <Text variant={settings?.textVariant}>{text}</Text>;
+
+                if (optionMeta) {
+                    content = (
+                        <Flex direction="column" gap="spacing-half">
+                            {content}
+                            <Text color="secondary" variant={settings?.textVariant}>
+                                {optionMeta}
+                            </Text>
+                        </Flex>
+                    );
+                }
+
+                return {value, content, key: value, data: {optionMeta, text}};
+            }),
+        [enumDescriptions, optionsMeta, schema.enum, settings],
+    );
+
+    const renderOption: SelectProps['renderOption'] = React.useCallback(
+        (option: SelectOptionProps) => (
+            <React.Fragment key={option.value}>{option.content || option.value}</React.Fragment>
+        ),
+        [],
+    );
+
+    const getOptionText: SelectProps['getOptionText'] = React.useCallback(
+        (option: SelectOptionProps) => option.data?.text ?? getSelectOptionText(option),
+        [],
+    );
+
+    const getOptionHeight: SelectProps['getOptionHeight'] = React.useCallback(
+        (option: SelectOptionProps) => {
+            let height = 28;
+
+            if (settings?.size) {
+                height = {
+                    s: 24,
+                    m: 28,
+                    l: 36,
+                    xl: 44,
+                }[settings.size];
+            }
+
+            if (option.data?.optionMeta) {
+                if (settings?.size) {
+                    height += {
+                        s: 24,
+                        m: 20,
+                        l: 16,
+                        xl: 16,
+                    }[settings.size];
+                } else {
+                    height += 16;
+                }
+            }
+            return height;
+        },
+        [settings?.size],
+    );
+
+    return (
+        <EntityContainer width="max">
+            <Select
+                width="max"
+                options={options}
+                filterable={(schema.enum?.length || 0) > 9}
+                renderOption={renderOption}
+                getOptionHeight={getOptionHeight}
+                getOptionText={getOptionText}
+                placeholder={schema.examples?.[0] || DASH}
+                disabled={disabled || schema.readOnly}
+                size={settings?.size}
+                {...restEntityProps}
+                value={value}
+                onFocus={onFocus as SelectProps['onFocus']}
+                onBlur={onBlur as SelectProps['onBlur']}
+                onUpdate={onUpdate}
+                errorMessage={undefined}
+                validationState={getValidationState(meta)}
+                qa={name}
+            />
+        </EntityContainer>
+    );
+};

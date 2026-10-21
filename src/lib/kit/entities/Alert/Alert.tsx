@@ -1,0 +1,106 @@
+import React from 'react';
+
+import * as icons from '@gravity-ui/icons';
+import {
+    Flex,
+    Icon,
+    type IconProps,
+    Alert as UIKitAlert,
+    type AlertProps as UIKitAlertProps,
+} from '@gravity-ui/uikit';
+
+import type {JsonSchemaString, NodeEntity} from '../../../core';
+import {EntityContainer, HTMLContent} from '../../components';
+import {block} from '../../utils';
+
+import './Alert.scss';
+
+const b = block('alert');
+
+export interface AlertProps extends UIKitAlertProps {
+    iconName?: keyof typeof icons;
+    iconProps?: Partial<IconProps>;
+}
+
+export const Alert: NodeEntity<JsonSchemaString, AlertProps> = ({props, schema, settings}) => {
+    const {iconName, iconProps, message, title: titleProp, ...entityRestProps} = props;
+    const {open = true} = schema.nodeParameters?.flags || {};
+
+    const [expanded, setExpanded] = React.useState(open);
+
+    const icon = React.useMemo(
+        () =>
+            iconName && icons[iconName] ? (
+                <Icon data={icons[iconName]} {...iconProps} />
+            ) : undefined,
+        [iconName, iconProps],
+    );
+
+    const title = React.useMemo(() => {
+        if (titleProp && typeof titleProp !== 'string') {
+            return titleProp;
+        }
+
+        const title = typeof titleProp === 'string' ? titleProp : schema.title;
+
+        if (title) {
+            return (
+                <Flex
+                    className={b('title')}
+                    alignItems="center"
+                    gap="spacing-2"
+                    onClick={() => setExpanded(!expanded)}
+                >
+                    <HTMLContent content={title} variant={settings?.titleVariant} />
+                    <Icon data={expanded ? icons.ChevronUp : icons.ChevronDown} size={16} />
+                </Flex>
+            );
+        }
+
+        return null;
+    }, [schema.title, titleProp, expanded, settings?.titleVariant]);
+
+    const msg = React.useMemo(() => {
+        if (message) {
+            if (typeof message === 'string') {
+                return (
+                    <div className={b('message', {expanded: expanded || !title})}>
+                        <HTMLContent content={message} />
+                    </div>
+                );
+            }
+
+            return message;
+        }
+
+        if (schema.description) {
+            return (
+                <div className={b('message', {expanded: expanded || !title})}>
+                    <HTMLContent content={schema.description} />
+                </div>
+            );
+        }
+
+        return undefined;
+    }, [expanded, message, schema.description, title]);
+
+    const size = (() => {
+        let result = settings?.size;
+
+        if (result === 'xl') {
+            result = 'l';
+        }
+
+        if (result === 'l') {
+            result = 'm';
+        }
+
+        return result;
+    })();
+
+    return (
+        <EntityContainer className={b({expanded})} width="fit" fill="populated">
+            <UIKitAlert icon={icon} message={msg} title={title} size={size} {...entityRestProps} />
+        </EntityContainer>
+    );
+};

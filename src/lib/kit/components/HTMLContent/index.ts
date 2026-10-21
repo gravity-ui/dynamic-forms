@@ -1,1 +1,1 @@
-export * from './HTMLContent';
+export {HTMLContent, type HTMLContentProps} from './HTMLContent';

@@ -1,218 +1,49 @@
-import cloneDeep from 'lodash/cloneDeep';
-import isArray from 'lodash/isArray';
-import isEmpty from 'lodash/isEmpty';
-import isNil from 'lodash/isNil';
-import isObject from 'lodash/isObject';
-import isObjectLike from 'lodash/isObjectLike';
-import isString from 'lodash/isString';
+import type {FormApi} from 'final-form';
+import type {FieldMetaState} from 'react-final-form';
 
-import type {FormValue, NumberSpec, ObjectValue, Spec, StringSpec} from '../../core';
-import {SpecTypes, isArraySpec, isObjectSpec, isStringSpec} from '../../core';
-import {isFloat} from '../validators/helpers';
+import {
+    SCHEMA_RENDERER_SERVICE_FIELD,
+    type SchemaRendererNodeState,
+    type SchemaRendererState,
+    getSchemaByPointer,
+    getServiceFieldName,
+} from '../../core';
 
-import {divide} from './bigIntMath';
+export const getValidationState = (meta: FieldMetaState<any>): 'invalid' | undefined => {
+    if ((meta.touched || meta.submitFailed) && meta.error) {
+        return 'invalid';
+    }
 
-export const isNotEmptyValue = (value: FormValue | undefined, spec: Spec | undefined): boolean => {
-    if (isNil(value)) {
+    return undefined;
+};
+
+export const getBooleanValidationState = (meta: FieldMetaState<any>): boolean => {
+    return getValidationState(meta) === 'invalid';
+};
+
+export const getArrayItemParentName = (name: string) => name.slice(0, name.lastIndexOf('['));
+
+export const getArrayItemIndex = (name: string) => name.slice(name.lastIndexOf('[') + 1, -1);
+
+export const isArrayItem = (name: string) => name.endsWith(']');
+
+export const isTupleItem = (name: string, headName: string, form: FormApi) => {
+    if (!isArrayItem(name)) {
         return false;
     }
 
-    if (isString(value)) {
-        if (!value) {
-            return false;
-        }
+    const srName = getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, headName);
+    const srField = form.getFieldState(srName);
+    const srState: SchemaRendererState | undefined = srField?.data?.state;
+    const parentName = getArrayItemParentName(name);
+    const parentField = form.getFieldState(parentName);
+    const parentState: SchemaRendererNodeState | undefined = parentField?.data?.state;
 
-        if (isStringSpec(spec) && spec.viewSpec.hideValues?.includes(value)) {
-            return false;
-        }
-    }
-
-    if (isObject(value) && isObjectSpec(spec)) {
-        const keys = Object.keys(value);
-
-        // the only case when an empty object is considered a non-empty value is when it is a stub for oneof
-        if (
-            !keys.filter((key) =>
-                isNotEmptyValue((value as ObjectValue)[key], spec.properties?.[key]),
-            ).length &&
-            spec.viewSpec.type !== 'oneof'
-        ) {
-            return false;
-        }
-    }
-
-    if (
-        isArray(value) &&
-        isArraySpec(spec) &&
-        !value.filter((item) => isNotEmptyValue(item, spec.items)).length
-    ) {
+    if (!parentState || !srState) {
         return false;
     }
 
-    return true;
-};
+    const parentSchema = getSchemaByPointer(srState.schema, parentState.schemaPath);
 
-export const prepareSpec = <Type extends Spec>(
-    spec: Type,
-    parseJsonDefaultValue?: boolean,
-    overridePatternError?: (pattern?: string) => string,
-): Type => {
-    if (isObjectLike(spec)) {
-        const result: Record<string, any> = cloneDeep(spec);
-
-        if (isString(result.type)) {
-            result.type = result.type.toLowerCase() as Spec['type'];
-        }
-
-        if (!isNil(result.defaultValue)) {
-            let _defaultValue = result.defaultValue;
-
-            if (parseJsonDefaultValue) {
-                try {
-                    _defaultValue = JSON.parse(result.defaultValue);
-                } catch {
-                    _defaultValue = undefined;
-                }
-            }
-
-            if (
-                typeof _defaultValue === result.type ||
-                (isArray(_defaultValue) && result.type === SpecTypes.Array)
-            ) {
-                result.defaultValue = _defaultValue;
-            } else {
-                result.defaultValue = undefined;
-            }
-        }
-
-        if (isString(result.viewSpec?.type)) {
-            result.viewSpec.type = result.viewSpec.type.toLowerCase();
-        }
-
-        if (isString(result.viewSpec?.layout)) {
-            result.viewSpec.layout = result.viewSpec.layout.toLowerCase();
-        }
-
-        if (isString(result.viewSpec?.addButtonPosition)) {
-            result.viewSpec.addButtonPosition = result.viewSpec.addButtonPosition.toLowerCase();
-        }
-
-        if (isString(result.viewSpec?.radioGroupParams?.direction)) {
-            result.viewSpec.radioGroupParams.direction =
-                result.viewSpec.radioGroupParams.direction.toLowerCase();
-        }
-
-        if (isString(result.viewSpec?.oneOfParams?.toggler)) {
-            result.viewSpec.oneOfParams.toggler = result.viewSpec.oneOfParams.toggler.toLowerCase();
-        }
-
-        if (isString(result.viewSpec?.textContentParams?.themeLabel)) {
-            result.viewSpec.textContentParams.themeLabel =
-                result.viewSpec.textContentParams.themeLabel.toLowerCase();
-        }
-
-        if (isString(result.viewSpec?.textContentParams?.themeAlert)) {
-            result.viewSpec.textContentParams.themeAlert =
-                result.viewSpec.textContentParams.themeAlert.toLowerCase();
-        }
-
-        if (isString(result.viewSpec?.textContentParams?.viewAlert)) {
-            result.viewSpec.textContentParams.viewAlert =
-                result.viewSpec.textContentParams.viewAlert.toLowerCase();
-        }
-
-        if (isString(result.validator)) {
-            result.validator = result.validator.toLowerCase();
-        }
-
-        if (
-            (result.maxLength as unknown as string) === '0' &&
-            (result.minLength as unknown as string) === '0'
-        ) {
-            result.maxLength = undefined;
-            result.minLength = undefined;
-        } else {
-            if (!isNil(result.maxLength) && isFloat(`${result.maxLength}`)) {
-                result.maxLength = BigInt(result.maxLength);
-            }
-
-            if (!isNil(result.minLength) && isFloat(`${result.minLength}`)) {
-                result.minLength = BigInt(result.minLength);
-            }
-        }
-
-        if (!isEmpty(result.pattern) && isEmpty(result.patternError) && overridePatternError) {
-            result.patternError = overridePatternError(result.pattern);
-        }
-
-        if (result.items) {
-            result.items = prepareSpec(result.items, parseJsonDefaultValue, overridePatternError);
-        }
-
-        if (result.maximum === 0 && result.minimum === 0) {
-            result.maximum = undefined;
-            result.minimum = undefined;
-        } else {
-            if (!isNil(result.maximum) && isFloat(`${result.maximum}`)) {
-                result.maximum = Number(result.maximum);
-            }
-
-            if (!isNil(result.minimum) && isFloat(`${result.minimum}`)) {
-                result.minimum = Number(result.minimum);
-            }
-        }
-
-        if (isString(result.format)) {
-            result.format = result.format.toLowerCase() as NumberSpec['format'];
-        }
-
-        if (isObjectLike(result.properties)) {
-            Object.keys(result.properties).forEach((key) => {
-                result.properties[key] = prepareSpec(
-                    result.properties[key],
-                    parseJsonDefaultValue,
-                    overridePatternError,
-                );
-            });
-        }
-
-        return result as Type;
-    }
-
-    return spec;
-};
-
-export const clampRangeInputPickerValue = (value: number, min: number, max: number) =>
-    Math.min(Math.max(value, min), max);
-
-export const resolveRangeInputPickerBound = (
-    inputBound: number | undefined,
-    specBound: number | undefined,
-    fallback: number,
-) => {
-    if (!isNil(inputBound)) {
-        return inputBound;
-    }
-
-    if (!isNil(specBound)) {
-        return specBound;
-    }
-
-    return fallback;
-};
-
-export const isCorrectSizeParams = (spec: StringSpec) => {
-    const {sizeParams} = spec.viewSpec;
-
-    if (
-        !sizeParams ||
-        !isString(sizeParams.defaultType) ||
-        !isObject(sizeParams.scale) ||
-        !sizeParams.scale[sizeParams.defaultType] ||
-        Object.values(sizeParams.scale).some(({factor}) => !divide(factor, factor))
-    ) {
-        return false;
-    }
-
-    return true;
+    return parentSchema && 'items' in parentSchema && Array.isArray(parentSchema.items);
 };

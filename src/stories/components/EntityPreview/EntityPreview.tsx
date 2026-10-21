@@ -1,14 +1,14 @@
 import React from 'react';
 
-import {Flex, Text, spacing, useTheme} from '@gravity-ui/uikit';
+import {Flex, Text, useTheme} from '@gravity-ui/uikit';
 import get from 'lodash/get';
 import noop from 'lodash/noop';
 import {Form, useForm} from 'react-final-form';
 import MonacoEditor from 'react-monaco-editor';
 
-import {SchemaRenderer, SchemaRendererMode} from '../../../lib/unstable/core';
-import type {JsonSchema} from '../../../lib/unstable/core/types';
-import {MonacoContainer, config} from '../../../lib/unstable/kit';
+import {SchemaRenderer, SchemaRendererMode} from '../../../lib/core';
+import type {JsonSchema} from '../../../lib/core/types';
+import {MonacoContainer, config} from '../../../lib/kit';
 
 const monacoOptions = {
     automaticLayout: true,
@@ -67,7 +67,7 @@ const Example: React.FC<ExampleProps> = ({schema, submitOnMount, title, value}) 
     };
 
     return (
-        <Flex direction="column" gap="4" style={style}>
+        <Flex direction="column" gap="spacing-4" style={style}>
             <Text variant="subheader-3">{title}</Text>
             <Form
                 destroyOnUnregister
@@ -81,8 +81,8 @@ const Example: React.FC<ExampleProps> = ({schema, submitOnMount, title, value}) 
                     <React.Fragment>
                         {submitOnMount ? <SubmitOnMount /> : null}
                         <SyncViewValue value={get(values, `step.${SchemaRendererMode.Form}`)} />
-                        <Flex direction="column" gap="4">
-                            <Flex direction="column" gap="4">
+                        <Flex direction="column" gap="spacing-4">
+                            <Flex direction="column" gap="spacing-4">
                                 <Text variant="subheader-2">Form</Text>
                                 <SchemaRenderer
                                     config={config}
@@ -93,7 +93,7 @@ const Example: React.FC<ExampleProps> = ({schema, submitOnMount, title, value}) 
                                     validateOnBlur={false}
                                 />
                             </Flex>
-                            <Flex direction="column" gap="4">
+                            <Flex direction="column" gap="spacing-4">
                                 <Text variant="subheader-2">View</Text>
                                 <SchemaRenderer
                                     config={config}
@@ -104,7 +104,7 @@ const Example: React.FC<ExampleProps> = ({schema, submitOnMount, title, value}) 
                                     validateOnBlur={false}
                                 />
                             </Flex>
-                            <Flex direction="column" gap="4">
+                            <Flex direction="column" gap="spacing-4">
                                 <Text variant="subheader-2">Value</Text>
                                 <MonacoContainer
                                     height={getMonacoHeight(
@@ -162,9 +162,9 @@ export const EntityPreview: React.FC<EntityPreviewProps> = ({
     return (
         <Flex direction="column">
             <Text
-                className={spacing({px: 4, pt: 4, pb: 4})}
                 style={{
                     background: 'var(--g-color-base-background)',
+                    padding: 'var(--g-spacing-4)',
                     position: 'sticky',
                     top: 0,
                     zIndex: 1,
@@ -175,9 +175,10 @@ export const EntityPreview: React.FC<EntityPreviewProps> = ({
             </Text>
             <Flex
                 alignItems="flex-start"
-                className={spacing({px: 4, pb: 4})}
+                paddingInline="spacing-4"
+                paddingBlockEnd="spacing-4"
                 direction="row"
-                gap="4"
+                gap="spacing-4"
                 maxWidth="100%"
             >
                 <Flex
@@ -203,7 +204,12 @@ export const EntityPreview: React.FC<EntityPreviewProps> = ({
                         />
                     </MonacoContainer>
                 </Flex>
-                <Flex direction="column" gap="4" grow maxWidth="calc(100% - 480px - (16px / 2))">
+                <Flex
+                    direction="column"
+                    gap="spacing-4"
+                    flexGrow={1}
+                    maxWidth="calc(100% - 480px - (16px / 2))"
+                >
                     <Example schema={schema} title="With correct value" value={correctValue} />
                     <Example
                         schema={schema}
