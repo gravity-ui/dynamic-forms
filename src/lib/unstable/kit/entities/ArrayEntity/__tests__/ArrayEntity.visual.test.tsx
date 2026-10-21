@@ -1,0 +1,167 @@
+import React from 'react';
+
+import {expect} from '@playwright/experimental-ct-react';
+
+import {test} from '~playwright/core';
+import {SchemaForm} from '~playwright/core/SchemaForm';
+import {expectInsideScreenshot} from '~playwright/core/expectInsideScreenshot';
+import {rendererVariants} from '~playwright/core/schemaRendererVariants';
+
+import {SchemaRendererMode} from '../../../../core/constants';
+import type {JsonSchema} from '../../../../core/types';
+
+import {createSchema, value} from './helpers';
+
+test.describe('SchemaRenderer ArrayEntity', () => {
+    for (const mode of [SchemaRendererMode.Form, SchemaRendererMode.Overview]) {
+        for (const {layout, layoutName, size, view} of rendererVariants) {
+            test(`${mode} ${layoutName} ${size} ${view}`, async ({
+                mount,
+                page,
+                expectScreenshot,
+            }) => {
+                const schema = createSchema(layout);
+                const component = await mount(
+                    <SchemaForm
+                        schema={schema}
+                        value={value}
+                        mode={mode}
+                        size={size}
+                        view={view}
+                        coerceInitialValues={true}
+                        jsonDefaultValues={false}
+                        validateOnBlur={false}
+                        userContext={{}}
+                        showSubmit={false}
+                        width={1000}
+                    />,
+                );
+                if (mode === SchemaRendererMode.Form) {
+                    await expect(component.getByRole('textbox').first()).toHaveValue('Ada');
+                } else {
+                    await expect(component.getByText('Ada', {exact: true})).toBeVisible();
+                }
+                const frame = page.locator('.playwright-wrapper-test');
+                if (mode === SchemaRendererMode.Form) {
+                    for (const qa of ['input[0]', 'input[1]']) {
+                        await expectInsideScreenshot(
+                            component.getByTestId(qa).locator('input'),
+                            frame,
+                        );
+                    }
+                } else {
+                    for (const text of ['Ada', 'Grace']) {
+                        await expectInsideScreenshot(
+                            component.getByText(text, {exact: true}),
+                            frame,
+                        );
+                    }
+                }
+                await expectScreenshot();
+            });
+        }
+    }
+    test('add edit and remove an item', async ({mount, expectScreenshot}) => {
+        const schema = createSchema('section');
+        const component = await mount(
+            <SchemaForm
+                schema={schema}
+                value={value}
+                mode={SchemaRendererMode.Form}
+                size="m"
+                view="stretch"
+                coerceInitialValues={true}
+                jsonDefaultValues={false}
+                validateOnBlur={false}
+                userContext={{}}
+                showSubmit={false}
+                width={600}
+            />,
+        );
+        await component.getByTestId('input-add-button').click();
+        await component.getByTestId('input[2]').locator('input').fill('Linus');
+        await component.getByTestId('input[0]-remove-button').click();
+        await expect(component.getByTestId('form-value')).toHaveText('["Grace","Linus"]');
+        await expect(component.getByRole('textbox')).toHaveCount(2);
+        await expectScreenshot();
+    });
+
+    test('tuple keeps fixed fields without add or remove controls', async ({
+        mount,
+        expectScreenshot,
+    }) => {
+        const base = createSchema('section');
+        const schema = {
+            ...base,
+            items: [
+                base.items as JsonSchema,
+                {...(base.items as JsonSchema), title: 'Second name'},
+            ],
+        };
+        const component = await mount(
+            <SchemaForm
+                schema={schema}
+                value={value}
+                mode={SchemaRendererMode.Form}
+                size="m"
+                view="stretch"
+                coerceInitialValues={true}
+                jsonDefaultValues={false}
+                validateOnBlur={false}
+                userContext={{}}
+                showSubmit={false}
+                width={600}
+            />,
+        );
+        await expect(component.getByRole('textbox')).toHaveCount(2);
+        await expect(component.getByTestId('input-add-button')).toHaveCount(0);
+        await expect(component.locator('[data-qa$="-remove-button"]')).toHaveCount(0);
+        await expectScreenshot();
+    });
+
+    test('disabled array cannot add items', async ({mount, expectScreenshot}) => {
+        const base = createSchema('section');
+        const schema = {
+            ...base,
+            nodeParameters: {...base.nodeParameters, flags: {open: true, disabled: true}},
+        };
+        const component = await mount(
+            <SchemaForm
+                schema={schema}
+                value={value}
+                mode={SchemaRendererMode.Form}
+                size="m"
+                view="stretch"
+                coerceInitialValues={true}
+                jsonDefaultValues={false}
+                validateOnBlur={false}
+                userContext={{}}
+                showSubmit={false}
+                width={600}
+            />,
+        );
+        await expect(component.getByTestId('input-add-button')).toBeDisabled();
+        await expectScreenshot();
+    });
+
+    test('empty overview uses the empty value marker', async ({mount, expectScreenshot}) => {
+        const schema = createSchema('cell');
+        const component = await mount(
+            <SchemaForm
+                schema={schema}
+                value={[]}
+                mode={SchemaRendererMode.Overview}
+                size="m"
+                view="stretch"
+                coerceInitialValues={true}
+                jsonDefaultValues={false}
+                validateOnBlur={false}
+                userContext={{}}
+                showSubmit={false}
+                width={600}
+            />,
+        );
+        await expect(component.getByText('—', {exact: true})).toBeVisible();
+        await expectScreenshot();
+    });
+});

@@ -1,5 +1,5 @@
 import type {BooleanSpec, FormValue} from '../../../../../core';
-import {SpecTypes} from '../../../../../core';
+import {SpecTypes} from '../../../../../core/constants';
 
 export const SWITCH: Record<string, BooleanSpec> = {
     default: {

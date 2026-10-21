@@ -29,6 +29,7 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
     input,
     meta,
     mode,
+    settings,
     props,
     schema,
 }) => {
@@ -163,6 +164,7 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
                 dialog={false}
                 height={height}
                 language={language}
+                settings={settings}
                 toggleDialogVisibility={toggleDialogOpen}
                 width={width}
                 withDialog={withDialog}
@@ -176,6 +178,7 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
                         dialog={true}
                         height="90vh"
                         language={language}
+                        settings={settings}
                         toggleDialogVisibility={toggleDialogOpen}
                         width="80vw"
                         withDialog={withDialog}

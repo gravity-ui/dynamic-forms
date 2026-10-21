@@ -1,5 +1,5 @@
 import type {StringSpec} from '../../../../../core';
-import {SpecTypes} from '../../../../../core';
+import {SpecTypes} from '../../../../../core/constants';
 
 export const PASSWORD_SPEC: Record<string, StringSpec> = {
     default: {
