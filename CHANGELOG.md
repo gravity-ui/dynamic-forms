@@ -1,5 +1,18 @@
 # Changelog
 
+## [5.38.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.37.0...v5.38.0) (2026-10-23)
+
+
+### Features
+
+* **unstable:** add node context subscription ([#454](https://github.com/gravity-ui/dynamic-forms/issues/454)) ([8cac803](https://github.com/gravity-ui/dynamic-forms/commit/8cac803e6ffe334b7edf1624a869a99b747eb4d8))
+* **unstable:** add object entity groups ([#459](https://github.com/gravity-ui/dynamic-forms/issues/459)) ([dbe0578](https://github.com/gravity-ui/dynamic-forms/commit/dbe057886a7419508541777796ca604b75e0f67d))
+
+
+### Bug Fixes
+
+* **unstable:** replace empty initial context value ([#457](https://github.com/gravity-ui/dynamic-forms/issues/457)) ([a3c2cb0](https://github.com/gravity-ui/dynamic-forms/commit/a3c2cb01fc02b1eb217a6cc3d4639e35c74ca524))
+
 ## [5.37.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.36.0...v5.37.0) (2026-10-07)
 
 
