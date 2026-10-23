@@ -17,13 +17,15 @@ export const rendererLayouts = [
     'transparent',
 ] as const;
 
-// Every layout × size pair, with both views represented for every layout and size.
+// Full layout × size × view product, ordered for a single vertical column.
 // These are named test cases, not fallback values supplied by the mount fixture.
-export const rendererVariants = rendererLayouts.flatMap((layout, layoutIndex) =>
-    rendererSizes.map((size, sizeIndex) => ({
-        layout,
-        layoutName: layout ?? 'no-layout',
-        size,
-        view: rendererViews[(layoutIndex + sizeIndex) % rendererViews.length],
-    })),
+export const rendererVariants = rendererLayouts.flatMap((layout) =>
+    rendererSizes.flatMap((size) =>
+        rendererViews.map((view) => ({
+            layout,
+            layoutName: layout ?? 'no-layout',
+            size,
+            view,
+        })),
+    ),
 );

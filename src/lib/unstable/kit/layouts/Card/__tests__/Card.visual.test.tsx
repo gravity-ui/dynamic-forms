@@ -2,7 +2,7 @@ import React from 'react';
 
 import {expect} from '@playwright/experimental-ct-react';
 
-import {test} from '~playwright/core';
+import {schemaTest as test} from '~playwright/core';
 import {SchemaForm, type SchemaFormProps} from '~playwright/core/SchemaForm';
 import {SchemaFormGrid, type SchemaFormGridProps} from '~playwright/core/SchemaFormGrid';
 import {rendererSizes, rendererViews} from '~playwright/core/schemaRendererVariants';
@@ -154,7 +154,7 @@ test.describe('Card', () => {
             );
             const grid = await mount(
                 <SchemaFormGrid
-                    columns={4}
+                    caseHeight={mode === SchemaRendererMode.Form ? 220 : 180}
                     cases={[
                         ...variants.map(({size, view}) => {
                             const label = `size=${size} / view=${view}`;

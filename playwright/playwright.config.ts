@@ -42,8 +42,8 @@ const config: PlaywrightTestConfig = {
     forbidOnly: Boolean(process.env.CI),
     /* Retry on CI only */
     retries: process.env.CI ? 2 : 0,
-    /* Bound memory use for the component matrix, including Monaco workers. */
-    workers: process.env.CI ? 4 : undefined,
+    /* Full-height matrices, especially 64 Monaco editors, need bounded concurrency. */
+    workers: 2,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter,
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */

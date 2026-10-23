@@ -2,7 +2,7 @@ import React from 'react';
 
 import {expect} from '@playwright/experimental-ct-react';
 
-import {test} from '~playwright/core';
+import {schemaTest as test} from '~playwright/core';
 import type {SchemaFormProps} from '~playwright/core/SchemaForm';
 import {SchemaFormGrid, type SchemaFormGridProps} from '~playwright/core/SchemaFormGrid';
 import {rendererVariants} from '~playwright/core/schemaRendererVariants';
@@ -77,7 +77,7 @@ test.describe('SchemaRenderer Label', () => {
 
             const grid = await mount(
                 <SchemaFormGrid
-                    columns={4}
+                    caseHeight={240}
                     cases={[
                         ...rendererVariants.map(({layout, layoutName, size, view}) => {
                             const schema = createSchema(layout);

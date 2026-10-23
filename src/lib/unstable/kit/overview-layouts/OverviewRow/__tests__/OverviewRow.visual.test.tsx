@@ -2,7 +2,7 @@ import React from 'react';
 
 import {expect} from '@playwright/experimental-ct-react';
 
-import {test} from '~playwright/core';
+import {schemaTest as test} from '~playwright/core';
 import type {SchemaFormProps} from '~playwright/core/SchemaForm';
 import {SchemaFormGrid, type SchemaFormGridProps} from '~playwright/core/SchemaFormGrid';
 import {rendererSizes, rendererViews} from '~playwright/core/schemaRendererVariants';
@@ -24,6 +24,7 @@ test.describe('OverviewRow', () => {
             const stateCases: SchemaFormGridProps['cases'] = [
                 {
                     label: 'long title and value with copy action',
+                    height: 140,
                     props: ((): SchemaFormProps => {
                         const schema: JsonSchemaString = {
                             ...baseSchema,
@@ -60,7 +61,7 @@ test.describe('OverviewRow', () => {
             );
             const grid = await mount(
                 <SchemaFormGrid
-                    columns={4}
+                    caseHeight={100}
                     cases={[
                         ...variants.map(({size, view}) => {
                             const label = `size=${size} / view=${view}`;

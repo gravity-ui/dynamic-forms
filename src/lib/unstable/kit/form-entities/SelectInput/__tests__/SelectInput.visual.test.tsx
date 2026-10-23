@@ -2,7 +2,7 @@ import React from 'react';
 
 import {expect} from '@playwright/experimental-ct-react';
 
-import {test} from '~playwright/core';
+import {schemaTest as test} from '~playwright/core';
 import type {SchemaFormProps} from '~playwright/core/SchemaForm';
 import {SchemaFormGrid, type SchemaFormGridProps} from '~playwright/core/SchemaFormGrid';
 import {expectPopupInCell, fitGridInViewport, getSelectPopup} from '~playwright/core/popupGrid';
@@ -11,9 +11,6 @@ import {rendererVariants} from '~playwright/core/schemaRendererVariants';
 import {SchemaRendererMode} from '../../../../core/constants';
 
 import {schema, value} from './helpers';
-
-// The large grid already captures CSS pixels; avoid Retina-sized popup surfaces.
-test.use({deviceScaleFactor: 1});
 
 test.describe('SchemaRenderer SelectInput', () => {
     test('layouts sizes and views', async ({mount, page, expectScreenshot}) => {
@@ -93,7 +90,7 @@ test.describe('SchemaRenderer SelectInput', () => {
             },
             {
                 label: 'open filtered options',
-                spaceBelow: 200,
+
                 props: ((): SchemaFormProps => {
                     const options = Array.from({length: 12}, (_, index) => `choice-${index + 1}`);
                     return {
@@ -128,13 +125,13 @@ test.describe('SchemaRenderer SelectInput', () => {
 
         const grid = await mount(
             <SchemaFormGrid
-                columns={4}
+                caseHeight={360}
                 cases={[
                     ...rendererVariants.map((variant) => {
                         const label = `layout=${variant.layoutName} / size=${variant.size} / view=${variant.view}`;
                         return {
                             label,
-                            spaceBelow: 200,
+
                             props: {
                                 schema: {
                                     ...schema,
@@ -227,7 +224,7 @@ test.describe('SchemaRenderer SelectInput', () => {
             await page.keyboard.press('Escape');
             await expect(component.getByTestId('form-value')).toHaveText('"choice-10"');
         }
-        // Interactions can add validation messages and change the grid height.
+        // Restore the viewport after interactions that may scroll to a control.
         await fitGridInViewport(page, grid);
         for (let index = 0; index < rendererVariants.length; index++) {
             const cell = cases.nth(index);

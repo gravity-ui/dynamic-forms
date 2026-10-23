@@ -2,7 +2,7 @@ import React from 'react';
 
 import {expect} from '@playwright/experimental-ct-react';
 
-import {test} from '~playwright/core';
+import {schemaTest as test} from '~playwright/core';
 import type {SchemaFormProps} from '~playwright/core/SchemaForm';
 import type {SchemaFormGridProps} from '~playwright/core/SchemaFormGrid';
 import {rendererVariants} from '~playwright/core/schemaRendererVariants';
@@ -13,9 +13,7 @@ import {MonacoSchemaForm, MonacoSchemaFormGrid} from './MonacoSchemaForm';
 import {createSchema, value} from './helpers';
 
 test.describe('SchemaRenderer Monaco', () => {
-    // Do not allocate Retina-sized canvases for dozens of editors in the same grid.
-    test.use({deviceScaleFactor: 1});
-    // Each grid mounts 32 editors; keep these scenarios in one worker per browser.
+    // Each grid mounts 64 editors; keep these scenarios in one worker per browser.
     test.describe.configure({mode: 'default'});
 
     for (const mode of [SchemaRendererMode.Form, SchemaRendererMode.Overview]) {
@@ -158,7 +156,7 @@ test.describe('SchemaRenderer Monaco', () => {
 
             const grid = await mount(
                 <MonacoSchemaFormGrid
-                    columns={4}
+                    caseHeight={420}
                     cases={[
                         ...rendererVariants.map(({layout, layoutName, size, view}) => {
                             const schema = createSchema(layout);
