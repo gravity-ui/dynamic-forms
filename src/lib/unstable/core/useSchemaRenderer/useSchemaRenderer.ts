@@ -193,6 +193,10 @@ export const useSchemaRenderer = ({
         );
 
         if (srField?.data) {
+            if (srField.data.state === initialState) {
+                return;
+            }
+
             srField.data.state = initialState;
 
             initialState.dispatchEvent(initialEvents);

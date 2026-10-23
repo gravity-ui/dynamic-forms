@@ -47,9 +47,12 @@ export const createSchemaRendererNodeContextRuler = (
     };
 };
 
-export const SchemaRendererNodeContext = React.createContext<SchemaRendererNodeContextRuler>(
-    null as unknown as SchemaRendererNodeContextRuler,
-);
+export const SchemaRendererNodeContext = React.createContext<SchemaRendererNodeContextRuler>({
+    getSnapshot: () => ({}) as SchemaRendererNodeContextValue,
+    notify: () => {},
+    set: () => {},
+    subscribe: () => () => {},
+});
 
 export const useSchemaRendererNodeContext = (): SchemaRendererNodeContextValue => {
     const store = React.useContext(SchemaRendererNodeContext);
