@@ -1,5 +1,5 @@
 import type {ObjectSpec} from '../../../../../core';
-import {SpecTypes} from '../../../../../core';
+import {SpecTypes} from '../../../../../core/constants';
 
 export const SECRET: Record<string, ObjectSpec> = {
     default: {
