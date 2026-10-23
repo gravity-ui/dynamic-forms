@@ -3,7 +3,8 @@ import React from 'react';
 import {expect} from '@playwright/experimental-ct-react';
 
 import {test} from '~playwright/core';
-import {SchemaForm} from '~playwright/core/SchemaForm';
+import {SchemaForm, type SchemaFormProps} from '~playwright/core/SchemaForm';
+import {SchemaFormGrid, type SchemaFormGridProps} from '~playwright/core/SchemaFormGrid';
 import {rendererSizes, rendererViews} from '~playwright/core/schemaRendererVariants';
 
 import {JsonSchemaType, NodeType, SchemaRendererMode} from '../../../../core/constants';
@@ -19,74 +20,137 @@ const baseSchema: JsonSchemaString = {
 
 test.describe('FormColumn', () => {
     for (const mode of modes) {
-        for (const size of rendererSizes) {
-            for (const view of rendererViews) {
-                test(`${mode} size=${size} view=${view}`, async ({mount, expectScreenshot}) => {
-                    const schema = baseSchema;
-                    const value = 'Gravity service';
-                    const component = await mount(
-                        <SchemaForm
-                            schema={schema}
-                            value={value}
-                            mode={mode}
-                            size={size}
-                            view={view}
-                            coerceInitialValues={true}
-                            jsonDefaultValues={false}
-                            validateOnBlur={false}
-                            userContext={{}}
-                            showSubmit={false}
-                            width={600}
-                        />,
-                    );
-                    if (mode === SchemaRendererMode.Form) {
-                        await expect(component.getByRole('textbox')).toHaveValue(value);
-                    } else {
-                        await expect(component.getByText(value, {exact: true})).toBeVisible();
-                    }
-                    await expectScreenshot();
-                });
-            }
-        }
-    }
-
-    for (const descriptionType of ['tooltip', 'bottom'] as const) {
-        test(`description ${descriptionType}`, async ({mount, page, expectScreenshot}) => {
-            const schema: JsonSchemaString = {
-                ...baseSchema,
-                nodeParameters: {
-                    ...baseSchema.nodeParameters,
-                    layoutProps: {descriptionType},
-                    flags: {open: true, required: true},
+        test(`${mode} sizes and views`, async ({mount, expectScreenshot}) => {
+            const stateCases: SchemaFormGridProps['cases'] = [
+                {
+                    label: 'description bottom',
+                    props: ((): SchemaFormProps => {
+                        const descriptionType = 'bottom' as const;
+                        const schema: JsonSchemaString = {
+                            ...baseSchema,
+                            nodeParameters: {
+                                ...baseSchema.nodeParameters,
+                                layoutProps: {descriptionType},
+                                flags: {open: true, required: true},
+                            },
+                        };
+                        const value = 'Gravity service';
+                        const mode = SchemaRendererMode.Form;
+                        const size = 'm';
+                        const view = 'stretch';
+                        return {
+                            schema: schema,
+                            value: value,
+                            mode: mode,
+                            size: size,
+                            view: view,
+                            coerceInitialValues: true,
+                            jsonDefaultValues: false,
+                            validateOnBlur: false,
+                            userContext: {},
+                            showSubmit: false,
+                            width: 600,
+                        };
+                    })(),
                 },
-            };
+            ];
+            const additionalCases = stateCases.filter(({props}) => props.mode === mode);
+            const schema = baseSchema;
             const value = 'Gravity service';
-            const mode = SchemaRendererMode.Form;
-            const size = 'm';
-            const view = 'stretch';
-            const component = await mount(
-                <SchemaForm
-                    schema={schema}
-                    value={value}
-                    mode={mode}
-                    size={size}
-                    view={view}
-                    coerceInitialValues={true}
-                    jsonDefaultValues={false}
-                    validateOnBlur={false}
-                    userContext={{}}
-                    showSubmit={false}
-                    width={600}
+            const variants = rendererSizes.flatMap((size) =>
+                rendererViews.map((view) => ({size, view})),
+            );
+            const grid = await mount(
+                <SchemaFormGrid
+                    columns={4}
+                    cases={[
+                        ...variants.map(({size, view}) => {
+                            const label = `size=${size} / view=${view}`;
+                            return {
+                                label,
+                                props: {
+                                    schema: schema,
+                                    value: value,
+                                    mode: mode,
+                                    size: size,
+                                    view: view,
+                                    coerceInitialValues: true,
+                                    jsonDefaultValues: false,
+                                    validateOnBlur: false,
+                                    userContext: {},
+                                    showSubmit: false,
+                                    width: 600,
+                                },
+                            };
+                        }),
+                        ...additionalCases,
+                    ]}
                 />,
             );
-            await expect(component.getByRole('textbox')).toHaveValue(value);
-            if (descriptionType === 'bottom') {
-                await expect(component.getByText(schema.description!, {exact: true})).toBeVisible();
-            } else {
-                await component.locator('.g-help-mark').hover();
-                await expect(page.getByText(schema.description!, {exact: true})).toBeVisible();
+            const cases = grid.getByTestId('schema-variant');
+            await expect(cases).toHaveCount(variants.length + additionalCases.length);
+            for (let index = 0; index < variants.length; index++) {
+                const component = cases.nth(index);
+                if (mode === SchemaRendererMode.Form) {
+                    await expect(component.getByRole('textbox')).toHaveValue(value);
+                } else {
+                    await expect(component.getByText(value, {exact: true})).toBeVisible();
+                }
             }
-            await expectScreenshot({fullPage: true});
+            if (mode === SchemaRendererMode.Form) {
+                const descriptionType = 'bottom' as const;
+                const schema: JsonSchemaString = {
+                    ...baseSchema,
+                    nodeParameters: {
+                        ...baseSchema.nodeParameters,
+                        layoutProps: {descriptionType},
+                        flags: {open: true, required: true},
+                    },
+                };
+                const value = 'Gravity service';
+                const component = grid.getByRole('region', {
+                    name: 'description bottom',
+                    exact: true,
+                });
+                await expect(component.getByRole('textbox')).toHaveValue(value);
+                await expect(component.getByText(schema.description!, {exact: true})).toBeVisible();
+            }
+            await expectScreenshot({scale: 'css'});
         });
     }
+
+    test('description tooltip', async ({mount, page, expectScreenshot}) => {
+        const descriptionType = 'tooltip' as const;
+        const schema: JsonSchemaString = {
+            ...baseSchema,
+            nodeParameters: {
+                ...baseSchema.nodeParameters,
+                layoutProps: {descriptionType},
+                flags: {open: true, required: true},
+            },
+        };
+        const value = 'Gravity service';
+        const mode = SchemaRendererMode.Form;
+        const size = 'm';
+        const view = 'stretch';
+        const component = await mount(
+            <SchemaForm
+                schema={schema}
+                value={value}
+                mode={mode}
+                size={size}
+                view={view}
+                coerceInitialValues={true}
+                jsonDefaultValues={false}
+                validateOnBlur={false}
+                userContext={{}}
+                showSubmit={false}
+                width={600}
+            />,
+        );
+        await expect(component.getByRole('textbox')).toHaveValue(value);
+        await component.locator('.g-help-mark').hover();
+        await expect(page.getByText(schema.description!, {exact: true})).toBeVisible();
+        await expectScreenshot({fullPage: true});
+    });
 });

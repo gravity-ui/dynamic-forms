@@ -3,7 +3,7 @@ import React from 'react';
 import {expect} from '@playwright/experimental-ct-react';
 
 import {test} from '~playwright/core';
-import {SchemaForm} from '~playwright/core/SchemaForm';
+import {SchemaFormGrid, type SchemaFormGridProps} from '~playwright/core/SchemaFormGrid';
 import {rendererSizes, rendererViews} from '~playwright/core/schemaRendererVariants';
 
 import {JsonSchemaType, NodeType, SchemaRendererMode} from '../../../../core/constants';
@@ -24,80 +24,95 @@ const baseSchema: JsonSchemaString = {
 
 test.describe('Transparent', () => {
     for (const mode of modes) {
-        for (const size of rendererSizes) {
-            for (const view of rendererViews) {
-                test(`${mode} size=${size} view=${view}`, async ({mount, expectScreenshot}) => {
-                    const schema = baseSchema;
-                    const value = 'Gravity service';
-                    const component = await mount(
-                        <SchemaForm
-                            schema={schema}
-                            value={value}
-                            mode={mode}
-                            size={size}
-                            view={view}
-                            coerceInitialValues={true}
-                            jsonDefaultValues={false}
-                            validateOnBlur={false}
-                            userContext={{}}
-                            showSubmit={false}
-                            width={600}
-                        />,
-                    );
-                    if (mode === SchemaRendererMode.Form) {
-                        await expect(component.getByRole('textbox')).toHaveValue(value);
-                    } else {
-                        await expect(component.getByText(value, {exact: true})).toBeVisible();
-                    }
-                    await expectScreenshot();
-                });
-            }
-        }
-    }
+        test(`${mode} sizes and views`, async ({mount, expectScreenshot}) => {
+            const emptyStates = [
+                ['transparent', true],
+                ['transparent', false],
+                ['cell', false],
+            ] as const;
+            const additionalCases: SchemaFormGridProps['cases'] =
+                mode === SchemaRendererMode.Overview
+                    ? emptyStates.map(([layout, hideEmpty]) => ({
+                          label: `empty ${layout} hideEmpty=${hideEmpty}`,
+                          props: {
+                              schema: {
+                                  ...baseSchema,
+                                  nodeParameters: {
+                                      ...baseSchema.nodeParameters,
+                                      layout,
+                                      layoutProps: layout === 'cell' ? {} : {hideEmpty},
+                                  },
+                              },
+                              value: undefined,
+                              mode: SchemaRendererMode.Overview,
+                              size: 'm',
+                              view: 'stretch',
+                              coerceInitialValues: true,
+                              jsonDefaultValues: false,
+                              validateOnBlur: false,
+                              userContext: {},
+                              showSubmit: false,
+                              width: 600,
+                          },
+                      }))
+                    : [];
 
-    for (const [layout, hideEmpty] of [
-        ['transparent', true],
-        ['transparent', false],
-        ['cell', false],
-    ] as const) {
-        test(`empty ${layout} hideEmpty=${hideEmpty}`, async ({mount, expectScreenshot}) => {
-            const schema: JsonSchemaString = {
-                ...baseSchema,
-                nodeParameters: {
-                    ...baseSchema.nodeParameters,
-                    layout,
-                    // For cell, exercise the actual config's hideEmpty:false, without overriding it.
-                    layoutProps: layout === 'cell' ? {} : {hideEmpty},
-                },
-            };
-            const value = undefined;
-            const mode = SchemaRendererMode.Overview;
-            const size = 'm';
-            const view = 'stretch';
-            const component = await mount(
-                <div>
-                    <p>Empty overview value below</p>
-                    <SchemaForm
-                        schema={schema}
-                        value={value}
-                        mode={mode}
-                        size={size}
-                        view={view}
-                        coerceInitialValues={true}
-                        jsonDefaultValues={false}
-                        validateOnBlur={false}
-                        userContext={{}}
-                        showSubmit={false}
-                        width={600}
-                    />
-                </div>,
+            const schema = baseSchema;
+            const value = 'Gravity service';
+            const variants = rendererSizes.flatMap((size) =>
+                rendererViews.map((view) => ({size, view})),
             );
-            if (hideEmpty) {
-                await expect(component.getByText('—', {exact: true})).not.toBeVisible();
-            } else {
-                await expect(component.getByText('—', {exact: true})).toBeVisible();
+            const grid = await mount(
+                <SchemaFormGrid
+                    columns={4}
+                    cases={[
+                        ...variants.map(({size, view}) => {
+                            const label = `size=${size} / view=${view}`;
+                            return {
+                                label,
+                                props: {
+                                    schema: schema,
+                                    value: value,
+                                    mode: mode,
+                                    size: size,
+                                    view: view,
+                                    coerceInitialValues: true,
+                                    jsonDefaultValues: false,
+                                    validateOnBlur: false,
+                                    userContext: {},
+                                    showSubmit: false,
+                                    width: 600,
+                                },
+                            };
+                        }),
+                        ...additionalCases,
+                    ]}
+                />,
+            );
+            const cases = grid.getByTestId('schema-variant');
+            await expect(cases).toHaveCount(variants.length + additionalCases.length);
+            for (let index = 0; index < variants.length; index++) {
+                const component = cases.nth(index);
+                if (mode === SchemaRendererMode.Form) {
+                    await expect(component.getByRole('textbox')).toHaveValue(value);
+                } else {
+                    await expect(component.getByText(value, {exact: true})).toBeVisible();
+                }
             }
-            await expectScreenshot();
+            if (mode === SchemaRendererMode.Overview) {
+                for (const [layout, hideEmpty] of emptyStates) {
+                    const component = grid.getByRole('region', {
+                        name: `empty ${layout} hideEmpty=${hideEmpty}`,
+                        exact: true,
+                    });
+                    if (hideEmpty) {
+                        await expect(component.getByText('—', {exact: true})).not.toBeVisible();
+                    } else {
+                        await expect(component.getByText('—', {exact: true})).toBeVisible();
+                    }
+                }
+            }
+            await expectScreenshot({scale: 'css'});
         });
     }
 });
