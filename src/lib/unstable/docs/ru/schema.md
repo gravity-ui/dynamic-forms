@@ -24,7 +24,7 @@
 1. `entity` заполняет оба режима, затем `formEntity` / `overviewEntity` перекрывают свой.
 2. Лейаут так же: `layout`, потом `formLayout` / `overviewLayout`.
 3. `defaultProps` конфига сливаются с props схемы; props схемы остаются (массивы — по индексам).
-4. При смене режима берутся только `formEntityProps` / `overviewEntityProps`, не общий `entityProps`.
+4. Общий `entity` использует `entityProps` в обоих режимах. Только явно заданный `formEntity` / `overviewEntity` заменяет компонент и его props для своего режима: берутся соответствующие `formEntityProps` / `overviewEntityProps`, без наследования `entityProps`. Для лейаутов действует то же правило.
 
 > **independent.** У записи конфига `independent: true` лейаут уходит пропом внутрь сущности — движок её не оборачивает. Так сделаны `base`, `one_of_nested`, `few_of_nested` у объекта. Компонент, подставленный вместо строкового ключа, `defaultProps` и `independent` не получает.
 
@@ -35,7 +35,7 @@
 | `hidden`   | Лейаут прячет узел через `display: none`. Поле остаётся зарегистрированным и валидируется.                               |
 | `disabled` | Инпут, кнопка добавления массива и Monaco недоступны. На детей не распространяется.                                      |
 | `required` | Звёздочка у заголовка, прячет кнопку сброса. Объект и массив без `default` получают `{}` или `[]`. Проверку не включает. |
-| `open`     | Начальное раскрытие Card, Accordeon, Alert. На ошибке после submit раскрывается.                                         |
+| `open`     | Начальное раскрытие Card, Accordeon и Alert. При ошибке после submit автоматически раскрываются только Card и Accordeon. |
 | `copy`     | В обзоре у строки и числа появляется кнопка копирования.                                                                 |
 
 `flags.required` и ключевое слово `required` — разные механизмы: первый про интерфейс и начальное значение, второй про проверку наличия ключа (см. [Нюансы](./limitations.md)).
@@ -77,7 +77,7 @@ const schema: JsonSchema = {
     amount: {
       type: JsonSchemaType.String,
       title: 'Сумма',
-      stringNumber: {type: 'number', minimum: '0', multipleOf: '0.01'},
+      stringNumber: {type: JsonSchemaType.Number, minimum: '0', multipleOf: '0.01'},
       nodeParameters: {type: NodeType.String, entity: 'string_number_with_scale'},
     },
     kind: {
@@ -88,8 +88,18 @@ const schema: JsonSchema = {
   },
   nodeParameters: {
     type: NodeType.Object,
+    entity: 'base',
     entityProps: {
-      groups: [{title: 'Платёж', order: ['amount', 'kind'], layout: 'card'}],
+      groups: [
+        {
+          title: 'Платёж',
+          layout: 'card',
+          order: [
+            {name: 'amount', schemaPath: 'properties/amount'},
+            {name: 'kind', schemaPath: 'properties/kind'},
+          ],
+        },
+      ],
     },
   },
 };

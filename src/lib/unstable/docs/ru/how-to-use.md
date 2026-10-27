@@ -20,6 +20,7 @@ import {
 
 const schema: JsonSchema = {
   type: JsonSchemaType.Object,
+  nodeParameters: {type: NodeType.Object, entity: 'base'},
   required: ['login'],
   properties: {
     login: {
