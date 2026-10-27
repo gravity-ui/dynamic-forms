@@ -113,6 +113,8 @@ The toggler is described entirely in `entityProps.toggler` and does not get into
 
 `order` is property names or `name` + `schemaPath` pairs when a child lies deeper than `properties`. `groups` render a heading with their own layout and list the same fields; a group does not register a value.
 
+The object’s own `order` accepts strings and `{name, schemaPath}` pairs. `groups[].order` accepts only pairs; `schemaPath` is relative to the object’s pointer, for example `properties/login`.
+
 ## Styles
 
 Classes are prefixed with `sr-`, theming is via `@gravity-ui/uikit` variables. In `view: 'fit'` mode a container with `width: max` is capped at 450px.

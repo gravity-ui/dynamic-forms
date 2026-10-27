@@ -24,7 +24,7 @@ The only place where the schema says what to render it with. `type` is required 
 1. `entity` fills both modes, then `formEntity` / `overviewEntity` override their own.
 2. The layout the same way: `layout`, then `formLayout` / `overviewLayout`.
 3. Config `defaultProps` merge with schema props; schema props win (arrays merge by index).
-4. On a mode switch only `formEntityProps` / `overviewEntityProps` are taken, not the common `entityProps`.
+4. The common `entity` uses `entityProps` in both modes. Only an explicit `formEntity` / `overviewEntity` replaces the component and its props for that mode: the corresponding `formEntityProps` / `overviewEntityProps` are used without inheriting `entityProps`. The same rule applies to layouts.
 
 > **independent.** With `independent: true` in the config entry the layout is passed as a prop into the entity — the engine does not wrap it. This is how object `base`, `one_of_nested`, `few_of_nested` are built. A component passed instead of a string key gets neither `defaultProps` nor `independent`.
 
@@ -35,7 +35,7 @@ The only place where the schema says what to render it with. `type` is required 
 | `hidden`   | The layout hides the node via `display: none`. The field stays registered and validated.                                              |
 | `disabled` | The input, the array add button and Monaco become unavailable. Does not cascade to children.                                          |
 | `required` | An asterisk on the title, hides the reset button. An object or array without `default` gets `{}` or `[]`. Does not enable validation. |
-| `open`     | Initial expansion of Card, Accordeon, Alert. Expands on an error after submit.                                                        |
+| `open`     | Initial expansion of Card, Accordeon and Alert. Only Card and Accordeon expand automatically on an error after submit.                |
 | `copy`     | In the overview a copy button appears for strings and numbers.                                                                        |
 
 `flags.required` and the `required` keyword are different mechanisms: the first is about the UI and the initial value, the second about checking key presence (see [Caveats](./limitations.md)).
@@ -77,7 +77,7 @@ const schema: JsonSchema = {
     amount: {
       type: JsonSchemaType.String,
       title: 'Amount',
-      stringNumber: {type: 'number', minimum: '0', multipleOf: '0.01'},
+      stringNumber: {type: JsonSchemaType.Number, minimum: '0', multipleOf: '0.01'},
       nodeParameters: {type: NodeType.String, entity: 'string_number_with_scale'},
     },
     kind: {
@@ -88,8 +88,18 @@ const schema: JsonSchema = {
   },
   nodeParameters: {
     type: NodeType.Object,
+    entity: 'base',
     entityProps: {
-      groups: [{title: 'Payment', order: ['amount', 'kind'], layout: 'card'}],
+      groups: [
+        {
+          title: 'Payment',
+          layout: 'card',
+          order: [
+            {name: 'amount', schemaPath: 'properties/amount'},
+            {name: 'kind', schemaPath: 'properties/kind'},
+          ],
+        },
+      ],
     },
   },
 };
