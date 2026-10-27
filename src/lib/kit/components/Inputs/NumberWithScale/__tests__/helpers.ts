@@ -1,5 +1,5 @@
 import type {FormValue, StringSpec} from '../../../../../core';
-import {SpecTypes} from '../../../../../core';
+import {SpecTypes} from '../../../../../core/constants';
 
 export const NUMBER_WITH_SCALE: Record<string, StringSpec> = {
     default: {
