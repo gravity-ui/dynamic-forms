@@ -8,9 +8,8 @@
     "esModuleInterop": true,
     "paths": {
       "~playwright/*": ["playwright/*"],
-      "@gravity-ui/uikit/legacy": ["node_modules/@gravity-ui/uikit/build/esm/legacy"],
-      "@gravity-ui/dynamic-forms": ["./src/index.ts"],
-      "@gravity-ui/dynamic-forms/deprecated": ["./src/deprecated.ts"]
+      "@gravity-ui/dynamic-forms/unstable": ["./src/unstable.ts"],
+      "@gravity-ui/uikit/legacy": ["node_modules/@gravity-ui/uikit/build/esm/legacy"]
     }
   }
 }

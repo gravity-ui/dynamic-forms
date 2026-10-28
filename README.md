@@ -8,23 +8,21 @@ The JSON Schema-based library for rendering forms and form values.
 npm install --save-dev @gravity-ui/dynamic-forms
 ```
 
-## Usage (deprecated)
-
-This API is deprecated and is available from `@gravity-ui/dynamic-forms/deprecated`.
+## Usage
 
 ```jsx
-import {DynamicField, Spec, dynamicConfig} from '@gravity-ui/dynamic-forms/deprecated';
+import {DynamicField, Spec, dynamicConfig} from '@gravity-ui/dynamic-forms';
 
 // To embed in a final-form
 <DynamicField name={name} spec={spec} config={config} />;
 
-import {DynamicView, dynamicViewConfig} from '@gravity-ui/dynamic-forms/deprecated';
+import {DynamicView, dynamicViewConfig} from '@gravity-ui/dynamic-forms';
 
 // To get an overview of the values
 <DynamicView value={value} spec={spec} config={dynamicViewConfig} />;
 ```
 
-## I18N
+### I18N
 
 Certain components include text tokens (words and phrases) that are available in two languages: `en` (the default) and `ru`. To set the language, use the `configure` function:
 

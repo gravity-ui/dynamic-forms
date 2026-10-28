@@ -1,10 +1,9 @@
 import React from 'react';
 
 import {ClipboardButton} from '@gravity-ui/uikit';
-import isNumber from 'lodash/isNumber';
-import isString from 'lodash/isString';
 
-import {SchemaRendererMode, useSchemaRendererNodeContext} from '../../../core';
+import type {FormValue, Spec} from '../../../core';
+import {isNumberSpec, isStringSpec} from '../../../core';
 import {block} from '../../utils';
 
 import './CopyButton.scss';
@@ -12,23 +11,20 @@ import './CopyButton.scss';
 const b = block('copy-button');
 
 export interface CopyButtonProps {
-    className?: string;
+    spec: Spec;
+    value: FormValue;
 }
 
-export const CopyButton: React.FC<CopyButtonProps> = ({className}) => {
-    const {input, mode, schema, settings} = useSchemaRendererNodeContext();
+/**
+ *
+ * Use the with-copy-button scss mixin for visible on hover
+ */
 
-    const {copy} = schema.nodeParameters?.flags || {};
-    const overviewFlag = mode === SchemaRendererMode.Overview;
-
-    if (copy && (isString(input.value) || isNumber(input.value)) && overviewFlag) {
+export const CopyButton: React.FC<CopyButtonProps> = ({spec, value}) => {
+    if ((isStringSpec(spec) || isNumberSpec(spec)) && spec.viewSpec.copy) {
         return (
-            <div className={b({size: settings?.size}, className)}>
-                <ClipboardButton
-                    text={String(input.value)}
-                    view="flat"
-                    size={settings?.size === 'xl' ? 'm' : 's'}
-                />
+            <div className={b()}>
+                <ClipboardButton className={b('button')} text={`${value}`} size="xs" />
             </div>
         );
     }

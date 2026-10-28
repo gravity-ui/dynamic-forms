@@ -8,23 +8,21 @@
 npm install --save-dev @gravity-ui/dynamic-forms
 ```
 
-## Использование (deprecated)
-
-Этот API устарел и доступен из `@gravity-ui/dynamic-forms/deprecated`.
+## Использование
 
 ```jsx
-import {DynamicField, Spec, dynamicConfig} from '@gravity-ui/dynamic-forms/deprecated';
+import {DynamicField, Spec, dynamicConfig} from '@gravity-ui/dynamic-forms';
 
 // To embed in a final-form
 <DynamicField name={name} spec={spec} config={config} />;
 
-import {DynamicView, dynamicViewConfig} from '@gravity-ui/dynamic-forms/deprecated';
+import {DynamicView, dynamicViewConfig} from '@gravity-ui/dynamic-forms';
 
 // To get an overview of the values
 <DynamicView value={value} spec={spec} config={dynamicViewConfig} />;
 ```
 
-## I18N
+### I18N
 
 Некоторые компоненты содержат текстовые токены, доступные на двух языках: `en` (по умолчанию) и `ru`. Для настройки языка используйте функцию `configure`:
 

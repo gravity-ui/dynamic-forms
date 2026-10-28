@@ -1,23 +1,6 @@
-import {withLang, withTheme} from './decorators';
+import {withTheme, withLang} from './decorators';
 
 export const decorators = [withTheme, withLang];
-
-export const parameters = {
-    options: {
-        storySort: {
-            order: [
-                'SchemaRenderer',
-                'Any',
-                'Array',
-                'Boolean',
-                'Number',
-                'Object',
-                'String',
-                'Deprecated',
-            ],
-        },
-    },
-};
 
 export const globalTypes = {
     theme: {

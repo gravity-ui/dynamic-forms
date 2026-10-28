@@ -1,4 +1,4 @@
-import {dirname, resolve} from 'path';
+import {resolve} from 'path';
 
 import type {PlaywrightTestConfig} from '@playwright/experimental-ct-react';
 import {defineConfig, devices} from '@playwright/experimental-ct-react';
@@ -34,7 +34,7 @@ const config: PlaywrightTestConfig = {
     snapshotPathTemplate:
         '{testDir}/{testFileDir}/../__snapshots__/{testFileName}-snapshots/{arg}{-projectName}-linux{ext}',
     /* The base directory, relative to the config file, for snapshot files created with toMatchSnapshot and toHaveScreenshot. */
-    /* Includes mounting, interactions and screenshot comparisons in both themes. */
+    /* Maximum time one test can run for. */
     timeout: 30 * 1000,
     /* Run tests in files in parallel */
     fullyParallel: true,
@@ -42,8 +42,8 @@ const config: PlaywrightTestConfig = {
     forbidOnly: Boolean(process.env.CI),
     /* Retry on CI only */
     retries: process.env.CI ? 2 : 0,
-    /* Opt out of parallel tests on CI. */
-    workers: process.env.CI ? 8 : undefined,
+    /* Full-height matrices, especially 64 Monaco editors, need bounded concurrency. */
+    workers: 2,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter,
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -61,12 +61,6 @@ const config: PlaywrightTestConfig = {
             resolve: {
                 alias: {
                     '~playwright': resolve(__dirname),
-                    // Temporary test-only workaround: forms use DatePicker, while the
-                    // package barrel also loads range pickers incompatible with UIKit 8.
-                    '@gravity-ui/date-components': resolve(
-                        dirname(require.resolve('@gravity-ui/date-components/package.json')),
-                        'dist/esm/components/DatePicker/index.js',
-                    ),
                 },
             },
         },

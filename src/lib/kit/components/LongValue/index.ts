@@ -1,1 +1,1 @@
-export {LongValue, type LongValueProps} from './LongValue';
+export * from './LongValue';
