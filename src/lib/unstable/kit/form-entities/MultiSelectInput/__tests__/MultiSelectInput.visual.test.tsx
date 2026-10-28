@@ -217,7 +217,7 @@ test.describe('SchemaRenderer MultiSelectInput', () => {
             });
             await component.getByTestId('input').click();
             const popup = await getSelectPopup(page, component.getByTestId('input'));
-            await popup.getByRole('textbox', {name: 'Filter', exact: true}).fill('choice-10');
+            await popup.getByRole('combobox', {name: 'Filter', exact: true}).fill('choice-10');
             await expect(popup.getByRole('option')).toHaveCount(1);
             await expect(popup.getByRole('option', {name: 'choice-10', exact: true})).toBeVisible();
             await popup.getByRole('option', {name: 'choice-10', exact: true}).click();
@@ -239,9 +239,9 @@ test.describe('SchemaRenderer MultiSelectInput', () => {
         const filteredCell = grid.getByRole('region', {name: 'open filtered options', exact: true});
         const filteredControl = filteredCell.getByTestId('input');
         const filteredPopup = await getSelectPopup(page, filteredControl);
-        await expect(filteredPopup.getByRole('textbox', {name: 'Filter', exact: true})).toHaveValue(
-            'choice-10',
-        );
+        await expect(
+            filteredPopup.getByRole('combobox', {name: 'Filter', exact: true}),
+        ).toHaveValue('choice-10');
         await expect(filteredPopup.getByRole('option')).toHaveCount(1);
         await expect(
             filteredPopup.getByRole('option', {name: 'choice-10', exact: true}),

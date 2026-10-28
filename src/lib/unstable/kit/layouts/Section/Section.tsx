@@ -37,14 +37,14 @@ export const Section: NodeLayout<JsonSchema, SectionProps> = ({children, mode, s
     return (
         <LayoutContainer
             className={b({size: settings?.size})}
-            gap={0.5}
+            gap="spacing-half"
             hideEmpty={overviewFlag}
             hidden={hidden}
         >
-            <Flex direction="column" gap={4}>
-                <Flex direction="column" gap={1}>
-                    <Flex className={b('header')} gap={2} alignItems="center">
-                        <Flex alignItems="center" gap={1}>
+            <Flex direction="column" gap="spacing-4">
+                <Flex direction="column" gap="spacing-1">
+                    <Flex className={b('header')} gap="spacing-2" alignItems="center">
+                        <Flex alignItems="center" gap="spacing-1">
                             <EntityTitle type="head" {...restLayoutProps} />
                             {descriptionType === 'tooltip' ? (
                                 <EntityDescription likeHelpMark />

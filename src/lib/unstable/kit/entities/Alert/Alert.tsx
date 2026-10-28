@@ -48,7 +48,7 @@ export const Alert: NodeEntity<JsonSchemaString, AlertProps> = ({props, schema, 
                 <Flex
                     className={b('title')}
                     alignItems="center"
-                    gap="2"
+                    gap="spacing-2"
                     onClick={() => setExpanded(!expanded)}
                 >
                     <HTMLContent content={title} variant={settings?.titleVariant} />
@@ -100,14 +100,7 @@ export const Alert: NodeEntity<JsonSchemaString, AlertProps> = ({props, schema, 
 
     return (
         <EntityContainer className={b({expanded})} width="fit" fill="populated">
-            <UIKitAlert
-                icon={icon}
-                message={msg}
-                title={title}
-                // @ts-expect-error
-                size={size}
-                {...entityRestProps}
-            />
+            <UIKitAlert icon={icon} message={msg} title={title} size={size} {...entityRestProps} />
         </EntityContainer>
     );
 };

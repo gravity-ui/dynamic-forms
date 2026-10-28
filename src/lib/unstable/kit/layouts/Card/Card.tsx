@@ -65,13 +65,17 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
                 <div className={b('inner', {hidden: !expanded})}>
                     <Flex className={b('header')} direction="column" justifyContent="center">
                         <Flex justifyContent="space-between" alignItems="center">
-                            <Flex alignItems="center" gap={1}>
+                            <Flex alignItems="center" gap="spacing-1">
                                 <EntityTitle type="head" />
                                 {descriptionType === 'tooltip' ? (
                                     <EntityDescription className={b('help-mark')} likeHelpMark />
                                 ) : null}
                             </Flex>
-                            <Flex className={b('header-actions')} alignItems="center" gap={2}>
+                            <Flex
+                                className={b('header-actions')}
+                                alignItems="center"
+                                gap="spacing-2"
+                            >
                                 <LayoutButtons />
                                 {likeAccordeon ? (
                                     <Flex justifyContent="center">

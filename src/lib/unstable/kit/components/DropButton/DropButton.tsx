@@ -1,11 +1,6 @@
 import React from 'react';
 
-import {Text} from '@gravity-ui/uikit';
-import {
-    unstable_Menu as Menu,
-    unstable_MenuItem as MenuItem,
-    unstable_MenuTrigger as MenuTrigger,
-} from '@gravity-ui/uikit/unstable';
+import {Menu, MenuItem, MenuTrigger, Text} from '@gravity-ui/uikit';
 import {useForm} from 'react-final-form';
 
 import i18n from '../../../../kit/i18n';

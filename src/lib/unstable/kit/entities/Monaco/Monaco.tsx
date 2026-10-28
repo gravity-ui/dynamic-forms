@@ -31,6 +31,7 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
     mode,
     props,
     schema,
+    settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
     const {disabled} = schema.nodeParameters?.flags || {};
@@ -163,6 +164,7 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
                 dialog={false}
                 height={height}
                 language={language}
+                settings={settings}
                 toggleDialogVisibility={toggleDialogOpen}
                 width={width}
                 withDialog={withDialog}
@@ -170,12 +172,13 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
             >
                 {control}
             </MonacoContainer>
-            <Dialog open={dialogOpen} onClose={toggleDialogOpen} hasCloseButton={false}>
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen} hasCloseButton={false}>
                 <Dialog.Body className={b('dialog-body')}>
                     <MonacoContainer
                         dialog={true}
                         height="90vh"
                         language={language}
+                        settings={settings}
                         toggleDialogVisibility={toggleDialogOpen}
                         width="80vw"
                         withDialog={withDialog}
