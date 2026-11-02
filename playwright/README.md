@@ -85,8 +85,9 @@ Each entity suite renders all 64 labelled variants from
 
 `SchemaFormGrid` arranges independent forms and labels their settings. It does not
 supply default renderer props. Each test still passes all
-props explicitly and checks every cell before taking the screenshot. Composite
-values must fit inside their own cell, not just somewhere inside the grid.
+props explicitly and checks every cell before taking the screenshot.
+Composite values and their placement are covered by the same screenshot comparison,
+without separate per-element coordinate polling.
 
 The same grid also contains labelled cells for specific props, empty/disabled
 states, validation errors and results of interactions. Each cell has its own
