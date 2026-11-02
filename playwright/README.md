@@ -1,8 +1,9 @@
 # Playwright component tests
 
 `npm run playwright` runs both the existing DynamicField / DynamicView suite and
-new SchemaRenderer tests. SchemaRenderer is imported from `src/unstable.ts`; this
-branch uses the dependencies of main, including UIKit 7.
+new SchemaRenderer tests. SchemaRenderer is imported from `src/unstable.ts`.
+Both suites use UIKit 8 and date-components 5 from npm, including the real
+DatePicker through the public `@gravity-ui/date-components` entry point.
 
 ```sh
 npm run playwright:schema  # SchemaRenderer only
