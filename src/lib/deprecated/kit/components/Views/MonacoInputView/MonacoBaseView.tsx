@@ -6,6 +6,7 @@ import {Button, Icon} from '@gravity-ui/uikit';
 import type {StringViewProps} from '../../../../core';
 import {useMonaco} from '../../../../core/components/View/hooks';
 import {block} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 import {MonacoHeader} from '../../Inputs/MonacoInput/MonacoHeader';
 import {useMonacoOptions} from '../../Inputs/MonacoInput/useMonacoOptions';
 
@@ -16,6 +17,8 @@ import './MonacoBaseView.scss';
 const b = block('monaco-base-view');
 
 const MonacoBaseView: React.FC<StringViewProps> = ({value, spec, name}) => {
+    const qaBase = getQaBase(name, spec);
+
     const {monacoParams, layoutTitle} = spec.viewSpec;
     const MonacoEditor = useMonaco();
 
@@ -40,12 +43,12 @@ const MonacoBaseView: React.FC<StringViewProps> = ({value, spec, name}) => {
             <Button
                 size={headerDialogButtonSize}
                 onClick={() => setMonacoEditorDialog(true)}
-                qa={`${name}-open-dialog`}
+                qa={`${qaBase}-open-dialog`}
             >
                 <Icon data={ChevronsExpandUpRight} size={headerDialogIconSize} />
             </Button>
         );
-    }, [setMonacoEditorDialog, name, headerDialogButtonSize, headerDialogIconSize]);
+    }, [setMonacoEditorDialog, qaBase, headerDialogButtonSize, headerDialogIconSize]);
 
     if (!value || !MonacoEditor) {
         return null;
@@ -53,7 +56,7 @@ const MonacoBaseView: React.FC<StringViewProps> = ({value, spec, name}) => {
 
     return (
         <div className={b()}>
-            <div className={b('container')} data-qa={name}>
+            <div className={b('container')} data-qa={qaBase}>
                 <MonacoHeader
                     language={language}
                     dialogButton={dialogButton}

@@ -9,6 +9,7 @@ import {
 
 import type {StringInput} from '../../../../core';
 import {block} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 
 import './RadioGroup.scss';
 
@@ -24,6 +25,7 @@ export interface RadioGroupProps
 
 export const RadioGroup: StringInput<RadioGroupProps> = ({name, input, spec, inputProps}) => {
     const {value, onBlur, onChange, onFocus} = input;
+    const qaBase = getQaBase(name, spec);
 
     const {withCustomOptions, options: externalOptions} = inputProps || {};
 
@@ -54,7 +56,7 @@ export const RadioGroup: StringInput<RadioGroupProps> = ({name, input, spec, inp
             <RadioGroupBase
                 {...inputProps}
                 name={name}
-                qa={name}
+                qa={qaBase}
                 disabled={spec.viewSpec.disabled}
                 onUpdate={onChange}
                 onBlur={onBlur}

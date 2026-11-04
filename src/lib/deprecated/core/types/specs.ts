@@ -21,6 +21,13 @@ export interface ArraySpec<
     viewSpec: {
         disabled?: boolean;
         type: string;
+        /**
+         * Custom base for this field's own `data-qa` attributes (Legacy Kit, form and overview modes).
+         * Replaces the field name in the field's primary qa and in its derived sub-element qa values
+         * (e.g. `<qa>-add-item`, `<qa>-scale`). Child fields are not affected. For an array item spec
+         * the base becomes `<qa>-<item key>`. An empty string is treated as unset.
+         */
+        qa?: string;
         layout?: string;
         layoutTitle?: string;
         layoutDescription?: string;
@@ -62,6 +69,13 @@ export interface BooleanSpec<
     viewSpec: {
         disabled?: boolean;
         type: string;
+        /**
+         * Custom base for this field's own `data-qa` attributes (Legacy Kit, form and overview modes).
+         * Replaces the field name in the field's primary qa and in its derived sub-element qa values
+         * (e.g. `<qa>-add-item`, `<qa>-scale`). Child fields are not affected. For an array item spec
+         * the base becomes `<qa>-<item key>`. An empty string is treated as unset.
+         */
+        qa?: string;
         layout?: string;
         layoutTitle?: string;
         layoutDescription?: string;
@@ -92,6 +106,13 @@ export interface NumberSpec<
     viewSpec: {
         disabled?: boolean;
         type: string;
+        /**
+         * Custom base for this field's own `data-qa` attributes (Legacy Kit, form and overview modes).
+         * Replaces the field name in the field's primary qa and in its derived sub-element qa values
+         * (e.g. `<qa>-add-item`, `<qa>-scale`). Child fields are not affected. For an array item spec
+         * the base becomes `<qa>-<item key>`. An empty string is treated as unset.
+         */
+        qa?: string;
         layout?: string;
         layoutTitle?: string;
         layoutDescription?: string;
@@ -119,6 +140,13 @@ export interface ObjectSpec<
     viewSpec: {
         disabled?: boolean;
         type: string;
+        /**
+         * Custom base for this field's own `data-qa` attributes (Legacy Kit, form and overview modes).
+         * Replaces the field name in the field's primary qa and in its derived sub-element qa values
+         * (e.g. `<qa>-add-item`, `<qa>-scale`). Child fields are not affected. For an array item spec
+         * the base becomes `<qa>-<item key>`. An empty string is treated as unset.
+         */
+        qa?: string;
         layout?: string;
         layoutTitle?: string;
         layoutDescription?: string;
@@ -155,6 +183,13 @@ export interface StringSpec<
     viewSpec: {
         disabled?: boolean;
         type: string;
+        /**
+         * Custom base for this field's own `data-qa` attributes (Legacy Kit, form and overview modes).
+         * Replaces the field name in the field's primary qa and in its derived sub-element qa values
+         * (e.g. `<qa>-add-item`, `<qa>-scale`). Child fields are not affected. For an array item spec
+         * the base becomes `<qa>-<item key>`. An empty string is treated as unset.
+         */
+        qa?: string;
         layout?: string;
         layoutTitle?: string;
         layoutDescription?: string;

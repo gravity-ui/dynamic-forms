@@ -23,12 +23,15 @@ import {
     transformArrIn,
 } from '../../../../core';
 import {block} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 
 import './ArrayBase.scss';
 
 const b = block('array-base');
 
 export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input, meta}) => {
+    const qaBase = getQaBase(name, spec);
+
     const keys = React.useMemo(
         () =>
             Object.keys(arrayInput.value || {})
@@ -77,7 +80,7 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input, meta}) => 
     const AddButton: React.FC = React.useCallback(() => {
         let onClick = () => arrayInput.onItemAdd(undefined);
 
-        let qa = `${name}-add-item`;
+        let qa = `${qaBase}-add-item`;
         let title = spec.viewSpec.itemLabel;
 
         if (!arrayInput.value && spec.defaultValue) {
@@ -85,7 +88,7 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input, meta}) => 
                 input.onChange(transformArrIn<ArrayValue, FieldArrayValue>(spec.defaultValue!));
             };
 
-            qa = `${name}-init-arr`;
+            qa = `${qaBase}-init-arr`;
             title = spec.viewSpec.layoutTitle;
         }
 
@@ -103,7 +106,7 @@ export const ArrayBase: ArrayInput = ({spec, name, arrayInput, input, meta}) => 
     }, [
         arrayInput,
         input,
-        name,
+        qaBase,
         spec.defaultValue,
         spec.viewSpec.disabled,
         spec.viewSpec.itemLabel,

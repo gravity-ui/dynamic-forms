@@ -4,6 +4,7 @@ import type {TextAreaProps as TextAreaBaseProps} from '@gravity-ui/uikit';
 import {TextArea as TextAreaBase} from '@gravity-ui/uikit';
 
 import type {StringInput} from '../../../../core';
+import {getQaBase} from '../../../utils/qa';
 
 export interface TextAreaProps
     extends Omit<
@@ -13,6 +14,7 @@ export interface TextAreaProps
 
 export const TextArea: StringInput<TextAreaProps> = ({name, input, spec, inputProps}) => {
     const {value, onBlur, onChange, onFocus} = input;
+    const qaBase = getQaBase(name, spec);
 
     return (
         <TextAreaBase
@@ -26,7 +28,7 @@ export const TextArea: StringInput<TextAreaProps> = ({name, input, spec, inputPr
             onUpdate={onChange}
             disabled={spec.viewSpec.disabled}
             placeholder={spec.viewSpec.placeholder}
-            qa={name}
+            qa={qaBase}
         />
     );
 };
