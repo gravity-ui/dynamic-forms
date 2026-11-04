@@ -7,6 +7,7 @@ import some from 'lodash/some';
 import type {ObjectIndependentInputProps} from '../../../core';
 import {TogglerCard} from '../../components';
 import {block, objectKeys} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 import './useOneOf.scss';
 
@@ -21,6 +22,7 @@ export interface UseOneOfParams {
 
 export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
     const {name, input, spec, Layout} = props;
+    const qaBase = getQaBase(name, spec);
 
     const specProperties = React.useMemo(
         () => (isObjectLike(spec.properties) ? spec.properties! : {}),
@@ -168,7 +170,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
                     options={options}
                     disabled={spec.viewSpec.disabled}
                     filterable={options.length > 7}
-                    qa={name}
+                    qa={qaBase}
                 />
             );
         }
@@ -180,7 +182,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
                         checked={checkedValue}
                         onUpdate={onCheckedChange}
                         disabled={spec.viewSpec.disabled}
-                        qa={name}
+                        qa={qaBase}
                     />
                 </div>
             );
@@ -193,7 +195,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
                         checked={checkedValue}
                         onUpdate={onCheckedChange}
                         disabled={spec.viewSpec.disabled}
-                        qa={name}
+                        qa={qaBase}
                     />
                 </div>
             );
@@ -204,7 +206,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
                 value={oneOfValue}
                 onChange={(event) => onOneOfChange([event.target.value])}
                 disabled={spec.viewSpec.disabled}
-                qa={name}
+                qa={qaBase}
             >
                 {options.map((option) => (
                     <SegmentedRadioGroup.Option key={option.value} value={option.value}>
@@ -218,7 +220,7 @@ export const useOneOf = ({props, onTogglerChange}: UseOneOfParams) => {
         oneOfValue,
         spec.viewSpec.disabled,
         spec.description,
-        name,
+        qaBase,
         options,
         onOneOfChange,
         specProperties,

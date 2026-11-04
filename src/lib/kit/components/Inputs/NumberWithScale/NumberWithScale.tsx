@@ -4,6 +4,7 @@ import {Select, TextInput} from '@gravity-ui/uikit';
 
 import type {StringInputProps} from '../../../../core';
 import {block, divide, isCorrectSizeParams, multiply} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 
 import {useInitial} from './useInitial';
 
@@ -13,6 +14,7 @@ const b = block('number-with-scale');
 
 const NumberWithScaleBase: React.FC<StringInputProps> = ({name, input, spec}) => {
     const {value = '', onBlur, onFocus, onChange} = input;
+    const qaBase = getQaBase(name, spec);
     const {sizeParams, disabled, placeholder} = spec.viewSpec;
     const {defaultType, scale} = sizeParams!;
     const {initialValue, initialType} = useInitial(value || '', spec);
@@ -97,7 +99,7 @@ const NumberWithScaleBase: React.FC<StringInputProps> = ({name, input, spec}) =>
                 onUpdate={handleChange}
                 placeholder={placeholder}
                 disabled={disabled}
-                qa={name}
+                qa={qaBase}
             />
             <Select
                 width="max"
@@ -106,7 +108,7 @@ const NumberWithScaleBase: React.FC<StringInputProps> = ({name, input, spec}) =>
                 options={scaleOptions}
                 onUpdate={handleScaleChange}
                 disabled={disabled || incorrectStringNumber}
-                qa={`${name}-scale`}
+                qa={`${qaBase}-scale`}
             />
         </div>
     );

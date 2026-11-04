@@ -15,6 +15,7 @@ import type {
 } from '../../../../core';
 import {isArrayItem, isArraySpec, isObjectSpec} from '../../../../core';
 import {block} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 import {HTMLContent} from '../../HTMLContent';
 import {RemoveButton} from '../../RemoveButton';
 
@@ -51,6 +52,7 @@ const SectionBase = <
         | FieldRenderProps<D>['input']
         | undefined;
     const meta = (restProps as FieldRenderProps<D>).meta as FieldRenderProps<D>['meta'] | undefined;
+    const qaBase = getQaBase(name, spec);
     const arrOrObjFlag = isArraySpec(spec) || isObjectSpec(spec);
     const titleRef = React.useRef<HTMLHeadingElement>(null);
     let content = children;
@@ -82,7 +84,7 @@ const SectionBase = <
         if (input?.value && input?.onDrop && isArrayItem(name)) {
             return (
                 <RemoveButton
-                    name={name}
+                    name={qaBase}
                     onDrop={input.onDrop}
                     switcherClassName={b('remove-button')}
                 />
@@ -90,7 +92,7 @@ const SectionBase = <
         }
 
         return null;
-    }, [input?.value, input?.onDrop, name]);
+    }, [input?.value, input?.onDrop, name, qaBase]);
 
     if (meta) {
         content = (

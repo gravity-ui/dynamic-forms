@@ -6,11 +6,13 @@ import {Card} from '../../';
 import type {FieldValue, ObjectIndependentInput, ValidateError} from '../../../../core';
 import {Controller, isArrayItem} from '../../../../core';
 import {useErrorChecker, useOneOf} from '../../../hooks';
+import {getQaBase} from '../../../utils/qa';
 import {Row} from '../../Layouts';
 import {RemoveButton} from '../../RemoveButton';
 
 export const CardOneOf: ObjectIndependentInput = (props) => {
     const {input, meta, spec, name, Layout} = props;
+    const qaBase = getQaBase(name, spec);
 
     const [open, setOpen] = React.useState(true);
 
@@ -38,11 +40,11 @@ export const CardOneOf: ObjectIndependentInput = (props) => {
 
     const actions = React.useMemo(() => {
         if (isArrayItem(name)) {
-            return <RemoveButton onDrop={input.onDrop} name={name} />;
+            return <RemoveButton onDrop={input.onDrop} name={qaBase} />;
         }
 
         return;
-    }, [name, input.onDrop]);
+    }, [name, input.onDrop, qaBase]);
 
     const parentOnChange = React.useCallback(
         (
@@ -61,7 +63,7 @@ export const CardOneOf: ObjectIndependentInput = (props) => {
 
     return (
         <Card
-            name={name}
+            name={qaBase}
             title={toggler}
             description={spec.viewSpec.layoutDescription}
             actions={actions}

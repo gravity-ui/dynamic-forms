@@ -6,6 +6,7 @@ import type {ArrayLayoutProps, ObjectLayoutProps} from '../../../../core';
 import {isArrayItem} from '../../../../core';
 import {ErrorWrapper} from '../../../components';
 import {useErrorChecker} from '../../../hooks';
+import {getQaBase} from '../../../utils/qa';
 import {RemoveButton} from '../../RemoveButton';
 import {SimpleVerticalAccordeon} from '../../SimpleVerticalAccordeon';
 
@@ -24,6 +25,7 @@ export const Accordeon = <
     meta,
     children,
 }: T): React.JSX.Element => {
+    const qaBase = getQaBase(name, spec);
     const {variantTitle} = spec.viewSpec.layoutProps || {};
 
     const [open, setOpen] = React.useState(Boolean(spec.viewSpec?.layoutOpen));
@@ -38,14 +40,14 @@ export const Accordeon = <
             return null;
         }
 
-        return <RemoveButton name={name} onDrop={onDrop} />;
-    }, [spec.required, input.value, onDrop, name]);
+        return <RemoveButton name={qaBase} onDrop={onDrop} />;
+    }, [spec.required, input.value, onDrop, name, qaBase]);
 
     useErrorChecker({name, meta, open, setOpen});
 
     return (
         <SimpleVerticalAccordeon
-            name={name}
+            name={qaBase}
             title={spec.viewSpec.layoutTitle || ''}
             note={spec.viewSpec.layoutDescription || ''}
             open={open}

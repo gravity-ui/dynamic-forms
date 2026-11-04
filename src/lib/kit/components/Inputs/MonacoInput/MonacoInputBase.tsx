@@ -7,6 +7,7 @@ import type {MonacoEditorProps} from 'react-monaco-editor/lib/types';
 import type {StringInputProps} from '../../../../core/';
 import {useMonaco} from '../../../../core/components/Form/hooks';
 import {block} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 
 import {MonacoHeader} from './MonacoHeader';
 import {MonacoInputDialog} from './MonacoInputDialog';
@@ -29,6 +30,7 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
     withoutDialog,
 }) => {
     const {value, onChange} = input;
+    const qaBase = getQaBase(name, spec);
 
     const MonacoEditor = useMonaco() || MonacoComponent;
 
@@ -56,7 +58,7 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
                 <Button
                     size={headerDialogButtonSize}
                     onClick={() => setMonacoEditorDialog(true)}
-                    qa={`${name}-open-dialog`}
+                    qa={`${qaBase}-open-dialog`}
                 >
                     <Icon data={ChevronsExpandUpRight} size={headerDialogIconSize} />
                 </Button>
@@ -64,7 +66,13 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
         }
 
         return;
-    }, [withoutDialog, setMonacoEditorDialog, name, headerDialogButtonSize, headerDialogIconSize]);
+    }, [
+        withoutDialog,
+        setMonacoEditorDialog,
+        qaBase,
+        headerDialogButtonSize,
+        headerDialogIconSize,
+    ]);
 
     React.useEffect(() => onChange(monacoValue), [monacoValue]);
 
@@ -76,7 +84,7 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
 
     return (
         <div className={b()}>
-            <div className={b('container')} data-qa={name}>
+            <div className={b('container')} data-qa={qaBase}>
                 <MonacoHeader
                     language={language}
                     dialogButton={dialogButton}
@@ -94,7 +102,7 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
                 </div>
             </div>
             <MonacoInputDialog
-                name={name}
+                name={qaBase}
                 title={layoutTitle}
                 fontSize={fontSize}
                 value={monacoValue}

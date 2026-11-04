@@ -7,6 +7,7 @@ import {Button, DropdownMenu, Icon} from '@gravity-ui/uikit';
 import i18n from '../../i18n';
 
 export interface RemoveButtonProps {
+    /** QA Base for the `-drop-item` data-qa */
     name: string;
     onDrop: () => void;
     switcherClassName?: string;
@@ -24,7 +25,7 @@ export const RemoveButton: React.FC<RemoveButtonProps> = ({name, onDrop, switche
                 <Icon data={Ellipsis} size={16} />
             </Button>
         ),
-        [switcherClassName],
+        [switcherClassName, name],
     );
 
     return <DropdownMenu switcher={switcher} items={items} />;

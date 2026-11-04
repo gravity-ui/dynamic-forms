@@ -6,6 +6,7 @@ import isBoolean from 'lodash/isBoolean';
 import type {ArrayValue, ObjectValue, Spec, ViewLayoutProps} from '../../../../core';
 import {useDynamicFormsCtx} from '../../../../core';
 import {isNotEmptyValue} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 import {SimpleVerticalAccordeon} from '../../SimpleVerticalAccordeon';
 
 interface ViewAccordeonLayoutProps {
@@ -20,6 +21,7 @@ export const ViewAccordeon = <
     spec,
     children,
 }: T): React.JSX.Element | null => {
+    const qaBase = getQaBase(name, spec);
     const {showLayoutDescription} = useDynamicFormsCtx();
     const [open, setOpen] = React.useState(
         isBoolean(spec.viewSpec.layoutOpen) ? spec.viewSpec.layoutOpen : true,
@@ -33,7 +35,7 @@ export const ViewAccordeon = <
 
     return (
         <SimpleVerticalAccordeon
-            name={name}
+            name={qaBase}
             title={spec.viewSpec.layoutTitle || ''}
             note={
                 showLayoutDescription && spec.viewSpec.layoutDescription

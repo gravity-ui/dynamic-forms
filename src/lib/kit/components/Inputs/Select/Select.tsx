@@ -5,6 +5,7 @@ import {Select as SelectBase, Text} from '@gravity-ui/uikit';
 
 import type {StringInput} from '../../../../core';
 import {block} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 
 import './Select.scss';
 
@@ -27,6 +28,7 @@ export interface SelectProps
 
 export const Select: StringInput<SelectProps> = ({name, input, spec, inputProps}) => {
     const {value, onBlur, onChange, onFocus} = input;
+    const qaBase = getQaBase(name, spec);
     const filterable = React.useMemo(() => (spec.enum?.length || 0) > 9, [spec.enum?.length]);
 
     const {withCustomOptions, options: externalOptions} = inputProps || {};
@@ -100,7 +102,7 @@ export const Select: StringInput<SelectProps> = ({name, input, spec, inputProps}
             disabled={spec.viewSpec.disabled}
             placeholder={spec.viewSpec.placeholder}
             filterPlaceholder={spec.viewSpec.selectParams?.filterPlaceholder}
-            qa={name}
+            qa={qaBase}
         />
     );
 };

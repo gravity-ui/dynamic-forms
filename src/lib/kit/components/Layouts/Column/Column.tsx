@@ -8,6 +8,7 @@ import {isArrayItem, isArraySpec, isObjectSpec, withGenerateButton} from '../../
 import {ErrorWrapper, GenerateRandomValueButton} from '../../../components';
 import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 import {block} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 import {HTMLContent} from '../../HTMLContent';
 
 import './Column.scss';
@@ -26,6 +27,8 @@ const ColumnBase = <T extends FieldValue, S extends Spec>({
     children,
     action,
 }: LayoutProps<T, undefined, undefined, S> & ColumnProps) => {
+    const qaBase = getQaBase(name, spec);
+
     const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
     const generateButton = React.useMemo(() => withGenerateButton(spec), [spec]);
 
@@ -77,7 +80,7 @@ const ColumnBase = <T extends FieldValue, S extends Spec>({
                             view="flat-secondary"
                             className={b('remove-button')}
                             onClick={input.onDrop}
-                            qa={`${name}-remove-item`}
+                            qa={`${qaBase}-remove-item`}
                         >
                             <Icon data={TrashBin} size={16} />
                         </Button>

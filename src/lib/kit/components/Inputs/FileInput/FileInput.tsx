@@ -6,6 +6,7 @@ import {Button, Icon, Label, Text} from '@gravity-ui/uikit';
 import type {StringInputProps} from '../../../../core';
 import i18n from '../../../../kit/i18n';
 import {block} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 
 import {readFile} from './utils';
 
@@ -15,6 +16,7 @@ const b = block('file-input');
 
 export const FileInput: React.FC<StringInputProps> = ({name, input, spec}) => {
     const {value, onChange} = input;
+    const qaBase = getQaBase(name, spec);
 
     const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -68,7 +70,7 @@ export const FileInput: React.FC<StringInputProps> = ({name, input, spec}) => {
             <Button
                 disabled={spec.viewSpec.disabled}
                 onClick={handleClick}
-                qa={`${name}-file-upload`}
+                qa={`${qaBase}-file-upload`}
             >
                 {i18n('button-upload_file')}
             </Button>
@@ -90,7 +92,7 @@ export const FileInput: React.FC<StringInputProps> = ({name, input, spec}) => {
                     view="flat"
                     onClick={handleReset}
                     disabled={spec.viewSpec.disabled}
-                    qa={`${name}-file-remove`}
+                    qa={`${qaBase}-file-remove`}
                 >
                     <Icon data={Xmark} size={16} />
                 </Button>

@@ -21,6 +21,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | validator                    | `string`                                                                     |          | The key for determining the [validator](./config.md#validators) for the entity, if the value is empty, the base [validator](./config.md#validators) from the entity config will be used                        |
 | viewSpec.disabled            | `boolean`                                                                    |          | Is the field available for editing                                                                                                                                                                             |
 | viewSpec.type                | `string`                                                                     |   yes    | Key to define [Input](./config.md#inputs) for an entity                                                                                                                                                        |
+| viewSpec.qa                  | `string`                                                                     |          | Custom base for the field's own `data-qa` attributes, see [QA attributes](#qa-attributes)                                                                                                                      |
 | viewSpec.layout              | `string`                                                                     |          | Key to define [Layout](./config.md#layouts) for an entity                                                                                                                                                      |
 | viewSpec.layoutTitle         | `string`                                                                     |          | Title for [Layout](./config.md#layouts)                                                                                                                                                                        |
 | viewSpec.layoutDescription   | `string`                                                                     |          | Additional description/hint for [Layout](./config.md#layouts)                                                                                                                                                  |
@@ -46,6 +47,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | validator                  | `string`    |          | The key for determining the [validator](./config.md#validators) for the entity, if the value is empty, the base [validator](./config.md#validators) from the entity config will be used |
 | viewSpec.disabled          | `boolean`   |          | Is the field available for editing                                                                                                                                                      |
 | viewSpec.type              | `string`    |   yes    | Key to define [Input](./config.md#inputs) for an entity                                                                                                                                 |
+| viewSpec.qa                | `string`    |          | Custom base for the field's own `data-qa` attributes, see [QA attributes](#qa-attributes)                                                                                               |
 | viewSpec.layout            | `string`    |          | Key to define [Layout](./config.md#layouts) for an entity                                                                                                                               |
 | viewSpec.layoutTitle       | `string`    |          | Title for [Layout](./config.md#layouts)                                                                                                                                                 |
 | viewSpec.layoutDescription | `string`    |          | Additional description/hint for [Layout](./config.md#layouts)                                                                                                                           |
@@ -69,6 +71,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | validator                  | `string`          |          | The key for determining the [validator](./config.md#validators) for the entity, if the value is empty, the base [validator](./config.md#validators) from the entity config will be used |
 | viewSpec.disabled          | `boolean`         |          | Is the field available for editing                                                                                                                                                      |
 | viewSpec.type              | `string`          |   yes    | Key to define [Input](./config.md#inputs) for an entity                                                                                                                                 |
+| viewSpec.qa                | `string`          |          | Custom base for the field's own `data-qa` attributes, see [QA attributes](#qa-attributes)                                                                                               |
 | viewSpec.layout            | `string`          |          | Key to define [Layout](./config.md#layouts) for an entity                                                                                                                               |
 | viewSpec.layoutTitle       | `string`          |          | Title for [Layout](./config.md#layouts)                                                                                                                                                 |
 | viewSpec.layoutDescription | `string`          |          | Additional description/hint for [Layout](./config.md#layouts)                                                                                                                           |
@@ -91,6 +94,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | validator                  | `string`                 |          | The key for determining the [validator](./config.md#validators) for the entity, if the value is empty, the base [validator](./config.md#validators) from the entity config will be used |
 | viewSpec.disabled          | `boolean`                |          | Is the field available for editing                                                                                                                                                      |
 | viewSpec.type              | `string`                 |   yes    | Key to define [Input](./config.md#inputs) for an entity                                                                                                                                 |
+| viewSpec.qa                | `string`                 |          | Custom base for the field's own `data-qa` attributes, see [QA attributes](#qa-attributes)                                                                                               |
 | viewSpec.layout            | `string`                 |          | Key to define [Layout](./config.md#layouts) for an entity                                                                                                                               |
 | viewSpec.layoutTitle       | `string`                 |          | Title for [Layout](./config.md#layouts)                                                                                                                                                 |
 | viewSpec.layoutDescription | `string`                 |          | Additional description/hint for [Layout](./config.md#layouts)                                                                                                                           |
@@ -118,6 +122,7 @@ type Spec = ArraySpec | BooleanSpec | NumberSpec | ObjectSpec | StringSpec;
 | validator                          | `string`                 |          | The key for determining the [validator](./config.md#validators) for the entity, if the value is empty, the base [validator](./config.md#validators) from the entity config will be used |
 | viewSpec.disabled                  | `boolean`                |          | Is the field available for editing                                                                                                                                                      |
 | viewSpec.type                      | `string`                 |   yes    | Key to define [Input](./config.md#inputs) for an entity                                                                                                                                 |
+| viewSpec.qa                        | `string`                 |          | Custom base for the field's own `data-qa` attributes, see [QA attributes](#qa-attributes)                                                                                               |
 | viewSpec.layout                    | `string`                 |          | Key to define [Layout](./config.md#layouts) for an entity                                                                                                                               |
 | viewSpec.layoutTitle               | `string`                 |          | Title for [Layout](./config.md#layouts)                                                                                                                                                 |
 | viewSpec.layoutDescription         | `string`                 |          | Additional description/hint for [Layout](./config.md#layouts)                                                                                                                           |
@@ -214,6 +219,40 @@ You can provide all props of [original component](https://preview.gravity-ui.com
 | :-------- | :-------------------------- | :------: | :-------------------------------------------- |
 | direction | `'horizontal'` `'vertical'` |          | Direction radio group, default `'horizontal'` |
 | disabled  | `Record<string, boolean>`   |          | Disabled radio group for enum values          |
+
+#### QA attributes
+
+By default, the `data-qa` attributes of a field are based on its name. `viewSpec.qa` replaces the name as the base of the field's own `data-qa` and of every value derived from it. The suffixes stay the same: `<qa>-add-item`, `<qa>-init-arr`, `<qa>-item-remove-<key>`, `<qa>-init-obj`, `<qa>-scale`, `<qa>-<optionValue>`, `<qa>-slider`, `<qa>-from`, `<qa>-to`, `<qa>-open-dialog`, `<qa>-dialog`, `<qa>-file-upload`, `<qa>-file-remove`, `<qa>-remove-item`, `<qa>-drop-item`, `<qa>-accordeon-toggler`.
+
+- Child fields are not affected. They keep the values based on their names unless they set their own `qa`. A child's `qa` is used as is and is never combined with the parent's `qa`.
+- A `qa` on the array item spec (`items.viewSpec.qa`) gives each item the base `<qa>-<item key>`. In form mode the item key is the same key as in the array's `-item-remove-<key>`. Keys are not renumbered, so they stay stable when items are added or removed. In overview mode the item key is the item's index. The array's own buttons (`-add-item`, `-init-arr`) use the array's `qa`, not the item's.
+- A `qa` on a field nested inside an array item (for example, on a property of the item object) is used as is, so the same value repeats in every item. Set `qa` on the item spec instead and scope selectors within the item's `<qa>-<item key>` element.
+- An empty string (`qa: ''`) is treated as unset, the name-based values are used.
+- `qa` is supported in the form and overview modes of `DynamicField` and `DynamicView`. It is not yet supported by the unstable `SchemaRenderer` or by forms rendered with `withSchemaRenderer`.
+- Without `qa`, every `data-qa` is the same as before. `qa` cannot be set through `viewSpec.inputProps`.
+
+Example for a field named `orders`:
+
+```typescript
+const spec: ArraySpec = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      title: {type: 'string', viewSpec: {type: 'base', layout: 'row'}},
+    },
+    viewSpec: {type: 'base', layout: 'accordeon', qa: 'tag'},
+  },
+  viewSpec: {type: 'base', layout: 'row', qa: 'orders'},
+};
+```
+
+With two items whose keys are `0` and `1`:
+
+- `orders-add-item`: the array's add button (`orders-init-arr` while the array has no value)
+- `tag-0-accordeon-toggler`, `tag-0-drop-item`, `tag-1-accordeon-toggler`, `tag-1-drop-item`: the item controls in form mode
+- `orders.<0>.title`, `orders.<1>.title`: the `title` text inputs, unchanged because `title` has no `qa`
+- `tag-0-accordeon-toggler`, `tag-1-accordeon-toggler`: the item togglers in overview mode, where the key is the item's index
 
 #### Link
 

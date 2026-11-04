@@ -5,6 +5,7 @@ import {PasswordInput, TextInput} from '@gravity-ui/uikit';
 import isNil from 'lodash/isNil';
 
 import type {FieldRenderProps, NumberInputProps, StringInputProps} from '../../../../core';
+import {getQaBase} from '../../../utils/qa';
 
 export interface TextProps
     extends Omit<
@@ -18,6 +19,8 @@ export const Text = <T extends NumberInputProps<TextProps> | StringInputProps<Te
     spec,
     inputProps,
 }: T) => {
+    const qaBase = getQaBase(name, spec);
+
     const props = {
         hasClear: true,
         ...inputProps,
@@ -27,7 +30,7 @@ export const Text = <T extends NumberInputProps<TextProps> | StringInputProps<Te
         onUpdate: onChange as FieldRenderProps<string>['input']['onChange'],
         disabled: spec.viewSpec.disabled,
         placeholder: spec.viewSpec.placeholder,
-        qa: name,
+        qa: qaBase,
     };
 
     if (spec.viewSpec.type === 'password') {

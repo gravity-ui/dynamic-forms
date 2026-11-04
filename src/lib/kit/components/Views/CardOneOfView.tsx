@@ -5,9 +5,11 @@ import isObjectLike from 'lodash/isObjectLike';
 import {Card, ViewRow} from '../';
 import type {ObjectIndependentView} from '../../../core';
 import {ViewController} from '../../../core';
+import {getQaBase} from '../../utils/qa';
 
 export const CardOneOfView: ObjectIndependentView = (props) => {
     const {value = {}, spec, name, Layout} = props;
+    const qaBase = getQaBase(name, spec);
 
     const [open, setOpen] = React.useState(true);
 
@@ -49,7 +51,7 @@ export const CardOneOfView: ObjectIndependentView = (props) => {
 
     return (
         <Card
-            name={name}
+            name={qaBase}
             title={title}
             open={open}
             onToggle={onToggle}

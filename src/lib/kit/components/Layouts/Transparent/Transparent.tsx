@@ -7,6 +7,7 @@ import type {FieldValue, LayoutProps, Spec, StringSpec} from '../../../../core';
 import {isArrayItem, isArraySpec, isObjectSpec, withGenerateButton} from '../../../../core';
 import {ErrorWrapper, GenerateRandomValueButton} from '../../../components';
 import {block} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 
 import './Transparent.scss';
 
@@ -19,6 +20,8 @@ export const Transparent = <T extends FieldValue, S extends Spec>({
     meta,
     children,
 }: LayoutProps<T, undefined, undefined, S>) => {
+    const qaBase = getQaBase(name, spec);
+
     const arrayItem = React.useMemo(() => isArrayItem(name), [name]);
     const generateButton = React.useMemo(() => withGenerateButton(spec), [spec]);
     const arrOrObjFlag = React.useMemo(() => isArraySpec(spec) || isObjectSpec(spec), [spec]);
@@ -30,7 +33,7 @@ export const Transparent = <T extends FieldValue, S extends Spec>({
                     view="flat-secondary"
                     className={b('remove-button')}
                     onClick={input.onDrop}
-                    qa={`${name}-remove-item`}
+                    qa={`${qaBase}-remove-item`}
                 >
                     <Icon data={TrashBin} size={16} />
                 </Button>
@@ -38,7 +41,7 @@ export const Transparent = <T extends FieldValue, S extends Spec>({
         }
 
         return null;
-    }, [input.onDrop, arrayItem, name]);
+    }, [input.onDrop, arrayItem, qaBase]);
 
     return (
         <div

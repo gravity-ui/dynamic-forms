@@ -5,6 +5,7 @@ import isBoolean from 'lodash/isBoolean';
 import {Card} from '../';
 import type {ArrayViewLayoutProps, ObjectViewLayoutProps} from '../../../core';
 import {isNotEmptyValue} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 export const ViewCardAccordeon = <T extends ArrayViewLayoutProps | ObjectViewLayoutProps>({
     name,
@@ -12,6 +13,8 @@ export const ViewCardAccordeon = <T extends ArrayViewLayoutProps | ObjectViewLay
     spec,
     children,
 }: T): React.JSX.Element | null => {
+    const qaBase = getQaBase(name, spec);
+
     const [open, setOpen] = React.useState(
         isBoolean(spec.viewSpec.layoutOpen) ? spec.viewSpec.layoutOpen : true,
     );
@@ -24,7 +27,7 @@ export const ViewCardAccordeon = <T extends ArrayViewLayoutProps | ObjectViewLay
 
     return (
         <Card
-            name={name}
+            name={qaBase}
             title={spec.viewSpec.layoutTitle}
             open={open}
             onToggle={onToggle}

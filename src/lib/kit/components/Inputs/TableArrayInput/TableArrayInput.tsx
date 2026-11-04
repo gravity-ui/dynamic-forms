@@ -25,6 +25,7 @@ import {
 import {useSearchContext} from '../../../../core/components/Form/hooks';
 import {COMMON_POPOVER_PLACEMENT} from '../../../constants/common';
 import {block} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 import {HTMLContent} from '../../HTMLContent';
 
 import './TableArrayInput.scss';
@@ -32,6 +33,7 @@ import './TableArrayInput.scss';
 const b = block('table-array');
 
 export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => {
+    const qaBase = getQaBase(name, spec);
     const {isHiddenField} = useSearchContext();
 
     const keys = React.useMemo(
@@ -97,7 +99,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                     view="flat-secondary"
                     onClick={() => onItemRemove(key)}
                     key={`remove-${key}`}
-                    qa={`${name}-item-remove-${key}`}
+                    qa={`${qaBase}-item-remove-${key}`}
                 >
                     <Icon data={TrashBin} size={16} />
                 </Button>
@@ -179,7 +181,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
         );
 
         return [idxColumn, ...columns, removeColumn];
-    }, [name, spec, onItemRemove, parentOnChange, input.parentOnUnmount, input.value]);
+    }, [name, qaBase, spec, onItemRemove, parentOnChange, input.parentOnUnmount, input.value]);
 
     const getRowClassNames = React.useCallback(
         ({key}: {key: string}) => {
@@ -216,7 +218,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                         )
                     }
                     disabled={spec.viewSpec.disabled}
-                    qa={`${name}-init-arr`}
+                    qa={`${qaBase}-init-arr`}
                 >
                     <Icon data={Plus} size={14} />
                     {spec.viewSpec.layoutTitle || null}
@@ -225,7 +227,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                 <Button
                     onClick={onItemAdd}
                     disabled={spec.viewSpec.disabled}
-                    qa={`${name}-add-item`}
+                    qa={`${qaBase}-add-item`}
                 >
                     <Icon data={Plus} size={14} />
                     {spec.viewSpec.itemLabel || null}

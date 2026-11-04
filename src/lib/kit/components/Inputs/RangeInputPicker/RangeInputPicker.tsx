@@ -16,6 +16,7 @@ import {
     TO,
 } from '../../../constants/common';
 import {block, clampRangeInputPickerValue, resolveRangeInputPickerBound} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 
 import type {RangeInputPickerInputProps, RangeInputPickerValue} from './types';
 
@@ -25,6 +26,7 @@ const b = block('range-input-picker');
 
 export const RangeInputPicker = (props: ObjectInputProps<RangeInputPickerInputProps>) => {
     const {spec, input, name} = props;
+    const qaBase = getQaBase(name, spec);
     const {disabled, inputProps} = spec.viewSpec;
     const sliderParams = inputProps?.sliderParams;
     const showSlider = inputProps?.showSlider ?? true;
@@ -133,7 +135,7 @@ export const RangeInputPicker = (props: ObjectInputProps<RangeInputPickerInputPr
                         onUpdate={handleSliderUpdate}
                         onBlur={input.onBlur}
                         onFocus={input.onFocus}
-                        qa={`${name}-slider`}
+                        qa={`${qaBase}-slider`}
                         tooltipDisplay="off"
                     />
                 </div>
@@ -153,7 +155,7 @@ export const RangeInputPicker = (props: ObjectInputProps<RangeInputPickerInputPr
                         onFocus={input.onFocus}
                         hasClear
                         allowDecimal
-                        qa={`${name}-from`}
+                        qa={`${qaBase}-from`}
                     />
                     <span className={b('separator')}>
                         {inputProps?.separator ?? RANGE_INPUT_PICKER_DEFAULT_SEPARATOR}
@@ -171,7 +173,7 @@ export const RangeInputPicker = (props: ObjectInputProps<RangeInputPickerInputPr
                         onFocus={input.onFocus}
                         hasClear
                         allowDecimal
-                        qa={`${name}-to`}
+                        qa={`${qaBase}-to`}
                     />
                 </div>
             ) : null}

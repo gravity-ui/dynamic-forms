@@ -5,6 +5,7 @@ import {Checkbox, type CheckboxProps as CheckboxBaseProps} from '@gravity-ui/uik
 import type {ArrayInput, FieldArrayValue} from '../../../../core';
 import {transformArrIn, transformArrOut} from '../../../../core';
 import {block} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 
 import './CheckboxGroup.scss';
 
@@ -18,6 +19,7 @@ export interface CheckboxGroupProps
 
 export const CheckboxGroup: ArrayInput<CheckboxGroupProps> = ({name, input, spec, inputProps}) => {
     const {value, onBlur, onChange, onFocus} = input;
+    const qaBase = getQaBase(name, spec);
 
     const _value: Array<string | number> | undefined = React.useMemo(
         () => transformArrOut<FieldArrayValue, Array<string | number>>(value),
@@ -51,12 +53,12 @@ export const CheckboxGroup: ArrayInput<CheckboxGroupProps> = ({name, input, spec
     return (
         <div
             className={b({vertical: spec.viewSpec.checkboxGroupParams?.placement === 'vertical'})}
-            data-qa={name}
+            data-qa={qaBase}
         >
             {options?.map(({value: optionValue, text}) => (
                 <Checkbox
                     {...inputProps}
-                    qa={name && `${name}-${optionValue}`}
+                    qa={qaBase && `${qaBase}-${optionValue}`}
                     key={optionValue}
                     checked={_value?.includes(optionValue)}
                     onUpdate={(selected: boolean) => handleUpdate(optionValue, selected)}

@@ -4,6 +4,7 @@ import type {ArrayLayoutProps, ObjectLayoutProps} from '../../../../core';
 import {isArrayItem} from '../../../../core';
 import {useErrorChecker} from '../../../hooks';
 import {block} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 import {AccordeonCard} from '../../AccordeonCard';
 import {ErrorWrapper} from '../../ErrorWrapper';
 import {RemoveButton} from '../../RemoveButton';
@@ -19,6 +20,7 @@ export const AccordeonCardForm = <T extends ArrayLayoutProps | ObjectLayoutProps
     children,
     meta,
 }: T): React.JSX.Element => {
+    const qaBase = getQaBase(name, spec);
     const [open, setOpen] = React.useState(Boolean(spec.viewSpec?.layoutOpen));
 
     const onDrop = React.useCallback(() => {
@@ -31,15 +33,15 @@ export const AccordeonCardForm = <T extends ArrayLayoutProps | ObjectLayoutProps
             return null;
         }
 
-        return <RemoveButton name={name} onDrop={onDrop} />;
-    }, [spec.required, input.value, onDrop, name]);
+        return <RemoveButton name={qaBase} onDrop={onDrop} />;
+    }, [spec.required, input.value, onDrop, name, qaBase]);
 
     useErrorChecker({name, meta, open, setOpen});
 
     return (
         <AccordeonCard
             classNameBody={b('accordeon-card-body')}
-            name={name}
+            name={qaBase}
             header={spec.viewSpec.layoutTitle || ''}
             description={spec.viewSpec.layoutDescription || ''}
             open={open}
