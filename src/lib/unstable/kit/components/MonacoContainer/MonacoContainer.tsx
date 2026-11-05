@@ -36,7 +36,7 @@ export const MonacoContainer: React.FC<MonacoContainerProps> = ({
     return (
         <div className={b()} data-qa={qa}>
             <Flex alignItems="center" justifyContent="space-between" className={b('header')}>
-                <Flex alignItems="center" gap={1}>
+                <Flex alignItems="center" gap="spacing-1">
                     <Icon data={Code} size={16} />
                     <Text variant={settings?.titleVariant}>{language}</Text>
                 </Flex>

@@ -170,7 +170,7 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
             >
                 {control}
             </MonacoContainer>
-            <Dialog open={dialogOpen} onClose={toggleDialogOpen} hasCloseButton={false}>
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen} hasCloseButton={false}>
                 <Dialog.Body className={b('dialog-body')}>
                     <MonacoContainer
                         dialog={true}

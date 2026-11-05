@@ -21,7 +21,7 @@ export const OverviewRow: NodeLayout<JsonSchema> = ({children, schema}) => {
             className={b({size: settings?.size})}
             direction="row"
             alignItems="flex-start"
-            gap={2}
+            gap="spacing-2"
             hidden={hidden}
             hideEmpty
         >
@@ -30,8 +30,8 @@ export const OverviewRow: NodeLayout<JsonSchema> = ({children, schema}) => {
                 <EntityDescription className={b('help-mark')} likeHelpMark />
                 <div className={b('dots')} />
             </div>
-            <Flex className={b('right')} direction="column" gap={0.5} grow={1}>
-                <Flex grow={1} gap={2}>
+            <Flex className={b('right')} direction="column" gap="spacing-half" flexGrow={1}>
+                <Flex flexGrow={1} gap="spacing-2">
                     {children}
                     <LayoutButtons />
                 </Flex>

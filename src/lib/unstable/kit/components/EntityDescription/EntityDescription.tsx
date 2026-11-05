@@ -26,7 +26,7 @@ export const EntityDescription: React.FC<EntityDescriptionProps> = ({
 
     if (likeHelpMark) {
         return (
-            <HelpMark className={className} iconSize={settings?.size === 'xl' ? 'l' : 'm'}>
+            <HelpMark className={className} size={settings?.size === 'xl' ? 'l' : 'm'}>
                 <HTMLContent content={content} />
             </HelpMark>
         );

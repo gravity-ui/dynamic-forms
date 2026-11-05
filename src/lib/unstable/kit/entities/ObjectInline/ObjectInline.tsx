@@ -46,7 +46,7 @@ export const ObjectInline: NodeEntity<JsonSchemaObject, ObjectInlineProps> = ({
                 className={b('items', {overview: overviewFlag})}
                 direction="row"
                 alignItems="center"
-                gap={overviewFlag ? 1 : 2}
+                gap={overviewFlag ? 'spacing-1' : 'spacing-2'}
             >
                 {(order || Object.keys(schema.properties || {})).map(
                     (property: string, index: number, array: string[]) => (

@@ -95,7 +95,7 @@ export const RangeInput: NodeEntity<JsonSchemaObject, RangeInputProps> = ({
 
     return (
         <EntityContainer width="by-child" className={b({size: settings?.size})}>
-            <Flex className={b('items')} direction="row" alignItems="flex-start" gap={2}>
+            <Flex className={b('items')} direction="row" alignItems="flex-start" gap="spacing-2">
                 <SchemaRendererNode
                     headName={headName}
                     name={fromName}
