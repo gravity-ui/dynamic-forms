@@ -41,7 +41,7 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
     settings,
 }) => {
     const {name, value} = input;
-    const {toggler: togglerSchema = {}, withIndent = false, order} = props;
+    const {toggler: togglerSchema = {}, withIndent = false} = props;
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
@@ -53,16 +53,6 @@ export const FewOfNested: NodeEntity<JsonSchemaObject, FewOfNestedProps> = ({
     const [togglerValues, setTogglerValues] = React.useState<string[]>(() => {
         if (value && Object.keys(value).length) {
             return Object.keys(value);
-        }
-
-        if (!overviewFlag) {
-            if (order?.[0] !== undefined) {
-                return [order[0]];
-            }
-
-            if (schema.properties && Object.keys(schema.properties).length) {
-                return [Object.keys(schema.properties)[0]];
-            }
         }
 
         return [];

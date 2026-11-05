@@ -139,9 +139,14 @@ test.describe('SchemaRenderer FewOfNested', () => {
 
                 await expect(
                     component.getByRole('checkbox', {name: 'Age', exact: true}),
-                ).toBeChecked();
-                await expect(component.getByTestId('input.age').locator('input')).toBeVisible();
+                ).not.toBeChecked();
+                await expect(
+                    component.getByRole('checkbox', {name: 'Name', exact: true}),
+                ).not.toBeChecked();
+                await expect(component.getByTestId('input.age')).toHaveCount(0);
                 await expect(component.getByTestId('input.name')).toHaveCount(0);
+                await component.getByRole('checkbox', {name: 'Age', exact: true}).check();
+                await expect(component.getByTestId('input.age').locator('input')).toBeVisible();
                 await component.getByTestId('input.age').locator('input').fill('37');
                 await component.getByTestId('input.age').locator('input').blur();
                 await component.getByRole('checkbox', {name: 'Name', exact: true}).check();
