@@ -155,7 +155,7 @@ export const Editor: React.FC<EditorProps> = ({spec: externalSpec, value, viewMo
                             ) : null}
                             {toggler === 'view' ? (
                                 <div className={b('input-view')}>
-                                    <Flex gap={1} spacing={{mb: 6}}>
+                                    <Flex gap="spacing-1" marginBlockEnd="spacing-6">
                                         <Text variant="body-2">
                                             Enable showLayoutDescription props
                                         </Text>

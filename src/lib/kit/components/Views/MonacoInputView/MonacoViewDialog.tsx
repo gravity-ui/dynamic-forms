@@ -41,6 +41,15 @@ export const MonacoViewDialog: React.FC<MonacoViewDialogProps> = ({
         onClose();
     }, [onClose]);
 
+    const handleOpenChange = React.useCallback(
+        (open: boolean) => {
+            if (!open) {
+                handleClose();
+            }
+        },
+        [handleClose],
+    );
+
     const options = useMonacoOptions(fontSize, true);
 
     if (!MonacoEditor) {
@@ -48,7 +57,7 @@ export const MonacoViewDialog: React.FC<MonacoViewDialogProps> = ({
     }
 
     return (
-        <Dialog open={visible} onClose={handleClose} className={b()}>
+        <Dialog open={visible} onOpenChange={handleOpenChange} className={b()}>
             <Dialog.Header caption={title} className={b('dialog-header')} />
             <Dialog.Body>
                 <div className={b('container')}>

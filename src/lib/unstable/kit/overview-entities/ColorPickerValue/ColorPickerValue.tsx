@@ -25,7 +25,7 @@ export const ColorPickerValue: NodeEntity<JsonSchemaString, ColorPickerValueProp
             width="fit"
             fill="populated"
             direction="row"
-            gap={1}
+            gap="spacing-1"
             alignItems="center"
         >
             <LongValue

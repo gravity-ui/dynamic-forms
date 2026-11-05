@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {Ellipsis} from '@gravity-ui/icons';
-import type {DropdownMenuItemMixed} from '@gravity-ui/uikit';
-import {Button, DropdownMenu, Icon} from '@gravity-ui/uikit';
+import {Button, Icon} from '@gravity-ui/uikit';
+import {DropdownMenu, type DropdownMenuItemMixed} from '@gravity-ui/uikit/legacy';
 
 import i18n from '../../i18n';
 

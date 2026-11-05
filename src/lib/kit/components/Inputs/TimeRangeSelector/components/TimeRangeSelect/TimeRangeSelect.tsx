@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type {SelectOption} from '@gravity-ui/uikit';
+import type {SelectOptionProps} from '@gravity-ui/uikit';
 
 import {
     Controller,
@@ -16,7 +16,7 @@ import './TimeRangeSelect.scss';
 const b = block('time-range-select');
 
 interface TimeRangeSelectProps extends ControllerProps<FieldValue, StringSpec> {
-    options: SelectOption<string>[];
+    options: SelectOptionProps<string>[];
 }
 
 export const TimeRangeSelect: React.FC<TimeRangeSelectProps> = ({spec, options, ...props}) => {

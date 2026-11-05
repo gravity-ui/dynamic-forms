@@ -201,7 +201,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
         <EntityContainer
             className={b({size: settings?.size})}
             width="by-child"
-            gap={4}
+            gap="spacing-4"
             fill="by-child"
             droppable
         >
