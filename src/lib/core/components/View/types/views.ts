@@ -18,13 +18,13 @@ export type IndependentViewProps<Value extends FormValue, SpecType extends Spec>
     Layout: ViewLayoutType<Value, SpecType> | undefined;
 } & ViewProps<Value, SpecType>;
 
-export type ViewType<Value extends FormValue, SpecType extends Spec> = (
-    props: ViewProps<Value, SpecType>,
-) => React.ReactNode | Promise<React.ReactNode>;
+export type ViewType<Value extends FormValue, SpecType extends Spec> = React.FC<
+    ViewProps<Value, SpecType>
+>;
 
-export type IndependentViewType<Value extends FormValue, SpecType extends Spec> = (
-    props: IndependentViewProps<Value, SpecType>,
-) => React.ReactNode | Promise<React.ReactNode>;
+export type IndependentViewType<Value extends FormValue, SpecType extends Spec> = React.FC<
+    IndependentViewProps<Value, SpecType>
+>;
 
 export type ViewEntity<Value extends FormValue, SpecType extends Spec> = {
     Component: ViewType<Value, SpecType>;

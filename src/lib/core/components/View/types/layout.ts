@@ -11,9 +11,9 @@ export type ViewLayoutProps<
     children: React.ReactNode;
 } & ViewProps<Value, SpecType>;
 
-export type ViewLayoutType<Value extends FormValue, SpecType extends Spec> = (
-    props: ViewLayoutProps<Value, SpecType>,
-) => React.ReactNode | Promise<React.ReactNode>;
+export type ViewLayoutType<Value extends FormValue, SpecType extends Spec> = React.FC<
+    ViewLayoutProps<Value, SpecType>
+>;
 
 export type ViewLayoutsMap<Value extends FormValue, SpecType extends Spec> = Record<
     string,

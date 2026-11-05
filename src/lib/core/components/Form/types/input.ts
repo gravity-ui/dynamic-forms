@@ -30,18 +30,14 @@ export type InputType<
     InputComponentProps extends Record<string, any> | undefined = undefined,
     LayoutComponentProps extends Record<string, any> | undefined = undefined,
     SpecType extends Spec<undefined, InputComponentProps, LayoutComponentProps> = Spec,
-> = (
-    props: InputProps<Value, InputComponentProps, LayoutComponentProps, SpecType>,
-) => React.ReactNode | Promise<React.ReactNode>;
+> = React.FC<InputProps<Value, InputComponentProps, LayoutComponentProps, SpecType>>;
 
 export type IndependentInputType<
     Value extends FieldValue,
     InputComponentProps extends Record<string, any> | undefined = undefined,
     LayoutComponentProps extends Record<string, any> | undefined = undefined,
     SpecType extends Spec<undefined, InputComponentProps, LayoutComponentProps> = Spec,
-> = (
-    props: IndependentInputProps<Value, InputComponentProps, LayoutComponentProps, SpecType>,
-) => React.ReactNode | Promise<React.ReactNode>;
+> = React.FC<IndependentInputProps<Value, InputComponentProps, LayoutComponentProps, SpecType>>;
 
 export type InputEntity<
     Value extends FieldValue,
