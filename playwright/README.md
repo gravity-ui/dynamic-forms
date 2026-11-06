@@ -1,18 +1,19 @@
 # Playwright component tests
 
-`npm run playwright` runs the SchemaRenderer suite, imported from `src/index.ts`.
-The deprecated DynamicField / DynamicView suite has a separate configuration and command.
+`npm run playwright` runs both the SchemaRenderer and deprecated DynamicField / DynamicView suites.
+SchemaRenderer is imported from `src/index.ts`. Each suite also has a separate configuration and command.
 Both suites use UIKit 8 and date-components 5 from npm, including the real
 DatePicker through the public `@gravity-ui/date-components` entry point.
 
 ```sh
-npm run playwright             # SchemaRenderer; default CI suite
-npm run playwright:schema      # Alias for the default suite
+npm run playwright             # Both suites; default CI run
+npm run playwright:schema      # SchemaRenderer only
 npm run playwright:deprecated  # Deprecated DynamicField / DynamicView only
 ```
 
-`playwright.config.ts` excludes `src/lib/deprecated`; `playwright.deprecated.config.ts`
-selects that directory and reuses the same browsers, fixtures and screenshot settings.
+`playwright.config.ts` collects both suites from `src/lib`.
+`playwright.schema.config.ts` excludes `src/lib/deprecated`; `playwright.deprecated.config.ts`
+selects only that directory. Both reuse the same browsers, fixtures and screenshot settings.
 Deprecated fixtures are in `playwright/deprecated`. Test scenarios and existing PNGs
 are preserved; snapshots stay next to their components.
 

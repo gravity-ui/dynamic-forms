@@ -29,7 +29,6 @@ reporter.push(
  */
 const config: PlaywrightTestConfig = {
     testDir: pathFromRoot('src/lib'),
-    testIgnore: '**/deprecated/**',
     testMatch: '**/__tests__/*.visual.test.tsx',
     updateSnapshots: process.env.UPDATE_REQUEST ? 'all' : 'none',
     snapshotPathTemplate:

@@ -42,7 +42,7 @@
     "playwright:docker": "./scripts/playwright-docker.sh 'npm run playwright'",
     "playwright:docker:update": "./scripts/playwright-docker.sh 'npm run playwright:update'",
     "playwright:docker:clear-cache": "./scripts/playwright-docker.sh clear-cache",
-    "playwright:schema": "npm run playwright --",
+    "playwright:schema": "playwright test --config=playwright/playwright.schema.config.ts",
     "playwright:deprecated": "playwright test --config=playwright/playwright.deprecated.config.ts"
   },
   "dependencies": {
