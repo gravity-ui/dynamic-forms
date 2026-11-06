@@ -10,17 +10,26 @@ npm install --save-dev @gravity-ui/dynamic-forms
 
 ## Usage
 
-```jsx
-import {DynamicField, Spec, dynamicConfig} from '@gravity-ui/dynamic-forms';
+SchemaRenderer is the main API, available from `@gravity-ui/dynamic-forms`.
 
-// To embed in a final-form
-<DynamicField name={name} spec={spec} config={config} />;
+- [Quick start](docs/en/how-to-use.md)
+- [Documentation](docs/en/README.md) / [Документация](docs/ru/README.md)
+- [Spec migration](docs/en/migration.md)
 
-import {DynamicView, dynamicViewConfig} from '@gravity-ui/dynamic-forms';
+### Deprecated API
 
-// To get an overview of the values
-<DynamicView value={value} spec={spec} config={dynamicViewConfig} />;
+The previous `DynamicField`, `DynamicView`, configs and types are available from
+`@gravity-ui/dynamic-forms/deprecated`. Their documentation is in
+[Deprecated / Readme](https://preview.gravity-ui.com/dynamic-forms/?path=/docs/deprecated-readme--docs).
+
+This entry point uses `@gravity-ui/uikit/legacy`. Install its optional peer dependencies
+in the consuming application:
+
+```shell
+npm install @hello-pangea/dnd@^18 react-window@^1 react-virtualized-auto-sizer@^1
 ```
+
+SchemaRenderer does not require these three packages.
 
 ### I18N
 

@@ -1,190 +1,139 @@
-import type {Spec, StringSpec} from '../../../core';
-import {SpecTypes} from '../../../core';
-import {isCorrectSizeParams, isNotEmptyValue, prepareSpec} from '../common';
+import {createForm} from 'final-form';
 
-describe('kit/utils/common', () => {
-    test('isNotEmptyValue', () => {
-        let spec: Spec = {
-            type: SpecTypes.String,
-            viewSpec: {type: ''},
-        };
+import {
+    JsonSchemaType,
+    SCHEMA_RENDERER_SERVICE_FIELD,
+    type SchemaRendererState,
+    getServiceFieldName,
+} from '../../../core';
+import {
+    getArrayItemIndex,
+    getArrayItemParentName,
+    getBooleanValidationState,
+    getValidationState,
+    isArrayItem,
+    isTupleItem,
+} from '../common';
 
-        expect(isNotEmptyValue(undefined, spec)).toBe(false);
-        expect(isNotEmptyValue(null, spec)).toBe(false);
-        expect(isNotEmptyValue('', spec)).toBe(false);
-        expect(isNotEmptyValue('test', spec)).toBe(true);
-
-        spec.viewSpec.hideValues = ['test'];
-
-        expect(isNotEmptyValue('test', spec)).toBe(false);
-
-        spec = {
-            type: SpecTypes.Object,
-            properties: {
-                value: {
-                    type: SpecTypes.Object,
-                    properties: {
-                        value: {
-                            type: SpecTypes.String,
-                            viewSpec: {type: ''},
-                        },
-                    },
-                    viewSpec: {type: ''},
-                },
-            },
-            viewSpec: {type: ''},
-        };
-
-        expect(isNotEmptyValue({}, spec)).toBe(false);
-        expect(isNotEmptyValue({value: {value: 'value'}}, spec)).toBe(true);
-        expect(isNotEmptyValue({value: {value: null}}, spec)).toBe(false);
-        expect(isNotEmptyValue({value: {}}, spec)).toBe(false);
-
-        spec.viewSpec.type = 'oneof';
-
-        expect(isNotEmptyValue({value: {}}, spec)).toBe(true);
-
-        spec = {
-            type: SpecTypes.Array,
-            items: {
-                type: SpecTypes.String,
-                viewSpec: {type: ''},
-            },
-            viewSpec: {type: ''},
-        };
-
-        expect(isNotEmptyValue([], spec)).toBe(false);
-        expect(isNotEmptyValue([null], spec)).toBe(false);
-        expect(isNotEmptyValue([], spec)).toBe(false);
-        expect(isNotEmptyValue(['test'], spec)).toBe(true);
+describe('getValidationState', () => {
+    test('returns invalid when the field is touched and has an error', () => {
+        expect(getValidationState({touched: true, error: 'error'} as any)).toBe('invalid');
     });
 
-    test('prepareSpec', () => {
-        expect(prepareSpec(null as any)).toBe(null);
-        expect(prepareSpec('foobar' as any)).toBe('foobar');
-
-        expect(prepareSpec({type: 'NUMBER'} as any)).toMatchObject({type: 'number'});
-
-        expect(prepareSpec({defaultValue: '{"value":"value"}'} as any)).toMatchObject({
-            defaultValue: undefined,
-        });
-        expect(
-            prepareSpec({type: 'OBJECT', defaultValue: '{"value":"value"}'} as any),
-        ).toMatchObject({
-            defaultValue: undefined,
-            type: 'object',
-        });
-        expect(
-            prepareSpec({type: 'OBJECT', defaultValue: '{"value":"value"}'} as any, true),
-        ).toMatchObject({
-            defaultValue: {value: 'value'},
-            type: 'object',
-        });
-
-        expect(prepareSpec({viewSpec: {type: 'BASE'}} as any)).toMatchObject({
-            viewSpec: {type: 'base'},
-        });
-
-        expect(prepareSpec({viewSpec: {layout: 'ROW'}} as any)).toMatchObject({
-            viewSpec: {layout: 'row'},
-        });
-
-        expect(prepareSpec({viewSpec: {addButtonPosition: 'DOWN'}} as any)).toMatchObject({
-            viewSpec: {addButtonPosition: 'down'},
-        });
-
-        expect(prepareSpec({viewSpec: {oneOfParams: {toggler: 'SELECT'}}} as any)).toMatchObject({
-            viewSpec: {oneOfParams: {toggler: 'select'}},
-        });
-
-        expect(
-            prepareSpec({viewSpec: {textContentParams: {themeLabel: 'WARNING'}}} as any),
-        ).toMatchObject({
-            viewSpec: {textContentParams: {themeLabel: 'warning'}},
-        });
-
-        expect(prepareSpec({validator: 'CUSTOM'} as any)).toMatchObject({validator: 'custom'});
-
-        expect(prepareSpec({maxLength: '0', minLength: '0'} as any)).toMatchObject({
-            maxLength: undefined,
-            minLength: undefined,
-        });
-        expect(prepareSpec({maxLength: 1} as any)).toMatchObject({maxLength: BigInt(1)});
-        expect(prepareSpec({minLength: 1} as any)).toMatchObject({minLength: BigInt(1)});
-
-        expect(prepareSpec({items: {type: 'NUMBER'}} as any)).toMatchObject({
-            items: {type: 'number'},
-        });
-
-        expect(prepareSpec({maximum: 0, minimum: 0} as any)).toMatchObject({
-            maximum: undefined,
-            minimum: undefined,
-        });
-        expect(prepareSpec({maximum: '1'} as any)).toMatchObject({maximum: 1});
-        expect(prepareSpec({minimum: '1'} as any)).toMatchObject({minimum: 1});
-
-        expect(prepareSpec({format: 'FLOAT'} as any)).toMatchObject({format: 'float'});
-
-        expect(prepareSpec({properties: {prop: {type: 'NUMBER'}}} as any)).toMatchObject({
-            properties: {prop: {type: 'number'}},
-        });
-
-        const getErrorMessage = (regexp?: string) => {
-            return `My custom error message for ${regexp}`;
-        };
-
-        expect(prepareSpec({pattern: '[a-zA-Z0-9]'} as any, false, getErrorMessage)).toMatchObject({
-            pattern: '[a-zA-Z0-9]',
-            patternError: 'My custom error message for [a-zA-Z0-9]',
-        });
-
-        expect(
-            prepareSpec(
-                {
-                    properties: {
-                        test: {
-                            pattern: '[a-zA-Z0-9]',
-                        },
-                    },
-                } as any,
-                false,
-                getErrorMessage,
-            ),
-        ).toMatchObject({
-            properties: {
-                test: {
-                    pattern: '[a-zA-Z0-9]',
-                    patternError: 'My custom error message for [a-zA-Z0-9]',
-                },
-            },
-        });
+    test('returns invalid when submit failed and the field has an error', () => {
+        expect(getValidationState({submitFailed: true, error: 'error'} as any)).toBe('invalid');
     });
 
-    test('isCorrectSizeParams', () => {
-        const spec: StringSpec = {
-            type: SpecTypes.String,
-            viewSpec: {type: ''},
-        };
+    test('returns undefined when the field is not touched and submit did not fail', () => {
+        expect(getValidationState({error: 'error'} as any)).toBeUndefined();
+    });
 
-        expect(isCorrectSizeParams(spec)).toBe(false);
+    test('returns undefined when there is no error', () => {
+        expect(getValidationState({touched: true} as any)).toBeUndefined();
+    });
+});
 
-        spec.viewSpec.sizeParams = {} as any;
+describe('getBooleanValidationState', () => {
+    test('returns true when the field is invalid', () => {
+        expect(getBooleanValidationState({touched: true, error: 'error'} as any)).toBe(true);
+    });
 
-        expect(isCorrectSizeParams(spec)).toBe(false);
+    test('returns false when the field is valid', () => {
+        expect(getBooleanValidationState({touched: true} as any)).toBe(false);
+    });
+});
 
-        spec.viewSpec.sizeParams!.defaultType = 'foo';
+describe('getArrayItemParentName', () => {
+    test('returns the parent name of an array item', () => {
+        expect(getArrayItemParentName('form.items[0]')).toBe('form.items');
+    });
 
-        expect(isCorrectSizeParams(spec)).toBe(false);
+    test('returns the inner array name for a nested index', () => {
+        expect(getArrayItemParentName('form.items[0][1]')).toBe('form.items[0]');
+    });
+});
 
-        spec.viewSpec.sizeParams!.scale = {};
+describe('getArrayItemIndex', () => {
+    test('returns the last bracket index', () => {
+        expect(getArrayItemIndex('form.items[0]')).toBe('0');
+        expect(getArrayItemIndex('form.items[0][1]')).toBe('1');
+    });
+});
 
-        expect(isCorrectSizeParams(spec)).toBe(false);
+describe('isArrayItem', () => {
+    test('returns true when the name ends with a bracket index', () => {
+        expect(isArrayItem('form.items[0]')).toBe(true);
+    });
 
-        spec.viewSpec.sizeParams!.scale = {
-            foo: {factor: '100', title: 'foo'},
-            bar: {factor: '1', title: 'bar'},
-        };
+    test('returns false when the name is not an array item', () => {
+        expect(isArrayItem('form.items')).toBe(false);
+    });
+});
 
-        expect(isCorrectSizeParams(spec)).toBe(true);
+describe('isTupleItem', () => {
+    test('returns false when the name is not an array item', () => {
+        const form = createForm<any>({onSubmit: () => {}});
+
+        expect(isTupleItem('form.items', 'form', form)).toBe(false);
+    });
+
+    test('returns true when the parent schema items is a tuple', () => {
+        const form = createForm<any>({onSubmit: () => {}});
+        const state = {
+            schema: {
+                type: JsonSchemaType.Object,
+                properties: {
+                    items: {
+                        type: JsonSchemaType.Array,
+                        items: [{type: JsonSchemaType.String}, {type: JsonSchemaType.Number}],
+                    },
+                },
+            },
+        } as unknown as SchemaRendererState;
+
+        form.registerField(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'form'),
+            () => {},
+            {},
+            {data: {state}},
+        );
+        form.registerField(
+            'form.items',
+            () => {},
+            {},
+            {data: {state: {schemaPath: '#/properties/items'}}},
+        );
+
+        expect(isTupleItem('form.items[0]', 'form', form)).toBe(true);
+    });
+
+    test('returns false when the parent schema items is not a tuple', () => {
+        const form = createForm<any>({onSubmit: () => {}});
+        const state = {
+            schema: {
+                type: JsonSchemaType.Object,
+                properties: {
+                    items: {
+                        type: JsonSchemaType.Array,
+                        items: {type: JsonSchemaType.String},
+                    },
+                },
+            },
+        } as unknown as SchemaRendererState;
+
+        form.registerField(
+            getServiceFieldName(SCHEMA_RENDERER_SERVICE_FIELD, 'form'),
+            () => {},
+            {},
+            {data: {state}},
+        );
+        form.registerField(
+            'form.items',
+            () => {},
+            {},
+            {data: {state: {schemaPath: '#/properties/items'}}},
+        );
+
+        expect(isTupleItem('form.items[0]', 'form', form)).toBe(false);
     });
 });

@@ -1,4 +1,4 @@
-import type {SchemaRendererProps} from '../../src/lib/unstable/core/SchemaRenderer';
+import type {SchemaRendererProps} from '../../src/lib/core/SchemaRenderer';
 
 export const rendererSizes = ['s', 'm', 'l', 'xl'] as const satisfies ReadonlyArray<
     SchemaRendererProps['size']

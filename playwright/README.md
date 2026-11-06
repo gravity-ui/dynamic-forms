@@ -1,22 +1,27 @@
 # Playwright component tests
 
-`npm run playwright` runs both the existing DynamicField / DynamicView suite and
-new SchemaRenderer tests. SchemaRenderer is imported from `src/unstable.ts`.
+`npm run playwright` runs the SchemaRenderer suite, imported from `src/index.ts`.
+The deprecated DynamicField / DynamicView suite has a separate configuration and command.
 Both suites use UIKit 8 and date-components 5 from npm, including the real
 DatePicker through the public `@gravity-ui/date-components` entry point.
 
 ```sh
-npm run playwright:schema  # SchemaRenderer only
-npm run playwright:legacy  # Existing DynamicField / DynamicView only
-npm run playwright        # Both suites, as in CI
+npm run playwright             # SchemaRenderer; default CI suite
+npm run playwright:schema      # Alias for the default suite
+npm run playwright:deprecated  # Deprecated DynamicField / DynamicView only
 ```
+
+`playwright.config.ts` excludes `src/lib/deprecated`; `playwright.deprecated.config.ts`
+selects that directory and reuses the same browsers, fixtures and screenshot settings.
+Deprecated fixtures are in `playwright/deprecated`. Test scenarios and existing PNGs
+are preserved; snapshots stay next to their components.
 
 ## Where a test lives
 
 Tests and fixtures belong to the component they exercise. For example:
 
 ```text
-src/lib/unstable/kit/form-entities/StringInput/
+src/lib/kit/form-entities/StringInput/
   StringInput.tsx
   __tests__/
     StringInput.visual.test.tsx
@@ -191,7 +196,7 @@ The HTML report lives in `playwright-report` (`playwright-report-docker` when
 To run one component, append its path, e.g.:
 
 ```sh
-npm run playwright -- src/lib/unstable/kit/form-entities/StringInput/ --project=chromium
+npm run playwright -- src/lib/kit/form-entities/StringInput/ --project=chromium
 ```
 
 ## Date and scale scenarios

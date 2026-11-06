@@ -2,6 +2,14 @@ import {withTheme, withLang} from './decorators';
 
 export const decorators = [withTheme, withLang];
 
+export const parameters = {
+    options: {
+        storySort: {
+            order: ['SchemaRenderer', '*', 'Deprecated'],
+        },
+    },
+};
+
 export const globalTypes = {
     theme: {
         defaultValue: 'light',

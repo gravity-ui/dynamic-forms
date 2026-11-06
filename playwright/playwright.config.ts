@@ -28,7 +28,8 @@ reporter.push(
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
-    testDir: pathFromRoot('src'),
+    testDir: pathFromRoot('src/lib'),
+    testIgnore: '**/deprecated/**',
     testMatch: '**/__tests__/*.visual.test.tsx',
     updateSnapshots: process.env.UPDATE_REQUEST ? 'all' : 'none',
     snapshotPathTemplate:

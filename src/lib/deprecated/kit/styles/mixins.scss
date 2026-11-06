@@ -1,0 +1,7 @@
+@import './variables.scss';
+
+@mixin with-copy-button() {
+    &:hover > .#{$ns}copy-button {
+        display: block;
+    }
+}
