@@ -1,0 +1,60 @@
+import React from 'react';
+
+import type {StoryFn} from '@storybook/react';
+
+import type {ArraySpec} from '../../lib/deprecated';
+import {ArrayBase, SpecTypes} from '../../lib/deprecated';
+
+import {InputPreview} from './components';
+
+export default {
+    title: 'Deprecated/Array/Base',
+    component: ArrayBase,
+};
+
+const spec: ArraySpec = {
+    type: SpecTypes.Array,
+    items: {
+        type: SpecTypes.String,
+        viewSpec: {
+            type: 'base',
+            layout: 'row',
+            layoutTitle: 'Element',
+        },
+    },
+    viewSpec: {
+        type: 'base',
+        layout: 'accordeon',
+        layoutTitle: 'Elements',
+        layoutOpen: true,
+        itemLabel: 'Add element',
+    },
+};
+
+const value = ['foo', 'bar', 'rab', 'oof'];
+
+const excludeOptions = [
+    'enum',
+    'description',
+    'viewSpec.type',
+    'viewSpec.table',
+    'viewSpec.placeholder',
+    'viewSpec.selectParams',
+    'viewSpec.checkboxGroupParams',
+    'viewSpec.inputProps',
+];
+
+const template = () => {
+    const Template: StoryFn<typeof ArrayBase> = (__, {viewMode}) => (
+        <InputPreview
+            spec={spec}
+            value={value}
+            excludeOptions={excludeOptions}
+            viewMode={viewMode}
+        />
+    );
+
+    return Template;
+};
+
+export const Base = template();
