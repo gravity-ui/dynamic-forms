@@ -115,7 +115,7 @@ export const StringNumberWithScaleInput: NodeEntity<
             width="max"
             className={b({error: getBooleanValidationState(meta)})}
             direction="row"
-            gap="spacing-2"
+            gap={2}
         >
             <div className={b('input')}>
                 <TextInput

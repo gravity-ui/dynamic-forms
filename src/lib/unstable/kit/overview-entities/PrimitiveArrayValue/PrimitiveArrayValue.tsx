@@ -33,7 +33,7 @@ export const PrimitiveArrayValue: NodeEntity<JsonSchemaArray, PrimitiveArrayValu
 
     if (direction === 'column') {
         return (
-            <EntityContainer width="fit" fill="populated" gap="spacing-half">
+            <EntityContainer width="fit" fill="populated" gap={0.5}>
                 {values.map((item, index) => (
                     <LongValue
                         variant={settings?.textVariant}

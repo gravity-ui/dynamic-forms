@@ -30,8 +30,8 @@ export const FormColumn: NodeLayout<JsonSchema, FormColumnProps> = ({
     const {hidden} = schema.nodeParameters?.flags || {};
 
     return (
-        <LayoutContainer className={b({size: settings?.size})} gap="spacing-1" hidden={hidden}>
-            <Flex direction="column" gap="spacing-half">
+        <LayoutContainer className={b({size: settings?.size})} gap={1} hidden={hidden}>
+            <Flex direction="column" gap={0.5}>
                 <Flex alignItems="center">
                     <div className={b('title')}>
                         <EntityTitle />
@@ -43,7 +43,7 @@ export const FormColumn: NodeLayout<JsonSchema, FormColumnProps> = ({
                 </Flex>
                 {descriptionType === 'bottom' ? <EntityDescription /> : null}
             </Flex>
-            <Flex className={b('bottom')} direction="column" gap="spacing-half">
+            <Flex className={b('bottom')} direction="column" gap={0.5}>
                 {children}
                 <EntityError />
             </Flex>

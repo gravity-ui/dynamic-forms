@@ -110,7 +110,7 @@ export const NumberWithScaleInput: NodeEntity<JsonSchemaNumber, NumberWithScaleI
             width="max"
             className={b({error: getBooleanValidationState(meta)})}
             direction="row"
-            gap="spacing-2"
+            gap={2}
         >
             <div className={b('input')}>
                 <NumberInput

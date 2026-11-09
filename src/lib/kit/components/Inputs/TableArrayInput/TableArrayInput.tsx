@@ -1,8 +1,7 @@
 import React from 'react';
 
 import {Plus, TrashBin} from '@gravity-ui/icons';
-import {Button, Flex, HelpMark, Icon} from '@gravity-ui/uikit';
-import {Table, type TableColumnConfig} from '@gravity-ui/uikit/legacy';
+import {Button, Flex, HelpMark, Icon, Table, type TableColumnConfig} from '@gravity-ui/uikit';
 import noop from 'lodash/noop';
 import set from 'lodash/set';
 
@@ -119,7 +118,7 @@ export const TableArrayInput: ArrayInput = ({spec, name, arrayInput, input}) => 
                       )
                     : () => (
                           <Flex
-                              gap="spacing-half"
+                              gap={0.5}
                               alignItems="center"
                               style={{minWidth: width, maxWidth: width}}
                           >

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Provider} from '@gravity-ui/uikit';
+import {ThemeProvider} from '@gravity-ui/uikit';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import cloneDeep from 'lodash/cloneDeep';
@@ -32,11 +32,11 @@ const SPEC_PASSWORD: StringSpec = {
 };
 
 const DynamicForm = ({spec}: {spec: Spec}) => (
-    <Provider>
+    <ThemeProvider>
         <Form initialValues={{}} onSubmit={noop}>
             {() => <DynamicField name={NAME} spec={spec} config={dynamicConfig} />}
         </Form>
-    </Provider>
+    </ThemeProvider>
 );
 
 beforeEach(() => {

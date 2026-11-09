@@ -28,13 +28,7 @@ export const RangeValue: NodeEntity<JsonSchemaObject, RangeValueProps> = ({
     }
 
     return (
-        <EntityContainer
-            width="fit"
-            fill="populated"
-            direction="row"
-            gap="spacing-half"
-            alignItems="center"
-        >
+        <EntityContainer width="fit" fill="populated" direction="row" gap={0.5} alignItems="center">
             <LongValue
                 variant={settings?.textVariant}
                 {...restProps}

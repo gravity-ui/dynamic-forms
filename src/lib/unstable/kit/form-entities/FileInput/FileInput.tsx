@@ -1,12 +1,11 @@
 import React from 'react';
 
 import {Xmark} from '@gravity-ui/icons';
+import {FilePreview, type FilePreviewAction} from '@gravity-ui/uikit';
 import {
-    FileDropZone,
+    unstable_FileDropZone as FileDropZone,
     type FileDropZoneProps,
-    FilePreview,
-    type FilePreviewAction,
-} from '@gravity-ui/uikit';
+} from '@gravity-ui/uikit/unstable';
 
 import type {JsonSchemaString, NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';

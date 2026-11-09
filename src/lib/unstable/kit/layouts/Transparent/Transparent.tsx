@@ -27,11 +27,11 @@ export const Transparent: NodeLayout<JsonSchema, TransparentProps> = ({
     return (
         <LayoutContainer
             className={b()}
-            gap="spacing-half"
+            gap={0.5}
             hideEmpty={isBoolean(props.hideEmpty) ? props.hideEmpty : overviewFlag}
             hidden={hidden}
         >
-            <Flex gap="spacing-2">
+            <Flex gap={2}>
                 {children}
                 <LayoutButtons />
             </Flex>

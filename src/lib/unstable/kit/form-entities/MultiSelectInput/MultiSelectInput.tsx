@@ -1,13 +1,6 @@
 import React from 'react';
 
-import {
-    Flex,
-    Select,
-    type SelectOptionProps,
-    type SelectProps,
-    Text,
-    getSelectOptionText,
-} from '@gravity-ui/uikit';
+import {Flex, Select, type SelectOption, type SelectProps, Text} from '@gravity-ui/uikit';
 import isString from 'lodash/isString';
 
 import type {JsonSchemaArray, NodeEntity} from '../../../core';
@@ -60,7 +53,7 @@ export const MultiSelectInput: NodeEntity<JsonSchemaArray, MultiSelectInputProps
 
                 if (optionMeta) {
                     content = (
-                        <Flex direction="column" gap="spacing-half">
+                        <Flex direction="column" gap="0.5">
                             {content}
                             <Text color="secondary" variant={settings?.textVariant}>
                                 {optionMeta}
@@ -69,7 +62,7 @@ export const MultiSelectInput: NodeEntity<JsonSchemaArray, MultiSelectInputProps
                     );
                 }
 
-                return {value, content, key: value, data: {optionMeta, text}};
+                return {value, text, content, key: value, data: {optionMeta}};
             });
         }
 
@@ -77,19 +70,16 @@ export const MultiSelectInput: NodeEntity<JsonSchemaArray, MultiSelectInputProps
     }, [enumDescriptions, enumValues, optionsMeta, settings]);
 
     const renderOption: SelectProps['renderOption'] = React.useCallback(
-        (option: SelectOptionProps) => (
-            <React.Fragment key={option.value}>{option.content || option.value}</React.Fragment>
+        (option: SelectOption) => (
+            <React.Fragment key={option.value}>
+                {option.content || option.text || option.value}
+            </React.Fragment>
         ),
         [],
     );
 
-    const getOptionText: SelectProps['getOptionText'] = React.useCallback(
-        (option: SelectOptionProps) => option.data?.text ?? getSelectOptionText(option),
-        [],
-    );
-
     const getOptionHeight: SelectProps['getOptionHeight'] = React.useCallback(
-        (option: SelectOptionProps) => {
+        (option: SelectOption) => {
             let height = 28;
 
             if (settings?.size) {
@@ -126,7 +116,6 @@ export const MultiSelectInput: NodeEntity<JsonSchemaArray, MultiSelectInputProps
                 filterable={(enumValues?.length || 0) > 9}
                 renderOption={renderOption}
                 getOptionHeight={getOptionHeight}
-                getOptionText={getOptionText}
                 placeholder={`${schema.examples?.[0]?.[0] || DASH}`}
                 disabled={disabled || schema.readOnly}
                 size={settings?.size}
