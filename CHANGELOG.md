@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.38.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.38.0...v5.38.1) (2026-11-09)
+
+
+### Bug Fixes
+
+* **unstable:** fix few of initial toggler values ([#463](https://github.com/gravity-ui/dynamic-forms/issues/463)) ([a9ec7c5](https://github.com/gravity-ui/dynamic-forms/commit/a9ec7c59e9148f838b1edd7c2b6d5a73aae7a051))
+
 ## [5.38.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.37.0...v5.38.0) (2026-10-23)
 
 
