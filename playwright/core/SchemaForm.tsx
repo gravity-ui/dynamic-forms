@@ -5,8 +5,8 @@ import {Button} from '@gravity-ui/uikit';
 import noop from 'lodash/noop';
 import {Form} from 'react-final-form';
 
-import {SchemaRenderer, config, errorMessages} from '../../src/unstable';
-import type {FieldValue, SchemaRendererProps} from '../../src/unstable';
+import {SchemaRenderer, config, errorMessages} from '../../src/index';
+import type {FieldValue, SchemaRendererProps} from '../../src/index';
 
 export interface SchemaFormProps
     extends Required<Omit<SchemaRendererProps, 'config' | 'errorMessages' | 'name'>> {

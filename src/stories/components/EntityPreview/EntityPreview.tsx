@@ -6,9 +6,9 @@ import noop from 'lodash/noop';
 import {Form, useForm} from 'react-final-form';
 import MonacoEditor from 'react-monaco-editor';
 
-import {SchemaRenderer, SchemaRendererMode} from '../../../lib/unstable/core';
-import type {JsonSchema} from '../../../lib/unstable/core/types';
-import {MonacoContainer, config} from '../../../lib/unstable/kit';
+import {SchemaRenderer, SchemaRendererMode} from '../../../lib/core';
+import type {JsonSchema} from '../../../lib/core/types';
+import {MonacoContainer, config} from '../../../lib/kit';
 
 const monacoOptions = {
     automaticLayout: true,
