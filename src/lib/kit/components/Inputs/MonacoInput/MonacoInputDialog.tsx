@@ -52,15 +52,6 @@ export const MonacoInputDialog: React.FC<MonacoInputDialogProps> = ({
         onClose();
     }, [onChange, onClose, value]);
 
-    const handleOpenChange = React.useCallback(
-        (open: boolean) => {
-            if (!open) {
-                handleClose();
-            }
-        },
-        [handleClose],
-    );
-
     const options = useMonacoOptions(fontSize, false);
 
     if (!MonacoEditor) {
@@ -68,7 +59,7 @@ export const MonacoInputDialog: React.FC<MonacoInputDialogProps> = ({
     }
 
     return (
-        <Dialog open={visible} onOpenChange={handleOpenChange} className={b()}>
+        <Dialog open={visible} onClose={handleClose} className={b()}>
             <Dialog.Header caption={title} className={b('dialog-header')} />
             <Dialog.Body>
                 <div className={b('container')} data-qa={`${name}-dialog`}>

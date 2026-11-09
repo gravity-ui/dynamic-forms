@@ -1,9 +1,8 @@
 # Playwright component tests
 
 `npm run playwright` runs both the existing DynamicField / DynamicView suite and
-new SchemaRenderer tests. SchemaRenderer is imported from `src/unstable.ts`.
-Both suites use UIKit 8 and date-components 5 from npm, including the real
-DatePicker through the public `@gravity-ui/date-components` entry point.
+new SchemaRenderer tests. SchemaRenderer is imported from `src/unstable.ts`; this
+branch uses the dependencies of main, including UIKit 7.
 
 ```sh
 npm run playwright:schema  # SchemaRenderer only
@@ -85,9 +84,8 @@ Each entity suite renders all 64 labelled variants from
 
 `SchemaFormGrid` arranges independent forms and labels their settings. It does not
 supply default renderer props. Each test still passes all
-props explicitly and checks every cell before taking the screenshot.
-Composite values and their placement are covered by the same screenshot comparison,
-without separate per-element coordinate polling.
+props explicitly and checks every cell before taking the screenshot. Composite
+values must fit inside their own cell, not just somewhere inside the grid.
 
 The same grid also contains labelled cells for specific props, empty/disabled
 states, validation errors and results of interactions. Each cell has its own

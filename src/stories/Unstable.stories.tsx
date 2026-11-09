@@ -59,8 +59,8 @@ const schema: JsonSchemaObject = {
                         importHelpers: true,
                         paths: {
                             '@gravity-ui/dynamic-forms/unstable': ['./src/unstable.ts'],
-                            '@gravity-ui/uikit/legacy': [
-                                'node_modules/@gravity-ui/uikit/build/esm/legacy',
+                            '@gravity-ui/uikit/unstable': [
+                                'node_modules/@gravity-ui/uikit/build/esm/unstable',
                             ],
                         },
                     },
@@ -880,8 +880,8 @@ const value = {
                     importHelpers: true,
                     paths: {
                         '@gravity-ui/dynamic-forms/unstable': ['./src/unstable.ts'],
-                        '@gravity-ui/uikit/legacy': [
-                            'node_modules/@gravity-ui/uikit/build/esm/legacy',
+                        '@gravity-ui/uikit/unstable': [
+                            'node_modules/@gravity-ui/uikit/build/esm/unstable',
                         ],
                     },
                 },

@@ -2,7 +2,6 @@
 @import '../../styles/variables.scss';
 
 .#{$ns}layout-container {
-    box-sizing: border-box;
     max-width: 100%;
     min-width: 0;
     width: fit-content;

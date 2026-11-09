@@ -5,6 +5,7 @@ import {expect} from '@playwright/experimental-ct-react';
 import {schemaTest as test} from '~playwright/core';
 import type {SchemaFormProps} from '~playwright/core/SchemaForm';
 import {SchemaFormGrid, type SchemaFormGridProps} from '~playwright/core/SchemaFormGrid';
+import {expectInsideScreenshot} from '~playwright/core/expectInsideScreenshot';
 import {rendererVariants} from '~playwright/core/schemaRendererVariants';
 
 import {SchemaRendererMode} from '../../../../core/constants';
@@ -145,6 +146,22 @@ test.describe('SchemaRenderer ArrayEntity', () => {
                     await expect(component.getByRole('textbox').first()).toHaveValue('Ada');
                 } else {
                     await expect(component.getByText('Ada', {exact: true})).toBeVisible();
+                }
+                const frame = component;
+                if (mode === SchemaRendererMode.Form) {
+                    for (const qa of ['input[0]', 'input[1]']) {
+                        await expectInsideScreenshot(
+                            component.getByTestId(qa).locator('input'),
+                            frame,
+                        );
+                    }
+                } else {
+                    for (const text of ['Ada', 'Grace']) {
+                        await expectInsideScreenshot(
+                            component.getByText(text, {exact: true}),
+                            frame,
+                        );
+                    }
                 }
             }
             if (mode === SchemaRendererMode.Form) {

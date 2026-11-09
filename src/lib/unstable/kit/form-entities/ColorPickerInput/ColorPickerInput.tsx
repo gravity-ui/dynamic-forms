@@ -1,6 +1,9 @@
 import React from 'react';
 
-import {ColorPicker, type ColorPickerProps} from '@gravity-ui/uikit';
+import {
+    unstable_ColorPicker as ColorPicker,
+    type unstable_ColorPickerProps as ColorPickerProps,
+} from '@gravity-ui/uikit/unstable';
 
 import type {JsonSchemaString, NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';
