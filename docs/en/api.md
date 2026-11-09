@@ -1,4 +1,4 @@
-[← Back to contents](./README.md)
+[← Back to contents](../../README.md#contents)
 
 # API reference
 
