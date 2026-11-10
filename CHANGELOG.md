@@ -1,5 +1,22 @@
 # Changelog
 
+## [6.0.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.38.0...v6.0.0) (2026-11-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* promote SchemaRenderer to stable ([#466](https://github.com/gravity-ui/dynamic-forms/issues/466))
+
+### Features
+
+* migrate to uikit_v8 ([#452](https://github.com/gravity-ui/dynamic-forms/issues/452)) ([2986183](https://github.com/gravity-ui/dynamic-forms/commit/29861839751621620e5538b27b48eb6fd0fb61b5))
+* promote SchemaRenderer to stable ([#466](https://github.com/gravity-ui/dynamic-forms/issues/466)) ([fe187d0](https://github.com/gravity-ui/dynamic-forms/commit/fe187d0f685f6ce5934da4d937f72cac3c11a46d))
+
+
+### Bug Fixes
+
+* **unstable:** fix few of initial toggler values ([#463](https://github.com/gravity-ui/dynamic-forms/issues/463)) ([a9ec7c5](https://github.com/gravity-ui/dynamic-forms/commit/a9ec7c59e9148f838b1edd7c2b6d5a73aae7a051))
+
 ## [5.38.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.37.0...v5.38.0) (2026-10-23)
 
 
