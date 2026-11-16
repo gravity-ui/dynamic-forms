@@ -17,6 +17,7 @@ export interface SchemaRendererState<
     errors: Record<string, ValidationError>;
     errorMessages: ErrorMessages;
     mode: SchemaRendererMode;
+    instanceId: string;
     originalSchema: JsonSchema;
     patches: SchemaPatch[];
     priorityErrors: Record<string, ValidationError>;

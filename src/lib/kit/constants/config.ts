@@ -10,6 +10,7 @@ import {
     ObjectEntity,
     ObjectInline,
     OneOfNested,
+    StructureBuilder,
     TextContent,
 } from '../entities';
 import {
@@ -176,6 +177,7 @@ export const untypedConfig = {
             few_of_nested: {Component: FewOfNested, independent: true},
             inline: {Component: ObjectInline},
             one_of_nested: {Component: OneOfNested, independent: true},
+            structure_builder: {Component: StructureBuilder},
             range_input: {Component: RangeInput},
             range_slider: {Component: RangeSliderInput},
         },
@@ -194,6 +196,7 @@ export const untypedConfig = {
             few_of_nested: {Component: FewOfNested, independent: true},
             inline: {Component: ObjectInline},
             one_of_nested: {Component: OneOfNested, independent: true},
+            structure_builder: {Component: StructureBuilder},
             range_input: {Component: RangeValue},
             range_slider: {Component: RangeValue},
         },
