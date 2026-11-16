@@ -8,4 +8,5 @@ export {Monaco, type MonacoProps} from './Monaco';
 export {ObjectEntity, type ObjectEntityProps} from './ObjectEntity';
 export {ObjectInline, type ObjectInlineProps} from './ObjectInline';
 export {OneOfNested, type OneOfNestedProps} from './OneOfNested';
+export {StructureBuilder, type StructureBuilderProps} from './StructureBuilder';
 export {TextContent, type TextContentProps} from './TextContent';

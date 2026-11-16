@@ -1,0 +1,7 @@
+@import '../../styles/variables.scss';
+
+.#{$ns}structure-builder {
+    &__mirror {
+        display: contents;
+    }
+}

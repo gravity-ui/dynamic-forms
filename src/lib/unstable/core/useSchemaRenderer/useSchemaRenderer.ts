@@ -5,6 +5,7 @@ import React from 'react';
 import type {FieldValidator} from 'final-form';
 import cloneDeep from 'lodash/cloneDeep';
 import {useForm} from 'react-final-form';
+import {v4 as uuidv4} from 'uuid';
 
 import {SchemaRendererEventType, type SchemaRendererMode} from '../constants';
 import type {ErrorMessages, FieldValue, JsonSchema, NodesConfig} from '../types';
@@ -45,6 +46,7 @@ export const useSchemaRenderer = ({
 }: UseSchemaRendererParams): FieldValidator<FieldValue> => {
     const form = useForm();
 
+    const instanceIdRef = React.useRef(uuidv4());
     const strictCheckerRef = React.useRef(getStrictModeChecker());
     const stateRef = React.useRef<SchemaRendererState>(null);
     const prevParamsRef = React.useRef<UseSchemaRendererParams>(null);
@@ -83,6 +85,7 @@ export const useSchemaRenderer = ({
             dispatchEvent,
             errors: nameUpdated || schemaUpdated || !prevState?.errors ? {} : prevState.errors,
             errorMessages: errorMessages || {},
+            instanceId: instanceIdRef.current,
             mode,
             originalSchema,
             patches: nameUpdated || schemaUpdated || !prevState?.patches ? [] : prevState.patches,

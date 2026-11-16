@@ -3,6 +3,7 @@ import React from 'react';
 import type {FieldState} from 'final-form';
 import get from 'lodash/get';
 import noop from 'lodash/noop';
+import ReactDOM from 'react-dom';
 import {type FieldInputProps, type FieldMetaState, useForm} from 'react-final-form';
 
 import {JsonSchemaType, SchemaRendererEventType, SchemaRendererMode} from '../constants';
@@ -364,6 +365,21 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
                 {content}
             </SchemaRendererNodeContext.Provider>
         );
+    }
+
+    const mirror = document.querySelector(
+        `[data-sr-mirror="${srState?.instanceId}::${schemaPath}"]`,
+    );
+
+    if (mirror) {
+        content = (
+            <React.Fragment>
+                {content}
+                <div />
+            </React.Fragment>
+        );
+
+        return ReactDOM.createPortal(content, mirror);
     }
 
     return content;

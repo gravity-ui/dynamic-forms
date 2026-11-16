@@ -16,6 +16,7 @@ export interface SchemaRendererState<
     dispatchEvent: (events: SchemaRendererEvent[]) => void;
     errors: Record<string, ValidationError>;
     errorMessages: ErrorMessages;
+    instanceId: string;
     mode: SchemaRendererMode;
     originalSchema: JsonSchema;
     patches: SchemaPatch[];
