@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.39.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.38.1...v5.39.0) (2026-11-16)
+
+
+### Features
+
+* add structure builder ([#473](https://github.com/gravity-ui/dynamic-forms/issues/473)) ([868ac29](https://github.com/gravity-ui/dynamic-forms/commit/868ac2913b551f08b18e420f8caf326a5cfce3a1))
+
 ## [5.38.1](https://github.com/gravity-ui/dynamic-forms/compare/v5.38.0...v5.38.1) (2026-11-09)
 
 
