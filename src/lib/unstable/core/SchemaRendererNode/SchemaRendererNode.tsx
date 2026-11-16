@@ -21,7 +21,6 @@ export interface SchemaRendererNodeProps {
     name: string;
     schemaOverride?: JsonSchema;
     schemaPath: string;
-    withoutRegister?: boolean;
 }
 
 const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
@@ -30,7 +29,6 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
     name,
     schemaOverride,
     schemaPath,
-    withoutRegister,
 }) => {
     const form = useForm();
 
@@ -84,10 +82,6 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
     );
 
     React.useMemo(() => {
-        if (withoutRegister) {
-            return;
-        }
-
         if (
             !strictCheckerRef.current.checkDiff({
                 form,
@@ -274,10 +268,6 @@ const SchemaRendererNodeComponent: React.FC<SchemaRendererNodeProps> = ({
     }, [nodeContext, nodeContextRuler]);
 
     React.useEffect(() => {
-        if (withoutRegister) {
-            return;
-        }
-
         const unsubscribe = form.subscribe(
             (state) => {
                 const parentName = getParentName(name);
