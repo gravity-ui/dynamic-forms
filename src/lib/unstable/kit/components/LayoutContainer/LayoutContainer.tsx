@@ -11,6 +11,7 @@ const b = block('layout-container');
 
 export interface LayoutContainerProps extends FlexProps {
     children: React.ReactNode;
+    containerRef?: React.RefObject<HTMLDivElement | null>;
     hideEmpty?: boolean;
     hidden?: boolean;
 }
@@ -18,6 +19,7 @@ export interface LayoutContainerProps extends FlexProps {
 export const LayoutContainer: React.FC<LayoutContainerProps> = ({
     className,
     children,
+    containerRef,
     hideEmpty = false,
     hidden = false,
     ...restProps
@@ -26,6 +28,7 @@ export const LayoutContainer: React.FC<LayoutContainerProps> = ({
 
     return (
         <Flex
+            ref={containerRef}
             className={b(
                 {'hide-empty': hideEmpty, hidden, view: settings?.view ?? 'stretch'},
                 className,
