@@ -4,11 +4,11 @@ import {SchemaRendererEventType, useSchemaRendererState} from '../../core';
 
 export interface UseExpandedParams {
     headName: string;
-    name: string;
     open?: boolean;
 }
 
-export const useExpanded = ({headName, name, open = true}: UseExpandedParams) => {
+export const useExpanded = ({headName, open = true}: UseExpandedParams) => {
+    const containerRef = React.useRef<HTMLDivElement>(null);
     const srState = useSchemaRendererState({
         headName,
         subscriptions: [SchemaRendererEventType.Submit],
@@ -24,11 +24,11 @@ export const useExpanded = ({headName, name, open = true}: UseExpandedParams) =>
         if (
             srState &&
             srState.submitCount > 0 &&
-            Object.keys(srState.errors).some((key) => key.startsWith(name))
+            containerRef.current?.querySelector('[data-sr-error="true"]')
         ) {
             setExpanded(true);
         }
     }, [srState]);
 
-    return {expanded, setExpanded, toggleExpanded};
+    return {containerRef, expanded, setExpanded, toggleExpanded};
 };
