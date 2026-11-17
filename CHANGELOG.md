@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.1.0](https://github.com/gravity-ui/dynamic-forms/compare/v6.0.0...v6.1.0) (2026-11-17)
+
+
+### Features
+
+* add nested error detection via HTML attributes in useExpanded ([#476](https://github.com/gravity-ui/dynamic-forms/issues/476)) ([ed2075f](https://github.com/gravity-ui/dynamic-forms/commit/ed2075f49a40a21d32fbb089e9954fff753a76bd))
+* add structure builder ([#471](https://github.com/gravity-ui/dynamic-forms/issues/471)) ([935ab13](https://github.com/gravity-ui/dynamic-forms/commit/935ab136ee014bc398d7436cdab04dd46ce533de))
+
+
+### Bug Fixes
+
+* prevent stale oneof values after switching branches ([#478](https://github.com/gravity-ui/dynamic-forms/issues/478)) ([a53bd71](https://github.com/gravity-ui/dynamic-forms/commit/a53bd713c02176bc84d80599514644ab8fddf4ff))
+
 ## [6.0.0](https://github.com/gravity-ui/dynamic-forms/compare/v5.38.0...v6.0.0) (2026-11-09)
 
 
