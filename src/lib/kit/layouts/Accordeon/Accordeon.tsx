@@ -41,7 +41,6 @@ export interface AccordeonProps extends DisclosureProps {
 export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
     children,
     headName,
-    input,
     mode,
     schema,
     props,
@@ -56,7 +55,7 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
         ...restLayoutProps
     } = props;
     const {hidden, open} = schema.nodeParameters?.flags || {};
-    const {expanded, setExpanded} = useExpanded({headName, name: input.name, open});
+    const {containerRef, expanded, setExpanded} = useExpanded({headName, open});
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
@@ -75,6 +74,7 @@ export const Accordeon: NodeLayout<JsonSchema, AccordeonProps> = ({
                 'without-default-summary': !withDefaultSummary,
                 size: settings?.size,
             })}
+            containerRef={containerRef}
             hideEmpty={overviewFlag}
             hidden={hidden}
         >

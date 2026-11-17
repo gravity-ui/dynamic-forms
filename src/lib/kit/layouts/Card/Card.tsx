@@ -37,7 +37,6 @@ export interface CardProps extends UIKitCardProps {
 export const Card: NodeLayout<JsonSchema, CardProps> = ({
     children,
     headName,
-    input,
     mode,
     schema,
     props,
@@ -49,15 +48,15 @@ export const Card: NodeLayout<JsonSchema, CardProps> = ({
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
 
-    const {expanded, toggleExpanded} = useExpanded({
+    const {containerRef, expanded, toggleExpanded} = useExpanded({
         headName,
-        name: input.name,
         open: likeAccordeon ? open : true,
     });
 
     return (
         <LayoutContainer
             className={b({size: settings?.size})}
+            containerRef={containerRef}
             hideEmpty={overviewFlag}
             hidden={hidden}
         >
