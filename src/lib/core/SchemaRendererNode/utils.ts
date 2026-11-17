@@ -232,7 +232,9 @@ export const scheduleFlush = (
         flushes.delete(form);
         form.batch(() => {
             changes.forEach((value, name) => {
-                form.change(name, value);
+                if (form.getFieldState(name)) {
+                    form.change(name, value);
+                }
             });
         });
 
