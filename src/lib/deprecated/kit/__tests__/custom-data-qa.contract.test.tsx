@@ -1,12 +1,5 @@
-/**
- * Contract tests for custom data-qa via `viewSpec.qa` (gravity-ui/dynamic-forms#462).
- *
- * Black-box: specs are rendered through `DynamicField` (form mode) and `DynamicView` (overview
- * mode) with the real `dynamicConfig` / `dynamicViewConfig`. Only the rendered `data-qa`
- * attributes (with the tag of the element carrying them) and the form value are observed.
- * One representative case per qa-building mechanism; per-component coverage lives next to the
- * components. Test titles carry the acceptance criteria ids (AC-n) they cover.
- */
+// Contract tests for `viewSpec.qa` (#462): one representative case per qa-building mechanism,
+// rendered through the real DynamicField / DynamicView. Titles carry the covered AC ids.
 import React from 'react';
 
 import {ThemeProvider} from '@gravity-ui/uikit';

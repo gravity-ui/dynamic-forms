@@ -1,9 +1,4 @@
-/**
- * Type-level contract tests for `viewSpec.qa` (gravity-ui/dynamic-forms#462).
- *
- * Checked by `tsc` (`npm run typecheck`), not by Jest: Jest transpiles with SWC. If an
- * `@ts-expect-error` below stops being an error, `tsc` reports an unused directive.
- */
+// Type-level tests for `viewSpec.qa` (#462): checked by `tsc`, not Jest (SWC doesn't type-check).
 import type {NumberSpec, Spec, StringSpec} from '../../core';
 import {SpecTypes} from '../../core';
 import type {NumberProps, TextProps} from '../components';

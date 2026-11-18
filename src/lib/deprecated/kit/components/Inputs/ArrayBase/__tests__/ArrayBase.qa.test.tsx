@@ -8,7 +8,7 @@ import {ArrayBase} from '../ArrayBase';
 
 type Props = React.ComponentProps<typeof ArrayBase>;
 
-// Stable across rerenders (incl. defaultValue), so only a changed `qa` can invalidate the AddButton memo.
+// Stable across rerenders (incl. defaultValue): only a changed `qa` can invalidate the memo.
 const input = {name: 'field', onChange: jest.fn()};
 const arrayInput = {name: 'field', onItemAdd: jest.fn()};
 const defaultValue = ['a'];

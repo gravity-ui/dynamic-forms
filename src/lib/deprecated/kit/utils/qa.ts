@@ -1,17 +1,9 @@
 import isString from 'lodash/isString';
 
-/**
- * The minimal structural shape the helper reads. Any instantiation of `Spec` / `ArraySpec` /
- * `BooleanSpec` / `NumberSpec` / `ObjectSpec` / `StringSpec` / `NumberWithScaleSpec`, with any
- * generic arguments, is assignable to it.
- */
+/** Minimal spec shape the helper reads; any `Spec` instantiation is assignable to it. */
 export type QaSpecLike = {viewSpec?: {qa?: string}};
 
-/**
- * Item Key of an array-item Field Name, or `undefined` if `name` is not an array item.
- * Form mode: `<array>.<KEY>` -> `KEY` (same marker as core `isArrayItem`).
- * Overview mode: `<array>[IDX]` -> `IDX`.
- */
+/** Item key of an array-item name: `arr.<KEY>` (form) or `arr[IDX]` (overview), else undefined. */
 export const getArrayItemKey = (name: string): string | undefined => {
     const formMatch = /<([^<>]*)>$/.exec(name);
 
@@ -28,12 +20,8 @@ export const getArrayItemKey = (name: string): string | undefined => {
     return undefined;
 };
 
-/**
- * QA Base of a field: `name` when `spec.viewSpec.qa` is unset or empty,
- * `${qa}-${key}` for an array item, and `qa` verbatim otherwise.
- * Note: a property key that itself ends in `<…>` or `[digits]` is treated
- * as an array item only when its spec sets `qa`.
- */
+// QA base: `name` if `viewSpec.qa` is unset or '', `${qa}-${key}` for array items, else `qa`.
+// A property key ending in `<…>` or `[digits]` counts as an array item only when `qa` is set.
 export const getQaBase = (name: string, spec: QaSpecLike | undefined): string => {
     const qa = spec?.viewSpec?.qa;
 
