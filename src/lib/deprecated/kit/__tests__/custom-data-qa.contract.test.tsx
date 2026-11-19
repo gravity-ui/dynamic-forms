@@ -1,5 +1,5 @@
 // Contract tests for `viewSpec.qa` (#462): one representative case per qa-building mechanism,
-// rendered through the real DynamicField / DynamicView. Titles carry the covered AC ids.
+// rendered through the real DynamicField / DynamicView.
 import React from 'react';
 
 import {ThemeProvider} from '@gravity-ui/uikit';
@@ -116,11 +116,11 @@ beforeAll(() => {
     window.ResizeObserver = ObserverStub as unknown as typeof ResizeObserver;
 });
 
-// No qa and `qa: ''` keep the Field Name as QA base; a non-empty qa replaces it.
+// No qa and `qa: ''` keep the field name as QA base; a non-empty qa replaces it.
 const FIELD_QA: [string, string | undefined, string][] = [
-    ['AC-1 no qa', undefined, FIELD],
-    ["AC-3 qa ''", '', FIELD],
-    ['AC-8/AC-9/AC-14 qa set', CUSTOM, CUSTOM],
+    ['no qa', undefined, FIELD],
+    ["qa ''", '', FIELD],
+    ['qa set', CUSTOM, CUSTOM],
 ];
 
 // `expected(base)`: every data-qa the field renders with QA base `base`. Children keep FIELD.
@@ -194,7 +194,7 @@ describe('Field with viewSpec.qa, form mode', () => {
         expect(getQa()).toContain(`DIV:${base}-dialog`);
     });
 
-    test('AC-11/AC-12/AC-13 children keep their Field Name or use their own qa verbatim', () => {
+    test('children keep their field name or use their own qa verbatim', () => {
         const spec = obj('card_accordeon', {a: withQa(str(), 'a-qa'), b: str()});
 
         renderForm(withQa(spec, CUSTOM), {a: '1', b: '2'});
@@ -206,7 +206,7 @@ describe('Field with viewSpec.qa, form mode', () => {
         ]);
     });
 
-    test('AC-15 qa survives value change and collapse/expand', async () => {
+    test('qa survives value change and collapse/expand', async () => {
         renderForm(withQa(obj('accordeon'), CUSTOM), {name: 'a'});
 
         const before = getQa();
@@ -221,7 +221,7 @@ describe('Field with viewSpec.qa, form mode', () => {
     test.each([
         ['without qa', undefined],
         ['with qa', CUSTOM],
-    ])('AC-6 typed value is stored under the original Field Name (%s)', async (_, qa) => {
+    ])('typed value is stored under the original field name (%s)', async (_, qa) => {
         renderForm(withQa(str(), qa), undefined);
         await userEvent.type(screen.getByRole('textbox'), 'abc');
         await act(async () => {});
@@ -236,7 +236,7 @@ describe('Field with viewSpec.qa, form mode', () => {
             'with qa on the field and its child',
             withQa(obj('row', {name: withQa(str(), 'n')}), CUSTOM),
         ],
-    ])('AC-4/AC-5 delegated rendering (withSchemaRenderer) is untouched %s', (_, spec) => {
+    ])('delegated rendering (withSchemaRenderer) is untouched %s', (_, spec) => {
         renderForm(spec, {name: 'a'}, {withSchemaRenderer: true});
         expect(getQa()).toEqual([`SPAN:${FIELD}.name`]);
     });
@@ -245,13 +245,13 @@ describe('Field with viewSpec.qa, form mode', () => {
 describe('Array item spec with viewSpec.qa, form mode', () => {
     // Item QA base: `<array>.<key>` by default, `<qa>-<key>` with a non-empty item qa.
     const ITEM_QA_CASES: [string, string | undefined, (key: number) => string][] = [
-        ['AC-1 no item qa', undefined, (k) => `${FIELD}.<${k}>`],
-        ["AC-3 item qa ''", '', (k) => `${FIELD}.<${k}>`],
-        ['AC-16/AC-17 item qa set', ITEM_QA, (k) => `${ITEM_QA}-${k}`],
+        ['no item qa', undefined, (k) => `${FIELD}.<${k}>`],
+        ["item qa ''", '', (k) => `${FIELD}.<${k}>`],
+        ['item qa set', ITEM_QA, (k) => `${ITEM_QA}-${k}`],
     ];
 
     test.each(ITEM_QA_CASES)(
-        '%s: Row layout, keys stable across remove/add (AC-18)',
+        '%s: Row layout, keys stable across remove/add',
         async (_, qa, item) => {
             const expected = (keys: number[]) => [
                 ...keys.flatMap((k) => [`SPAN:${item(k)}`, `BUTTON:${item(k)}-remove-item`]),
@@ -276,7 +276,7 @@ describe('Array item spec with viewSpec.qa, form mode', () => {
             ['tag-0', 'tag-1'],
             'arr',
         ],
-    ])('AC-19 %s, items with qa: array keeps its own QA base', (_, spec, items, arrayBase) => {
+    ])('%s, items with qa: array keeps its own QA base', (_, spec, items, arrayBase) => {
         renderForm(spec, ['a', 'b']);
         expect(getQa()).toEqual([
             ...items.flatMap((i) => [`SPAN:${i}`, `BUTTON:${i}-remove-item`]),
@@ -284,7 +284,7 @@ describe('Array item spec with viewSpec.qa, form mode', () => {
         ]);
     });
 
-    test('AC-19 table array with qa and item qa: no item-level data-qa, cells unaffected', () => {
+    test('table array with qa and item qa: no item-level data-qa, cells unaffected', () => {
         renderForm(withItemQa(tableArray('orders'), ITEM_QA), twoObjects);
         expect(getQa()).toEqual([
             `SPAN:${FIELD}.<0>.name`,
@@ -295,7 +295,7 @@ describe('Array item spec with viewSpec.qa, form mode', () => {
         ]);
     });
 
-    test('AC-12a qa on a descendant of an array item repeats verbatim in every item', () => {
+    test('qa on a descendant of an array item repeats verbatim in every item', () => {
         renderForm(arrayOf(obj('transparent', {name: withQa(str(), 'name-qa')})), twoObjects);
         expect(getQa()).toEqual([
             'SPAN:name-qa',
@@ -309,9 +309,9 @@ describe('Array item spec with viewSpec.qa, form mode', () => {
 
 describe('viewSpec.qa, overview mode', () => {
     test.each([
-        ['AC-2 no qa', undefined, FIELD],
-        ["AC-3 qa ''", '', FIELD],
-        ['AC-10/AC-11 qa set', CUSTOM, CUSTOM],
+        ['no qa', undefined, FIELD],
+        ["qa ''", '', FIELD],
+        ['qa set', CUSTOM, CUSTOM],
     ])('%s: ViewCardAccordeon with a Monaco child', (_, qa, base) => {
         renderOverview(withQa(obj('card_accordeon', {code: str({type: 'monaco_input'})}), qa), {
             code: 'x',
@@ -324,8 +324,8 @@ describe('viewSpec.qa, overview mode', () => {
     });
 
     test.each([
-        ['AC-2 no item qa', undefined, `${FIELD}[0]`, `${FIELD}[1]`],
-        ['AC-10/AC-16 item qa set', ITEM_QA, `${ITEM_QA}-0`, `${ITEM_QA}-1`],
+        ['no item qa', undefined, `${FIELD}[0]`, `${FIELD}[1]`],
+        ['item qa set', ITEM_QA, `${ITEM_QA}-0`, `${ITEM_QA}-1`],
     ])('%s: array items use their index', (_, qa, first, second) => {
         renderOverview(withItemQa(arrayOf(obj('card_accordeon')), qa), twoObjects);
         expect(getQa()).toEqual([
@@ -335,12 +335,12 @@ describe('viewSpec.qa, overview mode', () => {
     });
 });
 
-describe('AC-22..AC-25 duplicate forms on one page', () => {
+describe('duplicate forms on one page', () => {
     test.each([
-        ['AC-22 same name, different qa', [FIELD, 'first'], [FIELD, 'second'], ['first', 'second']],
-        ['AC-23 different names, no qa', ['a', undefined], ['b', undefined], ['a', 'b']],
-        ['AC-24 same name, no qa', [FIELD, undefined], [FIELD, undefined], [FIELD, FIELD]],
-        ['AC-25 only the first has qa', [FIELD, 'first'], [FIELD, undefined], ['first', FIELD]],
+        ['same name, different qa', [FIELD, 'first'], [FIELD, 'second'], ['first', 'second']],
+        ['different names, no qa', ['a', undefined], ['b', undefined], ['a', 'b']],
+        ['same name, no qa', [FIELD, undefined], [FIELD, undefined], [FIELD, FIELD]],
+        ['only the first has qa', [FIELD, 'first'], [FIELD, undefined], ['first', FIELD]],
     ] as [string, [string, string?], [string, string?], string[]][])(
         '%s',
         (_, first, second, expected) => {
