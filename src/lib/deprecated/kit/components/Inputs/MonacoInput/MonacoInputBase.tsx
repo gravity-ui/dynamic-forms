@@ -102,7 +102,8 @@ export const MonacoInputBase: React.FC<MonacoInputBaseProps> = ({
                 </div>
             </div>
             <MonacoInputDialog
-                name={qaBase}
+                name={name}
+                qa={qaBase}
                 title={layoutTitle}
                 fontSize={fontSize}
                 value={monacoValue}

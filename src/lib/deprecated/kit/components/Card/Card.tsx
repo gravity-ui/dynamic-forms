@@ -15,6 +15,8 @@ const b = block('card');
 export interface CardProps {
     children: React.ReactNode;
     name: string;
+    /** Base for this component's `data-qa` values; defaults to `name` */
+    qa?: string;
     title?: string | React.ReactNode;
     description?: string;
     actions?: React.ReactNode;
@@ -27,6 +29,7 @@ export interface CardProps {
 
 export const Card: React.FC<CardProps> = ({
     name,
+    qa,
     title: propsTitle,
     description,
     actions,
@@ -144,7 +147,7 @@ export const Card: React.FC<CardProps> = ({
                             <Button
                                 view="flat"
                                 onClick={handleToggle}
-                                qa={`${name}-accordeon-toggler`}
+                                qa={`${qa ?? name}-accordeon-toggler`}
                             >
                                 <Icon
                                     className={b('toggler-icon', {open})}

@@ -51,7 +51,8 @@ export const CardOneOfView: ObjectIndependentView = (props) => {
 
     return (
         <Card
-            name={qaBase}
+            name={name}
+            qa={qaBase}
             title={title}
             open={open}
             onToggle={onToggle}

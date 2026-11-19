@@ -33,7 +33,7 @@ export const AccordeonCardForm = <T extends ArrayLayoutProps | ObjectLayoutProps
             return null;
         }
 
-        return <RemoveButton name={qaBase} onDrop={onDrop} />;
+        return <RemoveButton name={name} qa={qaBase} onDrop={onDrop} />;
     }, [spec.required, input.value, onDrop, name, qaBase]);
 
     useErrorChecker({name, meta, open, setOpen});
@@ -41,7 +41,8 @@ export const AccordeonCardForm = <T extends ArrayLayoutProps | ObjectLayoutProps
     return (
         <AccordeonCard
             classNameBody={b('accordeon-card-body')}
-            name={qaBase}
+            name={name}
+            qa={qaBase}
             header={spec.viewSpec.layoutTitle || ''}
             description={spec.viewSpec.layoutDescription || ''}
             open={open}

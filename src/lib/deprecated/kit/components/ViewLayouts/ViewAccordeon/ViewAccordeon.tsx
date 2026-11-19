@@ -35,7 +35,8 @@ export const ViewAccordeon = <
 
     return (
         <SimpleVerticalAccordeon
-            name={qaBase}
+            name={name}
+            qa={qaBase}
             title={spec.viewSpec.layoutTitle || ''}
             note={
                 showLayoutDescription && spec.viewSpec.layoutDescription

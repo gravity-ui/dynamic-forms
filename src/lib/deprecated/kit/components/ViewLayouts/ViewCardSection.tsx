@@ -18,7 +18,7 @@ export const ViewCardSection = <T extends FormValue, S extends Spec>({
     }
 
     return (
-        <Card name={qaBase} title={spec.viewSpec.layoutTitle} alwaysOpen checkEmptyBody>
+        <Card name={name} qa={qaBase} title={spec.viewSpec.layoutTitle} alwaysOpen checkEmptyBody>
             {children}
         </Card>
     );

@@ -7,13 +7,19 @@ import {DropdownMenu, type DropdownMenuItemMixed} from '@gravity-ui/uikit/legacy
 import i18n from '../../../../i18n';
 
 export interface RemoveButtonProps {
-    /** QA Base for the `-drop-item` data-qa */
     name: string;
+    /** Base for this component's `data-qa` values; defaults to `name` */
+    qa?: string;
     onDrop: () => void;
     switcherClassName?: string;
 }
 
-export const RemoveButton: React.FC<RemoveButtonProps> = ({name, onDrop, switcherClassName}) => {
+export const RemoveButton: React.FC<RemoveButtonProps> = ({
+    name,
+    qa,
+    onDrop,
+    switcherClassName,
+}) => {
     const items: DropdownMenuItemMixed<any>[] = React.useMemo(
         () => [{text: i18n('label_delete'), action: onDrop, theme: 'danger'}],
         [onDrop],
@@ -21,11 +27,11 @@ export const RemoveButton: React.FC<RemoveButtonProps> = ({name, onDrop, switche
 
     const switcher = React.useMemo(
         () => (
-            <Button className={switcherClassName} view="flat" qa={`${name}-drop-item`}>
+            <Button className={switcherClassName} view="flat" qa={`${qa ?? name}-drop-item`}>
                 <Icon data={Ellipsis} size={16} />
             </Button>
         ),
-        [switcherClassName, name],
+        [switcherClassName, name, qa],
     );
 
     return <DropdownMenu switcher={switcher} items={items} />;

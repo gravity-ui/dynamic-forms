@@ -40,14 +40,15 @@ export const Accordeon = <
             return null;
         }
 
-        return <RemoveButton name={qaBase} onDrop={onDrop} />;
+        return <RemoveButton name={name} qa={qaBase} onDrop={onDrop} />;
     }, [spec.required, input.value, onDrop, name, qaBase]);
 
     useErrorChecker({name, meta, open, setOpen});
 
     return (
         <SimpleVerticalAccordeon
-            name={qaBase}
+            name={name}
+            qa={qaBase}
             title={spec.viewSpec.layoutTitle || ''}
             note={spec.viewSpec.layoutDescription || ''}
             open={open}

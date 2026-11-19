@@ -7,19 +7,29 @@ import {RemoveButton} from '../RemoveButton';
 
 const onDrop = jest.fn();
 
-const ui = (name: string) => (
+const ui = (name: string, qa?: string) => (
     <ThemeProvider>
-        <RemoveButton name={name} onDrop={onDrop} switcherClassName="switcher" />
+        <RemoveButton name={name} qa={qa} onDrop={onDrop} switcherClassName="switcher" />
     </ThemeProvider>
 );
 
+const getQa = () =>
+    Array.from(document.body.querySelectorAll('[data-qa]')).map((el) => el.getAttribute('data-qa'));
+
 describe('RemoveButton', () => {
-    test('rerender with another name updates the switcher qa', () => {
-        const {rerender} = render(ui('a'));
-        rerender(ui('b'));
+    test('qa takes precedence over name', () => {
+        render(ui('field', 'custom'));
 
-        const qas = Array.from(document.body.querySelectorAll('[data-qa]'));
+        expect(getQa()).toEqual(['custom-drop-item']);
+    });
 
-        expect(qas.map((el) => el.getAttribute('data-qa'))).toEqual(['b-drop-item']);
+    test.each([
+        ['name', ['a'], ['b'], 'b-drop-item'],
+        ['qa', ['f', 'x'], ['f', 'y'], 'y-drop-item'],
+    ])('rerender with another %s updates the switcher qa', (_, before, after, expected) => {
+        const {rerender} = render(ui(before[0], before[1]));
+        rerender(ui(after[0], after[1]));
+
+        expect(getQa()).toEqual([expected]);
     });
 });

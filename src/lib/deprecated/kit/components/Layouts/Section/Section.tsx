@@ -84,7 +84,8 @@ const SectionBase = <
         if (input?.value && input?.onDrop && isArrayItem(name)) {
             return (
                 <RemoveButton
-                    name={qaBase}
+                    name={name}
+                    qa={qaBase}
                     onDrop={input.onDrop}
                     switcherClassName={b('remove-button')}
                 />

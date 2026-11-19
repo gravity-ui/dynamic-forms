@@ -25,7 +25,8 @@ export const ViewAccordeonCard = <T extends ArrayViewLayoutProps | ObjectViewLay
 
     return (
         <AccordeonCard
-            name={qaBase}
+            name={name}
+            qa={qaBase}
             header={spec.viewSpec.layoutTitle || ''}
             open={open}
             onToggle={setOpen}

@@ -40,7 +40,7 @@ export const CardOneOf: ObjectIndependentInput = (props) => {
 
     const actions = React.useMemo(() => {
         if (isArrayItem(name)) {
-            return <RemoveButton onDrop={input.onDrop} name={qaBase} />;
+            return <RemoveButton onDrop={input.onDrop} name={name} qa={qaBase} />;
         }
 
         return;
@@ -63,7 +63,8 @@ export const CardOneOf: ObjectIndependentInput = (props) => {
 
     return (
         <Card
-            name={qaBase}
+            name={name}
+            qa={qaBase}
             title={toggler}
             description={spec.viewSpec.layoutDescription}
             actions={actions}
