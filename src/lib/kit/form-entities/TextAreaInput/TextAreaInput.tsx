@@ -5,6 +5,7 @@ import {TextArea, type TextAreaProps} from '@gravity-ui/uikit';
 import {type JsonSchemaString, type NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';
 import {block, getBooleanValidationState, getValidationState} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 import './TextAreaInput.scss';
 
@@ -30,6 +31,7 @@ export const TextAreaInput: NodeEntity<JsonSchemaString, TextAreaInputProps> = (
     schema,
     settings,
 }) => {
+    const qaBase = getQaBase(input.name, schema);
     const {disabled} = schema.nodeParameters?.flags || {};
 
     return (
@@ -48,7 +50,7 @@ export const TextAreaInput: NodeEntity<JsonSchemaString, TextAreaInputProps> = (
                 onUpdate={input.onChange}
                 errorMessage={undefined}
                 validationState={getValidationState(meta)}
-                qa={input.name}
+                qa={qaBase}
             />
         </EntityContainer>
     );

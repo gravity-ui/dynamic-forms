@@ -12,6 +12,7 @@ import type {
 } from '../../../../core';
 import {Controller} from '../../../../core';
 import {block} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 import {GroupIndent} from '../../GroupIndent';
 
 import './MultiOneOf.scss';
@@ -25,6 +26,7 @@ export interface MultiOneOfProps extends ObjectIndependentInputProps {
 export const MultiOneOf: React.FC<MultiOneOfProps> = (props) => {
     const {name, input, spec, Layout, withoutIndent} = props;
     const {value, onBlur, onChange, onFocus, parentOnUnmount} = input;
+    const qaBase = getQaBase(name, spec);
 
     const [valueSelect, setValueSelect] = React.useState(() => (value ? Object.keys(value) : []));
 
@@ -97,7 +99,7 @@ export const MultiOneOf: React.FC<MultiOneOfProps> = (props) => {
                 filterable={filterable}
                 multiple
                 className={b('select')}
-                qa={name}
+                qa={qaBase}
             />
         );
 
@@ -110,9 +112,9 @@ export const MultiOneOf: React.FC<MultiOneOfProps> = (props) => {
         Layout,
         filterable,
         handleOpenChange,
-        name,
         options,
         props,
+        qaBase,
         spec.viewSpec.disabled,
         spec.viewSpec.placeholder,
         valueSelect,

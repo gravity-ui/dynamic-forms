@@ -5,6 +5,7 @@ import isBoolean from 'lodash/isBoolean';
 
 import type {JsonSchemaBoolean, NodeEntity} from '../../../core';
 import {EmptyEntityValue, EntityContainer, LongValue, type LongValueProps} from '../../components';
+import {getQaBase} from '../../utils/qa';
 
 export interface BooleanValueProps extends Omit<LongValueProps, 'qa' | 'value'> {
     valueDescriptions?: {
@@ -19,9 +20,11 @@ export interface BooleanValueProps extends Omit<LongValueProps, 'qa' | 'value'> 
 
 export const BooleanValue: NodeEntity<JsonSchemaBoolean, BooleanValueProps> = ({
     input,
+    schema,
     props,
     settings,
 }) => {
+    const qaBase = getQaBase(input.name, schema);
     const {valueDescriptions, viewColor, ...entityRestProps} = props;
 
     if (!isBoolean(input.value)) {
@@ -47,7 +50,7 @@ export const BooleanValue: NodeEntity<JsonSchemaBoolean, BooleanValueProps> = ({
                 {...entityRestProps}
                 value={value}
                 color={color}
-                qa={input.name}
+                qa={qaBase}
             />
         </EntityContainer>
     );

@@ -7,6 +7,7 @@ import type {JsonSchemaAny, NodeEntity} from '../../../core';
 import {EmptyEntityValue, EntityContainer, LongValue, type LongValueProps} from '../../components';
 import {DEFAULT_DATE_FORMAT} from '../../constants';
 import {parseDate} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 export interface DateValueProps extends Omit<LongValueProps, 'qa' | 'value'> {
     format?: DatePickerProps['format'];
@@ -14,7 +15,13 @@ export interface DateValueProps extends Omit<LongValueProps, 'qa' | 'value'> {
     timeZone?: DatePickerProps['timeZone'];
 }
 
-export const DateValue: NodeEntity<JsonSchemaAny, DateValueProps> = ({input, props, settings}) => {
+export const DateValue: NodeEntity<JsonSchemaAny, DateValueProps> = ({
+    input,
+    schema,
+    props,
+    settings,
+}) => {
+    const qaBase = getQaBase(input.name, schema);
     const {
         format = DEFAULT_DATE_FORMAT,
         outputFormat,
@@ -38,7 +45,7 @@ export const DateValue: NodeEntity<JsonSchemaAny, DateValueProps> = ({input, pro
                 variant={settings?.textVariant}
                 {...restProps}
                 value={date.format(format)}
-                qa={input.name}
+                qa={qaBase}
             />
         </EntityContainer>
     );

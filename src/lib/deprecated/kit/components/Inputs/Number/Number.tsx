@@ -5,6 +5,7 @@ import {NumberInput as CommonNumberInput} from '@gravity-ui/uikit';
 import isNil from 'lodash/isNil';
 
 import type {FieldRenderProps, NumberInputProps} from '../../../../core';
+import {getQaBase} from '../../../utils/qa';
 
 export interface NumberProps
     extends Omit<
@@ -18,6 +19,8 @@ export const NumInput = ({
     spec,
     inputProps,
 }: NumberInputProps<NumberProps>) => {
+    const qaBase = getQaBase(name, spec);
+
     const props = {
         hasClear: true,
         ...inputProps,
@@ -28,7 +31,7 @@ export const NumInput = ({
         onUpdate: onChange as FieldRenderProps<number | undefined>['input']['onChange'],
         disabled: spec.viewSpec.disabled,
         placeholder: spec.viewSpec.placeholder,
-        qa: name,
+        qa: qaBase,
     };
 
     const handleUpdate = (value: number | null) => {

@@ -31,6 +31,8 @@ interface NodeParameters<Type extends NodeType, Schema extends JsonSchema> {
         overviewEntityProps?: Record<string, any>;
         overviewLayout?: string | NodeLayout<Schema>;
         overviewLayoutProps?: Record<string, any>;
+        /** Custom base for the node's own `data-qa` values instead of its name (docs/en/schema.md) */
+        qa?: string;
         type?: Type;
         validator?: string | Validator<Schema>;
     };

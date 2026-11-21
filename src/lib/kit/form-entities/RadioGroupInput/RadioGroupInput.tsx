@@ -5,6 +5,7 @@ import {RadioGroup, type RadioGroupOption, type RadioGroupProps} from '@gravity-
 import type {JsonSchemaString, NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';
 import {block, getBooleanValidationState} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 import './RadioGroupInput.scss';
 
@@ -24,6 +25,7 @@ export const RadioGroupInput: NodeEntity<JsonSchemaString, RadioGroupInputProps>
     settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
+    const qaBase = getQaBase(name, schema);
     const {enumDescriptions, optionsDisabled, direction = 'horizontal', ...restEntityProps} = props;
     const {disabled} = schema.nodeParameters?.flags || {};
 
@@ -53,7 +55,7 @@ export const RadioGroupInput: NodeEntity<JsonSchemaString, RadioGroupInputProps>
                 onBlur={onBlur}
                 onUpdate={onChange}
                 direction={direction}
-                qa={name}
+                qa={qaBase}
             />
         </EntityContainer>
     );

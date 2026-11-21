@@ -15,6 +15,8 @@ const b = block('simple-vertical-accordeon');
 interface SimpleVerticalAccordeonProps {
     children: React.ReactNode;
     name: string;
+    /** Base for this component's `data-qa` values; defaults to `name` */
+    qa?: string;
     title: string;
     titleSize?: 's' | 'm' | 'l';
     note?: string;
@@ -83,6 +85,7 @@ export class SimpleVerticalAccordeon extends React.Component<
             withBranchView,
             viewLayout,
             name,
+            qa,
             variantTitle,
         } = this.props;
         const {open, hidden, isFirstRender} = this.state;
@@ -124,7 +127,7 @@ export class SimpleVerticalAccordeon extends React.Component<
                                 view="flat"
                                 className={b('header-inner', buttonClassName)}
                                 onClick={this.handleClick}
-                                qa={`${name}-accordeon-toggler`}
+                                qa={`${qa ?? name}-accordeon-toggler`}
                                 width="auto"
                             >
                                 <Text variant={currentTitleVariant}>{title}</Text>

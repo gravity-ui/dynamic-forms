@@ -8,6 +8,7 @@ import {
 import type {JsonSchemaString, NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';
 import {block, getBooleanValidationState, getValidationState} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 import './PasswordInput.scss';
 
@@ -34,6 +35,7 @@ export const PasswordInput: NodeEntity<JsonSchemaString, PasswordInputProps> = (
     settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
+    const qaBase = getQaBase(name, schema);
     const {disabled} = schema.nodeParameters?.flags || {};
 
     return (
@@ -51,7 +53,7 @@ export const PasswordInput: NodeEntity<JsonSchemaString, PasswordInputProps> = (
                 onUpdate={onChange}
                 errorMessage={undefined}
                 validationState={getValidationState(meta)}
-                qa={name}
+                qa={qaBase}
             />
         </EntityContainer>
     );

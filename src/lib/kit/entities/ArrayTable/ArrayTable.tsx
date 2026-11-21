@@ -18,6 +18,7 @@ import {
     LayoutContainer,
 } from '../../components';
 import {block} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 import './ArrayTable.scss';
 
@@ -38,6 +39,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
     settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
+    const qaBase = getQaBase(name, schema);
     const {disabled} = schema.nodeParameters?.flags || {};
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
@@ -60,7 +62,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
                 className={b('add-button')}
                 onClick={onClick}
                 disabled={disabled || schema.readOnly}
-                qa={`${name}-add-button`}
+                qa={`${qaBase}-add-button`}
                 size={settings?.size}
             >
                 <Icon data={Plus} size={14} />
@@ -70,11 +72,11 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
     }, [
         props.addButtonText,
         disabled,
-        name,
         onBlur,
         onChange,
         onFocus,
         overviewFlag,
+        qaBase,
         schema.items,
         schema.readOnly,
         settings?.size,
@@ -110,6 +112,7 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
         let tupleItems = false;
         let rowsCount = value?.length || 0;
         let withRemoveButton = true;
+        const itemsSchema = Array.isArray(schema.items) ? undefined : schema.items;
 
         const getItemName = (index: number, property?: string) =>
             `${name}[${index}]${property === undefined ? '' : `.${property}`}`;
@@ -182,7 +185,10 @@ export const ArrayTable: NodeEntity<JsonSchemaArray, ArrayTableProps> = ({
                         ))}
                         {withRemoveButton ? (
                             <div className={b('cell')}>
-                                <ArrayRemoveButton name={`${name}[${rIndex}]`} />
+                                <ArrayRemoveButton
+                                    name={`${name}[${rIndex}]`}
+                                    qa={getQaBase(`${name}[${rIndex}]`, itemsSchema)}
+                                />
                             </div>
                         ) : null}
                     </div>

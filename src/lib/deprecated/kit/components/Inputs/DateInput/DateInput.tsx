@@ -7,6 +7,7 @@ import {dateTimeParse, isValidTimeZone} from '@gravity-ui/date-utils';
 
 import type {StringInputProps} from '../../../../core';
 import {block} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 
 import './DateInput.scss';
 
@@ -24,6 +25,7 @@ export const DateInput: React.FC<StringInputProps<DateProps>> = ({
     inputProps,
 }) => {
     const {value, onChange, onBlur, onFocus} = input;
+    const qaBase = getQaBase(name, spec);
     const dateInput = spec.viewSpec.dateInput;
     const timeZone =
         dateInput?.timeZone && isValidTimeZone(dateInput.timeZone) ? dateInput.timeZone : undefined;
@@ -79,7 +81,7 @@ export const DateInput: React.FC<StringInputProps<DateProps>> = ({
         timeZone,
     };
 
-    return <DatePicker className={b()} data-qa={name} {...props} />;
+    return <DatePicker className={b()} data-qa={qaBase} {...props} />;
 };
 
 export default DateInput;

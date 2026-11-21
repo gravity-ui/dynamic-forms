@@ -5,6 +5,7 @@ import {TextInput, type TextInputProps} from '@gravity-ui/uikit';
 import type {JsonSchemaString, NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';
 import {block, getBooleanValidationState, getValidationState} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 import './StringInput.scss';
 
@@ -31,6 +32,7 @@ export const StringInput: NodeEntity<JsonSchemaString, StringInputProps> = ({
     schema,
     settings,
 }) => {
+    const qaBase = getQaBase(input.name, schema);
     const {disabled} = schema.nodeParameters?.flags || {};
 
     return (
@@ -47,7 +49,7 @@ export const StringInput: NodeEntity<JsonSchemaString, StringInputProps> = ({
                 onUpdate={input.onChange}
                 errorMessage={undefined}
                 validationState={getValidationState(meta)}
-                qa={input.name}
+                qa={qaBase}
                 type="text"
             />
         </EntityContainer>

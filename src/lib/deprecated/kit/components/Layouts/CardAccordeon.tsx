@@ -4,6 +4,7 @@ import {Card, ErrorWrapper} from '..';
 import type {FieldValue, LayoutProps, Spec} from '../../../core';
 import {isArrayItem} from '../../../core';
 import {useErrorChecker} from '../../hooks';
+import {getQaBase} from '../../utils/qa';
 import {RemoveButton} from '../RemoveButton';
 
 export const CardAccordeon = <T extends FieldValue, S extends Spec>({
@@ -13,6 +14,8 @@ export const CardAccordeon = <T extends FieldValue, S extends Spec>({
     meta,
     children,
 }: LayoutProps<T, undefined, undefined, S>) => {
+    const qaBase = getQaBase(name, spec);
+
     const [open, setOpen] = React.useState(Boolean(spec.viewSpec?.layoutOpen));
 
     const onToggle = React.useCallback(() => setOpen((f) => !f), [setOpen]);
@@ -27,14 +30,15 @@ export const CardAccordeon = <T extends FieldValue, S extends Spec>({
             return null;
         }
 
-        return <RemoveButton onDrop={onDrop} name={name} />;
-    }, [spec.required, input.value, onDrop, name]);
+        return <RemoveButton onDrop={onDrop} name={name} qa={qaBase} />;
+    }, [spec.required, input.value, onDrop, name, qaBase]);
 
     useErrorChecker({name, meta, open, setOpen});
 
     return (
         <Card
             name={name}
+            qa={qaBase}
             title={spec.viewSpec.layoutTitle}
             description={spec.viewSpec.layoutDescription}
             actions={removeButton}

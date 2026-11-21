@@ -150,6 +150,11 @@ const viewSpecRules: Rules = {
             set(mutableSchema, 'nodeParameters.flags.hidden', true);
         }
     },
+    qa: (spec, mutableSchema) => {
+        if (spec?.viewSpec?.qa) {
+            set(mutableSchema, 'nodeParameters.qa', spec.viewSpec.qa);
+        }
+    },
     selectParams: (spec, mutableSchema) => {
         if (spec?.viewSpec && 'selectParams' in spec.viewSpec && spec.viewSpec.selectParams) {
             if (spec.viewSpec.selectParams.filterPlaceholder) {

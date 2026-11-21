@@ -6,6 +6,7 @@ import isNumber from 'lodash/isNumber';
 
 import type {JsonSchemaNumber, NodeEntity} from '../../../core';
 import {EmptyEntityValue, EntityContainer, LongValue, type LongValueProps} from '../../components';
+import {getQaBase} from '../../utils/qa';
 
 export interface NumberWithScaleValueProps extends Omit<LongValueProps, 'qa' | 'value'> {
     scale?: Record<string, {title: string; factor: number}>;
@@ -13,9 +14,11 @@ export interface NumberWithScaleValueProps extends Omit<LongValueProps, 'qa' | '
 }
 export const NumberWithScaleValue: NodeEntity<JsonSchemaNumber, NumberWithScaleValueProps> = ({
     input,
+    schema,
     props,
     settings,
 }) => {
+    const qaBase = getQaBase(input.name, schema);
     const {scale, viewType, ...restProps} = props;
 
     const level = React.useMemo(() => {
@@ -48,7 +51,7 @@ export const NumberWithScaleValue: NodeEntity<JsonSchemaNumber, NumberWithScaleV
                 variant={settings?.textVariant}
                 {...restProps}
                 value={input.value / (level?.factor || 1)}
-                qa={input.name}
+                qa={qaBase}
             />
             {level?.title ? (
                 <Text variant={settings?.textVariant} color="secondary">

@@ -15,6 +15,7 @@ import type {
 } from '../../../../core';
 import {Controller, transformArrIn} from '../../../../core';
 import {block, filterPropertiesForObjectInline} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 
 import './ObjectBase.scss';
 
@@ -31,6 +32,8 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
     Layout,
     ...restProps
 }) => {
+    const qaBase = getQaBase(name, spec);
+
     const addBtn = React.useMemo(
         () => (
             <Button
@@ -40,13 +43,13 @@ export const ObjectBase: React.FC<ObjectBaseProps> = ({
                     )
                 }
                 disabled={spec.viewSpec?.disabled}
-                qa={`${name}-init-obj`}
+                qa={`${qaBase}-init-obj`}
             >
                 <Icon data={Plus} size={14} />
                 {spec.viewSpec.layoutTitle || null}
             </Button>
         ),
-        [spec.defaultValue, spec.viewSpec.layoutTitle, restProps.input.onChange],
+        [spec.defaultValue, spec.viewSpec.layoutTitle, restProps.input.onChange, qaBase],
     );
 
     const parentOnChange = React.useCallback(

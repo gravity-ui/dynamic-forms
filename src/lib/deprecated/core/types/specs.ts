@@ -21,6 +21,8 @@ export interface ArraySpec<
     viewSpec: {
         disabled?: boolean;
         type: string;
+        /** Custom base for the field's own `data-qa` values instead of its name (docs/spec.md) */
+        qa?: string;
         layout?: string;
         layoutTitle?: string;
         layoutDescription?: string;
@@ -62,6 +64,8 @@ export interface BooleanSpec<
     viewSpec: {
         disabled?: boolean;
         type: string;
+        /** Custom base for the field's own `data-qa` values instead of its name (docs/spec.md) */
+        qa?: string;
         layout?: string;
         layoutTitle?: string;
         layoutDescription?: string;
@@ -92,6 +96,8 @@ export interface NumberSpec<
     viewSpec: {
         disabled?: boolean;
         type: string;
+        /** Custom base for the field's own `data-qa` values instead of its name (docs/spec.md) */
+        qa?: string;
         layout?: string;
         layoutTitle?: string;
         layoutDescription?: string;
@@ -119,6 +125,8 @@ export interface ObjectSpec<
     viewSpec: {
         disabled?: boolean;
         type: string;
+        /** Custom base for the field's own `data-qa` values instead of its name (docs/spec.md) */
+        qa?: string;
         layout?: string;
         layoutTitle?: string;
         layoutDescription?: string;
@@ -155,6 +163,8 @@ export interface StringSpec<
     viewSpec: {
         disabled?: boolean;
         type: string;
+        /** Custom base for the field's own `data-qa` values instead of its name (docs/spec.md) */
+        qa?: string;
         layout?: string;
         layoutTitle?: string;
         layoutDescription?: string;

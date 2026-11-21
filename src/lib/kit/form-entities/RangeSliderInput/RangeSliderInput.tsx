@@ -5,6 +5,7 @@ import {Slider, type SliderProps} from '@gravity-ui/uikit';
 import type {JsonSchemaObject, NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';
 import {getValidationState} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 export interface RangeSliderInputProps
     extends Omit<
@@ -30,6 +31,7 @@ export const RangeSliderInput: NodeEntity<JsonSchemaObject, RangeSliderInputProp
     settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
+    const qaBase = getQaBase(name, schema);
     const {propertyKeys, ...restEntityProps} = props;
     const {disabled} = schema.nodeParameters?.flags || {};
 
@@ -82,7 +84,7 @@ export const RangeSliderInput: NodeEntity<JsonSchemaObject, RangeSliderInputProp
                 onUpdate={onUpdate}
                 errorMessage={undefined}
                 validationState={getValidationState(meta)}
-                qa={name}
+                qa={qaBase}
             />
         </EntityContainer>
     );

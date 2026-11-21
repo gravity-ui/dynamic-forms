@@ -6,6 +6,7 @@ import Decimal from 'decimal.js';
 import {type JsonSchemaString, type NodeEntity, isStringNumber} from '../../../core';
 import {EntityContainer} from '../../components';
 import {block, getBooleanValidationState, getValidationState} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 import './StringNumberWithScaleInput.scss';
 
@@ -34,6 +35,7 @@ export const StringNumberWithScaleInput: NodeEntity<
     StringNumberWithScaleInputProps
 > = ({input, meta, props, schema, settings}) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
+    const qaBase = getQaBase(name, schema);
     const {defaultType, viewType, scale, ...restEntityProps} = props;
     const {disabled} = schema.nodeParameters?.flags || {};
 
@@ -129,7 +131,7 @@ export const StringNumberWithScaleInput: NodeEntity<
                     onFocus={onFocus}
                     errorMessage={undefined}
                     validationState={getValidationState(meta)}
-                    qa={name}
+                    qa={qaBase}
                 />
             </div>
             {scaleOptions.length ? (
@@ -141,7 +143,7 @@ export const StringNumberWithScaleInput: NodeEntity<
                         onUpdate={setScaleValue}
                         multiple={false}
                         disabled={disabled || schema.readOnly || meta.error}
-                        qa={`${name}-scale`}
+                        qa={`${qaBase}-scale`}
                         size={settings?.size}
                     />
                 </div>

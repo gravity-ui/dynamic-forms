@@ -11,6 +11,7 @@ import {
     RANGE_INPUT_PICKER_DEFAULT_STEP,
 } from '../../../constants/common';
 import {block, clampRangeInputPickerValue, resolveRangeInputPickerBound} from '../../../utils';
+import {getQaBase} from '../../../utils/qa';
 
 import type {RangeInputPickerInputProps} from './types';
 
@@ -23,6 +24,7 @@ export const RangeInputPickerNumber = ({
     input: {value, onBlur, onChange, onFocus},
     spec,
 }: NumberInputProps<RangeInputPickerInputProps>) => {
+    const qaBase = getQaBase(name, spec);
     const {disabled, placeholder, inputProps} = spec.viewSpec;
     const sliderParams = inputProps?.sliderParams;
     const showSlider = inputProps?.showSlider ?? true;
@@ -86,7 +88,7 @@ export const RangeInputPickerNumber = ({
                         onUpdate={handleSliderUpdate}
                         onBlur={onBlur}
                         onFocus={onFocus}
-                        qa={`${name}-slider`}
+                        qa={`${qaBase}-slider`}
                         tooltipDisplay="off"
                     />
                 </div>
@@ -106,7 +108,7 @@ export const RangeInputPickerNumber = ({
                         onFocus={onFocus}
                         hasClear
                         allowDecimal
-                        qa={name}
+                        qa={qaBase}
                     />
                 </div>
             ) : null}
