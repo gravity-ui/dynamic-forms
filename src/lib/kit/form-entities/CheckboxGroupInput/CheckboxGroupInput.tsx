@@ -5,6 +5,7 @@ import {Checkbox, Flex} from '@gravity-ui/uikit';
 import type {JsonSchemaArray, NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';
 import {block, getBooleanValidationState} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 import './CheckboxGroupInput.scss';
 
@@ -24,6 +25,7 @@ export const CheckboxGroupInput: NodeEntity<JsonSchemaArray, CheckboxGroupInputP
     settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
+    const qaBase = getQaBase(name, schema);
     const {enumDescriptions, direction = 'row', optionsDisabled} = props;
     const {disabled} = schema.nodeParameters?.flags || {};
 
@@ -85,7 +87,7 @@ export const CheckboxGroupInput: NodeEntity<JsonSchemaArray, CheckboxGroupInputP
                         content={text}
                         disabled={disabled || optionsDisabled?.[optionValue] || schema.readOnly}
                         size={settings?.size === 'xl' ? 'l' : 'm'}
-                        qa={`${name}-${optionValue}`}
+                        qa={`${qaBase}-${optionValue}`}
                     />
                 </Flex>
             ))}

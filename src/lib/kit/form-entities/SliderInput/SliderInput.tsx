@@ -5,6 +5,7 @@ import {Slider, type SliderProps} from '@gravity-ui/uikit';
 import type {JsonSchemaNumber, NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';
 import {getValidationState} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 export interface SliderInputProps
     extends Omit<
@@ -27,6 +28,7 @@ export const SliderInput: NodeEntity<JsonSchemaNumber, SliderInputProps> = ({
     settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
+    const qaBase = getQaBase(name, schema);
     const {disabled} = schema.nodeParameters?.flags || {};
 
     const value = isNaN(Number(inputValue)) ? undefined : Number(inputValue);
@@ -59,7 +61,7 @@ export const SliderInput: NodeEntity<JsonSchemaNumber, SliderInputProps> = ({
                 onUpdate={onUpdate}
                 errorMessage={undefined}
                 validationState={getValidationState(meta)}
-                qa={name}
+                qa={qaBase}
             />
         </EntityContainer>
     );

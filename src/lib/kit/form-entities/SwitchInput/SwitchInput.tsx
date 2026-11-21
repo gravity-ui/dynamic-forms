@@ -5,6 +5,7 @@ import {Switch, type SwitchProps} from '@gravity-ui/uikit';
 import type {JsonSchemaBoolean, NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';
 import {block, getBooleanValidationState} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 import './SwitchInput.scss';
 
@@ -21,6 +22,7 @@ export const SwitchInput: NodeEntity<JsonSchemaBoolean, SwitchInputProps> = ({
     settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
+    const qaBase = getQaBase(name, schema);
     const {disabled} = schema.nodeParameters?.flags || {};
 
     const onUpdate = React.useCallback(
@@ -60,7 +62,7 @@ export const SwitchInput: NodeEntity<JsonSchemaBoolean, SwitchInputProps> = ({
                 onFocus={onFocus}
                 onBlur={onBlur}
                 onUpdate={onUpdate}
-                qa={name}
+                qa={qaBase}
             />
         </EntityContainer>
     );

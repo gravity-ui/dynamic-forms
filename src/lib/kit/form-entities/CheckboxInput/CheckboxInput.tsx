@@ -5,6 +5,7 @@ import {Checkbox, type CheckboxProps} from '@gravity-ui/uikit';
 import type {JsonSchemaBoolean, NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';
 import {block, getBooleanValidationState} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 import './CheckboxInput.scss';
 
@@ -24,6 +25,7 @@ export const CheckboxInput: NodeEntity<JsonSchemaBoolean, CheckboxInputProps> = 
     settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
+    const qaBase = getQaBase(name, schema);
     const {disabled} = schema.nodeParameters?.flags || {};
 
     const onUpdate = React.useCallback(
@@ -48,7 +50,7 @@ export const CheckboxInput: NodeEntity<JsonSchemaBoolean, CheckboxInputProps> = 
                 onFocus={onFocus}
                 onBlur={onBlur}
                 onUpdate={onUpdate}
-                qa={name}
+                qa={qaBase}
             />
         </EntityContainer>
     );

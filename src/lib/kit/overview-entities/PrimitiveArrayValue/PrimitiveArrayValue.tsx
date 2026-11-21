@@ -2,6 +2,7 @@ import React from 'react';
 
 import type {JsonSchemaArray, NodeEntity} from '../../../core';
 import {EmptyEntityValue, EntityContainer, LongValue, type LongValueProps} from '../../components';
+import {getQaBase} from '../../utils/qa';
 
 export interface PrimitiveArrayValueProps extends Omit<LongValueProps, 'qa' | 'value'> {
     direction?: 'column' | 'row';
@@ -10,9 +11,11 @@ export interface PrimitiveArrayValueProps extends Omit<LongValueProps, 'qa' | 'v
 
 export const PrimitiveArrayValue: NodeEntity<JsonSchemaArray, PrimitiveArrayValueProps> = ({
     input,
+    schema,
     props,
     settings,
 }) => {
+    const qaBase = getQaBase(input.name, schema);
     const {direction = 'row', enumDescriptions, ...restProps} = props;
 
     const values = React.useMemo(() => {
@@ -40,7 +43,10 @@ export const PrimitiveArrayValue: NodeEntity<JsonSchemaArray, PrimitiveArrayValu
                         {...restProps}
                         key={`${item}-${index}`}
                         value={item}
-                        qa={`${input.name}[${index}]`}
+                        qa={getQaBase(
+                            `${input.name}[${index}]`,
+                            Array.isArray(schema.items) ? schema.items[index] : schema.items,
+                        )}
                     />
                 ))}
             </EntityContainer>
@@ -53,7 +59,7 @@ export const PrimitiveArrayValue: NodeEntity<JsonSchemaArray, PrimitiveArrayValu
                 variant={settings?.textVariant}
                 {...restProps}
                 value={values.join(', ')}
-                qa={input.name}
+                qa={qaBase}
             />
         </EntityContainer>
     );

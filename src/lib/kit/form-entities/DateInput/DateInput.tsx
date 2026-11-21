@@ -7,6 +7,7 @@ import type {JsonSchemaAny, NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';
 import {DEFAULT_DATE_FORMAT} from '../../constants';
 import {block, getBooleanValidationState, parseDate} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 import './DateInput.scss';
 
@@ -34,6 +35,7 @@ export const DateInput: NodeEntity<JsonSchemaAny, DateInputProps> = ({
     settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
+    const qaBase = getQaBase(name, schema);
     const {
         format = DEFAULT_DATE_FORMAT,
         outputFormat,
@@ -106,7 +108,7 @@ export const DateInput: NodeEntity<JsonSchemaAny, DateInputProps> = ({
                 timeZone={timeZone}
                 errorMessage={undefined}
                 validationState={undefined}
-                data-qa={name}
+                data-qa={qaBase}
             />
         </EntityContainer>
     );

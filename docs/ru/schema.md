@@ -18,6 +18,7 @@
 | `validator`                                | Ключ из `validators` этого типа или функция.                                                             |
 | `errorMessages`                            | Тексты ошибок этого узла. Перекрывают словарь рендерера.                                                 |
 | `flags`                                    | `copy`, `disabled`, `hidden`, `open`, `required`.                                                        |
+| `qa`                                       | Своя основа для собственных `data-qa` узла вместо его имени. См. [QA-атрибуты](#qa-атрибуты).            |
 
 ### Порядок сборки кита
 
@@ -39,6 +40,28 @@
 | `copy`     | В обзоре у строки и числа появляется кнопка копирования.                                                                 |
 
 `flags.required` и ключевое слово `required` — разные механизмы: первый про интерфейс и начальное значение, второй про проверку наличия ключа (см. [Нюансы](./limitations.md)).
+
+## QA-атрибуты
+
+Сущности кита ставят на свои элементы `data-qa`, собранные из имени узла (`login`, `tags[0]`, `tags-add-button`). Для e2e-тестов эту основу можно заменить через `nodeParameters.qa`:
+
+- не задан или `''` — имя узла, как раньше;
+- элемент массива — `<qa>-<индекс>` (`tag-0`, `tag-1`), чтобы элементы различались;
+- любой другой узел — `qa` как есть.
+
+Меняются только собственные значения узла, суффиксы сохраняются (`<qa>-add-button`, `<qa>-remove-button`). Дети не затрагиваются и используют своё имя или свой `qa`. Значение по-прежнему хранится под именем узла. `specToJsonSchema` переносит `viewSpec.qa` в `nodeParameters.qa`.
+
+```ts
+const schema: JsonSchema = {
+  type: JsonSchemaType.Array,
+  items: {
+    type: JsonSchemaType.String,
+    nodeParameters: {type: NodeType.String, entity: 'base', layout: 'row', qa: 'tag'},
+  },
+  nodeParameters: {type: NodeType.Array, entity: 'base', layout: 'row', qa: 'tags'},
+};
+// data-qa: tag-0, tag-0-remove-button, tag-1, tag-1-remove-button, tags-add-button
+```
 
 ## Аннотации, которые читает kit
 

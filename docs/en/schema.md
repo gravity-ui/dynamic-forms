@@ -8,16 +8,17 @@ A schema is JSON Schema Draft-07 with two extensions: `nodeParameters` (what and
 
 The only place where the schema says what to render it with. `type` is required when `entity` or `layout` are given as strings: the lookup goes into `config[type]`. Instead of a string you may pass the component itself.
 
-| Field                                      | What it sets                                                                                          |
-| :----------------------------------------- | :---------------------------------------------------------------------------------------------------- |
-| `type`                                     | `any`, `array`, `boolean`, `number`, `object`, `string`. The config branch. Required for string keys. |
-| `entity` / `formEntity` / `overviewEntity` | A registry key or a component. The mode-specific one overrides the common one.                        |
-| `entityProps` + mode pairs                 | Component props on top of `defaultProps`. `formEntityProps` applies only with `formEntity`.           |
-| `layout` / `formLayout` / `overviewLayout` | A layout key or a component. Same override order.                                                     |
-| `layoutProps` + mode pairs                 | Layout props.                                                                                         |
-| `validator`                                | A key from this type's `validators` or a function.                                                    |
-| `errorMessages`                            | Error texts for this node. Override the renderer's dictionary.                                        |
-| `flags`                                    | `copy`, `disabled`, `hidden`, `open`, `required`.                                                     |
+| Field                                      | What it sets                                                                                              |
+| :----------------------------------------- | :-------------------------------------------------------------------------------------------------------- |
+| `type`                                     | `any`, `array`, `boolean`, `number`, `object`, `string`. The config branch. Required for string keys.     |
+| `entity` / `formEntity` / `overviewEntity` | A registry key or a component. The mode-specific one overrides the common one.                            |
+| `entityProps` + mode pairs                 | Component props on top of `defaultProps`. `formEntityProps` applies only with `formEntity`.               |
+| `layout` / `formLayout` / `overviewLayout` | A layout key or a component. Same override order.                                                         |
+| `layoutProps` + mode pairs                 | Layout props.                                                                                             |
+| `validator`                                | A key from this type's `validators` or a function.                                                        |
+| `errorMessages`                            | Error texts for this node. Override the renderer's dictionary.                                            |
+| `flags`                                    | `copy`, `disabled`, `hidden`, `open`, `required`.                                                         |
+| `qa`                                       | Custom base for the node's own `data-qa` values instead of its name. See [QA attributes](#qa-attributes). |
 
 ### Kit assembly order
 
@@ -39,6 +40,28 @@ The only place where the schema says what to render it with. `type` is required 
 | `copy`     | In the overview a copy button appears for strings and numbers.                                                                        |
 
 `flags.required` and the `required` keyword are different mechanisms: the first is about the UI and the initial value, the second about checking key presence (see [Caveats](./limitations.md)).
+
+## QA attributes
+
+Kit entities put `data-qa` on their elements, built from the node name (`login`, `tags[0]`, `tags-add-button`). For end-to-end tests you can replace that base with `nodeParameters.qa`:
+
+- unset or `''` — the node name, as before;
+- an array item — `<qa>-<index>` (`tag-0`, `tag-1`), so items stay distinguishable;
+- any other node — `qa` as is.
+
+Only the node's own values change; suffixes are kept (`<qa>-add-button`, `<qa>-remove-button`). Children are not affected and use their own name or `qa`. The value is still stored under the node name. `specToJsonSchema` maps `viewSpec.qa` to `nodeParameters.qa`.
+
+```ts
+const schema: JsonSchema = {
+  type: JsonSchemaType.Array,
+  items: {
+    type: JsonSchemaType.String,
+    nodeParameters: {type: NodeType.String, entity: 'base', layout: 'row', qa: 'tag'},
+  },
+  nodeParameters: {type: NodeType.Array, entity: 'base', layout: 'row', qa: 'tags'},
+};
+// data-qa: tag-0, tag-0-remove-button, tag-1, tag-1-remove-button, tags-add-button
+```
 
 ## Annotations read by kit
 

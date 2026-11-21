@@ -231,14 +231,15 @@ describe('Field with viewSpec.qa, form mode', () => {
     });
 
     test.each([
-        ['without qa', obj('row')],
+        ['without qa', obj('row'), `${FIELD}.name`],
         [
             'with qa on the field and its child',
             withQa(obj('row', {name: withQa(str(), 'n')}), CUSTOM),
+            'n',
         ],
-    ])('delegated rendering (withSchemaRenderer) is untouched %s', (_, spec) => {
+    ])('delegated rendering (withSchemaRenderer) keeps qa %s', (_, spec, expected) => {
         renderForm(spec, {name: 'a'}, {withSchemaRenderer: true});
-        expect(getQa()).toEqual([`SPAN:${FIELD}.name`]);
+        expect(getQa()).toEqual([`SPAN:${expected}`]);
     });
 });
 

@@ -5,6 +5,7 @@ import {ColorPicker, type ColorPickerProps} from '@gravity-ui/uikit';
 import type {JsonSchemaString, NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';
 import {block, getBooleanValidationState} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 import './ColorPickerInput.scss';
 
@@ -20,6 +21,7 @@ export const ColorPickerInput: NodeEntity<JsonSchemaString, ColorPickerInputProp
     settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
+    const qaBase = getQaBase(name, schema);
     const {onOpenChange: onOpenChangeProps, ...restEntityProps} = props;
     const {disabled} = schema.nodeParameters?.flags || {};
 
@@ -45,7 +47,7 @@ export const ColorPickerInput: NodeEntity<JsonSchemaString, ColorPickerInputProp
                 value={value ?? ''}
                 onUpdate={onChange}
                 onOpenChange={onOpenChange}
-                data-qa={name}
+                data-qa={qaBase}
             />
         </EntityContainer>
     );

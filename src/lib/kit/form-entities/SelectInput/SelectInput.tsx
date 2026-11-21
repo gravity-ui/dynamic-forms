@@ -14,6 +14,7 @@ import type {JsonSchemaString, NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';
 import {DASH} from '../../constants';
 import {getValidationState} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 export interface SelectInputProps
     extends Omit<
@@ -41,6 +42,7 @@ export const SelectInput: NodeEntity<JsonSchemaString, SelectInputProps> = ({
     settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
+    const qaBase = getQaBase(name, schema);
     const {enumDescriptions, optionsMeta, ...restEntityProps} = props;
     const {disabled} = schema.nodeParameters?.flags || {};
 
@@ -135,7 +137,7 @@ export const SelectInput: NodeEntity<JsonSchemaString, SelectInputProps> = ({
                 onUpdate={onUpdate}
                 errorMessage={undefined}
                 validationState={getValidationState(meta)}
-                qa={name}
+                qa={qaBase}
             />
         </EntityContainer>
     );

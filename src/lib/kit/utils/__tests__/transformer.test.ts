@@ -375,4 +375,14 @@ describe('specToJsonSchema', () => {
         expect(section2.nodeParameters).toMatchObject({layout: 'section'});
         expect(section2.nodeParameters?.layoutProps).toBeUndefined();
     });
+
+    test.each([
+        ['custom', 'custom'],
+        ['', undefined],
+        [undefined, undefined],
+    ])('maps viewSpec.qa %j to nodeParameters.qa %j', (qa, expected) => {
+        const schema = specToJsonSchema({type: SpecTypes.String, viewSpec: {type: 'base', qa}});
+
+        expect(schema.nodeParameters?.qa).toBe(expected);
+    });
 });

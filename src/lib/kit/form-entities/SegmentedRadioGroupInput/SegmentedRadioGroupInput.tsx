@@ -5,6 +5,7 @@ import {SegmentedRadioGroup, type SegmentedRadioGroupProps} from '@gravity-ui/ui
 import type {JsonSchemaString, NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';
 import {block, getBooleanValidationState} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 import {SelectInput} from '../SelectInput';
 
 import './SegmentedRadioGroupInput.scss';
@@ -32,6 +33,7 @@ export const SegmentedRadioGroupInput: NodeEntity<
     SegmentedRadioGroupInputProps
 > = ({input, meta, props, schema, settings, ...restProps}) => {
     const {name, onBlur, onChange, onFocus, value} = input;
+    const qaBase = getQaBase(name, schema);
     const {enumDescriptions, optionsDisabled, ...restEntityProps} = props;
     const {disabled} = schema.nodeParameters?.flags || {};
 
@@ -109,7 +111,7 @@ export const SegmentedRadioGroupInput: NodeEntity<
                     onFocus={onFocus}
                     onBlur={onBlur}
                     onUpdate={onUpdate}
-                    qa={name}
+                    qa={qaBase}
                 />
             )}
             <div className={b('checker')}>

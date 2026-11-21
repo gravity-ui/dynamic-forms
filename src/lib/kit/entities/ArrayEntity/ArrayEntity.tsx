@@ -11,6 +11,7 @@ import {
 } from '../../../core';
 import {EmptyEntityValue, EntityContainer} from '../../components';
 import {block} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 import './ArrayEntity.scss';
 
@@ -30,6 +31,7 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
     settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
+    const qaBase = getQaBase(name, schema);
     const {disabled} = schema.nodeParameters?.flags || {};
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
@@ -52,7 +54,7 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
                 className={b('add-button')}
                 onClick={onClick}
                 disabled={disabled || schema.readOnly}
-                qa={`${name}-add-button`}
+                qa={`${qaBase}-add-button`}
                 size={settings?.size}
             >
                 <Icon data={Plus} size={14} />
@@ -62,11 +64,11 @@ export const ArrayEntity: NodeEntity<JsonSchemaArray, ArrayEntityProps> = ({
     }, [
         props.addButtonText,
         disabled,
-        name,
         onBlur,
         onChange,
         onFocus,
         overviewFlag,
+        qaBase,
         schema.items,
         schema.readOnly,
         settings?.size,

@@ -14,6 +14,7 @@ import type {JsonSchemaArray, NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';
 import {DASH} from '../../constants';
 import {getValidationState} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 export interface MultiSelectInputProps
     extends Omit<
@@ -40,6 +41,7 @@ export const MultiSelectInput: NodeEntity<JsonSchemaArray, MultiSelectInputProps
     settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
+    const qaBase = getQaBase(name, schema);
     const {enumDescriptions, optionsMeta, ...restEntityProps} = props;
     const {disabled} = schema.nodeParameters?.flags || {};
 
@@ -138,7 +140,7 @@ export const MultiSelectInput: NodeEntity<JsonSchemaArray, MultiSelectInputProps
                 errorMessage={undefined}
                 validationState={getValidationState(meta)}
                 multiple
-                qa={name}
+                qa={qaBase}
             />
         </EntityContainer>
     );

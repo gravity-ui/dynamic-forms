@@ -13,6 +13,7 @@ import {
 } from '../../../core';
 import {EmptyEntityValue, EntityContainer, MonacoContainer} from '../../components';
 import {block, getBooleanValidationState} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 import './Monaco.scss';
 
@@ -33,6 +34,7 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
     schema,
 }) => {
     const {name, onBlur, onChange, onFocus, value} = input;
+    const qaBase = getQaBase(name, schema);
     const {disabled} = schema.nodeParameters?.flags || {};
 
     const overviewFlag = mode === SchemaRendererMode.Overview;
@@ -166,7 +168,7 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
                 toggleDialogVisibility={toggleDialogOpen}
                 width={width}
                 withDialog={withDialog}
-                qa={name}
+                qa={qaBase}
             >
                 {control}
             </MonacoContainer>
@@ -179,7 +181,7 @@ export const Monaco: NodeEntity<JsonSchemaString, MonacoProps> = ({
                         toggleDialogVisibility={toggleDialogOpen}
                         width="80vw"
                         withDialog={withDialog}
-                        qa={name}
+                        qa={qaBase}
                     >
                         {control}
                     </MonacoContainer>

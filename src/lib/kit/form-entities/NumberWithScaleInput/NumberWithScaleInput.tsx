@@ -6,6 +6,7 @@ import isNumber from 'lodash/isNumber';
 import type {JsonSchemaNumber, NodeEntity} from '../../../core';
 import {EntityContainer} from '../../components';
 import {block, getBooleanValidationState, getValidationState} from '../../utils';
+import {getQaBase} from '../../utils/qa';
 
 import './NumberWithScaleInput.scss';
 
@@ -37,6 +38,7 @@ export const NumberWithScaleInput: NodeEntity<JsonSchemaNumber, NumberWithScaleI
     settings,
 }) => {
     const {name, onBlur, onChange, onFocus, value: inputValue} = input;
+    const qaBase = getQaBase(name, schema);
     const {defaultType, viewType, scale, max, min, step, ...restEntityProps} = props;
     const {disabled} = schema.nodeParameters?.flags || {};
 
@@ -125,7 +127,7 @@ export const NumberWithScaleInput: NodeEntity<JsonSchemaNumber, NumberWithScaleI
                     onFocus={onFocus}
                     errorMessage={undefined}
                     validationState={getValidationState(meta)}
-                    qa={name}
+                    qa={qaBase}
                 />
             </div>
             {scaleOptions.length ? (
